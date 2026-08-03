@@ -10,6 +10,7 @@ const MAPA_ERROS = [
   ['password should be at least', 'A senha precisa ter pelo menos 6 caracteres'],
   ['email not confirmed', 'Confirma teu e-mail primeiro (olha a caixa de entrada) 📬'],
   ['rate limit', 'Calma, gringo! Muitas tentativas — espera um pouco ⏳'],
+  ['you can only request this after', 'Calma, gringo! Espera uns segundos e tenta de novo ⏳'],
   ['is invalid', 'E-mail inválido'],
   ['failed to fetch', 'Sem conexão com a nuvem 📡']
 ];

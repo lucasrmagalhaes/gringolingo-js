@@ -42,7 +42,7 @@ function telaInicial() {
         ? (syncPendente
           ? h('button', { class: 'pilula btn-perfil', title: 'Não consegui baixar seu progresso — clique para tentar de novo', onclick: () => aposLogin(true) }, '☁️⚠️')
           : h('button', { class: 'pilula btn-perfil', title: usuarioEmail, onclick: telaPerfil }, '☁️ ' + usuarioEmail.split('@')[0]))
-        : h('button', { class: 'pilula btn-perfil', onclick: telaLogin }, '🔑 Entrar'),
+        : h('button', { class: 'pilula btn-perfil', onclick: () => telaLogin() }, '🔑 Entrar'),
       h('button', { class: 'pilula btn-perfil', 'aria-label': 'Perfil', onclick: telaPerfil }, '👤')
     ),
     h('div', { class: 'card nivel-card' },
@@ -287,7 +287,7 @@ function telaResultado(estrelas, precisao, novasBadges) {
   sons.fanfarra();
 }
 
-function telaLogin() {
+function telaLogin(aviso) {
   window.scrollTo(0, 0);
   telaAtiva = 'login';
   app.innerHTML = '';
@@ -336,9 +336,23 @@ function telaLogin() {
       h('div', { class: 'login-sub' }, 'Sua evolução sincronizada em qualquer dispositivo ☁️'),
       email, senha, msg,
       h('div', { class: 'login-botoes' }, btnEntrar, btnCriar),
-      h('button', { class: 'btn btn-branco', onclick: telaInicial }, 'JOGAR SEM CONTA')
+      h('button', { class: 'btn btn-branco', onclick: () => telaInicial() }, 'JOGAR SEM CONTA')
     )
   );
+  if (aviso) {
+    msg.textContent = aviso;
+    msg.classList.add('erro');
+  }
+}
+
+function erroNaUrl() {
+  const hash = location.hash.slice(1);
+  if (!hash.includes('error')) return null;
+  const p = new URLSearchParams(hash);
+  const codigo = p.get('error_code') || '';
+  history.replaceState(null, '', location.pathname + location.search);
+  if (codigo.includes('expired')) return 'Esse link de confirmação expirou — cria a conta de novo ou pede outro e-mail 📬';
+  return 'Não deu pra confirmar: ' + (p.get('error_description') || codigo).replace(/\+/g, ' ');
 }
 
 async function aposLogin(interativo) {
@@ -409,7 +423,7 @@ function telaPerfil() {
 function cartaoConta() {
   if (!nuvemConfigurada) return '';
   if (!usuarioEmail) {
-    return h('button', { class: 'card conta-card conta-entrar', onclick: telaLogin },
+    return h('button', { class: 'card conta-card conta-entrar', onclick: () => telaLogin() },
       h('span', {}, '🔑 Entrar para sincronizar seu progresso'),
       h('span', { class: 'revisao-seta' }, '☁️')
     );
@@ -479,7 +493,9 @@ function confete() {
 }
 
 async function iniciar() {
-  telaInicial();
+  const aviso = nuvemConfigurada ? erroNaUrl() : null;
+  if (aviso) telaLogin(aviso);
+  else telaInicial();
   if (!nuvemConfigurada) return;
   try {
     await aoMudarAuth(evento => {
