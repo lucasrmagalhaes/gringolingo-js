@@ -1,6 +1,8 @@
 import { UNIDADES, NIVEIS, BADGES } from './data.js';
+import { enviarProgresso } from './nuvem.js';
 
 const CHAVE = 'gringolingo';
+let syncAtivo = false;
 
 const padrao = () => ({
   xp: 0,
@@ -26,6 +28,59 @@ export const estado = carregar();
 
 export function salvar() {
   localStorage.setItem(CHAVE, JSON.stringify(estado));
+  if (syncAtivo) enviarProgresso(estado).catch(() => {});
+}
+
+export function ativarSync(valor) {
+  syncAtivo = valor;
+}
+
+export function resetarEstado() {
+  localStorage.removeItem(CHAVE);
+  const novo = padrao();
+  Object.keys(estado).forEach(k => delete estado[k]);
+  Object.assign(estado, novo);
+}
+
+function diaAnterior(d) {
+  return dia(new Date(new Date(d + 'T00:00:00Z').getTime() - 864e5));
+}
+
+export function mesclarEstado(remoto) {
+  if (remoto) {
+    estado.xp = Math.max(estado.xp, remoto.xp ?? 0);
+    if (remoto.ultimoDia) {
+      if (!estado.ultimoDia) {
+        estado.ultimoDia = remoto.ultimoDia;
+        estado.streak = remoto.streak ?? 0;
+      } else if (remoto.ultimoDia > estado.ultimoDia) {
+        const continua = estado.ultimoDia === diaAnterior(remoto.ultimoDia);
+        estado.streak = Math.max(remoto.streak ?? 0, continua ? estado.streak + 1 : 0);
+        estado.ultimoDia = remoto.ultimoDia;
+      } else if (remoto.ultimoDia === estado.ultimoDia) {
+        estado.streak = Math.max(estado.streak, remoto.streak ?? 0);
+      } else {
+        const continua = remoto.ultimoDia === diaAnterior(estado.ultimoDia);
+        estado.streak = Math.max(estado.streak, continua ? (remoto.streak ?? 0) + 1 : 0);
+      }
+    }
+    for (const [id, dados] of Object.entries(remoto.licoes ?? {})) {
+      estado.licoes[id] = { estrelas: Math.max(estado.licoes[id]?.estrelas ?? 0, dados?.estrelas ?? 0) };
+    }
+    const registrados = new Set(estado.erros.map(e => e.en));
+    (remoto.erros ?? []).forEach(e => {
+      if (e?.en && !registrados.has(e.en)) {
+        estado.erros.push({ en: e.en, pt: e.pt ?? '' });
+        registrados.add(e.en);
+      }
+    });
+    estado.badges = [...new Set([...estado.badges, ...(remoto.badges ?? [])])];
+    const remotoStats = remoto.stats ?? {};
+    for (const k of Object.keys(estado.stats)) {
+      estado.stats[k] = Math.max(estado.stats[k], remotoStats[k] ?? 0);
+    }
+  }
+  salvar();
 }
 
 const dia = d => d.toISOString().slice(0, 10);

@@ -1,11 +1,15 @@
 import { UNIDADES, MASCOTE, BADGES } from './data.js';
-import { estado, streakAtual, nivelInfo, itensAprendidos, registrarLicao, registrarRevisao } from './game.js';
+import { estado, streakAtual, nivelInfo, itensAprendidos, registrarLicao, registrarRevisao, ativarSync, mesclarEstado, resetarEstado } from './game.js';
 import { sons, falar, temTts, destravarAudio } from './audio.js';
 import { gerarExercicios, exercicioFacil, montarExercicio } from './exercises.js';
 import { h, aleatorio } from './util.js';
+import { nuvemConfigurada, sessaoAtual, entrar, criarConta, sair, baixarProgresso, aoMudarAuth } from './nuvem.js';
 
 const app = document.getElementById('app');
 let sessao = null;
+let usuarioEmail = null;
+let telaAtiva = 'inicial';
+let syncPendente = false;
 
 document.addEventListener('pointerdown', destravarAudio, { once: true });
 
@@ -24,6 +28,7 @@ function licaoDesbloqueada(u, idx) {
 
 function telaInicial() {
   window.scrollTo(0, 0);
+  telaAtiva = 'inicial';
   sessao = null;
   const nv = nivelInfo();
   app.innerHTML = '';
@@ -33,6 +38,11 @@ function telaInicial() {
       h('div', { class: 'espaco' }),
       h('div', { class: 'pilula', title: 'Dias seguidos' }, '🔥 ' + streakAtual()),
       h('div', { class: 'pilula', title: 'XP total' }, '⭐ ' + estado.xp),
+      !nuvemConfigurada ? '' : usuarioEmail
+        ? (syncPendente
+          ? h('button', { class: 'pilula btn-perfil', title: 'Não consegui baixar seu progresso — clique para tentar de novo', onclick: () => aposLogin(true) }, '☁️⚠️')
+          : h('button', { class: 'pilula btn-perfil', title: usuarioEmail, onclick: telaPerfil }, '☁️ ' + usuarioEmail.split('@')[0]))
+        : h('button', { class: 'pilula btn-perfil', onclick: telaLogin }, '🔑 Entrar'),
       h('button', { class: 'pilula btn-perfil', 'aria-label': 'Perfil', onclick: telaPerfil }, '👤')
     ),
     h('div', { class: 'card nivel-card' },
@@ -121,6 +131,7 @@ function iniciarRevisao() {
 
 function telaExercicio() {
   window.scrollTo(0, 0);
+  telaAtiva = 'licao';
   const ex = sessao.fila[sessao.idx];
   const barra = h('div', { class: 'progresso barra-licao' },
     h('div', { style: `width:${Math.round(sessao.idx / sessao.fila.length * 100)}%` })
@@ -236,6 +247,7 @@ function finalizar() {
 
 function telaResultado(estrelas, precisao, novasBadges) {
   window.scrollTo(0, 0);
+  telaAtiva = 'resultado';
   const s = sessao;
   app.innerHTML = '';
   const stars = h('div', { class: 'estrelas-grandes' }, [1, 2, 3].map(n => {
@@ -275,8 +287,84 @@ function telaResultado(estrelas, precisao, novasBadges) {
   sons.fanfarra();
 }
 
+function telaLogin() {
+  window.scrollTo(0, 0);
+  telaAtiva = 'login';
+  app.innerHTML = '';
+  const email = h('input', { class: 'entrada', type: 'email', placeholder: 'seu@email.com', autocomplete: 'email' });
+  const senha = h('input', { class: 'entrada', type: 'password', placeholder: 'senha (mín. 6 caracteres)', autocomplete: 'current-password' });
+  const msg = h('div', { class: 'login-msg' });
+  const btnEntrar = h('button', { class: 'btn btn-verde' }, 'ENTRAR');
+  const btnCriar = h('button', { class: 'btn btn-azul' }, 'CRIAR CONTA');
+  async function agir(criar) {
+    msg.textContent = '';
+    msg.className = 'login-msg';
+    if (!email.value.trim() || !senha.value) {
+      msg.textContent = 'Preenche e-mail e senha, gringo 😅';
+      msg.classList.add('erro');
+      return;
+    }
+    btnEntrar.disabled = btnCriar.disabled = true;
+    try {
+      if (criar) {
+        const nova = await criarConta(email.value.trim(), senha.value);
+        if (!nova) {
+          msg.textContent = 'Conta criada! Confirma teu e-mail e depois entra 📬';
+          msg.classList.add('ok');
+          return;
+        }
+      } else {
+        await entrar(email.value.trim(), senha.value);
+      }
+      await aposLogin(true);
+    } catch (e) {
+      msg.textContent = e.message;
+      msg.classList.add('erro');
+    } finally {
+      btnEntrar.disabled = btnCriar.disabled = false;
+    }
+  }
+  btnEntrar.addEventListener('click', () => agir(false));
+  btnCriar.addEventListener('click', () => agir(true));
+  senha.addEventListener('keydown', e => {
+    if (e.key === 'Enter') agir(false);
+  });
+  app.append(
+    h('div', { class: 'login' },
+      h('div', { class: 'login-logo' }, '🦜'),
+      h('h1', {}, 'Entrar no GringoLingo'),
+      h('div', { class: 'login-sub' }, 'Sua evolução sincronizada em qualquer dispositivo ☁️'),
+      email, senha, msg,
+      h('div', { class: 'login-botoes' }, btnEntrar, btnCriar),
+      h('button', { class: 'btn btn-branco', onclick: telaInicial }, 'JOGAR SEM CONTA')
+    )
+  );
+}
+
+async function aposLogin(interativo) {
+  const s = await sessaoAtual();
+  usuarioEmail = s?.user?.email ?? null;
+  if (!usuarioEmail) {
+    ativarSync(false);
+    syncPendente = false;
+    if (interativo || telaAtiva === 'inicial') telaInicial();
+    return;
+  }
+  try {
+    const remoto = await baixarProgresso();
+    ativarSync(true);
+    syncPendente = false;
+    mesclarEstado(remoto);
+  } catch {
+    ativarSync(false);
+    syncPendente = true;
+  }
+  if (interativo || telaAtiva === 'inicial') telaInicial();
+}
+
 function telaPerfil() {
   window.scrollTo(0, 0);
+  telaAtiva = 'perfil';
   const nv = nivelInfo();
   const palavras = new Set(itensAprendidos().map(i => i.en)).size;
   const precisao = estado.stats.respostas ? Math.round(estado.stats.acertos / estado.stats.respostas * 100) : 0;
@@ -313,7 +401,34 @@ function telaPerfil() {
           h('div', { class: 'badge-desc' }, b.desc)
         );
       })
-    )
+    ),
+    cartaoConta()
+  );
+}
+
+function cartaoConta() {
+  if (!nuvemConfigurada) return '';
+  if (!usuarioEmail) {
+    return h('button', { class: 'card conta-card conta-entrar', onclick: telaLogin },
+      h('span', {}, '🔑 Entrar para sincronizar seu progresso'),
+      h('span', { class: 'revisao-seta' }, '☁️')
+    );
+  }
+  const btnSair = h('button', { class: 'btn btn-vermelho' }, 'SAIR');
+  btnSair.addEventListener('click', async () => {
+    btnSair.disabled = true;
+    try {
+      await sair();
+    } catch {}
+    ativarSync(false);
+    usuarioEmail = null;
+    syncPendente = false;
+    resetarEstado();
+    telaInicial();
+  });
+  return h('div', { class: 'card conta-card' },
+    h('span', { class: 'conta-email' }, '☁️ ' + usuarioEmail),
+    btnSair
   );
 }
 
@@ -363,4 +478,21 @@ function confete() {
   requestAnimationFrame(tick);
 }
 
-telaInicial();
+async function iniciar() {
+  telaInicial();
+  if (!nuvemConfigurada) return;
+  try {
+    await aoMudarAuth(evento => {
+      if (evento === 'SIGNED_OUT' && usuarioEmail) {
+        usuarioEmail = null;
+        ativarSync(false);
+        syncPendente = false;
+        if (telaAtiva === 'inicial') telaInicial();
+      }
+    });
+    const s = await sessaoAtual();
+    if (s) await aposLogin(false);
+  } catch {}
+}
+
+iniciar();
