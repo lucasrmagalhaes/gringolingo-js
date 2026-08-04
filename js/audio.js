@@ -56,25 +56,79 @@ export const sons = {
 
 export const temTts = 'speechSynthesis' in window;
 
+const CHAVE_VOZ = 'gringolingo:voz';
+const CHAVE_VELOCIDADE = 'gringolingo:velocidade';
+
+export const VELOCIDADES = [
+  { id: 'lenta', rotulo: 'Devagar', valor: 0.75 },
+  { id: 'normal', rotulo: 'Normal', valor: 0.92 },
+  { id: 'rapida', rotulo: 'Rápida', valor: 1.1 }
+];
+
+let vozes = [];
 let vozEn = null;
+const ouvintes = [];
+
+function normalizarLang(v) {
+  return (v.lang || '').replace('_', '-');
+}
+
+function escolherPadrao() {
+  const salva = localStorage.getItem(CHAVE_VOZ);
+  return vozes.find(v => v.voiceURI === salva)
+    || vozes.find(v => normalizarLang(v).startsWith('en-US') && v.localService)
+    || vozes.find(v => normalizarLang(v).startsWith('en-US'))
+    || vozes[0]
+    || null;
+}
 
 function carregarVoz() {
-  const vozes = speechSynthesis.getVoices();
-  vozEn = vozes.find(v => v.lang.startsWith('en') && v.localService) || vozes.find(v => v.lang.startsWith('en')) || null;
+  vozes = speechSynthesis.getVoices().filter(v => normalizarLang(v).toLowerCase().startsWith('en'));
+  vozEn = escolherPadrao();
+  ouvintes.forEach(cb => cb(vozes));
 }
 
 if (temTts) {
   carregarVoz();
-  speechSynthesis.onvoiceschanged = carregarVoz;
+  if (typeof speechSynthesis.addEventListener === 'function') speechSynthesis.addEventListener('voiceschanged', carregarVoz);
+  else speechSynthesis.onvoiceschanged = carregarVoz;
 }
 
-export function falar(texto, velocidade = 0.92) {
+export function vozesDisponiveis() {
+  return vozes.map(v => ({ uri: v.voiceURI, nome: v.name, lang: normalizarLang(v), local: v.localService }));
+}
+
+export function vozAtual() {
+  return vozEn?.voiceURI ?? null;
+}
+
+export function definirVoz(uri) {
+  const achada = vozes.find(v => v.voiceURI === uri);
+  if (!achada) return;
+  vozEn = achada;
+  localStorage.setItem(CHAVE_VOZ, uri);
+}
+
+export function aoCarregarVozes(cb) {
+  ouvintes.push(cb);
+}
+
+export function velocidadeAtual() {
+  const salva = localStorage.getItem(CHAVE_VELOCIDADE);
+  return VELOCIDADES.find(v => v.id === salva) ?? VELOCIDADES[1];
+}
+
+export function definirVelocidade(id) {
+  if (VELOCIDADES.some(v => v.id === id)) localStorage.setItem(CHAVE_VELOCIDADE, id);
+}
+
+export function falar(texto, velocidade) {
   if (!temTts) return;
   try {
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(texto);
-    u.lang = 'en-US';
-    u.rate = velocidade;
+    u.lang = vozEn ? normalizarLang(vozEn) : 'en-US';
+    u.rate = velocidade ?? velocidadeAtual().valor;
     if (vozEn) u.voice = vozEn;
     speechSynthesis.speak(u);
   } catch {}

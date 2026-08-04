@@ -1,6 +1,6 @@
 import { UNIDADES, MASCOTE, BADGES } from './data.js';
 import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, ativarSync, mesclarEstado, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, METAS } from './game.js';
-import { sons, falar, temTts, destravarAudio } from './audio.js';
+import { sons, falar, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, VELOCIDADES } from './audio.js';
 import { gerarExercicios, exercicioFacil, montarExercicio } from './exercises.js';
 import { h, aleatorio } from './util.js';
 import { nuvemConfigurada, sessaoAtual, entrar, criarConta, sair, baixarProgresso, aoMudarAuth, googleAtivo, entrarComGoogle, vincularGoogle, desvincularGoogle, provedoresDaConta, traduzirErro } from './nuvem.js';
@@ -801,6 +801,7 @@ function telaPerfil() {
       statPilula('📅', itensVencidos().length, 'vencendo hoje'),
       statPilula('🧊', estado.protetores, 'protetores de streak')
     ),
+    cartaoVoz(),
     cartaoLembrete(),
     h('div', { class: 'secao-titulo' }, '🏅 Conquistas'),
     h('div', { class: 'badges-grid' },
@@ -814,6 +815,101 @@ function telaPerfil() {
       })
     ),
     cartaoConta()
+  );
+}
+
+const SOTAQUES = {
+  'en-US': '🇺🇸 EUA',
+  'en-GB': '🇬🇧 Reino Unido',
+  'en-AU': '🇦🇺 Austrália',
+  'en-CA': '🇨🇦 Canadá',
+  'en-IE': '🇮🇪 Irlanda',
+  'en-IN': '🇮🇳 Índia',
+  'en-NZ': '🇳🇿 Nova Zelândia',
+  'en-ZA': '🇿🇦 África do Sul',
+  'en-SG': '🇸🇬 Singapura',
+  'en-PH': '🇵🇭 Filipinas',
+  'en-NG': '🇳🇬 Nigéria',
+  'en-KE': '🇰🇪 Quênia'
+};
+
+function rotuloSotaque(lang) {
+  return SOTAQUES[lang] ?? '🌎 ' + lang.toUpperCase();
+}
+
+function nomeCurto(nome) {
+  return nome
+    .replace(/^(Microsoft|Google|Apple)\s+/i, '')
+    .replace(/\s*[-–]\s*English.*$/i, '')
+    .replace(/\s*\(English[^)]*\)/i, '')
+    .replace(/\s*Online\s*/i, ' ')
+    .replace(/\s+/g, ' ')
+    .trim() || nome;
+}
+
+function cartaoVoz() {
+  if (!temTts) return '';
+  const lista = vozesDisponiveis();
+  const velocidade = velocidadeAtual();
+  const chipsVelocidade = h('div', { class: 'metas', role: 'group', 'aria-label': 'Velocidade da fala' },
+    VELOCIDADES.map(v => h('button', {
+      class: 'meta-opcao' + (v.id === velocidade.id ? ' ativa' : ''),
+      'aria-pressed': v.id === velocidade.id ? 'true' : 'false',
+      onclick() {
+        definirVelocidade(v.id);
+        falar('Hello! Let us practice English.');
+        telaPerfil();
+      }
+    }, v.rotulo))
+  );
+  if (!lista.length) {
+    return h('div', { class: 'card voz-card' },
+      h('div', { class: 'nivel-titulo' }, '🔊 Voz do app'),
+      h('div', { class: 'revisao-sub' }, 'Nenhuma voz em inglês instalada neste aparelho — a pronúncia usa a voz padrão do sistema.'),
+      h('div', { class: 'voz-linha' }, h('span', { class: 'voz-rotulo' }, 'Velocidade'), chipsVelocidade)
+    );
+  }
+  const atual = lista.find(v => v.uri === vozAtual()) ?? lista[0];
+  const langs = [...new Set(lista.map(v => v.lang))].sort();
+  const doSotaque = lista.filter(v => v.lang === atual.lang);
+  return h('div', { class: 'card voz-card' },
+    h('div', { class: 'voz-cab' },
+      h('div', {},
+        h('div', { class: 'nivel-titulo' }, '🔊 Voz do app'),
+        h('div', { class: 'revisao-sub' }, `${rotuloSotaque(atual.lang)} · ${nomeCurto(atual.nome)}`)
+      ),
+      h('button', {
+        class: 'btn btn-azul',
+        onclick: () => falar('Hello! Let us practice English together.')
+      }, '▶ TESTAR')
+    ),
+    langs.length > 1 ? h('div', { class: 'voz-linha' },
+      h('span', { class: 'voz-rotulo' }, 'Sotaque'),
+      h('div', { class: 'voz-chips' }, langs.map(lang => h('button', {
+        class: 'voz-chip' + (lang === atual.lang ? ' ativa' : ''),
+        'aria-pressed': lang === atual.lang ? 'true' : 'false',
+        onclick() {
+          const primeira = lista.find(v => v.lang === lang);
+          definirVoz(primeira.uri);
+          falar('Hello! Let us practice English.');
+          telaPerfil();
+        }
+      }, rotuloSotaque(lang))))
+    ) : '',
+    doSotaque.length > 1 ? h('div', { class: 'voz-linha' },
+      h('span', { class: 'voz-rotulo' }, 'Voz'),
+      h('div', { class: 'voz-chips' }, doSotaque.map(v => h('button', {
+        class: 'voz-chip' + (v.uri === atual.uri ? ' ativa' : ''),
+        'aria-pressed': v.uri === atual.uri ? 'true' : 'false',
+        title: v.nome,
+        onclick() {
+          definirVoz(v.uri);
+          falar('Hello! Let us practice English.');
+          telaPerfil();
+        }
+      }, nomeCurto(v.nome))))
+    ) : '',
+    h('div', { class: 'voz-linha' }, h('span', { class: 'voz-rotulo' }, 'Velocidade'), chipsVelocidade)
   );
 }
 
@@ -1064,6 +1160,9 @@ async function iniciar() {
   telaInicial();
   registrarServiceWorker();
   agendarLembrete();
+  aoCarregarVozes(() => {
+    if (telaAtiva === 'perfil') telaPerfil();
+  });
   window.addEventListener('online', tentarReenviar);
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) tentarReenviar();

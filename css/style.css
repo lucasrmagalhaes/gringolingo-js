@@ -1098,6 +1098,68 @@ button {
   margin-top: 16px;
 }
 
+.voz-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.voz-cab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.voz-linha {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  border-top: 2px solid var(--borda-suave);
+  padding-top: 12px;
+}
+
+.voz-rotulo {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--texto-suave);
+  min-width: 78px;
+}
+
+.voz-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.voz-chip {
+  border: 2px solid var(--borda);
+  background: var(--superficie);
+  color: var(--texto);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.12s, background 0.12s, color 0.12s;
+}
+
+.voz-chip:hover:not(.ativa) {
+  border-color: color-mix(in srgb, var(--azul) 45%, var(--borda));
+}
+
+.voz-chip.ativa {
+  background: var(--azul);
+  border-color: var(--azul);
+  color: #fff;
+}
+
 .lembrete-card {
   display: flex;
   align-items: center;
