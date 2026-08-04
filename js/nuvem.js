@@ -5,6 +5,10 @@ export const nuvemConfigurada = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
 let cliente = null;
 
 const MAPA_ERROS = [
+  ['manual linking is disabled', 'Vinculação desativada no Supabase — ative "Manual linking" nas configurações de Auth'],
+  ['identity is already linked', 'Essa conta do Google já está vinculada a outro usuário 🙈'],
+  ['at least 1 identity', 'Você precisa manter pelo menos uma forma de entrar 🔐'],
+  ['provider is not enabled', 'Login com Google não está ativado no Supabase'],
   ['invalid login credentials', 'E-mail ou senha incorretos 🙈'],
   ['user already registered', 'Esse e-mail já tem conta — tenta entrar!'],
   ['password should be at least', 'A senha precisa ter pelo menos 6 caracteres'],
@@ -32,6 +36,61 @@ async function obterCliente() {
     }
   }
   return cliente;
+}
+
+let cacheGoogle = null;
+
+export async function googleAtivo() {
+  if (!nuvemConfigurada) return false;
+  if (cacheGoogle !== null) return cacheGoogle;
+  try {
+    const r = await fetch(SUPABASE_URL + '/auth/v1/settings', { headers: { apikey: SUPABASE_ANON_KEY } });
+    const d = await r.json();
+    cacheGoogle = !!d?.external?.google;
+  } catch {
+    cacheGoogle = false;
+  }
+  return cacheGoogle;
+}
+
+function urlRetorno() {
+  return location.origin + location.pathname;
+}
+
+export async function entrarComGoogle() {
+  const c = await obterCliente();
+  const { error } = await c.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: urlRetorno() }
+  });
+  if (error) throw new Error(traduzirErro(error.message));
+}
+
+export async function vincularGoogle() {
+  const c = await obterCliente();
+  const { error } = await c.auth.linkIdentity({
+    provider: 'google',
+    options: { redirectTo: urlRetorno() }
+  });
+  if (error) throw new Error(traduzirErro(error.message));
+}
+
+export async function desvincularGoogle() {
+  const c = await obterCliente();
+  const { data, error } = await c.auth.getUserIdentities();
+  if (error) throw new Error(traduzirErro(error.message));
+  const google = data?.identities?.find(i => i.provider === 'google');
+  if (!google) throw new Error('Não há Google vinculado nessa conta');
+  const { error: erroUnlink } = await c.auth.unlinkIdentity(google);
+  if (erroUnlink) throw new Error(traduzirErro(erroUnlink.message));
+}
+
+export async function provedoresDaConta() {
+  const c = await obterCliente();
+  if (!c) return [];
+  const { data, error } = await c.auth.getUserIdentities();
+  if (error) return [];
+  return (data?.identities ?? []).map(i => i.provider);
 }
 
 export async function sessaoAtual() {

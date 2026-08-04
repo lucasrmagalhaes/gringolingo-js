@@ -3,7 +3,7 @@ import { estado, streakAtual, nivelInfo, itensAprendidos, registrarLicao, regist
 import { sons, falar, temTts, destravarAudio } from './audio.js';
 import { gerarExercicios, exercicioFacil, montarExercicio } from './exercises.js';
 import { h, aleatorio } from './util.js';
-import { nuvemConfigurada, sessaoAtual, entrar, criarConta, sair, baixarProgresso, aoMudarAuth } from './nuvem.js';
+import { nuvemConfigurada, sessaoAtual, entrar, criarConta, sair, baixarProgresso, aoMudarAuth, googleAtivo, entrarComGoogle, vincularGoogle, desvincularGoogle, provedoresDaConta } from './nuvem.js';
 
 const app = document.getElementById('app');
 let sessao = null;
@@ -12,6 +12,16 @@ let telaAtiva = 'inicial';
 let syncPendente = false;
 let authCarregando = false;
 let geracaoAuth = 0;
+let temGoogle = false;
+let provedores = [];
+
+const SVG_GOOGLE = '<svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>';
+
+function iconeGoogle() {
+  const s = h('span', { class: 'icone-google' });
+  s.innerHTML = SVG_GOOGLE;
+  return s;
+}
 
 document.addEventListener('pointerdown', destravarAudio, { once: true });
 
@@ -333,11 +343,26 @@ function telaLogin(aviso) {
   senha.addEventListener('keydown', e => {
     if (e.key === 'Enter') agir(false);
   });
+  const btnGoogle = h('button', { class: 'btn btn-google' }, iconeGoogle(), h('span', {}, 'ENTRAR COM GOOGLE'));
+  btnGoogle.addEventListener('click', async () => {
+    btnGoogle.disabled = true;
+    msg.textContent = '';
+    msg.className = 'login-msg';
+    try {
+      await entrarComGoogle();
+    } catch (e) {
+      msg.textContent = e.message;
+      msg.classList.add('erro');
+      btnGoogle.disabled = false;
+    }
+  });
   app.append(
     h('div', { class: 'login' },
       h('div', { class: 'login-logo' }, '🦜'),
       h('h1', {}, 'Entrar no GringoLingo'),
       h('div', { class: 'login-sub' }, 'Sua evolução sincronizada em qualquer dispositivo ☁️'),
+      temGoogle ? btnGoogle : '',
+      temGoogle ? h('div', { class: 'login-ou' }, h('span', {}, 'ou com e-mail')) : '',
       email, senha, msg,
       h('div', { class: 'login-botoes' }, btnEntrar, btnCriar),
       h('button', { class: 'btn btn-branco', onclick: () => telaInicial() }, 'JOGAR SEM CONTA')
@@ -347,6 +372,15 @@ function telaLogin(aviso) {
     msg.textContent = aviso;
     msg.classList.add('erro');
   }
+}
+
+function repintarLogin() {
+  const valores = [...document.querySelectorAll('.login .entrada')].map(i => i.value);
+  const aviso = document.querySelector('.login-msg.erro')?.textContent;
+  telaLogin(aviso);
+  [...document.querySelectorAll('.login .entrada')].forEach((i, idx) => {
+    i.value = valores[idx] ?? '';
+  });
 }
 
 function erroNaUrl() {
@@ -372,9 +406,11 @@ async function aposLogin(interativo) {
   if (!usuarioEmail) {
     ativarSync(false);
     syncPendente = false;
+    provedores = [];
     finalizarAuth(interativo);
     return;
   }
+  provedores = (s.user.identities ?? []).map(i => i.provider);
   try {
     const remoto = await baixarProgresso();
     if (g !== geracaoAuth) return;
@@ -476,9 +512,49 @@ function cartaoConta() {
     telaInicial();
   });
   return h('div', { class: 'card conta-card' },
-    h('span', { class: 'conta-email' }, syncPendente ? '☁️⚠️ ' + usuarioEmail : '☁️ ' + usuarioEmail),
-    syncPendente ? h('span', { class: 'conta-aviso' }, 'Progresso ainda não sincronizado — ele fica salvo aqui no aparelho') : '',
-    btnSair
+    h('div', { class: 'conta-linha' },
+      h('span', { class: 'conta-email' }, syncPendente ? '☁️⚠️ ' + usuarioEmail : '☁️ ' + usuarioEmail),
+      btnSair
+    ),
+    syncPendente ? h('div', { class: 'conta-aviso' }, 'Progresso ainda não sincronizado — ele fica salvo aqui no aparelho') : '',
+    temGoogle ? linhaGoogle() : ''
+  );
+}
+
+function linhaGoogle() {
+  const vinculado = provedores.includes('google');
+  const msg = h('div', { class: 'login-msg' });
+  const btn = h('button', { class: 'btn ' + (vinculado ? 'btn-branco' : 'btn-google') },
+    iconeGoogle(),
+    h('span', {}, vinculado ? 'DESVINCULAR' : 'VINCULAR GOOGLE')
+  );
+  btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    msg.textContent = '';
+    msg.className = 'login-msg';
+    try {
+      if (vinculado) {
+        await desvincularGoogle();
+        provedores = await provedoresDaConta();
+        telaPerfil();
+        return;
+      }
+      await vincularGoogle();
+    } catch (e) {
+      msg.textContent = e.message;
+      msg.classList.add('erro');
+      btn.disabled = false;
+    }
+  });
+  return h('div', { class: 'conta-google' },
+    h('div', { class: 'conta-google-texto' },
+      h('div', { class: 'conta-google-titulo' }, vinculado ? 'Google vinculado ✅' : 'Vincular com o Google'),
+      h('div', { class: 'conta-google-sub' }, vinculado
+        ? 'Você pode entrar com um clique, sem digitar senha'
+        : 'Depois de vincular, dá pra entrar com um clique na mesma conta')
+    ),
+    btn,
+    msg
   );
 }
 
@@ -534,6 +610,12 @@ async function iniciar() {
   if (aviso) telaLogin(aviso);
   else telaInicial();
   if (!nuvemConfigurada) return;
+  googleAtivo().then(ativo => {
+    if (!ativo) return;
+    temGoogle = true;
+    if (telaAtiva === 'login') repintarLogin();
+    else if (telaAtiva === 'perfil') telaPerfil();
+  });
   try {
     window.addEventListener('storage', e => {
       if (e.key === 'gringolingo' && e.newValue === null) {

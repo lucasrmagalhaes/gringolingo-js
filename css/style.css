@@ -872,8 +872,73 @@ button {
   overflow-wrap: anywhere;
 }
 
+.conta-card {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.conta-linha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .conta-aviso {
-  flex: 1;
   font-size: 12px;
   color: var(--texto-suave);
+}
+
+.conta-google {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-top: 2px solid var(--borda);
+  padding-top: 12px;
+}
+
+.conta-google-titulo {
+  font-weight: 900;
+  font-size: 15px;
+}
+
+.conta-google-sub {
+  font-size: 12px;
+  color: var(--texto-suave);
+}
+
+.btn-google {
+  background: #fff;
+  color: var(--texto);
+  border: 2px solid var(--borda);
+  box-shadow: 0 4px 0 var(--borda);
+}
+
+.btn-google:hover {
+  border-color: #4285F4;
+}
+
+.icone-google {
+  display: inline-flex;
+  align-items: center;
+}
+
+.login-ou {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--texto-suave);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.login-ou::before,
+.login-ou::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: var(--borda);
 }

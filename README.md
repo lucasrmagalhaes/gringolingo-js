@@ -75,3 +75,22 @@ create policy "atualizar o proprio progresso" on public.progresso
    mesclados no login (maior XP, união de estrelas/badges/erros) e cada lição
    concluída é enviada automaticamente.
 
+### Login com Google (opcional)
+
+O app detecta sozinho se o provedor está ativo: quando estiver, o botão **Entrar com Google**
+aparece na tela de login e a opção **Vincular Google** aparece no perfil. Sem configurar nada,
+essa parte fica invisível e o login por e-mail continua funcionando.
+
+1. No [Google Cloud Console](https://console.cloud.google.com/apis/credentials), crie uma
+   credencial **OAuth client ID** do tipo *Web application*. Em *Authorized redirect URIs*
+   coloque `https://<seu-projeto>.supabase.co/auth/v1/callback`.
+2. No Supabase, em **Authentication → Sign In / Providers → Google**, ative o provedor e cole
+   o *Client ID* e o *Client Secret* gerados no passo 1.
+3. Em **Authentication → URL Configuration**, inclua em *Redirect URLs* os endereços de onde o
+   app roda, por exemplo `https://<usuario>.github.io/gringolingo-js/**` e `http://localhost:8123/**`.
+4. Para permitir **vincular o Google a uma conta de e-mail já existente**, ative *Manual linking*
+   em **Authentication → Settings** (sem isso, o botão de vincular retorna erro explicando).
+
+Vinculado, a mesma conta aceita os dois modos de entrada e o progresso é um só. No perfil dá
+para desvincular — o app impede remover a última forma de login que sobrou.
+
