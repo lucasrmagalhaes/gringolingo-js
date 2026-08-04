@@ -1,5 +1,6 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
+import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
 import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, ativarSync, mesclarEstado, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, historicoRecente, METAS } from './game.js';
 import { sons, falar, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarVerbos, exercicioFacil, montarExercicio } from './exercises.js';
@@ -1001,6 +1002,7 @@ function finalizar(derrotado) {
     });
   }
   s.xp += evento.bonusMissoes;
+  registrarEvento('licao');
   telaResultado(estrelas, precisao, evento);
 }
 
@@ -1495,6 +1497,24 @@ function cartaoSobre() {
   );
 }
 
+function cartaoMetricas() {
+  const ligadas = metricasLigadas();
+  const botao = h('button', { class: 'btn ' + (ligadas ? 'btn-branco' : 'btn-azul') }, ligadas ? 'DESLIGAR' : 'LIGAR');
+  botao.addEventListener('click', () => {
+    definirMetricas(!ligadas);
+    telaPrivacidade();
+  });
+  return h('div', { class: 'card metricas-card' },
+    h('div', { class: 'metricas-textos' },
+      h('div', { class: 'nivel-titulo' }, '📊 Contagem anônima de uso'),
+      h('div', { class: 'privacidade-linha' }, 'Para saber se o app está sendo usado, ele registra apenas duas coisas: que alguém abriu o app hoje e que alguém concluiu uma lição.'),
+      h('div', { class: 'privacidade-linha' }, 'Não vai junto nenhum identificador — sem conta, sem cookie, sem localização, sem nada que ligue o registro a você. Nem eu consigo saber que foi você.'),
+      h('div', { class: 'privacidade-linha' }, ligadas ? 'Está ligada. Pode desligar quando quiser.' : 'Está desligada. Nada é enviado.')
+    ),
+    botao
+  );
+}
+
 function telaPrivacidade() {
   window.scrollTo(0, 0);
   telaAtiva = 'privacidade';
@@ -1525,6 +1545,7 @@ function telaPrivacidade() {
       'Apagar: o botão "Apagar minha conta" remove a conta e o progresso da nuvem de uma vez, sem passar por ninguém.',
       'Sair: ao sair da conta, o aparelho é limpo (quando o progresso já está salvo na nuvem).'
     ),
+    cartaoMetricas(),
     bloco('🚫 O que o app não faz',
       'Não usa cookies, nem rastreadores, nem publicidade.',
       'Não coleta localização, contatos, microfone gravado ou qualquer dado além do descrito acima.',
@@ -2062,6 +2083,8 @@ async function iniciar() {
   telaInicial();
   registrarServiceWorker();
   pintarBarraDoSistema();
+  registrarAberturaDoDia();
+  window.addEventListener('appinstalled', () => registrarEvento('instalou'));
   agendarLembrete();
   aoCarregarVozes(() => {
     if (telaAtiva === 'perfil') telaPerfil();

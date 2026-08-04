@@ -237,6 +237,52 @@ revoke all on table public.progresso from anon;
 
 
 -- -----------------------------------------------------------------------------
+-- 10. Metricas anonimas (opcional)
+--
+-- Uma tabela so de contagem: o app registra que ALGUEM abriu o app ou concluiu
+-- uma licao naquele dia, e nada mais. Nao ha user_id, nao ha IP, nao ha sessao,
+-- nao ha cookie - e impossivel ligar uma linha a uma pessoa. O objetivo e saber
+-- se o app esta sendo usado, nao quem usa.
+--
+-- A policy e so de INSERT: nem anon nem authenticated conseguem ler de volta.
+-- Quem quiser ver os numeros consulta pelo painel (como dono do projeto).
+-- O CHECK limita os valores aceitos, entao a tabela nao vira deposito de texto
+-- arbitrario vindo de fora.
+-- -----------------------------------------------------------------------------
+create table if not exists public.eventos (
+  id bigint generated always as identity primary key,
+  evento text not null,
+  dia date not null,
+  criado_em timestamptz not null default now()
+);
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint where conname = 'eventos_evento_valido'
+  ) then
+    alter table public.eventos
+      add constraint eventos_evento_valido
+      check (evento in ('abertura', 'licao', 'conta', 'instalou'));
+  end if;
+end
+$$;
+
+alter table public.eventos enable row level security;
+
+drop policy if exists "qualquer um registra evento" on public.eventos;
+create policy "qualquer um registra evento" on public.eventos
+  for insert with check (
+    dia between (current_date - 1) and (current_date + 1)
+  );
+
+grant insert on table public.eventos to anon, authenticated;
+revoke select, update, delete on table public.eventos from anon, authenticated;
+
+comment on table public.eventos is 'Contagem anonima de uso: sem user_id, sem IP, sem cookie. Insert-only.';
+
+
+-- -----------------------------------------------------------------------------
 -- 9. Ajustes que NAO dao para versionar (fazer no painel do Supabase)
 --
 -- Nada nesta secao e SQL executavel: sao configuracoes de autenticacao que

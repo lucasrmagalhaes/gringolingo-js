@@ -1685,6 +1685,19 @@ textarea {
   color: var(--texto);
 }
 
+.metricas-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.metricas-textos {
+  flex: 1;
+  min-width: 200px;
+}
+
 .privacidade-linha {
   font-size: var(--fonte-sm);
   line-height: 1.55;
