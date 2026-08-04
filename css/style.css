@@ -16,6 +16,24 @@
   --texto-suave: #8a8a8a;
   --borda: #E5E5E5;
   --fundo: #FCF9F4;
+  --superficie: #fff;
+  --trilho: #EDEDED;
+  --estrela-vazia: #ddd;
+  --pontinhos: rgba(0, 0, 0, 0.03);
+}
+
+:root[data-tema="escuro"] {
+  --verde-claro: #1a3a10;
+  --azul-claro: #0d3a52;
+  --verm-claro: #46161c;
+  --texto: #F1F7FB;
+  --texto-suave: #93a6b0;
+  --borda: #37464F;
+  --fundo: #131F24;
+  --superficie: #202F36;
+  --trilho: #37464F;
+  --estrela-vazia: #37464F;
+  --pontinhos: rgba(255, 255, 255, 0.035);
 }
 
 * {
@@ -29,7 +47,7 @@ body {
   font-weight: 700;
   color: var(--texto);
   background-color: var(--fundo);
-  background-image: radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-image: radial-gradient(var(--pontinhos) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
@@ -86,7 +104,7 @@ button {
 }
 
 .btn-branco {
-  background: #fff;
+  background: var(--superficie);
   color: var(--azul);
   border: 2px solid var(--borda);
   box-shadow: 0 4px 0 var(--borda);
@@ -124,7 +142,7 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #fff;
+  background: var(--superficie);
   border: 2px solid var(--borda);
   border-radius: 999px;
   padding: 6px 14px;
@@ -141,7 +159,7 @@ button {
 }
 
 .card {
-  background: #fff;
+  background: var(--superficie);
   border: 2px solid var(--borda);
   border-radius: 18px;
   padding: 18px;
@@ -176,7 +194,7 @@ button {
 
 .progresso {
   height: 14px;
-  background: #EDEDED;
+  background: var(--trilho);
   border-radius: 999px;
   overflow: hidden;
 }
@@ -271,7 +289,7 @@ button {
 }
 
 .licao {
-  background: #fff;
+  background: var(--superficie);
   border: 2px solid var(--borda);
   border-bottom-width: 4px;
   border-radius: 16px;
@@ -307,7 +325,7 @@ button {
 }
 
 .estrelas {
-  color: #ddd;
+  color: var(--estrela-vazia);
   font-size: 15px;
   letter-spacing: 2px;
 }
@@ -331,7 +349,7 @@ button {
   background: none;
   border: none;
   font-size: 20px;
-  color: #AFAFAF;
+  color: var(--texto-suave);
   cursor: pointer;
   padding: 4px;
 }
@@ -373,7 +391,7 @@ button {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: #fff;
+  background: var(--superficie);
   border: 2px solid var(--borda);
   border-radius: 16px;
   padding: 16px 18px;
@@ -416,7 +434,7 @@ button {
 }
 
 .opcao {
-  background: #fff;
+  background: var(--superficie);
   border: 2px solid var(--borda);
   border-bottom-width: 4px;
   border-radius: 14px;
@@ -455,7 +473,7 @@ button {
   font-family: inherit;
   font-weight: 800;
   outline: none;
-  background: #fff;
+  background: var(--superficie);
   color: var(--texto);
 }
 
@@ -483,7 +501,7 @@ button {
   gap: 8px;
   align-items: flex-start;
   margin-bottom: 16px;
-  background: #fff;
+  background: var(--superficie);
 }
 
 .area-certa {
@@ -503,7 +521,7 @@ button {
 }
 
 .tile {
-  background: #fff;
+  background: var(--superficie);
   border: 2px solid var(--borda);
   border-bottom-width: 4px;
   border-radius: 12px;
@@ -559,7 +577,7 @@ button {
   left: 0;
   right: 0;
   bottom: 0;
-  background: #fff;
+  background: var(--superficie);
   border-top: 2px solid var(--borda);
   padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
   z-index: 15;
@@ -666,7 +684,7 @@ button {
 .estrelas-grandes {
   font-size: 56px;
   margin: 14px 0 6px;
-  color: #E5E5E5;
+  color: var(--estrela-vazia);
   display: flex;
   gap: 10px;
   justify-content: center;
@@ -728,7 +746,7 @@ button {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #fff;
+  background: var(--superficie);
   border: 2px solid var(--borda);
   border-radius: 14px;
   padding: 12px 14px;
@@ -766,7 +784,7 @@ button {
   padding: 14px 10px;
   border: 2px solid var(--borda);
   border-radius: 14px;
-  background: #fff;
+  background: var(--superficie);
 }
 
 .badge-card.trancada {
@@ -911,7 +929,7 @@ button {
 }
 
 .btn-google {
-  background: #fff;
+  background: var(--superficie);
   color: var(--texto);
   border: 2px solid var(--borda);
   box-shadow: 0 4px 0 var(--borda);
@@ -941,4 +959,48 @@ button {
   flex: 1;
   height: 2px;
   background: var(--borda);
+}
+
+[data-tema="escuro"] .btn:disabled {
+  background: #2b3a42;
+  color: #5d707b;
+  box-shadow: 0 4px 0 #24323a;
+}
+
+[data-tema="escuro"] .opcao.sel {
+  color: #62c5f8;
+}
+
+[data-tema="escuro"] .opcao.certa,
+[data-tema="escuro"] .feedback.certo .feedback-titulo {
+  color: #8ee05a;
+}
+
+[data-tema="escuro"] .opcao.errada,
+[data-tema="escuro"] .feedback.errado .feedback-titulo {
+  color: #ff9ba0;
+}
+
+[data-tema="escuro"] .btn-branco {
+  color: #62c5f8;
+}
+
+[data-tema="escuro"] .badge-card.nova {
+  background: #3a3110;
+}
+
+[data-tema="escuro"] .login-msg.erro {
+  color: #ff9ba0;
+}
+
+[data-tema="escuro"] .login-msg.ok {
+  color: #8ee05a;
+}
+
+[data-tema="escuro"] .entrada-certa {
+  color: #8ee05a;
+}
+
+[data-tema="escuro"] .entrada-errada {
+  color: #ff9ba0;
 }

@@ -53,6 +53,7 @@ function telaInicial() {
       h('div', { class: 'espaco' }),
       h('div', { class: 'pilula', title: 'Dias seguidos' }, '🔥 ' + streakAtual()),
       h('div', { class: 'pilula', title: 'XP total' }, '⭐ ' + estado.xp),
+      botaoTema(),
       !nuvemConfigurada ? '' : authCarregando
         ? h('div', { class: 'pilula', title: 'Conectando na nuvem…' }, '☁️ …')
         : usuarioEmail
@@ -401,6 +402,26 @@ function erroNaUrl() {
   return 'Não deu pra entrar: ' + traduzirErro(descricao);
 }
 
+function temaAtual() {
+  return document.documentElement.dataset.tema === 'escuro' ? 'escuro' : 'claro';
+}
+
+function alternarTema() {
+  const novo = temaAtual() === 'escuro' ? 'claro' : 'escuro';
+  localStorage.setItem('gringolingo:tema', novo);
+  document.documentElement.dataset.tema = novo;
+  repintarTelaAtual();
+}
+
+function botaoTema() {
+  return h('button', {
+    class: 'pilula btn-perfil',
+    'aria-label': 'Alternar tema',
+    title: temaAtual() === 'escuro' ? 'Mudar para o tema claro' : 'Mudar para o tema escuro',
+    onclick: alternarTema
+  }, temaAtual() === 'escuro' ? '☀️' : '🌙');
+}
+
 function checarGoogle() {
   if (!nuvemConfigurada || temGoogle) return;
   googleAtivo().then(ativo => {
@@ -486,8 +507,9 @@ function telaPerfil() {
   app.innerHTML = '';
   app.append(
     h('div', { class: 'topo' },
-      h('button', { class: 'pilula btn-perfil', onclick: telaInicial }, '← Voltar'),
+      h('button', { class: 'pilula btn-perfil', onclick: () => telaInicial() }, '← Voltar'),
       h('div', { class: 'espaco' }),
+      botaoTema(),
       h('div', { class: 'logo' }, '👤 Seu perfil')
     ),
     h('div', { class: 'card nivel-card' },
