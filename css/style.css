@@ -15,6 +15,7 @@
   --texto: #3C3C3C;
   --texto-suave: #8a8a8a;
   --borda: #E5E5E5;
+  --borda-suave: color-mix(in srgb, #E5E5E5 60%, transparent);
   --fundo: #FCF9F4;
   --superficie: #fff;
   --trilho: #EDEDED;
@@ -29,6 +30,7 @@
   --texto: #F1F7FB;
   --texto-suave: #93a6b0;
   --borda: #37464F;
+  --borda-suave: color-mix(in srgb, #37464F 65%, transparent);
   --fundo: #131F24;
   --superficie: #202F36;
   --trilho: #37464F;
@@ -81,6 +83,14 @@ button {
   letter-spacing: 0.5px;
   cursor: pointer;
   color: #fff;
+}
+
+.btn {
+  transition: filter 0.15s, transform 0.1s;
+}
+
+.btn:hover:not(:disabled) {
+  filter: brightness(1.06);
 }
 
 .btn:active {
@@ -148,6 +158,12 @@ button {
   padding: 6px 14px;
   font-weight: 900;
   font-size: 15px;
+  transition: border-color 0.12s, transform 0.1s;
+}
+
+.pilula-fogo {
+  border-color: color-mix(in srgb, var(--laranja) 55%, var(--borda));
+  color: var(--laranja);
 }
 
 .btn-perfil {
@@ -160,20 +176,37 @@ button {
 
 .card {
   background: var(--superficie);
-  border: 2px solid var(--borda);
+  border: 2px solid var(--borda-suave);
   border-radius: 18px;
   padding: 18px;
   margin-bottom: 16px;
 }
 
+.rotulo {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--texto-suave);
+  margin: 24px 2px 10px;
+}
+
 .nivel-card {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
+  background-image: linear-gradient(135deg, color-mix(in srgb, var(--verde) 12%, transparent), transparent 55%);
+  border-color: color-mix(in srgb, var(--verde) 30%, var(--borda-suave));
 }
 
 .nivel-emoji {
-  font-size: 42px;
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  flex: none;
+  font-size: 32px;
+  background: color-mix(in srgb, var(--verde) 16%, var(--superficie));
+  border-radius: 50%;
 }
 
 .nivel-info {
@@ -204,6 +237,10 @@ button {
   background: var(--verde);
   border-radius: 999px;
   transition: width 0.4s;
+}
+
+.progresso > div {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 70%);
 }
 
 .nivel-prog {
@@ -265,6 +302,7 @@ button {
   padding: 16px 20px;
   margin-bottom: 12px;
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 60%);
 }
 
 .unidade-emoji {
@@ -300,12 +338,16 @@ button {
   padding: 14px 10px;
   text-align: center;
   cursor: pointer;
-  transition: transform 0.12s;
+  transition: transform 0.12s, border-color 0.12s;
   color: var(--texto);
 }
 
 .licao:hover {
   transform: translateY(-2px);
+}
+
+.licao.feita {
+  border-color: color-mix(in srgb, var(--cor-unidade) 45%, var(--borda));
 }
 
 .licao.bloqueada {
@@ -448,6 +490,16 @@ button {
   cursor: pointer;
   text-align: left;
   color: var(--texto);
+  transition: transform 0.1s, border-color 0.12s;
+}
+
+.opcao:hover:not(.sel):not(.certa):not(.errada):not(.ok) {
+  border-color: color-mix(in srgb, var(--azul) 40%, var(--borda));
+  transform: translateY(-1px);
+}
+
+.opcao:active:not(.certa):not(.errada):not(.ok) {
+  transform: translateY(1px);
 }
 
 .opcao.sel {
@@ -534,6 +586,12 @@ button {
   font-weight: 800;
   cursor: pointer;
   color: var(--texto);
+  transition: transform 0.1s, border-color 0.12s, opacity 0.15s;
+}
+
+.tile:hover:not(.usada) {
+  border-color: color-mix(in srgb, var(--azul) 40%, var(--borda));
+  transform: translateY(-1px);
 }
 
 .tile.usada {
@@ -604,6 +662,7 @@ button {
   z-index: 20;
   padding: 18px 16px calc(18px + env(safe-area-inset-bottom));
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 22px 22px 0 0;
 }
 
 .feedback.aberta {
@@ -715,6 +774,12 @@ button {
   display: flex;
   align-items: center;
   gap: 14px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+}
+
+.meta-pronta {
+  border-color: color-mix(in srgb, var(--verde) 35%, var(--borda-suave));
 }
 
 .meta-emoji {
@@ -764,16 +829,21 @@ button {
   display: flex;
   justify-content: space-between;
   gap: 6px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .semana-dia {
   flex: 1;
   background: var(--superficie);
-  border: 2px solid var(--borda);
+  border: 2px solid var(--borda-suave);
   border-radius: 12px;
   padding: 8px 2px;
   text-align: center;
+}
+
+.semana-dia.feito {
+  background: color-mix(in srgb, var(--laranja) 10%, var(--superficie));
+  border-color: color-mix(in srgb, var(--laranja) 35%, var(--borda-suave));
 }
 
 .semana-dia.hoje {
@@ -806,6 +876,8 @@ button {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
 }
 
 .missoes-titulo {
@@ -1183,6 +1255,24 @@ button {
   margin: 20px 0;
 }
 
+.pilulas-stats .pilula {
+  animation: surgir 0.4s backwards;
+}
+
+.pilulas-stats .pilula:nth-child(1) { animation-delay: 0.1s; }
+.pilulas-stats .pilula:nth-child(2) { animation-delay: 0.22s; }
+.pilulas-stats .pilula:nth-child(3) { animation-delay: 0.34s; }
+.pilulas-stats .pilula:nth-child(4) { animation-delay: 0.46s; }
+.pilulas-stats .pilula:nth-child(5) { animation-delay: 0.58s; }
+.pilulas-stats .pilula:nth-child(6) { animation-delay: 0.7s; }
+
+@keyframes surgir {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
 .resultado-botoes {
   display: flex;
   gap: 12px;
@@ -1212,7 +1302,7 @@ button {
   align-items: center;
   gap: 10px;
   background: var(--superficie);
-  border: 2px solid var(--borda);
+  border: 2px solid var(--borda-suave);
   border-radius: 14px;
   padding: 12px 14px;
   text-align: left;
@@ -1247,7 +1337,7 @@ button {
 .badge-card {
   text-align: center;
   padding: 14px 10px;
-  border: 2px solid var(--borda);
+  border: 2px solid var(--borda-suave);
   border-radius: 14px;
   background: var(--superficie);
 }

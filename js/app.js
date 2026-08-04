@@ -54,7 +54,7 @@ function telaInicial() {
     h('div', { class: 'topo' },
       h('div', { class: 'logo' }, '🦜 GringoLingo'),
       h('div', { class: 'espaco' }),
-      h('div', { class: 'pilula', title: 'Dias seguidos' }, '🔥 ' + streakAtual()),
+      h('div', { class: 'pilula' + (streakAtual() > 0 ? ' pilula-fogo' : ''), title: 'Dias seguidos' }, '🔥 ' + streakAtual()),
       h('div', { class: 'pilula', title: 'XP total' }, '⭐ ' + estado.xp),
       botaoTema(),
       ...pilulasDeConta()
@@ -68,11 +68,13 @@ function telaInicial() {
       )
     ),
     bannerStreak(),
+    cartaoBoasVindas(),
+    h('div', { class: 'rotulo' }, 'HOJE'),
     cartaoMeta(),
     faixaSemana(),
     cartaoMissoes(),
     botaoRevisao(),
-    cartaoBoasVindas(),
+    h('div', { class: 'rotulo' }, 'TRILHA'),
     ...UNIDADES.map(cartaoUnidade)
   );
 }
@@ -199,8 +201,8 @@ function botaoRevisao() {
 function cartaoUnidade(u) {
   const aberta = unidadeDesbloqueada(u);
   const feitas = u.licoes.filter(licaoFeita).length;
-  return h('div', { class: 'unidade' },
-    h('div', { class: 'unidade-cab', style: `background:${u.cor}` },
+  return h('div', { class: 'unidade', style: `--cor-unidade:${u.cor}` },
+    h('div', { class: 'unidade-cab', style: `background-color:${u.cor}` },
       h('span', { class: 'unidade-emoji' }, u.emoji),
       h('div', {},
         h('div', { class: 'unidade-titulo' }, u.titulo),
@@ -214,7 +216,7 @@ function cartaoUnidade(u) {
         const prog = estado.licoes[l.id];
         const estrelas = prog?.estrelas ?? 0;
         const b = h('button', {
-          class: 'licao' + (liberada ? '' : ' bloqueada'),
+          class: 'licao' + (liberada ? '' : ' bloqueada') + (estrelas ? ' feita' : ''),
           'aria-label': `${l.titulo} — ${liberada ? estrelas + ' de 3 estrelas' : 'bloqueada'}`
         },
           h('div', { class: 'licao-emoji', 'aria-hidden': 'true' }, liberada ? l.emoji : '🔒'),
