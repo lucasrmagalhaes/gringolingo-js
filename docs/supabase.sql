@@ -298,13 +298,30 @@ comment on table public.eventos is 'Contagem anonima de uso: sem user_id, sem IP
 --      front, e validacao de front nao vale nada: quem chamar /auth/v1/signup
 --      direto passa por cima. Quem manda e este parametro.
 --
---   b) Leaked password protection (HaveIBeenPwned)
---      Authentication -> Sign In / Providers -> Password Security ->
+--   b) Leaked password protection (HaveIBeenPwned) - EXIGE PLANO PRO
+--      Authentication -> Sign In / Providers -> Email ->
 --      "Prevent use of leaked passwords"
---      Vem desligado no plano free. Ligado, o Supabase consulta o HaveIBeenPwned
---      (por k-anonymity: so um prefixo do hash sai da maquina, a senha em si
---      nunca trafega) e recusa cadastro/troca com senha ja vazada. E a defesa
---      mais barata que existe contra credential stuffing.
+--      ATENCAO: nao e so ligar o botao. O painel marca este item como
+--      "Only available on Pro plan and above" - no plano free ele fica
+--      desabilitado e nao ha como ativar. Verificado em ago/2026.
+--      Se o projeto estiver no Pro, ligue: o Supabase consulta o HaveIBeenPwned
+--      por k-anonymity (so um prefixo do hash sai da maquina, a senha em si
+--      nunca trafega) e recusa cadastro/troca com senha ja vazada.
+--      No plano free, o substituto gratuito e o item (b2) abaixo. Para um app
+--      de estudo, cujo dado protegido e o progresso de licoes, assinar o Pro so
+--      por causa disto e desproporcional.
+--
+--   b2) Password requirements (substituto gratuito do item b)
+--      Authentication -> Sign In / Providers -> Email -> "Password requirements"
+--      Disponivel no plano free. Exigir letras minusculas, maiusculas e digitos
+--      derruba a maior parte das senhas de dicionario, que sao o alvo real do
+--      credential stuffing. Nao substitui o HaveIBeenPwned (nao pega
+--      "Senha@123", que e forte na forma e vazada na pratica), mas eleva o piso
+--      sem custo.
+--      Se ativar: o servidor passa a devolver "Password should contain at least
+--      one character of each: ..." e quem traduz isso para pt-BR e o
+--      PADROES_ERROS de js/nuvem.js, que le os conjuntos exigidos da propria
+--      resposta. Nao ha nada a mudar no app.
 --
 --   c) Conferir os Redirect URLs
 --      Authentication -> URL Configuration -> Site URL / Redirect URLs

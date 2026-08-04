@@ -5,7 +5,7 @@ import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVe
 import { sons, falar, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarVerbos, exercicioFacil, montarExercicio } from './exercises.js';
 import { h, aleatorio } from './util.js';
-import { nuvemConfigurada, sessaoAtual, entrar, criarConta, sair, baixarProgresso, aoMudarAuth, googleAtivo, entrarComGoogle, vincularGoogle, desvincularGoogle, provedoresDaConta, traduzirErro, apagarConta } from './nuvem.js';
+import { nuvemConfigurada, sessaoAtual, entrar, criarConta, sair, baixarProgresso, aoMudarAuth, googleAtivo, entrarComGoogle, vincularGoogle, desvincularGoogle, provedoresDaConta, traduzirErro, apagarConta, SENHA_MINIMA } from './nuvem.js';
 import { registrar, logSalvo, limparLog, modoDebug, contextoDoLog } from './erros.js';
 import { buscar, carregarBanco, bancoCarregado, statusDoItem, totalDoCurso } from './dicionario.js';
 import { ehFavorita, alternarFavorita, itensFavoritos } from './game.js';
@@ -1156,7 +1156,7 @@ function telaLogin(aviso) {
   checarGoogle();
   app.innerHTML = '';
   const email = h('input', { class: 'entrada', type: 'email', placeholder: 'seu@email.com', autocomplete: 'email' });
-  const senha = h('input', { class: 'entrada', type: 'password', placeholder: 'senha (mín. 6 caracteres)', autocomplete: 'current-password' });
+  const senha = h('input', { class: 'entrada', type: 'password', placeholder: `senha (mín. ${SENHA_MINIMA} caracteres)`, autocomplete: 'current-password' });
   const msg = h('div', { class: 'login-msg' });
   const btnEntrar = h('button', { class: 'btn btn-verde' }, 'ENTRAR');
   const btnCriar = h('button', { class: 'btn btn-azul' }, 'CRIAR CONTA');
@@ -1166,6 +1166,12 @@ function telaLogin(aviso) {
     if (!email.value.trim() || !senha.value) {
       msg.textContent = 'Preenche e-mail e senha, gringo 😅';
       msg.classList.add('erro');
+      return;
+    }
+    if (criar && senha.value.length < SENHA_MINIMA) {
+      msg.textContent = `A senha precisa ter pelo menos ${SENHA_MINIMA} caracteres`;
+      msg.classList.add('erro');
+      senha.focus();
       return;
     }
     btnEntrar.disabled = btnCriar.disabled = true;

@@ -271,8 +271,14 @@ destrutivo. O arquivo é a fonte da verdade e justifica cada decisão no própri
    e cada lição concluída é enviada automaticamente.
 
 A seção 9 do `docs/supabase.sql` lista os ajustes que **não** dá para versionar e que precisam ser
-feitos no painel uma vez por projeto: senha mínima de 8 caracteres, proteção contra senhas vazadas
-(HaveIBeenPwned) e a limpeza dos *Redirect URLs*.
+feitos no painel uma vez por projeto: senha mínima de 8 caracteres, exigência de tipos de caractere
+e a limpeza dos *Redirect URLs*. A proteção contra senhas vazadas (HaveIBeenPwned) também está
+documentada lá, mas o painel só a libera no **plano Pro** — no free ela fica desabilitada.
+
+O tamanho mínimo aparece em um lugar só do código: `SENHA_MINIMA` em `js/nuvem.js`, usada no
+placeholder e na checagem antes do cadastro. A mensagem de erro, porém, não depende dela — o
+`traduzirErro` lê o número da própria resposta do servidor, então se o valor do painel mudar o app
+não passa a mentir sobre o requisito. Há teste cobrindo isso em `tests/erros-auth.test.js`.
 
 </details>
 

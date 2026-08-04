@@ -4,6 +4,8 @@ export const nuvemConfigurada = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
 
 let cliente = null;
 
+export const SENHA_MINIMA = 8;
+
 const MAPA_ERROS = [
   ['manual linking is disabled', 'Vinculação desativada no Supabase — ative "Manual linking" nas configurações de Auth'],
   ['identity is already linked', 'Essa conta do Google já está vinculada a outro usuário 🙈'],
@@ -11,7 +13,6 @@ const MAPA_ERROS = [
   ['provider is not enabled', 'Login com Google não está ativado no Supabase'],
   ['invalid login credentials', 'E-mail ou senha incorretos 🙈'],
   ['user already registered', 'Esse e-mail já tem conta — tenta entrar!'],
-  ['password should be at least', 'A senha precisa ter pelo menos 6 caracteres'],
   ['email not confirmed', 'Confirma teu e-mail primeiro (olha a caixa de entrada) 📬'],
   ['rate limit', 'Calma, gringo! Muitas tentativas — espera um pouco ⏳'],
   ['you can only request this after', 'Calma, gringo! Espera uns segundos e tenta de novo ⏳'],
@@ -19,10 +20,46 @@ const MAPA_ERROS = [
   ['failed to fetch', 'Sem conexão com a nuvem 📡']
 ];
 
+const CLASSES_SENHA = [
+  [/abcdefghijklmnopqrstuvwxyz/, 'uma letra minúscula'],
+  [/ABCDEFGHIJKLMNOPQRSTUVWXYZ/, 'uma letra maiúscula'],
+  [/0123456789/, 'um número'],
+  [/!@#\$%/, 'um símbolo']
+];
+
+function listar(itens) {
+  if (itens.length === 1) return itens[0];
+  return itens.slice(0, -1).join(', ') + ' e ' + itens[itens.length - 1];
+}
+
+const PADROES_ERROS = [
+  [
+    /password should be at least (\d+) character/i,
+    (texto, casou) => `A senha precisa ter pelo menos ${casou[1]} caracteres`
+  ],
+  [
+    /password should contain at least one character of each/i,
+    texto => {
+      const exigidas = CLASSES_SENHA.filter(([classe]) => classe.test(texto)).map(([, rotulo]) => rotulo);
+      if (!exigidas.length) return 'A senha precisa misturar tipos diferentes de caractere 🔐';
+      return `A senha precisa ter pelo menos ${listar(exigidas)} 🔐`;
+    }
+  ],
+  [
+    /pwned|leaked|data breach/i,
+    () => 'Essa senha já apareceu em vazamentos públicos — escolhe outra 🔐'
+  ]
+];
+
 export function traduzirErro(mensagem) {
-  const m = (mensagem || '').toLowerCase();
+  const texto = mensagem || '';
+  for (const [padrao, montar] of PADROES_ERROS) {
+    const casou = texto.match(padrao);
+    if (casou) return montar(texto, casou);
+  }
+  const m = texto.toLowerCase();
   const achado = MAPA_ERROS.find(([chave]) => m.includes(chave));
-  return achado ? achado[1] : 'Deu ruim na nuvem: ' + mensagem;
+  return achado ? achado[1] : 'Deu ruim na nuvem: ' + texto;
 }
 
 async function obterCliente() {
