@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
 
 :root {
+  color-scheme: light;
   --verde: #58CC02;
   --verde-esc: #46A302;
   --verde-claro: #D7FFB8;
@@ -13,7 +14,10 @@
   --verm-claro: #FFDFE0;
   --amarelo: #FFC800;
   --texto: #3C3C3C;
-  --texto-suave: #8a8a8a;
+  --texto-suave: #6B6B6B;
+  --laranja-texto: #8F5500;
+  --verde-texto: #3B7A00;
+  --sobre-cor: #241C00;
   --borda: #E5E5E5;
   --borda-suave: color-mix(in srgb, #E5E5E5 60%, transparent);
   --fundo: #FCF9F4;
@@ -24,11 +28,15 @@
 }
 
 :root[data-tema="escuro"] {
+  color-scheme: dark;
   --verde-claro: #1a3a10;
   --azul-claro: #0d3a52;
   --verm-claro: #46161c;
   --texto: #F1F7FB;
-  --texto-suave: #93a6b0;
+  --texto-suave: #B3C4CD;
+  --laranja-texto: #FFB144;
+  --verde-texto: #8EE05A;
+  --sobre-cor: #241C00;
   --borda: #37464F;
   --borda-suave: color-mix(in srgb, #37464F 65%, transparent);
   --fundo: #131F24;
@@ -59,8 +67,12 @@ body {
   padding: 0 16px 170px;
 }
 
-button {
+button,
+input,
+select,
+textarea {
   font-family: inherit;
+  color: var(--texto);
 }
 
 #confetti {
@@ -163,7 +175,7 @@ button {
 
 .pilula-fogo {
   border-color: color-mix(in srgb, var(--laranja) 55%, var(--borda));
-  color: var(--laranja);
+  color: var(--laranja-texto);
 }
 
 .btn-perfil {
@@ -411,7 +423,7 @@ button {
 
 .combo {
   font-weight: 900;
-  color: var(--laranja);
+  color: var(--laranja-texto);
   font-size: 18px;
   min-width: 56px;
   text-align: right;
@@ -844,12 +856,13 @@ button {
 
 .meta-opcao.ativa {
   background: var(--laranja);
-  color: #fff;
+  color: var(--sobre-cor);
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.18);
 }
 
 .meta-pronta .meta-opcao.ativa {
   background: var(--verde);
+  color: #12330A;
 }
 
 .semana {
@@ -944,7 +957,7 @@ button {
 .missao-xp {
   font-size: 12px;
   font-weight: 900;
-  color: var(--laranja);
+  color: var(--laranja-texto);
 }
 
 .boas-vindas {
@@ -976,7 +989,7 @@ button {
 
 .pilula.destaque {
   border-color: var(--laranja);
-  color: var(--laranja);
+  color: var(--laranja-texto);
 }
 
 .missoes-cumpridas {
@@ -1246,7 +1259,11 @@ button {
 
 .dic-status.vencida {
   background: color-mix(in srgb, var(--laranja) 20%, transparent);
-  color: var(--laranja);
+  color: var(--laranja-texto);
+}
+
+.dic-status.memoria {
+  color: var(--verde-texto);
 }
 
 [data-tema="escuro"] .dic-status.memoria {

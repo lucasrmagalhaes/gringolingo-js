@@ -70,6 +70,9 @@ O que a suíte cobre:
   está para vencer e lembrete diário opcional por notificação.
 - **Dicas de gramática**: algumas lições abrem com um card explicando a estrutura (to be, do-support,
   -s da terceira pessoa, sujeito obrigatório) antes do primeiro exercício.
+- **Dicionário embutido**: ~3.100 palavras (as do curso + um banco das mais frequentes do inglês) com
+  busca única que aceita português ou inglês, sem acento, e mostra a tradução, a classe gramatical, o
+  áudio e — para as palavras do curso — em que pé está a sua memória (🌱 memorizada, 📅 vencendo hoje…).
 - **Voz configurável**: no perfil dá para escolher o sotaque (🇺🇸 🇬🇧 🇦🇺… conforme as vozes instaladas
   no aparelho), qual voz usar e a velocidade da fala, com botão de testar na hora.
 - **Acessível e rápido no teclado**: teclas 1–4 escolhem a opção, Enter verifica e avança, Esc sai;
