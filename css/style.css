@@ -531,10 +531,12 @@ button {
   outline: none;
   background: var(--superficie);
   color: var(--texto);
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-.entrada:focus {
-  border-color: var(--azul);
+.entrada::placeholder {
+  color: var(--texto-suave);
+  font-weight: 700;
 }
 
 .entrada-certa {
@@ -1115,8 +1117,38 @@ button {
   border-color: var(--azul);
 }
 
-.busca-dic {
+.campo-busca {
+  position: relative;
   margin-bottom: 12px;
+}
+
+.campo-busca-icone {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.busca-dic {
+  padding: 14px 16px 14px 46px;
+  font-size: 16px;
+  border-radius: 999px;
+}
+
+.busca-dic::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--trilho);
+  cursor: pointer;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M18 6L6 18M6 6l12 12' stroke='black' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") center/12px no-repeat, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }
 
 .dic-filtros {
@@ -1324,8 +1356,15 @@ button {
 }
 
 :focus-visible {
-  outline: 3px solid var(--azul);
-  outline-offset: 2px;
+  outline: 2px solid color-mix(in srgb, var(--azul) 70%, transparent);
+  outline-offset: 3px;
+}
+
+.entrada:focus,
+.entrada:focus-visible {
+  outline: none;
+  border-color: var(--azul);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--azul) 16%, transparent);
 }
 
 @media (max-width: 430px) {

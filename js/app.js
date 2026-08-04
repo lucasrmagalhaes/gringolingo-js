@@ -249,7 +249,10 @@ function telaDicionario() {
       h('div', { class: 'espaco' }),
       h('div', { class: 'logo' }, '📖 Dicionário')
     ),
-    busca,
+    h('div', { class: 'campo-busca' },
+      h('span', { class: 'campo-busca-icone', 'aria-hidden': 'true' }, '🔎'),
+      busca
+    ),
     chips,
     contador,
     lista
