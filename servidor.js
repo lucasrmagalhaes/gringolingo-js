@@ -9,7 +9,9 @@ const TIPOS = {
   '.css': 'text/css; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
   '.svg': 'image/svg+xml',
-  '.json': 'application/json'
+  '.json': 'application/json',
+  '.webmanifest': 'application/manifest+json',
+  '.png': 'image/png'
 };
 
 http.createServer((req, res) => {

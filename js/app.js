@@ -682,10 +682,39 @@ function confete() {
   requestAnimationFrame(tick);
 }
 
+function avisarAtualizacao(registro) {
+  if (document.querySelector('.aviso-versao')) return;
+  const btn = h('button', {
+    class: 'aviso-versao',
+    onclick() {
+      btn.disabled = true;
+      btn.textContent = 'Atualizando…';
+      registro.waiting?.postMessage('atualizar');
+      setTimeout(() => location.reload(), 400);
+    }
+  }, '✨ Nova versão disponível — tocar para atualizar');
+  document.body.append(btn);
+}
+
+function registrarServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.register('./sw.js').then(registro => {
+    if (registro.waiting && navigator.serviceWorker.controller) avisarAtualizacao(registro);
+    registro.addEventListener('updatefound', () => {
+      const novo = registro.installing;
+      if (!novo) return;
+      novo.addEventListener('statechange', () => {
+        if (novo.state === 'installed' && navigator.serviceWorker.controller) avisarAtualizacao(registro);
+      });
+    });
+  }).catch(() => {});
+}
+
 async function iniciar() {
   avisoPendente = nuvemConfigurada ? erroNaUrl() : null;
   authCarregando = nuvemConfigurada;
   telaInicial();
+  registrarServiceWorker();
   if (!nuvemConfigurada) return;
   checarGoogle();
   try {

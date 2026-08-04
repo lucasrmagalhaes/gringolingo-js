@@ -2,6 +2,16 @@
 
 App divertido para aprender inglês, estilo joguinho. 100% estático — HTML, CSS e JS puro, sem build, sem dependências. Progresso salvo no navegador (localStorage).
 
+## Instalar no celular
+
+O app é um **PWA**: abra https://lucasrmagalhaes.github.io/gringolingo-js/ e escolha
+"Adicionar à tela de início" (Android/Chrome mostra o convite sozinho; no iPhone é pelo
+menu Compartilhar do Safari). Ele ganha ícone próprio, abre em tela cheia e **funciona
+offline** — as lições ficam em cache, e o progresso sobe para a nuvem quando a rede volta.
+
+> Ao publicar uma versão nova, incremente `VERSAO` no topo do `sw.js`. Quem já tem o app
+> aberto vê o aviso "✨ Nova versão disponível" e atualiza com um toque.
+
 ## Como rodar
 
 ```bash
@@ -34,6 +44,9 @@ js/audio.js       efeitos sonoros (WebAudio) e pronúncia (speechSynthesis)
 js/util.js        helpers de DOM e aleatoriedade
 js/nuvem.js       autenticação e sincronização (Supabase)
 js/config.js      URL e anon key do projeto Supabase
+sw.js             service worker (cache offline do app)
+manifest.webmanifest  metadados do PWA (nome, ícones, cores)
+icones/           ícones do app (192, 512, maskable e apple-touch)
 servidor.js       servidor estático mínimo (Node)
 ```
 
