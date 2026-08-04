@@ -70,6 +70,8 @@ O que a suíte cobre:
   está para vencer e lembrete diário opcional por notificação.
 - **Dicas de gramática**: algumas lições abrem com um card explicando a estrutura (to be, do-support,
   -s da terceira pessoa, sujeito obrigatório) antes do primeiro exercício.
+- **Voz configurável**: no perfil dá para escolher o sotaque (🇺🇸 🇬🇧 🇦🇺… conforme as vozes instaladas
+  no aparelho), qual voz usar e a velocidade da fala, com botão de testar na hora.
 - **Acessível e rápido no teclado**: teclas 1–4 escolhem a opção, Enter verifica e avança, Esc sai;
   foco gerenciado, `aria-live` no feedback e respeito a `prefers-reduced-motion`.
 - **Feedback que ensina**: ao errar uma frase, a resposta certa aparece com as palavras que faltaram destacadas e o que você escreveu a mais riscado; itens com o campo `nota` ainda mostram uma dica de gramática (💡 "estados usam to be, não have").
