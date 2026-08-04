@@ -87,9 +87,10 @@ export async function baixarProgresso() {
 
 export async function enviarProgresso(dados) {
   const c = await obterCliente();
-  if (!c) return;
-  const { data: { user } } = await c.auth.getUser();
-  if (!user) return;
+  if (!c) throw new Error('Nuvem não configurada');
+  const { data, error: erroSessao } = await c.auth.getUser();
+  const user = data?.user;
+  if (erroSessao || !user) throw new Error('Sessão expirada — entra de novo pra sincronizar 🔑');
   const { error } = await c.from('progresso').upsert({
     user_id: user.id,
     dados,

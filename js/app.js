@@ -1,5 +1,5 @@
 import { UNIDADES, MASCOTE, BADGES } from './data.js';
-import { estado, streakAtual, nivelInfo, itensAprendidos, registrarLicao, registrarRevisao, ativarSync, mesclarEstado, resetarEstado } from './game.js';
+import { estado, streakAtual, nivelInfo, itensAprendidos, registrarLicao, registrarRevisao, ativarSync, mesclarEstado, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora } from './game.js';
 import { sons, falar, temTts, destravarAudio } from './audio.js';
 import { gerarExercicios, exercicioFacil, montarExercicio } from './exercises.js';
 import { h, aleatorio } from './util.js';
@@ -10,6 +10,8 @@ let sessao = null;
 let usuarioEmail = null;
 let telaAtiva = 'inicial';
 let syncPendente = false;
+let authCarregando = false;
+let geracaoAuth = 0;
 
 document.addEventListener('pointerdown', destravarAudio, { once: true });
 
@@ -38,11 +40,13 @@ function telaInicial() {
       h('div', { class: 'espaco' }),
       h('div', { class: 'pilula', title: 'Dias seguidos' }, '🔥 ' + streakAtual()),
       h('div', { class: 'pilula', title: 'XP total' }, '⭐ ' + estado.xp),
-      !nuvemConfigurada ? '' : usuarioEmail
-        ? (syncPendente
-          ? h('button', { class: 'pilula btn-perfil', title: 'Não consegui baixar seu progresso — clique para tentar de novo', onclick: () => aposLogin(true) }, '☁️⚠️')
-          : h('button', { class: 'pilula btn-perfil', title: usuarioEmail, onclick: telaPerfil }, '☁️ ' + usuarioEmail.split('@')[0]))
-        : h('button', { class: 'pilula btn-perfil', onclick: () => telaLogin() }, '🔑 Entrar'),
+      !nuvemConfigurada ? '' : authCarregando
+        ? h('div', { class: 'pilula', title: 'Conectando na nuvem…' }, '☁️ …')
+        : usuarioEmail
+          ? (syncPendente
+            ? h('button', { class: 'pilula btn-perfil', title: 'Não consegui baixar seu progresso — clique para tentar de novo', onclick: () => aposLogin(true) }, '☁️⚠️')
+            : h('button', { class: 'pilula btn-perfil', title: usuarioEmail, onclick: telaPerfil }, '☁️ ' + usuarioEmail.split('@')[0]))
+          : h('button', { class: 'pilula btn-perfil', onclick: () => telaLogin() }, '🔑 Entrar'),
       h('button', { class: 'pilula btn-perfil', 'aria-label': 'Perfil', onclick: telaPerfil }, '👤')
     ),
     h('div', { class: 'card nivel-card' },
@@ -356,24 +360,46 @@ function erroNaUrl() {
 }
 
 async function aposLogin(interativo) {
-  const s = await sessaoAtual();
+  const g = ++geracaoAuth;
+  authCarregando = !interativo;
+  let s = null;
+  try {
+    s = await sessaoAtual();
+  } catch {}
+  if (g !== geracaoAuth) return;
+  authCarregando = false;
   usuarioEmail = s?.user?.email ?? null;
   if (!usuarioEmail) {
     ativarSync(false);
     syncPendente = false;
-    if (interativo || telaAtiva === 'inicial') telaInicial();
+    finalizarAuth(interativo);
     return;
   }
   try {
     const remoto = await baixarProgresso();
+    if (g !== geracaoAuth) return;
+    if (contaLocal() && contaLocal() !== s.user.id) resetarEstado();
+    definirContaLocal(s.user.id);
     ativarSync(true);
     syncPendente = false;
     mesclarEstado(remoto);
   } catch {
+    if (g !== geracaoAuth) return;
     ativarSync(false);
     syncPendente = true;
   }
-  if (interativo || telaAtiva === 'inicial') telaInicial();
+  finalizarAuth(interativo);
+}
+
+function finalizarAuth(interativo) {
+  if (interativo) telaInicial();
+  else repintarTelaAtual();
+}
+
+function repintarTelaAtual() {
+  if (telaAtiva === 'inicial') telaInicial();
+  else if (telaAtiva === 'perfil') telaPerfil();
+  else if (telaAtiva === 'login' && usuarioEmail && !document.querySelector('.login .entrada')?.value) telaInicial();
 }
 
 function telaPerfil() {
@@ -431,17 +457,27 @@ function cartaoConta() {
   const btnSair = h('button', { class: 'btn btn-vermelho' }, 'SAIR');
   btnSair.addEventListener('click', async () => {
     btnSair.disabled = true;
+    let naNuvem = !syncPendente;
+    if (syncPendente) {
+      try {
+        await enviarAgora();
+        naNuvem = true;
+      } catch {}
+    }
+    geracaoAuth++;
     try {
       await sair();
     } catch {}
     ativarSync(false);
     usuarioEmail = null;
     syncPendente = false;
-    resetarEstado();
+    authCarregando = false;
+    if (naNuvem) resetarEstado();
     telaInicial();
   });
   return h('div', { class: 'card conta-card' },
-    h('span', { class: 'conta-email' }, '☁️ ' + usuarioEmail),
+    h('span', { class: 'conta-email' }, syncPendente ? '☁️⚠️ ' + usuarioEmail : '☁️ ' + usuarioEmail),
+    syncPendente ? h('span', { class: 'conta-aviso' }, 'Progresso ainda não sincronizado — ele fica salvo aqui no aparelho') : '',
     btnSair
   );
 }
@@ -494,21 +530,40 @@ function confete() {
 
 async function iniciar() {
   const aviso = nuvemConfigurada ? erroNaUrl() : null;
+  authCarregando = nuvemConfigurada;
   if (aviso) telaLogin(aviso);
   else telaInicial();
   if (!nuvemConfigurada) return;
   try {
+    window.addEventListener('storage', e => {
+      if (e.key === 'gringolingo' && e.newValue === null) {
+        geracaoAuth++;
+        limparEstadoMemoria();
+        ativarSync(false);
+        usuarioEmail = null;
+        syncPendente = false;
+        authCarregando = false;
+        repintarTelaAtual();
+      }
+    });
     await aoMudarAuth(evento => {
       if (evento === 'SIGNED_OUT' && usuarioEmail) {
+        geracaoAuth++;
         usuarioEmail = null;
         ativarSync(false);
         syncPendente = false;
-        if (telaAtiva === 'inicial') telaInicial();
+        authCarregando = false;
+        repintarTelaAtual();
       }
     });
     const s = await sessaoAtual();
-    if (s) await aposLogin(false);
+    if (s) {
+      await aposLogin(false);
+      return;
+    }
   } catch {}
+  authCarregando = false;
+  repintarTelaAtual();
 }
 
 iniciar();

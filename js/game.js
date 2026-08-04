@@ -2,6 +2,7 @@ import { UNIDADES, NIVEIS, BADGES } from './data.js';
 import { enviarProgresso } from './nuvem.js';
 
 const CHAVE = 'gringolingo';
+const CHAVE_CONTA = 'gringolingo:conta';
 let syncAtivo = false;
 
 const padrao = () => ({
@@ -35,11 +36,29 @@ export function ativarSync(valor) {
   syncAtivo = valor;
 }
 
-export function resetarEstado() {
-  localStorage.removeItem(CHAVE);
+export function limparEstadoMemoria() {
   const novo = padrao();
   Object.keys(estado).forEach(k => delete estado[k]);
   Object.assign(estado, novo);
+}
+
+export function resetarEstado() {
+  localStorage.removeItem(CHAVE);
+  localStorage.removeItem(CHAVE_CONTA);
+  limparEstadoMemoria();
+}
+
+export function contaLocal() {
+  return localStorage.getItem(CHAVE_CONTA);
+}
+
+export function definirContaLocal(id) {
+  if (id) localStorage.setItem(CHAVE_CONTA, id);
+  else localStorage.removeItem(CHAVE_CONTA);
+}
+
+export function enviarAgora() {
+  return enviarProgresso(estado);
 }
 
 function diaAnterior(d) {

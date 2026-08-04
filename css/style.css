@@ -871,3 +871,9 @@ button {
   font-size: 15px;
   overflow-wrap: anywhere;
 }
+
+.conta-aviso {
+  flex: 1;
+  font-size: 12px;
+  color: var(--texto-suave);
+}

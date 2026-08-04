@@ -63,8 +63,12 @@ create policy "atualizar o proprio progresso" on public.progresso
   for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
 ```
 
-3. (Opcional, recomendado p/ uso pessoal) Em **Authentication → Sign In / Providers → Email**,
-   desative *Confirm email* para entrar direto após criar a conta.
+3. (Recomendado p/ uso pessoal) Em **Authentication → Sign In / Providers → Email**,
+   desative *Confirm email* para entrar direto após criar a conta. Com a confirmação ligada,
+   o cadastro exige clicar no link do e-mail antes do primeiro login (o app avisa disso, e
+   também avisa quando o link expirou). Para conferir como o projeto está, veja
+   `mailer_autoconfirm` em `https://<seu-projeto>.supabase.co/auth/v1/settings`:
+   `true` = entra direto, `false` = precisa confirmar.
 4. Copie a **Project URL** e a **anon public key** (Settings → API) para `js/config.js`.
    A anon key é pública por design — a segurança vem das políticas de RLS acima.
 5. Pronto: aparece o botão **🔑 Entrar** no app. O progresso local e o da nuvem são
