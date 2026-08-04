@@ -1,4 +1,14 @@
 let ctx = null;
+const CHAVE_MUDO = 'gringolingo:mudo';
+
+export function mudo() {
+  return localStorage.getItem(CHAVE_MUDO) === '1';
+}
+
+export function definirMudo(valor) {
+  if (valor) localStorage.setItem(CHAVE_MUDO, '1');
+  else localStorage.removeItem(CHAVE_MUDO);
+}
 
 function ac() {
   if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -12,6 +22,7 @@ export function destravarAudio() {
 }
 
 function tom(freq, dur, atraso = 0, tipo = 'sine', vol = 0.12) {
+  if (mudo()) return;
   try {
     const c = ac();
     const o = c.createOscillator();
@@ -27,10 +38,13 @@ function tom(freq, dur, atraso = 0, tipo = 'sine', vol = 0.12) {
 }
 
 function vibrar(padrao) {
+  if (mudo()) return;
   try {
     navigator.vibrate?.(padrao);
   } catch {}
 }
+
+const ESCALA = [523.25, 587.33, 659.25, 783.99, 880];
 
 export const sons = {
   clique() {
@@ -47,10 +61,23 @@ export const sons = {
     vibrar([40, 60, 40]);
   },
   combo(n) {
-    [523.25, 659.25, 783.99, 1046.5].slice(0, Math.min(4, n)).forEach((f, i) => tom(f, 0.1, i * 0.07, 'sine', 0.1));
+    ESCALA.slice(0, Math.min(4, n)).forEach((f, i) => tom(f, 0.1, i * 0.07, 'sine', 0.1));
   },
   fanfarra() {
     [523.25, 523.25, 659.25, 783.99, 1046.5].forEach((f, i) => tom(f, 0.16, i * 0.12, 'triangle', 0.1));
+  },
+  estrela(n) {
+    tom(ESCALA[Math.min(n, ESCALA.length - 1)], 0.22, 0, 'triangle', 0.11);
+    tom(ESCALA[Math.min(n, ESCALA.length - 1)] * 2, 0.12, 0.02, 'sine', 0.05);
+    vibrar(12);
+  },
+  nivel() {
+    [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((f, i) => tom(f, 0.2, i * 0.1, 'triangle', 0.11));
+    vibrar([30, 40, 30, 40, 60]);
+  },
+  toque() {
+    tom(760, 0.04, 0, 'sine', 0.035);
+    vibrar(8);
   }
 };
 

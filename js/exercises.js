@@ -125,6 +125,20 @@ function criar(item, pool) {
   return montarDados(tipos[Math.floor(Math.random() * tipos.length)], item, pool);
 }
 
+export function gerarDificeis(itens, pool, qtd = 12) {
+  if (!itens?.length) return [];
+  const fila = embaralhar(itens);
+  const exs = [];
+  for (let i = 0; exs.length < qtd; i++) {
+    const item = fila[i % fila.length];
+    const tipos = ehFrase(item) ? ['montar', 'digitar'] : ['digitar'];
+    if (temTts) tipos.push(ehFrase(item) ? 'ditado' : 'ouvirDigitar');
+    const tipo = tipos[Math.floor(Math.random() * tipos.length)];
+    exs.push(tipo === 'ouvirDigitar' ? { tipo: 'digitar', item, soAudio: true } : montarDados(tipo, item, pool));
+  }
+  return exs;
+}
+
 export function exercicioFacil(item, pool) {
   return montarDados(Math.random() < 0.5 ? 'escolhaEnPt' : 'escolhaPtEn', item, pool);
 }
@@ -178,7 +192,7 @@ function montarEscolha(ex, cb) {
       });
       b.classList.add('sel');
       b.setAttribute('aria-pressed', 'true');
-      sons.clique();
+      sons.toque();
       cb.aoMudar(true);
     });
     return b;
@@ -232,9 +246,12 @@ function montarDigitar(ex, cb) {
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter' && input.value.trim()) cb.aoEnter();
   });
+  if (ex.soAudio) setTimeout(() => falar(ex.item.en), 350);
   const el = h('div', {},
-    h('div', { class: 'enunciado' }, 'Escreva em inglês ✍️'),
-    h('div', { class: 'prompt-card' }, h('span', {}, ex.item.pt)),
+    h('div', { class: 'enunciado' }, ex.soAudio ? 'Escreva o que você ouvir 👂' : 'Escreva em inglês ✍️'),
+    ex.soAudio
+      ? h('div', { class: 'sons-linha' }, botaoSom(ex.item.en, 'grande'), botaoLento(ex.item.en))
+      : h('div', { class: 'prompt-card' }, h('span', {}, ex.item.pt)),
     input
   );
   setTimeout(() => input.focus(), 100);
@@ -318,13 +335,13 @@ function montarFrase(ex, cb) {
     b.addEventListener('click', () => {
       if (trancado || b.classList.contains('usada')) return;
       b.classList.add('usada');
-      sons.clique();
+      sons.toque();
       const a = h('button', { class: 'tile' }, t);
       a.addEventListener('click', () => {
         if (trancado) return;
         a.remove();
         b.classList.remove('usada');
-        sons.clique();
+        sons.toque();
         atualiza();
       });
       area.append(a);

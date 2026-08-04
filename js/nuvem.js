@@ -29,8 +29,8 @@ async function obterCliente() {
   if (!nuvemConfigurada) return null;
   if (!cliente) {
     try {
-      const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.0/+esm');
-      cliente = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      const { createClient } = await import('./vendor/supabase.js');
+      cliente = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { flowType: 'pkce' } });
     } catch {
       throw new Error('Nuvem indisponível no momento 📡');
     }
@@ -89,6 +89,16 @@ export async function desvincularGoogle() {
   if (!google) throw new Error('Não há Google vinculado nessa conta');
   const { error: erroUnlink } = await c.auth.unlinkIdentity(google);
   if (erroUnlink) throw new Error(traduzirErro(erroUnlink.message));
+}
+
+export async function apagarConta() {
+  const c = await obterCliente();
+  if (!c) throw new Error('Nuvem não configurada');
+  const { error } = await c.rpc('apagar_minha_conta');
+  if (error) throw new Error(traduzirErro(error.message));
+  try {
+    await c.auth.signOut();
+  } catch {}
 }
 
 export async function provedoresDaConta() {

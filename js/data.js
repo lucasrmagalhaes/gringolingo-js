@@ -459,6 +459,39 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
+export const VERSAO_APP = '1.4';
+
+export const NOVIDADES = [
+  {
+    versao: '1.4',
+    titulo: 'Minha Lista, Chefão e mais',
+    itens: [
+      '⭐ Favorite palavras no dicionário e treine elas na sua lista',
+      '👑 Chefão de unidade: prova final com 3 vidas e sem múltipla escolha',
+      '📈 Sua jornada: gráfico de 30 dias e saúde da memória',
+      '💾 Backup: exporte e importe seu progresso em arquivo',
+      '🔇 Botão de mute e transições suaves entre telas'
+    ]
+  },
+  {
+    versao: '1.3',
+    titulo: 'Dicionário e voz',
+    itens: [
+      '📖 Dicionário com ~3.100 palavras, busca em português ou inglês',
+      '🔊 Escolha do sotaque, da voz e da velocidade da pronúncia'
+    ]
+  },
+  {
+    versao: '1.2',
+    titulo: 'Memória e hábito',
+    itens: [
+      '🧠 Revisão espaçada de verdade (caixas de Leitner)',
+      '🎯 Meta diária, missões e protetor de streak',
+      '📱 App instalável que funciona offline'
+    ]
+  }
+];
+
 export const MISSOES = [
   { id: 'acertos15', emoji: '🎯', titulo: 'Acerte 15 respostas', alvo: 15, xp: 15, medir: s => s.acertos },
   { id: 'licao1', emoji: '📚', titulo: 'Complete 1 lição', alvo: 1, xp: 10, medir: s => (s.tipo === 'licao' ? 1 : 0) },

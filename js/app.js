@@ -1,11 +1,13 @@
-import { UNIDADES, MASCOTE, BADGES } from './data.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, ativarSync, mesclarEstado, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, METAS } from './game.js';
-import { sons, falar, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, VELOCIDADES } from './audio.js';
-import { gerarExercicios, exercicioFacil, montarExercicio } from './exercises.js';
+import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP } from './data.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, ativarSync, mesclarEstado, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, historicoRecente, METAS } from './game.js';
+import { sons, falar, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
+import { gerarExercicios, gerarDificeis, exercicioFacil, montarExercicio } from './exercises.js';
 import { h, aleatorio } from './util.js';
-import { nuvemConfigurada, sessaoAtual, entrar, criarConta, sair, baixarProgresso, aoMudarAuth, googleAtivo, entrarComGoogle, vincularGoogle, desvincularGoogle, provedoresDaConta, traduzirErro } from './nuvem.js';
+import { nuvemConfigurada, sessaoAtual, entrar, criarConta, sair, baixarProgresso, aoMudarAuth, googleAtivo, entrarComGoogle, vincularGoogle, desvincularGoogle, provedoresDaConta, traduzirErro, apagarConta } from './nuvem.js';
 import { registrar, logSalvo, limparLog, modoDebug, contextoDoLog } from './erros.js';
 import { buscar, carregarBanco, bancoCarregado, statusDoItem, totalDoCurso } from './dicionario.js';
+import { ehFavorita, alternarFavorita, itensFavoritos } from './game.js';
+import { compartilharCard } from './compartilhar.js';
 
 const app = document.getElementById('app');
 let sessao = null;
@@ -75,6 +77,7 @@ function telaInicial() {
     faixaSemana(),
     cartaoMissoes(),
     botaoRevisao(),
+    botaoMinhaLista(),
     botaoDicionario(),
     h('div', { class: 'rotulo' }, 'TRILHA'),
     ...UNIDADES.map(cartaoUnidade)
@@ -184,6 +187,37 @@ function cartaoBoasVindas() {
   );
 }
 
+function botaoMinhaLista() {
+  const favoritas = itensFavoritos();
+  if (!favoritas.length) return '';
+  return h('button', { class: 'card revisao minha-lista', onclick: iniciarMinhaLista },
+    h('span', { class: 'revisao-emoji' }, '⭐'),
+    h('div', { class: 'revisao-textos' },
+      h('div', { class: 'revisao-titulo' }, 'Minha Lista'),
+      h('div', { class: 'revisao-sub' }, `${favoritas.length} palavra${favoritas.length > 1 ? 's' : ''} que você separou — bora treinar?`)
+    ),
+    h('span', { class: 'revisao-seta' }, '⚡')
+  );
+}
+
+function iniciarMinhaLista() {
+  const favoritas = itensFavoritos();
+  if (!favoritas.length) return;
+  const pool = [...favoritas, ...itensAprendidos()];
+  const alvo = favoritas.slice().sort((a, b) => {
+    const ax = estado.itens[a.en]?.proxima ?? '';
+    const bx = estado.itens[b.en]?.proxima ?? '';
+    return ax < bx ? -1 : ax > bx ? 1 : 0;
+  }).slice(0, 8);
+  const fila = gerarExercicios(alvo, pool, Math.min(8, alvo.length * 2));
+  sessao = {
+    tipo: 'revisao', pool, fila, itens: alvo,
+    idx: 0, planejados: fila.length, acertos: 0, respostas: 0,
+    xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map()
+  };
+  telaExercicio();
+}
+
 function botaoDicionario() {
   const extra = bancoCarregado()?.length;
   return h('button', { class: 'card dicionario-atalho', onclick: () => telaDicionario() },
@@ -239,8 +273,20 @@ function telaDicionario() {
     lista.innerHTML = '';
     contador.textContent = achados.length
       ? `${achados.length}${achados.length === 60 ? '+' : ''} resultado${achados.length > 1 ? 's' : ''}`
-      : 'Nada encontrado — tente outra palavra';
-    achados.forEach(v => lista.append(verbete(v)));
+      : '';
+    if (!achados.length) {
+      lista.append(vazio(busca.value, filtro, () => {
+        busca.value = '';
+        desenhar();
+        busca.focus();
+      }));
+      return;
+    }
+    achados.forEach((v, i) => {
+      const el = verbete(v);
+      if (i < 10 && !reduzirMovimento()) el.style.animationDelay = i * 0.03 + 's';
+      lista.append(el);
+    });
   }
   busca.addEventListener('input', desenhar);
   app.append(
@@ -257,20 +303,63 @@ function telaDicionario() {
     contador,
     lista
   );
-  desenhar();
-  busca.focus({ preventScroll: true });
   if (!bancoCarregado()) {
     contador.textContent = 'Carregando o banco de palavras…';
+    lista.append(...Array.from({ length: 6 }, () => esqueleto()));
     carregarBanco().then(() => {
       if (telaAtiva === 'dicionario') desenhar();
     });
+  } else {
+    desenhar();
   }
+  busca.focus({ preventScroll: true });
+}
+
+function esqueleto() {
+  return h('div', { class: 'dic-item esqueleto', 'aria-hidden': 'true' },
+    h('div', { class: 'esq-bloco esq-som' }),
+    h('div', { class: 'dic-corpo' },
+      h('div', { class: 'esq-bloco esq-linha1' }),
+      h('div', { class: 'esq-bloco esq-linha2' })
+    ),
+    h('div', { class: 'esq-bloco esq-tag' })
+  );
+}
+
+const VAZIOS = {
+  aprendidas: { emoji: '🌱', titulo: 'Nenhuma palavra aprendida ainda', sub: 'Complete uma lição e elas aparecem aqui com o status da sua memória.' },
+  revisar: { emoji: '🎉', titulo: 'Nada para revisar!', sub: 'Sua memória está em dia. Volte amanhã ou avance na trilha.' },
+  curso: { emoji: '🔎', titulo: 'Nada no curso com esse termo', sub: 'Tente o filtro "Todas" para procurar no dicionário completo.' },
+  todas: { emoji: '🤔', titulo: 'Nada encontrado', sub: 'Confira a grafia ou tente outra palavra — a busca aceita português e inglês.' }
+};
+
+function vazio(termo, filtro, aoLimpar) {
+  const conf = termo ? (filtro === 'curso' ? VAZIOS.curso : VAZIOS.todas) : VAZIOS[filtro] ?? VAZIOS.todas;
+  return h('div', { class: 'estado-vazio' },
+    h('div', { class: 'vazio-emoji' }, conf.emoji),
+    h('div', { class: 'vazio-titulo' }, conf.titulo),
+    h('div', { class: 'vazio-sub' }, conf.sub),
+    termo ? h('button', { class: 'btn btn-branco', onclick: aoLimpar }, 'LIMPAR BUSCA') : ''
+  );
 }
 
 const CLASSES = { verbo: 'verbo', subst: 'substantivo', adj: 'adjetivo', adv: 'advérbio', prep: 'preposição', pron: 'pronome', conj: 'conjunção', num: 'número', interj: 'interjeição' };
 
 function verbete(v) {
-  const st = v.doCurso ? statusDoItem(v.en) : null;
+  const st = v.doCurso || estado.itens[v.en] ? statusDoItem(v.en) : null;
+  const fav = h('button', {
+    class: 'dic-fav' + (ehFavorita(v.en) ? ' ativa' : ''),
+    'aria-label': (ehFavorita(v.en) ? 'Tirar' : 'Adicionar') + ' ' + v.en + ' da Minha Lista',
+    'aria-pressed': ehFavorita(v.en) ? 'true' : 'false',
+    title: 'Minha Lista',
+    onclick(e) {
+      e.stopPropagation();
+      const agora = alternarFavorita({ en: v.en, pt: v.pt, classe: v.classe });
+      fav.classList.toggle('ativa', agora);
+      fav.setAttribute('aria-pressed', agora ? 'true' : 'false');
+      sons.toque();
+    }
+  }, '⭐');
   return h('div', { class: 'dic-item', role: 'listitem' },
     h('button', {
       class: 'btn-som dic-som',
@@ -286,7 +375,8 @@ function verbete(v) {
       v.classe ? h('span', { class: 'dic-tag' }, CLASSES[v.classe] ?? v.classe) : '',
       v.doCurso ? h('span', { class: 'dic-tag dic-unidade', style: `--cor-unidade:${v.cor}` }, v.unidadeEmoji + ' ' + v.unidade) : '',
       st ? h('span', { class: 'dic-tag dic-status ' + st.id, title: st.texto }, st.emoji + ' ' + st.texto) : ''
-    )
+    ),
+    fav
   );
 }
 
@@ -333,10 +423,41 @@ function cartaoUnidade(u) {
         if (liberada) b.addEventListener('click', () => iniciarLicao(u, l));
         else b.disabled = true;
         return b;
-      })
+      }),
+      nodoChefao(u, aberta)
     )
   );
 }
+
+function nodoChefao(u, aberta) {
+  const completa = u.licoes.every(licaoFeita);
+  const vencido = !!estado.licoes['chefao:' + u.id];
+  const liberado = aberta && completa;
+  const b = h('button', {
+    class: 'licao chefao' + (liberado ? '' : ' bloqueada') + (vencido ? ' feita' : ''),
+    'aria-label': `Chefão de ${u.titulo} — ${vencido ? 'conquistado' : liberado ? 'liberado' : 'complete as 4 lições para liberar'}`
+  },
+    h('div', { class: 'licao-emoji', 'aria-hidden': 'true' }, liberado || vencido ? '👑' : '🔒'),
+    h('div', { class: 'licao-titulo' }, 'Chefão'),
+    h('div', { class: 'estrelas', 'aria-hidden': 'true' }, vencido ? h('span', { class: 'ganha' }, '★') : h('span', {}, '★'))
+  );
+  if (liberado) b.addEventListener('click', () => iniciarChefao(u));
+  else b.disabled = true;
+  return b;
+}
+
+function iniciarChefao(u) {
+  const itens = u.licoes.flatMap(l => l.itens);
+  const fila = gerarDificeis(itens, itens, 12);
+  sessao = {
+    tipo: 'licao', chefao: true, unidade: u, licao: { id: 'chefao:' + u.id, titulo: 'Chefão ' + u.titulo },
+    pool: itens, fila, itens, vidas: 3,
+    idx: 0, planejados: fila.length, acertos: 0, respostas: 0,
+    xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map()
+  };
+  telaExercicio();
+}
+
 
 function iniciarLicao(u, l) {
   if (l.dica && !estado.licoes[l.id]) {
@@ -404,7 +525,9 @@ function telaExercicio() {
     'aria-valuenow': String(pct),
     'aria-label': 'Progresso da lição'
   }, h('div', { style: `width:${pct}%` }));
-  const comboEl = h('div', { class: 'combo' + (sessao.combo >= 2 ? ' pop' : '') }, sessao.combo >= 2 ? `⚡x${sessao.combo}` : '');
+  const comboEl = sessao.chefao
+    ? h('div', { class: 'combo vidas', title: 'Vidas restantes' }, '❤️'.repeat(Math.max(sessao.vidas, 0)))
+    : h('div', { class: 'combo' + (sessao.combo >= 2 ? ' pop' : '') }, sessao.combo >= 2 ? `⚡x${sessao.combo}` : '');
   const btnVerificar = h('button', { class: 'btn btn-verde' }, 'VERIFICAR');
   btnVerificar.disabled = true;
   const rodape = h('div', { class: 'rodape' }, h('div', { class: 'rodape-conteudo' }, btnVerificar));
@@ -504,9 +627,10 @@ function processar(ex, res, feedback, btnVerificar) {
   } else {
     sessao.combo = 0;
     sons.erro();
+    if (sessao.chefao) sessao.vidas--;
     if (ex.item) {
       sessao.erros.push(ex.item);
-      if (!ex.repescagem) {
+      if (!ex.repescagem && !sessao.chefao) {
         const rep = exercicioFacil(ex.item, sessao.pool);
         rep.repescagem = true;
         sessao.fila.push(rep);
@@ -553,16 +677,25 @@ function linhaDiff(diff) {
 
 function continuar() {
   sessao.idx++;
+  if (sessao.chefao && sessao.vidas <= 0) {
+    finalizar(true);
+    return;
+  }
   if (sessao.idx >= sessao.fila.length) finalizar();
-  else telaExercicio();
+  else transicao(telaExercicio, 'avancar');
 }
 
-function finalizar() {
+function finalizar(derrotado) {
   const s = sessao;
+  if (s.chefao && derrotado) {
+    telaChefaoPerdido(s);
+    return;
+  }
   const precisao = s.planejados ? Math.round(s.acertos / s.planejados * 100) : 100;
   const perfeita = s.acertos === s.planejados;
   const estrelas = precisao >= 90 ? 3 : precisao >= 60 ? 2 : 1;
   s.xp += 20 + (perfeita ? 15 : 0);
+  if (s.chefao) s.xp += 60;
   const agendamentos = [...s.resultados.values()];
   let evento;
   if (s.tipo === 'licao') {
@@ -630,9 +763,43 @@ function telaResultado(estrelas, precisao, evento) {
       )
     )
   );
-  if (estrelas >= 2 || evento.subiuNivel) confete();
-  sons.fanfarra();
-  if (evento.subiuNivel) setTimeout(() => overlayNivel(evento.subiuNivel), 700);
+  coreografiaResultado(estrelas, evento);
+}
+
+function coreografiaResultado(estrelas, evento) {
+  if (reduzirMovimento()) {
+    sons.fanfarra();
+    if (estrelas >= 2 || evento.subiuNivel) confete();
+    if (evento.subiuNivel) overlayNivel(evento.subiuNivel);
+    return;
+  }
+  const passos = [];
+  for (let n = 1; n <= estrelas; n++) passos.push({ ms: 300 + n * 260, fn: () => sons.estrela(n) });
+  passos.push({ ms: 300 + estrelas * 260 + 120, fn: () => { sons.fanfarra(); if (estrelas >= 2 || evento.subiuNivel) confete(); } });
+  if (evento.subiuNivel) passos.push({ ms: 300 + estrelas * 260 + 900, fn: () => overlayNivel(evento.subiuNivel) });
+  passos.forEach(p => setTimeout(p.fn, p.ms));
+}
+
+function telaChefaoPerdido(s) {
+  window.scrollTo(0, 0);
+  telaAtiva = 'resultado';
+  app.innerHTML = '';
+  sons.erro();
+  app.append(
+    h('div', { class: 'resultado' },
+      h('div', { class: 'emojao' }, '💥'),
+      h('h1', {}, 'O Chefão venceu dessa vez'),
+      h('div', { class: 'resultado-frase' }, 'Suas 3 vidas acabaram — mas nada foi perdido. Revise e volta pra revanche! 👑'),
+      h('div', { class: 'pilulas-stats' },
+        h('div', { class: 'pilula' }, `🎯 ${s.acertos} acerto${s.acertos === 1 ? '' : 's'}`),
+        h('div', { class: 'pilula' }, `💔 ${s.erros.length} erro${s.erros.length === 1 ? '' : 's'}`)
+      ),
+      h('div', { class: 'resultado-botoes' },
+        h('button', { class: 'btn btn-branco', onclick: () => iniciarChefao(s.unidade) }, 'TENTAR DE NOVO'),
+        h('button', { class: 'btn btn-verde', onclick: () => telaInicial() }, 'VOLTAR')
+      )
+    )
+  );
 }
 
 function contarAte(el, alvo, formato) {
@@ -669,7 +836,7 @@ function overlayNivel(nv) {
   document.addEventListener('keydown', aoTeclar);
   document.body.append(caixa);
   botao.focus();
-  sons.combo(4);
+  sons.nivel();
 }
 
 function telaLogin(aviso) {
@@ -773,6 +940,22 @@ function reduzirMovimento() {
   return matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
+function transicao(render, direcao = 'padrao') {
+  if (reduzirMovimento() || !document.startViewTransition) {
+    render();
+    return;
+  }
+  document.documentElement.dataset.transicao = direcao;
+  const vt = document.startViewTransition(render);
+  vt.finished.finally(() => delete document.documentElement.dataset.transicao);
+}
+
+function pintarBarraDoSistema() {
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (!meta) return;
+  meta.setAttribute('content', temaAtual() === 'escuro' ? '#131F24' : '#58CC02');
+}
+
 function focarTela() {
   const alvo = app.querySelector('h1, .enunciado, .logo, .nivel-titulo');
   if (!alvo) return;
@@ -786,9 +969,13 @@ function temaAtual() {
 
 function alternarTema() {
   const novo = temaAtual() === 'escuro' ? 'claro' : 'escuro';
-  localStorage.setItem('gringolingo:tema', novo);
-  document.documentElement.dataset.tema = novo;
-  repintarTelaAtual();
+  const trocar = () => {
+    localStorage.setItem('gringolingo:tema', novo);
+    document.documentElement.dataset.tema = novo;
+    pintarBarraDoSistema();
+    repintarTelaAtual();
+  };
+  transicao(trocar, 'tema');
 }
 
 function botaoTema() {
@@ -909,8 +1096,11 @@ function telaPerfil() {
       statPilula('📅', itensVencidos().length, 'vencendo hoje'),
       statPilula('🧊', estado.protetores, 'protetores de streak')
     ),
+    cartaoJornada(),
     cartaoVoz(),
     cartaoLembrete(),
+    cartaoBackup(),
+    cartaoCompartilhar(),
     h('div', { class: 'secao-titulo' }, '🏅 Conquistas'),
     h('div', { class: 'badges-grid' },
       BADGES.map(b => {
@@ -922,7 +1112,46 @@ function telaPerfil() {
         );
       })
     ),
-    cartaoConta()
+    cartaoConta(),
+    cartaoSobre()
+  );
+}
+
+function cartaoSobre() {
+  const novo = localStorage.getItem('gringolingo:versao-vista') !== VERSAO_APP;
+  return h('div', { class: 'card sobre-card' },
+    h('div', { class: 'sobre-textos' },
+      h('div', { class: 'nivel-titulo' }, '🦜 Sobre o GringoLingo'),
+      h('div', { class: 'revisao-sub' }, 'Feito em JavaScript puro, sem frameworks: funciona offline, sincroniza na nuvem e é de graça.')
+    ),
+    h('div', { class: 'sobre-botoes' },
+      h('button', {
+        class: 'pilula btn-perfil' + (novo ? ' pilula-fogo' : ''),
+        onclick: telaNovidades
+      }, (novo ? '✨ ' : '') + 'v' + VERSAO_APP),
+      h('a', { class: 'pilula btn-perfil sobre-link', href: 'https://github.com/lucasrmagalhaes/gringolingo-js', target: '_blank', rel: 'noopener noreferrer' }, '🐙 Código')
+    )
+  );
+}
+
+function telaNovidades() {
+  window.scrollTo(0, 0);
+  telaAtiva = 'novidades';
+  localStorage.setItem('gringolingo:versao-vista', VERSAO_APP);
+  app.innerHTML = '';
+  app.append(
+    h('div', { class: 'topo' },
+      h('button', { class: 'pilula btn-perfil', onclick: telaPerfil }, '← Voltar'),
+      h('div', { class: 'espaco' }),
+      h('div', { class: 'logo' }, '✨ Novidades')
+    ),
+    ...NOVIDADES.map(n => h('div', { class: 'card' },
+      h('div', { class: 'novidade-cab' },
+        h('span', { class: 'nivel-titulo' }, n.titulo),
+        h('span', { class: 'dic-tag' }, 'v' + n.versao)
+      ),
+      h('ul', { class: 'novidade-lista' }, n.itens.map(i => h('li', {}, i)))
+    ))
   );
 }
 
@@ -1017,7 +1246,128 @@ function cartaoVoz() {
         }
       }, nomeCurto(v.nome))))
     ) : '',
-    h('div', { class: 'voz-linha' }, h('span', { class: 'voz-rotulo' }, 'Velocidade'), chipsVelocidade)
+    h('div', { class: 'voz-linha' }, h('span', { class: 'voz-rotulo' }, 'Velocidade'), chipsVelocidade),
+    linhaSom()
+  );
+}
+
+function linhaSom() {
+  const botao = h('button', { class: 'voz-chip' + (mudo() ? '' : ' ativa') }, mudo() ? '🔇 Sons desligados' : '🔊 Sons ligados');
+  botao.addEventListener('click', () => {
+    definirMudo(!mudo());
+    if (!mudo()) sons.acerto();
+    telaPerfil();
+  });
+  return h('div', { class: 'voz-linha' },
+    h('span', { class: 'voz-rotulo' }, 'Efeitos'),
+    h('div', { class: 'voz-chips' }, botao)
+  );
+}
+
+function cartaoCompartilhar() {
+  if (!estado.stats.licoes) return '';
+  const msg = h('div', { class: 'revisao-sub' }, 'Gere um card com seu nível, XP e sequência');
+  const botao = h('button', { class: 'btn btn-azul' }, '📤 COMPARTILHAR');
+  botao.addEventListener('click', async () => {
+    botao.disabled = true;
+    const nv = nivelInfo();
+    const ultima = BADGES.filter(b => estado.badges.includes(b.id)).at(-1);
+    try {
+      const r = await compartilharCard({
+        nivel: nv.numero,
+        titulo: nv.titulo,
+        emoji: nv.emoji,
+        xp: estado.xp,
+        streak: streakAtual(),
+        palavras: new Set(itensAprendidos().map(i => i.en)).size,
+        badge: ultima
+      });
+      msg.textContent = r === 'baixado' ? 'Imagem baixada! É só postar 🎉' : 'Mandado! 🎉';
+    } catch (e) {
+      if (e?.name !== 'AbortError') msg.textContent = 'Não rolou compartilhar: ' + e.message;
+    }
+    botao.disabled = false;
+  });
+  return h('div', { class: 'card backup-card' },
+    h('div', { class: 'backup-textos' },
+      h('div', { class: 'nivel-titulo' }, '📤 Mostrar seu progresso'),
+      msg
+    ),
+    botao
+  );
+}
+
+function cartaoJornada() {
+  if (!estado.stats.licoes) return '';
+  const dias = historicoRecente(30);
+  const maximo = Math.max(...dias.map(d => d.xp), estado.meta);
+  const total = dias.reduce((s, d) => s + d.xp, 0);
+  const ativos = dias.filter(d => d.xp > 0).length;
+  const caixas = distribuicaoDeCaixas();
+  const totalItens = caixas.reduce((a, b) => a + b, 0);
+  const rotulos = ['Nova', '1 dia', '3 dias', '7 dias', '16+ dias'];
+  return h('div', { class: 'card jornada-card' },
+    h('div', { class: 'nivel-titulo' }, '📈 Sua jornada'),
+    h('div', { class: 'jornada-grafico', role: 'img', 'aria-label': `XP dos últimos 30 dias, total ${total}` },
+      dias.map(d => h('div', {
+        class: 'jornada-barra' + (d.xp >= estado.meta ? ' bateu' : ''),
+        title: `${d.data.split('-').reverse().slice(0, 2).join('/')}: ${d.xp} XP`
+      }, h('div', { style: `height:${maximo ? Math.max(d.xp / maximo * 100, d.xp ? 6 : 2) : 2}%` })))
+    ),
+    h('div', { class: 'jornada-resumo' },
+      h('span', {}, `${total} XP em 30 dias`),
+      h('span', {}, `${ativos} dia${ativos === 1 ? '' : 's'} ativo${ativos === 1 ? '' : 's'}`),
+      h('span', {}, `média ${Math.round(total / 30)} XP/dia`)
+    ),
+    totalItens ? h('div', { class: 'caixas' },
+      h('div', { class: 'caixas-titulo' }, '🧠 Saúde da memória'),
+      caixas.map((n, i) => h('div', { class: 'caixa-linha' },
+        h('span', { class: 'caixa-rotulo' }, rotulos[i]),
+        h('div', { class: 'progresso caixa-prog' }, h('div', { style: `width:${totalItens ? n / totalItens * 100 : 0}%` })),
+        h('span', { class: 'caixa-num' }, String(n))
+      ))
+    ) : ''
+  );
+}
+
+function cartaoBackup() {
+  const msg = h('div', { class: 'revisao-sub' }, 'Baixe uma cópia do seu progresso ou traga de outro aparelho');
+  const entrada = h('input', { type: 'file', accept: 'application/json,.json', class: 'arquivo-escondido' });
+  entrada.addEventListener('change', async () => {
+    const arquivo = entrada.files?.[0];
+    if (!arquivo) return;
+    try {
+      const dados = JSON.parse(await arquivo.text());
+      const r = importarEstado(dados);
+      msg.textContent = `Importado! XP: ${r.antes} → ${r.depois}`;
+      msg.className = 'login-msg ok';
+      setTimeout(telaPerfil, 1400);
+    } catch (e) {
+      msg.textContent = e.message;
+      msg.className = 'login-msg erro';
+    }
+  });
+  return h('div', { class: 'card backup-card' },
+    h('div', { class: 'backup-textos' },
+      h('div', { class: 'nivel-titulo' }, '💾 Backup e dados'),
+      msg
+    ),
+    h('div', { class: 'backup-botoes' },
+      h('button', {
+        class: 'btn btn-branco',
+        onclick() {
+          const blob = new Blob([JSON.stringify(exportarEstado(), null, 2)], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = h('a', { href: url, download: `gringolingo-${new Date().toISOString().slice(0, 10)}.json` });
+          document.body.append(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+        }
+      }, 'EXPORTAR'),
+      h('button', { class: 'btn btn-branco', onclick: () => entrada.click() }, 'IMPORTAR'),
+      entrada
+    )
   );
 }
 
@@ -1116,8 +1466,49 @@ function cartaoConta() {
       h('button', { class: 'btn btn-azul', onclick: () => aposLogin(true) }, 'TENTAR AGORA')
     ) : '',
     avisoPerfil ? h('div', { class: 'login-msg erro' }, avisoPerfil) : '',
-    temGoogle ? linhaGoogle() : ''
+    temGoogle ? linhaGoogle() : '',
+    linhaApagarConta()
   );
+}
+
+function linhaApagarConta() {
+  const msg = h('div', { class: 'login-msg' });
+  const botao = h('button', { class: 'btn btn-branco perigo' }, 'APAGAR MINHA CONTA');
+  let confirmando = false;
+  botao.addEventListener('click', async () => {
+    if (!confirmando) {
+      confirmando = true;
+      botao.textContent = 'TEM CERTEZA? TOQUE DE NOVO';
+      botao.classList.add('btn-vermelho');
+      msg.textContent = 'Isso apaga sua conta e todo o progresso na nuvem, sem volta. Exporte um backup antes se quiser guardar.';
+      msg.className = 'login-msg erro';
+      setTimeout(() => {
+        if (!confirmando) return;
+        confirmando = false;
+        botao.textContent = 'APAGAR MINHA CONTA';
+        botao.classList.remove('btn-vermelho');
+        msg.textContent = '';
+      }, 6000);
+      return;
+    }
+    botao.disabled = true;
+    botao.textContent = 'APAGANDO…';
+    try {
+      await apagarConta();
+      geracaoAuth++;
+      ativarSync(false);
+      usuarioEmail = null;
+      syncPendente = false;
+      resetarEstado();
+      limparLog();
+      telaInicial();
+    } catch (e) {
+      msg.textContent = e.message;
+      botao.disabled = false;
+      botao.textContent = 'APAGAR MINHA CONTA';
+    }
+  });
+  return h('div', { class: 'conta-apagar' }, msg, botao);
 }
 
 function linhaGoogle() {
@@ -1267,6 +1658,7 @@ async function iniciar() {
   }
   telaInicial();
   registrarServiceWorker();
+  pintarBarraDoSistema();
   agendarLembrete();
   aoCarregarVozes(() => {
     if (telaAtiva === 'perfil') telaPerfil();

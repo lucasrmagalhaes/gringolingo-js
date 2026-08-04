@@ -1,0 +1,5 @@
+{
+  "type": "module",
+  "private": true,
+  "description": "Bundles ESM vendorizados do @supabase/supabase-js@2.112.0 (gerados por _baixar.mjs). Nao e uma dependencia npm."
+}

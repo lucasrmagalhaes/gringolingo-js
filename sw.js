@@ -1,4 +1,4 @@
-const VERSAO = 'gringolingo-v10';
+const VERSAO = 'gringolingo-v11';
 
 const ESSENCIAIS = [
   './',
@@ -16,6 +16,16 @@ const ESSENCIAIS = [
   './js/game.js',
   './js/nuvem.js',
   './js/util.js',
+  './js/compartilhar.js',
+  './js/vendor/supabase.js',
+  './js/vendor/iceberg-js-0.8.1.js',
+  './js/vendor/supabase-auth-js-2.112.0.js',
+  './js/vendor/supabase-functions-js-2.112.0.js',
+  './js/vendor/supabase-phoenix-0.4.5.js',
+  './js/vendor/supabase-postgrest-js-2.112.0.js',
+  './js/vendor/supabase-realtime-js-2.112.0.js',
+  './js/vendor/supabase-storage-js-2.112.0.js',
+  './js/vendor/tslib-2.8.1.js',
   './icones/icone-192.png',
   './icones/icone-512.png'
 ];
@@ -73,7 +83,7 @@ self.addEventListener('fetch', evento => {
   const requisicao = evento.request;
   if (requisicao.method !== 'GET') return;
   const url = new URL(requisicao.url);
-  if (ehDaNuvem(url) || url.hostname === 'cdn.jsdelivr.net') return;
+  if (ehDaNuvem(url)) return;
   if (requisicao.mode === 'navigate') {
     evento.respondWith(
       comRede(requisicao).catch(() => caches.match('./index.html', { ignoreSearch: true }))

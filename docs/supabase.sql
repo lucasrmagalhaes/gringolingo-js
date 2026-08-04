@@ -148,3 +148,122 @@ grant select, insert, update on table public.progresso to authenticated;
 --   select policyname, cmd, roles from pg_policies
 --    where schemaname = 'public' and tablename = 'progresso' order by policyname;
 -- -----------------------------------------------------------------------------
+
+
+-- -----------------------------------------------------------------------------
+-- 7. Direito ao esquecimento (LGPD): apagar a propria conta
+--
+-- A LGPD da ao titular o direito de eliminar seus dados pessoais (art. 18, VI).
+-- Aqui isso e uma chamada so: com o usuario logado, o app faz
+-- supabase.rpc('apagar_minha_conta') e some com tudo - a linha em auth.users e,
+-- por cascade da FK declarada na secao 1, o progresso junto.
+--
+-- Por que "security definer" e necessario:
+--   A anon key e publica (esta em js/config.js) e, mesmo depois do login, o
+--   token que o app usa e do papel "authenticated". Nenhum dos dois tem - nem
+--   pode ter - permissao de delete em auth.users: dar esse grant ao
+--   authenticated deixaria qualquer cliente apagar QUALQUER usuario, bastando
+--   trocar o id na requisicao. Com security definer a funcao roda com os
+--   privilegios do dono (o papel que executa este script no SQL Editor, que
+--   enxerga o schema auth) e o alvo do delete nao vem do cliente: vem de
+--   auth.uid(), lido do JWT assinado. Ou seja, o usuario so apaga a si mesmo.
+--
+-- Por que "set search_path = '' ":
+--   Em funcao security definer isso e obrigatorio. Sem search_path fixo, quem
+--   pudesse criar objetos num schema a frente na busca plantaria uma funcao ou
+--   tabela de nome colidente e sequestraria a execucao - com os privilegios do
+--   dono. Com o search_path vazio, todo nome aqui dentro precisa vir
+--   qualificado (auth.users, auth.uid()), e nao ha o que sequestrar.
+--
+-- Se a chamada falhar com "permission denied for table users", o problema nao e
+-- esta funcao: e o dono dela que nao tem delete em auth.users. Rode o script
+-- como postgres no SQL Editor do painel (que e o caso normal) - nao afrouxe as
+-- permissoes do schema auth para contornar.
+-- -----------------------------------------------------------------------------
+create or replace function public.apagar_minha_conta()
+returns void
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  usuario_atual uuid := auth.uid();
+begin
+  if usuario_atual is null then
+    raise exception 'Nenhum usuario autenticado: chame esta funcao com um token valido.'
+      using errcode = '28000';
+  end if;
+
+  delete from auth.users where id = usuario_atual;
+end;
+$$;
+
+comment on function public.apagar_minha_conta() is 'LGPD: apaga a conta do usuario autenticado (auth.uid()); o progresso vai junto por cascade.';
+
+-- Funcao nova nasce com execute liberado para PUBLIC, ou seja, ate o anon (sem
+-- login) poderia chamar. Revogamos e devolvemos so para authenticated. O revoke
+-- em anon e redundante depois do revoke em public, mas fica explicito para o
+-- caso de alguem reconceder em massa no schema mais tarde.
+revoke all on function public.apagar_minha_conta() from public;
+revoke all on function public.apagar_minha_conta() from anon;
+grant execute on function public.apagar_minha_conta() to authenticated;
+
+
+-- -----------------------------------------------------------------------------
+-- 8. Defesa em profundidade: nenhum privilegio de tabela para o anon
+--
+-- A RLS da secao 4 ja barra o anon (nao existe policy alguma para esse papel, e
+-- o que nao tem policy fica bloqueado), entao a linha abaixo nao muda o
+-- comportamento de hoje - e cinto e suspensorio.
+--
+-- O motivo de existir sao os default privileges do schema public: instalacoes
+-- antigas do Postgres, extensoes e scripts de terceiros costumam conceder em
+-- massa (grant ... on all tables in schema public to anon), e o schema public e
+-- justamente onde a tabela mora. Se um grant desses voltar e alguem, num
+-- debug, rodar "alter table ... disable row level security", a tabela inteira
+-- vazaria pela anon key. Sem grant, mesmo sem RLS o anon nao le nada.
+-- -----------------------------------------------------------------------------
+revoke all on table public.progresso from anon;
+
+
+-- -----------------------------------------------------------------------------
+-- 9. Ajustes que NAO dao para versionar (fazer no painel do Supabase)
+--
+-- Nada nesta secao e SQL executavel: sao configuracoes de autenticacao que
+-- ficam fora do banco (no painel/API de management), entao este script nao
+-- consegue aplica-las. Precisam ser conferidas na mao, uma vez por projeto -
+-- sem elas o schema fica correto mas o login continua frouxo. Os caminhos de
+-- menu sao os do painel atual e mudam de nome de tempos em tempos; o que vale e
+-- o ajuste, nao o caminho.
+--
+--   a) Senha minima de 8 caracteres
+--      Authentication -> Sign In / Providers -> Email -> Minimum password length
+--      O padrao do Supabase e 6. Subir para 8 (no minimo). O app so valida no
+--      front, e validacao de front nao vale nada: quem chamar /auth/v1/signup
+--      direto passa por cima. Quem manda e este parametro.
+--
+--   b) Leaked password protection (HaveIBeenPwned)
+--      Authentication -> Sign In / Providers -> Password Security ->
+--      "Prevent use of leaked passwords"
+--      Vem desligado no plano free. Ligado, o Supabase consulta o HaveIBeenPwned
+--      (por k-anonymity: so um prefixo do hash sai da maquina, a senha em si
+--      nunca trafega) e recusa cadastro/troca com senha ja vazada. E a defesa
+--      mais barata que existe contra credential stuffing.
+--
+--   c) Conferir os Redirect URLs
+--      Authentication -> URL Configuration -> Site URL / Redirect URLs
+--      Deixar listadas apenas as origens realmente usadas (o servidor local de
+--      desenvolvimento e a URL de producao) e apagar entradas antigas. Nada de
+--      curinga amplo do tipo http://localhost:* ou https://*.dominio. O token de
+--      sessao volta na URL de redirecionamento: uma entrada folgada permite
+--      mandar o usuario para um endereco controlado por terceiro e colher a
+--      sessao dele.
+--
+--   d) Conferencia rapida do que a secao 7 criou (opcional, no SQL Editor):
+--
+--        select proname, prosecdef, proconfig
+--          from pg_proc
+--         where oid = 'public.apagar_minha_conta()'::regprocedure;
+--
+--      Deve devolver prosecdef = true e proconfig = {"search_path="}.
+-- -----------------------------------------------------------------------------

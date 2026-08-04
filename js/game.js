@@ -16,6 +16,7 @@ const padrao = () => ({
   erros: [],
   badges: [],
   historico: {},
+  favoritas: [],
   meta: 30,
   protetores: 1,
   missoes: null,
@@ -29,7 +30,7 @@ function carregar() {
   try {
     const salvo = JSON.parse(localStorage.getItem(CHAVE));
     if (!salvo) return padrao();
-    return { ...padrao(), ...salvo, itens: { ...salvo.itens }, historico: { ...salvo.historico }, stats: { ...padrao().stats, ...salvo.stats } };
+    return { ...padrao(), ...salvo, itens: { ...salvo.itens }, historico: { ...salvo.historico }, favoritas: [...(salvo.favoritas ?? [])], stats: { ...padrao().stats, ...salvo.stats } };
   } catch {
     return padrao();
   }
@@ -115,6 +116,57 @@ export function enviarAgora() {
   return enviarProgresso(estado);
 }
 
+export function exportarEstado() {
+  return { app: 'gringolingo', versao: 1, quando: new Date().toISOString(), estado: JSON.parse(JSON.stringify(estado)) };
+}
+
+export function importarEstado(bruto) {
+  const dados = bruto?.estado ?? bruto;
+  if (!dados || typeof dados !== 'object' || typeof dados.xp !== 'number' || typeof dados.licoes !== 'object') {
+    throw new Error('Arquivo não parece um backup do GringoLingo');
+  }
+  const antes = estado.xp;
+  mesclarEstado(dados);
+  return { antes, depois: estado.xp };
+}
+
+export function ehFavorita(en) {
+  return estado.favoritas.some(f => f.en === en);
+}
+
+export function alternarFavorita(item) {
+  const idx = estado.favoritas.findIndex(f => f.en === item.en);
+  if (idx >= 0) estado.favoritas.splice(idx, 1);
+  else estado.favoritas.push({ en: item.en, pt: item.pt, classe: item.classe ?? null });
+  salvar();
+  return idx < 0;
+}
+
+export function itensFavoritos() {
+  return estado.favoritas.map(f => ({
+    en: f.en,
+    pt: Array.isArray(f.pt) ? f.pt[0] : f.pt,
+    alt: Array.isArray(f.pt) ? f.pt.slice(1) : [],
+    classe: f.classe
+  }));
+}
+
+export function distribuicaoDeCaixas() {
+  const caixas = [0, 0, 0, 0, 0];
+  Object.values(estado.itens).forEach(a => {
+    const c = Math.min(Math.max(a?.caixa ?? 0, 0), 4);
+    caixas[c]++;
+  });
+  return caixas;
+}
+
+export function historicoRecente(dias) {
+  return Array.from({ length: dias }, (_, i) => {
+    const d = dia(new Date(Date.now() - (dias - 1 - i) * 864e5));
+    return { data: d, xp: estado.historico[d] ?? 0 };
+  });
+}
+
 function diaAnterior(d) {
   return dia(new Date(new Date(d + 'T00:00:00Z').getTime() - 864e5));
 }
@@ -160,6 +212,13 @@ export function mesclarEstado(remoto) {
       }
     }
     estado.badges = [...new Set([...estado.badges, ...(remoto.badges ?? [])])];
+    const favEn = new Set(estado.favoritas.map(f => f.en));
+    (remoto.favoritas ?? []).forEach(f => {
+      if (f?.en && !favEn.has(f.en)) {
+        estado.favoritas.push({ en: f.en, pt: f.pt ?? [], classe: f.classe ?? null });
+        favEn.add(f.en);
+      }
+    });
     for (const [d, xp] of Object.entries(remoto.historico ?? {})) {
       estado.historico[d] = Math.max(estado.historico[d] ?? 0, xp ?? 0);
     }
@@ -228,7 +287,7 @@ export function semanaAtual() {
 function registrarDia(xp) {
   const d = hoje();
   estado.historico[d] = (estado.historico[d] ?? 0) + xp;
-  const limite = dia(new Date(Date.now() - 60 * 864e5));
+  const limite = dia(new Date(Date.now() - 400 * 864e5));
   Object.keys(estado.historico).forEach(k => {
     if (k < limite) delete estado.historico[k];
   });
