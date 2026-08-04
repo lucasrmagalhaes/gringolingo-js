@@ -166,6 +166,20 @@ textarea {
   font-weight: 900;
 }
 
+.logo-marca {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pilula-unidade {
+  font-size: 0.7em;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--texto-suave);
+  margin-left: -2px;
+}
+
 .pilula {
   display: inline-flex;
   align-items: center;
@@ -1391,8 +1405,16 @@ textarea {
 }
 
 @media (max-width: 430px) {
+  .topo {
+    gap: 8px;
+  }
+
   .logo {
     font-size: var(--fonte-lg);
+  }
+
+  .logo-marca .logo-nome {
+    display: none;
   }
 
   .pilula {
@@ -1406,7 +1428,7 @@ textarea {
   }
 
   .pilula-conta {
-    max-width: 120px;
+    max-width: 96px;
   }
 
   .semana-dia {

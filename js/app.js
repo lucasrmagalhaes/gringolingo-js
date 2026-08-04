@@ -58,10 +58,16 @@ function telaInicial() {
   app.innerHTML = '';
   app.append(
     h('div', { class: 'topo' },
-      h('div', { class: 'logo' }, '🦜 GringoLingo'),
+      h('div', { class: 'logo logo-marca' },
+        h('span', { 'aria-hidden': 'true' }, '🦜'),
+        h('span', { class: 'logo-nome' }, 'GringoLingo')
+      ),
       h('div', { class: 'espaco' }),
       h('div', { class: 'pilula' + (streakAtual() > 0 ? ' pilula-fogo' : ''), title: 'Dias seguidos' }, '🔥 ' + streakAtual()),
-      h('div', { class: 'pilula', title: 'XP total' }, '⭐ ' + estado.xp),
+      h('div', { class: 'pilula', title: 'XP total acumulado' },
+        '⭐ ' + estado.xp,
+        h('span', { class: 'pilula-unidade' }, 'XP')
+      ),
       botaoTema(),
       ...pilulasDeConta()
     ),
