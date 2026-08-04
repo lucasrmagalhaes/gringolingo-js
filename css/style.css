@@ -1098,6 +1098,129 @@ button {
   margin-top: 16px;
 }
 
+.dicionario-atalho {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  cursor: pointer;
+  text-align: left;
+  border-bottom-width: 4px;
+  font-family: inherit;
+  color: var(--texto);
+  margin-bottom: 12px;
+}
+
+.dicionario-atalho:hover {
+  border-color: var(--azul);
+}
+
+.busca-dic {
+  margin-bottom: 12px;
+}
+
+.dic-filtros {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.dic-contador {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--texto-suave);
+  margin-bottom: 10px;
+}
+
+.dic-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dic-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--superficie);
+  border: 2px solid var(--borda-suave);
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+.dic-som {
+  width: 38px;
+  height: 38px;
+  font-size: 16px;
+  border-radius: 10px;
+  flex: none;
+}
+
+.dic-corpo {
+  flex: 1;
+  min-width: 0;
+}
+
+.dic-en {
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.dic-pt {
+  font-size: 14px;
+  color: var(--texto-suave);
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+.dic-nota {
+  font-size: 12px;
+  color: var(--texto-suave);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.dic-tags {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex: none;
+  max-width: 44%;
+}
+
+.dic-tag {
+  font-size: 11px;
+  font-weight: 900;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--trilho);
+  color: var(--texto-suave);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.dic-unidade {
+  background: color-mix(in srgb, var(--cor-unidade) 18%, transparent);
+  color: var(--texto);
+}
+
+.dic-status.memoria {
+  background: color-mix(in srgb, var(--verde) 20%, transparent);
+  color: var(--verde-esc);
+}
+
+.dic-status.vencida {
+  background: color-mix(in srgb, var(--laranja) 20%, transparent);
+  color: var(--laranja);
+}
+
+[data-tema="escuro"] .dic-status.memoria {
+  color: #8ee05a;
+}
+
 .voz-card {
   display: flex;
   flex-direction: column;

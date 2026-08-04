@@ -5,6 +5,7 @@ import { gerarExercicios, exercicioFacil, montarExercicio } from './exercises.js
 import { h, aleatorio } from './util.js';
 import { nuvemConfigurada, sessaoAtual, entrar, criarConta, sair, baixarProgresso, aoMudarAuth, googleAtivo, entrarComGoogle, vincularGoogle, desvincularGoogle, provedoresDaConta, traduzirErro } from './nuvem.js';
 import { registrar, logSalvo, limparLog, modoDebug, contextoDoLog } from './erros.js';
+import { buscar, carregarBanco, bancoCarregado, statusDoItem, totalDoCurso } from './dicionario.js';
 
 const app = document.getElementById('app');
 let sessao = null;
@@ -74,6 +75,7 @@ function telaInicial() {
     faixaSemana(),
     cartaoMissoes(),
     botaoRevisao(),
+    botaoDicionario(),
     h('div', { class: 'rotulo' }, 'TRILHA'),
     ...UNIDADES.map(cartaoUnidade)
   );
@@ -179,6 +181,109 @@ function cartaoBoasVindas() {
       class: 'btn btn-verde',
       onclick: () => iniciarLicao(UNIDADES[0], UNIDADES[0].licoes[0])
     }, 'COMEÇAR')
+  );
+}
+
+function botaoDicionario() {
+  const extra = bancoCarregado()?.length;
+  return h('button', { class: 'card dicionario-atalho', onclick: () => telaDicionario() },
+    h('span', { class: 'revisao-emoji' }, '📖'),
+    h('div', { class: 'revisao-textos' },
+      h('div', { class: 'revisao-titulo' }, 'Dicionário'),
+      h('div', { class: 'revisao-sub' }, extra
+        ? `Busque em inglês ou português entre ${totalDoCurso() + extra} palavras`
+        : 'Busque qualquer palavra em inglês ou português')
+    ),
+    h('span', { class: 'revisao-seta' }, '🔎')
+  );
+}
+
+function telaDicionario() {
+  window.scrollTo(0, 0);
+  telaAtiva = 'dicionario';
+  app.innerHTML = '';
+  const busca = h('input', {
+    class: 'entrada busca-dic',
+    type: 'search',
+    placeholder: 'Buscar em inglês ou português…',
+    autocomplete: 'off',
+    autocapitalize: 'off',
+    spellcheck: 'false',
+    'aria-label': 'Buscar palavra'
+  });
+  const lista = h('div', { class: 'dic-lista', role: 'list' });
+  const contador = h('div', { class: 'dic-contador', role: 'status', 'aria-live': 'polite' });
+  const filtros = ['todas', 'curso', 'aprendidas', 'revisar'];
+  const nomes = { todas: 'Todas', curso: 'Do curso', aprendidas: 'Aprendidas', revisar: 'Revisar' };
+  let filtro = 'todas';
+  const chips = h('div', { class: 'metas dic-filtros', role: 'group', 'aria-label': 'Filtrar palavras' },
+    filtros.map(f => {
+      const b = h('button', {
+        class: 'meta-opcao' + (f === filtro ? ' ativa' : ''),
+        'aria-pressed': f === filtro ? 'true' : 'false',
+        onclick() {
+          filtro = f;
+          [...chips.children].forEach(c => {
+            const ativo = c.textContent === nomes[f];
+            c.classList.toggle('ativa', ativo);
+            c.setAttribute('aria-pressed', ativo ? 'true' : 'false');
+          });
+          desenhar();
+        }
+      }, nomes[f]);
+      return b;
+    })
+  );
+  function desenhar() {
+    const achados = buscar(busca.value, filtro);
+    lista.innerHTML = '';
+    contador.textContent = achados.length
+      ? `${achados.length}${achados.length === 60 ? '+' : ''} resultado${achados.length > 1 ? 's' : ''}`
+      : 'Nada encontrado — tente outra palavra';
+    achados.forEach(v => lista.append(verbete(v)));
+  }
+  busca.addEventListener('input', desenhar);
+  app.append(
+    h('div', { class: 'topo' },
+      h('button', { class: 'pilula btn-perfil', onclick: () => telaInicial() }, '← Voltar'),
+      h('div', { class: 'espaco' }),
+      h('div', { class: 'logo' }, '📖 Dicionário')
+    ),
+    busca,
+    chips,
+    contador,
+    lista
+  );
+  desenhar();
+  busca.focus({ preventScroll: true });
+  if (!bancoCarregado()) {
+    contador.textContent = 'Carregando o banco de palavras…';
+    carregarBanco().then(() => {
+      if (telaAtiva === 'dicionario') desenhar();
+    });
+  }
+}
+
+const CLASSES = { verbo: 'verbo', subst: 'substantivo', adj: 'adjetivo', adv: 'advérbio', prep: 'preposição', pron: 'pronome', conj: 'conjunção', num: 'número', interj: 'interjeição' };
+
+function verbete(v) {
+  const st = v.doCurso ? statusDoItem(v.en) : null;
+  return h('div', { class: 'dic-item', role: 'listitem' },
+    h('button', {
+      class: 'btn-som dic-som',
+      'aria-label': 'Ouvir ' + v.en,
+      onclick: () => falar(v.en)
+    }, '🔊'),
+    h('div', { class: 'dic-corpo' },
+      h('div', { class: 'dic-en' }, v.en),
+      h('div', { class: 'dic-pt' }, v.pt.join(' · ')),
+      v.nota ? h('div', { class: 'dic-nota' }, '💡 ' + v.nota) : ''
+    ),
+    h('div', { class: 'dic-tags' },
+      v.classe ? h('span', { class: 'dic-tag' }, CLASSES[v.classe] ?? v.classe) : '',
+      v.doCurso ? h('span', { class: 'dic-tag dic-unidade', style: `--cor-unidade:${v.cor}` }, v.unidadeEmoji + ' ' + v.unidade) : '',
+      st ? h('span', { class: 'dic-tag dic-status ' + st.id, title: st.texto }, st.emoji + ' ' + st.texto) : ''
+    )
   );
 }
 
