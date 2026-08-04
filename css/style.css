@@ -226,6 +226,10 @@ button {
   border-color: var(--azul);
 }
 
+.revisao-vencida {
+  border-color: var(--laranja);
+}
+
 .revisao-emoji {
   font-size: 36px;
 }

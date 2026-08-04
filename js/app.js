@@ -1,5 +1,5 @@
 import { UNIDADES, MASCOTE, BADGES } from './data.js';
-import { estado, streakAtual, nivelInfo, itensAprendidos, registrarLicao, registrarRevisao, ativarSync, mesclarEstado, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora } from './game.js';
+import { estado, streakAtual, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, ativarSync, mesclarEstado, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora } from './game.js';
 import { sons, falar, temTts, destravarAudio } from './audio.js';
 import { gerarExercicios, exercicioFacil, montarExercicio } from './exercises.js';
 import { h, aleatorio } from './util.js';
@@ -78,14 +78,16 @@ function telaInicial() {
 
 function botaoRevisao() {
   if (itensAprendidos().length === 0) return '';
-  const qtd = estado.erros.length;
-  return h('button', { class: 'card revisao', onclick: iniciarRevisao },
+  const vencidas = itensVencidos().length;
+  return h('button', { class: 'card revisao' + (vencidas ? ' revisao-vencida' : ''), onclick: iniciarRevisao },
     h('span', { class: 'revisao-emoji' }, '🧠'),
     h('div', { class: 'revisao-textos' },
       h('div', { class: 'revisao-titulo' }, 'Revisão Turbo'),
-      h('div', { class: 'revisao-sub' }, qtd ? `${qtd} palavra${qtd > 1 ? 's' : ''} esperando revanche 😤` : 'Treino surpresa com o que você já sabe')
+      h('div', { class: 'revisao-sub' }, vencidas
+        ? `${vencidas} palavra${vencidas > 1 ? 's' : ''} vencendo hoje — hora de fixar 📅`
+        : 'Tudo em dia! Treino surpresa com o que você já sabe ✅')
     ),
-    h('span', { class: 'revisao-seta' }, '⚡')
+    h('span', { class: 'revisao-seta' }, vencidas ? '⚡' : '✨')
   );
 }
 
@@ -123,15 +125,14 @@ function iniciarLicao(u, l) {
   sessao = {
     tipo: 'licao', unidade: u, licao: l, pool, fila, itens: l.itens,
     idx: 0, planejados: fila.length, acertos: 0, respostas: 0,
-    xp: 0, combo: 0, comboMax: 0, erros: []
+    xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map()
   };
   telaExercicio();
 }
 
 function iniciarRevisao() {
   const aprendidos = itensAprendidos();
-  const mapa = new Map(aprendidos.map(i => [i.en, i]));
-  const itens = estado.erros.map(e => mapa.get(e.en) || e).slice(0, 8);
+  const itens = itensVencidos().slice(0, 8);
   let tentativas = 0;
   while (itens.length < 8 && tentativas < 60) {
     tentativas++;
@@ -142,7 +143,7 @@ function iniciarRevisao() {
   sessao = {
     tipo: 'revisao', pool: aprendidos, fila, itens,
     idx: 0, planejados: fila.length, acertos: 0, respostas: 0,
-    xp: 0, combo: 0, comboMax: 0, erros: []
+    xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map()
   };
   telaExercicio();
 }
@@ -192,6 +193,11 @@ function telaExercicio() {
 function processar(ex, res, feedback, btnVerificar) {
   btnVerificar.disabled = true;
   sessao.respostas++;
+  const alvos = ex.tipo === 'pares' ? ex.pares : ex.item ? [ex.item] : [];
+  alvos.forEach(it => {
+    const anterior = sessao.resultados.get(it.en);
+    sessao.resultados.set(it.en, { en: it.en, acertou: (anterior ? anterior.acertou : true) && res.correto });
+  });
   if (res.correto) {
     sessao.combo++;
     sessao.comboMax = Math.max(sessao.comboMax, sessao.combo);
@@ -262,17 +268,18 @@ function finalizar() {
   const perfeita = s.acertos === s.planejados;
   const estrelas = precisao >= 90 ? 3 : precisao >= 60 ? 2 : 1;
   s.xp += 20 + (perfeita ? 15 : 0);
+  const agendamentos = [...s.resultados.values()];
   let novas;
   if (s.tipo === 'licao') {
     novas = registrarLicao(s.licao.id, {
       estrelas, xp: s.xp, comboMax: s.comboMax, errosItens: s.erros,
-      perfeita, acertos: s.acertos, respostas: s.planejados
+      perfeita, acertos: s.acertos, respostas: s.planejados, agendamentos
     });
   } else {
     const errosEn = new Set(s.erros.map(e => e.en));
     novas = registrarRevisao({
       xp: s.xp, comboMax: s.comboMax, perfeita,
-      acertos: s.acertos, respostas: s.planejados,
+      acertos: s.acertos, respostas: s.planejados, agendamentos,
       acertadosEn: s.itens.filter(i => !errosEn.has(i.en)).map(i => i.en)
     });
   }
@@ -542,7 +549,9 @@ function telaPerfil() {
       statPilula('🗣️', palavras, 'palavras aprendidas'),
       statPilula('🎯', precisao + '%', 'precisão média'),
       statPilula('⚡', 'x' + estado.stats.comboMax, 'combo máximo'),
-      statPilula('🧠', estado.stats.revisoes, 'revisões turbo')
+      statPilula('🧠', estado.stats.revisoes, 'revisões turbo'),
+      statPilula('🌱', memorizadas(), 'na memória longa'),
+      statPilula('📅', itensVencidos().length, 'vencendo hoje')
     ),
     h('div', { class: 'secao-titulo' }, '🏅 Conquistas'),
     h('div', { class: 'badges-grid' },
@@ -634,6 +643,10 @@ function linhaGoogle() {
     btn,
     msg
   );
+}
+
+function memorizadas() {
+  return Object.values(estado.itens).filter(a => (a?.caixa ?? 0) >= 3).length;
 }
 
 function statPilula(emoji, valor, rotulo) {

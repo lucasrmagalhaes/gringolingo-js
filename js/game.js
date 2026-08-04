@@ -5,11 +5,14 @@ const CHAVE = 'gringolingo';
 const CHAVE_CONTA = 'gringolingo:conta';
 let syncAtivo = false;
 
+const INTERVALOS = [1, 3, 7, 16, 35];
+
 const padrao = () => ({
   xp: 0,
   streak: 0,
   ultimoDia: null,
   licoes: {},
+  itens: {},
   erros: [],
   badges: [],
   stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0 }
@@ -19,7 +22,7 @@ function carregar() {
   try {
     const salvo = JSON.parse(localStorage.getItem(CHAVE));
     if (!salvo) return padrao();
-    return { ...padrao(), ...salvo, stats: { ...padrao().stats, ...salvo.stats } };
+    return { ...padrao(), ...salvo, itens: { ...salvo.itens }, stats: { ...padrao().stats, ...salvo.stats } };
   } catch {
     return padrao();
   }
@@ -93,14 +96,29 @@ export function mesclarEstado(remoto) {
         registrados.add(e.en);
       }
     });
+    for (const [en, agenda] of Object.entries(remoto.itens ?? {})) {
+      const local = estado.itens[en];
+      if (!agenda?.proxima) continue;
+      if (!local) {
+        estado.itens[en] = { caixa: agenda.caixa ?? 0, proxima: agenda.proxima };
+      } else {
+        estado.itens[en] = {
+          caixa: Math.min(local.caixa, agenda.caixa ?? 0),
+          proxima: local.proxima < agenda.proxima ? local.proxima : agenda.proxima
+        };
+      }
+    }
     estado.badges = [...new Set([...estado.badges, ...(remoto.badges ?? [])])];
     const remotoStats = remoto.stats ?? {};
     for (const k of Object.keys(estado.stats)) {
       estado.stats[k] = Math.max(estado.stats[k], remotoStats[k] ?? 0);
     }
   }
+  migrarErros();
   salvar();
 }
+
+if (migrarErros()) salvar();
 
 const dia = d => d.toISOString().slice(0, 10);
 const hoje = () => dia(new Date());
@@ -130,6 +148,49 @@ export function nivelInfo() {
     prox,
     progresso: prox ? (estado.xp - atual.xp) / (prox.xp - atual.xp) : 1
   };
+}
+
+function emDias(n) {
+  return dia(new Date(Date.now() + n * 864e5));
+}
+
+function agendar(en, acertou) {
+  const atual = estado.itens[en];
+  const caixa = acertou ? Math.min((atual?.caixa ?? -1) + 1, INTERVALOS.length - 1) : 0;
+  estado.itens[en] = { caixa, proxima: emDias(INTERVALOS[caixa]) };
+}
+
+function aplicarAgendamentos(resultados) {
+  (resultados ?? []).forEach(r => agendar(r.en, r.acertou));
+}
+
+export function itensVencidos() {
+  const aprendidos = itensAprendidos();
+  const limite = hoje();
+  return aprendidos
+    .filter(i => {
+      const agenda = estado.itens[i.en];
+      return !agenda || agenda.proxima <= limite;
+    })
+    .map(i => ({ item: i, agenda: estado.itens[i.en] }))
+    .sort((a, b) => {
+      const proximaA = a.agenda?.proxima ?? '9999-12-31';
+      const proximaB = b.agenda?.proxima ?? '9999-12-31';
+      if (proximaA !== proximaB) return proximaA < proximaB ? -1 : 1;
+      return (a.agenda?.caixa ?? 0) - (b.agenda?.caixa ?? 0);
+    })
+    .map(x => x.item);
+}
+
+function migrarErros() {
+  let mudou = false;
+  estado.erros.forEach(e => {
+    if (e?.en && !estado.itens[e.en]) {
+      estado.itens[e.en] = { caixa: 0, proxima: hoje() };
+      mudou = true;
+    }
+  });
+  return mudou;
 }
 
 export function itensAprendidos() {
@@ -179,6 +240,7 @@ export function registrarLicao(licaoId, d) {
       registrados.add(it.en);
     }
   });
+  aplicarAgendamentos(d.agendamentos);
   const novas = checarBadges();
   salvar();
   return novas;
@@ -193,6 +255,7 @@ export function registrarRevisao(d) {
   estado.stats.comboMax = Math.max(estado.stats.comboMax, d.comboMax);
   const acertadas = new Set(d.acertadosEn);
   estado.erros = estado.erros.filter(e => !acertadas.has(e.en));
+  aplicarAgendamentos(d.agendamentos);
   const novas = checarBadges();
   salvar();
   return novas;
