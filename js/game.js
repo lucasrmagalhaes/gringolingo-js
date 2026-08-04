@@ -118,8 +118,6 @@ export function mesclarEstado(remoto) {
   salvar();
 }
 
-if (migrarErros()) salvar();
-
 const dia = d => d.toISOString().slice(0, 10);
 const hoje = () => dia(new Date());
 const ontem = () => dia(new Date(Date.now() - 864e5));
@@ -260,3 +258,5 @@ export function registrarRevisao(d) {
   salvar();
   return novas;
 }
+
+if (migrarErros()) salvar();
