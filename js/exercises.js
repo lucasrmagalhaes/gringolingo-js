@@ -2,8 +2,26 @@ import { POOL_TILES } from './data.js';
 import { temTts, falar, sons } from './audio.js';
 import { h, embaralhar, amostra } from './util.js';
 
+const CONTRACOES = [
+  ["i'm", 'i am'],
+  ["it's", 'it is'],
+  ["what's", 'what is'],
+  ["let's", 'let us'],
+  ["don't", 'do not'],
+  ["can't", 'cannot'],
+  ["i'll", 'i will'],
+  ["you're", 'you are'],
+  ["she's", 'she is'],
+  ["he's", 'he is'],
+  ["we're", 'we are']
+];
+
 function normalizar(s) {
-  return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9\s']/g, '').replace(/\s+/g, ' ').trim();
+  let t = s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9\s']/g, '').replace(/\s+/g, ' ').trim();
+  CONTRACOES.forEach(([contraida, expandida]) => {
+    t = t.replaceAll(contraida, expandida);
+  });
+  return t;
 }
 
 function levenshtein(a, b) {
@@ -22,7 +40,16 @@ function ehFrase(item) {
 }
 
 function distratores(item, pool, n, campo) {
-  const outros = pool.filter(o => o.en !== item.en && o[campo] !== item[campo]);
+  const alvoEn = normalizar(item.en);
+  const alvoCampo = normalizar(String(item[campo]));
+  const outros = pool.filter(o => {
+    if (o.en === item.en || o[campo] === item[campo]) return false;
+    const outroEn = normalizar(o.en);
+    if (outroEn.includes(alvoEn) || alvoEn.includes(outroEn)) return false;
+    const outroCampo = normalizar(String(o[campo]));
+    if (outroCampo.includes(alvoCampo) || alvoCampo.includes(outroCampo)) return false;
+    return true;
+  });
   return [...new Set(amostra(outros, n).map(o => o[campo]))];
 }
 
@@ -143,9 +170,10 @@ function montarDigitar(ex, cb) {
     corrigir() {
       input.disabled = true;
       const dada = normalizar(input.value);
+      const aceitas = [ex.item.en, ...(ex.item.alt ?? [])].map(normalizar);
       const certa = normalizar(ex.item.en);
-      const ok = dada === certa;
-      const quase = !ok && certa.length > 3 && levenshtein(dada, certa) <= 1;
+      const ok = aceitas.includes(dada);
+      const quase = !ok && certa.length >= 5 && levenshtein(dada, certa) <= 1;
       input.classList.add(ok || quase ? 'entrada-certa' : 'entrada-errada');
       return { correto: ok || quase, quase, certa: ex.item.en };
     }

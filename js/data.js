@@ -223,6 +223,220 @@ export const UNIDADES = [
         ]
       }
     ]
+  },
+  {
+    id: 'familia',
+    titulo: 'Família & Amigos',
+    emoji: '👨‍👩‍👧‍👦',
+    cor: '#FF5E9C',
+    licoes: [
+      {
+        id: 'f1', titulo: 'Lá em casa', emoji: '🏡',
+        itens: [
+          { en: 'mother', pt: 'mãe' },
+          { en: 'father', pt: 'pai' },
+          { en: 'brother', pt: 'irmão' },
+          { en: 'sister', pt: 'irmã' },
+          { en: 'son', pt: 'filho' },
+          { en: 'daughter', pt: 'filha' },
+          { en: 'parents', pt: 'pais' }
+        ]
+      },
+      {
+        id: 'f2', titulo: 'Família grande', emoji: '👵',
+        itens: [
+          { en: 'grandmother', pt: 'avó' },
+          { en: 'grandfather', pt: 'avô' },
+          { en: 'uncle', pt: 'tio' },
+          { en: 'aunt', pt: 'tia' },
+          { en: 'cousin', pt: 'primo' },
+          { en: 'baby', pt: 'bebê' }
+        ]
+      },
+      {
+        id: 'f3', titulo: 'Amores & amigos', emoji: '💛',
+        itens: [
+          { en: 'friend', pt: 'amigo' },
+          { en: 'best friend', pt: 'melhor amigo' },
+          { en: 'boyfriend', pt: 'namorado' },
+          { en: 'girlfriend', pt: 'namorada' },
+          { en: 'husband', pt: 'marido' },
+          { en: 'wife', pt: 'esposa' }
+        ]
+      },
+      {
+        id: 'f4', titulo: 'Papo de família', emoji: '💬',
+        itens: [
+          { en: 'this is my mother', pt: 'esta é minha mãe' },
+          { en: 'I have two brothers', pt: 'eu tenho dois irmãos' },
+          { en: 'my family is big', pt: 'minha família é grande' },
+          { en: 'I love my family', pt: 'eu amo minha família' },
+          { en: 'we live together', pt: 'nós moramos juntos' },
+          { en: 'she is my sister', pt: 'ela é minha irmã' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'casa',
+    titulo: 'Casa Doce Casa',
+    emoji: '🏠',
+    cor: '#1DBFA3',
+    licoes: [
+      {
+        id: 'h1', titulo: 'Cômodos', emoji: '🚪',
+        itens: [
+          { en: 'house', pt: 'casa' },
+          { en: 'bedroom', pt: 'quarto' },
+          { en: 'kitchen', pt: 'cozinha' },
+          { en: 'bathroom', pt: 'banheiro' },
+          { en: 'living room', pt: 'sala' },
+          { en: 'garage', pt: 'garagem' },
+          { en: 'garden', pt: 'jardim' }
+        ]
+      },
+      {
+        id: 'h2', titulo: 'Dentro de casa', emoji: '🛋️',
+        itens: [
+          { en: 'bed', pt: 'cama' },
+          { en: 'table', pt: 'mesa' },
+          { en: 'chair', pt: 'cadeira' },
+          { en: 'door', pt: 'porta' },
+          { en: 'window', pt: 'janela' },
+          { en: 'sofa', pt: 'sofá' },
+          { en: 'mirror', pt: 'espelho' }
+        ]
+      },
+      {
+        id: 'h3', titulo: 'Eletro & cia', emoji: '🔌',
+        itens: [
+          { en: 'refrigerator', pt: 'geladeira' },
+          { en: 'stove', pt: 'fogão' },
+          { en: 'shower', pt: 'chuveiro' },
+          { en: 'television', pt: 'televisão' },
+          { en: 'microwave', pt: 'micro-ondas' },
+          { en: 'washing machine', pt: 'máquina de lavar' }
+        ]
+      },
+      {
+        id: 'h4', titulo: 'Vida doméstica', emoji: '🧹',
+        itens: [
+          { en: 'the house is clean', pt: 'a casa está limpa' },
+          { en: 'I am in the kitchen', pt: 'eu estou na cozinha' },
+          { en: 'close the door, please', pt: 'feche a porta, por favor' },
+          { en: 'the keys are on the table', pt: 'as chaves estão na mesa' },
+          { en: 'I need to clean my bedroom', pt: 'eu preciso limpar meu quarto', alt: ['I need to clean my room'] }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'corpo',
+    titulo: 'Corpo São',
+    emoji: '💪',
+    cor: '#FF4B4B',
+    licoes: [
+      {
+        id: 's1', titulo: 'Da cabeça aos pés', emoji: '🦶',
+        itens: [
+          { en: 'head', pt: 'cabeça' },
+          { en: 'hand', pt: 'mão' },
+          { en: 'foot', pt: 'pé' },
+          { en: 'arm', pt: 'braço' },
+          { en: 'leg', pt: 'perna' },
+          { en: 'eye', pt: 'olho' },
+          { en: 'mouth', pt: 'boca' },
+          { en: 'nose', pt: 'nariz' }
+        ]
+      },
+      {
+        id: 's2', titulo: 'Detalhes do corpo', emoji: '👂',
+        itens: [
+          { en: 'ear', pt: 'orelha' },
+          { en: 'hair', pt: 'cabelo' },
+          { en: 'finger', pt: 'dedo' },
+          { en: 'tooth', pt: 'dente' },
+          { en: 'back', pt: 'costas' },
+          { en: 'shoulder', pt: 'ombro' },
+          { en: 'knee', pt: 'joelho' }
+        ]
+      },
+      {
+        id: 's3', titulo: 'No médico', emoji: '🩺',
+        itens: [
+          { en: 'doctor', pt: 'médico' },
+          { en: 'hospital', pt: 'hospital' },
+          { en: 'medicine', pt: 'remédio' },
+          { en: 'pain', pt: 'dor' },
+          { en: 'fever', pt: 'febre' },
+          { en: 'pharmacy', pt: 'farmácia' },
+          { en: 'dentist', pt: 'dentista' }
+        ]
+      },
+      {
+        id: 's4', titulo: 'Tô passando mal', emoji: '🤒',
+        itens: [
+          { en: 'I have a headache', pt: 'eu estou com dor de cabeça' },
+          { en: 'I feel sick', pt: 'eu me sinto doente' },
+          { en: 'I need a doctor', pt: 'eu preciso de um médico' },
+          { en: 'my throat hurts', pt: 'minha garganta dói' },
+          { en: 'I am better now', pt: 'eu estou melhor agora' },
+          { en: 'get well soon', pt: 'melhoras' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'rotina',
+    titulo: 'Rotina de Campeão',
+    emoji: '🏃',
+    cor: '#6C5CE7',
+    licoes: [
+      {
+        id: 'r1', titulo: 'Verbos na veia', emoji: '⚡',
+        itens: [
+          { en: 'eat', pt: 'comer' },
+          { en: 'drink', pt: 'beber' },
+          { en: 'sleep', pt: 'dormir' },
+          { en: 'run', pt: 'correr' },
+          { en: 'study', pt: 'estudar' },
+          { en: 'read', pt: 'ler' },
+          { en: 'write', pt: 'escrever' },
+          { en: 'speak', pt: 'falar', alt: ['talk'] }
+        ]
+      },
+      {
+        id: 'r2', titulo: 'Todo santo dia', emoji: '⏰',
+        itens: [
+          { en: 'wake up', pt: 'acordar' },
+          { en: 'take a shower', pt: 'tomar banho', alt: ['take a bath'] },
+          { en: 'brush my teeth', pt: 'escovar os dentes' },
+          { en: 'go to work', pt: 'ir ao trabalho' },
+          { en: 'come back home', pt: 'voltar para casa', alt: ['go back home', 'come home'] },
+          { en: 'watch TV', pt: 'assistir TV' }
+        ]
+      },
+      {
+        id: 'r3', titulo: 'Minha rotina', emoji: '🌞',
+        itens: [
+          { en: 'I wake up early', pt: 'eu acordo cedo' },
+          { en: 'I drink coffee every day', pt: 'eu bebo café todos os dias' },
+          { en: 'I study English at night', pt: 'eu estudo inglês à noite' },
+          { en: 'I work from home', pt: 'eu trabalho de casa' },
+          { en: 'I go to the gym', pt: 'eu vou para a academia' }
+        ]
+      },
+      {
+        id: 'r4', titulo: 'Fim de semana', emoji: '🎉',
+        itens: [
+          { en: 'I sleep late on Sundays', pt: 'eu durmo até tarde aos domingos' },
+          { en: "let's watch a movie", pt: 'vamos assistir um filme' },
+          { en: 'I like to read books', pt: 'eu gosto de ler livros' },
+          { en: 'we play video games', pt: 'nós jogamos videogame' },
+          { en: 'see you on Monday', pt: 'até segunda-feira' }
+        ]
+      }
+    ]
   }
 ];
 
@@ -236,7 +450,9 @@ export const NIVEIS = [
   { xp: 450, titulo: 'Netflix Sem Legenda', emoji: '🍿' },
   { xp: 700, titulo: 'Quase Gringo', emoji: '🛫' },
   { xp: 1000, titulo: 'Gringo Honorário', emoji: '🦅' },
-  { xp: 1500, titulo: 'Lenda do Inglês', emoji: '👑' }
+  { xp: 1500, titulo: 'Lenda do Inglês', emoji: '👑' },
+  { xp: 2200, titulo: 'Dicionário Ambulante', emoji: '📖' },
+  { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
 export const BADGES = [
