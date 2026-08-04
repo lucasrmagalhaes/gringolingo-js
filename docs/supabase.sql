@@ -10,7 +10,17 @@
 --   * idempotente  - pode rodar quantas vezes quiser, o resultado e o mesmo;
 --   * nao destrutivo - nao existe drop table, delete, truncate nem update de
 --     dados aqui. E seguro rodar em producao com usuarios reais.
+--
+-- Se aparecer "deadlock detected" ou "canceling statement due to lock timeout":
+--   alguem estava lendo/escrevendo na tabela progresso enquanto o script pedia
+--   lock exclusivo para alterar a tabela. Nao ha nada de errado com o script -
+--   feche o app em outras abas (o PWA sincroniza sozinho ao abrir) e rode de
+--   novo. As duas linhas abaixo tornam essa falha rapida e limpa em vez de
+--   travar a sessao: o script desiste em 5s e nada fica pela metade.
 -- =============================================================================
+
+set lock_timeout = '5s';
+set idle_in_transaction_session_timeout = '30s';
 
 
 -- -----------------------------------------------------------------------------
