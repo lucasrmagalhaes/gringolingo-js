@@ -648,6 +648,37 @@ button {
   color: var(--texto-suave);
 }
 
+.feedback-diff {
+  margin-top: 2px;
+}
+
+.diff-rotulo {
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.diff-falta {
+  background: var(--amarelo);
+  color: #3C3C3C;
+  border-radius: 6px;
+  padding: 1px 4px;
+  margin-right: 2px;
+}
+
+.diff-sobra {
+  text-decoration: line-through;
+  opacity: 0.65;
+}
+
+.feedback-nota {
+  font-size: 14px;
+  margin-top: 6px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255, 200, 0, 0.18);
+  border: 1px solid rgba(255, 200, 0, 0.45);
+}
+
 .resultado {
   text-align: center;
   padding-top: 40px;

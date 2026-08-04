@@ -22,11 +22,11 @@ export const UNIDADES = [
       {
         id: 'b2', titulo: 'Quem é você?', emoji: '🙋',
         itens: [
-          { en: 'what is your name?', pt: 'qual é o seu nome?' },
+          { en: 'what is your name?', pt: 'qual é o seu nome?', nota: 'Em pergunta o verbo vem antes do sujeito: what IS your name?' },
           { en: 'my name is Ana', pt: 'meu nome é Ana' },
           { en: 'nice to meet you', pt: 'prazer em te conhecer' },
           { en: 'how are you?', pt: 'como você está?' },
-          { en: 'I am fine', pt: 'eu estou bem' },
+          { en: 'I am fine', pt: 'eu estou bem', nota: 'Ser e estar viram o mesmo verbo: to be (I am, you are, she is).' },
           { en: 'and you?', pt: 'e você?' },
           { en: 'see you later', pt: 'até mais tarde' }
         ]
@@ -51,8 +51,8 @@ export const UNIDADES = [
         itens: [
           { en: 'excuse me', pt: 'com licença' },
           { en: 'sorry', pt: 'desculpa' },
-          { en: "I don't understand", pt: 'eu não entendo' },
-          { en: 'can you help me?', pt: 'você pode me ajudar?' },
+          { en: "I don't understand", pt: 'eu não entendo', nota: 'Negativa no presente pede o do: I do not understand — nunca "I not understand".' },
+          { en: 'can you help me?', pt: 'você pode me ajudar?', nota: 'Depois de can o verbo vem puro, sem to: can you HELP (não can you to help).' },
           { en: 'speak slowly, please', pt: 'fale devagar, por favor' },
           { en: 'no problem', pt: 'sem problema' }
         ]
@@ -86,8 +86,8 @@ export const UNIDADES = [
           { en: 'lunch', pt: 'almoço' },
           { en: 'dinner', pt: 'jantar' },
           { en: 'the bill, please', pt: 'a conta, por favor' },
-          { en: 'I want a coffee', pt: 'eu quero um café' },
-          { en: 'it is delicious', pt: 'está delicioso' }
+          { en: 'I want a coffee', pt: 'eu quero um café', nota: 'O artigo a/an é obrigatório com contável no singular: a coffee.' },
+          { en: 'it is delicious', pt: 'está delicioso', nota: 'Inglês sempre precisa de sujeito: IT is delicious (não só "is delicious").' }
         ]
       },
       {
@@ -106,7 +106,7 @@ export const UNIDADES = [
       {
         id: 'c4', titulo: 'Pedido perfeito', emoji: '🌶️',
         itens: [
-          { en: 'I would like a pizza', pt: 'eu gostaria de uma pizza' },
+          { en: 'I would like a pizza', pt: 'eu gostaria de uma pizza', nota: 'I would like é o jeito educado de pedir; I want soa direto demais.' },
           { en: 'without onion, please', pt: 'sem cebola, por favor' },
           { en: 'more water, please', pt: 'mais água, por favor' },
           { en: 'it is too spicy', pt: 'está muito apimentado' },
@@ -137,8 +137,8 @@ export const UNIDADES = [
         id: 'v2', titulo: 'Tô perdido', emoji: '🧭',
         itens: [
           { en: 'where is the bathroom?', pt: 'onde fica o banheiro?' },
-          { en: 'how much is it?', pt: 'quanto custa?' },
-          { en: 'I am lost', pt: 'eu estou perdido' },
+          { en: 'how much is it?', pt: 'quanto custa?', nota: 'Preço se pergunta com how much + is: how much IS it?' },
+          { en: 'I am lost', pt: 'eu estou perdido', nota: 'Estados de pessoa usam to be: I AM lost (não "I have lost").' },
           { en: 'turn left', pt: 'vire à esquerda' },
           { en: 'turn right', pt: 'vire à direita' },
           { en: 'it is near', pt: 'é perto' },
@@ -163,7 +163,7 @@ export const UNIDADES = [
         itens: [
           { en: 'I have a reservation', pt: 'eu tenho uma reserva' },
           { en: 'the key, please', pt: 'a chave, por favor' },
-          { en: 'what time is it?', pt: 'que horas são?' },
+          { en: 'what time is it?', pt: 'que horas são?', nota: 'Horas no singular em inglês: what time IS it? (não "are").' },
           { en: 'see you tomorrow', pt: 'até amanhã' },
           { en: 'can I pay by card?', pt: 'posso pagar com cartão?' }
         ]
@@ -216,7 +216,7 @@ export const UNIDADES = [
         id: 't4', titulo: 'Fechando o dia', emoji: '🌇',
         itens: [
           { en: 'can we reschedule?', pt: 'podemos remarcar?' },
-          { en: 'I will be late', pt: 'eu vou me atrasar' },
+          { en: 'I will be late', pt: 'eu vou me atrasar', nota: 'Futuro = will + verbo puro: will BE (não "will to be").' },
           { en: 'well done!', pt: 'muito bem!' },
           { en: 'the meeting is over', pt: 'a reunião acabou' },
           { en: 'have a nice weekend', pt: 'tenha um bom fim de semana' }
@@ -376,10 +376,10 @@ export const UNIDADES = [
       {
         id: 's4', titulo: 'Tô passando mal', emoji: '🤒',
         itens: [
-          { en: 'I have a headache', pt: 'eu estou com dor de cabeça' },
+          { en: 'I have a headache', pt: 'eu estou com dor de cabeça', nota: 'Dor e sintoma usam have: I HAVE a headache (não "I am with pain").' },
           { en: 'I feel sick', pt: 'eu me sinto doente' },
-          { en: 'I need a doctor', pt: 'eu preciso de um médico' },
-          { en: 'my throat hurts', pt: 'minha garganta dói' },
+          { en: 'I need a doctor', pt: 'eu preciso de um médico', nota: 'need não leva preposição: I need A doctor (não "need of").' },
+          { en: 'my throat hurts', pt: 'minha garganta dói', nota: 'He/she/it ganha -s no presente: it hurtS.' },
           { en: 'I am better now', pt: 'eu estou melhor agora' },
           { en: 'get well soon', pt: 'melhoras' }
         ]
@@ -420,7 +420,7 @@ export const UNIDADES = [
         id: 'r3', titulo: 'Minha rotina', emoji: '🌞',
         itens: [
           { en: 'I wake up early', pt: 'eu acordo cedo' },
-          { en: 'I drink coffee every day', pt: 'eu bebo café todos os dias' },
+          { en: 'I drink coffee every day', pt: 'eu bebo café todos os dias', nota: 'Hábito é presente simples, sem -ing: I drink (não "I am drinking").' },
           { en: 'I study English at night', pt: 'eu estudo inglês à noite' },
           { en: 'I work from home', pt: 'eu trabalho de casa' },
           { en: 'I go to the gym', pt: 'eu vou para a academia' }
@@ -431,7 +431,7 @@ export const UNIDADES = [
         itens: [
           { en: 'I sleep late on Sundays', pt: 'eu durmo até tarde aos domingos' },
           { en: "let's watch a movie", pt: 'vamos assistir um filme' },
-          { en: 'I like to read books', pt: 'eu gosto de ler livros' },
+          { en: 'I like to read books', pt: 'eu gosto de ler livros', nota: 'like + to + verbo: I like TO READ (não "like read").' },
           { en: 'we play video games', pt: 'nós jogamos videogame' },
           { en: 'see you on Monday', pt: 'até segunda-feira' }
         ]

@@ -218,7 +218,9 @@ function processar(ex, res, feedback, btnVerificar) {
   const frase = aleatorio(res.correto ? MASCOTE.acerto : MASCOTE.erro);
   const linhas = [];
   if (res.correto && res.quase) linhas.push(h('div', { class: 'feedback-frase' }, `O certinho é: ${res.certa}`));
+  else if (!res.correto && res.diff) linhas.push(linhaDiff(res.diff));
   else if (!res.correto && res.certa) linhas.push(h('div', { class: 'feedback-frase' }, `Resposta certa: ${res.certa}`));
+  if (!res.correto && ex.item?.nota) linhas.push(h('div', { class: 'feedback-nota' }, '💡 ' + ex.item.nota));
   linhas.push(h('div', { class: 'feedback-frase suave' }, frase));
   feedback.className = 'feedback ' + (res.correto ? 'certo' : 'errado');
   feedback.innerHTML = '';
@@ -232,6 +234,20 @@ function processar(ex, res, feedback, btnVerificar) {
     )
   );
   requestAnimationFrame(() => feedback.classList.add('aberta'));
+}
+
+function linhaDiff(diff) {
+  const temSobra = diff.dada.some(p => p.sobra);
+  return h('div', { class: 'feedback-diff' },
+    h('div', { class: 'feedback-frase' },
+      h('span', { class: 'diff-rotulo' }, 'Certo: '),
+      diff.certa.map(p => h('span', { class: p.falta ? 'diff-falta' : '' }, p.palavra + ' '))
+    ),
+    temSobra ? h('div', { class: 'feedback-frase suave' },
+      h('span', { class: 'diff-rotulo' }, 'Você: '),
+      diff.dada.map(p => h('span', { class: p.sobra ? 'diff-sobra' : '' }, p.palavra + ' '))
+    ) : ''
+  );
 }
 
 function continuar() {

@@ -16,12 +16,49 @@ const CONTRACOES = [
   ["we're", 'we are']
 ];
 
+function normalizarBase(s) {
+  return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9\s']/g, '').replace(/\s+/g, ' ').trim();
+}
+
 function normalizar(s) {
-  let t = s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9\s']/g, '').replace(/\s+/g, ' ').trim();
+  let t = normalizarBase(s);
   CONTRACOES.forEach(([contraida, expandida]) => {
     t = t.replaceAll(contraida, expandida);
   });
   return t;
+}
+
+export function diffPalavras(dadaTexto, certaTexto) {
+  const dada = dadaTexto.trim().split(/\s+/).filter(Boolean);
+  const certa = certaTexto.trim().split(/\s+/).filter(Boolean);
+  const dn = dada.map(normalizarBase);
+  const cn = certa.map(normalizarBase);
+  const m = Array.from({ length: dn.length + 1 }, () => new Array(cn.length + 1).fill(0));
+  for (let i = dn.length - 1; i >= 0; i--) {
+    for (let j = cn.length - 1; j >= 0; j--) {
+      m[i][j] = dn[i] === cn[j] ? m[i + 1][j + 1] + 1 : Math.max(m[i + 1][j], m[i][j + 1]);
+    }
+  }
+  const casadasDada = new Set();
+  const casadasCerta = new Set();
+  let i = 0;
+  let j = 0;
+  while (i < dn.length && j < cn.length) {
+    if (dn[i] === cn[j]) {
+      casadasDada.add(i);
+      casadasCerta.add(j);
+      i++;
+      j++;
+    } else if (m[i + 1][j] >= m[i][j + 1]) {
+      i++;
+    } else {
+      j++;
+    }
+  }
+  return {
+    certa: certa.map((palavra, idx) => ({ palavra, falta: !casadasCerta.has(idx) })),
+    dada: dada.map((palavra, idx) => ({ palavra, sobra: !casadasDada.has(idx) }))
+  };
 }
 
 function levenshtein(a, b) {
@@ -175,7 +212,7 @@ function montarDigitar(ex, cb) {
       const ok = aceitas.includes(dada);
       const quase = !ok && certa.length >= 5 && levenshtein(dada, certa) <= 1;
       input.classList.add(ok || quase ? 'entrada-certa' : 'entrada-errada');
-      return { correto: ok || quase, quase, certa: ex.item.en };
+      return { correto: ok || quase, quase, certa: ex.item.en, diff: ok || quase ? null : diffPalavras(input.value, ex.item.en) };
     }
   };
 }
@@ -218,7 +255,7 @@ function montarFrase(ex, cb) {
       const dada = [...area.children].map(c => c.textContent).join(' ');
       const ok = normalizar(dada) === normalizar(ex.item.en);
       area.classList.add(ok ? 'area-certa' : 'area-errada');
-      return { correto: ok, certa: ex.item.en };
+      return { correto: ok, certa: ex.item.en, diff: ok ? null : diffPalavras(dada, ex.item.en) };
     }
   };
 }
