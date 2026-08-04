@@ -19,7 +19,7 @@ const MAPA_ERROS = [
   ['failed to fetch', 'Sem conexão com a nuvem 📡']
 ];
 
-function traduzirErro(mensagem) {
+export function traduzirErro(mensagem) {
   const m = (mensagem || '').toLowerCase();
   const achado = MAPA_ERROS.find(([chave]) => m.includes(chave));
   return achado ? achado[1] : 'Deu ruim na nuvem: ' + mensagem;
@@ -44,13 +44,19 @@ export async function googleAtivo() {
   if (!nuvemConfigurada) return false;
   if (cacheGoogle !== null) return cacheGoogle;
   try {
-    const r = await fetch(SUPABASE_URL + '/auth/v1/settings', { headers: { apikey: SUPABASE_ANON_KEY } });
+    const controle = new AbortController();
+    const timer = setTimeout(() => controle.abort(), 5000);
+    const r = await fetch(SUPABASE_URL + '/auth/v1/settings', {
+      headers: { apikey: SUPABASE_ANON_KEY },
+      signal: controle.signal
+    });
+    clearTimeout(timer);
     const d = await r.json();
     cacheGoogle = !!d?.external?.google;
+    return cacheGoogle;
   } catch {
-    cacheGoogle = false;
+    return false;
   }
-  return cacheGoogle;
 }
 
 function urlRetorno() {

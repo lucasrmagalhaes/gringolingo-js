@@ -3,7 +3,7 @@ import { estado, streakAtual, nivelInfo, itensAprendidos, registrarLicao, regist
 import { sons, falar, temTts, destravarAudio } from './audio.js';
 import { gerarExercicios, exercicioFacil, montarExercicio } from './exercises.js';
 import { h, aleatorio } from './util.js';
-import { nuvemConfigurada, sessaoAtual, entrar, criarConta, sair, baixarProgresso, aoMudarAuth, googleAtivo, entrarComGoogle, vincularGoogle, desvincularGoogle, provedoresDaConta } from './nuvem.js';
+import { nuvemConfigurada, sessaoAtual, entrar, criarConta, sair, baixarProgresso, aoMudarAuth, googleAtivo, entrarComGoogle, vincularGoogle, desvincularGoogle, provedoresDaConta, traduzirErro } from './nuvem.js';
 
 const app = document.getElementById('app');
 let sessao = null;
@@ -14,6 +14,8 @@ let authCarregando = false;
 let geracaoAuth = 0;
 let temGoogle = false;
 let provedores = [];
+let avisoPendente = null;
+let avisoPerfil = null;
 
 const SVG_GOOGLE = '<svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>';
 
@@ -41,6 +43,7 @@ function licaoDesbloqueada(u, idx) {
 function telaInicial() {
   window.scrollTo(0, 0);
   telaAtiva = 'inicial';
+  avisoPerfil = null;
   sessao = null;
   const nv = nivelInfo();
   app.innerHTML = '';
@@ -304,6 +307,8 @@ function telaResultado(estrelas, precisao, novasBadges) {
 function telaLogin(aviso) {
   window.scrollTo(0, 0);
   telaAtiva = 'login';
+  avisoPerfil = null;
+  checarGoogle();
   app.innerHTML = '';
   const email = h('input', { class: 'entrada', type: 'email', placeholder: 'seu@email.com', autocomplete: 'email' });
   const senha = h('input', { class: 'entrada', type: 'password', placeholder: 'senha (mín. 6 caracteres)', autocomplete: 'current-password' });
@@ -388,9 +393,22 @@ function erroNaUrl() {
   if (!hash.includes('error')) return null;
   const p = new URLSearchParams(hash);
   const codigo = p.get('error_code') || '';
+  const descricao = (p.get('error_description') || codigo || p.get('error') || '').replace(/\+/g, ' ');
   history.replaceState(null, '', location.pathname + location.search);
   if (codigo.includes('expired')) return 'Esse link de confirmação expirou — cria a conta de novo ou pede outro e-mail 📬';
-  return 'Não deu pra confirmar: ' + (p.get('error_description') || codigo).replace(/\+/g, ' ');
+  if (codigo.includes('identity') || /identit/i.test(descricao)) return 'Não deu pra vincular: ' + traduzirErro(descricao);
+  if (p.get('error') === 'access_denied' && !codigo) return 'Entrada com Google cancelada — tenta de novo quando quiser 🙂';
+  return 'Não deu pra entrar: ' + traduzirErro(descricao);
+}
+
+function checarGoogle() {
+  if (!nuvemConfigurada || temGoogle) return;
+  googleAtivo().then(ativo => {
+    if (!ativo || temGoogle) return;
+    temGoogle = true;
+    if (telaAtiva === 'login') repintarLogin();
+    else if (telaAtiva === 'perfil') telaPerfil();
+  });
 }
 
 async function aposLogin(interativo) {
@@ -428,6 +446,17 @@ async function aposLogin(interativo) {
 }
 
 function finalizarAuth(interativo) {
+  if (avisoPendente) {
+    const a = avisoPendente;
+    avisoPendente = null;
+    if (usuarioEmail) {
+      avisoPerfil = a;
+      telaPerfil();
+    } else {
+      telaLogin(a);
+    }
+    return;
+  }
   if (interativo) telaInicial();
   else repintarTelaAtual();
 }
@@ -441,6 +470,16 @@ function repintarTelaAtual() {
 function telaPerfil() {
   window.scrollTo(0, 0);
   telaAtiva = 'perfil';
+  checarGoogle();
+  if (temGoogle && usuarioEmail) {
+    provedoresDaConta().then(p => {
+      if (telaAtiva !== 'perfil') return;
+      if (JSON.stringify(p) !== JSON.stringify(provedores)) {
+        provedores = p;
+        telaPerfil();
+      }
+    });
+  }
   const nv = nivelInfo();
   const palavras = new Set(itensAprendidos().map(i => i.en)).size;
   const precisao = estado.stats.respostas ? Math.round(estado.stats.acertos / estado.stats.respostas * 100) : 0;
@@ -517,6 +556,7 @@ function cartaoConta() {
       btnSair
     ),
     syncPendente ? h('div', { class: 'conta-aviso' }, 'Progresso ainda não sincronizado — ele fica salvo aqui no aparelho') : '',
+    avisoPerfil ? h('div', { class: 'login-msg erro' }, avisoPerfil) : '',
     temGoogle ? linhaGoogle() : ''
   );
 }
@@ -605,17 +645,11 @@ function confete() {
 }
 
 async function iniciar() {
-  const aviso = nuvemConfigurada ? erroNaUrl() : null;
+  avisoPendente = nuvemConfigurada ? erroNaUrl() : null;
   authCarregando = nuvemConfigurada;
-  if (aviso) telaLogin(aviso);
-  else telaInicial();
+  telaInicial();
   if (!nuvemConfigurada) return;
-  googleAtivo().then(ativo => {
-    if (!ativo) return;
-    temGoogle = true;
-    if (telaAtiva === 'login') repintarLogin();
-    else if (telaAtiva === 'perfil') telaPerfil();
-  });
+  checarGoogle();
   try {
     window.addEventListener('storage', e => {
       if (e.key === 'gringolingo' && e.newValue === null) {
@@ -645,7 +679,7 @@ async function iniciar() {
     }
   } catch {}
   authCarregando = false;
-  repintarTelaAtual();
+  finalizarAuth(false);
 }
 
 iniciar();
