@@ -21,6 +21,7 @@ export const UNIDADES = [
       },
       {
         id: 'b2', titulo: 'Quem é você?', emoji: '🙋',
+        dica: { titulo: 'Ser e estar viram to be', corpo: 'Em inglês não existe a dupla ser/estar: os dois viram to be. E ele muda com a pessoa — I am, you are, he/she/it is, we/they are. Por isso "eu estou bem" é I am fine.' },
         itens: [
           { en: 'what is your name?', pt: 'qual é o seu nome?', nota: 'Em pergunta o verbo vem antes do sujeito: what IS your name?' },
           { en: 'my name is Ana', pt: 'meu nome é Ana' },
@@ -48,6 +49,7 @@ export const UNIDADES = [
       },
       {
         id: 'b4', titulo: 'Frases mágicas', emoji: '✨',
+        dica: { titulo: 'Perguntas e negativas pedem do', corpo: 'Com verbos comuns, a negativa usa do not (don’t) e a pergunta começa com do/does: I do not understand, Do you speak English? Nunca "I not understand".' },
         itens: [
           { en: 'excuse me', pt: 'com licença' },
           { en: 'sorry', pt: 'desculpa' },
@@ -320,6 +322,7 @@ export const UNIDADES = [
       },
       {
         id: 'h4', titulo: 'Vida doméstica', emoji: '🧹',
+        dica: { titulo: 'Inglês sempre tem sujeito', corpo: 'Em português dá para dizer só "está limpa". Em inglês o sujeito é obrigatório: IT is clean, THE house is clean. Some com ele e a frase fica errada.' },
         itens: [
           { en: 'the house is clean', pt: 'a casa está limpa' },
           { en: 'I am in the kitchen', pt: 'eu estou na cozinha' },
@@ -394,6 +397,7 @@ export const UNIDADES = [
     licoes: [
       {
         id: 'r1', titulo: 'Verbos na veia', emoji: '⚡',
+        dica: { titulo: 'O -s da terceira pessoa', corpo: 'No presente, he, she e it ganham -s no verbo: I eat, mas she eatS. Vale para todo verbo comum — he workS, it hurtS. Com I, you, we e they o verbo fica igualzinho.' },
         itens: [
           { en: 'eat', pt: 'comer' },
           { en: 'drink', pt: 'beber' },
@@ -455,6 +459,16 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
+export const MISSOES = [
+  { id: 'acertos15', emoji: '🎯', titulo: 'Acerte 15 respostas', alvo: 15, xp: 15, medir: s => s.acertos },
+  { id: 'licao1', emoji: '📚', titulo: 'Complete 1 lição', alvo: 1, xp: 10, medir: s => (s.tipo === 'licao' ? 1 : 0) },
+  { id: 'combo4', emoji: '⚡', titulo: 'Faça um combo x4', alvo: 1, xp: 10, medir: s => (s.comboMax >= 4 ? 1 : 0) },
+  { id: 'revisao1', emoji: '🧠', titulo: 'Faça 1 Revisão Turbo', alvo: 1, xp: 15, medir: s => (s.tipo === 'revisao' ? 1 : 0) },
+  { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
+  { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
+  { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
+];
+
 export const BADGES = [
   { id: 'primeira', emoji: '🐣', nome: 'Primeiro Passo', desc: 'Complete sua primeira lição' },
   { id: 'perfeita', emoji: '💯', nome: 'Perfeccionista', desc: 'Termine uma lição sem errar' },
@@ -465,6 +479,14 @@ export const BADGES = [
   { id: 'streak7', emoji: '🚀', nome: 'Imparável', desc: '7 dias seguidos de estudo' },
   { id: 'revisor', emoji: '🧠', nome: 'Memória de Elefante', desc: 'Complete uma Revisão Turbo' },
   { id: 'unidade', emoji: '🎓', nome: 'Formando', desc: 'Complete uma unidade inteira' },
+  { id: 'streak14', emoji: '🌟', nome: 'Duas Semanas', desc: '14 dias seguidos de estudo' },
+  { id: 'streak30', emoji: '💎', nome: 'Mês Cravado', desc: '30 dias seguidos de estudo' },
+  { id: 'xp1000', emoji: '🏅', nome: 'Milionário de XP', desc: 'Alcance 1000 XP' },
+  { id: 'xp2000', emoji: '👑', nome: 'Dois Mil', desc: 'Alcance 2000 XP' },
+  { id: 'licoes25', emoji: '📚', nome: 'Maratonista', desc: 'Conclua 25 lições' },
+  { id: 'perfeitas10', emoji: '🎖️', nome: 'Impecável', desc: 'Termine 10 lições sem errar' },
+  { id: 'memoria50', emoji: '🌳', nome: 'Raiz Firme', desc: '50 palavras na memória longa' },
+  { id: 'metas7', emoji: '🎯', nome: 'Meta em Dia', desc: 'Bata a meta diária 7 vezes' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 

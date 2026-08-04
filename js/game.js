@@ -1,4 +1,4 @@
-import { UNIDADES, NIVEIS, BADGES } from './data.js';
+import { UNIDADES, NIVEIS, BADGES, MISSOES } from './data.js';
 import { enviarProgresso } from './nuvem.js';
 
 const CHAVE = 'gringolingo';
@@ -15,14 +15,21 @@ const padrao = () => ({
   itens: {},
   erros: [],
   badges: [],
+  historico: {},
+  meta: 30,
+  protetores: 1,
+  missoes: null,
+  lembrete: null,
   stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0 }
 });
+
+export const METAS = [20, 30, 50, 80];
 
 function carregar() {
   try {
     const salvo = JSON.parse(localStorage.getItem(CHAVE));
     if (!salvo) return padrao();
-    return { ...padrao(), ...salvo, itens: { ...salvo.itens }, stats: { ...padrao().stats, ...salvo.stats } };
+    return { ...padrao(), ...salvo, itens: { ...salvo.itens }, historico: { ...salvo.historico }, stats: { ...padrao().stats, ...salvo.stats } };
   } catch {
     return padrao();
   }
@@ -30,13 +37,57 @@ function carregar() {
 
 export const estado = carregar();
 
+const CHAVE_PENDENTE = 'gringolingo:pendente';
+let enviando = false;
+let reenviar = false;
+let aoMudarPendencia = null;
+
+export function observarPendencia(cb) {
+  aoMudarPendencia = cb;
+}
+
+export function temPendencia() {
+  return localStorage.getItem(CHAVE_PENDENTE) === '1';
+}
+
+function marcarPendencia(valor) {
+  if (valor) localStorage.setItem(CHAVE_PENDENTE, '1');
+  else localStorage.removeItem(CHAVE_PENDENTE);
+  aoMudarPendencia?.(valor);
+}
+
+async function subirEstado() {
+  if (enviando) {
+    reenviar = true;
+    return;
+  }
+  enviando = true;
+  try {
+    await enviarProgresso(estado);
+    marcarPendencia(false);
+  } catch {
+    marcarPendencia(true);
+  } finally {
+    enviando = false;
+    if (reenviar) {
+      reenviar = false;
+      subirEstado();
+    }
+  }
+}
+
+export function tentarReenviar() {
+  if (syncAtivo && temPendencia()) subirEstado();
+}
+
 export function salvar() {
   localStorage.setItem(CHAVE, JSON.stringify(estado));
-  if (syncAtivo) enviarProgresso(estado).catch(() => {});
+  if (syncAtivo) subirEstado();
 }
 
 export function ativarSync(valor) {
   syncAtivo = valor;
+  if (valor) tentarReenviar();
 }
 
 export function limparEstadoMemoria() {
@@ -109,6 +160,11 @@ export function mesclarEstado(remoto) {
       }
     }
     estado.badges = [...new Set([...estado.badges, ...(remoto.badges ?? [])])];
+    for (const [d, xp] of Object.entries(remoto.historico ?? {})) {
+      estado.historico[d] = Math.max(estado.historico[d] ?? 0, xp ?? 0);
+    }
+    estado.protetores = Math.max(estado.protetores, remoto.protetores ?? 0);
+    if (remoto.meta && !estado.stats.licoes) estado.meta = remoto.meta;
     const remotoStats = remoto.stats ?? {};
     for (const k of Object.keys(estado.stats)) {
       estado.stats[k] = Math.max(estado.stats[k], remotoStats[k] ?? 0);
@@ -126,10 +182,56 @@ export function streakAtual() {
   return estado.ultimoDia === hoje() || estado.ultimoDia === ontem() ? estado.streak : 0;
 }
 
+export function streakEmRisco() {
+  return estado.ultimoDia === ontem() && estado.streak > 0;
+}
+
 function atualizarStreak() {
-  if (estado.ultimoDia === hoje()) return;
-  estado.streak = estado.ultimoDia === ontem() ? estado.streak + 1 : 1;
+  if (estado.ultimoDia === hoje()) return { usouProtetor: false };
+  const anteontem = dia(new Date(Date.now() - 2 * 864e5));
+  let usouProtetor = false;
+  if (estado.ultimoDia === ontem()) {
+    estado.streak += 1;
+  } else if (estado.ultimoDia === anteontem && estado.protetores > 0 && estado.streak > 0) {
+    estado.protetores -= 1;
+    estado.streak += 1;
+    usouProtetor = true;
+  } else {
+    estado.streak = 1;
+  }
   estado.ultimoDia = hoje();
+  return { usouProtetor };
+}
+
+export function xpDoDia() {
+  return estado.historico[hoje()] ?? 0;
+}
+
+export function metaBatida() {
+  return xpDoDia() >= estado.meta;
+}
+
+export function definirMeta(valor) {
+  estado.meta = valor;
+  salvar();
+}
+
+export function semanaAtual() {
+  const base = new Date();
+  const diaSemana = (base.getUTCDay() + 6) % 7;
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = dia(new Date(base.getTime() + (i - diaSemana) * 864e5));
+    return { data: d, xp: estado.historico[d] ?? 0, hoje: d === hoje(), futuro: d > hoje() };
+  });
+}
+
+function registrarDia(xp) {
+  const d = hoje();
+  estado.historico[d] = (estado.historico[d] ?? 0) + xp;
+  const limite = dia(new Date(Date.now() - 60 * 864e5));
+  Object.keys(estado.historico).forEach(k => {
+    if (k < limite) delete estado.historico[k];
+  });
 }
 
 export function nivelInfo() {
@@ -180,6 +282,44 @@ export function itensVencidos() {
     .map(x => x.item);
 }
 
+function semente(texto) {
+  let h = 0;
+  for (let i = 0; i < texto.length; i++) h = (h * 31 + texto.charCodeAt(i)) >>> 0;
+  return h;
+}
+
+export function missoesDeHoje() {
+  const d = hoje();
+  if (estado.missoes?.dia !== d) {
+    const escolhidas = MISSOES
+      .map(m => ({ id: m.id, chave: semente(d + m.id) }))
+      .sort((a, b) => a.chave - b.chave)
+      .slice(0, 3);
+    estado.missoes = { dia: d, progresso: escolhidas.map(m => ({ id: m.id, valor: 0, pago: false })) };
+  }
+  return estado.missoes.progresso.map(p => {
+    const def = MISSOES.find(m => m.id === p.id);
+    return { ...def, valor: Math.min(p.valor, def.alvo), concluida: p.valor >= def.alvo };
+  });
+}
+
+function avancarMissoes(sessao) {
+  missoesDeHoje();
+  let bonus = 0;
+  const novas = [];
+  estado.missoes.progresso.forEach(p => {
+    const def = MISSOES.find(m => m.id === p.id);
+    if (!def || p.pago) return;
+    p.valor += def.medir(sessao);
+    if (p.valor >= def.alvo) {
+      p.pago = true;
+      bonus += def.xp;
+      novas.push(def);
+    }
+  });
+  return { bonus, novas };
+}
+
 function migrarErros() {
   let mudou = false;
   estado.erros.forEach(e => {
@@ -203,6 +343,14 @@ function unidadeCompleta(u) {
   return u.licoes.every(l => estado.licoes[l.id]);
 }
 
+export function memorizadas() {
+  return Object.values(estado.itens).filter(a => (a?.caixa ?? 0) >= 3).length;
+}
+
+function metasBatidas() {
+  return Object.entries(estado.historico).filter(([, xp]) => xp >= estado.meta).length;
+}
+
 function checarBadges() {
   const cond = {
     primeira: estado.stats.licoes >= 1,
@@ -214,6 +362,14 @@ function checarBadges() {
     streak7: estado.streak >= 7,
     revisor: estado.stats.revisoes >= 1,
     unidade: UNIDADES.some(unidadeCompleta),
+    streak14: estado.streak >= 14,
+    streak30: estado.streak >= 30,
+    xp1000: estado.xp >= 1000,
+    xp2000: estado.xp >= 2000,
+    licoes25: Object.keys(estado.licoes).length >= 25,
+    perfeitas10: estado.stats.perfeitas >= 10,
+    memoria50: memorizadas() >= 50,
+    metas7: metasBatidas() >= 7,
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -222,15 +378,23 @@ function checarBadges() {
 }
 
 export function registrarLicao(licaoId, d) {
-  atualizarStreak();
-  estado.xp += d.xp;
+  const nivelAntes = nivelInfo().numero;
+  const metaAntes = metaBatida();
+  const streakAntes = streakAtual();
+  const { usouProtetor } = atualizarStreak();
+  const missao = avancarMissoes({ ...d, tipo: 'licao' });
+  estado.xp += d.xp + missao.bonus;
+  registrarDia(d.xp + missao.bonus);
   const antes = estado.licoes[licaoId];
   estado.licoes[licaoId] = { estrelas: Math.max(antes?.estrelas ?? 0, d.estrelas) };
   estado.stats.licoes++;
   estado.stats.acertos += d.acertos;
   estado.stats.respostas += d.respostas;
   estado.stats.comboMax = Math.max(estado.stats.comboMax, d.comboMax);
-  if (d.perfeita) estado.stats.perfeitas++;
+  if (d.perfeita) {
+    estado.stats.perfeitas++;
+    if (estado.stats.perfeitas % 5 === 0) estado.protetores = Math.min(estado.protetores + 1, 2);
+  }
   const registrados = new Set(estado.erros.map(e => e.en));
   d.errosItens.forEach(it => {
     if (!registrados.has(it.en)) {
@@ -241,12 +405,25 @@ export function registrarLicao(licaoId, d) {
   aplicarAgendamentos(d.agendamentos);
   const novas = checarBadges();
   salvar();
-  return novas;
+  return {
+    badges: novas,
+    subiuNivel: nivelInfo().numero > nivelAntes ? nivelInfo() : null,
+    bateuMeta: !metaAntes && metaBatida(),
+    streakNovo: streakAtual() > streakAntes ? streakAtual() : 0,
+    usouProtetor,
+    missoes: missao.novas,
+    bonusMissoes: missao.bonus
+  };
 }
 
 export function registrarRevisao(d) {
-  atualizarStreak();
-  estado.xp += d.xp;
+  const nivelAntes = nivelInfo().numero;
+  const metaAntes = metaBatida();
+  const streakAntes = streakAtual();
+  const { usouProtetor } = atualizarStreak();
+  const missao = avancarMissoes({ ...d, tipo: 'revisao' });
+  estado.xp += d.xp + missao.bonus;
+  registrarDia(d.xp + missao.bonus);
   estado.stats.revisoes++;
   estado.stats.acertos += d.acertos;
   estado.stats.respostas += d.respostas;
@@ -256,7 +433,15 @@ export function registrarRevisao(d) {
   aplicarAgendamentos(d.agendamentos);
   const novas = checarBadges();
   salvar();
-  return novas;
+  return {
+    badges: novas,
+    subiuNivel: nivelInfo().numero > nivelAntes ? nivelInfo() : null,
+    bateuMeta: !metaAntes && metaBatida(),
+    streakNovo: streakAtual() > streakAntes ? streakAtual() : 0,
+    usouProtetor,
+    missoes: missao.novas,
+    bonusMissoes: missao.bonus
+  };
 }
 
 if (migrarErros()) salvar();

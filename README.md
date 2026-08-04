@@ -22,10 +22,56 @@ Abra http://localhost:8123. Qualquer servidor estático também funciona (ex.: `
 
 > Precisa de um servidor por causa dos ES modules — abrir o `index.html` direto do disco não funciona.
 
+### Testes
+
+A suíte roda no runner nativo do Node (`node --test`) — sem `package.json`, sem instalar nada.
+De dentro da pasta do projeto:
+
+```bash
+node --test
+```
+
+Dá para apontar só para os arquivos de teste (ou para um deles):
+
+```bash
+node --test "tests/*.test.js"
+node --test tests/jogo.test.js
+```
+
+> No Windows, com o projeto aberto pelo caminho UNC do WSL (`\\wsl.localhost\...`), passar a **pasta**
+> (`node --test tests/`) falha com `Cannot find module` — use `node --test` sem argumento ou o glob acima.
+> Rodando por dentro do WSL a pasta funciona normalmente. Em Node anterior ao 20.19 / 22.7 é preciso
+> acrescentar `--experimental-detect-module`: como não existe `package.json`, é a detecção automática
+> que faz o `.js` ser lido como ES module.
+
+O que a suíte cobre:
+
+- `tests/exercicios.test.js` — `diffPalavras` (faltou, sobrou, trocou, tudo diferente), `gerarExercicios`
+  (quantidade exata e o exercício de pares) e os distratores, que nunca podem entregar uma opção que é
+  pedaço da resposta certa (`take a shower` jamais recebe `shower`).
+- `tests/correcao.test.js` — a correção de cada tipo: digitar (contrações, campo `alt`, pontuação e o
+  errinho de digitação perdoado), múltipla escolha, montar frase com peças e ligar os pares.
+- `tests/jogo.test.js` — `mesclarEstado` (os quatro ramos do streak, xp, estrelas, badges, erros,
+  histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a limpeza
+  de estado.
+- `tests/ambiente.js` — stubs de `window`, `document`, `localStorage` e `speechSynthesis` que deixam os
+  módulos do app rodarem fora do navegador. Ficam de fora do teste automatizado: `js/app.js` (depende de
+  DOM real), `js/nuvem.js` (Supabase) e o exercício de falar (precisa de `SpeechRecognition`).
+
 ## O que tem
 
 - **8 unidades × 4 lições**: Primeiros Passos, Comida Boa, Modo Viagem, Modo Trabalho, Família & Amigos, Casa Doce Casa, Corpo São e Rotina de Campeão — com desbloqueio progressivo e até 3 estrelas por lição.
-- **6 tipos de exercício**: múltipla escolha EN→PT e PT→EN, digitar a tradução (aceita 1 errinho de digitação, traduções alternativas e contrações), montar frase com peças, listening com pronúncia falada e ligar os pares.
+- **10 tipos de exercício**: múltipla escolha EN→PT e PT→EN, digitar a tradução (aceita 1 errinho de
+  digitação, traduções alternativas e contrações), montar frase com peças, listening (o que você ouviu
+  / o que significa), ditado de frase, completar a lacuna, falar em inglês (reconhecimento de voz, com
+  botão de pular) e ligar os pares. Todo áudio tem botão 🐢 para ouvir devagar.
+- **Metas e hábito**: meta diária de XP configurável, 3 missões que trocam todo dia, quadro da semana,
+  protetor de streak (perdoa um dia perdido, ganho a cada 5 lições perfeitas), aviso quando o streak
+  está para vencer e lembrete diário opcional por notificação.
+- **Dicas de gramática**: algumas lições abrem com um card explicando a estrutura (to be, do-support,
+  -s da terceira pessoa, sujeito obrigatório) antes do primeiro exercício.
+- **Acessível e rápido no teclado**: teclas 1–4 escolhem a opção, Enter verifica e avança, Esc sai;
+  foco gerenciado, `aria-live` no feedback e respeito a `prefers-reduced-motion`.
 - **Feedback que ensina**: ao errar uma frase, a resposta certa aparece com as palavras que faltaram destacadas e o que você escreveu a mais riscado; itens com o campo `nota` ainda mostram uma dica de gramática (💡 "estados usam to be, não have").
 - **Gamificação**: XP com bônus de combo, níveis com títulos ("Turista Perdido" → "Netflix Sem Legenda" → "Lenda do Inglês"), streak diário, 10 conquistas, confete e efeitos sonoros.
 - **Revisão Turbo com repetição espaçada (Leitner)**: cada palavra tem uma "caixa" e volta a ser
@@ -46,6 +92,10 @@ js/audio.js       efeitos sonoros (WebAudio) e pronúncia (speechSynthesis)
 js/util.js        helpers de DOM e aleatoriedade
 js/nuvem.js       autenticação e sincronização (Supabase)
 js/config.js      URL e anon key do projeto Supabase
+js/erros.js       captura de erros em anel + tela de diagnóstico (abra com ?debug)
+tests/            suíte do node --test (sem dependências)
+docs/supabase.sql schema e políticas do backend, versionados
+.github/workflows/keep-alive.yml  ping 3x/semana para o free tier não pausar
 sw.js             service worker (cache offline do app)
 manifest.webmanifest  metadados do PWA (nome, ícones, cores)
 icones/           ícones do app (192, 512, maskable e apple-touch)

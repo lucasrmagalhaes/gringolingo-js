@@ -1,9 +1,10 @@
 import { UNIDADES, MASCOTE, BADGES } from './data.js';
-import { estado, streakAtual, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, ativarSync, mesclarEstado, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, ativarSync, mesclarEstado, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, METAS } from './game.js';
 import { sons, falar, temTts, destravarAudio } from './audio.js';
 import { gerarExercicios, exercicioFacil, montarExercicio } from './exercises.js';
 import { h, aleatorio } from './util.js';
 import { nuvemConfigurada, sessaoAtual, entrar, criarConta, sair, baixarProgresso, aoMudarAuth, googleAtivo, entrarComGoogle, vincularGoogle, desvincularGoogle, provedoresDaConta, traduzirErro } from './nuvem.js';
+import { registrar, logSalvo, limparLog, modoDebug, contextoDoLog } from './erros.js';
 
 const app = document.getElementById('app');
 let sessao = null;
@@ -14,6 +15,8 @@ let authCarregando = false;
 let geracaoAuth = 0;
 let temGoogle = false;
 let provedores = [];
+let atalhosAtivos = null;
+let timerLembrete = null;
 let avisoPendente = null;
 let avisoPerfil = null;
 
@@ -71,8 +74,92 @@ function telaInicial() {
         h('div', { class: 'nivel-xp' }, nv.prox ? `${estado.xp} / ${nv.prox.xp} XP` : 'Nível máximo! 👑')
       )
     ),
+    bannerStreak(),
+    cartaoMeta(),
+    faixaSemana(),
+    cartaoMissoes(),
     botaoRevisao(),
+    cartaoBoasVindas(),
     ...UNIDADES.map(cartaoUnidade)
+  );
+}
+
+function bannerStreak() {
+  if (!streakEmRisco()) return '';
+  return h('div', { class: 'banner-streak' },
+    h('span', {}, '🔥'),
+    h('span', {}, `Sua sequência de ${streakAtual()} dia${streakAtual() > 1 ? 's' : ''} vence hoje! Uma lição salva ela.`)
+  );
+}
+
+function cartaoMeta() {
+  const feito = xpDoDia();
+  const pct = Math.min(100, Math.round(feito / estado.meta * 100));
+  const pronto = metaBatida();
+  return h('div', { class: 'card meta-card' + (pronto ? ' meta-pronta' : '') },
+    h('span', { class: 'meta-emoji' }, pronto ? '🎉' : '🎯'),
+    h('div', { class: 'meta-info' },
+      h('div', { class: 'meta-titulo' }, pronto ? 'Meta do dia batida!' : 'Meta do dia'),
+      h('div', { class: 'progresso meta-prog' }, h('div', { style: `width:${pct}%` })),
+      h('div', { class: 'meta-xp' }, `${feito} / ${estado.meta} XP de hoje`)
+    ),
+    h('select', {
+      class: 'meta-select',
+      'aria-label': 'Escolher meta diária',
+      onchange(e) {
+        definirMeta(Number(e.target.value));
+        telaInicial();
+      }
+    }, METAS.map(m => {
+      const op = h('option', { value: String(m) }, m + ' XP');
+      if (m === estado.meta) op.selected = true;
+      return op;
+    }))
+  );
+}
+
+function faixaSemana() {
+  if (!estado.stats.licoes) return '';
+  const dias = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'];
+  return h('div', { class: 'semana' },
+    semanaAtual().map((d, i) => h('div', {
+      class: 'semana-dia' + (d.xp ? ' feito' : '') + (d.hoje ? ' hoje' : '') + (d.futuro ? ' futuro' : ''),
+      title: `${d.data}: ${d.xp} XP`
+    },
+      h('span', { class: 'semana-letra' }, dias[i]),
+      h('span', { class: 'semana-bolinha' }, d.xp ? '🔥' : '·')
+    ))
+  );
+}
+
+function cartaoMissoes() {
+  if (!estado.stats.licoes) return '';
+  const missoes = missoesDeHoje();
+  return h('div', { class: 'card missoes-card' },
+    h('div', { class: 'missoes-titulo' }, '🎯 Missões de hoje'),
+    ...missoes.map(m => h('div', { class: 'missao' + (m.concluida ? ' concluida' : '') },
+      h('span', { class: 'missao-emoji' }, m.concluida ? '✅' : m.emoji),
+      h('div', { class: 'missao-corpo' },
+        h('div', { class: 'missao-nome' }, m.titulo),
+        h('div', { class: 'progresso missao-prog' }, h('div', { style: `width:${Math.round(m.valor / m.alvo * 100)}%` }))
+      ),
+      h('span', { class: 'missao-xp' }, '+' + m.xp)
+    ))
+  );
+}
+
+function cartaoBoasVindas() {
+  if (estado.stats.licoes) return '';
+  return h('div', { class: 'card boas-vindas' },
+    h('div', { class: 'boas-emoji' }, '🦜'),
+    h('div', { class: 'boas-texto' },
+      h('div', { class: 'boas-titulo' }, 'Bem-vindo, gringo!'),
+      h('div', { class: 'boas-sub' }, 'Cinco minutinhos por dia já mudam tudo. Bora começar pela primeira lição?')
+    ),
+    h('button', {
+      class: 'btn btn-verde',
+      onclick: () => iniciarLicao(UNIDADES[0], UNIDADES[0].licoes[0])
+    }, 'COMEÇAR')
   );
 }
 
@@ -107,12 +194,17 @@ function cartaoUnidade(u) {
       u.licoes.map((l, idx) => {
         const liberada = aberta && licaoDesbloqueada(u, idx);
         const prog = estado.licoes[l.id];
-        const b = h('button', { class: 'licao' + (liberada ? '' : ' bloqueada') },
-          h('div', { class: 'licao-emoji' }, liberada ? l.emoji : '🔒'),
+        const estrelas = prog?.estrelas ?? 0;
+        const b = h('button', {
+          class: 'licao' + (liberada ? '' : ' bloqueada'),
+          'aria-label': `${l.titulo} — ${liberada ? estrelas + ' de 3 estrelas' : 'bloqueada'}`
+        },
+          h('div', { class: 'licao-emoji', 'aria-hidden': 'true' }, liberada ? l.emoji : '🔒'),
           h('div', { class: 'licao-titulo' }, l.titulo),
-          h('div', { class: 'estrelas' }, [1, 2, 3].map(n => h('span', { class: prog && prog.estrelas >= n ? 'ganha' : '' }, '★')))
+          h('div', { class: 'estrelas', 'aria-hidden': 'true' }, [1, 2, 3].map(n => h('span', { class: estrelas >= n ? 'ganha' : '' }, '★')))
         );
         if (liberada) b.addEventListener('click', () => iniciarLicao(u, l));
+        else b.disabled = true;
         return b;
       })
     )
@@ -120,6 +212,30 @@ function cartaoUnidade(u) {
 }
 
 function iniciarLicao(u, l) {
+  if (l.dica && !estado.licoes[l.id]) {
+    telaDica(u, l);
+    return;
+  }
+  comecarLicao(u, l);
+}
+
+function telaDica(u, l) {
+  window.scrollTo(0, 0);
+  telaAtiva = 'dica';
+  app.innerHTML = '';
+  const botao = h('button', { class: 'btn btn-verde', onclick: () => comecarLicao(u, l) }, 'ENTENDI, BORA!');
+  app.append(
+    h('div', { class: 'dica-tela' },
+      h('div', { class: 'dica-emoji' }, '💡'),
+      h('h1', {}, l.dica.titulo),
+      h('div', { class: 'card dica-corpo' }, l.dica.corpo),
+      botao
+    )
+  );
+  botao.focus({ preventScroll: true });
+}
+
+function comecarLicao(u, l) {
   const pool = u.licoes.flatMap(x => x.itens);
   const fila = gerarExercicios(l.itens, pool, 8);
   sessao = {
@@ -152,14 +268,20 @@ function telaExercicio() {
   window.scrollTo(0, 0);
   telaAtiva = 'licao';
   const ex = sessao.fila[sessao.idx];
-  const barra = h('div', { class: 'progresso barra-licao' },
-    h('div', { style: `width:${Math.round(sessao.idx / sessao.fila.length * 100)}%` })
-  );
+  const pct = Math.round(sessao.idx / sessao.fila.length * 100);
+  const barra = h('div', {
+    class: 'progresso barra-licao',
+    role: 'progressbar',
+    'aria-valuemin': '0',
+    'aria-valuemax': '100',
+    'aria-valuenow': String(pct),
+    'aria-label': 'Progresso da lição'
+  }, h('div', { style: `width:${pct}%` }));
   const comboEl = h('div', { class: 'combo' + (sessao.combo >= 2 ? ' pop' : '') }, sessao.combo >= 2 ? `⚡x${sessao.combo}` : '');
   const btnVerificar = h('button', { class: 'btn btn-verde' }, 'VERIFICAR');
   btnVerificar.disabled = true;
   const rodape = h('div', { class: 'rodape' }, h('div', { class: 'rodape-conteudo' }, btnVerificar));
-  const feedback = h('div', { class: 'feedback' });
+  const feedback = h('div', { class: 'feedback', role: 'status', 'aria-live': 'polite' });
   const areaEx = h('div', { class: 'area-exercicio' });
   app.innerHTML = '';
   app.append(
@@ -179,15 +301,59 @@ function telaExercicio() {
   const ctrl = montarExercicio(ex, {
     aoMudar: v => { btnVerificar.disabled = !v; },
     aoAuto: res => processar(ex, res, feedback, btnVerificar),
-    aoEnter: () => { if (!btnVerificar.disabled) btnVerificar.click(); }
+    aoEnter: () => { if (!btnVerificar.disabled) btnVerificar.click(); },
+    aoPular: () => {
+      sessao.fila.splice(sessao.idx, 1);
+      sessao.planejados = Math.max(1, sessao.planejados - 1);
+      if (sessao.idx >= sessao.fila.length) finalizar();
+      else telaExercicio();
+    }
   });
   areaEx.append(ctrl.el);
   if (!ctrl.temVerificar) rodape.style.display = 'none';
+  ligarAtalhos(areaEx, btnVerificar, feedback);
+  focarTela();
   btnVerificar.addEventListener('click', () => {
     if (btnVerificar.disabled) return;
     const res = ctrl.corrigir();
     processar(ex, res, feedback, btnVerificar);
   });
+}
+
+function ligarAtalhos(areaEx, btnVerificar, feedback) {
+  if (atalhosAtivos) document.removeEventListener('keydown', atalhosAtivos);
+  atalhosAtivos = e => {
+    if (telaAtiva !== 'licao') return;
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    const digitando = document.activeElement?.classList.contains('entrada');
+    const btnFeedback = feedback.querySelector('.btn');
+    if (e.key === 'Enter') {
+      if (btnFeedback) {
+        e.preventDefault();
+        btnFeedback.click();
+      } else if (!digitando && !btnVerificar.disabled) {
+        e.preventDefault();
+        btnVerificar.click();
+      }
+      return;
+    }
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      if (temTts) speechSynthesis.cancel();
+      telaInicial();
+      return;
+    }
+    if (digitando || btnFeedback) return;
+    const n = Number(e.key);
+    if (n >= 1 && n <= 4) {
+      const opcoes = areaEx.querySelectorAll('.opcoes .opcao');
+      if (opcoes[n - 1]) {
+        e.preventDefault();
+        opcoes[n - 1].click();
+      }
+    }
+  };
+  document.addEventListener('keydown', atalhosAtivos);
 }
 
 function processar(ex, res, feedback, btnVerificar) {
@@ -220,7 +386,7 @@ function processar(ex, res, feedback, btnVerificar) {
       }
     }
   }
-  if (ex.item && ['escolhaPtEn', 'digitar', 'montar'].includes(ex.tipo)) falar(ex.item.en);
+  if (ex.item && ['escolhaPtEn', 'digitar', 'montar', 'ditado', 'lacuna', 'ouvirPt'].includes(ex.tipo)) falar(ex.item.en);
   const frase = aleatorio(res.correto ? MASCOTE.acerto : MASCOTE.erro);
   const linhas = [];
   if (res.correto && res.quase) linhas.push(h('div', { class: 'feedback-frase' }, `O certinho é: ${res.certa}`));
@@ -230,16 +396,18 @@ function processar(ex, res, feedback, btnVerificar) {
   linhas.push(h('div', { class: 'feedback-frase suave' }, frase));
   feedback.className = 'feedback ' + (res.correto ? 'certo' : 'errado');
   feedback.innerHTML = '';
+  const btnContinuar = h('button', { class: 'btn ' + (res.correto ? 'btn-verde' : 'btn-vermelho'), onclick: continuar }, 'CONTINUAR');
   feedback.append(
     h('div', { class: 'feedback-conteudo' },
       h('div', { class: 'feedback-textos' },
         h('div', { class: 'feedback-titulo' }, res.correto ? (res.quase ? 'Quase perfeito! ✍️' : 'Muito bem!') : 'Ops!'),
         linhas
       ),
-      h('button', { class: 'btn ' + (res.correto ? 'btn-verde' : 'btn-vermelho'), onclick: continuar }, 'CONTINUAR')
+      btnContinuar
     )
   );
   requestAnimationFrame(() => feedback.classList.add('aberta'));
+  btnContinuar.focus({ preventScroll: true });
 }
 
 function linhaDiff(diff) {
@@ -269,28 +437,32 @@ function finalizar() {
   const estrelas = precisao >= 90 ? 3 : precisao >= 60 ? 2 : 1;
   s.xp += 20 + (perfeita ? 15 : 0);
   const agendamentos = [...s.resultados.values()];
-  let novas;
+  let evento;
   if (s.tipo === 'licao') {
-    novas = registrarLicao(s.licao.id, {
+    evento = registrarLicao(s.licao.id, {
       estrelas, xp: s.xp, comboMax: s.comboMax, errosItens: s.erros,
       perfeita, acertos: s.acertos, respostas: s.planejados, agendamentos
     });
   } else {
     const errosEn = new Set(s.erros.map(e => e.en));
-    novas = registrarRevisao({
+    evento = registrarRevisao({
       xp: s.xp, comboMax: s.comboMax, perfeita,
       acertos: s.acertos, respostas: s.planejados, agendamentos,
       acertadosEn: s.itens.filter(i => !errosEn.has(i.en)).map(i => i.en)
     });
   }
-  telaResultado(estrelas, precisao, novas);
+  s.xp += evento.bonusMissoes;
+  telaResultado(estrelas, precisao, evento);
 }
 
-function telaResultado(estrelas, precisao, novasBadges) {
+function telaResultado(estrelas, precisao, evento) {
   window.scrollTo(0, 0);
   telaAtiva = 'resultado';
   const s = sessao;
+  const novasBadges = evento.badges;
   app.innerHTML = '';
+  const pilulaXp = h('div', { class: 'pilula' }, `⭐ +0 XP`);
+  contarAte(pilulaXp, s.xp, valor => `⭐ +${valor} XP`);
   const stars = h('div', { class: 'estrelas-grandes' }, [1, 2, 3].map(n => {
     const sp = h('span', { class: 'anima' + (n <= estrelas ? ' ganha' : ''), style: `animation-delay:${0.3 + n * 0.25}s` }, '★');
     return sp;
@@ -302,10 +474,17 @@ function telaResultado(estrelas, precisao, novasBadges) {
       h('div', { class: 'resultado-frase' }, aleatorio(MASCOTE.resultado[estrelas])),
       stars,
       h('div', { class: 'pilulas-stats' },
-        h('div', { class: 'pilula' }, `⭐ +${s.xp} XP`),
+        pilulaXp,
         h('div', { class: 'pilula' }, `🎯 ${precisao}% de precisão`),
-        h('div', { class: 'pilula' }, `⚡ combo x${s.comboMax}`)
+        h('div', { class: 'pilula' }, `⚡ combo x${s.comboMax}`),
+        evento.streakNovo ? h('div', { class: 'pilula pop destaque' }, `🔥 ${evento.streakNovo} dias seguidos!`) : '',
+        evento.bateuMeta ? h('div', { class: 'pilula pop destaque' }, '🎯 Meta do dia batida!') : '',
+        evento.usouProtetor ? h('div', { class: 'pilula destaque' }, '🧊 Protetor salvou seu fogo!') : ''
       ),
+      evento.missoes?.length ? h('div', { class: 'missoes-cumpridas' },
+        h('div', { class: 'secao-titulo' }, '🎯 Missão cumprida!'),
+        ...evento.missoes.map(m => h('div', { class: 'pilula' }, `${m.emoji} ${m.titulo} +${m.xp} XP`))
+      ) : '',
       novasBadges.length ? h('div', { class: 'novas-badges' },
         h('div', { class: 'secao-titulo' }, '🏅 Conquista nova!'),
         h('div', { class: 'badges-grid centrada' },
@@ -324,8 +503,46 @@ function telaResultado(estrelas, precisao, novasBadges) {
       )
     )
   );
-  if (estrelas >= 2) confete();
+  if (estrelas >= 2 || evento.subiuNivel) confete();
   sons.fanfarra();
+  if (evento.subiuNivel) setTimeout(() => overlayNivel(evento.subiuNivel), 700);
+}
+
+function contarAte(el, alvo, formato) {
+  if (reduzirMovimento() || alvo <= 0) {
+    el.textContent = formato(alvo);
+    return;
+  }
+  const inicio = performance.now();
+  const passo = agora => {
+    const t = Math.min(1, (agora - inicio) / 700);
+    el.textContent = formato(Math.round(alvo * (1 - Math.pow(1 - t, 3))));
+    if (t < 1) requestAnimationFrame(passo);
+  };
+  requestAnimationFrame(passo);
+}
+
+function overlayNivel(nv) {
+  const fechar = () => {
+    caixa.remove();
+    document.removeEventListener('keydown', aoTeclar);
+  };
+  const aoTeclar = e => {
+    if (e.key === 'Escape' || e.key === 'Enter') fechar();
+  };
+  const botao = h('button', { class: 'btn btn-verde', onclick: fechar }, 'BORA!');
+  const caixa = h('div', { class: 'overlay-nivel', role: 'dialog', 'aria-modal': 'true' },
+    h('div', { class: 'overlay-caixa' },
+      h('div', { class: 'overlay-emoji' }, nv.emoji),
+      h('div', { class: 'overlay-titulo' }, 'Nível ' + nv.numero),
+      h('div', { class: 'overlay-nome' }, 'Você virou ' + nv.titulo + '!'),
+      botao
+    )
+  );
+  document.addEventListener('keydown', aoTeclar);
+  document.body.append(caixa);
+  botao.focus();
+  sons.combo(4);
 }
 
 function telaLogin(aviso) {
@@ -423,6 +640,17 @@ function erroNaUrl() {
   if (codigo.includes('identity') || /identit/i.test(descricao)) return 'Não deu pra vincular: ' + traduzirErro(descricao);
   if (p.get('error') === 'access_denied' && !codigo) return 'Entrada com Google cancelada — tenta de novo quando quiser 🙂';
   return 'Não deu pra entrar: ' + traduzirErro(descricao);
+}
+
+function reduzirMovimento() {
+  return matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function focarTela() {
+  const alvo = app.querySelector('h1, .enunciado, .logo, .nivel-titulo');
+  if (!alvo) return;
+  alvo.setAttribute('tabindex', '-1');
+  alvo.focus({ preventScroll: true });
 }
 
 function temaAtual() {
@@ -551,8 +779,10 @@ function telaPerfil() {
       statPilula('⚡', 'x' + estado.stats.comboMax, 'combo máximo'),
       statPilula('🧠', estado.stats.revisoes, 'revisões turbo'),
       statPilula('🌱', memorizadas(), 'na memória longa'),
-      statPilula('📅', itensVencidos().length, 'vencendo hoje')
+      statPilula('📅', itensVencidos().length, 'vencendo hoje'),
+      statPilula('🧊', estado.protetores, 'protetores de streak')
     ),
+    cartaoLembrete(),
     h('div', { class: 'secao-titulo' }, '🏅 Conquistas'),
     h('div', { class: 'badges-grid' },
       BADGES.map(b => {
@@ -566,6 +796,62 @@ function telaPerfil() {
     ),
     cartaoConta()
   );
+}
+
+function cartaoLembrete() {
+  if (!('Notification' in window)) return '';
+  const ativo = !!estado.lembrete;
+  const msg = h('div', { class: 'revisao-sub' }, ativo
+    ? `Aviso diário às ${estado.lembrete} enquanto o app estiver aberto`
+    : 'Receba um lembrete no horário que você escolher');
+  const hora = h('input', { class: 'entrada hora-input', type: 'time', value: estado.lembrete ?? '20:00' });
+  const botao = h('button', { class: 'btn ' + (ativo ? 'btn-branco' : 'btn-azul') }, ativo ? 'DESLIGAR' : 'ATIVAR');
+  botao.addEventListener('click', async () => {
+    if (ativo) {
+      estado.lembrete = null;
+      salvar();
+      telaPerfil();
+      return;
+    }
+    botao.disabled = true;
+    const permissao = await Notification.requestPermission();
+    if (permissao !== 'granted') {
+      msg.textContent = 'Permissão negada — libere as notificações do site para usar 🔕';
+      botao.disabled = false;
+      return;
+    }
+    estado.lembrete = hora.value;
+    salvar();
+    agendarLembrete();
+    telaPerfil();
+  });
+  return h('div', { class: 'card lembrete-card' },
+    h('div', { class: 'lembrete-textos' },
+      h('div', { class: 'nivel-titulo' }, '🔔 Lembrete diário'),
+      msg
+    ),
+    ativo ? '' : hora,
+    botao
+  );
+}
+
+function agendarLembrete() {
+  clearTimeout(timerLembrete);
+  if (!estado.lembrete || !('Notification' in window) || Notification.permission !== 'granted') return;
+  const [hh, mm] = estado.lembrete.split(':').map(Number);
+  const agora = new Date();
+  const alvo = new Date();
+  alvo.setHours(hh, mm, 0, 0);
+  if (alvo <= agora) alvo.setDate(alvo.getDate() + 1);
+  timerLembrete = setTimeout(() => {
+    try {
+      new Notification('GringoLingo 🦜', {
+        body: streakEmRisco() ? 'Seu streak vence hoje! Bora salvar 🔥' : 'Hora do inglês! 5 minutinhos 💪',
+        icon: 'icones/icone-192.png'
+      });
+    } catch {}
+    agendarLembrete();
+  }, alvo - agora);
 }
 
 function cartaoConta() {
@@ -645,10 +931,6 @@ function linhaGoogle() {
   );
 }
 
-function memorizadas() {
-  return Object.values(estado.itens).filter(a => (a?.caixa ?? 0) >= 3).length;
-}
-
 function statPilula(emoji, valor, rotulo) {
   return h('div', { class: 'stat' },
     h('div', { class: 'stat-emoji' }, emoji),
@@ -723,11 +1005,53 @@ function registrarServiceWorker() {
   }).catch(() => {});
 }
 
+function telaDebug() {
+  window.scrollTo(0, 0);
+  telaAtiva = 'debug';
+  const log = logSalvo();
+  app.innerHTML = '';
+  app.append(
+    h('div', { class: 'topo' },
+      h('button', { class: 'pilula btn-perfil', onclick: () => telaInicial() }, '← Voltar'),
+      h('div', { class: 'espaco' }),
+      h('div', { class: 'logo' }, '🐛 Diagnóstico')
+    ),
+    h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, `${log.length} erro${log.length === 1 ? '' : 's'} registrado${log.length === 1 ? '' : 's'}`),
+      h('div', { class: 'revisao-sub' }, 'Compartilhe esta tela se algo quebrar. Nada é enviado automaticamente.')
+    ),
+    ...log.slice().reverse().map(e => h('div', { class: 'card debug-item' },
+      h('div', { class: 'debug-quando' }, e.quando + ' · ' + e.origem + ' · tela ' + e.tela),
+      h('div', { class: 'debug-msg' }, e.mensagem),
+      h('div', { class: 'debug-pilha' }, e.pilha)
+    )),
+    h('div', { class: 'resultado-botoes' },
+      h('button', { class: 'btn btn-vermelho', onclick: () => { limparLog(); telaDebug(); } }, 'LIMPAR LOG')
+    )
+  );
+}
+
 async function iniciar() {
+  contextoDoLog(() => telaAtiva);
   avisoPendente = nuvemConfigurada ? erroNaUrl() : null;
   authCarregando = nuvemConfigurada;
+  if (modoDebug()) {
+    telaDebug();
+    return;
+  }
   telaInicial();
   registrarServiceWorker();
+  agendarLembrete();
+  window.addEventListener('online', tentarReenviar);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) tentarReenviar();
+  });
+  observarPendencia(pendente => {
+    if (telaAtiva === 'inicial' && syncPendente !== pendente) {
+      syncPendente = pendente;
+      telaInicial();
+    }
+  });
   if (!nuvemConfigurada) return;
   checarGoogle();
   try {

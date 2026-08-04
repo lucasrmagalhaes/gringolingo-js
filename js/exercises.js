@@ -1,6 +1,6 @@
 import { POOL_TILES } from './data.js';
 import { temTts, falar, sons } from './audio.js';
-import { h, embaralhar, amostra } from './util.js';
+import { h, embaralhar, amostra, aleatorio } from './util.js';
 
 const CONTRACOES = [
   ["i'm", 'i am'],
@@ -94,20 +94,34 @@ function montarDados(tipo, item, pool) {
   if (tipo === 'escolhaEnPt') return { tipo, item, opcoes: embaralhar([item.pt, ...distratores(item, pool, 3, 'pt')]) };
   if (tipo === 'escolhaPtEn') return { tipo, item, opcoes: embaralhar([item.en, ...distratores(item, pool, 3, 'en')]) };
   if (tipo === 'ouvir') return { tipo, item, opcoes: embaralhar([item.en, ...distratores(item, pool, 3, 'en')]) };
-  if (tipo === 'digitar') return { tipo, item };
+  if (tipo === 'ouvirPt') return { tipo, item, opcoes: embaralhar([item.pt, ...distratores(item, pool, 3, 'pt')]) };
+  if (tipo === 'digitar' || tipo === 'falar') return { tipo, item };
+  if (tipo === 'lacuna') {
+    const palavras = item.en.replace(/[.,!?]/g, '').split(' ');
+    const candidatas = palavras.filter(p => !POOL_TILES.includes(p.toLowerCase()) && p.length > 2);
+    const alvo = aleatorio(candidatas.length ? candidatas : palavras);
+    const outras = [...new Set(pool.flatMap(o => o.en.replace(/[.,!?]/g, '').split(' '))
+      .filter(p => p.toLowerCase() !== alvo.toLowerCase() && p.length > 2 && !POOL_TILES.includes(p.toLowerCase())))];
+    return { tipo, item, alvo, palavras, opcoes: embaralhar([alvo, ...amostra(outras, 3)]) };
+  }
   const palavras = item.en.replace(/[.,!?]/g, '').split(' ');
   const baixas = palavras.map(p => p.toLowerCase());
   const extras = amostra(POOL_TILES.filter(t => !baixas.includes(t.toLowerCase())), 3);
-  return { tipo: 'montar', item, tiles: embaralhar([...palavras, ...extras]) };
+  return { tipo: tipo === 'ditado' ? 'ditado' : 'montar', item, tiles: embaralhar([...palavras, ...extras]) };
 }
+
+export const temFala = typeof window !== 'undefined' && !!(window.SpeechRecognition || window.webkitSpeechRecognition);
 
 function criar(item, pool) {
   const tipos = [];
-  if (ehFrase(item)) tipos.push('montar', 'montar', 'escolhaEnPt', 'escolhaPtEn', 'digitar');
-  else {
+  if (ehFrase(item)) {
+    tipos.push('montar', 'montar', 'escolhaEnPt', 'escolhaPtEn', 'digitar', 'lacuna');
+    if (temTts) tipos.push('ditado');
+  } else {
     tipos.push('escolhaEnPt', 'escolhaPtEn', 'digitar');
-    if (temTts) tipos.push('ouvir');
+    if (temTts) tipos.push('ouvir', 'ouvirPt');
   }
+  if (temFala) tipos.push('falar');
   return montarDados(tipos[Math.floor(Math.random() * tipos.length)], item, pool);
 }
 
@@ -130,7 +144,7 @@ export function gerarExercicios(itens, pool, qtd = 8) {
 function botaoSom(texto, extra = '') {
   return h('button', {
     class: 'btn-som' + (extra ? ' ' + extra : ''),
-    'aria-label': 'Ouvir',
+    'aria-label': 'Ouvir em inglês',
     onclick(e) {
       e.stopPropagation();
       falar(texto);
@@ -138,16 +152,31 @@ function botaoSom(texto, extra = '') {
   }, '🔊');
 }
 
+function botaoLento(texto) {
+  return h('button', {
+    class: 'btn-som btn-lento',
+    'aria-label': 'Ouvir devagar',
+    onclick(e) {
+      e.stopPropagation();
+      falar(texto, 0.6);
+    }
+  }, '🐢');
+}
+
 function montarEscolha(ex, cb) {
   let sel = null;
   let trancado = false;
   const botoes = ex.opcoes.map(op => {
-    const b = h('button', { class: 'opcao' }, op);
+    const b = h('button', { class: 'opcao', 'aria-pressed': 'false' }, op);
     b.addEventListener('click', () => {
       if (trancado) return;
       sel = op;
-      botoes.forEach(x => x.classList.remove('sel'));
+      botoes.forEach(x => {
+        x.classList.remove('sel');
+        x.setAttribute('aria-pressed', 'false');
+      });
       b.classList.add('sel');
+      b.setAttribute('aria-pressed', 'true');
       sons.clique();
       cb.aoMudar(true);
     });
@@ -156,17 +185,24 @@ function montarEscolha(ex, cb) {
   const enunciados = {
     escolhaEnPt: 'Como se diz em português? 🇧🇷',
     escolhaPtEn: 'Como se diz em inglês? 🇺🇸',
-    ouvir: 'O que você ouviu? 👂'
+    ouvir: 'O que você ouviu? 👂',
+    ouvirPt: 'O que isso significa? 👂',
+    lacuna: 'Complete a frase 🧩'
   };
   const filhos = [h('div', { class: 'enunciado' }, enunciados[ex.tipo])];
   if (ex.tipo === 'escolhaEnPt') filhos.push(h('div', { class: 'prompt-card' }, botaoSom(ex.item.en), h('span', {}, ex.item.en)));
   if (ex.tipo === 'escolhaPtEn') filhos.push(h('div', { class: 'prompt-card' }, h('span', {}, ex.item.pt)));
-  if (ex.tipo === 'ouvir') {
-    filhos.push(botaoSom(ex.item.en, 'grande'));
+  if (ex.tipo === 'ouvir' || ex.tipo === 'ouvirPt') {
+    filhos.push(h('div', { class: 'sons-linha' }, botaoSom(ex.item.en, 'grande'), botaoLento(ex.item.en)));
     setTimeout(() => falar(ex.item.en), 350);
   }
+  if (ex.tipo === 'lacuna') {
+    const frase = ex.palavras.map(p => (p === ex.alvo ? '____' : p)).join(' ');
+    filhos.push(h('div', { class: 'prompt-card' }, botaoSom(ex.item.en), h('span', {}, frase)));
+    filhos.push(h('div', { class: 'prompt-apoio' }, ex.item.pt));
+  }
   filhos.push(h('div', { class: 'opcoes' }, botoes));
-  const alvo = ex.tipo === 'escolhaEnPt' ? ex.item.pt : ex.item.en;
+  const alvo = ex.tipo === 'escolhaEnPt' || ex.tipo === 'ouvirPt' ? ex.item.pt : ex.tipo === 'lacuna' ? ex.alvo : ex.item.en;
   return {
     el: h('div', {}, filhos),
     temVerificar: true,
@@ -217,6 +253,60 @@ function montarDigitar(ex, cb) {
   };
 }
 
+function montarFalar(ex, cb) {
+  let ouvido = '';
+  let trancado = false;
+  const status = h('div', { class: 'fala-status' }, 'Toque no microfone e fale a frase');
+  const eco = h('div', { class: 'fala-eco' });
+  const botao = h('button', { class: 'btn-mic', 'aria-label': 'Falar' }, '🎤');
+  const pular = h('button', { class: 'btn btn-branco', onclick: () => cb.aoPular() }, 'PULAR');
+  botao.addEventListener('click', () => {
+    if (trancado) return;
+    const Reconhecedor = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const rec = new Reconhecedor();
+    rec.lang = 'en-US';
+    rec.maxAlternatives = 3;
+    rec.interimResults = false;
+    botao.classList.add('gravando');
+    status.textContent = 'Ouvindo… fale agora 🎙️';
+    rec.onresult = evento => {
+      const alternativas = [...evento.results[0]].map(r => r.transcript);
+      ouvido = alternativas.find(t => normalizar(t) === normalizar(ex.item.en)) ?? alternativas[0];
+      eco.textContent = '“' + ouvido + '”';
+      status.textContent = 'Peguei! Confira abaixo 👇';
+      cb.aoMudar(true);
+    };
+    rec.onerror = () => {
+      status.textContent = 'Não consegui ouvir — tenta de novo ou pula 🙈';
+    };
+    rec.onend = () => botao.classList.remove('gravando');
+    try {
+      rec.start();
+    } catch {
+      botao.classList.remove('gravando');
+    }
+  });
+  return {
+    el: h('div', {},
+      h('div', { class: 'enunciado' }, 'Fale em inglês 🗣️'),
+      h('div', { class: 'prompt-card' }, botaoSom(ex.item.en), h('span', {}, ex.item.en)),
+      h('div', { class: 'prompt-apoio' }, ex.item.pt),
+      botao, status, eco,
+      h('div', { class: 'fala-pular' }, pular)
+    ),
+    temVerificar: true,
+    corrigir() {
+      trancado = true;
+      const dada = normalizar(ouvido);
+      const aceitas = [ex.item.en, ...(ex.item.alt ?? [])].map(normalizar);
+      const certa = normalizar(ex.item.en);
+      const ok = aceitas.includes(dada) || (certa.length >= 5 && levenshtein(dada, certa) <= 1);
+      eco.classList.add(ok ? 'fala-certa' : 'fala-errada');
+      return { correto: ok, certa: ex.item.en, diff: ok ? null : diffPalavras(ouvido || '(nada)', ex.item.en) };
+    }
+  };
+}
+
 function montarFrase(ex, cb) {
   let trancado = false;
   const area = h('div', { class: 'resposta-area' });
@@ -241,9 +331,13 @@ function montarFrase(ex, cb) {
     });
     banco.append(b);
   });
+  const ditado = ex.tipo === 'ditado';
+  if (ditado) setTimeout(() => falar(ex.item.en), 350);
   const el = h('div', {},
-    h('div', { class: 'enunciado' }, 'Monte a frase em inglês 🧩'),
-    h('div', { class: 'prompt-card' }, h('span', {}, ex.item.pt)),
+    h('div', { class: 'enunciado' }, ditado ? 'Escreva o que você ouvir 👂' : 'Monte a frase em inglês 🧩'),
+    ditado
+      ? h('div', { class: 'sons-linha' }, botaoSom(ex.item.en, 'grande'), botaoLento(ex.item.en))
+      : h('div', { class: 'prompt-card' }, h('span', {}, ex.item.pt)),
     area,
     banco
   );
@@ -329,6 +423,7 @@ function montarPares(ex, cb) {
 export function montarExercicio(ex, cb) {
   if (ex.tipo === 'pares') return montarPares(ex, cb);
   if (ex.tipo === 'digitar') return montarDigitar(ex, cb);
-  if (ex.tipo === 'montar') return montarFrase(ex, cb);
+  if (ex.tipo === 'falar') return montarFalar(ex, cb);
+  if (ex.tipo === 'montar' || ex.tipo === 'ditado') return montarFrase(ex, cb);
   return montarEscolha(ex, cb);
 }

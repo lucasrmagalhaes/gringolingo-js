@@ -29,7 +29,7 @@ async function obterCliente() {
   if (!nuvemConfigurada) return null;
   if (!cliente) {
     try {
-      const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+      const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.0/+esm');
       cliente = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     } catch {
       throw new Error('Nuvem indisponível no momento 📡');
