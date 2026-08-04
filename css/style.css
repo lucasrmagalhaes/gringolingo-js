@@ -1061,6 +1061,10 @@ button {
     min-height: 44px;
   }
 
+  .pilula-conta {
+    max-width: 120px;
+  }
+
   .semana-dia {
     padding: 6px 0;
   }
@@ -1367,6 +1371,29 @@ button {
 .conta-aviso {
   font-size: 12px;
   color: var(--texto-suave);
+}
+
+.conta-pendente {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pilula-conta {
+  gap: 6px;
+  max-width: 190px;
+}
+
+.pilula-conta .pilula-nome {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pilula-conta.pendente {
+  border-color: var(--laranja);
 }
 
 .conta-google {

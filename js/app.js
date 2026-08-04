@@ -57,14 +57,7 @@ function telaInicial() {
       h('div', { class: 'pilula', title: 'Dias seguidos' }, '🔥 ' + streakAtual()),
       h('div', { class: 'pilula', title: 'XP total' }, '⭐ ' + estado.xp),
       botaoTema(),
-      !nuvemConfigurada ? '' : authCarregando
-        ? h('div', { class: 'pilula', title: 'Conectando na nuvem…' }, '☁️ …')
-        : usuarioEmail
-          ? (syncPendente
-            ? h('button', { class: 'pilula btn-perfil', title: 'Não consegui baixar seu progresso — clique para tentar de novo', onclick: () => aposLogin(true) }, '☁️⚠️')
-            : h('button', { class: 'pilula btn-perfil', title: usuarioEmail, onclick: telaPerfil }, '☁️ ' + usuarioEmail.split('@')[0]))
-          : h('button', { class: 'pilula btn-perfil', onclick: () => telaLogin() }, '🔑 Entrar'),
-      h('button', { class: 'pilula btn-perfil', 'aria-label': 'Perfil', onclick: telaPerfil }, '👤')
+      ...pilulasDeConta()
     ),
     h('div', { class: 'card nivel-card' },
       h('span', { class: 'nivel-emoji' }, nv.emoji),
@@ -82,6 +75,31 @@ function telaInicial() {
     cartaoBoasVindas(),
     ...UNIDADES.map(cartaoUnidade)
   );
+}
+
+function botaoPerfil() {
+  return h('button', { class: 'pilula btn-perfil', 'aria-label': 'Seu perfil', title: 'Seu perfil', onclick: telaPerfil }, '👤');
+}
+
+function pilulasDeConta() {
+  if (!nuvemConfigurada) return [botaoPerfil()];
+  if (authCarregando) return [h('div', { class: 'pilula', title: 'Conectando na nuvem…' }, '☁️ …'), botaoPerfil()];
+  if (!usuarioEmail) {
+    return [
+      h('button', { class: 'pilula btn-perfil', onclick: () => telaLogin() }, '🔑 Entrar'),
+      botaoPerfil()
+    ];
+  }
+  const apelido = usuarioEmail.split('@')[0];
+  return [h('button', {
+    class: 'pilula btn-perfil pilula-conta' + (syncPendente ? ' pendente' : ''),
+    'aria-label': `Perfil de ${usuarioEmail}${syncPendente ? ' — progresso não sincronizado' : ''}`,
+    title: syncPendente ? 'Progresso ainda não sincronizado — abra o perfil' : usuarioEmail,
+    onclick: telaPerfil
+  },
+    h('span', { 'aria-hidden': 'true' }, syncPendente ? '⚠️' : '☁️'),
+    h('span', { class: 'pilula-nome' }, apelido)
+  )];
 }
 
 function bannerStreak() {
@@ -888,7 +906,10 @@ function cartaoConta() {
       h('span', { class: 'conta-email' }, syncPendente ? '☁️⚠️ ' + usuarioEmail : '☁️ ' + usuarioEmail),
       btnSair
     ),
-    syncPendente ? h('div', { class: 'conta-aviso' }, 'Progresso ainda não sincronizado — ele fica salvo aqui no aparelho') : '',
+    syncPendente ? h('div', { class: 'conta-pendente' },
+      h('span', { class: 'conta-aviso' }, '⚠️ Progresso ainda não sincronizado — ele fica salvo aqui no aparelho'),
+      h('button', { class: 'btn btn-azul', onclick: () => aposLogin(true) }, 'TENTAR AGORA')
+    ) : '',
     avisoPerfil ? h('div', { class: 'login-msg erro' }, avisoPerfil) : '',
     temGoogle ? linhaGoogle() : ''
   );
