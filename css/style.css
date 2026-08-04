@@ -20,6 +20,12 @@
   --sobre-cor: #241C00;
   --borda: #E5E5E5;
   --borda-suave: color-mix(in srgb, #E5E5E5 60%, transparent);
+  --fonte-xs: 11px;
+  --fonte-sm: 13px;
+  --fonte-md: 15px;
+  --fonte-lg: 17px;
+  --fonte-xl: 20px;
+  --fonte-2xl: clamp(19px, 5.5vw, 24px);
   --fundo: #FCF9F4;
   --superficie: #fff;
   --trilho: #EDEDED;
@@ -169,7 +175,7 @@ textarea {
   border-radius: 999px;
   padding: 6px 14px;
   font-weight: 900;
-  font-size: 15px;
+  font-size: var(--fonte-md);
   transition: border-color 0.12s, transform 0.1s;
 }
 
@@ -227,12 +233,12 @@ textarea {
 
 .nivel-titulo {
   font-weight: 900;
-  font-size: 17px;
+  font-size: var(--fonte-lg);
   margin-bottom: 8px;
 }
 
 .nivel-xp {
-  font-size: 13px;
+  font-size: var(--fonte-sm);
   color: var(--texto-suave);
   margin-top: 6px;
 }
@@ -293,7 +299,7 @@ textarea {
 }
 
 .revisao-sub {
-  font-size: 13px;
+  font-size: var(--fonte-sm);
   color: var(--texto-suave);
 }
 
@@ -322,12 +328,12 @@ textarea {
 }
 
 .unidade-titulo {
-  font-size: 20px;
+  font-size: var(--fonte-xl);
   font-weight: 900;
 }
 
 .unidade-sub {
-  font-size: 13px;
+  font-size: var(--fonte-sm);
   opacity: 0.9;
 }
 
@@ -384,7 +390,7 @@ textarea {
 
 .estrelas {
   color: var(--estrela-vazia);
-  font-size: 15px;
+  font-size: var(--fonte-md);
   letter-spacing: 2px;
 }
 
@@ -406,7 +412,7 @@ textarea {
 .fechar {
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: var(--fonte-xl);
   color: var(--texto-suave);
   cursor: pointer;
   padding: 4px;
@@ -453,7 +459,7 @@ textarea {
   border: 2px solid var(--borda);
   border-radius: 16px;
   padding: 16px 18px;
-  font-size: 20px;
+  font-size: var(--fonte-xl);
   font-weight: 800;
   margin-bottom: 20px;
 }
@@ -465,7 +471,7 @@ textarea {
   border-radius: 12px;
   width: 44px;
   height: 44px;
-  font-size: 20px;
+  font-size: var(--fonte-xl);
   cursor: pointer;
   box-shadow: 0 3px 0 var(--azul-esc);
   flex: none;
@@ -497,7 +503,7 @@ textarea {
   border-bottom-width: 4px;
   border-radius: 14px;
   padding: 14px 16px;
-  font-size: 17px;
+  font-size: var(--fonte-lg);
   font-weight: 800;
   cursor: pointer;
   text-align: left;
@@ -717,7 +723,7 @@ textarea {
 }
 
 .feedback-frase {
-  font-size: 15px;
+  font-size: var(--fonte-md);
   margin-top: 2px;
 }
 
@@ -730,7 +736,7 @@ textarea {
 }
 
 .diff-rotulo {
-  font-size: 13px;
+  font-size: var(--fonte-sm);
   opacity: 0.75;
 }
 
@@ -765,7 +771,7 @@ textarea {
 
 .dica-corpo {
   text-align: left;
-  font-size: 15px;
+  font-size: var(--fonte-md);
   font-weight: 700;
   line-height: 1.5;
   margin-bottom: 20px;
@@ -843,7 +849,7 @@ textarea {
   color: var(--texto-suave);
   font-family: inherit;
   font-weight: 900;
-  font-size: 13px;
+  font-size: var(--fonte-sm);
   padding: 6px 11px;
   border-radius: 999px;
   cursor: pointer;
@@ -896,7 +902,7 @@ textarea {
 
 .semana-letra {
   display: block;
-  font-size: 11px;
+  font-size: var(--fonte-xs);
   color: var(--texto-suave);
   font-weight: 900;
 }
@@ -937,7 +943,7 @@ textarea {
 }
 
 .missao-emoji {
-  font-size: 20px;
+  font-size: var(--fonte-xl);
 }
 
 .missao-corpo {
@@ -945,7 +951,7 @@ textarea {
 }
 
 .missao-nome {
-  font-size: 13px;
+  font-size: var(--fonte-sm);
   font-weight: 800;
   margin-bottom: 4px;
 }
@@ -969,7 +975,7 @@ textarea {
 }
 
 .boas-emoji {
-  font-size: 40px;
+  flex: none;
 }
 
 .boas-texto {
@@ -983,7 +989,7 @@ textarea {
 }
 
 .boas-sub {
-  font-size: 13px;
+  font-size: var(--fonte-sm);
   color: var(--texto-suave);
 }
 
@@ -1093,7 +1099,7 @@ textarea {
 
 .fala-eco {
   text-align: center;
-  font-size: 20px;
+  font-size: var(--fonte-xl);
   font-weight: 900;
   margin-top: 10px;
   min-height: 26px;
@@ -1207,7 +1213,7 @@ textarea {
 }
 
 .dic-en {
-  font-size: 17px;
+  font-size: var(--fonte-lg);
   font-weight: 900;
 }
 
@@ -1235,7 +1241,7 @@ textarea {
 }
 
 .dic-tag {
-  font-size: 11px;
+  font-size: var(--fonte-xs);
   font-weight: 900;
   padding: 3px 8px;
   border-radius: 999px;
@@ -1315,7 +1321,7 @@ textarea {
   color: var(--texto);
   font-family: inherit;
   font-weight: 800;
-  font-size: 13px;
+  font-size: var(--fonte-sm);
   padding: 6px 12px;
   border-radius: 999px;
   cursor: pointer;
@@ -1348,7 +1354,7 @@ textarea {
 .hora-input {
   width: auto;
   padding: 8px 10px;
-  font-size: 15px;
+  font-size: var(--fonte-md);
 }
 
 .debug-item {
@@ -1358,7 +1364,7 @@ textarea {
 
 .debug-quando {
   color: var(--texto-suave);
-  font-size: 11px;
+  font-size: var(--fonte-xs);
 }
 
 .debug-msg {
@@ -1369,7 +1375,7 @@ textarea {
 .debug-pilha {
   color: var(--texto-suave);
   font-family: monospace;
-  font-size: 11px;
+  font-size: var(--fonte-xs);
 }
 
 :focus-visible {
@@ -1386,12 +1392,12 @@ textarea {
 
 @media (max-width: 430px) {
   .logo {
-    font-size: 17px;
+    font-size: var(--fonte-lg);
   }
 
   .pilula {
     padding: 5px 9px;
-    font-size: 13px;
+    font-size: var(--fonte-sm);
   }
 
   .fechar {
@@ -1416,6 +1422,234 @@ textarea {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+.mascote {
+  display: block;
+}
+
+.historia-no {
+  border-color: color-mix(in srgb, var(--azul) 45%, var(--borda));
+  background: color-mix(in srgb, var(--azul) 6%, var(--superficie));
+}
+
+.historia-no.bloqueada {
+  background: var(--superficie);
+}
+
+.chat-cenario {
+  flex: 1;
+  text-align: center;
+  font-weight: 900;
+  font-size: var(--fonte-sm);
+  color: var(--texto-suave);
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.bolha {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  max-width: 86%;
+  animation: surgir 0.3s;
+}
+
+.bolha.do-louro {
+  align-self: flex-start;
+}
+
+.bolha.do-voce {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.bolha-avatar {
+  flex: none;
+}
+
+.bolha-corpo {
+  background: var(--superficie);
+  border: 2px solid var(--borda-suave);
+  border-radius: 18px 18px 18px 4px;
+  padding: 10px 14px;
+}
+
+.do-voce .bolha-corpo {
+  background: color-mix(in srgb, var(--verde) 16%, var(--superficie));
+  border-color: color-mix(in srgb, var(--verde) 35%, var(--borda-suave));
+  border-radius: 18px 18px 4px 18px;
+}
+
+.bolha-en {
+  font-weight: 900;
+  font-size: var(--fonte-md);
+}
+
+.bolha-pt {
+  font-size: 12px;
+  color: var(--texto-suave);
+  margin-top: 2px;
+}
+
+.bolha-som {
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+  border-radius: 10px;
+  flex: none;
+}
+
+.chat-resposta {
+  border-top: 2px solid var(--borda-suave);
+  padding-top: 14px;
+}
+
+.chat-feedback {
+  font-size: var(--fonte-sm);
+  font-weight: 800;
+  margin-top: 12px;
+  min-height: 20px;
+}
+
+.chat-feedback.certo {
+  color: var(--verde-texto);
+}
+
+.chat-feedback.errado {
+  color: var(--vermelho);
+}
+
+.chat-acao {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.m-sombra {
+  fill: rgba(0, 0, 0, 0.12);
+}
+
+.m-corpo {
+  fill: var(--verde);
+}
+
+.m-barriga {
+  fill: color-mix(in srgb, var(--amarelo) 65%, #fff);
+}
+
+.m-cabeca {
+  fill: var(--verde);
+}
+
+.m-face {
+  fill: color-mix(in srgb, var(--amarelo) 40%, #fff);
+}
+
+.m-asa {
+  fill: var(--verde-esc);
+}
+
+.m-cauda {
+  fill: var(--azul);
+}
+
+.m-topete {
+  fill: var(--vermelho);
+}
+
+.m-bico {
+  fill: var(--laranja);
+}
+
+.m-bico-baixo {
+  fill: color-mix(in srgb, var(--laranja) 70%, #000);
+}
+
+.m-olho-fundo {
+  fill: #fff;
+}
+
+.m-olho {
+  fill: #2b2b2b;
+}
+
+.m-brilho {
+  fill: #fff;
+}
+
+.m-olho-fechado,
+.m-pes {
+  fill: none;
+  stroke: #2b2b2b;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.m-pes {
+  stroke: var(--laranja);
+  stroke-width: 4;
+}
+
+.m-coroa {
+  fill: var(--amarelo);
+}
+
+.m-z {
+  fill: var(--texto-suave);
+  font-size: 20px;
+  font-weight: 900;
+  animation: flutuar 2s infinite;
+}
+
+@keyframes flutuar {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.mascote-feliz {
+  animation: quicar 0.6s;
+}
+
+.relampago-atalho {
+  border-color: color-mix(in srgb, var(--laranja) 40%, var(--borda));
+}
+
+.verbos-atalho {
+  border-color: color-mix(in srgb, #6C5CE7 40%, var(--borda));
+}
+
+.barra-tempo > div {
+  background: var(--laranja);
+  transition: width 0.1s linear;
+}
+
+.verbo-frase {
+  gap: 10px;
+  font-size: var(--fonte-xl);
+}
+
+.verbo-sujeito {
+  font-weight: 900;
+}
+
+.verbo-lacuna {
+  color: var(--azul);
+  letter-spacing: 2px;
 }
 
 .banner-desafio {
@@ -1449,6 +1683,17 @@ textarea {
 .sobre-link {
   text-decoration: none;
   color: var(--texto);
+}
+
+.privacidade-linha {
+  font-size: var(--fonte-sm);
+  line-height: 1.55;
+  color: var(--texto-suave);
+  margin-top: 8px;
+}
+
+.privacidade-linha:first-of-type {
+  margin-top: 10px;
 }
 
 .novidade-cab {
@@ -1558,7 +1803,7 @@ textarea {
 }
 
 .caixas-titulo {
-  font-size: 13px;
+  font-size: var(--fonte-sm);
   font-weight: 900;
   margin-bottom: 8px;
 }
@@ -1571,7 +1816,7 @@ textarea {
 }
 
 .caixa-rotulo {
-  font-size: 11px;
+  font-size: var(--fonte-xs);
   font-weight: 800;
   color: var(--texto-suave);
   min-width: 56px;
@@ -1583,7 +1828,7 @@ textarea {
 }
 
 .caixa-num {
-  font-size: 11px;
+  font-size: var(--fonte-xs);
   font-weight: 900;
   min-width: 28px;
   text-align: right;
@@ -1624,7 +1869,7 @@ textarea {
 
 .perigo {
   color: var(--vermelho);
-  font-size: 13px;
+  font-size: var(--fonte-sm);
   padding: 9px 16px;
 }
 
@@ -1681,12 +1926,18 @@ textarea {
 }
 
 .vazio-emoji {
-  font-size: 46px;
+  display: flex;
+  justify-content: center;
+}
+
+.vazio-emoji-pequeno {
+  font-size: 26px;
+  margin-top: 6px;
 }
 
 .vazio-titulo {
   font-weight: 900;
-  font-size: 17px;
+  font-size: var(--fonte-lg);
   margin: 8px 0 4px;
 }
 
@@ -1760,7 +2011,7 @@ textarea {
 }
 
 .enunciado {
-  font-size: clamp(19px, 5.5vw, 24px);
+  font-size: var(--fonte-2xl);
 }
 
 .feedback-frase,
@@ -1839,7 +2090,7 @@ textarea {
 
 .resultado-frase {
   color: var(--texto-suave);
-  font-size: 15px;
+  font-size: var(--fonte-md);
 }
 
 .estrelas-grandes {
@@ -2004,7 +2255,8 @@ textarea {
 }
 
 .login-logo {
-  font-size: 64px;
+  display: flex;
+  justify-content: center;
 }
 
 .login h1 {
@@ -2053,7 +2305,7 @@ textarea {
 .conta-card.conta-entrar {
   cursor: pointer;
   font-weight: 800;
-  font-size: 15px;
+  font-size: var(--fonte-md);
   color: var(--texto);
   border-bottom-width: 4px;
   text-align: left;
@@ -2065,7 +2317,7 @@ textarea {
 
 .conta-email {
   font-weight: 800;
-  font-size: 15px;
+  font-size: var(--fonte-md);
   overflow-wrap: anywhere;
 }
 
@@ -2122,7 +2374,7 @@ textarea {
 
 .conta-google-titulo {
   font-weight: 900;
-  font-size: 15px;
+  font-size: var(--fonte-md);
 }
 
 .conta-google-sub {
@@ -2151,7 +2403,7 @@ textarea {
   align-items: center;
   gap: 10px;
   color: var(--texto-suave);
-  font-size: 13px;
+  font-size: var(--fonte-sm);
   font-weight: 800;
 }
 

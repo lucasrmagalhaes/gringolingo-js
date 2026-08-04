@@ -125,6 +125,55 @@ function criar(item, pool) {
   return montarDados(tipos[Math.floor(Math.random() * tipos.length)], item, pool);
 }
 
+export function gerarVerbos(verbos, sujeitos, qtd = 10) {
+  const itens = [];
+  const usados = new Set();
+  let tentativas = 0;
+  while (itens.length < qtd && tentativas < qtd * 20) {
+    tentativas++;
+    const v = aleatorio(verbos);
+    const s = aleatorio(sujeitos);
+    const chave = v.en + '|' + s.en;
+    if (usados.has(chave)) continue;
+    usados.add(chave);
+    const forma = s.terceira ? v.en3 : v.en;
+    const ptForma = s.terceira ? v.pt3 : conjugarPt(v, s);
+    itens.push({
+      en: `${s.en} ${forma}`,
+      pt: `${s.pt} ${ptForma}`,
+      base: v.en,
+      terceira: s.terceira
+    });
+  }
+  return itens.map(item => ({
+    tipo: 'verbo',
+    item,
+    opcoes: embaralhar([...new Set([item.en.split(' ').slice(1).join(' '), verbos.find(v => v.en === item.base).en, verbos.find(v => v.en === item.base).en3])]).slice(0, 2)
+  }));
+}
+
+function conjugarPt(v, s) {
+  const irregulares = {
+    ir: { eu: 'vou', você: 'vai', nós: 'vamos', eles: 'vão' },
+    ter: { eu: 'tenho', você: 'tem', nós: 'temos', eles: 'têm' },
+    fazer: { eu: 'faço', você: 'faz', nós: 'fazemos', eles: 'fazem' },
+    ler: { eu: 'leio', você: 'lê', nós: 'lemos', eles: 'leem' },
+    querer: { eu: 'quero', você: 'quer', nós: 'queremos', eles: 'querem' },
+    saber: { eu: 'sei', você: 'sabe', nós: 'sabemos', eles: 'sabem' },
+    dormir: { eu: 'durmo', você: 'dorme', nós: 'dormimos', eles: 'dormem' },
+    ouvir: { eu: 'ouço', você: 'ouve', nós: 'ouvimos', eles: 'ouvem' },
+    dirigir: { eu: 'dirijo', você: 'dirige', nós: 'dirigimos', eles: 'dirigem' }
+  };
+  const especial = irregulares[v.pt]?.[s.pt];
+  if (especial) return especial;
+  const raiz = v.pt.slice(0, -2);
+  const term = v.pt.slice(-2);
+  if (s.pt === 'eu') return raiz + (term === 'ar' ? 'o' : 'o');
+  if (s.pt === 'nós') return raiz + (term === 'ar' ? 'amos' : term === 'er' ? 'emos' : 'imos');
+  if (s.pt === 'eles') return raiz + (term === 'ar' ? 'am' : 'em');
+  return v.pt3;
+}
+
 export function gerarDificeis(itens, pool, qtd = 12) {
   if (!itens?.length) return [];
   const fila = embaralhar(itens);
@@ -438,7 +487,58 @@ function montarPares(ex, cb) {
   };
 }
 
+function montarVerbo(ex, cb) {
+  let sel = null;
+  let trancado = false;
+  const alvo = ex.item.en.split(' ').slice(1).join(' ');
+  const sujeito = ex.item.en.split(' ')[0];
+  const botoes = ex.opcoes.map(op => {
+    const b = h('button', { class: 'opcao', 'aria-pressed': 'false' }, op);
+    b.addEventListener('click', () => {
+      if (trancado) return;
+      sel = op;
+      botoes.forEach(x => {
+        x.classList.remove('sel');
+        x.setAttribute('aria-pressed', 'false');
+      });
+      b.classList.add('sel');
+      b.setAttribute('aria-pressed', 'true');
+      sons.toque();
+      cb.aoMudar(true);
+    });
+    return b;
+  });
+  return {
+    el: h('div', {},
+      h('div', { class: 'enunciado' }, 'Qual forma do verbo? 🔤'),
+      h('div', { class: 'prompt-card verbo-frase' },
+        h('span', { class: 'verbo-sujeito' }, sujeito),
+        h('span', { class: 'verbo-lacuna' }, '____')
+      ),
+      h('div', { class: 'prompt-apoio' }, ex.item.pt),
+      h('div', { class: 'opcoes' }, botoes)
+    ),
+    temVerificar: true,
+    corrigir() {
+      trancado = true;
+      const ok = sel === alvo;
+      botoes.forEach(b => {
+        if (b.textContent === alvo) b.classList.add('certa');
+        else if (b.textContent === sel && !ok) b.classList.add('errada');
+      });
+      return {
+        correto: ok,
+        certa: ex.item.en,
+        nota: ok ? null : (ex.item.terceira
+          ? 'Com he, she e it o verbo ganha -s (ou -es): ' + alvo
+          : 'Com I, you, we e they o verbo fica na forma base: ' + alvo)
+      };
+    }
+  };
+}
+
 export function montarExercicio(ex, cb) {
+  if (ex.tipo === 'verbo') return montarVerbo(ex, cb);
   if (ex.tipo === 'pares') return montarPares(ex, cb);
   if (ex.tipo === 'digitar') return montarDigitar(ex, cb);
   if (ex.tipo === 'falar') return montarFalar(ex, cb);

@@ -1,7 +1,8 @@
-import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP } from './data.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, ativarSync, mesclarEstado, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, historicoRecente, METAS } from './game.js';
+import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
+import { mascote } from './mascote.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, ativarSync, mesclarEstado, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, historicoRecente, METAS } from './game.js';
 import { sons, falar, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
-import { gerarExercicios, gerarDificeis, exercicioFacil, montarExercicio } from './exercises.js';
+import { gerarExercicios, gerarDificeis, gerarVerbos, exercicioFacil, montarExercicio } from './exercises.js';
 import { h, aleatorio } from './util.js';
 import { nuvemConfigurada, sessaoAtual, entrar, criarConta, sair, baixarProgresso, aoMudarAuth, googleAtivo, entrarComGoogle, vincularGoogle, desvincularGoogle, provedoresDaConta, traduzirErro, apagarConta } from './nuvem.js';
 import { registrar, logSalvo, limparLog, modoDebug, contextoDoLog } from './erros.js';
@@ -80,6 +81,8 @@ function telaInicial() {
     cartaoMissoes(),
     botaoRevisao(),
     botaoMinhaLista(),
+    botaoRelampago(),
+    botaoVerbos(),
     botaoDicionario(),
     h('div', { class: 'rotulo' }, 'TRILHA'),
     ...UNIDADES.map(cartaoUnidade)
@@ -177,7 +180,7 @@ function cartaoMissoes() {
 function cartaoBoasVindas() {
   if (estado.stats.licoes) return '';
   return h('div', { class: 'card boas-vindas' },
-    h('div', { class: 'boas-emoji' }, '🦜'),
+    h('div', { class: 'boas-emoji' }, mascote('feliz', 64)),
     h('div', { class: 'boas-texto' },
       h('div', { class: 'boas-titulo' }, 'Bem-vindo, gringo!'),
       h('div', { class: 'boas-sub' }, 'Cinco minutinhos por dia já mudam tudo. Bora começar pela primeira lição?')
@@ -218,6 +221,154 @@ function iniciarMinhaLista() {
     xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map()
   };
   telaExercicio();
+}
+
+function botaoRelampago() {
+  if (itensAprendidos().length < 8) return '';
+  const recorde = estado.stats.recordeRelampago ?? 0;
+  return h('button', { class: 'card revisao relampago-atalho', onclick: iniciarRelampago },
+    h('span', { class: 'revisao-emoji' }, '⚡'),
+    h('div', { class: 'revisao-textos' },
+      h('div', { class: 'revisao-titulo' }, 'Relâmpago'),
+      h('div', { class: 'revisao-sub' }, recorde
+        ? `60 segundos de respostas rápidas — seu recorde é ${recorde}`
+        : '60 segundos de respostas rápidas. Quantas você acerta?')
+    ),
+    h('span', { class: 'revisao-seta' }, '⏱️')
+  );
+}
+
+function botaoVerbos() {
+  if (!estado.licoes.b1) return '';
+  return h('button', { class: 'card revisao verbos-atalho', onclick: iniciarVerbos },
+    h('span', { class: 'revisao-emoji' }, '🔤'),
+    h('div', { class: 'revisao-textos' },
+      h('div', { class: 'revisao-titulo' }, 'Oficina de Verbos'),
+      h('div', { class: 'revisao-sub' }, 'Treine o -s da terceira pessoa: he works, she studies…')
+    ),
+    h('span', { class: 'revisao-seta' }, '⚡')
+  );
+}
+
+function iniciarVerbos() {
+  const fila = gerarVerbos(VERBOS, SUJEITOS, 10);
+  sessao = {
+    tipo: 'revisao', verbos: true, pool: [], fila, itens: [],
+    idx: 0, planejados: fila.length, acertos: 0, respostas: 0,
+    xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map()
+  };
+  telaExercicio();
+}
+
+function iniciarRelampago() {
+  const aprendidos = itensAprendidos();
+  sessao = {
+    tipo: 'relampago', pool: aprendidos, itens: aprendidos,
+    fila: [], idx: 0, planejados: 0, acertos: 0, respostas: 0,
+    xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map(),
+    fim: Date.now() + 60000
+  };
+  telaRelampago();
+}
+
+function telaRelampago() {
+  window.scrollTo(0, 0);
+  telaAtiva = 'licao';
+  const s = sessao;
+  const item = aleatorio(s.pool);
+  const ex = exercicioFacil(item, s.pool);
+  const barra = h('div', { class: 'progresso barra-licao barra-tempo' }, h('div', { style: 'width:100%' }));
+  const placar = h('div', { class: 'combo' }, '⚡ ' + s.acertos);
+  const areaEx = h('div', { class: 'area-exercicio' });
+  app.innerHTML = '';
+  app.append(
+    h('div', { class: 'licao-topo' },
+      h('button', {
+        class: 'fechar', 'aria-label': 'Sair',
+        onclick() {
+          clearInterval(s.timer);
+          if (temTts) speechSynthesis.cancel();
+          telaInicial();
+        }
+      }, '✖'),
+      barra,
+      placar
+    ),
+    areaEx
+  );
+  const ctrl = montarExercicio(ex, {
+    aoMudar() {},
+    aoAuto() {},
+    aoEnter() {}
+  });
+  areaEx.append(ctrl.el);
+  areaEx.querySelectorAll('.opcao').forEach(botao => {
+    botao.addEventListener('click', () => {
+      if (s.encerrado) return;
+      const res = ctrl.corrigir();
+      s.respostas++;
+      if (res.correto) {
+        s.acertos++;
+        s.combo++;
+        s.comboMax = Math.max(s.comboMax, s.combo);
+        if (s.combo % 5 === 0) s.fim += 5000;
+        sons.acerto();
+      } else {
+        s.combo = 0;
+        sons.erro();
+      }
+      setTimeout(() => {
+        if (!s.encerrado) telaRelampago();
+      }, res.correto ? 260 : 700);
+    }, { once: true });
+  });
+  clearInterval(s.timer);
+  s.timer = setInterval(() => {
+    const restante = Math.max(0, s.fim - Date.now());
+    barra.firstElementChild.style.width = Math.min(100, restante / 60000 * 100) + '%';
+    if (restante <= 0) {
+      clearInterval(s.timer);
+      s.encerrado = true;
+      finalizarRelampago();
+    }
+  }, 100);
+}
+
+function finalizarRelampago() {
+  const s = sessao;
+  telaAtiva = 'resultado';
+  const recordeAntes = estado.stats.recordeRelampago ?? 0;
+  const novoRecorde = s.acertos > recordeAntes;
+  s.xp = Math.min(25, s.acertos * 2);
+  const evento = registrarRelampago({ acertos: s.acertos, respostas: s.respostas, comboMax: s.comboMax, xp: s.xp });
+  app.innerHTML = '';
+  app.append(
+    h('div', { class: 'resultado' },
+      h('div', { class: 'emojao' }, novoRecorde ? '🏆' : '⚡'),
+      h('h1', {}, novoRecorde ? 'Novo recorde!' : 'Tempo esgotado!'),
+      h('div', { class: 'resultado-frase' }, novoRecorde
+        ? `Você bateu seu recorde anterior de ${recordeAntes} acertos`
+        : `Seu recorde continua sendo ${Math.max(recordeAntes, s.acertos)}`),
+      h('div', { class: 'pilulas-stats' },
+        h('div', { class: 'pilula' }, `⚡ ${s.acertos} acertos`),
+        h('div', { class: 'pilula' }, `🎯 ${s.respostas ? Math.round(s.acertos / s.respostas * 100) : 0}%`),
+        h('div', { class: 'pilula' }, `⭐ +${s.xp} XP`)
+      ),
+      evento.badges?.length ? h('div', { class: 'novas-badges' },
+        h('div', { class: 'secao-titulo' }, '🏅 Conquista nova!'),
+        h('div', { class: 'badges-grid centrada' }, evento.badges.map(b => h('div', { class: 'badge-card nova' },
+          h('div', { class: 'badge-emoji' }, b.emoji),
+          h('div', { class: 'badge-nome' }, b.nome)
+        )))
+      ) : '',
+      h('div', { class: 'resultado-botoes' },
+        h('button', { class: 'btn btn-branco', onclick: iniciarRelampago }, 'DE NOVO'),
+        h('button', { class: 'btn btn-verde', onclick: () => telaInicial() }, 'CONTINUAR')
+      )
+    )
+  );
+  if (novoRecorde) confete();
+  sons.fanfarra();
 }
 
 function botaoDicionario() {
@@ -338,7 +489,8 @@ const VAZIOS = {
 function vazio(termo, filtro, aoLimpar) {
   const conf = termo ? (filtro === 'curso' ? VAZIOS.curso : VAZIOS.todas) : VAZIOS[filtro] ?? VAZIOS.todas;
   return h('div', { class: 'estado-vazio' },
-    h('div', { class: 'vazio-emoji' }, conf.emoji),
+    h('div', { class: 'vazio-emoji' }, mascote(termo ? 'pensando' : 'dormindo', 84)),
+    h('div', { class: 'vazio-emoji-pequeno' }, conf.emoji),
     h('div', { class: 'vazio-titulo' }, conf.titulo),
     h('div', { class: 'vazio-sub' }, conf.sub),
     termo ? h('button', { class: 'btn btn-branco', onclick: aoLimpar }, 'LIMPAR BUSCA') : ''
@@ -426,9 +578,144 @@ function cartaoUnidade(u) {
         else b.disabled = true;
         return b;
       }),
-      nodoChefao(u, aberta)
+      nodoChefao(u, aberta),
+      nodoHistoria(u, aberta)
     )
   );
+}
+
+function nodoHistoria(u, aberta) {
+  const historia = HISTORIAS.find(h2 => h2.unidade === u.id);
+  if (!historia) return '';
+  const completa = u.licoes.every(licaoFeita);
+  const feita = !!estado.licoes['historia:' + u.id];
+  const liberado = aberta && completa;
+  const b = h('button', {
+    class: 'licao historia-no' + (liberado ? '' : ' bloqueada') + (feita ? ' feita' : ''),
+    'aria-label': `Diálogo "${historia.titulo}" — ${feita ? 'concluído' : liberado ? 'liberado' : 'complete as 4 lições para liberar'}`
+  },
+    h('div', { class: 'licao-emoji', 'aria-hidden': 'true' }, liberado || feita ? historia.emoji : '🔒'),
+    h('div', { class: 'licao-titulo' }, 'Diálogo'),
+    h('div', { class: 'estrelas', 'aria-hidden': 'true' }, h('span', { class: feita ? 'ganha' : '' }, '★'))
+  );
+  if (liberado) b.addEventListener('click', () => iniciarHistoria(u, historia));
+  else b.disabled = true;
+  return b;
+}
+
+function iniciarHistoria(u, historia) {
+  const falasDoJogador = historia.falas.filter(f => f.de === 'voce');
+  const pool = u.licoes.flatMap(l => l.itens);
+  sessao = {
+    tipo: 'licao', historia, unidade: u,
+    licao: { id: 'historia:' + u.id, titulo: historia.titulo },
+    pool, itens: falasDoJogador, fila: [], idxFala: 0,
+    idx: 0, planejados: falasDoJogador.length, acertos: 0, respostas: 0,
+    xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map()
+  };
+  telaHistoria();
+}
+
+function telaHistoria() {
+  window.scrollTo(0, 0);
+  telaAtiva = 'licao';
+  const s = sessao;
+  const historia = s.historia;
+  app.innerHTML = '';
+  const chat = h('div', { class: 'chat' });
+  const area = h('div', { class: 'chat-resposta' });
+  app.append(
+    h('div', { class: 'licao-topo' },
+      h('button', {
+        class: 'fechar', 'aria-label': 'Sair',
+        onclick() {
+          if (temTts) speechSynthesis.cancel();
+          telaInicial();
+        }
+      }, '✖'),
+      h('div', { class: 'chat-cenario' }, historia.cenario),
+      h('div', { class: 'combo' }, '')
+    ),
+    chat,
+    area
+  );
+  historia.falas.slice(0, s.idxFala).forEach(f => chat.append(bolha(f, true)));
+  avancarHistoria(chat, area);
+}
+
+function bolha(fala, revelada) {
+  const doLouro = fala.de === 'louro';
+  const caixa = h('div', { class: 'bolha' + (doLouro ? ' do-louro' : ' do-voce') });
+  if (doLouro) caixa.append(h('div', { class: 'bolha-avatar' }, mascote('neutro', 40)));
+  caixa.append(h('div', { class: 'bolha-corpo' },
+    h('div', { class: 'bolha-en' }, revelada ? fala.en : '···'),
+    revelada ? h('div', { class: 'bolha-pt' }, fala.pt) : ''
+  ));
+  if (doLouro && revelada) {
+    caixa.append(h('button', {
+      class: 'btn-som bolha-som',
+      'aria-label': 'Ouvir',
+      onclick: () => falar(fala.en)
+    }, '🔊'));
+  }
+  return caixa;
+}
+
+function avancarHistoria(chat, area) {
+  const s = sessao;
+  area.innerHTML = '';
+  while (s.idxFala < s.historia.falas.length && s.historia.falas[s.idxFala].de === 'louro') {
+    const fala = s.historia.falas[s.idxFala];
+    chat.append(bolha(fala, true));
+    falar(fala.en);
+    s.idxFala++;
+  }
+  chat.scrollTop = chat.scrollHeight;
+  if (s.idxFala >= s.historia.falas.length) {
+    finalizar();
+    return;
+  }
+  const fala = s.historia.falas[s.idxFala];
+  const item = s.pool.find(i => i.en === fala.en) ?? { en: fala.en, pt: fala.pt };
+  const ex = gerarDificeis([item], s.pool, 1)[0];
+  const btn = h('button', { class: 'btn btn-verde' }, 'RESPONDER');
+  btn.disabled = true;
+  const ctrl = montarExercicio(ex, {
+    aoMudar: v => { btn.disabled = !v; },
+    aoAuto() {},
+    aoEnter: () => { if (!btn.disabled) btn.click(); },
+    aoPular() {}
+  });
+  const feedback = h('div', { class: 'chat-feedback' });
+  btn.addEventListener('click', () => {
+    const res = ctrl.corrigir();
+    s.respostas++;
+    const anterior = s.resultados.get(item.en);
+    s.resultados.set(item.en, { en: item.en, acertou: (anterior ? anterior.acertou : true) && res.correto });
+    if (res.correto) {
+      s.acertos++;
+      s.combo++;
+      s.comboMax = Math.max(s.comboMax, s.combo);
+      s.xp += 12;
+      sons.acerto();
+    } else {
+      s.combo = 0;
+      s.erros.push(item);
+      sons.erro();
+    }
+    feedback.className = 'chat-feedback ' + (res.correto ? 'certo' : 'errado');
+    feedback.textContent = res.correto ? aleatorio(MASCOTE.acerto) : 'A fala certa era: ' + fala.en;
+    btn.textContent = 'CONTINUAR';
+    btn.disabled = false;
+    btn.replaceWith(btn.cloneNode(true));
+    const novo = area.querySelector('.btn');
+    novo.addEventListener('click', () => {
+      chat.append(bolha(fala, true));
+      s.idxFala++;
+      avancarHistoria(chat, area);
+    });
+  });
+  area.append(ctrl.el, feedback, h('div', { class: 'chat-acao' }, btn));
 }
 
 function nodoChefao(u, aberta) {
@@ -645,7 +932,7 @@ function processar(ex, res, feedback, btnVerificar) {
   if (res.correto && res.quase) linhas.push(h('div', { class: 'feedback-frase' }, `O certinho é: ${res.certa}`));
   else if (!res.correto && res.diff) linhas.push(linhaDiff(res.diff));
   else if (!res.correto && res.certa) linhas.push(h('div', { class: 'feedback-frase' }, `Resposta certa: ${res.certa}`));
-  if (!res.correto && ex.item?.nota) linhas.push(h('div', { class: 'feedback-nota' }, '💡 ' + ex.item.nota));
+  if (!res.correto && (res.nota || ex.item?.nota)) linhas.push(h('div', { class: 'feedback-nota' }, '💡 ' + (res.nota ?? ex.item.nota)));
   linhas.push(h('div', { class: 'feedback-frase suave' }, frase));
   feedback.className = 'feedback ' + (res.correto ? 'certo' : 'errado');
   feedback.innerHTML = '';
@@ -919,7 +1206,7 @@ function telaLogin(aviso) {
   });
   app.append(
     h('div', { class: 'login' },
-      h('div', { class: 'login-logo' }, '🦜'),
+      h('div', { class: 'login-logo' }, mascote('feliz', 92)),
       h('h1', {}, 'Entrar no GringoLingo'),
       h('div', { class: 'login-sub' }, 'Sua evolução sincronizada em qualquer dispositivo ☁️'),
       temGoogle ? btnGoogle : '',
@@ -1202,9 +1489,50 @@ function cartaoSobre() {
         class: 'pilula btn-perfil' + (novo ? ' pilula-fogo' : ''),
         onclick: telaNovidades
       }, (novo ? '✨ ' : '') + 'v' + VERSAO_APP),
+      h('button', { class: 'pilula btn-perfil', onclick: telaPrivacidade }, '🔒 Privacidade'),
       h('a', { class: 'pilula btn-perfil sobre-link', href: 'https://github.com/lucasrmagalhaes/gringolingo-js', target: '_blank', rel: 'noopener noreferrer' }, '🐙 Código')
     )
   );
+}
+
+function telaPrivacidade() {
+  window.scrollTo(0, 0);
+  telaAtiva = 'privacidade';
+  app.innerHTML = '';
+  const bloco = (titulo, ...linhas) => h('div', { class: 'card' },
+    h('div', { class: 'nivel-titulo' }, titulo),
+    ...linhas.map(l => h('div', { class: 'privacidade-linha' }, l))
+  );
+  app.append(
+    h('div', { class: 'topo' },
+      h('button', { class: 'pilula btn-perfil', onclick: telaPerfil }, '← Voltar'),
+      h('div', { class: 'espaco' }),
+      h('div', { class: 'logo' }, '🔒 Privacidade')
+    ),
+    bloco('📱 O que fica no seu aparelho',
+      'Todo o seu progresso — XP, streak, estrelas, conquistas e a agenda de revisão — mora no armazenamento local do navegador.',
+      'Também ficam aqui a sua escolha de tema, de voz e de velocidade da fala, e o registro de erros do diagnóstico (?debug).',
+      'O registro de erros nunca sai do aparelho: não é enviado para lugar nenhum, e some quando você sai da conta.'
+    ),
+    bloco('☁️ O que vai para a nuvem (só se você criar conta)',
+      'Sem conta, nada sai do seu aparelho — o app funciona 100% offline.',
+      'Com conta, sobem apenas dois dados: o seu e-mail (para o login) e o mesmo pacote de progresso, guardado no Supabase.',
+      'A senha nunca é vista pelo app: quem cuida dela é o Supabase Auth. Se você entra com Google, nem senha existe.',
+      'Cada pessoa só enxerga a própria linha — isso é garantido no banco, não só no aplicativo.'
+    ),
+    bloco('🙋 O que você controla',
+      'Exportar: baixe todo o seu progresso em um arquivo JSON, no cartão de Backup do perfil.',
+      'Apagar: o botão "Apagar minha conta" remove a conta e o progresso da nuvem de uma vez, sem passar por ninguém.',
+      'Sair: ao sair da conta, o aparelho é limpo (quando o progresso já está salvo na nuvem).'
+    ),
+    bloco('🚫 O que o app não faz',
+      'Não usa cookies, nem rastreadores, nem publicidade.',
+      'Não coleta localização, contatos, microfone gravado ou qualquer dado além do descrito acima.',
+      'O reconhecimento de voz do exercício de falar é processado pelo próprio navegador; o app só recebe o texto.',
+      'Não compartilha nada com terceiros. O código é aberto — dá para conferir cada linha.'
+    )
+  );
+  focarTela();
 }
 
 function telaNovidades() {
@@ -1526,6 +1854,7 @@ function cartaoConta() {
     usuarioEmail = null;
     syncPendente = false;
     authCarregando = false;
+    limparLog();
     if (naNuvem) resetarEstado();
     telaInicial();
   });

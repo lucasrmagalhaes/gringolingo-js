@@ -21,7 +21,7 @@ const padrao = () => ({
   protetores: 1,
   missoes: null,
   lembrete: null,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0 }
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0 }
 });
 
 export const METAS = [20, 30, 50, 80];
@@ -473,6 +473,20 @@ export function registrarLicao(licaoId, d) {
     missoes: missao.novas,
     bonusMissoes: missao.bonus
   };
+}
+
+export function registrarRelampago(d) {
+  atualizarStreak();
+  const missao = avancarMissoes({ ...d, tipo: 'relampago', perfeita: false });
+  estado.xp += d.xp + missao.bonus;
+  registrarDia(d.xp + missao.bonus);
+  estado.stats.acertos += d.acertos;
+  estado.stats.respostas += d.respostas;
+  estado.stats.comboMax = Math.max(estado.stats.comboMax, d.comboMax);
+  estado.stats.recordeRelampago = Math.max(estado.stats.recordeRelampago ?? 0, d.acertos);
+  const novas = checarBadges();
+  salvar();
+  return { badges: novas, bonusMissoes: missao.bonus };
 }
 
 export function registrarRevisao(d) {

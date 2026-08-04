@@ -327,7 +327,7 @@ describe('limpeza de estado', () => {
     assert.deepEqual(estado.licoes, {});
     assert.equal(estado.meta, 30);
     assert.equal(estado.protetores, 1);
-    assert.deepEqual(estado.stats, { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0 });
+    assert.deepEqual(estado.stats, { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0 });
     assert.equal(JSON.parse(localStorage.getItem('gringolingo')).xp, 250);
   });
 

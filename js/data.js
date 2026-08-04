@@ -459,9 +459,20 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '1.4';
+export const VERSAO_APP = '1.5';
 
 export const NOVIDADES = [
+  {
+    versao: '1.5',
+    titulo: 'Diálogos, Relâmpago e o Louro de verdade',
+    itens: [
+      '💬 Diálogos do Louro: converse em inglês no fim de cada unidade',
+      '⚡ Relâmpago: 60 segundos de respostas rápidas, com recorde',
+      '🔤 Oficina de Verbos: treine o -s da terceira pessoa',
+      '🦜 O Louro virou personagem desenhado, com poses',
+      '🔒 Tela de privacidade explicando o que fica no aparelho'
+    ]
+  },
   {
     versao: '1.4',
     titulo: 'Minha Lista, Chefão e mais',
@@ -490,6 +501,141 @@ export const NOVIDADES = [
       '📱 App instalável que funciona offline'
     ]
   }
+];
+
+export const HISTORIAS = [
+  {
+    unidade: 'basico', titulo: 'O primeiro oi', cenario: 'Na fila do café ☕', emoji: '👋',
+    falas: [
+      { de: 'louro', en: 'Hi! Good morning!', pt: 'Oi! Bom dia!' },
+      { de: 'voce', en: 'good morning', pt: 'bom dia' },
+      { de: 'louro', en: 'What is your name?', pt: 'Qual é o seu nome?' },
+      { de: 'voce', en: 'my name is Ana', pt: 'meu nome é Ana' },
+      { de: 'louro', en: 'Nice to meet you, Ana!', pt: 'Prazer em te conhecer, Ana!' },
+      { de: 'voce', en: 'thank you', pt: 'obrigado' }
+    ]
+  },
+  {
+    unidade: 'comida', titulo: 'Pedindo no balcão', cenario: 'Na lanchonete 🍔', emoji: '🍽️',
+    falas: [
+      { de: 'louro', en: 'Here is the menu.', pt: 'Aqui está o cardápio.' },
+      { de: 'voce', en: 'I want a coffee', pt: 'eu quero um café' },
+      { de: 'louro', en: 'Something to eat?', pt: 'Algo para comer?' },
+      { de: 'voce', en: 'I would like a pizza', pt: 'eu gostaria de uma pizza' },
+      { de: 'louro', en: 'Perfect. Anything else?', pt: 'Perfeito. Mais alguma coisa?' },
+      { de: 'voce', en: 'the bill, please', pt: 'a conta, por favor' }
+    ]
+  },
+  {
+    unidade: 'viagem', titulo: 'Perdido na cidade', cenario: 'Na rua, com o mapa 🗺️', emoji: '🧭',
+    falas: [
+      { de: 'louro', en: 'Do you need help?', pt: 'Você precisa de ajuda?' },
+      { de: 'voce', en: 'I am lost', pt: 'eu estou perdido' },
+      { de: 'louro', en: 'Where do you want to go?', pt: 'Onde você quer ir?' },
+      { de: 'voce', en: 'where is the bathroom?', pt: 'onde fica o banheiro?' },
+      { de: 'louro', en: 'Turn left. It is near.', pt: 'Vire à esquerda. É perto.' },
+      { de: 'voce', en: 'thank you', pt: 'obrigado' }
+    ]
+  },
+  {
+    unidade: 'trabalho', titulo: 'Antes da reunião', cenario: 'No escritório 💼', emoji: '🗣️',
+    falas: [
+      { de: 'louro', en: 'Good morning! Busy day?', pt: 'Bom dia! Dia cheio?' },
+      { de: 'voce', en: 'I have a meeting', pt: 'eu tenho uma reunião' },
+      { de: 'louro', en: 'Can you send the report?', pt: 'Você pode enviar o relatório?' },
+      { de: 'voce', en: 'no problem', pt: 'sem problema' },
+      { de: 'louro', en: 'Great. Any questions?', pt: 'Ótimo. Alguma pergunta?' },
+      { de: 'voce', en: 'I agree', pt: 'eu concordo' }
+    ]
+  },
+  {
+    unidade: 'familia', titulo: 'Mostrando a família', cenario: 'Olhando fotos 📷', emoji: '👨‍👩‍👧',
+    falas: [
+      { de: 'louro', en: 'Who is she?', pt: 'Quem é ela?' },
+      { de: 'voce', en: 'this is my mother', pt: 'esta é minha mãe' },
+      { de: 'louro', en: 'And these two?', pt: 'E esses dois?' },
+      { de: 'voce', en: 'I have two brothers', pt: 'eu tenho dois irmãos' },
+      { de: 'louro', en: 'What a big family!', pt: 'Que família grande!' },
+      { de: 'voce', en: 'I love my family', pt: 'eu amo minha família' }
+    ]
+  },
+  {
+    unidade: 'casa', titulo: 'Visitando a casa', cenario: 'Tour pela casa 🏠', emoji: '🚪',
+    falas: [
+      { de: 'louro', en: 'Welcome! Come in.', pt: 'Bem-vindo! Entre.' },
+      { de: 'voce', en: 'the house is clean', pt: 'a casa está limpa' },
+      { de: 'louro', en: 'Thanks! Where are you?', pt: 'Obrigado! Onde você está?' },
+      { de: 'voce', en: 'I am in the kitchen', pt: 'eu estou na cozinha' },
+      { de: 'louro', en: 'The keys are there.', pt: 'As chaves estão lá.' },
+      { de: 'voce', en: 'close the door, please', pt: 'feche a porta, por favor' }
+    ]
+  },
+  {
+    unidade: 'corpo', titulo: 'Na farmácia', cenario: 'Balcão da farmácia 💊', emoji: '🩺',
+    falas: [
+      { de: 'louro', en: 'How can I help?', pt: 'Como posso ajudar?' },
+      { de: 'voce', en: 'I feel sick', pt: 'eu me sinto doente' },
+      { de: 'louro', en: 'What is wrong?', pt: 'O que está errado?' },
+      { de: 'voce', en: 'I have a headache', pt: 'eu estou com dor de cabeça' },
+      { de: 'louro', en: 'Take this medicine.', pt: 'Tome este remédio.' },
+      { de: 'voce', en: 'get well soon', pt: 'melhoras' }
+    ]
+  },
+  {
+    unidade: 'rotina', titulo: 'Papo de segunda', cenario: 'Café da manhã ☀️', emoji: '⏰',
+    falas: [
+      { de: 'louro', en: 'You are early today!', pt: 'Você está cedo hoje!' },
+      { de: 'voce', en: 'I wake up early', pt: 'eu acordo cedo' },
+      { de: 'louro', en: 'And what about English?', pt: 'E o inglês?' },
+      { de: 'voce', en: 'I study English at night', pt: 'eu estudo inglês à noite' },
+      { de: 'louro', en: 'Nice! And on weekends?', pt: 'Legal! E nos fins de semana?' },
+      { de: 'voce', en: 'I like to read books', pt: 'eu gosto de ler livros' }
+    ]
+  }
+];
+
+export const VERBOS = [
+  { en: 'eat', en3: 'eats', pt: 'comer', pt3: 'come' },
+  { en: 'drink', en3: 'drinks', pt: 'beber', pt3: 'bebe' },
+  { en: 'sleep', en3: 'sleeps', pt: 'dormir', pt3: 'dorme' },
+  { en: 'run', en3: 'runs', pt: 'correr', pt3: 'corre' },
+  { en: 'study', en3: 'studies', pt: 'estudar', pt3: 'estuda' },
+  { en: 'read', en3: 'reads', pt: 'ler', pt3: 'lê' },
+  { en: 'write', en3: 'writes', pt: 'escrever', pt3: 'escreve' },
+  { en: 'speak', en3: 'speaks', pt: 'falar', pt3: 'fala' },
+  { en: 'work', en3: 'works', pt: 'trabalhar', pt3: 'trabalha' },
+  { en: 'live', en3: 'lives', pt: 'morar', pt3: 'mora' },
+  { en: 'watch', en3: 'watches', pt: 'assistir', pt3: 'assiste' },
+  { en: 'go', en3: 'goes', pt: 'ir', pt3: 'vai' },
+  { en: 'do', en3: 'does', pt: 'fazer', pt3: 'faz' },
+  { en: 'have', en3: 'has', pt: 'ter', pt3: 'tem' },
+  { en: 'want', en3: 'wants', pt: 'querer', pt3: 'quer' },
+  { en: 'need', en3: 'needs', pt: 'precisar', pt3: 'precisa' },
+  { en: 'like', en3: 'likes', pt: 'gostar', pt3: 'gosta' },
+  { en: 'know', en3: 'knows', pt: 'saber', pt3: 'sabe' },
+  { en: 'learn', en3: 'learns', pt: 'aprender', pt3: 'aprende' },
+  { en: 'teach', en3: 'teaches', pt: 'ensinar', pt3: 'ensina' },
+  { en: 'buy', en3: 'buys', pt: 'comprar', pt3: 'compra' },
+  { en: 'pay', en3: 'pays', pt: 'pagar', pt3: 'paga' },
+  { en: 'help', en3: 'helps', pt: 'ajudar', pt3: 'ajuda' },
+  { en: 'open', en3: 'opens', pt: 'abrir', pt3: 'abre' },
+  { en: 'close', en3: 'closes', pt: 'fechar', pt3: 'fecha' },
+  { en: 'travel', en3: 'travels', pt: 'viajar', pt3: 'viaja' },
+  { en: 'cook', en3: 'cooks', pt: 'cozinhar', pt3: 'cozinha' },
+  { en: 'drive', en3: 'drives', pt: 'dirigir', pt3: 'dirige' },
+  { en: 'wake up', en3: 'wakes up', pt: 'acordar', pt3: 'acorda' },
+  { en: 'listen', en3: 'listens', pt: 'ouvir', pt3: 'ouve' }
+];
+
+export const SUJEITOS = [
+  { en: 'I', pt: 'eu', terceira: false },
+  { en: 'you', pt: 'você', terceira: false },
+  { en: 'we', pt: 'nós', terceira: false },
+  { en: 'they', pt: 'eles', terceira: false },
+  { en: 'he', pt: 'ele', terceira: true },
+  { en: 'she', pt: 'ela', terceira: true },
+  { en: 'my brother', pt: 'meu irmão', terceira: true },
+  { en: 'my mother', pt: 'minha mãe', terceira: true }
 ];
 
 export const MISSOES = [
