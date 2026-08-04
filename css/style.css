@@ -1418,6 +1418,15 @@ textarea {
   }
 }
 
+.banner-desafio {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  border-color: color-mix(in srgb, var(--azul) 45%, var(--borda-suave));
+  background-image: linear-gradient(135deg, color-mix(in srgb, var(--azul) 12%, transparent), transparent 60%);
+}
+
 .sobre-card {
   display: flex;
   align-items: center;
