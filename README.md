@@ -15,7 +15,8 @@ Abra http://localhost:8123. Qualquer servidor estático também funciona (ex.: `
 ## O que tem
 
 - **8 unidades × 4 lições**: Primeiros Passos, Comida Boa, Modo Viagem, Modo Trabalho, Família & Amigos, Casa Doce Casa, Corpo São e Rotina de Campeão — com desbloqueio progressivo e até 3 estrelas por lição.
-- **6 tipos de exercício**: múltipla escolha EN→PT e PT→EN, digitar a tradução (aceita 1 errinho de digitação), montar frase com peças, listening com pronúncia falada e ligar os pares.
+- **6 tipos de exercício**: múltipla escolha EN→PT e PT→EN, digitar a tradução (aceita 1 errinho de digitação, traduções alternativas e contrações), montar frase com peças, listening com pronúncia falada e ligar os pares.
+- **Feedback que ensina**: ao errar uma frase, a resposta certa aparece com as palavras que faltaram destacadas e o que você escreveu a mais riscado; itens com o campo `nota` ainda mostram uma dica de gramática (💡 "estados usam to be, não have").
 - **Gamificação**: XP com bônus de combo, níveis com títulos ("Turista Perdido" → "Netflix Sem Legenda" → "Lenda do Inglês"), streak diário, 10 conquistas, confete e efeitos sonoros.
 - **Revisão Turbo**: palavras erradas entram numa fila de revanche; acertou na revisão, sai da fila.
 - **Louro 🦜**: o mascote comenta cada resposta.
