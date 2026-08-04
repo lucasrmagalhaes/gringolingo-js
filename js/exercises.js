@@ -130,6 +130,7 @@ export function exercicioFacil(item, pool) {
 }
 
 export function gerarExercicios(itens, pool, qtd = 8) {
+  if (!itens?.length) return [];
   const fila = embaralhar(itens);
   const exs = [];
   for (let i = 0; exs.length < qtd; i++) {
