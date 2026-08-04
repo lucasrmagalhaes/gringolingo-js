@@ -123,18 +123,17 @@ function cartaoMeta() {
       h('div', { class: 'progresso meta-prog' }, h('div', { style: `width:${pct}%` })),
       h('div', { class: 'meta-xp' }, `${feito} / ${estado.meta} XP de hoje`)
     ),
-    h('select', {
-      class: 'meta-select',
-      'aria-label': 'Escolher meta diária',
-      onchange(e) {
-        definirMeta(Number(e.target.value));
-        telaInicial();
-      }
-    }, METAS.map(m => {
-      const op = h('option', { value: String(m) }, m + ' XP');
-      if (m === estado.meta) op.selected = true;
-      return op;
-    }))
+    h('div', { class: 'metas', role: 'group', 'aria-label': 'Escolher meta diária de XP' },
+      METAS.map(m => h('button', {
+        class: 'meta-opcao' + (m === estado.meta ? ' ativa' : ''),
+        'aria-pressed': m === estado.meta ? 'true' : 'false',
+        title: `Meta de ${m} XP por dia`,
+        onclick() {
+          definirMeta(m);
+          telaInicial();
+        }
+      }, String(m)))
+    )
   );
 }
 

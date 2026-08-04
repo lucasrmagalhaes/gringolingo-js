@@ -814,15 +814,40 @@ button {
   margin-top: 6px;
 }
 
-.meta-select {
+.metas {
+  display: inline-flex;
+  gap: 2px;
+  flex: none;
+  background: var(--trilho);
+  border-radius: 999px;
+  padding: 3px;
+}
+
+.meta-opcao {
+  border: none;
+  background: none;
+  color: var(--texto-suave);
   font-family: inherit;
-  font-weight: 800;
+  font-weight: 900;
   font-size: 13px;
-  border-radius: 10px;
-  border: 2px solid var(--borda);
-  background: var(--superficie);
+  padding: 6px 11px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.12s, background 0.12s;
+}
+
+.meta-opcao:hover:not(.ativa) {
   color: var(--texto);
-  padding: 6px 8px;
+}
+
+.meta-opcao.ativa {
+  background: var(--laranja);
+  color: #fff;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.18);
+}
+
+.meta-pronta .meta-opcao.ativa {
+  background: var(--verde);
 }
 
 .semana {
