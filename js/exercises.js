@@ -247,8 +247,8 @@ function montarEscolha(ex, cb) {
     return b;
   });
   const enunciados = {
-    escolhaEnPt: 'Como se diz em português? 🇧🇷',
-    escolhaPtEn: 'Como se diz em inglês? 🇺🇸',
+    escolhaEnPt: 'Como se diz em português?',
+    escolhaPtEn: 'Como se diz em inglês?',
     ouvir: 'O que você ouviu? 👂',
     ouvirPt: 'O que isso significa? 👂',
     lacuna: 'Complete a frase 🧩'

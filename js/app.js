@@ -1590,18 +1590,18 @@ function telaNovidades() {
 }
 
 const SOTAQUES = {
-  'en-US': '🇺🇸 EUA',
-  'en-GB': '🇬🇧 Reino Unido',
-  'en-AU': '🇦🇺 Austrália',
-  'en-CA': '🇨🇦 Canadá',
-  'en-IE': '🇮🇪 Irlanda',
-  'en-IN': '🇮🇳 Índia',
-  'en-NZ': '🇳🇿 Nova Zelândia',
-  'en-ZA': '🇿🇦 África do Sul',
-  'en-SG': '🇸🇬 Singapura',
-  'en-PH': '🇵🇭 Filipinas',
-  'en-NG': '🇳🇬 Nigéria',
-  'en-KE': '🇰🇪 Quênia'
+  'en-US': 'EUA',
+  'en-GB': 'Reino Unido',
+  'en-AU': 'Austrália',
+  'en-CA': 'Canadá',
+  'en-IE': 'Irlanda',
+  'en-IN': 'Índia',
+  'en-NZ': 'Nova Zelândia',
+  'en-ZA': 'África do Sul',
+  'en-SG': 'Singapura',
+  'en-PH': 'Filipinas',
+  'en-NG': 'Nigéria',
+  'en-KE': 'Quênia'
 };
 
 function rotuloSotaque(lang) {
