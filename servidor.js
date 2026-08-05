@@ -1,24 +1,27 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const RAIZ = __dirname;
+const RAIZ = path.dirname(fileURLToPath(import.meta.url));
 const PORTA = process.env.PORT || 8123;
 const TIPOS = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
+  '.mjs': 'text/javascript; charset=utf-8',
   '.svg': 'image/svg+xml',
   '.json': 'application/json',
   '.webmanifest': 'application/manifest+json',
-  '.png': 'image/png'
+  '.png': 'image/png',
+  '.woff2': 'font/woff2'
 };
 
 http.createServer((req, res) => {
   const url = decodeURIComponent(req.url.split('?')[0]);
   const rel = url === '/' ? 'index.html' : url.slice(1);
-  const arquivo = path.join(RAIZ, rel);
-  if (!arquivo.startsWith(RAIZ)) {
+  const arquivo = path.resolve(RAIZ, rel);
+  if (arquivo !== RAIZ && !arquivo.startsWith(RAIZ + path.sep)) {
     res.writeHead(403);
     return res.end();
   }
@@ -33,4 +36,4 @@ http.createServer((req, res) => {
     });
     res.end(dados);
   });
-}).listen(PORTA, () => console.log(`GringoLingo 🦜 rodando em http://localhost:${PORTA}`));
+}).listen(PORTA, '127.0.0.1', () => console.log(`GringoLingo 🦜 rodando em http://localhost:${PORTA}`));
