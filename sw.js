@@ -1,4 +1,4 @@
-const VERSAO = 'gringolingo-v21';
+const VERSAO = 'gringolingo-v22';
 
 const ESSENCIAIS = [
   './',

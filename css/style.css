@@ -2581,3 +2581,78 @@ textarea {
 [tabindex="-1"]:focus {
   outline: none;
 }
+
+/* === Louro comemorando na tela de resultado === */
+/* O contêiner mantém o "quicar" de entrada; o Louro dá três pulinhos com
+   squash na aterrissagem e depois fica num gingado leve, batendo a asa. */
+.mascote-festa .mascote {
+  display: inline-block;
+  /* Os pulos só começam depois do "quicar" de entrada do contêiner (0,8s). */
+  animation: festa-pulo 2.4s ease-out 0.8s both, festa-gingado 1.8s ease-in-out 3.2s infinite alternate;
+}
+
+@keyframes festa-pulo {
+  0%, 30%, 60%, 92%, 100% {
+    transform: translateY(0) rotate(0deg) scale(1, 1);
+  }
+  12% {
+    transform: translateY(-16px) rotate(-5deg);
+  }
+  24% {
+    transform: translateY(0) scale(1.07, 0.9);
+  }
+  42% {
+    transform: translateY(-16px) rotate(5deg);
+  }
+  54% {
+    transform: translateY(0) scale(1.07, 0.9);
+  }
+  74% {
+    transform: translateY(-22px) rotate(-4deg);
+  }
+  88% {
+    transform: translateY(0) scale(1.09, 0.88);
+  }
+}
+
+@keyframes festa-gingado {
+  from {
+    transform: rotate(-3deg);
+  }
+  to {
+    transform: rotate(3deg);
+  }
+}
+
+.mascote-festa .m-asa {
+  transform-box: fill-box;
+  transform-origin: 85% 15%;
+  animation: festa-asa 0.42s ease-in-out infinite alternate;
+}
+
+@keyframes festa-asa {
+  from {
+    transform: rotate(8deg);
+  }
+  to {
+    transform: rotate(-20deg);
+  }
+}
+
+/* A sombra encolhe quando o Louro está no ar, no compasso dos pulos. */
+.mascote-festa .m-sombra {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: festa-sombra 2.4s ease-out 0.8s both;
+}
+
+@keyframes festa-sombra {
+  0%, 24%, 54%, 88%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  12%, 42%, 74% {
+    transform: scale(0.72);
+    opacity: 0.55;
+  }
+}

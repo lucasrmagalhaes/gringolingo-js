@@ -499,7 +499,7 @@ function finalizarRelampago() {
   app.innerHTML = '';
   app.append(
     h('div', { class: 'resultado' },
-      h('div', { class: 'emojao' }, novoRecorde ? '🏆' : '⚡'),
+      h('div', { class: 'emojao mascote-festa' }, mascote(novoRecorde ? 'coroa' : 'feliz', 132)),
       h('h1', {}, novoRecorde ? 'Novo recorde!' : 'Tempo esgotado!'),
       h('div', { class: 'resultado-frase' }, novoRecorde
         ? `Você bateu seu recorde anterior de ${recordeAntes} acertos`
@@ -1222,7 +1222,7 @@ function telaResultado(estrelas, precisao, evento) {
   }));
   app.append(
     h('div', { class: 'resultado' },
-      h('div', { class: 'emojao' }, estrelas === 3 ? '🤩' : estrelas === 2 ? '😎' : '💪'),
+      h('div', { class: 'emojao mascote-festa' }, mascote(estrelas === 3 ? 'coroa' : 'feliz', 132)),
       h('h1', {}, s.tipo === 'revisao' ? 'Revisão concluída!' : 'Lição concluída!'),
       h('div', { class: 'resultado-frase' }, aleatorio(MASCOTE.resultado[estrelas])),
       stars,
