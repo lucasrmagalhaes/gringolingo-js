@@ -1,7 +1,7 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, ativarSync, mesclarEstado, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, historicoRecente, METAS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, historicoRecente, licoesConcluidas, METAS, INTERVALOS } from './game.js';
 import { sons, falar, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarVerbos, exercicioFacil, montarExercicio } from './exercises.js';
 import { h, aleatorio } from './util.js';
@@ -25,6 +25,124 @@ let timerLembrete = null;
 let avisoPendente = null;
 let avisoPerfil = null;
 let desafioAtivo = null;
+let timersDeTela = [];
+let intervaloRelampago = null;
+let saidaPedidaEm = 0;
+let saindoDaLicao = false;
+let voltandoTela = false;
+let profundidade = 0;
+let suprimirPop = false;
+
+const CHAVE_DESAFIO = 'gringolingo:desafio';
+
+// Timer que morre junto com a tela: coreografias e redirects agendados nunca
+// disparam por cima de outra tela.
+function timerDeTela(fn, ms) {
+  const id = setTimeout(fn, ms);
+  timersDeTela.push(id);
+  return id;
+}
+
+// Chamada no topo de toda função tela*: remove o listener de atalhos e mata
+// timers da tela anterior — sem isso o Enter/Escape órfão clicava em nós
+// desconectados e o cronômetro do Relâmpago sobrevivia à saída.
+function limparTela() {
+  if (atalhosAtivos) {
+    document.removeEventListener('keydown', atalhosAtivos);
+    atalhosAtivos = null;
+  }
+  timersDeTela.forEach(clearTimeout);
+  timersDeTela = [];
+  clearInterval(intervaloRelampago);
+  intervaloRelampago = null;
+  saidaPedidaEm = 0;
+  saindoDaLicao = false;
+  voltandoTela = false;
+}
+
+// Histórico raso: a home é o estado base e cada tela interna empilha uma
+// entrada — o Voltar físico do Android deixa de fechar o app.
+const TELAS_POR_NOME = {};
+
+function registrarRota(nome) {
+  const atual = history.state?.tela;
+  if (atual === nome) return;
+  if (atual === 'licao' || atual === 'resultado') {
+    history.replaceState({ tela: nome, prof: profundidade }, '');
+  } else {
+    profundidade++;
+    history.pushState({ tela: nome, prof: profundidade }, '');
+  }
+}
+
+function normalizarHistorico() {
+  if (profundidade > 0) {
+    suprimirPop = true;
+    const voltar = profundidade;
+    profundidade = 0;
+    history.go(-voltar);
+  } else {
+    history.replaceState({ tela: 'inicial', prof: 0 }, '');
+  }
+}
+
+function voltarTela(fallback) {
+  // Guarda de reentrância: toque duplo rápido no Voltar não pode disparar
+  // dois history.back() e pular uma tela a mais.
+  if (voltandoTela) return;
+  if (profundidade > 0) {
+    voltandoTela = true;
+    history.back();
+  } else {
+    (fallback ?? telaInicial)();
+  }
+}
+
+function sessaoTemProgresso() {
+  return !!sessao && (sessao.respostas > 0 || sessao.idxFala > 0);
+}
+
+// Sair de uma lição em andamento pede um segundo toque (✖, Escape ou o Voltar
+// físico): um toque acidental não descarta mais a sessão inteira.
+function pedirSaidaDaLicao(sair) {
+  if (saindoDaLicao) return;
+  if (!sessaoTemProgresso() || Date.now() - saidaPedidaEm < 4000) {
+    saindoDaLicao = true;
+    if (temTts) speechSynthesis.cancel();
+    sair();
+    return;
+  }
+  saidaPedidaEm = Date.now();
+  const btn = document.querySelector('.fechar');
+  if (btn) {
+    const original = btn.textContent;
+    btn.textContent = 'SAIR?';
+    btn.classList.add('fechar-confirmando');
+    timerDeTela(() => {
+      saidaPedidaEm = 0;
+      btn.textContent = original;
+      btn.classList.remove('fechar-confirmando');
+    }, 4000);
+  }
+}
+
+function aoVoltarDoNavegador(e) {
+  voltandoTela = false;
+  if (suprimirPop) {
+    suprimirPop = false;
+    return;
+  }
+  profundidade = e.state?.prof ?? 0;
+  if (telaAtiva === 'licao' && sessaoTemProgresso() && !saindoDaLicao && Date.now() - saidaPedidaEm >= 4000) {
+    profundidade++;
+    history.pushState({ tela: 'licao', prof: profundidade }, '');
+    pedirSaidaDaLicao(() => voltarTela());
+    return;
+  }
+  if (telaAtiva === 'licao' && temTts) speechSynthesis.cancel();
+  const render = TELAS_POR_NOME[e.state?.tela] ?? telaInicial;
+  render();
+}
 
 const SVG_GOOGLE = '<svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>';
 
@@ -50,21 +168,33 @@ function licaoDesbloqueada(u, idx) {
 }
 
 function telaInicial() {
+  limparTela();
   window.scrollTo(0, 0);
   telaAtiva = 'inicial';
   avisoPerfil = null;
   sessao = null;
+  normalizarHistorico();
   const nv = nivelInfo();
   app.innerHTML = '';
   app.append(
     h('div', { class: 'topo' },
-      h('div', { class: 'logo logo-marca' },
+      h('div', { class: 'logo logo-marca', role: 'heading', 'aria-level': '1' },
         h('span', { 'aria-hidden': 'true' }, '🦜'),
         h('span', { class: 'logo-nome' }, 'GringoLingo')
       ),
       h('div', { class: 'espaco' }),
-      h('div', { class: 'pilula' + (streakAtual() > 0 ? ' pilula-fogo' : ''), title: 'Dias seguidos' }, '🔥 ' + streakAtual()),
-      h('div', { class: 'pilula', title: 'XP total acumulado' },
+      h('div', {
+        class: 'pilula' + (streakAtual() > 0 ? ' pilula-fogo' : ''),
+        role: 'img',
+        'aria-label': `${streakAtual()} dia${streakAtual() === 1 ? '' : 's'} seguidos de estudo`,
+        title: 'Dias seguidos'
+      }, '🔥 ' + streakAtual()),
+      h('div', {
+        class: 'pilula',
+        role: 'img',
+        'aria-label': `${estado.xp} XP acumulados`,
+        title: 'XP total acumulado'
+      },
         '⭐ ' + estado.xp,
         h('span', { class: 'pilula-unidade' }, 'XP')
       ),
@@ -82,7 +212,7 @@ function telaInicial() {
     bannerDesafio(),
     bannerStreak(),
     cartaoBoasVindas(),
-    h('div', { class: 'rotulo' }, 'HOJE'),
+    h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'HOJE'),
     cartaoMeta(),
     faixaSemana(),
     cartaoMissoes(),
@@ -91,9 +221,10 @@ function telaInicial() {
     botaoRelampago(),
     botaoVerbos(),
     botaoDicionario(),
-    h('div', { class: 'rotulo' }, 'TRILHA'),
+    h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'TRILHA'),
     ...UNIDADES.map(cartaoUnidade)
   );
+  focarTela();
 }
 
 function botaoPerfil() {
@@ -133,7 +264,7 @@ function cartaoMeta() {
   const feito = xpDoDia();
   const pct = Math.min(100, Math.round(feito / estado.meta * 100));
   const pronto = metaBatida();
-  return h('div', { class: 'card meta-card' + (pronto ? ' meta-pronta' : '') },
+  const card = h('div', { class: 'card meta-card' + (pronto ? ' meta-pronta' : '') },
     h('span', { class: 'meta-emoji' }, pronto ? '🎉' : '🎯'),
     h('div', { class: 'meta-info' },
       h('div', { class: 'meta-titulo' }, pronto ? 'Meta do dia batida!' : 'Meta do dia'),
@@ -147,23 +278,27 @@ function cartaoMeta() {
         title: `Meta de ${m} XP por dia`,
         onclick() {
           definirMeta(m);
-          telaInicial();
+          card.replaceWith(cartaoMeta());
         }
       }, String(m)))
     )
   );
+  return card;
 }
 
 function faixaSemana() {
   if (!estado.stats.licoes) return '';
   const dias = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'];
-  return h('div', { class: 'semana' },
+  const nomes = ['segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado', 'domingo'];
+  return h('div', { class: 'semana', role: 'list', 'aria-label': 'XP desta semana' },
     semanaAtual().map((d, i) => h('div', {
       class: 'semana-dia' + (d.xp ? ' feito' : '') + (d.hoje ? ' hoje' : '') + (d.futuro ? ' futuro' : ''),
+      role: 'listitem',
+      'aria-label': `${nomes[i]}${d.hoje ? ' (hoje)' : ''}: ${d.xp} XP`,
       title: `${d.data}: ${d.xp} XP`
     },
-      h('span', { class: 'semana-letra' }, dias[i]),
-      h('span', { class: 'semana-bolinha' }, d.xp ? '🔥' : '·')
+      h('span', { class: 'semana-letra', 'aria-hidden': 'true' }, dias[i]),
+      h('span', { class: 'semana-bolinha', 'aria-hidden': 'true' }, d.xp ? '🔥' : '·')
     ))
   );
 }
@@ -260,7 +395,7 @@ function botaoVerbos() {
 function iniciarVerbos() {
   const fila = gerarVerbos(VERBOS, SUJEITOS, 10);
   sessao = {
-    tipo: 'revisao', verbos: true, pool: [], fila, itens: [],
+    tipo: 'revisao', verbos: true, pool: fila.map(f => f.item), fila, itens: [],
     idx: 0, planejados: fila.length, acertos: 0, respostas: 0,
     xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map()
   };
@@ -279,8 +414,10 @@ function iniciarRelampago() {
 }
 
 function telaRelampago() {
+  limparTela();
   window.scrollTo(0, 0);
   telaAtiva = 'licao';
+  registrarRota('licao');
   const s = sessao;
   const item = aleatorio(s.pool);
   const ex = exercicioFacil(item, s.pool);
@@ -292,11 +429,7 @@ function telaRelampago() {
     h('div', { class: 'licao-topo' },
       h('button', {
         class: 'fechar', 'aria-label': 'Sair',
-        onclick() {
-          clearInterval(s.timer);
-          if (temTts) speechSynthesis.cancel();
-          telaInicial();
-        }
+        onclick: () => pedirSaidaDaLicao(() => voltarTela())
       }, '✖'),
       barra,
       placar
@@ -309,32 +442,42 @@ function telaRelampago() {
     aoEnter() {}
   });
   areaEx.append(ctrl.el);
+  const responder = (botao) => {
+    if (s.encerrado) return;
+    const res = ctrl.corrigir();
+    s.respostas++;
+    const anterior = s.resultados.get(item.en);
+    s.resultados.set(item.en, { en: item.en, acertou: (anterior ? anterior.acertou : true) && res.correto });
+    if (res.correto) {
+      s.acertos++;
+      s.combo++;
+      s.comboMax = Math.max(s.comboMax, s.combo);
+      if (s.combo % 5 === 0) s.fim += 5000;
+      sons.acerto();
+    } else {
+      s.combo = 0;
+      sons.erro();
+    }
+    timerDeTela(() => {
+      if (!s.encerrado) telaRelampago();
+    }, res.correto ? 260 : 700);
+  };
   areaEx.querySelectorAll('.opcao').forEach(botao => {
-    botao.addEventListener('click', () => {
-      if (s.encerrado) return;
-      const res = ctrl.corrigir();
-      s.respostas++;
-      if (res.correto) {
-        s.acertos++;
-        s.combo++;
-        s.comboMax = Math.max(s.comboMax, s.combo);
-        if (s.combo % 5 === 0) s.fim += 5000;
-        sons.acerto();
-      } else {
-        s.combo = 0;
-        sons.erro();
-      }
-      setTimeout(() => {
-        if (!s.encerrado) telaRelampago();
-      }, res.correto ? 260 : 700);
-    }, { once: true });
+    botao.addEventListener('click', () => responder(botao), { once: true });
   });
-  clearInterval(s.timer);
-  s.timer = setInterval(() => {
+  // Exercício de digitar (repescagem de pool pequeno): corrige no Enter.
+  const entrada = areaEx.querySelector('.entrada');
+  if (entrada) {
+    entrada.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && entrada.value.trim() && !entrada.disabled) responder();
+    });
+  }
+  intervaloRelampago = setInterval(() => {
     const restante = Math.max(0, s.fim - Date.now());
     barra.firstElementChild.style.width = Math.min(100, restante / 60000 * 100) + '%';
     if (restante <= 0) {
-      clearInterval(s.timer);
+      clearInterval(intervaloRelampago);
+      intervaloRelampago = null;
       s.encerrado = true;
       finalizarRelampago();
     }
@@ -343,11 +486,16 @@ function telaRelampago() {
 
 function finalizarRelampago() {
   const s = sessao;
+  limparTela();
   telaAtiva = 'resultado';
+  registrarRota('resultado');
   const recordeAntes = estado.stats.recordeRelampago ?? 0;
   const novoRecorde = s.acertos > recordeAntes;
   s.xp = Math.min(25, s.acertos * 2);
-  const evento = registrarRelampago({ acertos: s.acertos, respostas: s.respostas, comboMax: s.comboMax, xp: s.xp });
+  const evento = registrarRelampago({
+    acertos: s.acertos, respostas: s.respostas, comboMax: s.comboMax, xp: s.xp,
+    agendamentos: [...s.resultados.values()]
+  });
   app.innerHTML = '';
   app.append(
     h('div', { class: 'resultado' },
@@ -359,7 +507,9 @@ function finalizarRelampago() {
       h('div', { class: 'pilulas-stats' },
         h('div', { class: 'pilula' }, `⚡ ${s.acertos} acertos`),
         h('div', { class: 'pilula' }, `🎯 ${s.respostas ? Math.round(s.acertos / s.respostas * 100) : 0}%`),
-        h('div', { class: 'pilula' }, `⭐ +${s.xp} XP`)
+        h('div', { class: 'pilula' }, `⭐ +${s.xp} XP`),
+        evento.streakNovo ? h('div', { class: 'pilula pop destaque' }, `🔥 ${evento.streakNovo} dias seguidos!`) : '',
+        evento.bateuMeta ? h('div', { class: 'pilula pop destaque' }, '🎯 Meta do dia batida!') : ''
       ),
       evento.badges?.length ? h('div', { class: 'novas-badges' },
         h('div', { class: 'secao-titulo' }, '🏅 Conquista nova!'),
@@ -376,6 +526,8 @@ function finalizarRelampago() {
   );
   if (novoRecorde) confete();
   sons.fanfarra();
+  if (evento.subiuNivel) timerDeTela(() => overlayNivel(evento.subiuNivel), 900);
+  focarTela();
 }
 
 function botaoDicionario() {
@@ -393,8 +545,10 @@ function botaoDicionario() {
 }
 
 function telaDicionario() {
+  limparTela();
   window.scrollTo(0, 0);
   telaAtiva = 'dicionario';
+  registrarRota('dicionario');
   app.innerHTML = '';
   const busca = h('input', {
     class: 'entrada busca-dic',
@@ -448,12 +602,16 @@ function telaDicionario() {
       lista.append(el);
     });
   }
-  busca.addEventListener('input', desenhar);
+  let timerBusca = null;
+  busca.addEventListener('input', () => {
+    clearTimeout(timerBusca);
+    timerBusca = setTimeout(desenhar, 120);
+  });
   app.append(
     h('div', { class: 'topo' },
-      h('button', { class: 'pilula btn-perfil', onclick: () => telaInicial() }, '← Voltar'),
+      h('button', { class: 'pilula btn-perfil', onclick: () => voltarTela() }, '← Voltar'),
       h('div', { class: 'espaco' }),
-      h('div', { class: 'logo' }, '📖 Dicionário')
+      h('div', { class: 'logo', role: 'heading', 'aria-level': '1' }, '📖 Dicionário')
     ),
     h('div', { class: 'campo-busca' },
       h('span', { class: 'campo-busca-icone', 'aria-hidden': 'true' }, '🔎'),
@@ -528,7 +686,7 @@ function verbete(v) {
       onclick: () => falar(v.en)
     }, '🔊'),
     h('div', { class: 'dic-corpo' },
-      h('div', { class: 'dic-en' }, v.en),
+      h('div', { class: 'dic-en', lang: 'en' }, v.en),
       h('div', { class: 'dic-pt' }, v.pt.join(' · ')),
       v.nota ? h('div', { class: 'dic-nota' }, '💡 ' + v.nota) : ''
     ),
@@ -612,7 +770,9 @@ function nodoHistoria(u, aberta) {
 
 function iniciarHistoria(u, historia) {
   const falasDoJogador = historia.falas.filter(f => f.de === 'voce');
-  const pool = u.licoes.flatMap(l => l.itens);
+  // O pool inclui as unidades anteriores: histórias reaproveitam falas já
+  // aprendidas ("thank you" na viagem) sem cair no item improvisado.
+  const pool = UNIDADES.slice(0, UNIDADES.indexOf(u) + 1).flatMap(x => x.licoes.flatMap(l => l.itens));
   sessao = {
     tipo: 'licao', historia, unidade: u,
     licao: { id: 'historia:' + u.id, titulo: historia.titulo },
@@ -624,8 +784,10 @@ function iniciarHistoria(u, historia) {
 }
 
 function telaHistoria() {
+  limparTela();
   window.scrollTo(0, 0);
   telaAtiva = 'licao';
+  registrarRota('licao');
   const s = sessao;
   const historia = s.historia;
   app.innerHTML = '';
@@ -635,10 +797,7 @@ function telaHistoria() {
     h('div', { class: 'licao-topo' },
       h('button', {
         class: 'fechar', 'aria-label': 'Sair',
-        onclick() {
-          if (temTts) speechSynthesis.cancel();
-          telaInicial();
-        }
+        onclick: () => pedirSaidaDaLicao(() => voltarTela())
       }, '✖'),
       h('div', { class: 'chat-cenario' }, historia.cenario),
       h('div', { class: 'combo' }, '')
@@ -655,7 +814,7 @@ function bolha(fala, revelada) {
   const caixa = h('div', { class: 'bolha' + (doLouro ? ' do-louro' : ' do-voce') });
   if (doLouro) caixa.append(h('div', { class: 'bolha-avatar' }, mascote('neutro', 40)));
   caixa.append(h('div', { class: 'bolha-corpo' },
-    h('div', { class: 'bolha-en' }, revelada ? fala.en : '···'),
+    h('div', { class: 'bolha-en', lang: 'en' }, revelada ? fala.en : '···'),
     revelada ? h('div', { class: 'bolha-pt' }, fala.pt) : ''
   ));
   if (doLouro && revelada) {
@@ -693,7 +852,7 @@ function avancarHistoria(chat, area) {
     aoEnter: () => { if (!btn.disabled) btn.click(); },
     aoPular() {}
   });
-  const feedback = h('div', { class: 'chat-feedback' });
+  const feedback = h('div', { class: 'chat-feedback', role: 'status', 'aria-live': 'polite' });
   btn.addEventListener('click', () => {
     const res = ctrl.corrigir();
     s.respostas++;
@@ -714,13 +873,14 @@ function avancarHistoria(chat, area) {
     feedback.textContent = res.correto ? aleatorio(MASCOTE.acerto) : 'A fala certa era: ' + fala.en;
     btn.textContent = 'CONTINUAR';
     btn.disabled = false;
-    btn.replaceWith(btn.cloneNode(true));
-    const novo = area.querySelector('.btn');
+    const novo = btn.cloneNode(true);
+    btn.replaceWith(novo);
     novo.addEventListener('click', () => {
       chat.append(bolha(fala, true));
       s.idxFala++;
       avancarHistoria(chat, area);
     });
+    novo.focus({ preventScroll: true });
   });
   area.append(ctrl.el, feedback, h('div', { class: 'chat-acao' }, btn));
 }
@@ -764,8 +924,10 @@ function iniciarLicao(u, l) {
 }
 
 function telaDica(u, l) {
+  limparTela();
   window.scrollTo(0, 0);
   telaAtiva = 'dica';
+  registrarRota('licao');
   app.innerHTML = '';
   const botao = h('button', { class: 'btn btn-verde', onclick: () => comecarLicao(u, l) }, 'ENTENDI, BORA!');
   app.append(
@@ -781,7 +943,9 @@ function telaDica(u, l) {
 
 function comecarLicao(u, l) {
   const pool = u.licoes.flatMap(x => x.itens);
-  const fila = gerarExercicios(l.itens, pool, 8);
+  // Fila proporcional ao tamanho da lição: 8 exercícios fixos deixavam ~2
+  // itens das lições grandes sem nenhuma aparição.
+  const fila = gerarExercicios(l.itens, pool, Math.max(8, Math.ceil(l.itens.length * 1.2)));
   sessao = {
     tipo: 'licao', unidade: u, licao: l, pool, fila, itens: l.itens,
     idx: 0, planejados: fila.length, acertos: 0, respostas: 0,
@@ -809,8 +973,10 @@ function iniciarRevisao() {
 }
 
 function telaExercicio() {
+  limparTela();
   window.scrollTo(0, 0);
   telaAtiva = 'licao';
+  registrarRota('licao');
   const ex = sessao.fila[sessao.idx];
   const pct = Math.round(sessao.idx / sessao.fila.length * 100);
   const barra = h('div', {
@@ -835,10 +1001,7 @@ function telaExercicio() {
     h('div', { class: 'licao-topo' },
       h('button', {
         class: 'fechar', 'aria-label': 'Sair',
-        onclick() {
-          if (temTts) speechSynthesis.cancel();
-          telaInicial();
-        }
+        onclick: () => pedirSaidaDaLicao(() => voltarTela())
       }, '✖'),
       barra,
       comboEl
@@ -897,8 +1060,7 @@ function ligarAtalhos(areaEx, btnVerificar, feedback) {
     }
     if (e.key === 'Escape') {
       e.preventDefault();
-      if (temTts) speechSynthesis.cancel();
-      telaInicial();
+      pedirSaidaDaLicao(() => voltarTela());
       return;
     }
     if (digitando || btnFeedback) return;
@@ -918,20 +1080,28 @@ function processar(ex, res, feedback, btnVerificar) {
   btnVerificar.disabled = true;
   sessao.respostas++;
   const alvos = ex.tipo === 'pares' ? ex.pares : ex.item ? [ex.item] : [];
+  // Nos pares o erro é por par: um clique errado não rebaixa os 4 itens.
+  const paresErrados = ex.tipo === 'pares' ? new Set(res.paresErrados ?? []) : null;
   alvos.forEach(it => {
+    const acertouEste = paresErrados ? !paresErrados.has(it.en) : res.correto;
     const anterior = sessao.resultados.get(it.en);
-    sessao.resultados.set(it.en, { en: it.en, acertou: (anterior ? anterior.acertou : true) && res.correto });
+    sessao.resultados.set(it.en, { en: it.en, acertou: (anterior ? anterior.acertou : true) && acertouEste });
+    if (paresErrados && !acertouEste) sessao.erros.push(it);
   });
   if (res.correto) {
-    sessao.combo++;
-    sessao.comboMax = Math.max(sessao.comboMax, sessao.combo);
-    if (ex.repescagem) sessao.xp += 5;
-    else {
+    if (ex.repescagem) {
+      // Acertar a repescagem do item recém-errado vale +5 XP, mas não conta
+      // combo — senão errar viraria atalho para o badge de combo.
+      sessao.xp += 5;
+      sons.acerto();
+    } else {
+      sessao.combo++;
+      sessao.comboMax = Math.max(sessao.comboMax, sessao.combo);
       sessao.acertos++;
       sessao.xp += 10 + Math.min(sessao.combo - 1, 5) * 2;
+      if (sessao.combo >= 3) sons.combo(sessao.combo);
+      else sons.acerto();
     }
-    if (sessao.combo >= 3) sons.combo(sessao.combo);
-    else sons.acerto();
   } else {
     sessao.combo = 0;
     if (res.naoSei) sons.toque();
@@ -949,9 +1119,9 @@ function processar(ex, res, feedback, btnVerificar) {
   if (ex.item && ['escolhaPtEn', 'digitar', 'montar', 'ditado', 'lacuna', 'ouvirPt'].includes(ex.tipo)) falar(ex.item.en);
   const frase = res.naoSei ? 'Agora você sabe — ela volta já já pra você acertar 💪' : aleatorio(res.correto ? MASCOTE.acerto : MASCOTE.erro);
   const linhas = [];
-  if (res.correto && res.quase) linhas.push(h('div', { class: 'feedback-frase' }, `O certinho é: ${res.certa}`));
+  if (res.correto && res.quase) linhas.push(h('div', { class: 'feedback-frase' }, 'O certinho é: ', h('span', { lang: 'en' }, res.certa)));
   else if (!res.correto && res.diff && !res.naoSei) linhas.push(linhaDiff(res.diff));
-  else if (!res.correto && res.certa) linhas.push(h('div', { class: 'feedback-frase' }, `Resposta certa: ${res.certa}`));
+  else if (!res.correto && res.certa) linhas.push(h('div', { class: 'feedback-frase' }, 'Resposta certa: ', h('span', { lang: 'en' }, res.certa)));
   if (!res.correto && (res.nota || ex.item?.nota)) linhas.push(h('div', { class: 'feedback-nota' }, '💡 ' + (res.nota ?? ex.item.nota)));
   linhas.push(h('div', { class: 'feedback-frase suave' }, frase));
   feedback.className = 'feedback ' + (res.correto ? 'certo' : 'errado');
@@ -975,11 +1145,11 @@ function linhaDiff(diff) {
   return h('div', { class: 'feedback-diff' },
     h('div', { class: 'feedback-frase' },
       h('span', { class: 'diff-rotulo' }, 'Certo: '),
-      diff.certa.map(p => h('span', { class: p.falta ? 'diff-falta' : '' }, p.palavra + ' '))
+      h('span', { lang: 'en' }, diff.certa.map(p => h('span', { class: p.falta ? 'diff-falta' : '' }, p.palavra + ' ')))
     ),
     temSobra ? h('div', { class: 'feedback-frase suave' },
       h('span', { class: 'diff-rotulo' }, 'Você: '),
-      diff.dada.map(p => h('span', { class: p.sobra ? 'diff-sobra' : '' }, p.palavra + ' '))
+      h('span', { lang: 'en' }, diff.dada.map(p => h('span', { class: p.sobra ? 'diff-sobra' : '' }, p.palavra + ' ')))
     ) : ''
   );
 }
@@ -1002,10 +1172,21 @@ function finalizar(derrotado) {
   }
   const precisao = s.planejados ? Math.round(s.acertos / s.planejados * 100) : 100;
   const perfeita = s.acertos === s.planejados;
-  const estrelas = precisao >= 90 ? 3 : precisao >= 60 ? 2 : 1;
+  // Estrelas por erros absolutos: com fila de 8, o degrau de 90% tornava
+  // 3 estrelas idêntico à perfeição (7/8 = 87,5%).
+  const falhas = Math.max(0, s.planejados - s.acertos);
+  const estrelas = falhas === 0 ? 3 : falhas <= 2 ? 2 : 1;
   s.xp += 20 + (perfeita ? 15 : 0);
   if (s.chefao) s.xp += 60;
-  const agendamentos = [...s.resultados.values()];
+  // Verbos sintéticos ("he eats") não entram na agenda de revisão.
+  const agendamentos = s.verbos ? [] : [...s.resultados.values()];
+  if (s.tipo === 'licao' && !s.chefao && !s.historia) {
+    // Item da lição que não caiu no sorteio entra na caixa 0: a home não pode
+    // cobrar revisão de palavra que o aluno nunca viu como "vencendo hoje".
+    s.itens.forEach(i => {
+      if (!s.resultados.has(i.en) && !estado.itens[i.en]) agendamentos.push({ en: i.en, acertou: true });
+    });
+  }
   let evento;
   if (s.tipo === 'licao') {
     evento = registrarLicao(s.licao.id, {
@@ -1026,8 +1207,10 @@ function finalizar(derrotado) {
 }
 
 function telaResultado(estrelas, precisao, evento) {
+  limparTela();
   window.scrollTo(0, 0);
   telaAtiva = 'resultado';
+  registrarRota('resultado');
   const s = sessao;
   const novasBadges = evento.badges;
   app.innerHTML = '';
@@ -1088,11 +1271,17 @@ function coreografiaResultado(estrelas, evento) {
   for (let n = 1; n <= estrelas; n++) passos.push({ ms: 300 + n * 260, fn: () => sons.estrela(n) });
   passos.push({ ms: 300 + estrelas * 260 + 120, fn: () => { sons.fanfarra(); if (estrelas >= 2 || evento.subiuNivel) confete(); } });
   if (evento.subiuNivel) passos.push({ ms: 300 + estrelas * 260 + 900, fn: () => overlayNivel(evento.subiuNivel) });
-  passos.forEach(p => setTimeout(p.fn, p.ms));
+  passos.forEach(p => timerDeTela(p.fn, p.ms));
 }
 
 function botaoDesafiar(s, estrelas) {
   const botao = h('button', { class: 'btn btn-branco' }, '🎯 DESAFIAR');
+  const avisar = texto => {
+    botao.textContent = texto;
+    timerDeTela(() => {
+      botao.textContent = '🎯 DESAFIAR';
+    }, 2500);
+  };
   botao.addEventListener('click', async () => {
     const url = linkDoDesafio(s, estrelas);
     const texto = `Acertei ${s.acertos} de ${s.planejados} em "${s.licao.titulo}" no GringoLingo 🦜 Consegue bater?`;
@@ -1100,18 +1289,20 @@ function botaoDesafiar(s, estrelas) {
       if (navigator.share) await navigator.share({ text: texto, url });
       else {
         await navigator.clipboard.writeText(texto + ' ' + url);
-        botao.textContent = '✅ LINK COPIADO';
+        avisar('✅ LINK COPIADO');
       }
     } catch (e) {
-      if (e?.name !== 'AbortError') botao.textContent = '❌ NÃO ROLOU';
+      if (e?.name !== 'AbortError') avisar('❌ NÃO ROLOU — TENTA DE NOVO');
     }
   });
   return botao;
 }
 
 function telaChefaoPerdido(s) {
+  limparTela();
   window.scrollTo(0, 0);
   telaAtiva = 'resultado';
+  registrarRota('resultado');
   app.innerHTML = '';
   sons.erro();
   app.append(
@@ -1146,37 +1337,49 @@ function contarAte(el, alvo, formato) {
 }
 
 function overlayNivel(nv) {
+  const focoAnterior = document.activeElement;
   const fechar = () => {
     caixa.remove();
+    app.removeAttribute('inert');
     document.removeEventListener('keydown', aoTeclar);
+    focoAnterior?.focus?.({ preventScroll: true });
   };
   const aoTeclar = e => {
     if (e.key === 'Escape' || e.key === 'Enter') fechar();
+    // O modal é o único conteúdo interativo fora do #app (que fica inert);
+    // segurar o Tab nele evita o foco passear pela tela de trás.
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      botao.focus();
+    }
   };
   const botao = h('button', { class: 'btn btn-verde', onclick: fechar }, 'BORA!');
-  const caixa = h('div', { class: 'overlay-nivel', role: 'dialog', 'aria-modal': 'true' },
+  const caixa = h('div', { class: 'overlay-nivel', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'overlay-nivel-titulo' },
     h('div', { class: 'overlay-caixa' },
       h('div', { class: 'overlay-emoji' }, nv.emoji),
-      h('div', { class: 'overlay-titulo' }, 'Nível ' + nv.numero),
+      h('div', { class: 'overlay-titulo', id: 'overlay-nivel-titulo' }, 'Nível ' + nv.numero),
       h('div', { class: 'overlay-nome' }, 'Você virou ' + nv.titulo + '!'),
       botao
     )
   );
   document.addEventListener('keydown', aoTeclar);
+  app.setAttribute('inert', '');
   document.body.append(caixa);
   botao.focus();
   sons.nivel();
 }
 
 function telaLogin(aviso) {
+  limparTela();
   window.scrollTo(0, 0);
   telaAtiva = 'login';
+  registrarRota('login');
   avisoPerfil = null;
   checarGoogle();
   app.innerHTML = '';
-  const email = h('input', { class: 'entrada', type: 'email', placeholder: 'seu@email.com', autocomplete: 'email' });
-  const senha = h('input', { class: 'entrada', type: 'password', placeholder: `senha (mín. ${SENHA_MINIMA} caracteres)`, autocomplete: 'current-password' });
-  const msg = h('div', { class: 'login-msg' });
+  const email = h('input', { class: 'entrada', type: 'email', name: 'email', placeholder: 'seu@email.com', autocomplete: 'email' });
+  const senha = h('input', { class: 'entrada', type: 'password', name: 'senha', placeholder: `senha (mín. ${SENHA_MINIMA} caracteres)`, autocomplete: 'current-password' });
+  const msg = h('div', { class: 'login-msg', role: 'alert' });
   const btnEntrar = h('button', { class: 'btn btn-verde' }, 'ENTRAR');
   const btnCriar = h('button', { class: 'btn btn-azul' }, 'CRIAR CONTA');
   async function agir(criar) {
@@ -1213,12 +1416,41 @@ function telaLogin(aviso) {
       btnEntrar.disabled = btnCriar.disabled = false;
     }
   }
-  btnEntrar.addEventListener('click', () => agir(false));
+  btnEntrar.type = 'submit';
+  btnCriar.type = 'button';
   btnCriar.addEventListener('click', () => agir(true));
-  senha.addEventListener('keydown', e => {
-    if (e.key === 'Enter') agir(false);
-  });
-  const btnGoogle = h('button', { class: 'btn btn-google' }, iconeGoogle(), h('span', {}, 'ENTRAR COM GOOGLE'));
+  // O slot do Google é preenchido no lugar quando a checagem assíncrona
+  // termina — repintar a tela inteira roubava o foco de quem já digitava.
+  const slotGoogle = h('div', { class: 'login-slot-google' });
+  if (temGoogle) slotGoogle.append(...montarBotaoGoogle(msg));
+  const form = h('form', {
+    class: 'login-form',
+    onsubmit(e) {
+      e.preventDefault();
+      agir(false);
+    }
+  },
+    email, senha, msg,
+    h('div', { class: 'login-botoes' }, btnEntrar, btnCriar)
+  );
+  app.append(
+    h('div', { class: 'login' },
+      h('div', { class: 'login-logo' }, mascote('feliz', 92)),
+      h('h1', {}, 'Entrar no GringoLingo'),
+      h('div', { class: 'login-sub' }, 'Sua evolução sincronizada em qualquer dispositivo ☁️'),
+      slotGoogle,
+      form,
+      h('button', { class: 'btn btn-branco', onclick: () => voltarTela() }, 'JOGAR SEM CONTA')
+    )
+  );
+  if (aviso) {
+    msg.textContent = aviso;
+    msg.classList.add('erro');
+  }
+}
+
+function montarBotaoGoogle(msg) {
+  const btnGoogle = h('button', { class: 'btn btn-google', type: 'button' }, iconeGoogle(), h('span', {}, 'ENTRAR COM GOOGLE'));
   btnGoogle.addEventListener('click', async () => {
     btnGoogle.disabled = true;
     msg.textContent = '';
@@ -1231,48 +1463,39 @@ function telaLogin(aviso) {
       btnGoogle.disabled = false;
     }
   });
-  app.append(
-    h('div', { class: 'login' },
-      h('div', { class: 'login-logo' }, mascote('feliz', 92)),
-      h('h1', {}, 'Entrar no GringoLingo'),
-      h('div', { class: 'login-sub' }, 'Sua evolução sincronizada em qualquer dispositivo ☁️'),
-      temGoogle ? btnGoogle : '',
-      temGoogle ? h('div', { class: 'login-ou' }, h('span', {}, 'ou com e-mail')) : '',
-      email, senha, msg,
-      h('div', { class: 'login-botoes' }, btnEntrar, btnCriar),
-      h('button', { class: 'btn btn-branco', onclick: () => telaInicial() }, 'JOGAR SEM CONTA')
-    )
-  );
-  if (aviso) {
-    msg.textContent = aviso;
-    msg.classList.add('erro');
-  }
+  return [btnGoogle, h('div', { class: 'login-ou' }, h('span', {}, 'ou com e-mail'))];
 }
 
-function repintarLogin() {
-  const valores = [...document.querySelectorAll('.login .entrada')].map(i => i.value);
-  const aviso = document.querySelector('.login-msg.erro')?.textContent;
-  telaLogin(aviso);
-  [...document.querySelectorAll('.login .entrada')].forEach((i, idx) => {
-    i.value = valores[idx] ?? '';
-  });
+function decodificarDesafio(d) {
+  const unidade = UNIDADES.find(u => u.id === d?.u);
+  const licao = unidade?.licoes.find(l => l.id === d?.l);
+  if (!licao || typeof d.a !== 'number' || typeof d.t !== 'number') return null;
+  return { unidade, licao, acertos: Math.max(0, Math.min(d.a, 99)), total: Math.max(1, Math.min(d.t, 99)) };
 }
 
+// O desafio sobrevive a reload: a URL é limpa na hora, mas o convite fica
+// guardado até ser aceito ou dispensado.
 function lerDesafio() {
   const p = new URLSearchParams(location.search);
   const bruto = p.get('desafio');
-  if (!bruto) return null;
-  history.replaceState(null, '', location.pathname);
   try {
-    const json = decodeURIComponent(escape(atob(bruto.replace(/-/g, '+').replace(/_/g, '/'))));
-    const d = JSON.parse(json);
-    const unidade = UNIDADES.find(u => u.id === d.u);
-    const licao = unidade?.licoes.find(l => l.id === d.l);
-    if (!licao || typeof d.a !== 'number' || typeof d.t !== 'number') return null;
-    return { unidade, licao, acertos: Math.max(0, Math.min(d.a, 99)), total: Math.max(1, Math.min(d.t, 99)) };
+    if (bruto) {
+      history.replaceState(null, '', location.pathname);
+      const json = decodeURIComponent(escape(atob(bruto.replace(/-/g, '+').replace(/_/g, '/'))));
+      const d = decodificarDesafio(JSON.parse(json));
+      if (d) localStorage.setItem(CHAVE_DESAFIO, JSON.stringify({ u: d.unidade.id, l: d.licao.id, a: d.acertos, t: d.total }));
+      return d;
+    }
+    const salvo = localStorage.getItem(CHAVE_DESAFIO);
+    return salvo ? decodificarDesafio(JSON.parse(salvo)) : null;
   } catch {
     return null;
   }
+}
+
+function esquecerDesafio() {
+  desafioAtivo = null;
+  localStorage.removeItem(CHAVE_DESAFIO);
 }
 
 function linkDoDesafio(s, estrelas) {
@@ -1285,7 +1508,7 @@ function linkDoDesafio(s, estrelas) {
 function bannerDesafio() {
   if (!desafioAtivo) return '';
   const d = desafioAtivo;
-  return h('div', { class: 'card banner-desafio' },
+  const banner = h('div', { class: 'card banner-desafio' },
     h('span', { class: 'revisao-emoji' }, '🎯'),
     h('div', { class: 'revisao-textos' },
       h('div', { class: 'revisao-titulo' }, 'Você foi desafiado!'),
@@ -1295,11 +1518,20 @@ function bannerDesafio() {
       class: 'btn btn-verde',
       onclick() {
         const alvo = d;
-        desafioAtivo = null;
+        esquecerDesafio();
         iniciarLicao(alvo.unidade, alvo.licao);
       }
-    }, 'ACEITAR')
+    }, 'ACEITAR'),
+    h('button', {
+      class: 'fechar banner-fechar',
+      'aria-label': 'Dispensar o desafio',
+      onclick() {
+        esquecerDesafio();
+        banner.remove();
+      }
+    }, '✖')
   );
+  return banner;
 }
 
 function erroNaUrl() {
@@ -1379,8 +1611,13 @@ function checarGoogle() {
   googleAtivo().then(ativo => {
     if (!ativo || temGoogle) return;
     temGoogle = true;
-    if (telaAtiva === 'login') repintarLogin();
-    else if (telaAtiva === 'perfil') telaPerfil();
+    if (telaAtiva === 'login') {
+      const slot = document.querySelector('.login-slot-google');
+      const msg = document.querySelector('.login-msg');
+      if (slot && msg && !slot.children.length) slot.append(...montarBotaoGoogle(msg));
+    } else if (telaAtiva === 'perfil') {
+      telaPerfil();
+    }
   });
 }
 
@@ -1441,8 +1678,10 @@ function repintarTelaAtual() {
 }
 
 function telaPerfil() {
+  limparTela();
   window.scrollTo(0, 0);
   telaAtiva = 'perfil';
+  registrarRota('perfil');
   checarGoogle();
   if (temGoogle && usuarioEmail) {
     provedoresDaConta().then(p => {
@@ -1459,10 +1698,10 @@ function telaPerfil() {
   app.innerHTML = '';
   app.append(
     h('div', { class: 'topo' },
-      h('button', { class: 'pilula btn-perfil', onclick: () => telaInicial() }, '← Voltar'),
+      h('button', { class: 'pilula btn-perfil', onclick: () => voltarTela() }, '← Voltar'),
       h('div', { class: 'espaco' }),
       botaoTema(),
-      h('div', { class: 'logo' }, '👤 Seu perfil')
+      h('div', { class: 'logo', role: 'heading', 'aria-level': '1' }, '👤 Seu perfil')
     ),
     h('div', { class: 'card nivel-card' },
       h('span', { class: 'nivel-emoji' }, nv.emoji),
@@ -1474,7 +1713,7 @@ function telaPerfil() {
     ),
     h('div', { class: 'stats-grid' },
       statPilula('🔥', streakAtual(), 'dias seguidos'),
-      statPilula('📚', Object.keys(estado.licoes).length, 'lições concluídas'),
+      statPilula('📚', licoesConcluidas(), 'lições concluídas'),
       statPilula('🗣️', palavras, 'palavras aprendidas'),
       statPilula('🎯', precisao + '%', 'precisão média'),
       statPilula('⚡', 'x' + estado.stats.comboMax, 'combo máximo'),
@@ -1502,6 +1741,7 @@ function telaPerfil() {
     cartaoConta(),
     cartaoSobre()
   );
+  focarTela();
 }
 
 function cartaoSobre() {
@@ -1541,8 +1781,10 @@ function cartaoMetricas() {
 }
 
 function telaPrivacidade() {
+  limparTela();
   window.scrollTo(0, 0);
   telaAtiva = 'privacidade';
+  registrarRota('privacidade');
   app.innerHTML = '';
   const bloco = (titulo, ...linhas) => h('div', { class: 'card' },
     h('div', { class: 'nivel-titulo' }, titulo),
@@ -1550,9 +1792,9 @@ function telaPrivacidade() {
   );
   app.append(
     h('div', { class: 'topo' },
-      h('button', { class: 'pilula btn-perfil', onclick: telaPerfil }, '← Voltar'),
+      h('button', { class: 'pilula btn-perfil', onclick: () => voltarTela(telaPerfil) }, '← Voltar'),
       h('div', { class: 'espaco' }),
-      h('div', { class: 'logo' }, '🔒 Privacidade')
+      h('div', { class: 'logo', role: 'heading', 'aria-level': '1' }, '🔒 Privacidade')
     ),
     bloco('📱 O que fica no seu aparelho',
       'Todo o seu progresso — XP, streak, estrelas, conquistas e a agenda de revisão — mora no armazenamento local do navegador.',
@@ -1575,22 +1817,24 @@ function telaPrivacidade() {
       'Não usa cookies, nem rastreadores, nem publicidade.',
       'Não coleta localização, contatos, microfone gravado ou qualquer dado além do descrito acima.',
       'O reconhecimento de voz do exercício de falar é processado pelo próprio navegador; o app só recebe o texto.',
-      'Não compartilha nada com terceiros. O código é aberto — dá para conferir cada linha.'
+      'Não vende nem compartilha seus dados. Como em qualquer site, os servidores que entregam o app (GitHub Pages, a fonte do Google e — com conta — o Supabase) veem o IP da requisição; nenhum deles recebe seu progresso além do descrito acima. O código é aberto — dá para conferir cada linha.'
     )
   );
   focarTela();
 }
 
 function telaNovidades() {
+  limparTela();
   window.scrollTo(0, 0);
   telaAtiva = 'novidades';
+  registrarRota('novidades');
   localStorage.setItem('gringolingo:versao-vista', VERSAO_APP);
   app.innerHTML = '';
   app.append(
     h('div', { class: 'topo' },
-      h('button', { class: 'pilula btn-perfil', onclick: telaPerfil }, '← Voltar'),
+      h('button', { class: 'pilula btn-perfil', onclick: () => voltarTela(telaPerfil) }, '← Voltar'),
       h('div', { class: 'espaco' }),
-      h('div', { class: 'logo' }, '✨ Novidades')
+      h('div', { class: 'logo', role: 'heading', 'aria-level': '1' }, '✨ Novidades')
     ),
     ...NOVIDADES.map(n => h('div', { class: 'card' },
       h('div', { class: 'novidade-cab' },
@@ -1600,6 +1844,7 @@ function telaNovidades() {
       h('ul', { class: 'novidade-lista' }, n.itens.map(i => h('li', {}, i)))
     ))
   );
+  focarTela();
 }
 
 const SOTAQUES = {
@@ -1631,6 +1876,12 @@ function nomeCurto(nome) {
     .trim() || nome;
 }
 
+// Ajustar voz/velocidade/som troca só este cartão, no lugar — repintar o
+// perfil inteiro jogava o usuário de volta ao topo da tela.
+function repintarCartaoVoz() {
+  document.querySelector('.voz-card')?.replaceWith(cartaoVoz());
+}
+
 function cartaoVoz() {
   if (!temTts) return '';
   const lista = vozesDisponiveis();
@@ -1642,7 +1893,7 @@ function cartaoVoz() {
       onclick() {
         definirVelocidade(v.id);
         falar('Hello! Let us practice English.');
-        telaPerfil();
+        repintarCartaoVoz();
       }
     }, v.rotulo))
   );
@@ -1650,7 +1901,8 @@ function cartaoVoz() {
     return h('div', { class: 'card voz-card' },
       h('div', { class: 'nivel-titulo' }, '🔊 Voz do app'),
       h('div', { class: 'revisao-sub' }, 'Nenhuma voz em inglês instalada neste aparelho — a pronúncia usa a voz padrão do sistema.'),
-      h('div', { class: 'voz-linha' }, h('span', { class: 'voz-rotulo' }, 'Velocidade'), chipsVelocidade)
+      h('div', { class: 'voz-linha' }, h('span', { class: 'voz-rotulo' }, 'Velocidade'), chipsVelocidade),
+      linhaSom()
     );
   }
   const atual = lista.find(v => v.uri === vozAtual()) ?? lista[0];
@@ -1676,7 +1928,7 @@ function cartaoVoz() {
           const primeira = lista.find(v => v.lang === lang);
           definirVoz(primeira.uri);
           falar('Hello! Let us practice English.');
-          telaPerfil();
+          repintarCartaoVoz();
         }
       }, rotuloSotaque(lang))))
     ) : '',
@@ -1689,7 +1941,7 @@ function cartaoVoz() {
         onclick() {
           definirVoz(v.uri);
           falar('Hello! Let us practice English.');
-          telaPerfil();
+          repintarCartaoVoz();
         }
       }, nomeCurto(v.nome))))
     ) : '',
@@ -1699,11 +1951,11 @@ function cartaoVoz() {
 }
 
 function linhaSom() {
-  const botao = h('button', { class: 'voz-chip' + (mudo() ? '' : ' ativa') }, mudo() ? '🔇 Sons desligados' : '🔊 Sons ligados');
+  const botao = h('button', { class: 'voz-chip' + (mudo() ? '' : ' ativa'), 'aria-pressed': mudo() ? 'false' : 'true' }, mudo() ? '🔇 Sons desligados' : '🔊 Sons ligados');
   botao.addEventListener('click', () => {
     definirMudo(!mudo());
     if (!mudo()) sons.acerto();
-    telaPerfil();
+    repintarCartaoVoz();
   });
   return h('div', { class: 'voz-linha' },
     h('span', { class: 'voz-rotulo' }, 'Efeitos'),
@@ -1713,7 +1965,7 @@ function linhaSom() {
 
 function cartaoCompartilhar() {
   if (!estado.stats.licoes) return '';
-  const msg = h('div', { class: 'revisao-sub' }, 'Gere um card com seu nível, XP e sequência');
+  const msg = h('div', { class: 'revisao-sub', role: 'status' }, 'Gere um card com seu nível, XP e sequência');
   const botao = h('button', { class: 'btn btn-azul' }, '📤 COMPARTILHAR');
   botao.addEventListener('click', async () => {
     botao.disabled = true;
@@ -1752,7 +2004,8 @@ function cartaoJornada() {
   const ativos = dias.filter(d => d.xp > 0).length;
   const caixas = distribuicaoDeCaixas();
   const totalItens = caixas.reduce((a, b) => a + b, 0);
-  const rotulos = ['Nova', '1 dia', '3 dias', '7 dias', '16+ dias'];
+  // Rótulos derivados dos intervalos reais: a caixa 0 já é de 1 dia.
+  const rotulos = INTERVALOS.map(n => `${n} dia${n > 1 ? 's' : ''}`);
   return h('div', { class: 'card jornada-card' },
     h('div', { class: 'nivel-titulo' }, '📈 Sua jornada'),
     h('div', { class: 'jornada-grafico', role: 'img', 'aria-label': `XP dos últimos 30 dias, total ${total}` },
@@ -1778,26 +2031,67 @@ function cartaoJornada() {
 }
 
 function cartaoBackup() {
-  const msg = h('div', { class: 'revisao-sub' }, 'Baixe uma cópia do seu progresso ou traga de outro aparelho');
+  const msg = h('div', { class: 'revisao-sub', role: 'status' }, 'Baixe uma cópia do seu progresso ou traga de outro aparelho');
+  const escolha = h('div', { class: 'backup-botoes' });
   const entrada = h('input', { type: 'file', accept: 'application/json,.json', class: 'arquivo-escondido' });
-  entrada.addEventListener('change', async () => {
-    const arquivo = entrada.files?.[0];
-    if (!arquivo) return;
+  const aplicar = (dados, modo) => {
+    escolha.innerHTML = '';
     try {
-      const dados = JSON.parse(await arquivo.text());
-      const r = importarEstado(dados);
-      msg.textContent = `Importado! XP: ${r.antes} → ${r.depois}`;
+      const r = importarEstado(dados, modo);
+      msg.textContent = modo === 'substituir'
+        ? `Backup restaurado! XP: ${r.antes} → ${r.depois}`
+        : `Mesclado! XP: ${r.antes} → ${r.depois}`;
       msg.className = 'login-msg ok';
-      setTimeout(telaPerfil, 1400);
+      timerDeTela(() => {
+        if (telaAtiva === 'perfil') telaPerfil();
+      }, 1400);
     } catch (e) {
       msg.textContent = e.message;
       msg.className = 'login-msg erro';
+    }
+  };
+  entrada.addEventListener('change', async () => {
+    const arquivo = entrada.files?.[0];
+    if (!arquivo) return;
+    escolha.innerHTML = '';
+    if (arquivo.size > 1_000_000) {
+      msg.textContent = 'Arquivo grande demais para ser um backup do GringoLingo';
+      msg.className = 'login-msg erro';
+      return;
+    }
+    try {
+      const dados = JSON.parse(await arquivo.text());
+      // Mesclar nunca perde nada; substituir volta exatamente ao backup —
+      // sem a escolha, restaurar um backup antigo parecia "não funcionar".
+      msg.textContent = 'Como aplicar o backup?';
+      msg.className = 'login-msg';
+      let confirmando = false;
+      const btnSubstituir = h('button', { class: 'btn btn-branco perigo' }, 'SUBSTITUIR TUDO');
+      btnSubstituir.addEventListener('click', () => {
+        if (!confirmando) {
+          confirmando = true;
+          btnSubstituir.textContent = 'TEM CERTEZA? TOQUE DE NOVO';
+          btnSubstituir.classList.add('btn-vermelho');
+          return;
+        }
+        aplicar(dados, 'substituir');
+      });
+      escolha.append(
+        h('button', { class: 'btn btn-azul', onclick: () => aplicar(dados, 'mesclar') }, 'MESCLAR'),
+        btnSubstituir
+      );
+    } catch {
+      msg.textContent = 'Arquivo não parece um backup do GringoLingo';
+      msg.className = 'login-msg erro';
+    } finally {
+      entrada.value = '';
     }
   });
   return h('div', { class: 'card backup-card' },
     h('div', { class: 'backup-textos' },
       h('div', { class: 'nivel-titulo' }, '💾 Backup e dados'),
-      msg
+      msg,
+      escolha
     ),
     h('div', { class: 'backup-botoes' },
       h('button', {
@@ -1821,16 +2115,17 @@ function cartaoBackup() {
 function cartaoLembrete() {
   if (!('Notification' in window)) return '';
   const ativo = !!estado.lembrete;
-  const msg = h('div', { class: 'revisao-sub' }, ativo
+  const trocarNoLugar = () => document.querySelector('.lembrete-card')?.replaceWith(cartaoLembrete());
+  const msg = h('div', { class: 'revisao-sub', role: 'status' }, ativo
     ? `Aviso diário às ${estado.lembrete} enquanto o app estiver aberto`
     : 'Receba um lembrete no horário que você escolher');
-  const hora = h('input', { class: 'entrada hora-input', type: 'time', value: estado.lembrete ?? '20:00' });
+  const hora = h('input', { class: 'entrada hora-input', type: 'time', value: estado.lembrete ?? '20:00', 'aria-label': 'Horário do lembrete' });
   const botao = h('button', { class: 'btn ' + (ativo ? 'btn-branco' : 'btn-azul') }, ativo ? 'DESLIGAR' : 'ATIVAR');
   botao.addEventListener('click', async () => {
     if (ativo) {
       estado.lembrete = null;
       salvar();
-      telaPerfil();
+      trocarNoLugar();
       return;
     }
     botao.disabled = true;
@@ -1843,7 +2138,7 @@ function cartaoLembrete() {
     estado.lembrete = hora.value;
     salvar();
     agendarLembrete();
-    telaPerfil();
+    trocarNoLugar();
   });
   return h('div', { class: 'card lembrete-card' },
     h('div', { class: 'lembrete-textos' },
@@ -1904,13 +2199,17 @@ function cartaoConta() {
     if (naNuvem) resetarEstado();
     telaInicial();
   });
+  const avisosPendencia = {
+    grande: '⚠️ O progresso passou do limite da nuvem — ele continua salvo aqui no aparelho. Reduzir a Minha Lista pode resolver.',
+    versao: '⚠️ Este progresso na nuvem veio de uma versão mais nova do app — atualize o app para voltar a sincronizar.'
+  };
   return h('div', { class: 'card conta-card' },
     h('div', { class: 'conta-linha' },
       h('span', { class: 'conta-email' }, syncPendente ? '☁️⚠️ ' + usuarioEmail : '☁️ ' + usuarioEmail),
       btnSair
     ),
     syncPendente ? h('div', { class: 'conta-pendente' },
-      h('span', { class: 'conta-aviso' }, '⚠️ Progresso ainda não sincronizado — ele fica salvo aqui no aparelho'),
+      h('span', { class: 'conta-aviso', role: 'status' }, avisosPendencia[motivoPendencia()] ?? '⚠️ Progresso ainda não sincronizado — ele fica salvo aqui no aparelho'),
       h('button', { class: 'btn btn-azul', onclick: () => aposLogin(true) }, 'TENTAR AGORA')
     ) : '',
     avisoPerfil ? h('div', { class: 'login-msg erro' }, avisoPerfil) : '',
@@ -1920,7 +2219,7 @@ function cartaoConta() {
 }
 
 function linhaApagarConta() {
-  const msg = h('div', { class: 'login-msg' });
+  const msg = h('div', { class: 'login-msg', role: 'alert' });
   const botao = h('button', { class: 'btn btn-branco perigo' }, 'APAGAR MINHA CONTA');
   let confirmando = false;
   botao.addEventListener('click', async () => {
@@ -1961,7 +2260,7 @@ function linhaApagarConta() {
 
 function linhaGoogle() {
   const vinculado = provedores.includes('google');
-  const msg = h('div', { class: 'login-msg' });
+  const msg = h('div', { class: 'login-msg', role: 'alert' });
   const btn = h('button', { class: 'btn ' + (vinculado ? 'btn-branco' : 'btn-google') },
     iconeGoogle(),
     h('span', {}, vinculado ? 'DESVINCULAR' : 'VINCULAR GOOGLE')
@@ -2007,6 +2306,7 @@ function statPilula(emoji, valor, rotulo) {
 }
 
 function confete() {
+  if (reduzirMovimento()) return;
   const cv = document.getElementById('confetti');
   const cx = cv.getContext('2d');
   cv.width = innerWidth;
@@ -2049,8 +2349,10 @@ function avisarAtualizacao(registro) {
     onclick() {
       btn.disabled = true;
       btn.textContent = 'Atualizando…';
-      registro.waiting?.postMessage('atualizar');
-      setTimeout(() => location.reload(), 400);
+      // O SW novo fica em waiting até este toque; o skipWaiting dele dispara o
+      // controllerchange abaixo, que recarrega já na versão nova.
+      if (registro.waiting) registro.waiting.postMessage('atualizar');
+      else location.reload();
     }
   }, '✨ Nova versão disponível — tocar para atualizar');
   document.body.append(btn);
@@ -2058,6 +2360,19 @@ function avisarAtualizacao(registro) {
 
 function registrarServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
+  let recarregou = false;
+  // Na PRIMEIRA instalação o clients.claim() também dispara controllerchange;
+  // só recarrega quando já havia um controlador (ou seja, troca de versão).
+  let tinhaControlador = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!tinhaControlador) {
+      tinhaControlador = true;
+      return;
+    }
+    if (recarregou) return;
+    recarregou = true;
+    location.reload();
+  });
   navigator.serviceWorker.register('./sw.js').then(registro => {
     if (registro.waiting && navigator.serviceWorker.controller) avisarAtualizacao(registro);
     registro.addEventListener('updatefound', () => {
@@ -2071,15 +2386,17 @@ function registrarServiceWorker() {
 }
 
 function telaDebug() {
+  limparTela();
   window.scrollTo(0, 0);
   telaAtiva = 'debug';
+  registrarRota('debug');
   const log = logSalvo();
   app.innerHTML = '';
   app.append(
     h('div', { class: 'topo' },
-      h('button', { class: 'pilula btn-perfil', onclick: () => telaInicial() }, '← Voltar'),
+      h('button', { class: 'pilula btn-perfil', onclick: () => voltarTela() }, '← Voltar'),
       h('div', { class: 'espaco' }),
-      h('div', { class: 'logo' }, '🐛 Diagnóstico')
+      h('div', { class: 'logo', role: 'heading', 'aria-level': '1' }, '🐛 Diagnóstico')
     ),
     h('div', { class: 'card' },
       h('div', { class: 'nivel-titulo' }, `${log.length} erro${log.length === 1 ? '' : 's'} registrado${log.length === 1 ? '' : 's'}`),
@@ -2096,8 +2413,34 @@ function telaDebug() {
   );
 }
 
+function avisarMetricas() {
+  if (!metricasLigadas() || localStorage.getItem('gringolingo:aviso-metricas')) return;
+  try {
+    localStorage.setItem('gringolingo:aviso-metricas', '1');
+  } catch {}
+  const btn = h('button', {
+    class: 'aviso-versao aviso-metricas',
+    onclick() {
+      btn.remove();
+      telaPrivacidade();
+    }
+  }, '📊 Contamos aberturas de forma anônima — toque para entender e desligar');
+  document.body.append(btn);
+  setTimeout(() => btn.remove(), 12000);
+}
+
 async function iniciar() {
   contextoDoLog(() => telaAtiva);
+  Object.assign(TELAS_POR_NOME, {
+    inicial: telaInicial,
+    perfil: telaPerfil,
+    dicionario: telaDicionario,
+    login: telaLogin,
+    privacidade: telaPrivacidade,
+    novidades: telaNovidades,
+    debug: telaDebug
+  });
+  window.addEventListener('popstate', aoVoltarDoNavegador);
   desafioAtivo = lerDesafio();
   avisoPendente = nuvemConfigurada ? erroNaUrl() : null;
   authCarregando = nuvemConfigurada;
@@ -2109,10 +2452,11 @@ async function iniciar() {
   registrarServiceWorker();
   pintarBarraDoSistema();
   registrarAberturaDoDia();
+  avisarMetricas();
   window.addEventListener('appinstalled', () => registrarEvento('instalou'));
   agendarLembrete();
   aoCarregarVozes(() => {
-    if (telaAtiva === 'perfil') telaPerfil();
+    if (telaAtiva === 'perfil') repintarCartaoVoz();
   });
   window.addEventListener('online', tentarReenviar);
   document.addEventListener('visibilitychange', () => {
@@ -2128,7 +2472,8 @@ async function iniciar() {
   checarGoogle();
   try {
     window.addEventListener('storage', e => {
-      if (e.key === 'gringolingo' && e.newValue === null) {
+      if (e.key !== 'gringolingo') return;
+      if (e.newValue === null) {
         geracaoAuth++;
         limparEstadoMemoria();
         ativarSync(false);
@@ -2136,7 +2481,16 @@ async function iniciar() {
         syncPendente = false;
         authCarregando = false;
         repintarTelaAtual();
+        return;
       }
+      // Outra aba salvou progresso: mesclar aqui em vez de deixar o próximo
+      // salvar() desta aba sobrescrever o que ela fez. mesclarDeOutraAba só
+      // regrava quando ganhou algo — sem eco infinito entre as abas.
+      try {
+        if (mesclarDeOutraAba(e.newValue) && (telaAtiva === 'inicial' || telaAtiva === 'perfil')) {
+          repintarTelaAtual();
+        }
+      } catch {}
     });
     await aoMudarAuth(evento => {
       if (evento === 'SIGNED_OUT' && usuarioEmail) {
