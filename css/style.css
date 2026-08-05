@@ -13,10 +13,16 @@
   --vermelho-esc: #CC3B3B;
   --verm-claro: #FFDFE0;
   --amarelo: #FFC800;
+  --roxo: #6C5CE7;
   --texto: #3C3C3C;
   --texto-suave: #6B6B6B;
   --laranja-texto: #8F5500;
   --verde-texto: #3B7A00;
+  --verde-vivo: var(--verde-esc);
+  --azul-vivo: var(--azul-esc);
+  --vermelho-vivo: var(--vermelho-esc);
+  --sobre-verde: #12330A;
+  --sobre-amarelo: #3C3C3C;
   --sobre-cor: #241C00;
   --borda: #E5E5E5;
   --borda-suave: color-mix(in srgb, #E5E5E5 60%, transparent);
@@ -42,6 +48,9 @@
   --texto-suave: #B3C4CD;
   --laranja-texto: #FFB144;
   --verde-texto: #8EE05A;
+  --verde-vivo: #8EE05A;
+  --azul-vivo: #62C5F8;
+  --vermelho-vivo: #FF9BA0;
   --sobre-cor: #241C00;
   --borda: #37464F;
   --borda-suave: color-mix(in srgb, #37464F 65%, transparent);
@@ -556,19 +565,19 @@ textarea {
 .opcao.sel {
   border-color: var(--azul);
   background: var(--azul-claro);
-  color: var(--azul-esc);
+  color: var(--azul-vivo);
 }
 
 .opcao.certa {
   border-color: var(--verde);
   background: var(--verde-claro);
-  color: var(--verde-esc);
+  color: var(--verde-vivo);
 }
 
 .opcao.errada {
   border-color: var(--vermelho);
   background: var(--verm-claro);
-  color: var(--vermelho-esc);
+  color: var(--vermelho-vivo);
 }
 
 .entrada {
@@ -748,11 +757,11 @@ textarea {
 }
 
 .feedback.certo .feedback-titulo {
-  color: var(--verde-esc);
+  color: var(--verde-vivo);
 }
 
 .feedback.errado .feedback-titulo {
-  color: var(--vermelho-esc);
+  color: var(--vermelho-vivo);
 }
 
 .feedback-frase {
@@ -775,7 +784,7 @@ textarea {
 
 .diff-falta {
   background: var(--amarelo);
-  color: #3C3C3C;
+  color: var(--sobre-amarelo);
   border-radius: 6px;
   padding: 1px 4px;
   margin-right: 2px;
@@ -901,7 +910,7 @@ textarea {
 
 .meta-pronta .meta-opcao.ativa {
   background: var(--verde);
-  color: #12330A;
+  color: var(--sobre-verde);
 }
 
 .semana {
@@ -1305,10 +1314,6 @@ textarea {
   color: var(--verde-texto);
 }
 
-[data-tema="escuro"] .dic-status.memoria {
-  color: #8ee05a;
-}
-
 .voz-card {
   display: flex;
   flex-direction: column;
@@ -1671,7 +1676,7 @@ textarea {
 }
 
 .verbos-atalho {
-  border-color: color-mix(in srgb, #6C5CE7 40%, var(--borda));
+  border-color: color-mix(in srgb, var(--roxo) 40%, var(--borda));
 }
 
 .barra-tempo > div {
@@ -2336,11 +2341,11 @@ textarea {
 }
 
 .login-msg.erro {
-  color: var(--vermelho-esc);
+  color: var(--vermelho-vivo);
 }
 
 .login-msg.ok {
-  color: var(--verde-esc);
+  color: var(--verde-vivo);
 }
 
 .conta-card {
@@ -2471,40 +2476,18 @@ textarea {
   box-shadow: 0 4px 0 #24323a;
 }
 
-[data-tema="escuro"] .opcao.sel {
-  color: #62c5f8;
-}
-
-[data-tema="escuro"] .opcao.certa,
-[data-tema="escuro"] .feedback.certo .feedback-titulo {
-  color: #8ee05a;
-}
-
-[data-tema="escuro"] .opcao.errada,
-[data-tema="escuro"] .feedback.errado .feedback-titulo {
-  color: #ff9ba0;
-}
-
 [data-tema="escuro"] .btn-branco {
-  color: #62c5f8;
+  color: var(--azul-vivo);
 }
 
 [data-tema="escuro"] .badge-card.nova {
   background: #3a3110;
 }
 
-[data-tema="escuro"] .login-msg.erro {
-  color: #ff9ba0;
-}
-
-[data-tema="escuro"] .login-msg.ok {
-  color: #8ee05a;
-}
-
 [data-tema="escuro"] .entrada-certa {
-  color: #8ee05a;
+  color: var(--verde-vivo);
 }
 
 [data-tema="escuro"] .entrada-errada {
-  color: #ff9ba0;
+  color: var(--vermelho-vivo);
 }
