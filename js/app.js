@@ -826,7 +826,8 @@ function telaExercicio() {
     : h('div', { class: 'combo' + (sessao.combo >= 2 ? ' pop' : '') }, sessao.combo >= 2 ? `⚡x${sessao.combo}` : '');
   const btnVerificar = h('button', { class: 'btn btn-verde' }, 'VERIFICAR');
   btnVerificar.disabled = true;
-  const rodape = h('div', { class: 'rodape' }, h('div', { class: 'rodape-conteudo' }, btnVerificar));
+  const btnNaoSei = h('button', { class: 'btn btn-branco btn-nao-sei', title: 'Ver a resposta — conta como erro e volta depois' }, 'NÃO SEI');
+  const rodape = h('div', { class: 'rodape' }, h('div', { class: 'rodape-conteudo' }, btnNaoSei, btnVerificar));
   const feedback = h('div', { class: 'feedback', role: 'status', 'aria-live': 'polite' });
   const areaEx = h('div', { class: 'area-exercicio' });
   app.innerHTML = '';
@@ -857,12 +858,23 @@ function telaExercicio() {
   });
   areaEx.append(ctrl.el);
   if (!ctrl.temVerificar) rodape.style.display = 'none';
+  if (ex.tipo === 'falar') btnNaoSei.style.display = 'none';
   ligarAtalhos(areaEx, btnVerificar, feedback);
   focarTela();
+  let corrigido = false;
   btnVerificar.addEventListener('click', () => {
-    if (btnVerificar.disabled) return;
+    if (btnVerificar.disabled || corrigido) return;
+    corrigido = true;
+    btnNaoSei.disabled = true;
     const res = ctrl.corrigir();
     processar(ex, res, feedback, btnVerificar);
+  });
+  btnNaoSei.addEventListener('click', () => {
+    if (corrigido) return;
+    corrigido = true;
+    btnNaoSei.disabled = true;
+    const res = ctrl.corrigir();
+    processar(ex, { ...res, correto: false, quase: false, naoSei: true }, feedback, btnVerificar);
   });
 }
 
@@ -922,7 +934,8 @@ function processar(ex, res, feedback, btnVerificar) {
     else sons.acerto();
   } else {
     sessao.combo = 0;
-    sons.erro();
+    if (res.naoSei) sons.toque();
+    else sons.erro();
     if (sessao.chefao) sessao.vidas--;
     if (ex.item) {
       sessao.erros.push(ex.item);
@@ -934,10 +947,10 @@ function processar(ex, res, feedback, btnVerificar) {
     }
   }
   if (ex.item && ['escolhaPtEn', 'digitar', 'montar', 'ditado', 'lacuna', 'ouvirPt'].includes(ex.tipo)) falar(ex.item.en);
-  const frase = aleatorio(res.correto ? MASCOTE.acerto : MASCOTE.erro);
+  const frase = res.naoSei ? 'Agora você sabe — ela volta já já pra você acertar 💪' : aleatorio(res.correto ? MASCOTE.acerto : MASCOTE.erro);
   const linhas = [];
   if (res.correto && res.quase) linhas.push(h('div', { class: 'feedback-frase' }, `O certinho é: ${res.certa}`));
-  else if (!res.correto && res.diff) linhas.push(linhaDiff(res.diff));
+  else if (!res.correto && res.diff && !res.naoSei) linhas.push(linhaDiff(res.diff));
   else if (!res.correto && res.certa) linhas.push(h('div', { class: 'feedback-frase' }, `Resposta certa: ${res.certa}`));
   if (!res.correto && (res.nota || ex.item?.nota)) linhas.push(h('div', { class: 'feedback-nota' }, '💡 ' + (res.nota ?? ex.item.nota)));
   linhas.push(h('div', { class: 'feedback-frase suave' }, frase));
@@ -947,7 +960,7 @@ function processar(ex, res, feedback, btnVerificar) {
   feedback.append(
     h('div', { class: 'feedback-conteudo' },
       h('div', { class: 'feedback-textos' },
-        h('div', { class: 'feedback-titulo' }, res.correto ? (res.quase ? 'Quase perfeito! ✍️' : 'Muito bem!') : 'Ops!'),
+        h('div', { class: 'feedback-titulo' }, res.correto ? (res.quase ? 'Quase perfeito! ✍️' : 'Muito bem!') : res.naoSei ? 'Fica a dica! 📝' : 'Ops!'),
         linhas
       ),
       btnContinuar

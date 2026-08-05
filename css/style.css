@@ -712,6 +712,12 @@ textarea {
   margin: 0 auto;
   display: flex;
   justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn-nao-sei {
+  margin-right: auto;
+  color: var(--texto-suave);
 }
 
 .feedback {

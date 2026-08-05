@@ -265,3 +265,38 @@ describe('ligar os pares', () => {
     assert.ok(ingles('hello').classList.contains('tremendo'));
   });
 });
+
+describe('nao sei: corrigir sem resposta nunca aceita nem quebra', () => {
+  test('digitar vazio vira erro com a resposta certa exposta', () => {
+    const { resultado } = digitar({ en: 'excuse me', pt: 'com licença' }, '');
+    assert.equal(resultado.correto, false);
+    assert.equal(resultado.quase, false);
+    assert.equal(resultado.certa, 'excuse me');
+    assert.ok(resultado.diff, 'deve devolver diff sem lançar erro');
+    assert.ok(resultado.diff.dada.every(p => !p.sobra), 'entrada vazia não pode gerar sobras');
+  });
+
+  test('digitar vazio não vira quase-acerto por typo-tolerância', () => {
+    const { resultado } = digitar({ en: 'water', pt: 'água' }, '');
+    assert.equal(resultado.correto, false);
+    assert.equal(resultado.quase, false);
+  });
+
+  test('escolha sem seleção vira erro e revela a certa', () => {
+    const visao = montarExercicio({ tipo: 'escolhaPtEn', item: { en: 'six', pt: 'seis' }, opcoes: ['six', 'one', 'good night', 'can you help me?'] }, retornoVazio());
+    const resultado = visao.corrigir();
+    assert.equal(resultado.correto, false);
+    assert.equal(resultado.certa, 'six');
+    const certas = buscarTodos(visao.el, 'certa');
+    assert.equal(certas.length, 1);
+    assert.equal(certas[0].textContent, 'six');
+  });
+
+  test('montar frase sem peças vira erro sem lançar', () => {
+    const visao = montarExercicio({ tipo: 'montar', item: { en: 'good morning', pt: 'bom dia' }, tiles: ['good', 'morning', 'night'] }, retornoVazio());
+    const resultado = visao.corrigir();
+    assert.equal(resultado.correto, false);
+    assert.equal(resultado.certa, 'good morning');
+    assert.ok(resultado.diff);
+  });
+});
