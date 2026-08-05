@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-91%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-153%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -60,13 +60,16 @@ navegador.
 - **Chefão de unidade**: liberado quando as 4 lições estão feitas. 12 exercícios difíceis, sem
   múltipla escolha, com 3 vidas.
 - **Correção que perdoa o que é para perdoar**: contrações (`don't` = `do not`), traduções
-  alternativas por item, pontuação, acento e um errinho de digitação (distância de Levenshtein ≤ 1).
+  alternativas por item, pontuação, acento e um errinho de digitação (distância de Levenshtein ≤ 1)
+  — desde que o "errinho" não forme outra palavra real: `house` nunca vale como `mouse`.
 - **Feedback que ensina**: ao errar uma frase, a resposta certa aparece com as palavras que faltaram
   destacadas e o que você escreveu a mais riscado. Itens com nota de gramática mostram a dica na hora
   (“estados usam *to be*, não *have*”), e 4 lições abrem com um card explicando a estrutura.
 - **Revisão espaçada de verdade (Leitner)**: cada palavra tem uma caixa e volta a ser cobrada em
-  1, 3, 7, 16 e 35 dias. Acertou, sobe de caixa; errou, cai para a primeira e reaparece amanhã.
-  A home mostra quantas palavras vencem hoje.
+  1, 3, 7, 16 e 35 dias. Acertou, sobe de caixa; errou, desce uma caixa e reaparece amanhã (só dois
+  erros seguidos zeram — um tropeço não apaga semanas de espaçamento). A home mostra quantas
+  palavras vencem hoje. O dia do app é o **dia local do aparelho** — streak e missões viram à
+  meia-noite, não às 21h.
 - **Minha Lista**: favorite palavras no dicionário e treine só elas.
 - **Dicionário embutido**: 2.979 verbetes (as 215 do curso + um banco das palavras mais frequentes do
   inglês), com classe gramatical, áudio e — para as do curso — o status da sua memória (🌱 memorizada,
@@ -74,7 +77,7 @@ navegador.
 
 ### Hábito e gamificação
 
-- **Meta diária de XP** configurável (20 / 30 / 50 / 80), com o quadro da semana.
+- **Meta diária de XP** configurável (50 / 100 / 200 / 350), com o quadro da semana.
 - **3 missões que trocam todo dia**, sorteadas de forma determinística a partir da data.
 - **Streak com protetor**: perdoa um dia perdido, e você ganha um novo protetor a cada 5 lições
   perfeitas. O app avisa quando a sequência está para vencer.
@@ -160,8 +163,12 @@ linhas. A distribuição das caixas vira o gráfico de “saúde da memória” 
 
 **Merge conservador no sync multi-dispositivo.** Dois celulares abertos na mesma conta não podem fazer
 você perder XP. Então `mesclarEstado()` nunca sobrescreve: XP e estatísticas entram por `Math.max`,
-estrelas por lição ficam com a maior, conquistas / erros / favoritas são união de conjuntos e o
-histórico resolve dia a dia. A agenda de revisão é o caso mais delicado, e a regra é deliberadamente
+estrelas por lição ficam com a maior, conquistas / erros / favoritas são união de conjuntos, o
+histórico resolve dia a dia, missões do mesmo dia somam o progresso sem pagar bônus duas vezes e os
+protetores de streak mesclam por contadores de ganho/gasto — gastar num aparelho não regenera pelo
+outro. Antes de reenviar uma pendência, o app baixa e mescla o que estiver na nuvem, para nunca
+sobrescrever o progresso feito em outro aparelho; e o payload remoto é validado campo a campo antes
+de entrar (tipo, versão do formato e chaves perigosas). A agenda de revisão é o caso mais delicado, e a regra é deliberadamente
 pessimista: fica com a **menor** caixa e a **data mais próxima** dos dois lados — na dúvida você revisa
 antes, nunca depois. O streak tem quatro ramos explícitos (sem histórico local, remoto mais novo, mesmo
 dia, local mais novo) e reconhece dias consecutivos em vez de só comparar números. Os quatro ramos são
@@ -198,8 +205,9 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node — **91 testes em 14 suítes** — sem `package.json` e sem instalar
-nada. De dentro da pasta do projeto:
+A suíte roda no runner nativo do Node — **153 testes em 29 suítes** — sem instalar nada
+(o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
+De dentro da pasta do projeto:
 
 ```bash
 node --test
@@ -212,11 +220,12 @@ node --test "tests/*.test.js"
 node --test tests/jogo.test.js
 ```
 
+A mesma suíte roda no CI (`.github/workflows/testes.yml`) a cada push, em Node 20 e 22 — uma
+regressão não chega mais ao ar sem ser vista.
+
 > **No Windows**, com o projeto aberto pelo caminho UNC do WSL (`\\wsl.localhost\...`), passar a
-> **pasta** (`node --test tests/`) falha com `Cannot find module` — use `node --test` sem argumento ou
-> o glob acima. Rodando por dentro do WSL a pasta funciona normalmente. Em Node anterior ao 20.19 /
-> 22.7 é preciso acrescentar `--experimental-detect-module`: como não existe `package.json`, é a
-> detecção automática que faz o `.js` ser lido como ES module.
+> **pasta** (`node --test tests/`) pode falhar com `Cannot find module` — use `node --test` sem
+> argumento ou o glob acima. Rodando por dentro do WSL a pasta funciona normalmente.
 
 O que a suíte cobre:
 
@@ -307,8 +316,9 @@ desvincular — o app impede remover a última forma de login que sobrou.
 <details>
 <summary><b>Manter o projeto free acordado</b></summary>
 
-`.github/workflows/keep-alive.yml` bate no endpoint público de settings do Supabase três vezes por
-semana, para o projeto do plano gratuito não ser pausado por inatividade.
+`.github/workflows/keep-alive.yml` chama a RPC pública `ping()` (via PostgREST) três vezes por
+semana — atividade real no Postgres, que é o que conta para a pausa por inatividade do plano
+gratuito. Atenção: o GitHub desativa workflows agendados após 60 dias sem commits no repositório.
 
 </details>
 
@@ -319,14 +329,17 @@ semana, para o projeto do plano gratuito não ser pausado por inatividade.
 ```
 index.html                        casca da SPA
 css/style.css                     tema completo (claro e escuro)
+css/fontes/                       Nunito auto-hospedada (offline e sem terceiros no carregamento)
 js/                               os módulos da tabela acima
 js/vendor/                        supabase-js 2.112.0 vendorizado (+ _baixar.mjs, que o gera)
 tests/                            suíte do node --test
 docs/supabase.sql                 schema e políticas do backend, versionados
 docs/img/                         as capturas de tela deste README
+.github/workflows/testes.yml      CI: a suíte inteira a cada push (Node 20 e 22)
 .github/workflows/keep-alive.yml  ping 3x/semana para o free tier não pausar
 sw.js                             service worker (cache offline)
 manifest.webmanifest              metadados do PWA
 icones/                           ícones do app (192, 512, maskable, apple-touch e og-image)
 servidor.js                       servidor estático mínimo (Node)
+package.json                      só metadado ("type": "module") — zero dependências
 ```
