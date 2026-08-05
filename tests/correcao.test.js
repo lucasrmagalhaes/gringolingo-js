@@ -243,7 +243,7 @@ describe('ligar os pares', () => {
     const { visao, botoes } = ligar();
     assert.equal(visao.temVerificar, false);
     assert.equal(botoes.length, 4);
-    assert.deepEqual(visao.corrigir(), { correto: true, certa: null });
+    assert.deepEqual(visao.corrigir(), { correto: true, certa: null, paresErrados: [] });
   });
 
   test('acertar todos os pares dispara o encerramento automático', () => {
@@ -252,7 +252,7 @@ describe('ligar os pares', () => {
       ingles(p.en).click();
       portugues(p).click();
     });
-    assert.deepEqual(obterAuto(), { correto: true, certa: null });
+    assert.deepEqual(obterAuto(), { correto: true, certa: null, paresErrados: [] });
     assert.ok(ingles('hello').classList.contains('ok'));
     assert.ok(portugues(pares[0]).classList.contains('ok'));
   });
@@ -298,5 +298,37 @@ describe('nao sei: corrigir sem resposta nunca aceita nem quebra', () => {
     assert.equal(resultado.correto, false);
     assert.equal(resultado.certa, 'good morning');
     assert.ok(resultado.diff);
+  });
+});
+
+describe('digitar: typo que forma outra palavra real não é perdoado', () => {
+  test('house não vale como mouse (é palavra do curso)', () => {
+    const { resultado } = digitar({ en: 'mouse', pt: 'mouse' }, 'house');
+    assert.equal(resultado.correto, false);
+    assert.equal(resultado.quase, false);
+  });
+
+  test('mouse não vale como house (vale nas duas direções)', () => {
+    const { resultado } = digitar({ en: 'house', pt: 'casa' }, 'mouse');
+    assert.equal(resultado.correto, false);
+    assert.equal(resultado.quase, false);
+  });
+
+  test('typo que não é palavra continua perdoado', () => {
+    const { resultado } = digitar({ en: 'mouse', pt: 'mouse' }, 'mousr');
+    assert.equal(resultado.correto, true);
+    assert.equal(resultado.quase, true);
+  });
+
+  test('typo em tradução alternativa (alt) também é perdoado', () => {
+    const { resultado } = digitar({ en: 'come back home', pt: 'voltar para casa', alt: ['go back home'] }, 'go back hom');
+    assert.equal(resultado.correto, true);
+    assert.equal(resultado.quase, true);
+  });
+
+  test('frases continuam com a tolerância de um errinho', () => {
+    const { resultado } = digitar({ en: 'good morning', pt: 'bom dia' }, 'good mornin');
+    assert.equal(resultado.correto, true);
+    assert.equal(resultado.quase, true);
   });
 });

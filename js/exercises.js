@@ -1,31 +1,71 @@
-import { POOL_TILES } from './data.js';
+import { POOL_TILES, UNIDADES } from './data.js';
 import { temTts, falar, sons } from './audio.js';
+import { bancoCarregado } from './dicionario.js';
 import { h, embaralhar, amostra, aleatorio } from './util.js';
 
-const CONTRACOES = [
+const CONTRACOES = new Map([
   ["i'm", 'i am'],
   ["it's", 'it is'],
   ["what's", 'what is'],
+  ["that's", 'that is'],
+  ["there's", 'there is'],
   ["let's", 'let us'],
   ["don't", 'do not'],
+  ["doesn't", 'does not'],
+  ["didn't", 'did not'],
+  ["isn't", 'is not'],
+  ["aren't", 'are not'],
+  ["wasn't", 'was not'],
+  ["won't", 'will not'],
   ["can't", 'cannot'],
   ["i'll", 'i will'],
+  ["you'll", 'you will'],
+  ["we'll", 'we will'],
+  ["i've", 'i have'],
   ["you're", 'you are'],
   ["she's", 'she is'],
   ["he's", 'he is'],
-  ["we're", 'we are']
-];
+  ["we're", 'we are'],
+  ["they're", 'they are']
+]);
 
 function normalizarBase(s) {
   return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9\s']/g, '').replace(/\s+/g, ' ').trim();
 }
 
+// Contrações expandem token a token: "don't" vira "do not", mas o 's de um
+// possessivo ("Ana's") fica intacto.
 function normalizar(s) {
-  let t = normalizarBase(s);
-  CONTRACOES.forEach(([contraida, expandida]) => {
-    t = t.replaceAll(contraida, expandida);
-  });
-  return t;
+  return normalizarBase(s)
+    .split(' ')
+    .map(p => CONTRACOES.get(p) ?? p)
+    .join(' ');
+}
+
+// Palavras reais do curso (e do dicionário, quando já carregado): a tolerância
+// de digitação não pode aceitar "house" como acerto de "mouse".
+let palavrasDoCurso = null;
+let palavrasDoBanco = null;
+
+function ehPalavraConhecida(p) {
+  if (!palavrasDoCurso) {
+    palavrasDoCurso = new Set();
+    UNIDADES.forEach(u => u.licoes.forEach(l => l.itens.forEach(i => {
+      if (!i.en.includes(' ')) palavrasDoCurso.add(normalizarBase(i.en));
+    })));
+  }
+  if (palavrasDoCurso.has(p)) return true;
+  const banco = bancoCarregado();
+  if (banco && !palavrasDoBanco) {
+    palavrasDoBanco = new Set(banco.filter(v => !v.en.includes(' ')).map(v => normalizarBase(v.en)));
+  }
+  return !!palavrasDoBanco?.has(p);
+}
+
+function quaseCerta(dada, aceitas) {
+  if (!dada) return false;
+  if (!dada.includes(' ') && ehPalavraConhecida(dada)) return false;
+  return aceitas.some(a => a.length >= 5 && levenshtein(dada, a) <= 1);
 }
 
 export function diffPalavras(dadaTexto, certaTexto) {
@@ -79,12 +119,16 @@ function ehFrase(item) {
 function distratores(item, pool, n, campo) {
   const alvoEn = normalizar(item.en);
   const alvoCampo = normalizar(String(item[campo]));
+  const altsAlvo = (item.alt ?? []).map(normalizar);
   const outros = pool.filter(o => {
     if (o.en === item.en || o[campo] === item[campo]) return false;
+    // Sinônimos declarados no conteúdo (hello/hi) nunca viram alternativa errada.
+    if (item.evitar?.includes(o.en) || o.evitar?.includes(item.en)) return false;
     const outroEn = normalizar(o.en);
     if (outroEn.includes(alvoEn) || alvoEn.includes(outroEn)) return false;
     const outroCampo = normalizar(String(o[campo]));
     if (outroCampo.includes(alvoCampo) || alvoCampo.includes(outroCampo)) return false;
+    if (altsAlvo.includes(outroEn) || altsAlvo.includes(outroCampo)) return false;
     return true;
   });
   return [...new Set(amostra(outros, n).map(o => o[campo]))];
@@ -138,18 +182,21 @@ export function gerarVerbos(verbos, sujeitos, qtd = 10) {
     usados.add(chave);
     const forma = s.terceira ? v.en3 : v.en;
     const ptForma = s.terceira ? v.pt3 : conjugarPt(v, s);
+    // sujeito e forma viajam como campos próprios: reparsear a frase com
+    // split(' ') quebrava com sujeitos de duas palavras ("my mother opens").
     itens.push({
       en: `${s.en} ${forma}`,
       pt: `${s.pt} ${ptForma}`,
       base: v.en,
-      terceira: s.terceira
+      terceira: s.terceira,
+      sujeito: s.en,
+      forma
     });
   }
-  return itens.map(item => ({
-    tipo: 'verbo',
-    item,
-    opcoes: embaralhar([...new Set([item.en.split(' ').slice(1).join(' '), verbos.find(v => v.en === item.base).en, verbos.find(v => v.en === item.base).en3])]).slice(0, 2)
-  }));
+  return itens.map(item => {
+    const v = verbos.find(x => x.en === item.base);
+    return { tipo: 'verbo', item, opcoes: embaralhar([v.en, v.en3]) };
+  });
 }
 
 function conjugarPt(v, s) {
@@ -168,7 +215,9 @@ function conjugarPt(v, s) {
   if (especial) return especial;
   const raiz = v.pt.slice(0, -2);
   const term = v.pt.slice(-2);
-  if (s.pt === 'eu') return raiz + (term === 'ar' ? 'o' : 'o');
+  // 1ª pessoa regular é sempre raiz + "o"; as irregulares moram na tabela acima
+  // — verbo novo que não siga isso (servir, seguir) precisa entrar lá.
+  if (s.pt === 'eu') return raiz + 'o';
   if (s.pt === 'nós') return raiz + (term === 'ar' ? 'amos' : term === 'er' ? 'emos' : 'imos');
   if (s.pt === 'eles') return raiz + (term === 'ar' ? 'am' : 'em');
   return v.pt3;
@@ -189,18 +238,24 @@ export function gerarDificeis(itens, pool, qtd = 12) {
 }
 
 export function exercicioFacil(item, pool) {
-  return montarDados(Math.random() < 0.5 ? 'escolhaEnPt' : 'escolhaPtEn', item, pool);
+  const ex = montarDados(Math.random() < 0.5 ? 'escolhaEnPt' : 'escolhaPtEn', item, pool);
+  // Pool pequeno demais para 3 alternativas viraria botão único de XP grátis.
+  if ((ex.opcoes?.length ?? 0) < 3) return montarDados('digitar', item, pool);
+  return ex;
 }
 
 export function gerarExercicios(itens, pool, qtd = 8) {
   if (!itens?.length) return [];
+  const temPares = itens.length >= 4 && qtd >= 4;
   const fila = embaralhar(itens);
   const exs = [];
-  for (let i = 0; exs.length < qtd; i++) {
+  // Os pares são INSERIDOS na fila (não sobrescrevem um exercício sorteado,
+  // que apagaria a única aparição de um item da lição).
+  for (let i = 0; exs.length < qtd - (temPares ? 1 : 0); i++) {
     exs.push(criar(fila[i % fila.length], pool));
   }
-  if (itens.length >= 4 && qtd >= 4) {
-    exs[Math.min(3, exs.length - 1)] = { tipo: 'pares', pares: amostra(itens, 4) };
+  if (temPares) {
+    exs.splice(Math.min(3, exs.length), 0, { tipo: 'pares', pares: amostra(itens, 4) });
   }
   return exs;
 }
@@ -230,8 +285,11 @@ function botaoLento(texto) {
 function montarEscolha(ex, cb) {
   let sel = null;
   let trancado = false;
+  // Opções em inglês são marcadas com lang="en" para o leitor de tela não as
+  // pronunciar com fonética portuguesa.
+  const opcoesEmIngles = ex.tipo === 'escolhaPtEn' || ex.tipo === 'ouvir' || ex.tipo === 'lacuna';
   const botoes = ex.opcoes.map(op => {
-    const b = h('button', { class: 'opcao', 'aria-pressed': 'false' }, op);
+    const b = h('button', { class: 'opcao', 'aria-pressed': 'false', ...(opcoesEmIngles ? { lang: 'en' } : {}) }, op);
     b.addEventListener('click', () => {
       if (trancado) return;
       sel = op;
@@ -254,7 +312,7 @@ function montarEscolha(ex, cb) {
     lacuna: 'Complete a frase 🧩'
   };
   const filhos = [h('div', { class: 'enunciado' }, enunciados[ex.tipo])];
-  if (ex.tipo === 'escolhaEnPt') filhos.push(h('div', { class: 'prompt-card' }, botaoSom(ex.item.en), h('span', {}, ex.item.en)));
+  if (ex.tipo === 'escolhaEnPt') filhos.push(h('div', { class: 'prompt-card' }, botaoSom(ex.item.en), h('span', { lang: 'en' }, ex.item.en)));
   if (ex.tipo === 'escolhaPtEn') filhos.push(h('div', { class: 'prompt-card' }, h('span', {}, ex.item.pt)));
   if (ex.tipo === 'ouvir' || ex.tipo === 'ouvirPt') {
     filhos.push(h('div', { class: 'sons-linha' }, botaoSom(ex.item.en, 'grande'), botaoLento(ex.item.en)));
@@ -262,7 +320,7 @@ function montarEscolha(ex, cb) {
   }
   if (ex.tipo === 'lacuna') {
     const frase = ex.palavras.map(p => (p === ex.alvo ? '____' : p)).join(' ');
-    filhos.push(h('div', { class: 'prompt-card' }, botaoSom(ex.item.en), h('span', {}, frase)));
+    filhos.push(h('div', { class: 'prompt-card' }, botaoSom(ex.item.en), h('span', { lang: 'en' }, frase)));
     filhos.push(h('div', { class: 'prompt-apoio' }, ex.item.pt));
   }
   filhos.push(h('div', { class: 'opcoes' }, botoes));
@@ -286,6 +344,7 @@ function montarDigitar(ex, cb) {
   const input = h('input', {
     class: 'entrada',
     type: 'text',
+    lang: 'en',
     autocomplete: 'off',
     autocapitalize: 'off',
     spellcheck: 'false',
@@ -311,9 +370,8 @@ function montarDigitar(ex, cb) {
       input.disabled = true;
       const dada = normalizar(input.value);
       const aceitas = [ex.item.en, ...(ex.item.alt ?? [])].map(normalizar);
-      const certa = normalizar(ex.item.en);
       const ok = aceitas.includes(dada);
-      const quase = !ok && certa.length >= 5 && levenshtein(dada, certa) <= 1;
+      const quase = !ok && quaseCerta(dada, aceitas);
       input.classList.add(ok || quase ? 'entrada-certa' : 'entrada-errada');
       return { correto: ok || quase, quase, certa: ex.item.en, diff: ok || quase ? null : diffPalavras(input.value, ex.item.en) };
     }
@@ -356,7 +414,7 @@ function montarFalar(ex, cb) {
   return {
     el: h('div', {},
       h('div', { class: 'enunciado' }, 'Fale em inglês 🗣️'),
-      h('div', { class: 'prompt-card' }, botaoSom(ex.item.en), h('span', {}, ex.item.en)),
+      h('div', { class: 'prompt-card' }, botaoSom(ex.item.en), h('span', { lang: 'en' }, ex.item.en)),
       h('div', { class: 'prompt-apoio' }, ex.item.pt),
       botao, status, eco,
       h('div', { class: 'fala-pular' }, pular)
@@ -376,8 +434,8 @@ function montarFalar(ex, cb) {
 
 function montarFrase(ex, cb) {
   let trancado = false;
-  const area = h('div', { class: 'resposta-area' });
-  const banco = h('div', { class: 'banco' });
+  const area = h('div', { class: 'resposta-area', lang: 'en' });
+  const banco = h('div', { class: 'banco', lang: 'en' });
   const atualiza = () => cb.aoMudar(area.children.length > 0);
   ex.tiles.forEach(t => {
     const b = h('button', { class: 'tile' }, t);
@@ -427,6 +485,9 @@ function montarPares(ex, cb) {
   let feitos = 0;
   let erros = 0;
   let trava = false;
+  // Quem errou é registrado por par: um clique errado não pode rebaixar a
+  // caixa de Leitner dos quatro itens do exercício.
+  const errados = new Set();
   function clicar(b, lado) {
     if (trava || b.classList.contains('ok')) return;
     sons.clique();
@@ -449,9 +510,11 @@ function montarPares(ex, cb) {
       sons.acerto();
       selE = selD = null;
       trava = false;
-      if (feitos === ex.pares.length) cb.aoAuto({ correto: erros === 0, certa: null });
+      if (feitos === ex.pares.length) cb.aoAuto({ correto: erros === 0, certa: null, paresErrados: [...errados] });
     } else {
       erros++;
+      errados.add(selE.dataset.en);
+      errados.add(selD.dataset.en);
       sons.erro();
       const e = selE;
       const d = selD;
@@ -465,7 +528,7 @@ function montarPares(ex, cb) {
       }, 400);
     }
   }
-  const colE = h('div', { class: 'par-col' }, embaralhar(ex.pares).map(p => {
+  const colE = h('div', { class: 'par-col', lang: 'en' }, embaralhar(ex.pares).map(p => {
     const b = h('button', { class: 'opcao par-btn', 'data-en': p.en }, p.en);
     b.addEventListener('click', () => clicar(b, 'e'));
     return b;
@@ -482,7 +545,7 @@ function montarPares(ex, cb) {
     ),
     temVerificar: false,
     corrigir() {
-      return { correto: erros === 0, certa: null };
+      return { correto: erros === 0, certa: null, paresErrados: [...errados] };
     }
   };
 }
@@ -490,8 +553,8 @@ function montarPares(ex, cb) {
 function montarVerbo(ex, cb) {
   let sel = null;
   let trancado = false;
-  const alvo = ex.item.en.split(' ').slice(1).join(' ');
-  const sujeito = ex.item.en.split(' ')[0];
+  const alvo = ex.item.forma;
+  const sujeito = ex.item.sujeito;
   const botoes = ex.opcoes.map(op => {
     const b = h('button', { class: 'opcao', 'aria-pressed': 'false' }, op);
     b.addEventListener('click', () => {
@@ -511,7 +574,7 @@ function montarVerbo(ex, cb) {
   return {
     el: h('div', {},
       h('div', { class: 'enunciado' }, 'Qual forma do verbo? 🔤'),
-      h('div', { class: 'prompt-card verbo-frase' },
+      h('div', { class: 'prompt-card verbo-frase', lang: 'en' },
         h('span', { class: 'verbo-sujeito' }, sujeito),
         h('span', { class: 'verbo-lacuna' }, '____')
       ),
