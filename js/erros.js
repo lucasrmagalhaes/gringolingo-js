@@ -1,5 +1,6 @@
 const CHAVE = 'gringolingo:log';
 const LIMITE = 30;
+const RETENCAO_MS = 7 * 24 * 60 * 60 * 1000;
 
 let contexto = () => '';
 
@@ -9,7 +10,11 @@ export function contextoDoLog(fn) {
 
 function ler() {
   try {
-    return JSON.parse(localStorage.getItem(CHAVE)) ?? [];
+    const lista = JSON.parse(localStorage.getItem(CHAVE)) ?? [];
+    const limiar = new Date(Date.now() - RETENCAO_MS).toISOString();
+    const recentes = lista.filter(item => item.quando >= limiar);
+    if (recentes.length < lista.length) localStorage.setItem(CHAVE, JSON.stringify(recentes));
+    return recentes;
   } catch {
     return [];
   }

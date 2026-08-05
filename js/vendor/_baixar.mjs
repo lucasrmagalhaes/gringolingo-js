@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { execFile } from 'node:child_process';
-import { readdir, rm, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
@@ -12,6 +13,7 @@ const VERSAO = '2.112.0';
 const URL_RAIZ = `https://cdn.jsdelivr.net/npm/${PACOTE}@${VERSAO}/+esm`;
 const CDN = 'https://cdn.jsdelivr.net/';
 const ARQUIVO_RAIZ = 'supabase.js';
+const ARQUIVO_INTEGRIDADE = 'integridade.json';
 const DESTINO = dirname(fileURLToPath(import.meta.url));
 
 const RE_FROM = /\bfrom\s*(["'])([^"'\n]+)\1/g;
@@ -80,27 +82,76 @@ function coletarEspecificadores(conteudo) {
 }
 
 function reescrever(conteudo, validos) {
+  let trocas = 0;
   const trocar = (completo, aspas, especificador) => {
     const local = validos.get(especificador);
     if (!local) return completo;
+    trocas++;
     return completo.replace(`${aspas}${especificador}${aspas}`, `${aspas}./${local}${aspas}`);
   };
 
-  return conteudo
+  const reescrito = conteudo
     .replace(RE_FROM, trocar)
     .replace(RE_IMPORT_SIMPLES, trocar)
     .replace(RE_IMPORT_DINAMICO, trocar);
+  return { reescrito, trocas };
+}
+
+function sha256(conteudo) {
+  return createHash('sha256').update(conteudo).digest('hex');
+}
+
+async function conferirIntegridade() {
+  let registro;
+  try {
+    registro = JSON.parse(await readFile(`${DESTINO}/${ARQUIVO_INTEGRIDADE}`, 'utf8'));
+  } catch {
+    return;
+  }
+  if (registro?.versao !== VERSAO) return;
+
+  const divergentes = [];
+  for (const [arquivo, esperado] of Object.entries(registro.arquivos ?? {})) {
+    let atual;
+    try {
+      atual = sha256(await readFile(`${DESTINO}/${arquivo}`));
+    } catch {
+      divergentes.push(`${arquivo} (ausente)`);
+      continue;
+    }
+    if (atual !== esperado) divergentes.push(arquivo);
+  }
+  if (divergentes.length > 0) {
+    throw new Error(
+      `Integridade violada: ${divergentes.join(', ')} nao confere(m) com ${ARQUIVO_INTEGRIDADE} ` +
+      `da versao ${VERSAO}. Possivel adulteracao local; investigue antes de rebaixar os bundles.`
+    );
+  }
+}
+
+async function gravarIntegridade() {
+  const arquivos = {};
+  for (const arquivo of (await readdir(DESTINO)).sort()) {
+    if (arquivo.endsWith('.js')) {
+      arquivos[arquivo] = sha256(await readFile(`${DESTINO}/${arquivo}`));
+    }
+  }
+  await writeFile(
+    `${DESTINO}/${ARQUIVO_INTEGRIDADE}`,
+    `${JSON.stringify({ versao: VERSAO, arquivos }, null, 2)}\n`,
+    'utf8'
+  );
+  return Object.keys(arquivos).length;
 }
 
 async function main() {
-  for (const arquivo of await readdir(DESTINO)) {
-    if (arquivo.endsWith('.js')) await rm(`${DESTINO}/${arquivo}`);
-  }
+  await conferirIntegridade();
 
   nomeLocal.set(URL_RAIZ, ARQUIVO_RAIZ);
   brutos.set(URL_RAIZ, await baixar(URL_RAIZ));
 
   const fila = [URL_RAIZ];
+  const prontos = new Map();
   let processados = 0;
 
   while (fila.length > 0) {
@@ -143,9 +194,19 @@ async function main() {
       validos.set(especificador, nomeLocal.get(absoluto));
     }
 
-    await writeFile(`${DESTINO}/${nomeLocal.get(url)}`, reescrever(bruto, validos), 'utf8');
+    const { reescrito, trocas } = reescrever(bruto, validos);
+    prontos.set(nomeLocal.get(url), { reescrito, trocas, url });
+  }
+
+  // A pasta só é tocada depois de TODOS os downloads darem certo — uma falha
+  // no meio não pode deixar o vendor pela metade com integridade velha.
+  for (const arquivo of await readdir(DESTINO)) {
+    if (arquivo.endsWith('.js')) await rm(`${DESTINO}/${arquivo}`);
+  }
+  for (const [nome, { reescrito, trocas, url }] of prontos) {
+    await writeFile(`${DESTINO}/${nome}`, reescrito, 'utf8');
     processados++;
-    console.log(`[${processados}] ${nomeLocal.get(url)}  <-  ${url}`);
+    console.log(`[${processados}] ${nome}  <-  ${url}  (${trocas} import(s) reescrito(s))`);
   }
 
   if (bareEncontrados.size > 0) {
@@ -154,7 +215,9 @@ async function main() {
   if (ignorados.size > 0) {
     console.log(`Especificadores ignorados: ${[...ignorados].join(', ')}`);
   }
+  const registrados = await gravarIntegridade();
   console.log(`\n${processados} arquivo(s) gravado(s) em ${DESTINO}`);
+  console.log(`${registrados} hash(es) registrado(s) em ${ARQUIVO_INTEGRIDADE}`);
 }
 
 main().catch((erro) => {
