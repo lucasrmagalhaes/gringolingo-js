@@ -1,4 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
+/* Nunito auto-hospedada (fonte variável, subset latin): funciona offline e
+   nenhum terceiro recebe o IP de quem abre o app. Gerada de fonts.gstatic.com
+   (Nunito v32, licença OFL). */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 200 1000;
+  font-display: swap;
+  src: url('fontes/nunito-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 :root {
   color-scheme: light;
@@ -18,10 +28,14 @@
   --texto-suave: #6B6B6B;
   --laranja-texto: #8F5500;
   --verde-texto: #3B7A00;
+  --azul-texto: #1272A8;
+  --vermelho-texto: #C0392F;
   --verde-vivo: var(--verde-esc);
   --azul-vivo: var(--azul-esc);
   --vermelho-vivo: var(--vermelho-esc);
   --sobre-verde: #12330A;
+  --sobre-azul: #062B3F;
+  --sobre-vermelho: #40060A;
   --sobre-amarelo: #3C3C3C;
   --sobre-cor: #241C00;
   --borda: #E5E5E5;
@@ -36,6 +50,9 @@
   --superficie: #fff;
   --trilho: #EDEDED;
   --estrela-vazia: #ddd;
+  --btn-off-fundo: #E5E5E5;
+  --btn-off-texto: #595959;
+  --btn-off-sombra: #D8D8D8;
   --pontinhos: rgba(0, 0, 0, 0.03);
 }
 
@@ -48,6 +65,8 @@
   --texto-suave: #B3C4CD;
   --laranja-texto: #FFB144;
   --verde-texto: #8EE05A;
+  --azul-texto: #62C5F8;
+  --vermelho-texto: #FF9BA0;
   --verde-vivo: #8EE05A;
   --azul-vivo: #62C5F8;
   --vermelho-vivo: #FF9BA0;
@@ -58,6 +77,9 @@
   --superficie: #202F36;
   --trilho: #37464F;
   --estrela-vazia: #37464F;
+  --btn-off-fundo: #2b3a42;
+  --btn-off-texto: #9DB4BF;
+  --btn-off-sombra: #24323a;
   --pontinhos: rgba(255, 255, 255, 0.035);
 }
 
@@ -79,7 +101,7 @@ body {
 #app {
   max-width: 680px;
   margin: 0 auto;
-  padding: 0 16px 170px;
+  padding: 0 16px 40px;
 }
 
 button,
@@ -110,9 +132,6 @@ textarea {
   letter-spacing: 0.5px;
   cursor: pointer;
   color: #fff;
-}
-
-.btn {
   transition: filter 0.15s, transform 0.1s;
 }
 
@@ -127,30 +146,33 @@ textarea {
 
 .btn-verde {
   background: var(--verde);
+  color: var(--sobre-verde);
   box-shadow: 0 4px 0 var(--verde-esc);
 }
 
 .btn-azul {
   background: var(--azul);
+  color: var(--sobre-azul);
   box-shadow: 0 4px 0 var(--azul-esc);
 }
 
 .btn-vermelho {
   background: var(--vermelho);
+  color: var(--sobre-vermelho);
   box-shadow: 0 4px 0 var(--vermelho-esc);
 }
 
 .btn-branco {
   background: var(--superficie);
-  color: var(--azul);
+  color: var(--azul-texto);
   border: 2px solid var(--borda);
   box-shadow: 0 4px 0 var(--borda);
 }
 
 .btn:disabled {
-  background: #E5E5E5;
-  color: #AFAFAF;
-  box-shadow: 0 4px 0 #D8D8D8;
+  background: var(--btn-off-fundo);
+  color: var(--btn-off-texto);
+  box-shadow: 0 4px 0 var(--btn-off-sombra);
   cursor: not-allowed;
   transform: none;
 }
@@ -276,12 +298,9 @@ textarea {
 .progresso > div {
   height: 100%;
   background: var(--verde);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 70%);
   border-radius: 999px;
   transition: width 0.4s;
-}
-
-.progresso > div {
-  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 70%);
 }
 
 .nivel-prog {
@@ -324,6 +343,7 @@ textarea {
 .revisao-sub {
   font-size: var(--fonte-sm);
   color: var(--texto-suave);
+  line-height: 1.45;
 }
 
 .revisao-seta {
@@ -392,9 +412,17 @@ textarea {
 }
 
 .licao.bloqueada {
+  border-color: var(--borda-suave);
+  cursor: not-allowed;
+}
+
+.licao.bloqueada .licao-emoji {
   filter: grayscale(1);
   opacity: 0.55;
-  cursor: not-allowed;
+}
+
+.licao.bloqueada .licao-titulo {
+  color: var(--texto-suave);
 }
 
 .licao.bloqueada:hover {
@@ -891,6 +919,7 @@ textarea {
 }
 
 .meta-opcao {
+  position: relative;
   border: none;
   background: none;
   color: var(--texto-suave);
@@ -901,6 +930,12 @@ textarea {
   border-radius: 999px;
   cursor: pointer;
   transition: color 0.12s, background 0.12s;
+}
+
+.meta-opcao::after {
+  content: '';
+  position: absolute;
+  inset: -8px -1px;
 }
 
 .meta-opcao:hover:not(.ativa) {
@@ -944,7 +979,7 @@ textarea {
 }
 
 .semana-dia.futuro {
-  opacity: 0.45;
+  color: var(--texto-suave);
 }
 
 .semana-letra {
@@ -1228,6 +1263,7 @@ textarea {
   letter-spacing: 1px;
   color: var(--texto-suave);
   margin-bottom: 10px;
+  font-variant-numeric: tabular-nums;
 }
 
 .dic-lista {
@@ -1244,6 +1280,7 @@ textarea {
   border: 2px solid var(--borda-suave);
   border-radius: 14px;
   padding: 12px 14px;
+  animation: surgir 0.28s backwards;
 }
 
 .dic-som {
@@ -1307,16 +1344,12 @@ textarea {
 
 .dic-status.memoria {
   background: color-mix(in srgb, var(--verde) 20%, transparent);
-  color: var(--verde-esc);
+  color: var(--verde-texto);
 }
 
 .dic-status.vencida {
   background: color-mix(in srgb, var(--laranja) 20%, transparent);
   color: var(--laranja-texto);
-}
-
-.dic-status.memoria {
-  color: var(--verde-texto);
 }
 
 .voz-card {
@@ -1359,6 +1392,7 @@ textarea {
 }
 
 .voz-chip {
+  position: relative;
   border: 2px solid var(--borda);
   background: var(--superficie);
   color: var(--texto);
@@ -1369,6 +1403,12 @@ textarea {
   border-radius: 999px;
   cursor: pointer;
   transition: border-color 0.12s, background 0.12s, color 0.12s;
+}
+
+.voz-chip::after {
+  content: '';
+  position: absolute;
+  inset: -6px -3px;
 }
 
 .voz-chip:hover:not(.ativa) {
@@ -1485,6 +1525,7 @@ textarea {
 }
 
 .historia-no.bloqueada {
+  border-color: var(--borda-suave);
   background: var(--superficie);
 }
 
@@ -1634,8 +1675,7 @@ textarea {
   fill: #fff;
 }
 
-.m-olho-fechado,
-.m-pes {
+.m-olho-fechado {
   fill: none;
   stroke: #2b2b2b;
   stroke-width: 2.5;
@@ -1643,8 +1683,10 @@ textarea {
 }
 
 .m-pes {
+  fill: none;
   stroke: var(--laranja);
   stroke-width: 4;
+  stroke-linecap: round;
 }
 
 .m-coroa {
@@ -1781,6 +1823,7 @@ textarea {
 }
 
 .licao.chefao.bloqueada {
+  border-color: var(--borda-suave);
   background: var(--superficie);
 }
 
@@ -1791,6 +1834,7 @@ textarea {
 }
 
 .dic-fav {
+  position: relative;
   border: none;
   background: none;
   font-size: 18px;
@@ -1800,6 +1844,12 @@ textarea {
   filter: grayscale(1);
   opacity: 0.4;
   transition: filter 0.15s, opacity 0.15s, transform 0.12s;
+}
+
+.dic-fav::after {
+  content: '';
+  position: absolute;
+  inset: -9px;
 }
 
 .dic-fav:hover {
@@ -1980,10 +2030,6 @@ textarea {
   }
 }
 
-.dic-item {
-  animation: surgir 0.28s backwards;
-}
-
 .estado-vazio {
   text-align: center;
   padding: 34px 16px;
@@ -2069,14 +2115,12 @@ textarea {
 .stat-valor,
 .combo,
 .nivel-xp,
-.meta-xp,
-.dic-contador {
+.meta-xp {
   font-variant-numeric: tabular-nums;
 }
 
 .feedback-frase,
-.dic-nota,
-.revisao-sub {
+.dic-nota {
   line-height: 1.45;
 }
 
@@ -2277,9 +2321,13 @@ textarea {
   background: var(--superficie);
 }
 
-.badge-card.trancada {
+.badge-card.trancada .badge-emoji {
   filter: grayscale(1);
   opacity: 0.45;
+}
+
+.badge-card.trancada .badge-nome {
+  color: var(--texto-suave);
 }
 
 .badge-card.nova {
@@ -2355,9 +2403,10 @@ textarea {
 
 .conta-card {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
   margin-top: 22px;
   width: 100%;
 }
@@ -2379,12 +2428,6 @@ textarea {
   font-weight: 800;
   font-size: var(--fonte-md);
   overflow-wrap: anywhere;
-}
-
-.conta-card {
-  flex-direction: column;
-  align-items: stretch;
-  gap: 10px;
 }
 
 .conta-linha {
@@ -2475,16 +2518,6 @@ textarea {
   background: var(--borda);
 }
 
-[data-tema="escuro"] .btn:disabled {
-  background: #2b3a42;
-  color: #5d707b;
-  box-shadow: 0 4px 0 #24323a;
-}
-
-[data-tema="escuro"] .btn-branco {
-  color: var(--azul-vivo);
-}
-
 [data-tema="escuro"] .badge-card.nova {
   background: #3a3110;
 }
@@ -2495,4 +2528,56 @@ textarea {
 
 [data-tema="escuro"] .entrada-errada {
   color: var(--vermelho-vivo);
+}
+
+/* === Navegação e avisos (roteador, confirmação de saída, métrica) === */
+.login-form,
+.login-slot-google {
+  display: contents;
+}
+
+.fechar-confirmando {
+  color: var(--vermelho-texto);
+  font-size: var(--fonte-sm);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+/* A cor no container não alcançava os filhos, que têm cor própria. */
+.semana-dia.futuro .semana-letra,
+.semana-dia.futuro .semana-bolinha {
+  color: var(--texto-suave);
+}
+
+/* Texto escuro sobre o azul da faixa de aviso: 6,0:1 (o branco dava 2,4:1). */
+.aviso-versao {
+  color: var(--sobre-azul);
+}
+
+.banner-desafio {
+  position: relative;
+  padding-right: 44px;
+}
+
+.banner-fechar {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: var(--fonte-md);
+}
+
+.aviso-metricas {
+  bottom: calc(68px + env(safe-area-inset-bottom));
+}
+
+/* As metas de 3 dígitos (50-350) não cabem ao lado do texto em telas
+   estreitas: o cartão quebra linha em vez de estourar a largura da página. */
+.meta-card {
+  flex-wrap: wrap;
+}
+
+/* Foco programático das trocas de tela (focarTela): anunciado pelo leitor de
+   tela, sem desenhar anel em quem navega por toque/mouse. */
+[tabindex="-1"]:focus {
+  outline: none;
 }

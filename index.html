@@ -7,7 +7,7 @@
 <meta name="color-scheme" content="light dark">
 <meta name="description" content="App divertido para aprender inglês: lições rápidas, XP, streak e revisão inteligente.">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-IItZaaYT57E/XPMlfeuyR4UIBfAs4iMxhmGff6sGNZ0='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://kkrwclwjdrradypfuflh.supabase.co wss://kkrwclwjdrradypfuflh.supabase.co; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-6UH74CJVJdHEoJ1WJEG8oI8bVTs1PrBVYrDkWer2o4c='; style-src 'self'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://kkrwclwjdrradypfuflh.supabase.co wss://kkrwclwjdrradypfuflh.supabase.co; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GringoLingo">
 <meta property="og:title" content="GringoLingo 🦜 — aprenda inglês jogando">
@@ -27,16 +27,15 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="GringoLingo">
 <title>GringoLingo 🦜</title>
-<script>document.documentElement.dataset.tema = localStorage.getItem('gringolingo:tema') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'escuro' : 'claro');</script>
+<script>if (top !== self) top.location = self.location; document.documentElement.dataset.tema = localStorage.getItem('gringolingo:tema') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'escuro' : 'claro');</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦜</text></svg>">
 <link rel="preconnect" href="https://kkrwclwjdrradypfuflh.supabase.co" crossorigin>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icones/apple-touch-icon.png">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div id="app"></div>
+<main id="app"></main>
 <canvas id="confetti"></canvas>
 <script type="module" src="js/app.js"></script>
 </body>

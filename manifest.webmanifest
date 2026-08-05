@@ -6,6 +6,7 @@
   "dir": "ltr",
   "start_url": "./",
   "scope": "./",
+  "id": "/gringolingo-js/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#FCF9F4",
@@ -29,6 +30,24 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./docs/img/home.png",
+      "sizes": "1170x1170",
+      "type": "image/png"
+    },
+    {
+      "src": "./docs/img/exercicio.png",
+      "sizes": "1170x810",
+      "type": "image/png"
+    },
+    {
+      "src": "./docs/img/trilha.png",
+      "sizes": "1170x1230",
+      "type": "image/png",
+      "form_factor": "narrow"
     }
   ]
 }
