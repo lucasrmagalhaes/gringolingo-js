@@ -8,11 +8,11 @@ export const UNIDADES = [
       {
         id: 'b1', titulo: 'Oi, mundo!', emoji: '👋',
         itens: [
-          { en: 'hello', pt: 'olá' },
-          { en: 'hi', pt: 'oi' },
+          { en: 'hello', pt: 'olá', evitar: ['hi'] },
+          { en: 'hi', pt: 'oi', evitar: ['hello'] },
           { en: 'good morning', pt: 'bom dia' },
-          { en: 'good night', pt: 'boa noite' },
-          { en: 'bye', pt: 'tchau' },
+          { en: 'good night', pt: 'boa noite', nota: 'Good night é só de despedida ou na hora de dormir; para cumprimentar alguém à noite, diga good evening.' },
+          { en: 'bye', pt: 'tchau', alt: ['goodbye'] },
           { en: 'please', pt: 'por favor' },
           { en: 'thank you', pt: 'obrigado' },
           { en: 'yes', pt: 'sim' },
@@ -51,8 +51,8 @@ export const UNIDADES = [
         id: 'b4', titulo: 'Frases mágicas', emoji: '✨',
         dica: { titulo: 'Perguntas e negativas pedem do', corpo: 'Com verbos comuns, a negativa usa do not (don’t) e a pergunta começa com do/does: I do not understand, Do you speak English? Nunca "I not understand".' },
         itens: [
-          { en: 'excuse me', pt: 'com licença' },
-          { en: 'sorry', pt: 'desculpa' },
+          { en: 'excuse me', pt: 'com licença', nota: 'Excuse me vem ANTES: para chamar atenção ou pedir passagem; desculpa por um erro é sorry.' },
+          { en: 'sorry', pt: 'desculpa', nota: 'Sorry vem DEPOIS do erro, para se desculpar; para interromper ou pedir passagem, use excuse me.' },
           { en: "I don't understand", pt: 'eu não entendo', nota: 'Negativa no presente pede o do: I do not understand — nunca "I not understand".' },
           { en: 'can you help me?', pt: 'você pode me ajudar?', nota: 'Depois de can o verbo vem puro, sem to: can you HELP (não can you to help).' },
           { en: 'speak slowly, please', pt: 'fale devagar, por favor' },
@@ -72,9 +72,9 @@ export const UNIDADES = [
         itens: [
           { en: 'water', pt: 'água' },
           { en: 'coffee', pt: 'café' },
-          { en: 'bread', pt: 'pão' },
+          { en: 'bread', pt: 'pão', nota: 'Pão é incontável em inglês: some bread — nunca "a bread" nem "breads".' },
           { en: 'cheese', pt: 'queijo' },
-          { en: 'chicken', pt: 'frango' },
+          { en: 'chicken', pt: 'frango', nota: 'Cuidado com a troca: chicken é o frango, kitchen é a cozinha.' },
           { en: 'rice', pt: 'arroz' },
           { en: 'beans', pt: 'feijão' },
           { en: 'egg', pt: 'ovo' }
@@ -82,12 +82,13 @@ export const UNIDADES = [
       },
       {
         id: 'c2', titulo: 'No restaurante', emoji: '🍽️',
+        dica: { titulo: 'Contável pede a ou an', corpo: 'Coisa contável no singular sempre leva a ou an: I want A coffee, I would like A pizza. Antes de som de vogal vira an: an egg, an apple. Falando da comida em geral, sem contar, o artigo some: I like coffee.' },
         itens: [
           { en: 'menu', pt: 'cardápio' },
           { en: 'breakfast', pt: 'café da manhã' },
-          { en: 'lunch', pt: 'almoço' },
+          { en: 'lunch', pt: 'almoço', nota: 'Lunch é o almoço; launch (com a) é lançamento — cuidado ao digitar.' },
           { en: 'dinner', pt: 'jantar' },
-          { en: 'the bill, please', pt: 'a conta, por favor' },
+          { en: 'the bill, please', pt: 'a conta, por favor', alt: ['the check, please'] },
           { en: 'I want a coffee', pt: 'eu quero um café', nota: 'O artigo a/an é obrigatório com contável no singular: a coffee.' },
           { en: 'it is delicious', pt: 'está delicioso', nota: 'Inglês sempre precisa de sujeito: IT is delicious (não só "is delicious").' }
         ]
@@ -127,21 +128,21 @@ export const UNIDADES = [
         id: 'v1', titulo: 'Bora voar', emoji: '🛫',
         itens: [
           { en: 'airport', pt: 'aeroporto' },
-          { en: 'airplane', pt: 'avião' },
+          { en: 'airplane', pt: 'avião', alt: ['plane'] },
           { en: 'ticket', pt: 'passagem' },
           { en: 'passport', pt: 'passaporte' },
-          { en: 'luggage', pt: 'bagagem' },
-          { en: 'trip', pt: 'viagem' },
+          { en: 'luggage', pt: 'bagagem', alt: ['baggage'], nota: 'Luggage é incontável: nada de "luggages" — para contar, diga two bags.' },
+          { en: 'trip', pt: 'viagem', nota: 'A viagem que você faz é a trip; travel é mais o verbo viajar.' },
           { en: 'hotel', pt: 'hotel' }
         ]
       },
       {
         id: 'v2', titulo: 'Tô perdido', emoji: '🧭',
         itens: [
-          { en: 'where is the bathroom?', pt: 'onde fica o banheiro?' },
+          { en: 'where is the bathroom?', pt: 'onde fica o banheiro?', alt: ['where is the restroom?', 'where is the toilet?'] },
           { en: 'how much is it?', pt: 'quanto custa?', nota: 'Preço se pergunta com how much + is: how much IS it?' },
           { en: 'I am lost', pt: 'eu estou perdido', nota: 'Estados de pessoa usam to be: I AM lost (não "I have lost").' },
-          { en: 'turn left', pt: 'vire à esquerda' },
+          { en: 'turn left', pt: 'vire à esquerda', nota: 'Vire à esquerda é só turn left — o "à" não vira to.' },
           { en: 'turn right', pt: 'vire à direita' },
           { en: 'it is near', pt: 'é perto' },
           { en: 'it is far', pt: 'é longe' }
@@ -156,7 +157,7 @@ export const UNIDADES = [
           { en: 'street', pt: 'rua' },
           { en: 'city', pt: 'cidade' },
           { en: 'park', pt: 'parque' },
-          { en: 'store', pt: 'loja' },
+          { en: 'store', pt: 'loja', alt: ['shop'] },
           { en: 'money', pt: 'dinheiro' }
         ]
       },
@@ -167,7 +168,7 @@ export const UNIDADES = [
           { en: 'the key, please', pt: 'a chave, por favor' },
           { en: 'what time is it?', pt: 'que horas são?', nota: 'Horas no singular em inglês: what time IS it? (não "are").' },
           { en: 'see you tomorrow', pt: 'até amanhã' },
-          { en: 'can I pay by card?', pt: 'posso pagar com cartão?' }
+          { en: 'can I pay by card?', pt: 'posso pagar com cartão?', nota: 'Com cartão = BY card, sem artigo: pay by card.' }
         ]
       }
     ]
@@ -184,14 +185,15 @@ export const UNIDADES = [
           { en: 'work', pt: 'trabalho' },
           { en: 'meeting', pt: 'reunião' },
           { en: 'boss', pt: 'chefe' },
-          { en: 'job', pt: 'emprego' },
+          { en: 'job', pt: 'emprego', nota: 'Job é contável: a job, two jobs; work (trabalho em geral) fica sem o a.' },
           { en: 'salary', pt: 'salário' },
           { en: 'deadline', pt: 'prazo' },
-          { en: 'office', pt: 'escritório' }
+          { en: 'office', pt: 'escritório', nota: 'Falso amigo: office é escritório — oficina de carro é garage.' }
         ]
       },
       {
         id: 't2', titulo: 'Papo de reunião', emoji: '🗣️',
+        dica: { titulo: 'O imperativo vem sem sujeito', corpo: "Pedido em inglês vai com o verbo direto, sem sujeito: send me the report, close the door. Para chamar todo mundo junto, use let's + verbo: let's start. E um please no fim deixa qualquer pedido mais educado." },
         itens: [
           { en: 'I have a meeting', pt: 'eu tenho uma reunião' },
           { en: 'good idea', pt: 'boa ideia' },
@@ -235,23 +237,23 @@ export const UNIDADES = [
       {
         id: 'f1', titulo: 'Lá em casa', emoji: '🏡',
         itens: [
-          { en: 'mother', pt: 'mãe' },
-          { en: 'father', pt: 'pai' },
+          { en: 'mother', pt: 'mãe', alt: ['mom', 'mum'] },
+          { en: 'father', pt: 'pai', alt: ['dad'] },
           { en: 'brother', pt: 'irmão' },
           { en: 'sister', pt: 'irmã' },
           { en: 'son', pt: 'filho' },
           { en: 'daughter', pt: 'filha' },
-          { en: 'parents', pt: 'pais' }
+          { en: 'parents', pt: 'pais', nota: 'Falso amigo: parents são só pai e mãe — parentes em geral é relatives.' }
         ]
       },
       {
         id: 'f2', titulo: 'Família grande', emoji: '👵',
         itens: [
-          { en: 'grandmother', pt: 'avó' },
-          { en: 'grandfather', pt: 'avô' },
+          { en: 'grandmother', pt: 'avó', alt: ['grandma'] },
+          { en: 'grandfather', pt: 'avô', alt: ['grandpa'] },
           { en: 'uncle', pt: 'tio' },
           { en: 'aunt', pt: 'tia' },
-          { en: 'cousin', pt: 'primo' },
+          { en: 'cousin', pt: 'primo', nota: 'Cousin vale para primo e prima — o inglês não marca o gênero aqui.' },
           { en: 'baby', pt: 'bebê' }
         ]
       },
@@ -268,9 +270,10 @@ export const UNIDADES = [
       },
       {
         id: 'f4', titulo: 'Papo de família', emoji: '💬',
+        dica: { titulo: 'My dispensa o artigo', corpo: 'Meu e minha viram uma palavra só: my — my mother, my family. E o artigo some: she is my sister, nunca "the my sister". Para ele use his, para ela use her.' },
         itens: [
           { en: 'this is my mother', pt: 'esta é minha mãe' },
-          { en: 'I have two brothers', pt: 'eu tenho dois irmãos' },
+          { en: 'I have two brothers', pt: 'eu tenho dois irmãos', nota: 'Não engula o s do plural: two brotherS.' },
           { en: 'my family is big', pt: 'minha família é grande' },
           { en: 'I love my family', pt: 'eu amo minha família' },
           { en: 'we live together', pt: 'nós moramos juntos' },
@@ -289,9 +292,9 @@ export const UNIDADES = [
         id: 'h1', titulo: 'Cômodos', emoji: '🚪',
         itens: [
           { en: 'house', pt: 'casa' },
-          { en: 'bedroom', pt: 'quarto' },
-          { en: 'kitchen', pt: 'cozinha' },
-          { en: 'bathroom', pt: 'banheiro' },
+          { en: 'bedroom', pt: 'quarto', alt: ['room'] },
+          { en: 'kitchen', pt: 'cozinha', nota: 'Não confunda: kitchen é a cozinha, chicken é o frango.' },
+          { en: 'bathroom', pt: 'banheiro', alt: ['restroom', 'toilet'] },
           { en: 'living room', pt: 'sala' },
           { en: 'garage', pt: 'garagem' },
           { en: 'garden', pt: 'jardim' }
@@ -305,17 +308,17 @@ export const UNIDADES = [
           { en: 'chair', pt: 'cadeira' },
           { en: 'door', pt: 'porta' },
           { en: 'window', pt: 'janela' },
-          { en: 'sofa', pt: 'sofá' },
+          { en: 'sofa', pt: 'sofá', alt: ['couch'] },
           { en: 'mirror', pt: 'espelho' }
         ]
       },
       {
         id: 'h3', titulo: 'Eletro & cia', emoji: '🔌',
         itens: [
-          { en: 'refrigerator', pt: 'geladeira' },
+          { en: 'refrigerator', pt: 'geladeira', alt: ['fridge'] },
           { en: 'stove', pt: 'fogão' },
           { en: 'shower', pt: 'chuveiro' },
-          { en: 'television', pt: 'televisão' },
+          { en: 'television', pt: 'televisão', alt: ['TV'] },
           { en: 'microwave', pt: 'micro-ondas' },
           { en: 'washing machine', pt: 'máquina de lavar' }
         ]
@@ -325,9 +328,9 @@ export const UNIDADES = [
         dica: { titulo: 'Inglês sempre tem sujeito', corpo: 'Em português dá para dizer só "está limpa". Em inglês o sujeito é obrigatório: IT is clean, THE house is clean. Some com ele e a frase fica errada.' },
         itens: [
           { en: 'the house is clean', pt: 'a casa está limpa' },
-          { en: 'I am in the kitchen', pt: 'eu estou na cozinha' },
+          { en: 'I am in the kitchen', pt: 'eu estou na cozinha', nota: 'Dentro de um cômodo é IN: in the kitchen (não "on").' },
           { en: 'close the door, please', pt: 'feche a porta, por favor' },
-          { en: 'the keys are on the table', pt: 'as chaves estão na mesa' },
+          { en: 'the keys are on the table', pt: 'as chaves estão na mesa', nota: 'Em cima de superfície é ON: on the table; in é dentro.' },
           { en: 'I need to clean my bedroom', pt: 'eu preciso limpar meu quarto', alt: ['I need to clean my room'] }
         ]
       }
@@ -344,7 +347,7 @@ export const UNIDADES = [
         itens: [
           { en: 'head', pt: 'cabeça' },
           { en: 'hand', pt: 'mão' },
-          { en: 'foot', pt: 'pé' },
+          { en: 'foot', pt: 'pé', nota: 'Plural irregular: one foot, two FEET — nada de foots.' },
           { en: 'arm', pt: 'braço' },
           { en: 'leg', pt: 'perna' },
           { en: 'eye', pt: 'olho' },
@@ -356,10 +359,10 @@ export const UNIDADES = [
         id: 's2', titulo: 'Detalhes do corpo', emoji: '👂',
         itens: [
           { en: 'ear', pt: 'orelha' },
-          { en: 'hair', pt: 'cabelo' },
+          { en: 'hair', pt: 'cabelo', nota: 'Hair é singular em inglês: my hair IS (não "my hairs are").' },
           { en: 'finger', pt: 'dedo' },
-          { en: 'tooth', pt: 'dente' },
-          { en: 'back', pt: 'costas' },
+          { en: 'tooth', pt: 'dente', nota: 'Plural irregular: one tooth, two TEETH — por isso é brush my teeth.' },
+          { en: 'back', pt: 'costas', nota: 'Costas é plural no português, mas em inglês é singular: my back hurts.' },
           { en: 'shoulder', pt: 'ombro' },
           { en: 'knee', pt: 'joelho' }
         ]
@@ -372,12 +375,13 @@ export const UNIDADES = [
           { en: 'medicine', pt: 'remédio' },
           { en: 'pain', pt: 'dor' },
           { en: 'fever', pt: 'febre' },
-          { en: 'pharmacy', pt: 'farmácia' },
+          { en: 'pharmacy', pt: 'farmácia', alt: ['drugstore'] },
           { en: 'dentist', pt: 'dentista' }
         ]
       },
       {
         id: 's4', titulo: 'Tô passando mal', emoji: '🤒',
+        dica: { titulo: 'Sintoma usa have, estado usa be', corpo: 'Dor, febre e sintoma se TÊM: I have a headache, I have a fever. Já como você está vai com to be: I am better, I am sick. E o "estou com" do português não vira "I am with" — cai todo mundo nessa.' },
         itens: [
           { en: 'I have a headache', pt: 'eu estou com dor de cabeça', nota: 'Dor e sintoma usam have: I HAVE a headache (não "I am with pain").' },
           { en: 'I feel sick', pt: 'eu me sinto doente' },
@@ -414,18 +418,19 @@ export const UNIDADES = [
         itens: [
           { en: 'wake up', pt: 'acordar' },
           { en: 'take a shower', pt: 'tomar banho', alt: ['take a bath'] },
-          { en: 'brush my teeth', pt: 'escovar os dentes' },
+          { en: 'brush my teeth', pt: 'escovar os dentes', nota: 'Teeth é o plural irregular de tooth: um dente, vários teeth.' },
           { en: 'go to work', pt: 'ir ao trabalho' },
           { en: 'come back home', pt: 'voltar para casa', alt: ['go back home', 'come home'] },
-          { en: 'watch TV', pt: 'assistir TV' }
+          { en: 'watch TV', pt: 'assistir TV', alt: ['watch television'] }
         ]
       },
       {
         id: 'r3', titulo: 'Minha rotina', emoji: '🌞',
+        dica: { titulo: 'Hábito usa presente simples', corpo: 'Rotina e hábito vão no presente simples, sem -ing: I drink coffee every day, I wake up early. O -ing (I am drinking) é só para o que está acontecendo agora. Um complemento de tempo marca bem o hábito: every day, at night.' },
         itens: [
           { en: 'I wake up early', pt: 'eu acordo cedo' },
           { en: 'I drink coffee every day', pt: 'eu bebo café todos os dias', nota: 'Hábito é presente simples, sem -ing: I drink (não "I am drinking").' },
-          { en: 'I study English at night', pt: 'eu estudo inglês à noite' },
+          { en: 'I study English at night', pt: 'eu estudo inglês à noite', nota: 'À noite é AT night; de manhã e de tarde é in the morning, in the afternoon.' },
           { en: 'I work from home', pt: 'eu trabalho de casa' },
           { en: 'I go to the gym', pt: 'eu vou para a academia' }
         ]
@@ -433,8 +438,8 @@ export const UNIDADES = [
       {
         id: 'r4', titulo: 'Fim de semana', emoji: '🎉',
         itens: [
-          { en: 'I sleep late on Sundays', pt: 'eu durmo até tarde aos domingos' },
-          { en: "let's watch a movie", pt: 'vamos assistir um filme' },
+          { en: 'I sleep late on Sundays', pt: 'eu durmo até tarde aos domingos', nota: 'Dia da semana pede ON: on Sundays, on Monday.' },
+          { en: "let's watch a movie", pt: 'vamos assistir um filme', alt: ["let's watch a film"] },
           { en: 'I like to read books', pt: 'eu gosto de ler livros', nota: 'like + to + verbo: I like TO READ (não "like read").' },
           { en: 'we play video games', pt: 'nós jogamos videogame' },
           { en: 'see you on Monday', pt: 'até segunda-feira' }
@@ -459,9 +464,22 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '1.5';
+export const VERSAO_APP = '1.6';
 
 export const NOVIDADES = [
+  {
+    versao: '1.6',
+    titulo: 'Correção mais justa e app mais firme',
+    itens: [
+      '◀️ O botão Voltar do celular agora funciona dentro do app, tela por tela',
+      '🚪 Sair no meio da lição agora pede confirmação — nada de perder progresso sem querer',
+      '⚖️ Correção mais justa: typo que forma outra palavra de verdade não passa, e o NÃO SEI não zera mais a memória da palavra',
+      '🔤 Oficina de Verbos consertada',
+      '🕛 Streak e missões não viram mais às 21h — o dia agora acaba à meia-noite',
+      '🔁 Sincronização entre aparelhos sem perder progresso',
+      '🎨 Botões com contraste melhor e inglês lido direito pelos leitores de tela'
+    ]
+  },
   {
     versao: '1.5',
     titulo: 'Diálogos, Relâmpago e o Louro de verdade',
