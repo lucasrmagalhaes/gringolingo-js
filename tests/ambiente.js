@@ -255,10 +255,13 @@ export function retornoVazio() {
   };
 }
 
-export function hojeIso() {
-  return new Date().toISOString().slice(0, 10);
+// Dia LOCAL, como o app passa a contar (o dia UTC virava às 21h no Brasil).
+export function diasIso(n) {
+  const d = new Date();
+  d.setDate(d.getDate() + n);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
-export function diasIso(n) {
-  return new Date(Date.now() + n * 864e5).toISOString().slice(0, 10);
+export function hojeIso() {
+  return diasIso(0);
 }

@@ -189,24 +189,38 @@ export async function aoMudarAuth(cb) {
   if (c) c.auth.onAuthStateChange((evento, sessao) => cb(evento, sessao));
 }
 
+async function usuarioDaSessao(c) {
+  // getSession lê do storage local (e renova sozinho) — getUser ia à rede a
+  // cada envio e, offline, virava um falso "sessão expirada".
+  const { data } = await c.auth.getSession();
+  return data?.session?.user ?? null;
+}
+
 export async function baixarProgresso() {
   const c = await obterCliente();
   if (!c) return null;
-  const { data, error } = await c.from('progresso').select('dados').maybeSingle();
+  const user = await usuarioDaSessao(c);
+  if (!user) return null;
+  const { data, error } = await c.from('progresso').select('dados').eq('user_id', user.id).maybeSingle();
   if (error) throw new Error(traduzirErro(error.message));
   return data?.dados ?? null;
+}
+
+// O check de tamanho/shape do banco nunca vai passar reenviando o mesmo
+// payload — o chamador usa essa marca para parar de tentar.
+function ehErroPermanente(error) {
+  return error?.code === '23514' || /check constraint|progresso_dados/i.test(error?.message ?? '');
 }
 
 export async function enviarProgresso(dados) {
   const c = await obterCliente();
   if (!c) throw new Error('Nuvem não configurada');
-  const { data, error: erroSessao } = await c.auth.getUser();
-  const user = data?.user;
-  if (erroSessao || !user) throw new Error('Sessão expirada — entra de novo pra sincronizar 🔑');
-  const { error } = await c.from('progresso').upsert({
-    user_id: user.id,
-    dados,
-    atualizado_em: new Date().toISOString()
-  });
-  if (error) throw new Error(traduzirErro(error.message));
+  const user = await usuarioDaSessao(c);
+  if (!user) throw new Error('Sessão expirada — entra de novo pra sincronizar 🔑');
+  const { error } = await c.from('progresso').upsert({ user_id: user.id, dados });
+  if (error) {
+    const erro = new Error(traduzirErro(error.message));
+    erro.permanente = ehErroPermanente(error);
+    throw erro;
+  }
 }

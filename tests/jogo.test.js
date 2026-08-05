@@ -159,11 +159,16 @@ describe('mesclarEstado: demais campos', () => {
   });
 
   test('só adota a meta remota enquanto não houver lição feita', () => {
-    mesclarEstado({ meta: 80 });
-    assert.equal(estado.meta, 80);
+    mesclarEstado({ meta: 200 });
+    assert.equal(estado.meta, 200);
     estado.stats.licoes = 3;
-    mesclarEstado({ meta: 20 });
-    assert.equal(estado.meta, 80);
+    mesclarEstado({ meta: 50 });
+    assert.equal(estado.meta, 200);
+  });
+
+  test('meta remota da escala antiga migra para a nova', () => {
+    mesclarEstado({ meta: 80 });
+    assert.equal(estado.meta, 350);
   });
 
   test('sem remoto ainda grava o estado local', () => {
@@ -176,12 +181,12 @@ describe('mesclarEstado: demais campos', () => {
 describe('mesclarEstado: agenda dos itens (merge conservador)', () => {
   test('adota item que só existe no remoto', () => {
     mesclarEstado({ itens: { hello: { caixa: 3, proxima: '2026-05-20' } } });
-    assert.deepEqual(estado.itens.hello, { caixa: 3, proxima: '2026-05-20' });
+    assert.deepEqual(estado.itens.hello, { caixa: 3, proxima: '2026-05-20', lapsos: 0 });
   });
 
   test('item remoto sem caixa entra na caixa 0', () => {
     mesclarEstado({ itens: { hello: { proxima: '2026-05-20' } } });
-    assert.deepEqual(estado.itens.hello, { caixa: 0, proxima: '2026-05-20' });
+    assert.deepEqual(estado.itens.hello, { caixa: 0, proxima: '2026-05-20', lapsos: 0 });
   });
 
   test('ignora item remoto sem data de revisão', () => {
@@ -192,13 +197,13 @@ describe('mesclarEstado: agenda dos itens (merge conservador)', () => {
   test('mantém a menor caixa e a data mais cedo', () => {
     estado.itens = { hello: { caixa: 3, proxima: '2026-05-10' } };
     mesclarEstado({ itens: { hello: { caixa: 1, proxima: '2026-05-20' } } });
-    assert.deepEqual(estado.itens.hello, { caixa: 1, proxima: '2026-05-10' });
+    assert.deepEqual(estado.itens.hello, { caixa: 1, proxima: '2026-05-10', lapsos: 0 });
   });
 
   test('a data mais cedo pode vir do remoto sem levar a caixa junto', () => {
     estado.itens = { hello: { caixa: 1, proxima: '2026-05-20' } };
     mesclarEstado({ itens: { hello: { caixa: 4, proxima: '2026-05-01' } } });
-    assert.deepEqual(estado.itens.hello, { caixa: 1, proxima: '2026-05-01' });
+    assert.deepEqual(estado.itens.hello, { caixa: 1, proxima: '2026-05-01', lapsos: 0 });
   });
 
   test('não mexe em item que só existe localmente', () => {
@@ -325,9 +330,9 @@ describe('limpeza de estado', () => {
     assert.deepEqual(estado.itens, {});
     assert.deepEqual(estado.erros, []);
     assert.deepEqual(estado.licoes, {});
-    assert.equal(estado.meta, 30);
+    assert.equal(estado.meta, 100);
     assert.equal(estado.protetores, 1);
-    assert.deepEqual(estado.stats, { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0 });
+    assert.deepEqual(estado.stats, { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0 });
     assert.equal(JSON.parse(localStorage.getItem('gringolingo')).xp, 250);
   });
 
