@@ -464,9 +464,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '1.6';
+export const VERSAO_APP = '1.7';
 
 export const NOVIDADES = [
+  {
+    versao: '1.7',
+    titulo: 'Expansão de Vocabulário e o Louro festeiro',
+    itens: [
+      '🚀 Expansão de Vocabulário: as 2.700+ palavras mais usadas do inglês em lições de 7, organizadas em quatro trilhas',
+      '✨ Palavra nova é apresentada antes de ser cobrada: grafia, pronúncia, classe e traduções',
+      '🧠 As palavras da Expansão entram na mesma agenda de revisão espaçada do curso',
+      '🦜 O Louro comemora com você na tela de resultado — de coroa quando você gabarita'
+    ]
+  },
   {
     versao: '1.6',
     titulo: 'Correção mais justa e app mais firme',

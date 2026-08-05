@@ -2656,3 +2656,74 @@ textarea {
     opacity: 0.55;
   }
 }
+
+/* === Expansão de Vocabulário e cartão de palavra nova === */
+.apresentacao-card {
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 26px 20px;
+  text-align: center;
+  border-top: 4px solid var(--amarelo);
+}
+
+.apresentacao-topo {
+  display: flex;
+  gap: 10px;
+}
+
+.apresentacao-en {
+  font-size: var(--fonte-2xl);
+  font-weight: 900;
+}
+
+.apresentacao-pt {
+  font-size: var(--fonte-lg);
+  color: var(--texto-suave);
+}
+
+.apresentacao-classe {
+  align-self: center;
+}
+
+.apresentacao-acao {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.vocab-trilha {
+  border-left: 6px solid var(--cor-unidade);
+}
+
+.vocab-cab {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.vocab-prog > div {
+  background: var(--cor-unidade);
+}
+
+.vocab-resumo {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fonte-sm);
+  color: var(--texto-suave);
+  margin: 8px 2px 14px;
+}
+
+.vocab-botoes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.vocab-proxima {
+  font-size: var(--fonte-sm);
+  color: var(--texto-suave);
+  font-style: italic;
+}

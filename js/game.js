@@ -213,6 +213,9 @@ export function limparEstadoMemoria() {
   const novo = padrao();
   Object.keys(estado).forEach(k => delete estado[k]);
   Object.assign(estado, novo);
+  // Vocabulário da Expansão é derivado das lições feitas: zera junto, senão
+  // as palavras da conta anterior vazam para o perfil novo.
+  itensExtras = [];
 }
 
 export function resetarEstado() {
@@ -582,12 +585,21 @@ function migrarErros() {
   return mudou;
 }
 
+// Palavras aprendidas fora do curso (Expansão de Vocabulário): o app registra
+// aqui depois de carregar o banco, e elas entram na Revisão Turbo junto com
+// as do curso.
+let itensExtras = [];
+
+export function definirItensExtras(lista) {
+  itensExtras = Array.isArray(lista) ? lista : [];
+}
+
 export function itensAprendidos() {
   const itens = [];
   UNIDADES.forEach(u => u.licoes.forEach(l => {
     if (estado.licoes[l.id]) itens.push(...l.itens);
   }));
-  return itens;
+  return [...itens, ...itensExtras];
 }
 
 function unidadeCompleta(u) {

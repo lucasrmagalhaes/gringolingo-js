@@ -52,8 +52,10 @@ export async function carregarBanco() {
         return bancoGeral;
       })
       .catch(() => {
-        bancoGeral = [];
-        return bancoGeral;
+        // Falha de rede não pode ficar cacheada como "banco vazio" para
+        // sempre: a próxima chamada tenta importar de novo.
+        carregando = null;
+        return [];
       });
   }
   return carregando;

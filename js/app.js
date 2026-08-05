@@ -1,10 +1,11 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, historicoRecente, licoesConcluidas, METAS, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, historicoRecente, licoesConcluidas, definirItensExtras, METAS, INTERVALOS } from './game.js';
 import { sons, falar, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarVerbos, exercicioFacil, montarExercicio } from './exercises.js';
-import { h, aleatorio } from './util.js';
+import { h, aleatorio, amostra } from './util.js';
+import { trilhasVocab, progressoTrilha, palavrasVocabAprendidas, temLicaoVocab } from './vocabulario.js';
 import { nuvemConfigurada, sessaoAtual, entrar, criarConta, sair, baixarProgresso, aoMudarAuth, googleAtivo, entrarComGoogle, vincularGoogle, desvincularGoogle, provedoresDaConta, traduzirErro, apagarConta, SENHA_MINIMA } from './nuvem.js';
 import { registrar, logSalvo, limparLog, modoDebug, contextoDoLog } from './erros.js';
 import { buscar, carregarBanco, bancoCarregado, statusDoItem, totalDoCurso } from './dicionario.js';
@@ -58,6 +59,7 @@ function limparTela() {
   saidaPedidaEm = 0;
   saindoDaLicao = false;
   voltandoTela = false;
+  avancando = false;
 }
 
 // Histórico raso: a home é o estado base e cada tela interna empilha uma
@@ -220,6 +222,7 @@ function telaInicial() {
     botaoMinhaLista(),
     botaoRelampago(),
     botaoVerbos(),
+    botaoVocabulario(),
     botaoDicionario(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'TRILHA'),
     ...UNIDADES.map(cartaoUnidade)
@@ -356,10 +359,10 @@ function iniciarMinhaLista() {
     const bx = estado.itens[b.en]?.proxima ?? '';
     return ax < bx ? -1 : ax > bx ? 1 : 0;
   }).slice(0, 8);
-  const fila = gerarExercicios(alvo, pool, Math.min(8, alvo.length * 2));
+  const fila = gerarExercicios(alvo, pool, Math.min(8, alvo.length * 2), palavrasNovas(alvo));
   sessao = {
     tipo: 'revisao', pool, fila, itens: alvo,
-    idx: 0, planejados: fila.length, acertos: 0, respostas: 0,
+    idx: 0, planejados: semApresentacoes(fila), acertos: 0, respostas: 0,
     xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map()
   };
   telaExercicio();
@@ -528,6 +531,102 @@ function finalizarRelampago() {
   sons.fanfarra();
   if (evento.subiuNivel) timerDeTela(() => overlayNivel(evento.subiuNivel), 900);
   focarTela();
+}
+
+function botaoVocabulario() {
+  if (!estado.stats.licoes) return '';
+  const feitas = Object.keys(estado.licoes).filter(k => k.startsWith('vocab:')).length;
+  return h('button', { class: 'card revisao vocab-atalho', onclick: () => telaVocabulario() },
+    h('span', { class: 'revisao-emoji' }, '🚀'),
+    h('div', { class: 'revisao-textos' },
+      h('div', { class: 'revisao-titulo' }, 'Expansão de Vocabulário'),
+      h('div', { class: 'revisao-sub' }, feitas
+        ? `${feitas} liç${feitas === 1 ? 'ão' : 'ões'} de vocabulário feitas — bora buscar mais?`
+        : 'As 2.700+ palavras mais usadas do inglês, em lições de 7')
+    ),
+    h('span', { class: 'revisao-seta' }, '📚')
+  );
+}
+
+async function telaVocabulario() {
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'vocabulario';
+  registrarRota('vocabulario');
+  app.innerHTML = '';
+  const area = h('div', {});
+  app.append(
+    h('div', { class: 'topo' },
+      h('button', { class: 'pilula btn-perfil', onclick: () => voltarTela() }, '← Voltar'),
+      h('div', { class: 'espaco' }),
+      h('div', { class: 'logo', role: 'heading', 'aria-level': '1' }, '🚀 Expansão')
+    ),
+    h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, 'Todo o vocabulário que importa'),
+      h('div', { class: 'revisao-sub' }, 'As palavras mais frequentes do inglês além do curso, em quatro trilhas. Cada palavra nova é apresentada antes de ser cobrada, e depois entra na sua agenda de revisão como qualquer outra.')
+    ),
+    area
+  );
+  area.append(...Array.from({ length: 4 }, () => esqueleto()));
+  const banco = await carregarBanco();
+  if (telaAtiva !== 'vocabulario') return;
+  area.innerHTML = '';
+  if (!banco.length) {
+    area.append(h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, '📡 O banco de palavras não carregou'),
+      h('div', { class: 'revisao-sub' }, 'Sem conexão? As trilhas precisam do banco do dicionário na primeira vez.'),
+      h('div', { class: 'vocab-botoes' }, h('button', { class: 'btn btn-azul', onclick: () => telaVocabulario() }, 'TENTAR DE NOVO'))
+    ));
+    return;
+  }
+  trilhasVocab(banco).forEach(t => {
+    const p = progressoTrilha(t, estado.licoes);
+    const pct = p.total ? Math.round(p.feitas / p.total * 100) : 0;
+    area.append(h('div', { class: 'card vocab-trilha', style: `--cor-unidade:${t.cor}` },
+      h('div', { class: 'vocab-cab' },
+        h('span', { class: 'revisao-emoji' }, t.emoji),
+        h('div', { class: 'revisao-textos' },
+          h('div', { class: 'revisao-titulo' }, t.titulo),
+          h('div', { class: 'revisao-sub' }, t.sub)
+        )
+      ),
+      h('div', { class: 'progresso vocab-prog' }, h('div', { style: `width:${pct}%` })),
+      h('div', { class: 'vocab-resumo' },
+        h('span', {}, `${p.palavras} de ${t.palavras.length} palavras`),
+        h('span', {}, `${p.feitas}/${p.total} lições`)
+      ),
+      h('div', { class: 'vocab-botoes' },
+        p.proxima ? h('button', {
+          class: 'btn btn-verde',
+          onclick: () => iniciarLicaoVocab(p.proxima, t.palavras)
+        }, p.feitas ? 'CONTINUAR' : 'COMEÇAR') : h('span', { class: 'dic-tag' }, '🏆 Trilha completa!'),
+        p.ultimaFeita ? h('button', {
+          class: 'btn btn-branco',
+          onclick: () => iniciarLicaoVocab(p.ultimaFeita, t.palavras)
+        }, 'REVER') : '',
+        p.proxima ? h('span', { class: 'vocab-proxima', lang: 'en' }, p.proxima.titulo) : ''
+      )
+    ));
+  });
+}
+
+function iniciarLicaoVocab(licao, poolTrilha) {
+  const pool = [...licao.itens, ...amostra(poolTrilha, 30)];
+  const fila = gerarExercicios(licao.itens, pool, Math.max(8, Math.ceil(licao.itens.length * 1.2)), palavrasNovas(licao.itens));
+  sessao = {
+    tipo: 'licao', vocabLicao: licao, vocabPool: poolTrilha, licao, pool, fila, itens: licao.itens,
+    idx: 0, planejados: semApresentacoes(fila), acertos: 0, respostas: 0,
+    xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map()
+  };
+  telaExercicio();
+}
+
+function atualizarItensExtras() {
+  if (!temLicaoVocab(estado.licoes)) {
+    definirItensExtras([]);
+    return;
+  }
+  carregarBanco().then(banco => definirItensExtras(palavrasVocabAprendidas(banco, estado.licoes)));
 }
 
 function botaoDicionario() {
@@ -941,14 +1040,24 @@ function telaDica(u, l) {
   botao.focus({ preventScroll: true });
 }
 
+// Palavras que a pessoa nunca praticou ganham um cartão de apresentação
+// antes de serem cobradas — vale para o curso, a Minha Lista e a Expansão.
+function palavrasNovas(itens) {
+  return new Set(itens.filter(i => !estado.itens[i.en]).map(i => i.en));
+}
+
+function semApresentacoes(fila) {
+  return fila.filter(e => e.tipo !== 'apresentacao').length;
+}
+
 function comecarLicao(u, l) {
   const pool = u.licoes.flatMap(x => x.itens);
   // Fila proporcional ao tamanho da lição: 8 exercícios fixos deixavam ~2
   // itens das lições grandes sem nenhuma aparição.
-  const fila = gerarExercicios(l.itens, pool, Math.max(8, Math.ceil(l.itens.length * 1.2)));
+  const fila = gerarExercicios(l.itens, pool, Math.max(8, Math.ceil(l.itens.length * 1.2)), palavrasNovas(l.itens));
   sessao = {
     tipo: 'licao', unidade: u, licao: l, pool, fila, itens: l.itens,
-    idx: 0, planejados: fila.length, acertos: 0, respostas: 0,
+    idx: 0, planejados: semApresentacoes(fila), acertos: 0, respostas: 0,
     xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map()
   };
   telaExercicio();
@@ -1012,6 +1121,7 @@ function telaExercicio() {
     aoMudar: v => { btnVerificar.disabled = !v; },
     aoAuto: res => processar(ex, res, feedback, btnVerificar),
     aoEnter: () => { if (!btnVerificar.disabled) btnVerificar.click(); },
+    aoContinuar: () => continuar(),
     aoPular: () => {
       sessao.fila.splice(sessao.idx, 1);
       sessao.planejados = Math.max(1, sessao.planejados - 1);
@@ -1023,7 +1133,8 @@ function telaExercicio() {
   if (!ctrl.temVerificar) rodape.style.display = 'none';
   if (ex.tipo === 'falar') btnNaoSei.style.display = 'none';
   ligarAtalhos(areaEx, btnVerificar, feedback);
-  focarTela();
+  if (ctrl.focoInicial) ctrl.focoInicial.focus({ preventScroll: true });
+  else focarTela();
   let corrigido = false;
   btnVerificar.addEventListener('click', () => {
     if (btnVerificar.disabled || corrigido) return;
@@ -1154,7 +1265,13 @@ function linhaDiff(diff) {
   );
 }
 
+let avancando = false;
+
 function continuar() {
+  // Enter segurado (auto-repeat) disparava o avanço duas vezes na janela do
+  // view transition, pulando um exercício; limparTela() rearma a guarda.
+  if (avancando) return;
+  avancando = true;
   sessao.idx++;
   if (sessao.chefao && sessao.vidas <= 0) {
     finalizar(true);
@@ -1202,6 +1319,7 @@ function finalizar(derrotado) {
     });
   }
   s.xp += evento.bonusMissoes;
+  if (s.vocabLicao) atualizarItensExtras();
   registrarEvento('licao');
   telaResultado(estrelas, precisao, evento);
 }
@@ -1249,9 +1367,12 @@ function telaResultado(estrelas, precisao, evento) {
         )
       ) : '',
       h('div', { class: 'resultado-botoes' },
-        s.tipo === 'licao' && !s.chefao ? botaoDesafiar(s, estrelas) : '',
+        s.tipo === 'licao' && !s.chefao && !s.vocabLicao ? botaoDesafiar(s, estrelas) : '',
         estrelas < 3 && s.tipo === 'licao'
-          ? h('button', { class: 'btn btn-branco', onclick: () => iniciarLicao(s.unidade, s.licao) }, 'TENTAR DE NOVO')
+          ? h('button', {
+            class: 'btn btn-branco',
+            onclick: () => (s.vocabLicao ? iniciarLicaoVocab(s.vocabLicao, s.vocabPool) : iniciarLicao(s.unidade, s.licao))
+          }, 'TENTAR DE NOVO')
           : '',
         h('button', { class: 'btn btn-verde', onclick: telaInicial }, 'CONTINUAR')
       )
@@ -1647,6 +1768,7 @@ async function aposLogin(interativo) {
     ativarSync(true);
     syncPendente = false;
     mesclarEstado(remoto);
+    atualizarItensExtras();
   } catch {
     if (g !== geracaoAuth) return;
     ativarSync(false);
@@ -2038,6 +2160,7 @@ function cartaoBackup() {
     escolha.innerHTML = '';
     try {
       const r = importarEstado(dados, modo);
+      atualizarItensExtras();
       msg.textContent = modo === 'substituir'
         ? `Backup restaurado! XP: ${r.antes} → ${r.depois}`
         : `Mesclado! XP: ${r.antes} → ${r.depois}`;
@@ -2435,6 +2558,7 @@ async function iniciar() {
     inicial: telaInicial,
     perfil: telaPerfil,
     dicionario: telaDicionario,
+    vocabulario: telaVocabulario,
     login: telaLogin,
     privacidade: telaPrivacidade,
     novidades: telaNovidades,
@@ -2453,6 +2577,7 @@ async function iniciar() {
   pintarBarraDoSistema();
   registrarAberturaDoDia();
   avisarMetricas();
+  atualizarItensExtras();
   window.addEventListener('appinstalled', () => registrarEvento('instalou'));
   agendarLembrete();
   aoCarregarVozes(() => {
@@ -2487,8 +2612,9 @@ async function iniciar() {
       // salvar() desta aba sobrescrever o que ela fez. mesclarDeOutraAba só
       // regrava quando ganhou algo — sem eco infinito entre as abas.
       try {
-        if (mesclarDeOutraAba(e.newValue) && (telaAtiva === 'inicial' || telaAtiva === 'perfil')) {
-          repintarTelaAtual();
+        if (mesclarDeOutraAba(e.newValue)) {
+          atualizarItensExtras();
+          if (telaAtiva === 'inicial' || telaAtiva === 'perfil') repintarTelaAtual();
         }
       } catch {}
     });

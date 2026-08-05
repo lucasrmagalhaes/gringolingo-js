@@ -70,6 +70,12 @@ navegador.
   erros seguidos zeram — um tropeço não apaga semanas de espaçamento). A home mostra quantas
   palavras vencem hoje. O dia do app é o **dia local do aparelho** — streak e missões viram à
   meia-noite, não às 21h.
+- **Expansão de Vocabulário**: as 2.700+ palavras mais frequentes do inglês (o banco inteiro do
+  dicionário) viram lições jogáveis de 7 palavras, em quatro trilhas por classe gramatical com
+  desbloqueio sequencial. **Toda palavra que você nunca viu é apresentada antes de ser cobrada** —
+  grafia, pronúncia, classe e traduções — e depois entra na mesma agenda de revisão espaçada do
+  curso. Sinônimos com a mesma tradução se aceitam mutuamente na digitação e nunca competem na
+  múltipla escolha.
 - **Minha Lista**: favorite palavras no dicionário e treine só elas.
 - **Dicionário embutido**: 2.979 verbetes (as 215 do curso + um banco das palavras mais frequentes do
   inglês), com classe gramatical, áudio e — para as do curso — o status da sua memória (🌱 memorizada,

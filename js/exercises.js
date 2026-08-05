@@ -124,6 +124,8 @@ function distratores(item, pool, n, campo) {
     if (o.en === item.en || o[campo] === item[campo]) return false;
     // Sinônimos declarados no conteúdo (hello/hi) nunca viram alternativa errada.
     if (item.evitar?.includes(o.en) || o.evitar?.includes(item.en)) return false;
+    // Nem palavras com a mesma tradução: as duas opções estariam certas.
+    if (normalizar(String(o.pt ?? '')) === normalizar(String(item.pt ?? ''))) return false;
     const outroEn = normalizar(o.en);
     if (outroEn.includes(alvoEn) || alvoEn.includes(outroEn)) return false;
     const outroCampo = normalizar(String(o[campo]));
@@ -244,9 +246,25 @@ export function exercicioFacil(item, pool) {
   return ex;
 }
 
-export function gerarExercicios(itens, pool, qtd = 8) {
+// Pares só funcionam com traduções distintas: dois cartões "descobrir" viram
+// moeda ao ligar. Sorteia até 4 itens com pt único.
+function paresJogaveis(itens) {
+  const escolhidos = [];
+  const traducoes = new Set();
+  for (const item of embaralhar(itens)) {
+    const pt = normalizar(String(item.pt ?? ''));
+    if (traducoes.has(pt)) continue;
+    traducoes.add(pt);
+    escolhidos.push(item);
+    if (escolhidos.length === 4) return escolhidos;
+  }
+  return null;
+}
+
+export function gerarExercicios(itens, pool, qtd = 8, novosEn = null) {
   if (!itens?.length) return [];
-  const temPares = itens.length >= 4 && qtd >= 4;
+  const pares = itens.length >= 4 && qtd >= 4 ? paresJogaveis(itens) : null;
+  const temPares = !!pares;
   const fila = embaralhar(itens);
   const exs = [];
   // Os pares são INSERIDOS na fila (não sobrescrevem um exercício sorteado,
@@ -255,9 +273,26 @@ export function gerarExercicios(itens, pool, qtd = 8) {
     exs.push(criar(fila[i % fila.length], pool));
   }
   if (temPares) {
-    exs.splice(Math.min(3, exs.length), 0, { tipo: 'pares', pares: amostra(itens, 4) });
+    exs.splice(Math.min(3, exs.length), 0, { tipo: 'pares', pares });
   }
-  return exs;
+  if (!novosEn?.size) return exs;
+  // Palavra que a pessoa nunca viu é APRESENTADA (grafia, som, tradução)
+  // antes da primeira vez em que é cobrada — em vez de cair de paraquedas
+  // numa pergunta que ela não tem como responder.
+  const porEn = new Map(itens.map(i => [i.en, i]));
+  const apresentadas = new Set();
+  const comApresentacao = [];
+  for (const ex of exs) {
+    const envolvidos = ex.tipo === 'pares' ? ex.pares : ex.item ? [ex.item] : [];
+    for (const it of envolvidos) {
+      if (novosEn.has(it.en) && !apresentadas.has(it.en)) {
+        apresentadas.add(it.en);
+        comApresentacao.push({ tipo: 'apresentacao', item: porEn.get(it.en) ?? it });
+      }
+    }
+    comApresentacao.push(ex);
+  }
+  return comApresentacao;
 }
 
 function botaoSom(texto, extra = '') {
@@ -600,7 +635,38 @@ function montarVerbo(ex, cb) {
   };
 }
 
+const NOMES_CLASSE = { verbo: 'verbo', subst: 'substantivo', adj: 'adjetivo', adv: 'advérbio', prep: 'preposição', pron: 'pronome', conj: 'conjunção', num: 'número', interj: 'interjeição' };
+
+function montarApresentacao(ex, cb) {
+  const traducoes = ex.item.traducoes ?? [ex.item.pt];
+  const btn = h('button', { class: 'btn btn-verde apresentacao-continuar', onclick: () => cb.aoContinuar() }, 'ENTENDI');
+  setTimeout(() => falar(ex.item.en), 350);
+  return {
+    el: h('div', { class: 'apresentacao' },
+      h('div', { class: 'enunciado' }, 'Palavra nova! ✨'),
+      h('div', { class: 'prompt-card apresentacao-card' },
+        h('div', { class: 'apresentacao-topo' },
+          botaoSom(ex.item.en, 'grande'),
+          botaoLento(ex.item.en)
+        ),
+        h('div', { class: 'apresentacao-en', lang: 'en' }, ex.item.en),
+        ex.item.classe ? h('div', { class: 'dic-tag apresentacao-classe' }, NOMES_CLASSE[ex.item.classe] ?? ex.item.classe) : '',
+        h('div', { class: 'apresentacao-pt' }, traducoes.join(' · ')),
+        ex.item.nota ? h('div', { class: 'feedback-nota' }, '💡 ' + ex.item.nota) : ''
+      ),
+      h('div', { class: 'apresentacao-acao' }, btn)
+    ),
+    temVerificar: false,
+    apresentacao: true,
+    focoInicial: btn,
+    corrigir() {
+      return { correto: true, certa: null };
+    }
+  };
+}
+
 export function montarExercicio(ex, cb) {
+  if (ex.tipo === 'apresentacao') return montarApresentacao(ex, cb);
   if (ex.tipo === 'verbo') return montarVerbo(ex, cb);
   if (ex.tipo === 'pares') return montarPares(ex, cb);
   if (ex.tipo === 'digitar') return montarDigitar(ex, cb);

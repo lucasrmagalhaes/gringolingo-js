@@ -203,3 +203,13 @@ describe('correções da revisão adversarial', () => {
     assert.equal(estado.xp, 250);
   });
 });
+
+describe('vocabulário extra não vaza entre contas', () => {
+  test('limparEstadoMemoria zera os itens extras', () => {
+    const { definirItensExtras, itensAprendidos } = jogo;
+    definirItensExtras([{ en: 'able', pt: 'capaz' }]);
+    assert.ok(itensAprendidos().some(i => i.en === 'able'));
+    limparEstadoMemoria();
+    assert.ok(!itensAprendidos().some(i => i.en === 'able'), 'reset precisa derrubar o vocabulário derivado');
+  });
+});
