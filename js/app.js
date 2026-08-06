@@ -2300,7 +2300,7 @@ function cartaoConta() {
       h('span', { class: 'revisao-seta' }, '☁️')
     );
   }
-  const btnSair = h('button', { class: 'btn btn-vermelho' }, 'SAIR');
+  const btnSair = h('button', { class: 'btn btn-branco btn-compacto' }, 'SAIR');
   btnSair.addEventListener('click', async () => {
     btnSair.disabled = true;
     let naNuvem = !syncPendente;
@@ -2327,14 +2327,18 @@ function cartaoConta() {
     versao: '⚠️ Este progresso na nuvem veio de uma versão mais nova do app — atualize o app para voltar a sincronizar.'
   };
   return h('div', { class: 'card conta-card' },
-    h('div', { class: 'conta-linha' },
-      h('span', { class: 'conta-email' }, syncPendente ? '☁️⚠️ ' + usuarioEmail : '☁️ ' + usuarioEmail),
-      btnSair
+    h('div', { class: 'conta-item' },
+      h('div', { class: 'conta-texto' },
+        h('div', { class: 'conta-titulo conta-email' }, usuarioEmail),
+        syncPendente
+          ? h('div', { class: 'conta-sub conta-alerta', role: 'status' }, avisosPendencia[motivoPendencia()] ?? '⚠️ Progresso ainda não sincronizado — ele fica salvo aqui no aparelho')
+          : h('div', { class: 'conta-sub' }, '☁️ Progresso sincronizado na nuvem')
+      ),
+      h('div', { class: 'conta-acoes' },
+        syncPendente ? h('button', { class: 'btn btn-azul btn-compacto', onclick: () => aposLogin(true) }, 'TENTAR AGORA') : '',
+        btnSair
+      )
     ),
-    syncPendente ? h('div', { class: 'conta-pendente' },
-      h('span', { class: 'conta-aviso', role: 'status' }, avisosPendencia[motivoPendencia()] ?? '⚠️ Progresso ainda não sincronizado — ele fica salvo aqui no aparelho'),
-      h('button', { class: 'btn btn-azul', onclick: () => aposLogin(true) }, 'TENTAR AGORA')
-    ) : '',
     avisoPerfil ? h('div', { class: 'login-msg erro' }, avisoPerfil) : '',
     temGoogle ? linhaGoogle() : '',
     linhaApagarConta()
@@ -2343,19 +2347,19 @@ function cartaoConta() {
 
 function linhaApagarConta() {
   const msg = h('div', { class: 'login-msg', role: 'alert' });
-  const botao = h('button', { class: 'btn btn-branco perigo' }, 'APAGAR MINHA CONTA');
+  const botao = h('button', { class: 'btn btn-branco btn-compacto perigo' }, 'APAGAR');
   let confirmando = false;
   botao.addEventListener('click', async () => {
     if (!confirmando) {
       confirmando = true;
-      botao.textContent = 'TEM CERTEZA? TOQUE DE NOVO';
+      botao.textContent = 'TEM CERTEZA?';
       botao.classList.add('btn-vermelho');
-      msg.textContent = 'Isso apaga sua conta e todo o progresso na nuvem, sem volta. Exporte um backup antes se quiser guardar.';
+      msg.textContent = 'Toque de novo para apagar tudo. Exporte um backup antes se quiser guardar.';
       msg.className = 'login-msg erro';
       setTimeout(() => {
         if (!confirmando) return;
         confirmando = false;
-        botao.textContent = 'APAGAR MINHA CONTA';
+        botao.textContent = 'APAGAR';
         botao.classList.remove('btn-vermelho');
         msg.textContent = '';
       }, 6000);
@@ -2375,18 +2379,25 @@ function linhaApagarConta() {
     } catch (e) {
       msg.textContent = e.message;
       botao.disabled = false;
-      botao.textContent = 'APAGAR MINHA CONTA';
+      botao.textContent = 'APAGAR';
     }
   });
-  return h('div', { class: 'conta-apagar' }, msg, botao);
+  return h('div', { class: 'conta-item conta-apagar' },
+    h('div', { class: 'conta-texto' },
+      h('div', { class: 'conta-titulo' }, 'Apagar minha conta'),
+      h('div', { class: 'conta-sub' }, 'Remove a conta e o progresso da nuvem, sem volta'),
+      msg
+    ),
+    botao
+  );
 }
 
 function linhaGoogle() {
   const vinculado = provedores.includes('google');
   const msg = h('div', { class: 'login-msg', role: 'alert' });
-  const btn = h('button', { class: 'btn ' + (vinculado ? 'btn-branco' : 'btn-google') },
+  const btn = h('button', { class: 'btn btn-compacto ' + (vinculado ? 'btn-branco' : 'btn-google') },
     iconeGoogle(),
-    h('span', {}, vinculado ? 'DESVINCULAR' : 'VINCULAR GOOGLE')
+    h('span', {}, vinculado ? 'DESVINCULAR' : 'VINCULAR')
   );
   btn.addEventListener('click', async () => {
     btn.disabled = true;
@@ -2406,15 +2417,15 @@ function linhaGoogle() {
       btn.disabled = false;
     }
   });
-  return h('div', { class: 'conta-google' },
-    h('div', { class: 'conta-google-texto' },
-      h('div', { class: 'conta-google-titulo' }, vinculado ? 'Google vinculado ✅' : 'Vincular com o Google'),
-      h('div', { class: 'conta-google-sub' }, vinculado
+  return h('div', { class: 'conta-item' },
+    h('div', { class: 'conta-texto' },
+      h('div', { class: 'conta-titulo' }, vinculado ? 'Google vinculado ✅' : 'Vincular com o Google'),
+      h('div', { class: 'conta-sub' }, vinculado
         ? 'Você pode entrar com um clique, sem digitar senha'
-        : 'Depois de vincular, dá pra entrar com um clique na mesma conta')
+        : 'Depois de vincular, dá pra entrar com um clique na mesma conta'),
+      msg
     ),
-    btn,
-    msg
+    btn
   );
 }
 

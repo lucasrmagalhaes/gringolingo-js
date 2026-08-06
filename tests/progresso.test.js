@@ -27,8 +27,11 @@ after(() => definirAgora(null));
 describe('registrarLicao', () => {
   test('soma XP, registra o dia e acumula stats', () => {
     const evento = registrarLicao('b1', licaoBasica());
-    assert.equal(estado.xp, 50);
-    assert.equal(estado.historico[hojeIso()], 50);
+    // As missões do dia são sorteadas pela data real: o bônus entra na conta
+    // para o teste não depender do sorteio de hoje.
+    const esperado = 50 + evento.bonusMissoes;
+    assert.equal(estado.xp, esperado);
+    assert.equal(estado.historico[hojeIso()], esperado);
     assert.equal(estado.stats.licoes, 1);
     assert.equal(estado.stats.acertos, 6);
     assert.equal(estado.stats.respostas, 8);

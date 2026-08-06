@@ -1972,15 +1972,6 @@ textarea {
   display: none;
 }
 
-.conta-apagar {
-  border-top: 2px solid var(--borda-suave);
-  padding-top: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-}
-
 .perigo {
   color: var(--vermelho);
   font-size: var(--fonte-sm);
@@ -2726,4 +2717,92 @@ textarea {
   font-size: var(--fonte-sm);
   color: var(--texto-suave);
   font-style: italic;
+}
+
+/* === Cartão da conta como lista de configurações === */
+/* Três linhas na mesma grade — texto à esquerda, ação compacta à direita —
+   com o vermelho reservado ao que é destrutivo de verdade. */
+.conta-card {
+  gap: 0;
+}
+
+.conta-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 14px 0;
+}
+
+.conta-item:first-child {
+  padding-top: 0;
+}
+
+.conta-item:last-child {
+  padding-bottom: 0;
+}
+
+.conta-item + .conta-item {
+  border-top: 2px solid var(--borda-suave);
+}
+
+.conta-texto {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.conta-titulo {
+  font-weight: 900;
+  font-size: var(--fonte-md);
+}
+
+.conta-sub {
+  font-size: var(--fonte-sm);
+  color: var(--texto-suave);
+  line-height: 1.4;
+}
+
+.conta-alerta {
+  color: var(--laranja-texto);
+}
+
+.conta-acoes {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-compacto {
+  padding: 9px 18px;
+  font-size: 14px;
+}
+
+.conta-apagar .conta-titulo {
+  color: var(--vermelho-texto);
+}
+
+/* === Topo sem estouro lateral === */
+/* O cabeçalho (logo + pílulas) era flex sem quebra nem encolhimento: com
+   conta logada ele passava de 550px e criava rolagem horizontal na página
+   inteira. Em tela estreita as pílulas compactam; se ainda assim não couber,
+   a linha quebra em vez de estourar. */
+.topo {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .logo {
+    font-size: 19px;
+  }
+
+  .topo .pilula {
+    padding: 5px 10px;
+    font-size: var(--fonte-sm);
+    gap: 4px;
+  }
 }
