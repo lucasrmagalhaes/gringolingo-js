@@ -622,6 +622,11 @@ textarea {
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
+textarea.entrada {
+  min-height: 7.5rem;
+  resize: vertical;
+}
+
 .entrada::placeholder {
   color: var(--texto-suave);
   font-weight: 700;
@@ -2989,6 +2994,10 @@ button.caixa-treinavel:hover {
 
 .pronuncia-atalho {
   border-color: color-mix(in srgb, var(--verde) 45%, var(--borda));
+}
+
+.nivel-atalho {
+  border-color: color-mix(in srgb, var(--amarelo) 55%, var(--borda));
 }
 
 .semana-fala {

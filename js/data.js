@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.2';
+export const VERSAO_APP = '2.3';
 
 export const NOVIDADES = [
+  {
+    versao: '2.3',
+    titulo: 'Fluência no seu nível',
+    itens: [
+      '🎯 Teste de nível de A1 a B2. O treino se ordena no seu ponto e nada fica trancado',
+      '❓ Cenas em que você faz a pergunta: café, loja, aeroporto e reunião',
+      '⏩ Fala rápida: gonna, wanna e palavras que se juntam, na voz do aparelho',
+      '📅 Resumo da semana, phrasal verbs e um minuto falando de você'
+    ]
+  },
   {
     versao: '2.2',
     titulo: 'Falar de verdade',
@@ -800,6 +810,8 @@ export const MISSOES = [
   { id: 'dialogo1', emoji: '💬', titulo: 'Termine 1 diálogo', alvo: 1, xp: 15, medir: s => (s.tipo === 'dialogo' ? 1 : 0) },
   { id: 'fala1', emoji: '⏱️', titulo: 'Faça o desafio de 5 minutos', alvo: 1, xp: 15, medir: s => (s.tipo === 'fala' ? 1 : 0) },
   { id: 'pronuncia1', emoji: '👅', titulo: 'Faça 1 treino de pronúncia', alvo: 1, xp: 15, medir: s => (s.tipo === 'pronuncia' ? 1 : 0) },
+  { id: 'nivel1', emoji: '🎯', titulo: 'Faça o teste de nível', alvo: 1, xp: 15, medir: s => (s.tipo === 'nivel' ? 1 : 0) },
+  { id: 'livre1', emoji: '🗣️', titulo: 'Fale de um tema por um minuto', alvo: 1, xp: 15, medir: s => (s.tipo === 'livre' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -830,6 +842,8 @@ export const BADGES = [
   { id: 'cinco', emoji: '⏱️', nome: 'Cinco Minutos', desc: 'Complete o desafio de fala do dia' },
   { id: 'caminhos', emoji: '🔀', nome: 'Dois Caminhos', desc: 'Termine um diálogo em que a cena muda' },
   { id: 'pares', emoji: '👅', nome: 'Par Mínimo', desc: 'Complete um treino de pronúncia' },
+  { id: 'nivelado', emoji: '🎯', nome: 'Sei meu nível', desc: 'Faça o teste de nível' },
+  { id: 'pergunta', emoji: '❓', nome: 'Quem Pergunta', desc: 'Termine uma cena em que você faz a pergunta' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
