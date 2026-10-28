@@ -8,7 +8,8 @@ let syncAtivo = false;
 export const INTERVALOS = [1, 3, 7, 16, 35];
 
 // Versão do formato enviado à nuvem: um cliente antigo não mescla payload de versão maior.
-export const VERSAO_DADOS = 2;
+// 3: deslizes (contagem por palavra) e padroes (contagem por tipo de erro do tutor).
+export const VERSAO_DADOS = 3;
 
 // Relógio injetável (testes fixam o "agora"); o dia do app é o dia LOCAL do aparelho,
 // nunca UTC — senão o streak e as missões viram às 21h no Brasil.
@@ -40,6 +41,8 @@ const padrao = () => ({
   licoes: {},
   itens: {},
   erros: [],
+  deslizes: [],
+  padroes: [],
   badges: [],
   historico: {},
   favoritas: [],
@@ -57,6 +60,114 @@ export const METAS = [50, 100, 200, 350];
 const num = v => (Number.isFinite(Number(v)) ? Number(v) : 0);
 const chaveSegura = k => k !== '__proto__' && k !== 'constructor' && k !== 'prototype';
 
+function deslizeLimpo(d) {
+  if (!d || typeof d !== 'object') return null;
+  if (typeof d.en !== 'string' || !d.en || d.en.length > 200 || !chaveSegura(d.en)) return null;
+  const erros = Math.max(0, Math.min(num(d.erros), 999));
+  const acertos = Math.max(0, Math.min(num(d.acertos), 999));
+  if (!erros && !acertos) return null;
+  return {
+    en: d.en,
+    pt: typeof d.pt === 'string' ? d.pt.slice(0, 200) : '',
+    chave: typeof d.chave === 'string' && d.chave ? d.chave.slice(0, 48) : 'troca',
+    tipo: typeof d.tipo === 'string' && d.tipo ? d.tipo.slice(0, 24) : 'troca',
+    erros,
+    acertos
+  };
+}
+
+function padraoLimpo(p) {
+  if (!p || typeof p !== 'object') return null;
+  if (typeof p.chave !== 'string' || !p.chave || p.chave.length > 48 || !chaveSegura(p.chave)) return null;
+  const n = Math.max(0, Math.min(num(p.n), 9999));
+  if (!n) return null;
+  return {
+    chave: p.chave,
+    tipo: typeof p.tipo === 'string' && p.tipo ? p.tipo.slice(0, 24) : 'troca',
+    n
+  };
+}
+
+function dedupDeslizes(lista) {
+  const map = new Map();
+  for (const d of lista) {
+    const atual = map.get(d.en);
+    if (!atual) map.set(d.en, { ...d });
+    else {
+      if (d.erros > atual.erros) {
+        atual.chave = d.chave;
+        atual.tipo = d.tipo;
+        if (d.pt) atual.pt = d.pt;
+      }
+      atual.erros = Math.max(atual.erros, d.erros);
+      atual.acertos = Math.max(atual.acertos, d.acertos);
+    }
+  }
+  return [...map.values()]
+    .sort((a, b) => (b.erros - b.acertos) - (a.erros - a.acertos) || a.en.localeCompare(b.en))
+    .slice(0, 80);
+}
+
+function dedupPadroes(lista) {
+  const map = new Map();
+  for (const p of lista) {
+    const atual = map.get(p.chave);
+    if (!atual || p.n > atual.n) map.set(p.chave, { ...p });
+  }
+  return [...map.values()].sort((a, b) => b.n - a.n || a.chave.localeCompare(b.chave)).slice(0, 24);
+}
+
+function mesclarDeslizes(remoto) {
+  const juntos = [...estado.deslizes];
+  (Array.isArray(remoto) ? remoto : []).forEach(bruto => {
+    const d = deslizeLimpo(bruto);
+    if (d) juntos.push(d);
+  });
+  estado.deslizes = dedupDeslizes(juntos);
+}
+
+function mesclarPadroes(remoto) {
+  const juntos = [...estado.padroes];
+  (Array.isArray(remoto) ? remoto : []).forEach(bruto => {
+    const p = padraoLimpo(bruto);
+    if (p) juntos.push(p);
+  });
+  estado.padroes = dedupPadroes(juntos);
+}
+
+function aplicarDeslizes(eventos, agendamentos) {
+  const errouAgora = new Set();
+  (eventos ?? []).forEach(ev => {
+    if (!ev || typeof ev.en !== 'string' || !ev.en || ev.ok) return;
+    const chave = typeof ev.chave === 'string' && ev.chave ? ev.chave : 'troca';
+    const tipo = typeof ev.tipo === 'string' && ev.tipo ? ev.tipo : 'troca';
+    let row = estado.deslizes.find(d => d.en === ev.en);
+    if (!row) {
+      row = { en: ev.en, pt: '', chave, tipo, erros: 0, acertos: 0 };
+      estado.deslizes.push(row);
+    }
+    row.erros += 1;
+    row.chave = chave;
+    row.tipo = tipo;
+    if (typeof ev.pt === 'string' && ev.pt) row.pt = ev.pt;
+    errouAgora.add(ev.en);
+    let pad = estado.padroes.find(p => p.chave === chave);
+    if (!pad) {
+      pad = { chave, tipo, n: 0 };
+      estado.padroes.push(pad);
+    }
+    pad.n += 1;
+    pad.tipo = tipo;
+  });
+  (agendamentos ?? []).forEach(r => {
+    if (!r?.acertou || typeof r.en !== 'string' || errouAgora.has(r.en)) return;
+    const row = estado.deslizes.find(d => d.en === r.en);
+    if (row && row.acertos < row.erros) row.acertos += 1;
+  });
+  estado.deslizes = dedupDeslizes(estado.deslizes);
+  estado.padroes = dedupPadroes(estado.padroes);
+}
+
 // Uma lição perfeita rende ~165 XP, então as metas antigas (20-80) eram batidas
 // com uma lição só; os valores migram para a escala nova mantendo a intenção.
 const METAS_ANTIGAS = { 20: 50, 30: 100, 50: 200, 80: 350 };
@@ -70,6 +181,8 @@ function sanitizar(salvo) {
   s.licoes = s.licoes && typeof s.licoes === 'object' && !Array.isArray(s.licoes) ? { ...s.licoes } : {};
   s.itens = s.itens && typeof s.itens === 'object' && !Array.isArray(s.itens) ? { ...s.itens } : {};
   s.erros = Array.isArray(s.erros) ? s.erros.filter(e => e && typeof e.en === 'string') : [];
+  s.deslizes = dedupDeslizes(Array.isArray(s.deslizes) ? s.deslizes.map(deslizeLimpo).filter(Boolean) : []);
+  s.padroes = dedupPadroes(Array.isArray(s.padroes) ? s.padroes.map(padraoLimpo).filter(Boolean) : []);
   s.badges = Array.isArray(s.badges) ? s.badges.filter(b => typeof b === 'string') : [];
   s.historico = s.historico && typeof s.historico === 'object' && !Array.isArray(s.historico) ? { ...s.historico } : {};
   s.favoritas = Array.isArray(s.favoritas) ? s.favoritas.filter(f => f && typeof f.en === 'string') : [];
@@ -340,6 +453,8 @@ function mesclar(remoto) {
         registrados.add(e.en);
       }
     });
+    mesclarDeslizes(remoto.deslizes);
+    mesclarPadroes(remoto.padroes);
     for (const [en, agenda] of Object.entries(remoto.itens ?? {})) {
       if (!chaveSegura(en) || typeof agenda?.proxima !== 'string') continue;
       const local = estado.itens[en];
@@ -606,6 +721,25 @@ function unidadeCompleta(u) {
   return u.licoes.every(l => estado.licoes[l.id]);
 }
 
+export function palavrasFracas(itens) {
+  const porEn = new Map(estado.deslizes.map(d => [d.en, d]));
+  return (itens ?? [])
+    .map(item => {
+      const row = porEn.get(item.en);
+      const saldo = row ? Math.max(0, num(row.erros) - num(row.acertos)) : 0;
+      return { item, saldo, tipo: row?.tipo ?? null, chave: row?.chave ?? null };
+    })
+    .filter(x => x.saldo > 0)
+    .sort((a, b) => b.saldo - a.saldo || a.item.en.localeCompare(b.item.en));
+}
+
+export function resumoPadroes(limite = 4) {
+  return estado.padroes
+    .filter(p => num(p.n) >= 2)
+    .sort((a, b) => b.n - a.n)
+    .slice(0, limite);
+}
+
 export function memorizadas() {
   return Object.values(estado.itens).filter(a => (a?.caixa ?? 0) >= 3).length;
 }
@@ -672,6 +806,7 @@ export function registrarLicao(licaoId, d) {
     if (estado.stats.perfeitas % 5 === 0) ganharProtetor();
   }
   aplicarAgendamentos(d.agendamentos);
+  aplicarDeslizes(d.deslizes, d.agendamentos);
   contarMetaBatida(metaAntes, diaSessao);
   const novas = checarBadges();
   salvar();
@@ -701,6 +836,7 @@ export function registrarRelampago(d) {
   estado.stats.comboMax = Math.max(estado.stats.comboMax, d.comboMax);
   estado.stats.recordeRelampago = Math.max(estado.stats.recordeRelampago ?? 0, d.acertos);
   aplicarAgendamentos(d.agendamentos);
+  aplicarDeslizes(d.deslizes, d.agendamentos);
   contarMetaBatida(metaAntes, diaSessao);
   const novas = checarBadges();
   salvar();
@@ -731,6 +867,7 @@ export function registrarRevisao(d) {
   const acertadas = new Set(d.acertadosEn);
   estado.erros = estado.erros.filter(e => !acertadas.has(e.en));
   aplicarAgendamentos(d.agendamentos);
+  aplicarDeslizes(d.deslizes, d.agendamentos);
   contarMetaBatida(metaAntes, diaSessao);
   const novas = checarBadges();
   salvar();

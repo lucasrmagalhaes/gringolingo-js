@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-169%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-201%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -60,11 +60,19 @@ navegador.
 - **Chefão de unidade**: liberado quando as 4 lições estão feitas. 12 exercícios difíceis, sem
   múltipla escolha, com 3 vidas.
 - **Correção que perdoa o que é para perdoar**: contrações (`don't` = `do not`), traduções
-  alternativas por item, pontuação, acento e um errinho de digitação (distância de Levenshtein ≤ 1)
-  — desde que o "errinho" não forme outra palavra real: `house` nunca vale como `mouse`.
-- **Feedback que ensina**: ao errar uma frase, a resposta certa aparece com as palavras que faltaram
-  destacadas e o que você escreveu a mais riscado. Itens com nota de gramática mostram a dica na hora
-  (“estados usam *to be*, não *have*”), e 4 lições abrem com um card explicando a estrutura.
+  alternativas por item, pontuação, acento e um errinho de letra (uma a mais, a menos, trocada, ou
+  duas vizinhas invertidas), desde que o errinho não forme outra palavra real: `house` nunca vale
+  como `mouse`, e `launch` não vale como `lunch`.
+- **Tutor que explica o porquê**: ao errar ou quase acertar, o app diz em português o que aconteceu
+  (letra, palavra faltando ou sobrando, ordem, artigo, plural, tempo verbal ou falso amigo), destaca
+  a diferença e mostra uma dica curta daquele erro. Funciona offline, com regras e um banco local.
+  Sem API. Itens com nota de gramática continuam ensinando na hora, e as lições que têm card de
+  estrutura abrem com ele na primeira vez.
+- **Dica na hora**: botão 💡 na lição (tecla **D**) reabre a explicação da lição e a nota da frase.
+  A home mostra a dica do dia, e dá para esconder até amanhã.
+- **Pontos fracos**: cada erro entra numa contagem por palavra e por padrão. A Revisão Turbo cobra
+  primeiro o que você mais erra. O perfil mostra esse painel ao lado da saúde da memória (caixas de
+  Leitner). Acertar de novo abaixa o saldo da palavra.
 - **Revisão espaçada de verdade (Leitner)**: cada palavra tem uma caixa e volta a ser cobrada em
   1, 3, 7, 16 e 35 dias. Acertou, sobe de caixa; errou, desce uma caixa e reaparece amanhã (só dois
   erros seguidos zeram — um tropeço não apaga semanas de espaçamento). A home mostra quantas
@@ -118,7 +126,7 @@ navegador.
 
 ### Acessibilidade e detalhes
 
-- Teclado: **1–4** escolhem a opção, **Enter** verifica e avança, **Esc** sai da lição.
+- Teclado: **1–4** escolhem a opção, **Enter** verifica e avança, **Esc** sai da lição, **D** abre a dica.
 - Foco gerenciado a cada troca de tela, `aria-live` no feedback, `aria-pressed` nas opções e rótulos
   descritivos nos botões.
 - `prefers-reduced-motion` respeitado — inclusive nas *view transitions* entre telas.
@@ -138,8 +146,9 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | Módulo | O que faz |
 | --- | --- |
 | `js/app.js` | Todas as telas e o fluxo entre elas: home, trilha, lição, resultado, dicionário, perfil, login, novidades e diagnóstico. |
-| `js/game.js` | O estado do jogador: XP, streak, estrelas, conquistas, missões, agenda de Leitner, `localStorage`, export/import e o merge com a nuvem. |
-| `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício — incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
+| `js/game.js` | O estado do jogador: XP, streak, estrelas, conquistas, missões, agenda de Leitner, deslizes do tutor, `localStorage`, export/import e o merge com a nuvem. |
+| `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
+| `js/dicas.js` | Tutor offline: classifica o erro, explica em português e escolhe a dica. Também sorteia a dica do dia. |
 | `js/data.js` | O conteúdo: unidades, lições, itens, notas de gramática, níveis, conquistas, missões e as falas do mascote. |
 | `js/dicionario.js` | Busca única em português e inglês (normalizada, sem acento), com ranking por tipo de casamento, filtros e status de memória. |
 | `js/dicionario-dados.js` | O banco de 2.903 verbetes, importado dinamicamente só quando o dicionário abre. |
@@ -183,6 +192,10 @@ antes, nunca depois. O streak tem quatro ramos explícitos (sem histórico local
 dia, local mais novo) e reconhece dias consecutivos em vez de só comparar números. Os quatro ramos são
 testados.
 
+Os deslizes do tutor (contagem por palavra e por padrão de erro) mesclam pelo maior número, no mesmo
+espírito das estatísticas. Backup antigo, sem esses campos, abre normal: as listas nascem vazias. O
+formato da nuvem está na versão 3; um app antigo não sobrescreve esse payload.
+
 **Service worker versionado à mão.** A constante `VERSAO` no topo do `sw.js` nomeia o cache; o `activate`
 apaga todos os outros. Publicar uma versão é incrementar essa constante — e quem já está com o app aberto
 vê o aviso de atualização e resolve com um toque. Sem um plugin de build gerando hash, a invalidação fica
@@ -214,7 +227,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node — **169 testes em 34 suítes** — sem instalar nada
+A suíte roda no runner nativo do Node: **201 testes em 37 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -241,8 +254,11 @@ O que a suíte cobre:
 - **`tests/exercicios.test.js`** — `diffPalavras` (faltou, sobrou, trocou, tudo diferente),
   `gerarExercicios` (quantidade exata e o exercício de pares) e os distratores, que nunca podem
   entregar uma opção que é pedaço da resposta certa (`take a shower` jamais recebe `shower`).
-- **`tests/correcao.test.js`** — a correção de cada tipo: digitar (contrações, campo `alt`, pontuação
-  e o errinho de digitação perdoado), múltipla escolha, montar frase com peças e ligar os pares.
+- **`tests/dicas.test.js`**: o tutor offline (artigo, ordem, plural, tempo verbal, falso amigo, typo
+  aceito ou recusado) e a dica do dia.
+- **`tests/correcao.test.js`**: a correção de cada tipo: digitar (contrações, campo `alt`, pontuação
+  e o errinho de letra perdoado, inclusive letra trocada de lugar), múltipla escolha, montar frase
+  com peças e ligar os pares.
 - **`tests/jogo.test.js`** — `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
   limpeza de estado.

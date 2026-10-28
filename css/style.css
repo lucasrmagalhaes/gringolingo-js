@@ -637,6 +637,11 @@ textarea {
   background: var(--verm-claro);
 }
 
+.entrada-quase {
+  border-color: var(--laranja);
+  background: color-mix(in srgb, var(--laranja) 16%, var(--superficie));
+}
+
 .resposta-area {
   min-height: 66px;
   border: 2px dashed var(--borda);
@@ -772,6 +777,10 @@ textarea {
   background: var(--verm-claro);
 }
 
+.feedback.quase {
+  background: color-mix(in srgb, var(--laranja) 22%, var(--superficie));
+}
+
 .feedback-conteudo {
   max-width: 680px;
   margin: 0 auto;
@@ -782,6 +791,8 @@ textarea {
 
 .feedback-textos {
   flex: 1;
+  max-height: 42vh;
+  overflow: auto;
 }
 
 .feedback-titulo {
@@ -795,6 +806,10 @@ textarea {
 
 .feedback.errado .feedback-titulo {
   color: var(--vermelho-vivo);
+}
+
+.feedback.quase .feedback-titulo {
+  color: var(--laranja-texto);
 }
 
 .feedback-frase {
@@ -828,6 +843,18 @@ textarea {
   opacity: 0.65;
 }
 
+.diff-fora {
+  background: color-mix(in srgb, var(--laranja) 35%, transparent);
+  border-radius: 6px;
+  padding: 1px 4px;
+  margin-right: 2px;
+}
+
+.diff-letras {
+  white-space: pre-wrap;
+  font-weight: 800;
+}
+
 .dica-tela {
   max-width: 460px;
   margin: 40px auto 0;
@@ -850,6 +877,106 @@ textarea {
   font-weight: 700;
   line-height: 1.5;
   margin-bottom: 20px;
+}
+
+.btn-dica {
+  background: var(--superficie);
+  border: 2px solid var(--borda);
+  border-bottom-width: 4px;
+  border-radius: 14px;
+  font-size: 20px;
+  line-height: 1;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-family: inherit;
+  flex-shrink: 0;
+}
+
+.btn-dica:active {
+  transform: translateY(4px);
+  border-bottom-width: 2px;
+}
+
+.btn-dica[aria-expanded="true"] {
+  border-color: var(--laranja);
+}
+
+.dica-dia-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.dica-dia-titulo {
+  font-weight: 900;
+  margin-top: 8px;
+}
+
+.dica-dia-corpo,
+.dica-bloco p,
+.tropeco-dica {
+  font-weight: 700;
+  line-height: 1.45;
+  margin: 6px 0 0;
+}
+
+.dica-bloco + .dica-bloco {
+  margin-top: 12px;
+}
+
+.dica-painel-titulo,
+.tropeco-nome {
+  font-weight: 900;
+  font-size: var(--fonte-md);
+}
+
+.pontos-fracos {
+  border-color: var(--laranja);
+}
+
+.tropeco {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 2px solid var(--borda-suave);
+}
+
+.tropeco-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.tropeco-palavra {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid var(--borda);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-weight: 800;
+}
+
+.tropeco-saldo {
+  color: var(--laranja-texto);
+  font-variant-numeric: tabular-nums;
+}
+
+.tropeco-btn {
+  margin-top: 14px;
+}
+
+.resultado-dica {
+  text-align: left;
+  margin: 16px auto;
+  max-width: 460px;
+}
+
+.relampago-dica {
+  margin-top: 14px;
 }
 
 .banner-streak {
@@ -2519,6 +2646,10 @@ textarea {
 
 [data-tema="escuro"] .entrada-errada {
   color: var(--vermelho-vivo);
+}
+
+[data-tema="escuro"] .entrada-quase {
+  color: var(--laranja-texto);
 }
 
 /* === Navegação e avisos (roteador, confirmação de saída, métrica) === */

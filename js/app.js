@@ -1,9 +1,10 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, historicoRecente, licoesConcluidas, definirItensExtras, METAS, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, INTERVALOS } from './game.js';
 import { sons, falar, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarVerbos, exercicioFacil, montarExercicio } from './exercises.js';
+import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
 import { h, aleatorio, amostra } from './util.js';
 import { trilhasVocab, progressoTrilha, palavrasVocabAprendidas, temLicaoVocab } from './vocabulario.js';
 import { nuvemConfigurada, sessaoAtual, entrar, criarConta, sair, baixarProgresso, aoMudarAuth, googleAtivo, entrarComGoogle, vincularGoogle, desvincularGoogle, provedoresDaConta, traduzirErro, apagarConta, SENHA_MINIMA } from './nuvem.js';
@@ -218,6 +219,8 @@ function telaInicial() {
     cartaoMeta(),
     faixaSemana(),
     cartaoMissoes(),
+    cartaoDicaDoDia(),
+    botaoPontosFracos(),
     botaoRevisao(),
     botaoMinhaLista(),
     botaoRelampago(),
@@ -304,6 +307,61 @@ function faixaSemana() {
       h('span', { class: 'semana-bolinha', 'aria-hidden': 'true' }, d.xp ? '🔥' : '·')
     ))
   );
+}
+
+function diaLocalAgora() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+function cartaoDicaDoDia() {
+  const dia = diaLocalAgora();
+  if (localStorage.getItem('gringolingo:dica-dia') === dia) return '';
+  const dica = dicaDoDia(dia);
+  const card = h('div', { class: 'card dica-dia' },
+    h('div', { class: 'dica-dia-topo' },
+      h('div', { class: 'nivel-titulo' }, '💡 Dica do dia'),
+      h('button', {
+        class: 'fechar',
+        'aria-label': 'Esconder a dica de hoje',
+        onclick() {
+          localStorage.setItem('gringolingo:dica-dia', dia);
+          card.remove();
+        }
+      }, '✖')
+    ),
+    h('div', { class: 'dica-dia-titulo' }, dica.titulo),
+    h('p', { class: 'dica-dia-corpo' }, dica.corpo)
+  );
+  return card;
+}
+
+function botaoPontosFracos() {
+  const fracos = palavrasFracas(itensAprendidos());
+  if (!fracos.length) return '';
+  const topo = fracos[0];
+  return h('button', { class: 'card revisao pontos-fracos', onclick: iniciarPontosFracos },
+    h('span', { class: 'revisao-emoji' }, '🧭'),
+    h('div', { class: 'revisao-textos' },
+      h('div', { class: 'revisao-titulo' }, 'Pontos fracos'),
+      h('div', { class: 'revisao-sub' }, `${fracos.length} palavra${fracos.length > 1 ? 's' : ''} para reforçar. A que mais volta: ${topo.item.en}.`)
+    ),
+    h('span', { class: 'revisao-seta' }, '⚡')
+  );
+}
+
+function iniciarPontosFracos() {
+  const aprendidos = itensAprendidos();
+  const fracos = palavrasFracas(aprendidos);
+  const itens = fracos.slice(0, 8).map(f => f.item);
+  if (!itens.length) return;
+  const fila = gerarExercicios(itens, aprendidos, Math.min(8, Math.max(4, itens.length * 2)));
+  sessao = {
+    tipo: 'revisao', pool: aprendidos, fila, itens,
+    idx: 0, planejados: fila.length, acertos: 0, respostas: 0,
+    xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map(), deslizes: []
+  };
+  telaExercicio();
 }
 
 function cartaoMissoes() {
@@ -461,9 +519,17 @@ function telaRelampago() {
       s.combo = 0;
       sons.erro();
     }
+    anotarDeslize(s, item, res);
+    if (res.tutor && (!res.correto || res.quase)) {
+      areaEx.append(h('div', { class: 'feedback-nota relampago-dica', role: 'status' },
+        h('strong', {}, res.tutor.titulo + '. '),
+        res.tutor.porque
+      ));
+    }
+    const pausa = res.correto && !res.quase ? 260 : 1800;
     timerDeTela(() => {
       if (!s.encerrado) telaRelampago();
-    }, res.correto ? 260 : 700);
+    }, pausa);
   };
   areaEx.querySelectorAll('.opcao').forEach(botao => {
     botao.addEventListener('click', () => responder(botao), { once: true });
@@ -497,7 +563,8 @@ function finalizarRelampago() {
   s.xp = Math.min(25, s.acertos * 2);
   const evento = registrarRelampago({
     acertos: s.acertos, respostas: s.respostas, comboMax: s.comboMax, xp: s.xp,
-    agendamentos: [...s.resultados.values()]
+    agendamentos: [...s.resultados.values()],
+    deslizes: s.deslizes ?? []
   });
   app.innerHTML = '';
   app.append(
@@ -1065,7 +1132,13 @@ function comecarLicao(u, l) {
 
 function iniciarRevisao() {
   const aprendidos = itensAprendidos();
-  const itens = itensVencidos().slice(0, 8);
+  const saldo = new Map(palavrasFracas(aprendidos).map(f => [f.item.en, f.saldo]));
+  const porSaldo = (a, b) => (saldo.get(b.en) ?? 0) - (saldo.get(a.en) ?? 0);
+  const itens = itensVencidos().sort(porSaldo).slice(0, 8);
+  palavrasFracas(aprendidos).forEach(f => {
+    if (itens.length >= 8) return;
+    if (!itens.some(x => x.en === f.item.en)) itens.push(f.item);
+  });
   let tentativas = 0;
   while (itens.length < 8 && tentativas < 60) {
     tentativas++;
@@ -1101,7 +1174,14 @@ function telaExercicio() {
     : h('div', { class: 'combo' + (sessao.combo >= 2 ? ' pop' : '') }, sessao.combo >= 2 ? `⚡x${sessao.combo}` : '');
   const btnVerificar = h('button', { class: 'btn btn-verde' }, 'VERIFICAR');
   btnVerificar.disabled = true;
-  const btnNaoSei = h('button', { class: 'btn btn-branco btn-nao-sei', title: 'Ver a resposta — conta como erro e volta depois' }, 'NÃO SEI');
+  const btnNaoSei = h('button', { class: 'btn btn-branco btn-nao-sei', title: 'Ver a resposta. Conta como erro e volta depois' }, 'NÃO SEI');
+  const btnDica = h('button', {
+    class: 'btn-dica',
+    'aria-label': 'Dica da questão',
+    'aria-expanded': 'false',
+    'aria-keyshortcuts': 'D',
+    title: 'Dica (tecla D)'
+  }, '💡');
   const rodape = h('div', { class: 'rodape' }, h('div', { class: 'rodape-conteudo' }, btnNaoSei, btnVerificar));
   const feedback = h('div', { class: 'feedback', role: 'status', 'aria-live': 'polite' });
   const areaEx = h('div', { class: 'area-exercicio' });
@@ -1113,10 +1193,42 @@ function telaExercicio() {
         onclick: () => pedirSaidaDaLicao(() => voltarTela())
       }, '✖'),
       barra,
-      comboEl
+      comboEl,
+      btnDica
     ),
     areaEx, rodape, feedback
   );
+  const alternarDica = () => {
+    const aberto = areaEx.querySelector('.dica-painel');
+    if (aberto) {
+      aberto.remove();
+      btnDica.setAttribute('aria-expanded', 'false');
+      return;
+    }
+    const blocos = dicaContextual(ex.item, sessao.licao);
+    const painel = h('div', { class: 'card dica-painel', role: 'region', 'aria-label': 'Dica' },
+      h('div', { class: 'dica-dia-topo' },
+        h('div', { class: 'nivel-titulo' }, '💡 Dica'),
+        h('button', {
+          class: 'fechar',
+          'aria-label': 'Fechar dica',
+          onclick() {
+            painel.remove();
+            btnDica.setAttribute('aria-expanded', 'false');
+          }
+        }, '✖')
+      ),
+      ...blocos.map(b => h('div', { class: 'dica-bloco' },
+        h('div', { class: 'dica-painel-titulo' }, b.titulo),
+        h('p', {}, b.corpo)
+      )),
+      h('div', { class: 'revisao-sub' }, 'Tecla D abre e fecha.')
+    );
+    btnDica.setAttribute('aria-expanded', 'true');
+    areaEx.prepend(painel);
+    painel.querySelector('.fechar').focus();
+  };
+  btnDica.addEventListener('click', alternarDica);
   const ctrl = montarExercicio(ex, {
     aoMudar: v => { btnVerificar.disabled = !v; },
     aoAuto: res => processar(ex, res, feedback, btnVerificar),
@@ -1132,7 +1244,7 @@ function telaExercicio() {
   areaEx.append(ctrl.el);
   if (!ctrl.temVerificar) rodape.style.display = 'none';
   if (ex.tipo === 'falar') btnNaoSei.style.display = 'none';
-  ligarAtalhos(areaEx, btnVerificar, feedback);
+  ligarAtalhos(areaEx, btnVerificar, feedback, alternarDica);
   if (ctrl.focoInicial) ctrl.focoInicial.focus({ preventScroll: true });
   else focarTela();
   let corrigido = false;
@@ -1152,13 +1264,18 @@ function telaExercicio() {
   });
 }
 
-function ligarAtalhos(areaEx, btnVerificar, feedback) {
+function ligarAtalhos(areaEx, btnVerificar, feedback, aoDica) {
   if (atalhosAtivos) document.removeEventListener('keydown', atalhosAtivos);
   atalhosAtivos = e => {
     if (telaAtiva !== 'licao') return;
-    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.altKey || e.ctrlKey || e.metaKey || e.repeat) return;
     const digitando = document.activeElement?.classList.contains('entrada');
     const btnFeedback = feedback.querySelector('.btn');
+    if ((e.key === 'd' || e.key === 'D' || e.key === '?') && !digitando && !btnFeedback) {
+      e.preventDefault();
+      aoDica?.();
+      return;
+    }
     if (e.key === 'Enter') {
       if (btnFeedback) {
         e.preventDefault();
@@ -1185,6 +1302,59 @@ function ligarAtalhos(areaEx, btnVerificar, feedback) {
     }
   };
   document.addEventListener('keydown', atalhosAtivos);
+}
+
+function anotarDeslize(alvoSessao, item, res) {
+  if (!item || res.naoSei || !res.tutor) return;
+  if (res.correto && !res.quase) return;
+  if (!alvoSessao.deslizes) alvoSessao.deslizes = [];
+  alvoSessao.deslizes.push({
+    tipo: res.tutor.tipo,
+    chave: res.tutor.chave,
+    en: item.en,
+    pt: item.pt ?? ''
+  });
+}
+
+function marcasDoTutor(lista, letras) {
+  return lista.map(p => {
+    const classe = p.marca === 'ok' ? ''
+      : p.marca === 'sobra' ? 'diff-sobra'
+        : p.marca === 'fora' ? 'diff-fora'
+          : 'diff-falta';
+    const texto = p.t === ' ' ? ' ' : letras ? p.t : p.t + ' ';
+    return h('span', { class: classe }, texto);
+  });
+}
+
+function blocoTutor(tutor) {
+  const partes = [];
+  if (tutor.letras) {
+    partes.push(h('div', { class: 'feedback-diff', 'aria-hidden': 'true' },
+      h('div', { class: 'feedback-frase' },
+        h('span', { class: 'diff-rotulo' }, 'Você: '),
+        h('span', { lang: 'en', class: 'diff-letras' }, marcasDoTutor(tutor.letras.dada, true))
+      ),
+      h('div', { class: 'feedback-frase' },
+        h('span', { class: 'diff-rotulo' }, 'Certo: '),
+        h('span', { lang: 'en', class: 'diff-letras' }, marcasDoTutor(tutor.letras.certa, true))
+      )
+    ));
+  } else if (tutor.palavras) {
+    partes.push(h('div', { class: 'feedback-diff', 'aria-hidden': 'true' },
+      h('div', { class: 'feedback-frase' },
+        h('span', { class: 'diff-rotulo' }, 'Você: '),
+        h('span', { lang: 'en' }, marcasDoTutor(tutor.palavras.dada, false))
+      ),
+      h('div', { class: 'feedback-frase' },
+        h('span', { class: 'diff-rotulo' }, 'Certo: '),
+        h('span', { lang: 'en' }, marcasDoTutor(tutor.palavras.certa, false))
+      )
+    ));
+  }
+  if (tutor.porque) partes.push(h('div', { class: 'feedback-frase' }, tutor.porque));
+  if (tutor.dica) partes.push(h('div', { class: 'feedback-nota' }, '💡 ' + tutor.dica));
+  return partes;
 }
 
 function processar(ex, res, feedback, btnVerificar) {
@@ -1227,21 +1397,38 @@ function processar(ex, res, feedback, btnVerificar) {
       }
     }
   }
+  if (ex.item) anotarDeslize(sessao, ex.item, res);
   if (ex.item && ['escolhaPtEn', 'digitar', 'montar', 'ditado', 'lacuna', 'ouvirPt'].includes(ex.tipo)) falar(ex.item.en);
-  const frase = res.naoSei ? 'Agora você sabe — ela volta já já pra você acertar 💪' : aleatorio(res.correto ? MASCOTE.acerto : MASCOTE.erro);
+  const frase = res.naoSei ? 'Agora você sabe. Ela volta já já pra você acertar 💪' : aleatorio(res.correto ? (res.quase ? MASCOTE.quase : MASCOTE.acerto) : MASCOTE.erro);
   const linhas = [];
-  if (res.correto && res.quase) linhas.push(h('div', { class: 'feedback-frase' }, 'O certinho é: ', h('span', { lang: 'en' }, res.certa)));
-  else if (!res.correto && res.diff && !res.naoSei) linhas.push(linhaDiff(res.diff));
-  else if (!res.correto && res.certa) linhas.push(h('div', { class: 'feedback-frase' }, 'Resposta certa: ', h('span', { lang: 'en' }, res.certa)));
-  if (!res.correto && (res.nota || ex.item?.nota)) linhas.push(h('div', { class: 'feedback-nota' }, '💡 ' + (res.nota ?? ex.item.nota)));
+  if (res.naoSei) {
+    if (res.certa) linhas.push(h('div', { class: 'feedback-frase' }, 'Resposta certa: ', h('span', { lang: 'en' }, res.certa)));
+    const dica = res.tutor?.dica || res.nota || ex.item?.nota;
+    if (dica) linhas.push(h('div', { class: 'feedback-nota' }, '💡 ' + dica));
+  } else if (res.tutor && (!res.correto || res.quase)) {
+    linhas.push(...blocoTutor(res.tutor));
+  } else if (!res.correto && res.diff) {
+    linhas.push(linhaDiff(res.diff));
+  } else if (!res.correto && res.certa) {
+    linhas.push(h('div', { class: 'feedback-frase' }, 'Resposta certa: ', h('span', { lang: 'en' }, res.certa)));
+  }
+  if (!res.naoSei && !res.tutor && !res.correto && (res.nota || ex.item?.nota)) {
+    linhas.push(h('div', { class: 'feedback-nota' }, '💡 ' + (res.nota ?? ex.item.nota)));
+  }
   linhas.push(h('div', { class: 'feedback-frase suave' }, frase));
-  feedback.className = 'feedback ' + (res.correto ? 'certo' : 'errado');
+  const tom = res.correto ? (res.quase ? 'quase' : 'certo') : 'errado';
+  feedback.className = 'feedback ' + tom;
   feedback.innerHTML = '';
   const btnContinuar = h('button', { class: 'btn ' + (res.correto ? 'btn-verde' : 'btn-vermelho'), onclick: continuar }, 'CONTINUAR');
+  const titulo = res.naoSei
+    ? 'Fica a dica! 📝'
+    : res.correto
+      ? (res.quase ? (res.tutor?.titulo ?? 'Quase! Só uma letrinha') : 'Muito bem!')
+      : (res.tutor?.titulo ?? 'Ops!');
   feedback.append(
     h('div', { class: 'feedback-conteudo' },
       h('div', { class: 'feedback-textos' },
-        h('div', { class: 'feedback-titulo' }, res.correto ? (res.quase ? 'Quase perfeito! ✍️' : 'Muito bem!') : res.naoSei ? 'Fica a dica! 📝' : 'Ops!'),
+        h('div', { class: 'feedback-titulo' }, titulo),
         linhas
       ),
       btnContinuar
@@ -1308,14 +1495,16 @@ function finalizar(derrotado) {
   if (s.tipo === 'licao') {
     evento = registrarLicao(s.licao.id, {
       estrelas, xp: s.xp, comboMax: s.comboMax, errosItens: s.erros,
-      perfeita, acertos: s.acertos, respostas: s.planejados, agendamentos
+      perfeita, acertos: s.acertos, respostas: s.planejados, agendamentos,
+      deslizes: s.deslizes ?? []
     });
   } else {
     const errosEn = new Set(s.erros.map(e => e.en));
     evento = registrarRevisao({
       xp: s.xp, comboMax: s.comboMax, perfeita,
       acertos: s.acertos, respostas: s.planejados, agendamentos,
-      acertadosEn: s.itens.filter(i => !errosEn.has(i.en)).map(i => i.en)
+      acertadosEn: s.itens.filter(i => !errosEn.has(i.en)).map(i => i.en),
+      deslizes: s.deslizes ?? []
     });
   }
   s.xp += evento.bonusMissoes;
@@ -1366,6 +1555,7 @@ function telaResultado(estrelas, precisao, evento) {
           ))
         )
       ) : '',
+      cartaoPadroesSessao(s.deslizes),
       h('div', { class: 'resultado-botoes' },
         s.tipo === 'licao' && !s.chefao && !s.vocabLicao ? botaoDesafiar(s, estrelas) : '',
         estrelas < 3 && s.tipo === 'licao'
@@ -1393,6 +1583,23 @@ function coreografiaResultado(estrelas, evento) {
   passos.push({ ms: 300 + estrelas * 260 + 120, fn: () => { sons.fanfarra(); if (estrelas >= 2 || evento.subiuNivel) confete(); } });
   if (evento.subiuNivel) passos.push({ ms: 300 + estrelas * 260 + 900, fn: () => overlayNivel(evento.subiuNivel) });
   passos.forEach(p => timerDeTela(p.fn, p.ms));
+}
+
+function cartaoPadroesSessao(deslizes) {
+  const erros = (deslizes ?? []).filter(d => d && !d.ok);
+  if (!erros.length) return '';
+  const cont = new Map();
+  erros.forEach(d => {
+    const atual = cont.get(d.tipo) ?? { tipo: d.tipo, n: 0 };
+    atual.n += 1;
+    cont.set(d.tipo, atual);
+  });
+  const top = [...cont.values()].sort((a, b) => b.n - a.n)[0];
+  const nome = ROTULOS[top.tipo] ?? 'esse padrão';
+  return h('div', { class: 'card resultado-dica' },
+    h('div', { class: 'nivel-titulo' }, '🧭 Onde você tropeçou'),
+    h('p', { class: 'dica-dia-corpo' }, `O padrão mais comum nesta rodada foi ${nome} (${top.n}). A revisão vai cobrar isso de novo.`)
+  );
 }
 
 function botaoDesafiar(s, estrelas) {
@@ -1845,6 +2052,7 @@ function telaPerfil() {
       statPilula('🧊', estado.protetores, 'protetores de streak')
     ),
     cartaoJornada(),
+    cartaoTropecos(),
     cartaoVoz(),
     cartaoLembrete(),
     cartaoBackup(),
@@ -1864,6 +2072,33 @@ function telaPerfil() {
     cartaoSobre()
   );
   focarTela();
+}
+
+function cartaoTropecos() {
+  const padroes = resumoPadroes(3);
+  const fracos = palavrasFracas(itensAprendidos()).slice(0, 5);
+  if (!padroes.length && !fracos.length) {
+    if (!estado.stats.respostas) return '';
+    return h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, '🧭 Pontos fracos'),
+      h('p', { class: 'dica-dia-corpo' }, 'Quando um erro se repetir, ele aparece aqui. A revisão passa a cobrar essa palavra primeiro.')
+    );
+  }
+  return h('div', { class: 'card' },
+    h('div', { class: 'nivel-titulo' }, '🧭 Pontos fracos'),
+    h('p', { class: 'dica-dia-corpo' }, 'A revisão turbo prioriza estas palavras. O padrão diz o porquê.'),
+    ...padroes.map(p => h('div', { class: 'tropeco' },
+      h('div', { class: 'tropeco-nome' }, `${rotuloChave(p.chave, p.tipo)} · ${p.n}`),
+      h('p', { class: 'tropeco-dica' }, textoDoPadrao(p.chave, p.tipo))
+    )),
+    fracos.length ? h('div', { class: 'tropeco-lista' },
+      fracos.map(f => h('div', { class: 'tropeco-palavra' },
+        h('span', { lang: 'en' }, f.item.en),
+        h('span', { class: 'tropeco-saldo' }, `${f.saldo}×`)
+      ))
+    ) : '',
+    fracos.length ? h('button', { class: 'btn btn-verde tropeco-btn', onclick: iniciarPontosFracos }, 'TREINAR AGORA') : ''
+  );
 }
 
 function cartaoSobre() {
@@ -1919,7 +2154,7 @@ function telaPrivacidade() {
       h('div', { class: 'logo', role: 'heading', 'aria-level': '1' }, '🔒 Privacidade')
     ),
     bloco('📱 O que fica no seu aparelho',
-      'Todo o seu progresso — XP, streak, estrelas, conquistas e a agenda de revisão — mora no armazenamento local do navegador.',
+      'Todo o seu progresso (XP, streak, estrelas, conquistas, agenda de revisão e os padrões de erro do tutor) mora no armazenamento local do navegador.',
       'Também ficam aqui a sua escolha de tema, de voz e de velocidade da fala, e o registro de erros do diagnóstico (?debug).',
       'O registro de erros nunca sai do aparelho: não é enviado para lugar nenhum, e some quando você sai da conta.'
     ),

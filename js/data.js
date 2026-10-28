@@ -464,9 +464,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '1.7';
+export const VERSAO_APP = '1.8';
 
 export const NOVIDADES = [
+  {
+    versao: '1.8',
+    titulo: 'O tutor explica o erro',
+    itens: [
+      '🧭 Errou ou quase acertou? O app diz o porquê: letra, ordem, artigo, plural, tempo verbal ou falso amigo',
+      '✍️ Errinho de uma letra vale, com aviso. Se a letra formar outra palavra de verdade, não vale',
+      '💡 Botão Dica na lição (tecla D) e a dica do dia na tela inicial',
+      '🔁 Pontos fracos: a revisão cobra de novo o padrão que você mais erra'
+    ]
+  },
   {
     versao: '1.7',
     titulo: 'Expansão de Vocabulário e o Louro festeiro',
@@ -698,6 +708,11 @@ export const BADGES = [
 ];
 
 export const MASCOTE = {
+  quase: [
+    'Quase! A letrinha escapou ✍️',
+    'Valeu, mas olha a grafia 👀',
+    'Por um triz. Fica o aviso 🦜'
+  ],
   acerto: [
     'Aí sim! 🎉',
     'Mandou bem, gringo!',
@@ -709,7 +724,7 @@ export const MASCOTE = {
     'Nailed it! 💅'
   ],
   erro: [
-    'Quase! Bora de novo 💪',
+    'Não foi dessa. Bora de novo 💪',
     'Relaxa, até o Louro erra 🦜',
     'Errar faz parte do gringo 🌱',
     'Anota essa que cai na prova 📝',
