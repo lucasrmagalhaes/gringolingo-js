@@ -65,7 +65,7 @@ const padrao = () => ({
   agendaFala: {},
   metaFala: 3,
   metaFalaSemana: null,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0 }
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -956,6 +956,10 @@ function checarBadges() {
     olho: estado.stats.cenasFala >= 1,
     rapido: estado.stats.rapidos >= 1,
     semanaFala: estado.stats.metasFala >= 1,
+    relato: estado.stats.relatos >= 1,
+    cortesia: estado.stats.cortesias >= 1,
+    aquecer: estado.stats.aquecimentos >= 1,
+    claro: estado.stats.esclarecimentos >= 1,
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -1249,6 +1253,22 @@ export function registrarCena(d) {
 
 export function registrarRapido(d) {
   return registrarTipo('rapidos', 'rapido', d);
+}
+
+export function registrarRelato(d) {
+  return registrarTipo('relatos', 'relato', d);
+}
+
+export function registrarCortesia(d) {
+  return registrarTipo('cortesias', 'cortesia', d);
+}
+
+export function registrarAquecer(d) {
+  return registrarTipo('aquecimentos', 'aquecer', d);
+}
+
+export function registrarClaro(d) {
+  return registrarTipo('esclarecimentos', 'claro', d);
 }
 
 export function registrarPronuncia(d) {

@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-284%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-290%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -123,6 +123,15 @@ navegador.
   aparece. O relógio é deste aparelho.
 - **Meta de falas da semana**: 2, 3, 5 ou 7 treinos, de segunda a domingo. O lembrete fica na home e
   no resumo. O app não pede aviso do celular. A semana conta uma vez só.
+- **Relatar um bug**: três falas, nesta ordem: como repetir, a causa e a correção. A cena curta de
+  bug do inglês de trabalho continua no lugar.
+- **Review com educação**: você pede a mudança e, na fala seguinte, agradece um comentário.
+- **Antes da reunião**: fim de semana, clima e viagem, em duas falas curtas.
+- **Esclarecer**: peça para repetir, fale mais devagar ou confirme com "so what you're saying is".
+  A frase em inglês só aparece depois da tentativa.
+- **Pular para o conteúdo**: o atalho fica escondido até receber o foco. As barras de progresso do
+  nível e da meta do dia têm nome para leitor de tela. Depois de uma resposta, o foco vai para o
+  retorno do tutor.
 - **Parceiro de conversa (opcional, desligado)**: bate-papo em inglês no seu nível, com correção
   depois de cada fala. Liga no perfil com uma chave do Google AI Studio. A chave fica só neste
   aparelho: não entra no backup nem na nuvem. Sem chave e sem rede, diálogos e sombra seguem offline.
@@ -164,7 +173,7 @@ navegador.
 - **3 missões que trocam todo dia**, sorteadas de forma determinística a partir da data.
 - **Streak com protetor**: perdoa um dia perdido, e você ganha um novo protetor a cada 5 lições
   perfeitas. O app avisa quando a sequência está para vencer.
-- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **38 conquistas**, XP com
+- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **42 conquistas**, XP com
   bônus de combo, confete e efeitos sonoros sintetizados no WebAudio (nenhum arquivo de áudio no
   repositório).
 - **Desafio por link**: termine uma lição e mande o link para alguém tentar bater a sua pontuação.
@@ -229,6 +238,7 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/tecnico.js` | Cenas de trabalho, idioms de reunião e a pergunta do dia. |
 | `js/ensaio.js` | Entrevista de seis falas, histórias no passado e a escuta de números, datas e preços. |
 | `js/opiniao.js` | Opinião com motivo, descrição de cenas, resposta rápida de vinte segundos e a conta da meta semanal de falas. |
+| `js/call.js` | Relato de bug em três falas, review educado, papo antes da reunião e pedido de esclarecimento. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -311,7 +321,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **284 testes em 60 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **290 testes em 61 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -351,6 +361,7 @@ O que a suíte cobre:
 - **`tests/tecnico.test.js`**: as cenas de trabalho, os idioms de reunião, a pergunta do dia, a gravação local e o merge da data.
 - **`tests/ensaio.test.js`**: a entrevista longa, as histórias no passado, os números de ouvido e a agenda dos deslizes.
 - **`tests/opiniao.test.js`**: opinião com motivo, descrição de cena, resposta rápida, a meta semanal de falas e o merge dessa meta.
+- **`tests/call.test.js`**: relato de bug, review educado, papo antes da reunião, esclarecimento e o atalho de pular conteúdo.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
   limpeza de estado. `tests/progresso.test.js` cobre a Escuta (recorde, conquista e merge) e as

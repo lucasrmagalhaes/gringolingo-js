@@ -1,7 +1,7 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
@@ -10,6 +10,7 @@ import { ITENS_NIVEL, ROTULO_NIVEL, corrigirIndice, contarAcertos, nivelDoTeste,
 import { CENAS_TECNICAS, cenaTecnicaPorId, avaliarTecnico, IDIOMAS, idiomaPorId, avaliarIdioma, perguntaDoDia, avaliarDia } from './tecnico.js';
 import { ENTREVISTA, avaliarEntrevista, CONTOS, contoPorId, avaliarConto, avaliarDeslize, NUMEROS, numeroPorId } from './ensaio.js';
 import { OPINIOES, opiniaoPorId, avaliarOpiniao, CENAS_FALA, cenaPorId, avaliarCena, RAPIDOS, rapidoPorId, avaliarRapido, SEGUNDOS_RAPIDO, contarFaladas, lembreteMeta } from './opiniao.js';
+import { RELATOS, relatoPorId, avaliarRelato, CORTESIAS, cortesiaPorId, avaliarCortesia, AQUECIMENTOS, aquecerPorId, avaliarAquecer, CLAROS, claroPorId, avaliarClaro } from './call.js';
 import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS } from './voz.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
@@ -228,7 +229,14 @@ function telaInicial() {
       h('span', { class: 'nivel-emoji' }, nv.emoji),
       h('div', { class: 'nivel-info' },
         h('div', { class: 'nivel-titulo' }, `Nível ${nv.numero} · ${nv.titulo}`),
-        h('div', { class: 'progresso nivel-prog' }, h('div', { style: `width:${Math.round(nv.progresso * 100)}%` })),
+        h('div', {
+          class: 'progresso nivel-prog',
+          role: 'progressbar',
+          'aria-valuemin': '0',
+          'aria-valuemax': '100',
+          'aria-valuenow': String(Math.round(nv.progresso * 100)),
+          'aria-label': 'Progresso do nível'
+        }, h('div', { style: `width:${Math.round(nv.progresso * 100)}%` })),
         h('div', { class: 'nivel-xp' }, nv.prox ? `${estado.xp} / ${nv.prox.xp} XP` : 'Nível máximo! 👑')
       )
     ),
@@ -304,7 +312,14 @@ function cartaoMeta() {
     h('span', { class: 'meta-emoji' }, pronto ? '🎉' : '🎯'),
     h('div', { class: 'meta-info' },
       h('div', { class: 'meta-titulo' }, pronto ? 'Meta do dia batida!' : 'Meta do dia'),
-      h('div', { class: 'progresso meta-prog' }, h('div', { style: `width:${pct}%` })),
+      h('div', {
+        class: 'progresso meta-prog',
+        role: 'progressbar',
+        'aria-valuemin': '0',
+        'aria-valuemax': String(estado.meta),
+        'aria-valuenow': String(Math.min(feito, estado.meta)),
+        'aria-label': 'XP de hoje'
+      }, h('div', { style: `width:${pct}%` })),
       h('div', { class: 'meta-xp' }, `${feito} / ${estado.meta} XP de hoje`)
     ),
     h('div', { class: 'metas', role: 'group', 'aria-label': 'Escolher meta diária de XP' },
@@ -2094,7 +2109,7 @@ function pintarBarraDoSistema() {
 }
 
 function focarTela() {
-  const alvo = app.querySelector('h1, .enunciado, .logo, .nivel-titulo');
+  const alvo = app.querySelector('[data-foco]') || app.querySelector('h1, .enunciado, .logo, .nivel-titulo');
   if (!alvo) return;
   alvo.setAttribute('tabindex', '-1');
   alvo.focus({ preventScroll: true });
@@ -2226,7 +2241,14 @@ function telaPerfil() {
       h('span', { class: 'nivel-emoji' }, nv.emoji),
       h('div', { class: 'nivel-info' },
         h('div', { class: 'nivel-titulo' }, `Nível ${nv.numero} · ${nv.titulo}`),
-        h('div', { class: 'progresso nivel-prog' }, h('div', { style: `width:${Math.round(nv.progresso * 100)}%` })),
+        h('div', {
+          class: 'progresso nivel-prog',
+          role: 'progressbar',
+          'aria-valuemin': '0',
+          'aria-valuemax': '100',
+          'aria-valuenow': String(Math.round(nv.progresso * 100)),
+          'aria-label': 'Progresso do nível'
+        }, h('div', { style: `width:${Math.round(nv.progresso * 100)}%` })),
         h('div', { class: 'nivel-xp' }, nv.prox ? `${estado.xp} / ${nv.prox.xp} XP` : 'Nível máximo! 👑')
       )
     ),
@@ -3171,7 +3193,7 @@ function telaConversa() {
   app.innerHTML = '';
   app.append(
     topoVoltar('💬 Conversar', () => voltarTela()),
-    h('p', { class: 'ia-aviso' }, 'Opinião, cenas e respostas rápidas, no seu nível. O teste, as perguntas, a fala rápida e o resumo da semana continuam aqui. As cenas do dia a dia ficam abaixo.'),
+    h('p', { class: 'ia-aviso' }, 'Na call: relato de bug, review educado, papo antes da reunião e pedido de esclarecimento. Opinião, cenas e o resto da fluência continuam abaixo.'),
     ...blocoFluencia(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'DIÁLOGOS'),
     ...CENARIOS.map(c => {
@@ -3266,11 +3288,11 @@ function campoResposta(placeholder) {
 function cartaoTutor(aval) {
   const partes = [];
   if (aval.ok && !aval.quase) {
-    partes.push(h('div', { class: 'nivel-titulo' }, 'Muito bem!'));
+    partes.push(h('div', { class: 'nivel-titulo', 'data-foco': '1' }, 'Muito bem!'));
   } else if (aval.quase) {
-    partes.push(h('div', { class: 'nivel-titulo' }, 'Quase. Vale, com um aviso.'));
+    partes.push(h('div', { class: 'nivel-titulo', 'data-foco': '1' }, 'Quase. Vale, com um aviso.'));
   } else {
-    partes.push(h('div', { class: 'nivel-titulo' }, aval.tutor?.titulo || 'Ainda não'));
+    partes.push(h('div', { class: 'nivel-titulo', 'data-foco': '1' }, aval.tutor?.titulo || 'Ainda não'));
   }
   if (aval.tutor?.porque) partes.push(h('p', {}, aval.tutor.porque));
   if (aval.tutor?.dica) partes.push(h('div', { class: 'feedback-nota' }, '💡 ' + aval.tutor.dica));
@@ -4549,6 +4571,10 @@ let numeroSessao = null;
 let opiniaoSessao = null;
 let descreverSessao = null;
 let rapidoSessao = null;
+let relatoSessao = null;
+let cortesiaSessao = null;
+let aquecerSessao = null;
+let claroSessao = null;
 let gravacaoUrl = null;
 let gravadorAtivo = null;
 let vozTimer = null;
@@ -4582,6 +4608,10 @@ function blocoFluencia() {
   const vencidos = deslizesVencidos().length;
   return [
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'FLUÊNCIA'),
+    botaoFluencia('🐛', 'Relatar um bug', 'Três falas: como repetir, a causa e a correção.', telaRelatos),
+    botaoFluencia('🙏', 'Review com educação', 'Dê um comentário e receba outro sem ser seco.', telaCortesias),
+    botaoFluencia('☕', 'Antes da reunião', 'Fim de semana, clima e viagem, em duas falas.', telaAquecer),
+    botaoFluencia('🔎', 'Esclarecer', 'Peça para repetir e confirme o que você entendeu.', telaClaros),
     botaoFluencia('💬', 'Opinião', 'Dê um motivo e concorde ou discorde com educação.', telaOpinioes),
     botaoFluencia('👀', 'Descrever a cena', 'Diga o que acontece e um detalhe.', telaDescricoes),
     botaoFluencia('⚡', 'Pensa em inglês', 'Quatro respostas curtas. Vinte segundos cada.', telaRapidos),
@@ -5365,6 +5395,7 @@ function telaResumo() {
       h('p', {}, `Trabalho ${estado.stats.tecnicos} · idioms ${estado.stats.idiomas} · pergunta do dia ${estado.stats.diasPergunta}.`),
       h('p', {}, `Deslizes ${estado.stats.revisoesFala} · entrevista ${estado.stats.entrevistas} · histórias ${estado.stats.contos} · números ${estado.stats.numeros}.`),
       h('p', {}, `Opiniões ${estado.stats.opinioes} · cenas ${estado.stats.cenasFala} · respostas rápidas ${estado.stats.rapidos}.`),
+      h('p', {}, `Relatos ${estado.stats.relatos} · reviews ${estado.stats.cortesias} · papo de call ${estado.stats.aquecimentos} · esclarecer ${estado.stats.esclarecimentos}.`),
       h('p', {}, lembreteMeta(contarFaladas(estado.painel, hojeIso), estado.metaFala, hojeIso))
     ),
     erros.length
@@ -6284,6 +6315,271 @@ function concluirNumero() {
   pintarFim(numeroSessao.fim);
 }
 
+function rotuloCall(s) {
+  const etapa = s.cena.rodadas[s.i].etapa;
+  const fala = `Fala ${s.i + 1} de ${s.cena.rodadas.length}`;
+  return etapa ? `${etapa} · ${fala} · ${s.cena.nivel}` : `${fala} · ${s.cena.nivel}`;
+}
+
+function telaRelatos() {
+  calar();
+  limparTela();
+  descartarVoz();
+  window.scrollTo(0, 0);
+  telaAtiva = 'relato';
+  registrarRota('relato');
+  relatoSessao = null;
+  const lista = preferirNivel(RELATOS, estado.nivelFala);
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('🐛 Relatar um bug', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'Três falas, nesta ordem: como repetir, a causa e a correção. A frase modelo só aparece depois.'),
+    ...lista.map(c => cartaoComNivel(c, c.onde, () => abrirRelato(c.id)))
+  );
+  focarTela();
+}
+
+function abrirRelato(id) {
+  const cena = relatoPorId(id);
+  if (!cena) return telaRelatos();
+  descartarVoz();
+  relatoSessao = novaCena(cena);
+  pintarRelato();
+}
+
+function pintarRelato() {
+  pintarCenaFala(relatoSessao, {
+    rota: 'relato',
+    aoLista: telaRelatos,
+    repintar: pintarRelato,
+    avaliar: avaliarRelato,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(relatoSessao, registrarRelato, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Bug relatado!',
+      destino: telaRelatos
+    })
+  });
+}
+
+function telaCortesias() {
+  calar();
+  limparTela();
+  descartarVoz();
+  window.scrollTo(0, 0);
+  telaAtiva = 'cortesia';
+  registrarRota('cortesia');
+  cortesiaSessao = null;
+  const lista = preferirNivel(CORTESIAS, estado.nivelFala);
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('🙏 Review com educação', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'Primeiro você comenta. Depois agradece um comentário. A frase modelo só aparece depois.'),
+    ...lista.map(c => cartaoComNivel(c, c.onde, () => abrirCortesia(c.id)))
+  );
+  focarTela();
+}
+
+function abrirCortesia(id) {
+  const cena = cortesiaPorId(id);
+  if (!cena) return telaCortesias();
+  descartarVoz();
+  cortesiaSessao = novaCena(cena);
+  pintarCortesia();
+}
+
+function pintarCortesia() {
+  pintarCenaFala(cortesiaSessao, {
+    rota: 'cortesia',
+    aoLista: telaCortesias,
+    repintar: pintarCortesia,
+    avaliar: avaliarCortesia,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(cortesiaSessao, registrarCortesia, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Review educado!',
+      destino: telaCortesias
+    })
+  });
+}
+
+function telaAquecer() {
+  calar();
+  limparTela();
+  descartarVoz();
+  window.scrollTo(0, 0);
+  telaAtiva = 'aquecer';
+  registrarRota('aquecer');
+  aquecerSessao = null;
+  const lista = preferirNivel(AQUECIMENTOS, estado.nivelFala);
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('☕ Antes da reunião', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'Um papo curto de fim de semana, clima ou viagem. Duas falas, e a frase modelo só aparece depois.'),
+    ...lista.map(c => cartaoComNivel(c, c.onde, () => abrirAquecer(c.id)))
+  );
+  focarTela();
+}
+
+function abrirAquecer(id) {
+  const cena = aquecerPorId(id);
+  if (!cena) return telaAquecer();
+  descartarVoz();
+  aquecerSessao = novaCena(cena);
+  pintarAquecer();
+}
+
+function pintarAquecer() {
+  pintarCenaFala(aquecerSessao, {
+    rota: 'aquecer',
+    aoLista: telaAquecer,
+    repintar: pintarAquecer,
+    avaliar: avaliarAquecer,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(aquecerSessao, registrarAquecer, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Papo feito!',
+      destino: telaAquecer
+    })
+  });
+}
+
+function telaClaros() {
+  calar();
+  limparTela();
+  descartarVoz();
+  window.scrollTo(0, 0);
+  telaAtiva = 'claro';
+  registrarRota('claro');
+  claroSessao = null;
+  const lista = preferirNivel(CLAROS, estado.nivelFala);
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('🔎 Esclarecer', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'Peça para repetir, fale mais devagar ou confirme o que você entendeu. A frase em inglês só aparece depois.'),
+    h('button', { class: 'btn btn-verde', onclick: () => abrirClaro() }, 'TREINAR 4'),
+    ...lista.map(item => cartaoComNivel(item, item.pt, () => abrirClaro(item.id)))
+  );
+  focarTela();
+}
+
+function abrirClaro(id) {
+  const fila = filaAdaptada(CLAROS, id, claroPorId);
+  if (!fila.length) return telaClaros();
+  descartarVoz();
+  claroSessao = {
+    fila,
+    i: 0,
+    acertos: 0,
+    notas: [],
+    erros: [],
+    feedback: null,
+    concluido: false,
+    fim: null
+  };
+  pintarClaro();
+}
+
+function pintarClaro() {
+  if (!claroSessao || claroSessao.concluido) return telaClaros();
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'claro';
+  registrarRota('claro');
+  const item = claroSessao.fila[claroSessao.i];
+  const campo = campoResposta('Escreva em inglês...');
+  app.innerHTML = '';
+  const miolo = [
+    topoVoltar(item.emoji + ' ' + item.titulo, () => telaClaros()),
+    h('div', { class: 'revisao-sub' }, `Frase ${claroSessao.i + 1} de ${claroSessao.fila.length} · ${item.nivel}`),
+    h('p', { class: 'sombra-frase' }, item.pt),
+    h('p', { class: 'ia-aviso' }, item.uso)
+  ];
+  if (claroSessao.feedback) {
+    campo.status.textContent = '';
+    miolo.push(cartaoTutor(claroSessao.feedback));
+    miolo.push(h('p', { class: 'fala-en', lang: 'en' }, claroSessao.feedback.melhor));
+    miolo.push(barraModelo(claroSessao.feedback.melhor, campo.status));
+    miolo.push(campo.status);
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        if (claroSessao.i + 1 >= claroSessao.fila.length) concluirClaro();
+        else {
+          descartarVoz();
+          claroSessao.i++;
+          claroSessao.feedback = null;
+          pintarClaro();
+        }
+      }
+    }, claroSessao.i + 1 >= claroSessao.fila.length ? 'CONCLUIR' : 'PRÓXIMA'));
+  } else {
+    miolo.push(barraGravar(campo.status));
+    miolo.push(campo.status, campo.mic, campo.entrada);
+    const verificar = h('button', { class: 'btn btn-verde', disabled: true }, 'VERIFICAR');
+    campo.entrada.addEventListener('input', () => {
+      verificar.disabled = !campo.entrada.value.trim();
+    });
+    const enviar = async () => {
+      if (!campo.entrada.value.trim() || claroSessao.feedback) return;
+      await finalizarGravacao();
+      const aval = avaliarClaro(item, campo.entrada.value);
+      claroSessao.notas.push(aval.nota);
+      if (aval.ok) {
+        claroSessao.acertos++;
+        sons.acerto();
+      } else {
+        sons.erro();
+        if (aval.melhor) claroSessao.erros.push({ en: aval.melhor, pt: item.pt });
+      }
+      claroSessao.feedback = aval;
+      pintarClaro();
+    };
+    campo.entrada.addEventListener('keydown', e => {
+      if (e.key === 'Enter') enviar();
+    });
+    verificar.addEventListener('click', () => { enviar(); });
+    miolo.push(verificar);
+  }
+  app.append(h('div', {}, miolo));
+  ligarTeclasDaFala();
+  focarTela();
+  if (!claroSessao.feedback) campo.entrada.focus();
+}
+
+function concluirClaro() {
+  if (!claroSessao || claroSessao.concluido) return pintarFim(claroSessao?.fim);
+  const total = claroSessao.fila.length;
+  const nota = fecharNota(claroSessao.notas);
+  const xp = 8 + claroSessao.acertos * 4;
+  const evento = registrarClaro({
+    xp,
+    acertos: claroSessao.acertos,
+    respostas: total,
+    nota,
+    errosFala: claroSessao.erros,
+    perfeita: false,
+    comboMax: 0
+  });
+  claroSessao.concluido = true;
+  claroSessao.fim = {
+    titulo: 'Pedido feito!',
+    sub: 'Esclarecer',
+    nota,
+    xp: xp + (evento.bonusMissoes ?? 0),
+    evento,
+    destino: telaClaros,
+    painel: true,
+    resumo: true
+  };
+  descartarVoz();
+  pintarFim(claroSessao.fim);
+}
+
 function telaOpinioes() {
   calar();
   limparTela();
@@ -6464,7 +6760,8 @@ function pintarRapido() {
     miolo.push(h('div', {
       class: 'cronometro-rapido',
       'data-cronometro-rapido': '1',
-      role: 'timer'
+      role: 'timer',
+      'aria-label': 'Tempo restante'
     }, `0:${String(SEGUNDOS_RAPIDO).padStart(2, '0')}`));
     miolo.push(h('p', { class: 'ia-aviso' }, 'Vinte segundos. A frase modelo só aparece depois.'));
     miolo.push(barraGravar(campo.status));
@@ -6579,6 +6876,10 @@ async function iniciar() {
     opiniao: () => (opiniaoSessao && !opiniaoSessao.concluido ? pintarOpiniao() : telaOpinioes()),
     descrever: () => (descreverSessao && !descreverSessao.concluido ? pintarDescrever() : telaDescricoes()),
     rapido: () => (rapidoSessao && !rapidoSessao.concluido ? pintarRapido() : telaRapidos()),
+    relato: () => (relatoSessao && !relatoSessao.concluido ? pintarRelato() : telaRelatos()),
+    cortesia: () => (cortesiaSessao && !cortesiaSessao.concluido ? pintarCortesia() : telaCortesias()),
+    aquecer: () => (aquecerSessao && !aquecerSessao.concluido ? pintarAquecer() : telaAquecer()),
+    claro: () => (claroSessao && !claroSessao.concluido ? pintarClaro() : telaClaros()),
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
     reducao: () => (reducaoSessao && !reducaoSessao.concluido ? pintarReducao() : telaReducoes()),
