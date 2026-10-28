@@ -528,9 +528,18 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.0';
+export const VERSAO_APP = '2.1';
 
 export const NOVIDADES = [
+  {
+    versao: '2.1',
+    titulo: 'Frases e desafio de 5 minutos',
+    itens: [
+      '💬 Baralho de sobrevivência: repetir, pedir o sentido, ganhar tempo, concordar, discordar e interromper',
+      '🧠 A frase praticada entra na revisão Leitner e também pode ir para a sombra',
+      '⏱️ Desafio de 5 minutos na home: um diálogo, sombra e frases. Conta sequência e XP'
+    ]
+  },
   {
     versao: '2.0',
     titulo: 'Conversar, sombra e parceiro',
@@ -779,6 +788,7 @@ export const MISSOES = [
   { id: 'revisao1', emoji: '🧠', titulo: 'Faça 1 Revisão Turbo', alvo: 1, xp: 15, medir: s => (s.tipo === 'revisao' ? 1 : 0) },
   { id: 'escuta1', emoji: '👂', titulo: 'Faça 1 Escuta', alvo: 1, xp: 15, medir: s => (s.tipo === 'escuta' ? 1 : 0) },
   { id: 'dialogo1', emoji: '💬', titulo: 'Termine 1 diálogo', alvo: 1, xp: 15, medir: s => (s.tipo === 'dialogo' ? 1 : 0) },
+  { id: 'fala1', emoji: '⏱️', titulo: 'Faça o desafio de 5 minutos', alvo: 1, xp: 15, medir: s => (s.tipo === 'fala' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -806,6 +816,7 @@ export const BADGES = [
   { id: 'papo', emoji: '💬', nome: 'Conversador', desc: 'Complete um diálogo guiado' },
   { id: 'sombra', emoji: '🗣️', nome: 'Eco', desc: 'Complete uma sessão de sombra' },
   { id: 'ator', emoji: '🎭', nome: 'Cinco Cenas', desc: 'Complete os cinco diálogos' },
+  { id: 'cinco', emoji: '⏱️', nome: 'Cinco Minutos', desc: 'Complete o desafio de fala do dia' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
