@@ -221,6 +221,22 @@ function conjugarPt(v, s) {
   return v.pt3;
 }
 
+// Sessão de ouvido: escreve o que ouviu. A cada três rodadas, se o navegador
+// tiver reconhecimento de voz, a rodada vira fala. Sem microfone, tudo é escrito.
+export function gerarEscuta(itens, qtd = 6) {
+  if (!itens?.length) return [];
+  const fila = embaralhar(itens);
+  const exs = [];
+  for (let i = 0; exs.length < qtd; i++) {
+    const item = fila[i % fila.length];
+    const falarAgora = temFala && i % 3 === 2;
+    exs.push(falarAgora
+      ? { tipo: 'falar', item }
+      : { tipo: 'digitar', item, soAudio: true });
+  }
+  return exs;
+}
+
 export function gerarDificeis(itens, pool, qtd = 12) {
   if (!itens?.length) return [];
   const fila = embaralhar(itens);
@@ -295,6 +311,7 @@ function botaoSom(texto, extra = '') {
   return h('button', {
     class: 'btn-som' + (extra ? ' ' + extra : ''),
     'aria-label': 'Ouvir em inglês',
+    title: 'Ouvir de novo (tecla S)',
     onclick(e) {
       e.stopPropagation();
       falar(texto);
@@ -427,10 +444,36 @@ function montarFalar(ex, cb) {
   const status = h('div', { class: 'fala-status' }, 'Toque no microfone e fale a frase');
   const eco = h('div', { class: 'fala-eco' });
   const botao = h('button', { class: 'btn-mic', 'aria-label': 'Falar' }, '🎤');
+  const escrita = h('input', {
+    class: 'entrada entrada-fala',
+    type: 'text',
+    lang: 'en',
+    hidden: 'hidden',
+    autocomplete: 'off',
+    autocapitalize: 'off',
+    spellcheck: 'false',
+    placeholder: 'Ou escreva a frase aqui',
+    'aria-label': 'Escrever a frase no lugar de falar'
+  });
+  const textoAtual = () => (ouvido || escrita.value || '').trim();
+  escrita.addEventListener('input', () => cb.aoMudar(textoAtual().length > 0));
+  escrita.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && escrita.value.trim()) cb.aoEnter();
+  });
+  const abrirEscrita = mensagem => {
+    status.textContent = mensagem;
+    escrita.hidden = false;
+    escrita.removeAttribute('hidden');
+    escrita.focus();
+  };
   const pular = h('button', { class: 'btn btn-branco', onclick: () => cb.aoPular() }, 'PULAR');
   botao.addEventListener('click', () => {
     if (trancado) return;
     const Reconhecedor = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!Reconhecedor) {
+      abrirEscrita('Este navegador não escuta o microfone. Escreva a frase.');
+      return;
+    }
     const rec = new Reconhecedor();
     rec.lang = 'en-US';
     rec.maxAlternatives = 3;
@@ -445,13 +488,15 @@ function montarFalar(ex, cb) {
       cb.aoMudar(true);
     };
     rec.onerror = () => {
-      status.textContent = 'Não consegui ouvir — tenta de novo ou pula 🙈';
+      botao.classList.remove('gravando');
+      abrirEscrita('Não consegui ouvir. Escreva a frase no lugar.');
     };
     rec.onend = () => botao.classList.remove('gravando');
     try {
       rec.start();
     } catch {
       botao.classList.remove('gravando');
+      abrirEscrita('O microfone não abriu. Escreva a frase no lugar.');
     }
   });
   return {
@@ -459,23 +504,27 @@ function montarFalar(ex, cb) {
       h('div', { class: 'enunciado' }, 'Fale em inglês 🗣️'),
       h('div', { class: 'prompt-card' }, botaoSom(ex.item.en), h('span', { lang: 'en' }, ex.item.en)),
       h('div', { class: 'prompt-apoio' }, ex.item.pt),
-      botao, status, eco,
+      botao, status, eco, escrita,
       h('div', { class: 'fala-pular' }, pular)
     ),
     temVerificar: true,
     corrigir() {
       trancado = true;
-      const dada = normalizar(ouvido);
+      const texto = textoAtual();
+      const dada = normalizar(texto);
       const aceitas = [ex.item.en, ...(ex.item.alt ?? [])].map(normalizar);
       const ok = aceitas.includes(dada);
-      const tutor = ok ? null : tutorDaResposta(ouvido, ex.item);
+      const tutor = ok ? null : tutorDaResposta(texto, ex.item);
       const quase = !ok && !!tutor?.aceitar;
       eco.classList.add(ok || quase ? 'fala-certa' : 'fala-errada');
+      if (escrita.getAttribute('hidden') == null) {
+        escrita.classList.add(ok ? 'entrada-certa' : quase ? 'entrada-quase' : 'entrada-errada');
+      }
       return {
         correto: ok || quase,
         quase,
         certa: ex.item.en,
-        diff: ok || quase ? null : diffPalavras(ouvido || '(nada)', ex.item.en),
+        diff: ok || quase ? null : diffPalavras(texto || '(nada)', ex.item.en),
         tutor
       };
     }

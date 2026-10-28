@@ -4,8 +4,8 @@
 
 **Aprender inglês como quem joga: lições de cinco minutos, XP, streak e uma memória que sabe a hora de te cobrar.**
 
-Um curso de inglês completo — 8 unidades, 10 tipos de exercício, repetição espaçada, dicionário de
-quase 3 mil palavras e sincronização entre aparelhos — escrito em **HTML, CSS e JavaScript puro**.
+Um curso de inglês completo, com 9 unidades, 10 tipos de exercício, repetição espaçada, dicionário de
+3 mil palavras e sincronização entre aparelhos, escrito em **HTML, CSS e JavaScript puro**.
 Sem framework, sem bundler, sem `npm install`. O que está no repositório é exatamente o que roda no
 navegador.
 
@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-201%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-207%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -50,13 +50,21 @@ navegador.
 
 ### Aprendizado
 
-- **8 unidades × 4 lições = 32 lições**, com 215 palavras e frases: Primeiros Passos, Comida Boa,
-  Modo Viagem, Modo Trabalho, Família & Amigos, Casa Doce Casa, Corpo São e Rotina de Campeão.
-  Desbloqueio progressivo e até 3 estrelas por lição.
+- **9 unidades × 4 lições = 36 lições**, com 247 palavras e frases: Primeiros Passos, Comida Boa,
+  Modo Viagem, Modo Trabalho, Família & Amigos, Casa Doce Casa, Corpo São, Rotina de Campeão e Tempo Livre
+  (clima, humor, planos e convite). Desbloqueio progressivo e até 3 estrelas por lição.
 - **10 tipos de exercício**: múltipla escolha EN→PT e PT→EN, digitar a tradução, montar frase com
   peças, o que você ouviu, o que isso significa, ditado de frase, completar a lacuna, falar em inglês
   (reconhecimento de voz, com botão de pular) e ligar os pares. Todo áudio tem o botão 🐢 para ouvir
-  devagar.
+  devagar. Se o microfone não existir ou falhar, o exercício de falar abre um campo para escrever a
+  frase e corrige com o mesmo tutor.
+- **Modo Escuta**: depois de 4 palavras aprendidas, a home abre uma sessão curta. Você ouve a frase
+  e escreve. Se o navegador tiver reconhecimento de voz, a cada três rodadas dá para repetir falando.
+  Sem microfone, todas as rodadas são escritas e o app avisa. Sem voz em inglês, o card explica e não
+  começa. A sessão conta streak, XP e a agenda de Leitner, e não conta como Revisão Turbo. O recorde
+  de acertos mescla pelo maior número entre aparelhos.
+- **Treinar uma caixa**: no perfil, em Saúde da memória, toque numa faixa que já tem palavras. A
+  revisão usa só as palavras daquela caixa, até 8. Palavras ainda sem agenda ficam na caixa de 1 dia.
 - **Chefão de unidade**: liberado quando as 4 lições estão feitas. 12 exercícios difíceis, sem
   múltipla escolha, com 3 vidas.
 - **Correção que perdoa o que é para perdoar**: contrações (`don't` = `do not`), traduções
@@ -85,8 +93,8 @@ navegador.
   curso. Sinônimos com a mesma tradução se aceitam mutuamente na digitação e nunca competem na
   múltipla escolha.
 - **Minha Lista**: favorite palavras no dicionário e treine só elas.
-- **Dicionário embutido**: 2.979 verbetes (as 215 do curso + um banco das palavras mais frequentes do
-  inglês), com classe gramatical, áudio e — para as do curso — o status da sua memória (🌱 memorizada,
+- **Dicionário embutido**: 3.001 verbetes (os 247 do curso mais um banco das palavras mais frequentes do
+  inglês), com classe gramatical, áudio e, para as do curso, o status da sua memória (🌱 memorizada,
   📅 vencendo hoje, ⏳ volta em 07/08…). Carregado sob demanda, só quando você abre a tela.
 
 ### Hábito e gamificação
@@ -95,7 +103,7 @@ navegador.
 - **3 missões que trocam todo dia**, sorteadas de forma determinística a partir da data.
 - **Streak com protetor**: perdoa um dia perdido, e você ganha um novo protetor a cada 5 lições
   perfeitas. O app avisa quando a sequência está para vencer.
-- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **18 conquistas**, XP com
+- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **19 conquistas**, XP com
   bônus de combo, confete e efeitos sonoros sintetizados no WebAudio (nenhum arquivo de áudio no
   repositório).
 - **Desafio por link**: termine uma lição e mande o link para alguém tentar bater a sua pontuação.
@@ -118,15 +126,19 @@ navegador.
 
 ### PWA e offline
 
-- **Instalável** no Android e no iPhone; abre em tela cheia, com ícone próprio.
+- **Instalável** no Android e no iPhone; abre em tela cheia, com ícone próprio. Quando o navegador
+  oferece instalar, a home mostra INSTALAR e AGORA NÃO. No iPhone, o card explica Compartilhar e
+  depois Adicionar à Tela de Início. Esconder o convite vale só neste aparelho.
 - **Funciona offline**: o service worker precacheia o app inteiro e serve o `index.html` como
-  fallback de navegação.
+  fallback de navegação. Sem internet, a home mostra uma faixa: as lições e o progresso continuam
+  neste aparelho.
 - **Aviso de versão nova** no app já aberto: “✨ Nova versão disponível — tocar para atualizar”.
 - **Lembrete diário** opcional por notificação, no horário que você escolher.
 
 ### Acessibilidade e detalhes
 
-- Teclado: **1–4** escolhem a opção, **Enter** verifica e avança, **Esc** sai da lição, **D** abre a dica.
+- Teclado: **1–4** escolhem a opção, **Enter** verifica e avança, **Esc** sai da lição, **D** abre a dica,
+  **S** ouve a frase de novo (fora do campo de texto e com o feedback fechado).
 - Foco gerenciado a cada troca de tela, `aria-live` no feedback, `aria-pressed` nas opções e rótulos
   descritivos nos botões.
 - `prefers-reduced-motion` respeitado — inclusive nas *view transitions* entre telas.
@@ -146,8 +158,8 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | Módulo | O que faz |
 | --- | --- |
 | `js/app.js` | Todas as telas e o fluxo entre elas: home, trilha, lição, resultado, dicionário, perfil, login, novidades e diagnóstico. |
-| `js/game.js` | O estado do jogador: XP, streak, estrelas, conquistas, missões, agenda de Leitner, deslizes do tutor, `localStorage`, export/import e o merge com a nuvem. |
-| `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
+| `js/game.js` | O estado do jogador: XP, streak, estrelas, conquistas, missões, agenda de Leitner, escutas, deslizes do tutor, `localStorage`, export/import e o merge com a nuvem. |
+| `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
 | `js/dicas.js` | Tutor offline: classifica o erro, explica em português e escolhe a dica. Também sorteia a dica do dia. |
 | `js/data.js` | O conteúdo: unidades, lições, itens, notas de gramática, níveis, conquistas, missões e as falas do mascote. |
 | `js/dicionario.js` | Busca única em português e inglês (normalizada, sem acento), com ranking por tipo de casamento, filtros e status de memória. |
@@ -227,7 +239,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **201 testes em 37 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **207 testes em 40 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -258,12 +270,14 @@ O que a suíte cobre:
   aceito ou recusado) e a dica do dia.
 - **`tests/correcao.test.js`**: a correção de cada tipo: digitar (contrações, campo `alt`, pontuação
   e o errinho de letra perdoado, inclusive letra trocada de lugar), múltipla escolha, montar frase
-  com peças e ligar os pares.
-- **`tests/jogo.test.js`** — `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
+  com peças, ligar os pares e o exercício de falar quando o microfone não existe.
+- **`tests/escuta.test.js`**: a sessão de Escuta sem microfone vira só escrita do que foi ouvido.
+- **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
-  limpeza de estado.
-- **`tests/ambiente.js`** — os stubs de navegador. Ficam de fora do teste automatizado: `js/app.js`
-  (depende de DOM real), `js/nuvem.js` (Supabase) e o exercício de falar (precisa de
+  limpeza de estado. `tests/progresso.test.js` cobre a Escuta (recorde, conquista e merge) e as
+  palavras de cada caixa de Leitner.
+- **`tests/ambiente.js`**: os stubs de navegador. Ficam de fora do teste automatizado: `js/app.js`
+  (depende de DOM real), `js/nuvem.js` (Supabase) e o microfone ao vivo (precisa de
   `SpeechRecognition`).
 
 ### Instalar no celular
