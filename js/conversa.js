@@ -2,6 +2,7 @@
 // A chave da API mora só no localStorage e nunca entra no progresso.
 
 import { diagnosticar } from './dicas.js';
+import { CENAS_RAMO } from './cenas.js';
 
 const CONTRACOES = new Map([
   ["i'm", 'i am'],
@@ -42,7 +43,7 @@ function tokens(s) {
   return normalizarFala(s).split(' ').filter(Boolean);
 }
 
-export const CENARIOS = [
+const CENARIOS_LINEARES = [
   {
     id: 'restaurante',
     titulo: 'Pedir comida',
@@ -245,10 +246,17 @@ export const CENARIOS = [
   }
 ];
 
+export const CENARIOS = [...CENARIOS_LINEARES, ...CENAS_RAMO];
+
+export const IDS_CINCO = CENARIOS_LINEARES.map(c => c.id);
 export const IDS_CENARIOS = CENARIOS.map(c => c.id);
 
 export function cenarioPorId(id) {
   return CENARIOS.find(c => c.id === id) ?? null;
+}
+
+export function noDaCena(cenario, id) {
+  return cenario?.nos?.[id] ?? null;
 }
 
 export function rodadasDo(cenario) {
@@ -262,6 +270,11 @@ export function rodadasDo(cenario) {
     }
   }
   return rodadas;
+}
+
+export function avaliarEscolha(opcao, texto) {
+  const aval = avaliarResposta(opcao, texto);
+  return { ...aval, segue: opcao?.segue || null, rotulo: opcao?.rotulo || '' };
 }
 
 export function avaliarResposta(passo, texto) {

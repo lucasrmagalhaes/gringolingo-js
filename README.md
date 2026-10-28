@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-236%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-245%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -65,9 +65,11 @@ navegador.
   de acertos mescla pelo maior número entre aparelhos.
 - **Treinar uma caixa**: no perfil, em Saúde da memória, toque numa faixa que já tem palavras. A
   revisão usa só as palavras daquela caixa, até 8. Palavras ainda sem agenda ficam na caixa de 1 dia.
-- **Diálogos guiados**: cinco cenas (pedir comida, check-in, entrevista, papo e caminho). O app fala
-  a deixa e você responde no microfone ou por escrito. O mesmo tutor explica o erro e mostra um jeito
-  melhor de dizer. Cada cena guarda o melhor resultado e conta XP e streak.
+- **Diálogos guiados**: cinco cenas lineares (pedir comida, check-in, entrevista, papo e caminho) e
+  mais cinco em que a conversa muda: médico, aeroporto, loja, telefone e reunião. Você escolhe a
+  intenção em português e fala a frase em inglês. O app fala a deixa e você responde no microfone ou
+  por escrito. O mesmo tutor explica o erro e mostra um jeito melhor de dizer. Cada cena guarda o
+  melhor resultado e conta XP e streak. A conquista das cinco cenas continua só com as primeiras.
 - **Sombra**: ouça uma frase, repita e veja a nota. As palavras que faltaram ficam marcadas. Sem
   microfone, dá para escrever. Se o aparelho não tiver voz, um botão mostra a frase. O baralho de
   frases entra nessa fila, e dá para sombrear só ele.
@@ -76,6 +78,13 @@ navegador.
   Leitner. Quando vence, a Revisão Turbo cobra de novo, com a mesma caixa de 1, 3, 7, 16 e 35 dias.
 - **Desafio de 5 minutos**: card na home. Mistura um turno de diálogo, sombra e frases. Terminar
   conta sequência e XP. Se o tempo acabar antes do mix completo, a sequência não muda. Sem rede.
+- **Ouvir uma cena**: recados curtos de portão, clínica, loja, telefone, reunião e outros. A voz é a
+  do aparelho, em velocidade natural ou devagar, sem arquivo de áudio. A pergunta só aparece depois
+  que você ouve. Sem voz, o texto em inglês aparece para ler.
+- **Pronúncia**: pares mínimos dos sons difíceis para quem fala português: TH, o -ed final, vogal
+  curta e longa, e o acento da palavra. Ouça e escolha qual foi. A dica explica o par.
+- **Painel da fala**: a nota dos últimos 7 dias e as frases que mais escapam. Diálogo, sombra,
+  desafio, pronúncia e escuta alimentam o mesmo painel. O formato da nuvem continua o 3.
 - **Parceiro de conversa (opcional, desligado)**: bate-papo em inglês no seu nível, com correção
   depois de cada fala. Liga no perfil com uma chave do Google AI Studio. A chave fica só neste
   aparelho: não entra no backup nem na nuvem. Sem chave e sem rede, diálogos e sombra seguem offline.
@@ -117,7 +126,7 @@ navegador.
 - **3 missões que trocam todo dia**, sorteadas de forma determinística a partir da data.
 - **Streak com protetor**: perdoa um dia perdido, e você ganha um novo protetor a cada 5 lições
   perfeitas. O app avisa quando a sequência está para vencer.
-- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **23 conquistas**, XP com
+- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **25 conquistas**, XP com
   bônus de combo, confete e efeitos sonoros sintetizados no WebAudio (nenhum arquivo de áudio no
   repositório).
 - **Desafio por link**: termine uma lição e mande o link para alguém tentar bater a sua pontuação.
@@ -172,8 +181,10 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | Módulo | O que faz |
 | --- | --- |
 | `js/app.js` | Todas as telas e o fluxo entre elas: home, trilha, lição, resultado, dicionário, perfil, login, novidades e diagnóstico. |
-| `js/game.js` | O estado do jogador: XP, streak, estrelas, conquistas, missões, agenda de Leitner, escutas, diálogos, frases, desafio de fala, deslizes do tutor, `localStorage`, export/import e o merge com a nuvem. |
+| `js/game.js` | O estado do jogador: XP, streak, estrelas, conquistas, missões, agenda de Leitner, escutas, diálogos, frases, desafio de fala, painel da fala, deslizes do tutor, `localStorage`, export/import e o merge com a nuvem. |
 | `js/conversa.js` | Diálogos guiados, nota da sombra e o parceiro opcional. A chave da API fica fora do progresso sincronizado. |
+| `js/cenas.js` | Cinco diálogos em que a resposta escolhida muda a cena: médico, aeroporto, loja, telefone e reunião. |
+| `js/pronuncia.js` | Pares mínimos, clipes de escuta e a conta da semana no painel da fala. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
 | `js/dicas.js` | Tutor offline: classifica o erro, explica em português e escolhe a dica. Também sorteia a dica do dia. |
@@ -255,7 +266,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **236 testes em 48 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **245 testes em 51 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -290,6 +301,7 @@ O que a suíte cobre:
 - **`tests/escuta.test.js`**: a sessão de Escuta sem microfone vira só escrita do que foi ouvido.
 - **`tests/conversa.test.js`**: cenas guiadas, nota da sombra, chave do parceiro fora do backup e o merge dos diálogos.
 - **`tests/frases.test.js`**: o baralho, a nota da frase, a sombra só com o baralho, o desafio de 5 minutos e a entrada na agenda Leitner.
+- **`tests/fala.test.js`**: cenas com dois caminhos, pares mínimos, clipes de escuta, a média da semana e o merge do painel.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
   limpeza de estado. `tests/progresso.test.js` cobre a Escuta (recorde, conquista e merge) e as

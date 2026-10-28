@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.1';
+export const VERSAO_APP = '2.2';
 
 export const NOVIDADES = [
+  {
+    versao: '2.2',
+    titulo: 'Falar de verdade',
+    itens: [
+      '🩺 Cenas novas com dois caminhos: médico, aeroporto, loja, telefone e reunião',
+      '👂 Ouvir uma cena na velocidade normal ou devagar, e responder o que foi dito',
+      '👅 Sons difíceis: TH, -ed, vogal curta e longa, acento da palavra',
+      '📊 Painel da fala: a nota da semana e os erros que mais voltam'
+    ]
+  },
   {
     versao: '2.1',
     titulo: 'Frases e desafio de 5 minutos',
@@ -789,6 +799,7 @@ export const MISSOES = [
   { id: 'escuta1', emoji: '👂', titulo: 'Faça 1 Escuta', alvo: 1, xp: 15, medir: s => (s.tipo === 'escuta' ? 1 : 0) },
   { id: 'dialogo1', emoji: '💬', titulo: 'Termine 1 diálogo', alvo: 1, xp: 15, medir: s => (s.tipo === 'dialogo' ? 1 : 0) },
   { id: 'fala1', emoji: '⏱️', titulo: 'Faça o desafio de 5 minutos', alvo: 1, xp: 15, medir: s => (s.tipo === 'fala' ? 1 : 0) },
+  { id: 'pronuncia1', emoji: '👅', titulo: 'Faça 1 treino de pronúncia', alvo: 1, xp: 15, medir: s => (s.tipo === 'pronuncia' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -817,6 +828,8 @@ export const BADGES = [
   { id: 'sombra', emoji: '🗣️', nome: 'Eco', desc: 'Complete uma sessão de sombra' },
   { id: 'ator', emoji: '🎭', nome: 'Cinco Cenas', desc: 'Complete os cinco diálogos' },
   { id: 'cinco', emoji: '⏱️', nome: 'Cinco Minutos', desc: 'Complete o desafio de fala do dia' },
+  { id: 'caminhos', emoji: '🔀', nome: 'Dois Caminhos', desc: 'Termine um diálogo em que a cena muda' },
+  { id: 'pares', emoji: '👅', nome: 'Par Mínimo', desc: 'Complete um treino de pronúncia' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
