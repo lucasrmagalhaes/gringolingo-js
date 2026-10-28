@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.6';
+export const VERSAO_APP = '2.7';
 
 export const NOVIDADES = [
+  {
+    versao: '2.7',
+    titulo: 'Falar na call',
+    itens: [
+      '🐛 Relate um bug em três falas: como repetir, a causa e a correção',
+      '🙏 Dê um comentário de review e receba outro com educação',
+      '☕ Papo curto antes da reunião: fim de semana, clima e viagem',
+      '🔎 Peça para repetir e confirme o que você entendeu'
+    ]
+  },
   {
     versao: '2.6',
     titulo: 'Opinião e meta',
@@ -848,6 +858,8 @@ export const MISSOES = [
   { id: 'remoto1', emoji: '💻', titulo: 'Faça a entrevista longa', alvo: 1, xp: 15, medir: s => (s.tipo === 'remoto' ? 1 : 0) },
   { id: 'opiniao1', emoji: '💬', titulo: 'Dê uma opinião com motivo', alvo: 1, xp: 15, medir: s => (s.tipo === 'opiniao' ? 1 : 0) },
   { id: 'rapido1', emoji: '⚡', titulo: 'Responda no tempo', alvo: 1, xp: 15, medir: s => (s.tipo === 'rapido' ? 1 : 0) },
+  { id: 'relato1', emoji: '🐛', titulo: 'Relate um bug em três falas', alvo: 1, xp: 15, medir: s => (s.tipo === 'relato' ? 1 : 0) },
+  { id: 'claro1', emoji: '🔎', titulo: 'Peça para repetir ou parafraseie', alvo: 1, xp: 15, medir: s => (s.tipo === 'claro' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -891,6 +903,10 @@ export const BADGES = [
   { id: 'olho', emoji: '👀', nome: 'Olho clínico', desc: 'Descreva uma cena' },
   { id: 'rapido', emoji: '⚡', nome: 'Na hora', desc: 'Responda no tempo' },
   { id: 'semanaFala', emoji: '🗣️', nome: 'Semana de fala', desc: 'Bata a meta de falas da semana' },
+  { id: 'relato', emoji: '🐛', nome: 'Relato', desc: 'Conte um bug em três falas' },
+  { id: 'cortesia', emoji: '🙏', nome: 'Com educação', desc: 'Dê e receba um comentário de review' },
+  { id: 'aquecer', emoji: '☕', nome: 'Antes da call', desc: 'Puxe um papo curto antes da reunião' },
+  { id: 'claro', emoji: '🔎', nome: 'Deixa eu ver', desc: 'Peça para repetir ou parafraseie' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
