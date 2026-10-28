@@ -101,7 +101,7 @@ body {
 #app {
   max-width: 680px;
   margin: 0 auto;
-  padding: 0 16px 40px;
+  padding: 0 max(16px, env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
 }
 
 button,
@@ -110,6 +110,7 @@ select,
 textarea {
   font-family: inherit;
   color: var(--texto);
+  touch-action: manipulation;
 }
 
 #confetti {
@@ -333,6 +334,7 @@ textarea {
 
 .revisao-textos {
   flex: 1;
+  min-width: 0;
 }
 
 .revisao-titulo {
@@ -1634,6 +1636,11 @@ textarea.entrada {
 
   .semana-dia {
     padding: 6px 0;
+  }
+
+  .card.revisao {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 84px;
   }
 }
 
@@ -2998,6 +3005,26 @@ button.caixa-treinavel:hover {
 
 .nivel-atalho {
   border-color: color-mix(in srgb, var(--amarelo) 55%, var(--borda));
+}
+
+.dia-atalho {
+  border-color: color-mix(in srgb, var(--azul) 45%, var(--borda));
+}
+
+:root[data-fonte="grande"] {
+  --fonte-xs: 13px;
+  --fonte-sm: 16px;
+  --fonte-md: 18px;
+  --fonte-lg: 20px;
+  --fonte-xl: 24px;
+  --fonte-2xl: clamp(22px, 6vw, 28px);
+}
+
+:root[data-fonte="grande"] .entrada,
+:root[data-fonte="grande"] .btn,
+:root[data-fonte="grande"] .opcao,
+:root[data-fonte="grande"] .revisao-titulo {
+  font-size: 20px;
 }
 
 .semana-fala {

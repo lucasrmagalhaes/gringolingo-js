@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-259%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-268%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -98,6 +98,14 @@ navegador.
   no aparelho. O tutor olha o tamanho, as pistas e as ligações, sem enviar o texto.
 - **Resumo da semana**: a nota de segunda a domingo e uma sugestão. Os contadores de perguntas,
   fala rápida, phrasal verbs e fala livre são do tempo todo.
+- **Inglês de trabalho**: standup, explicar um bug, code review, entrevista remota e demo. A ordem
+  segue o nível, de A1 a B2, e nada fica trancado. A conquista das cinco cenas não muda.
+- **Sua voz ao lado do modelo**: grave até 8 segundos e ouça depois da tentativa, junto com a voz
+  do aparelho. O áudio não entra no progresso, no backup nem na nuvem. Sem microfone, dá para escrever.
+- **Pergunta do dia**: uma pergunta de trabalho e uma segunda em seguida. A data local escolhe a
+  pergunta. Refazer no mesmo dia conta de novo, e a nuvem fica com a data mais nova.
+- **Idioms de reunião**: touch base, heads up, circle back e outras frases de call remota. O treino
+  fica no painel da fala e não entra na Revisão Turbo.
 - **Parceiro de conversa (opcional, desligado)**: bate-papo em inglês no seu nível, com correção
   depois de cada fala. Liga no perfil com uma chave do Google AI Studio. A chave fica só neste
   aparelho: não entra no backup nem na nuvem. Sem chave e sem rede, diálogos e sombra seguem offline.
@@ -139,7 +147,7 @@ navegador.
 - **3 missões que trocam todo dia**, sorteadas de forma determinística a partir da data.
 - **Streak com protetor**: perdoa um dia perdido, e você ganha um novo protetor a cada 5 lições
   perfeitas. O app avisa quando a sequência está para vencer.
-- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **27 conquistas**, XP com
+- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **30 conquistas**, XP com
   bônus de combo, confete e efeitos sonoros sintetizados no WebAudio (nenhum arquivo de áudio no
   repositório).
 - **Desafio por link**: termine uma lição e mande o link para alguém tentar bater a sua pontuação.
@@ -179,6 +187,8 @@ navegador.
   descritivos nos botões.
 - `prefers-reduced-motion` respeitado — inclusive nas *view transitions* entre telas.
 - Tema claro e escuro, com a cor da barra do sistema acompanhando.
+- **Texto maior**: no perfil, NORMAL ou MAIOR. Nas telas de fala, as teclas 1, 2 e 3 marcam a opção.
+  Enter segue em frente e Esc volta. A preferência fica só neste aparelho.
 - **Voz configurável**: sotaque (🇺🇸 🇬🇧 🇦🇺…, conforme as vozes instaladas no aparelho), qual voz usar
   e a velocidade da fala, com botão de testar na hora. E um botão de mudo para o silêncio total.
 - **Tela de diagnóstico** em `?debug`: os últimos 30 erros capturados, com a tela de origem. Nada é
@@ -199,6 +209,8 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/cenas.js` | Cinco diálogos em que a resposta escolhida muda a cena: médico, aeroporto, loja, telefone e reunião. |
 | `js/pronuncia.js` | Pares mínimos, clipes de escuta e a conta da semana no painel da fala. |
 | `js/fluencia.js` | Teste de nível, cenas em que você pergunta, fala rápida, phrasal verbs, fala livre e o resumo da semana. |
+| `js/tecnico.js` | Cenas de trabalho, idioms de reunião e a pergunta do dia. |
+| `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
 | `js/dicas.js` | Tutor offline: classifica o erro, explica em português e escolhe a dica. Também sorteia a dica do dia. |
@@ -280,7 +292,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **259 testes em 54 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **268 testes em 57 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -317,6 +329,7 @@ O que a suíte cobre:
 - **`tests/frases.test.js`**: o baralho, a nota da frase, a sombra só com o baralho, o desafio de 5 minutos e a entrada na agenda Leitner.
 - **`tests/fala.test.js`**: cenas com dois caminhos, pares mínimos, clipes de escuta, a média da semana e o merge do painel.
 - **`tests/fluencia.test.js`**: o teste de nível, as cenas em que você pergunta, a fala livre, as reduções, os phrasal verbs e o resumo da semana.
+- **`tests/tecnico.test.js`**: as cenas de trabalho, os idioms de reunião, a pergunta do dia, a gravação local e o merge da data.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
   limpeza de estado. `tests/progresso.test.js` cobre a Escuta (recorde, conquista e merge) e as

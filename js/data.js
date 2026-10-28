@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.3';
+export const VERSAO_APP = '2.4';
 
 export const NOVIDADES = [
+  {
+    versao: '2.4',
+    titulo: 'Inglês de trabalho',
+    itens: [
+      '💻 Cenas de standup, bug, code review, entrevista remota e demo',
+      '🎙️ Grave a sua voz e ouça ao lado do modelo. O áudio fica só na tela',
+      '☀️ Pergunta do dia com uma segunda pergunta, e idioms de reunião',
+      '🔤 Texto maior, teclas 1 a 3 nas escolhas e listas mais leves no celular'
+    ]
+  },
   {
     versao: '2.3',
     titulo: 'Fluência no seu nível',
@@ -812,6 +822,8 @@ export const MISSOES = [
   { id: 'pronuncia1', emoji: '👅', titulo: 'Faça 1 treino de pronúncia', alvo: 1, xp: 15, medir: s => (s.tipo === 'pronuncia' ? 1 : 0) },
   { id: 'nivel1', emoji: '🎯', titulo: 'Faça o teste de nível', alvo: 1, xp: 15, medir: s => (s.tipo === 'nivel' ? 1 : 0) },
   { id: 'livre1', emoji: '🗣️', titulo: 'Fale de um tema por um minuto', alvo: 1, xp: 15, medir: s => (s.tipo === 'livre' ? 1 : 0) },
+  { id: 'tecnico1', emoji: '💻', titulo: 'Faça 1 cena de trabalho', alvo: 1, xp: 15, medir: s => (s.tipo === 'tecnico' ? 1 : 0) },
+  { id: 'dia1', emoji: '☀️', titulo: 'Responda a pergunta do dia', alvo: 1, xp: 15, medir: s => (s.tipo === 'perguntaDia' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -844,6 +856,9 @@ export const BADGES = [
   { id: 'pares', emoji: '👅', nome: 'Par Mínimo', desc: 'Complete um treino de pronúncia' },
   { id: 'nivelado', emoji: '🎯', nome: 'Sei meu nível', desc: 'Faça o teste de nível' },
   { id: 'pergunta', emoji: '❓', nome: 'Quem Pergunta', desc: 'Termine uma cena em que você faz a pergunta' },
+  { id: 'standup', emoji: '💻', nome: 'Daily', desc: 'Termine uma cena de inglês de trabalho' },
+  { id: 'reuniao', emoji: '🤝', nome: 'Na call', desc: 'Pratique um idiom de reunião' },
+  { id: 'doDia', emoji: '☀️', nome: 'Do dia', desc: 'Responda a pergunta do dia' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 

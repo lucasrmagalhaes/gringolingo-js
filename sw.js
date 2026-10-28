@@ -1,4 +1,4 @@
-const VERSAO = 'gringolingo-v30';
+const VERSAO = 'gringolingo-v31';
 
 const ESSENCIAIS = [
   './',
@@ -24,8 +24,10 @@ const ESSENCIAIS = [
   './js/metricas.js',
   './js/nuvem.js',
   './js/pronuncia.js',
+  './js/tecnico.js',
   './js/util.js',
-  './js/vocabulario.js'
+  './js/vocabulario.js',
+  './js/voz.js'
 ];
 
 const OPCIONAIS = [
