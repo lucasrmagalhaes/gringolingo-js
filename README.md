@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-245%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-259%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -85,6 +85,19 @@ navegador.
   curta e longa, e o acento da palavra. Ouça e escolha qual foi. A dica explica o par.
 - **Painel da fala**: a nota dos últimos 7 dias e as frases que mais escapam. Diálogo, sombra,
   desafio, pronúncia e escuta alimentam o mesmo painel. O formato da nuvem continua o 3.
+- **Teste de nível**: oito perguntas, de A1 a B2. O resultado ordena diálogos, fala rápida,
+  phrasal verbs e os temas. Nada fica escondido. Refazer pode baixar o nível neste aparelho.
+  Na nuvem, fica o mais alto. A primeira vez conta streak e XP.
+- **Você pergunta**: café, loja, aeroporto e reunião. A sua fala é a pergunta. O tutor mostra
+  um jeito melhor depois da tentativa.
+- **Fala rápida**: gonna, wanna, gotta e palavras que se juntam, como cup of. A voz é a do
+  aparelho, normal ou devagar, sem arquivo de áudio. A frase escrita só aparece depois.
+- **Phrasal verbs e colocações**: look for, figure out, meet the deadline e outras frases de
+  conversa. O treino fica no painel da fala e não entra na Revisão Turbo.
+- **Falar de você**: um minuto sobre você, um hobby, o trabalho ou um projeto. O relógio corre
+  no aparelho. O tutor olha o tamanho, as pistas e as ligações, sem enviar o texto.
+- **Resumo da semana**: a nota de segunda a domingo e uma sugestão. Os contadores de perguntas,
+  fala rápida, phrasal verbs e fala livre são do tempo todo.
 - **Parceiro de conversa (opcional, desligado)**: bate-papo em inglês no seu nível, com correção
   depois de cada fala. Liga no perfil com uma chave do Google AI Studio. A chave fica só neste
   aparelho: não entra no backup nem na nuvem. Sem chave e sem rede, diálogos e sombra seguem offline.
@@ -126,7 +139,7 @@ navegador.
 - **3 missões que trocam todo dia**, sorteadas de forma determinística a partir da data.
 - **Streak com protetor**: perdoa um dia perdido, e você ganha um novo protetor a cada 5 lições
   perfeitas. O app avisa quando a sequência está para vencer.
-- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **25 conquistas**, XP com
+- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **27 conquistas**, XP com
   bônus de combo, confete e efeitos sonoros sintetizados no WebAudio (nenhum arquivo de áudio no
   repositório).
 - **Desafio por link**: termine uma lição e mande o link para alguém tentar bater a sua pontuação.
@@ -181,10 +194,11 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | Módulo | O que faz |
 | --- | --- |
 | `js/app.js` | Todas as telas e o fluxo entre elas: home, trilha, lição, resultado, dicionário, perfil, login, novidades e diagnóstico. |
-| `js/game.js` | O estado do jogador: XP, streak, estrelas, conquistas, missões, agenda de Leitner, escutas, diálogos, frases, desafio de fala, painel da fala, deslizes do tutor, `localStorage`, export/import e o merge com a nuvem. |
+| `js/game.js` | O estado do jogador: XP, streak, estrelas, conquistas, missões, agenda de Leitner, escutas, diálogos, frases, desafio de fala, painel da fala, nível de fala, deslizes do tutor, `localStorage`, export/import e o merge com a nuvem. |
 | `js/conversa.js` | Diálogos guiados, nota da sombra e o parceiro opcional. A chave da API fica fora do progresso sincronizado. |
 | `js/cenas.js` | Cinco diálogos em que a resposta escolhida muda a cena: médico, aeroporto, loja, telefone e reunião. |
 | `js/pronuncia.js` | Pares mínimos, clipes de escuta e a conta da semana no painel da fala. |
+| `js/fluencia.js` | Teste de nível, cenas em que você pergunta, fala rápida, phrasal verbs, fala livre e o resumo da semana. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
 | `js/dicas.js` | Tutor offline: classifica o erro, explica em português e escolhe a dica. Também sorteia a dica do dia. |
@@ -266,7 +280,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **245 testes em 51 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **259 testes em 54 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -302,6 +316,7 @@ O que a suíte cobre:
 - **`tests/conversa.test.js`**: cenas guiadas, nota da sombra, chave do parceiro fora do backup e o merge dos diálogos.
 - **`tests/frases.test.js`**: o baralho, a nota da frase, a sombra só com o baralho, o desafio de 5 minutos e a entrada na agenda Leitner.
 - **`tests/fala.test.js`**: cenas com dois caminhos, pares mínimos, clipes de escuta, a média da semana e o merge do painel.
+- **`tests/fluencia.test.js`**: o teste de nível, as cenas em que você pergunta, a fala livre, as reduções, os phrasal verbs e o resumo da semana.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
   limpeza de estado. `tests/progresso.test.js` cobre a Escuta (recorde, conquista e merge) e as

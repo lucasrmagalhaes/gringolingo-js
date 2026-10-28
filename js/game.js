@@ -2,6 +2,7 @@ import { UNIDADES, NIVEIS, BADGES, MISSOES } from './data.js';
 import { enviarProgresso, baixarProgresso } from './nuvem.js';
 import { IDS_CINCO, apagarPapo } from './conversa.js';
 import { FRASES, itemDaFrase } from './frases.js';
+import { nivelValido, rankNivel } from './fluencia.js';
 
 const CHAVE = 'gringolingo';
 const CHAVE_CONTA = 'gringolingo:conta';
@@ -58,7 +59,8 @@ const padrao = () => ({
   falaDia: null,
   painel: {},
   errosFala: [],
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0 }
+  nivelFala: null,
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -252,6 +254,7 @@ function sanitizar(salvo) {
   s.falaDia = diaIso(s.falaDia);
   s.painel = limparPainel(s.painel);
   s.errosFala = limparErrosFala(s.errosFala);
+  s.nivelFala = nivelValido(s.nivelFala);
   s.stats = { ...base.stats, ...(s.stats && typeof s.stats === 'object' ? s.stats : {}) };
   for (const k of Object.keys(s.stats)) s.stats[k] = num(s.stats[k]);
   if (salvo?.stats?.metasBatidas == null) {
@@ -576,6 +579,8 @@ function mesclar(remoto) {
     }
     const remotoFala = diaIso(remoto.falaDia);
     if (remotoFala && (!estado.falaDia || remotoFala > estado.falaDia)) estado.falaDia = remotoFala;
+    const remotoNivel = nivelValido(remoto.nivelFala);
+    if (rankNivel(remotoNivel) > rankNivel(estado.nivelFala)) estado.nivelFala = remotoNivel;
     estado.painel = limparPainel(estado.painel);
     for (const [dia, v] of Object.entries(limparPainel(remoto.painel))) {
       const local = estado.painel[dia];
@@ -880,6 +885,8 @@ function checarBadges() {
     cinco: estado.stats.falas >= 1,
     caminhos: estado.stats.ramos >= 1,
     pares: estado.stats.pronuncias >= 1,
+    nivelado: !!estado.nivelFala,
+    pergunta: estado.stats.perguntas >= 1,
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -1027,6 +1034,46 @@ export function registrarDialogo(d) {
     };
   }
   return fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao);
+}
+
+function registrarTipo(stat, tipo, d) {
+  const diaSessao = hoje();
+  const nivelAntes = nivelInfo().numero;
+  const metaAntes = metaBatida(diaSessao);
+  const streakAntes = streakAtual();
+  const { usouProtetor } = atualizarStreak(diaSessao);
+  const missao = avancarMissoes({ ...d, tipo }, diaSessao);
+  if (stat && Object.prototype.hasOwnProperty.call(estado.stats, stat)) estado.stats[stat]++;
+  return fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao);
+}
+
+export function registrarNivel(d) {
+  const anterior = nivelValido(estado.nivelFala);
+  const proximo = nivelValido(d?.nivel);
+  if (!proximo) return { badges: [], bonusMissoes: 0 };
+  estado.nivelFala = proximo;
+  if (anterior) {
+    checarBadges();
+    salvar();
+    return { badges: [], bonusMissoes: 0 };
+  }
+  return registrarTipo(null, 'nivel', d);
+}
+
+export function registrarPergunta(d) {
+  return registrarTipo('perguntas', 'pergunta', d);
+}
+
+export function registrarReducao(d) {
+  return registrarTipo('reduzidas', 'reducao', d);
+}
+
+export function registrarVerbo(d) {
+  return registrarTipo('verbosFala', 'verbo', d);
+}
+
+export function registrarLivre(d) {
+  return registrarTipo('livres', 'livre', d);
 }
 
 export function registrarPronuncia(d) {

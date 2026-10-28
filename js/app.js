@@ -1,11 +1,12 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
 import { SONS, CLIPS, somPorId, clipPorId, montarItem, corrigirClip, serieFala, resumoFala, TAXA_NORMAL, TAXA_DEVAGAR } from './pronuncia.js';
+import { ITENS_NIVEL, ROTULO_NIVEL, corrigirIndice, contarAcertos, nivelDoTeste, PERGUNTAS, perguntaPorId, avaliarPergunta, REDUCOES, reducaoPorId, FRASAIS, frasalPorId, avaliarFrasal, TEMAS, temaPorId, avaliarLivre, preferirNivel, montarSessao, resumoSemana, sugestaoSemana } from './fluencia.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
 import { h, aleatorio, amostra, embaralhar } from './util.js';
@@ -35,6 +36,7 @@ let desafioAtivo = null;
 let timersDeTela = [];
 let intervaloRelampago = null;
 let intervaloFala = null;
+let intervaloLivre = null;
 let saidaPedidaEm = 0;
 let saindoDaLicao = false;
 let voltandoTela = false;
@@ -65,6 +67,8 @@ function limparTela() {
   intervaloRelampago = null;
   clearInterval(intervaloFala);
   intervaloFala = null;
+  clearInterval(intervaloLivre);
+  intervaloLivre = null;
   saidaPedidaEm = 0;
   saindoDaLicao = false;
   voltandoTela = false;
@@ -227,6 +231,7 @@ function telaInicial() {
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'HOJE'),
     cartaoMeta(),
     cartaoFala(),
+    cartaoNivel(),
     faixaSemana(),
     cartaoMissoes(),
     cartaoDicaDoDia(),
@@ -2963,9 +2968,12 @@ function calar() {
 
 function botaoConversa() {
   const feitas = CENARIOS.filter(c => (estado.conversas?.[c.id]?.vezes ?? 0) > 0).length;
+  const nivel = estado.nivelFala ? ` Nível de fala ${estado.nivelFala}.` : '';
   const sub = feitas
-    ? `${feitas} de ${CENARIOS.length} diálogos feitos. Caminhos, pronúncia e o painel da fala.`
-    : 'Cenas com caminhos, pronúncia, escuta e um painel da sua fala.';
+    ? `${feitas} de ${CENARIOS.length} diálogos feitos.${nivel}`
+    : (estado.nivelFala
+      ? `Nível de fala ${estado.nivelFala}. Cenas, perguntas e o resumo da semana.`
+      : 'Cenas com caminhos, pronúncia, escuta e um painel da sua fala.');
   return h('button', { class: 'card revisao conversa-atalho', onclick: telaConversa },
     h('span', { class: 'revisao-emoji' }, '💬'),
     h('div', { class: 'revisao-textos' },
@@ -3011,7 +3019,10 @@ function reconhecerFala(status, entrada) {
   status.textContent = 'Ouvindo… fale agora.';
   rec.onresult = ev => {
     const alts = [...ev.results[0]].map(r => r.transcript).filter(Boolean);
-    entrada.value = alts[0] || '';
+    const ouvido = alts[0] || '';
+    entrada.value = entrada.dataset.acrescentar && entrada.value.trim()
+      ? `${entrada.value.trim()} ${ouvido}`.trim()
+      : ouvido;
     entrada.dispatchEvent(new Event('input', { bubbles: true }));
     status.textContent = alts.length > 1 ? 'Peguei. Se não ficou certo, edite e verifique.' : 'Peguei. Confira e verifique.';
     entrada.focus();
@@ -3118,7 +3129,8 @@ function telaConversa() {
   app.innerHTML = '';
   app.append(
     topoVoltar('💬 Conversar', () => voltarTela()),
-    h('p', { class: 'ia-aviso' }, 'Cenas do dia a dia, algumas com dois caminhos. O tutor corrige cada resposta. Dá para treinar o ouvido, os sons difíceis e ver a nota da semana.'),
+    h('p', { class: 'ia-aviso' }, 'Fluência no seu nível: teste, perguntas que você faz, fala rápida, phrasal verbs, um minuto sobre você e o resumo da semana. As cenas do dia a dia continuam abaixo.'),
+    ...blocoFluencia(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'DIÁLOGOS'),
     ...CENARIOS.map(c => {
       const prog = estado.conversas?.[c.id];
@@ -3593,6 +3605,8 @@ function pintarFim(fim) {
       h('div', { class: 'nivel-titulo' }, 'Conquista nova!'),
       ...badges.map(b => h('div', {}, `${b.emoji} ${b.nome}`))
     ) : '',
+    fim.extra || '',
+    fim.resumo ? h('button', { class: 'btn btn-branco', onclick: telaResumo }, 'RESUMO DA SEMANA') : '',
     fim.painel ? h('button', { class: 'btn btn-branco', onclick: telaPainel }, 'PAINEL DA FALA') : '',
     h('button', {
       class: 'btn btn-verde',
@@ -4468,11 +4482,823 @@ function telaPainel() {
           h('span', { class: 'pilula' }, `${e.n} vez${e.n > 1 ? 'es' : ''}`)
         ))
       )
-      : h('p', { class: 'ia-aviso' }, 'Quando uma frase escapar, ela aparece aqui.')
+      : h('p', { class: 'ia-aviso' }, 'Quando uma frase escapar, ela aparece aqui.'),
+    h('button', { class: 'btn btn-branco', onclick: telaResumo }, 'RESUMO DA SEMANA')
   );
   focarTela();
 }
 
+
+let nivelSessao = null;
+let perguntaSessao = null;
+let reducaoSessao = null;
+let frasalSessao = null;
+let livreSessao = null;
+
+function cartaoNivel() {
+  if (estado.nivelFala) return '';
+  return h('button', { class: 'card revisao nivel-atalho', onclick: telaNivel },
+    h('span', { class: 'revisao-emoji' }, '🎯'),
+    h('div', { class: 'revisao-textos' },
+      h('div', { class: 'revisao-titulo' }, 'Teste de nível'),
+      h('div', { class: 'revisao-sub' }, 'Oito perguntas. O app passa a sugerir o seu ponto, de A1 a B2.')
+    ),
+    h('span', { class: 'revisao-seta' }, '›')
+  );
+}
+
+function botaoFluencia(emoji, titulo, sub, onclick) {
+  return h('button', { class: 'card revisao', onclick },
+    h('span', { class: 'revisao-emoji' }, emoji),
+    h('div', { class: 'revisao-textos' },
+      h('div', { class: 'revisao-titulo' }, titulo),
+      h('div', { class: 'revisao-sub' }, sub)
+    ),
+    h('span', { class: 'revisao-seta' }, '›')
+  );
+}
+
+function blocoFluencia() {
+  const nivel = estado.nivelFala;
+  return [
+    h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'FLUÊNCIA'),
+    botaoFluencia('🎯', 'Teste de nível', nivel
+      ? `Seu nível de fala: ${nivel}. ${ROTULO_NIVEL[nivel] || ''}`
+      : 'Oito perguntas, de A1 a B2. Nada fica trancado.', telaNivel),
+    botaoFluencia('❓', 'Você pergunta', 'Café, loja, aeroporto e reunião. A fala é sua pergunta.', telaPerguntas),
+    botaoFluencia('⏩', 'Fala rápida', 'Gonna, wanna e palavras que se juntam. A voz é a do aparelho.', telaReducoes),
+    botaoFluencia('🧩', 'Phrasal verbs', 'Look for, figure out e combinações do trabalho.', telaFrasais),
+    botaoFluencia('🙋', 'Falar de você', 'Um minuto sobre você, um hobby ou o seu trabalho.', telaLivres),
+    botaoFluencia('📅', 'Resumo da semana', 'A nota desta semana e uma sugestão para a próxima.', telaResumo)
+  ];
+}
+
+function cartaoComNivel(item, sub, onclick) {
+  return h('button', { class: 'card revisao', onclick },
+    h('span', { class: 'revisao-emoji' }, item.emoji || '💬'),
+    h('div', { class: 'revisao-textos' },
+      h('div', { class: 'revisao-titulo' }, item.titulo),
+      h('div', { class: 'revisao-sub' }, sub)
+    ),
+    h('span', { class: 'pilula' }, item.nivel)
+  );
+}
+
+function filaAdaptada(lista, id, porId) {
+  const ordenada = montarSessao(lista, estado.nivelFala, lista.length);
+  if (!id) return ordenada.slice(0, 4);
+  const escolhido = porId(id);
+  if (!escolhido) return ordenada.slice(0, 4);
+  return [escolhido, ...ordenada.filter(item => item.id !== escolhido.id)].slice(0, 4);
+}
+
+function fecharNota(notas) {
+  return notas.length ? Math.round(notas.reduce((s, n) => s + n, 0) / notas.length) : 0;
+}
+
+function telaNivel() {
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'nivel';
+  registrarRota('nivel');
+  nivelSessao = null;
+  const nivel = estado.nivelFala;
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('🎯 Teste de nível', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'Oito perguntas, duas de cada faixa, de A1 a B2. O resultado ordena o treino. Nada fica trancado.'),
+    nivel
+      ? h('div', { class: 'card' },
+        h('div', { class: 'nivel-titulo' }, `Seu nível de fala: ${nivel}`),
+        h('p', {}, ROTULO_NIVEL[nivel] || ''),
+        h('p', {}, 'Refazer troca o nível neste aparelho. A nuvem fica com o mais alto.')
+      )
+      : h('div', { class: 'card' },
+        h('div', { class: 'nivel-titulo' }, 'Ainda sem nível'),
+        h('p', {}, 'O teste leva poucos minutos e não precisa de microfone.')
+      ),
+    h('button', { class: 'btn btn-verde', onclick: abrirNivel }, nivel ? 'REFAZER O TESTE' : 'COMEÇAR')
+  );
+  focarTela();
+}
+
+function abrirNivel() {
+  nivelSessao = { i: 0, respostas: [], feedback: null, concluido: false, fim: null };
+  pintarNivel();
+}
+
+function pintarNivel() {
+  if (!nivelSessao || nivelSessao.concluido) return telaNivel();
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'nivel';
+  registrarRota('nivel');
+  const item = ITENS_NIVEL[nivelSessao.i];
+  app.innerHTML = '';
+  const miolo = [
+    topoVoltar('🎯 Teste de nível', () => telaNivel()),
+    h('div', { class: 'revisao-sub' }, `Pergunta ${nivelSessao.i + 1} de ${ITENS_NIVEL.length} · ${item.nivel}`),
+    h('p', { class: 'sombra-frase' }, item.pergunta)
+  ];
+  if (nivelSessao.feedback) {
+    miolo.push(h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, nivelSessao.feedback.ok ? 'Isso.' : 'A certa era outra.'),
+      h('p', { lang: 'en' }, item.opcoes[item.certa])
+    ));
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        if (nivelSessao.i + 1 >= ITENS_NIVEL.length) concluirNivel();
+        else {
+          nivelSessao.i++;
+          nivelSessao.feedback = null;
+          pintarNivel();
+        }
+      }
+    }, nivelSessao.i + 1 >= ITENS_NIVEL.length ? 'VER MEU NÍVEL' : 'PRÓXIMA'));
+  } else {
+    miolo.push(h('div', { class: 'opcoes' }, item.opcoes.map((texto, indice) => h('button', {
+      class: 'opcao',
+      type: 'button',
+      lang: 'en',
+      onclick() {
+        if (nivelSessao.feedback) return;
+        const ok = corrigirIndice(item, indice);
+        nivelSessao.respostas.push({ nivel: item.nivel, ok });
+        if (ok) sons.acerto();
+        else sons.erro();
+        nivelSessao.feedback = { ok };
+        pintarNivel();
+      }
+    }, texto))));
+  }
+  app.append(h('div', {}, miolo));
+  focarTela();
+}
+
+function concluirNivel() {
+  if (!nivelSessao || nivelSessao.concluido) return pintarFim(nivelSessao?.fim);
+  const acertos = contarAcertos(nivelSessao.respostas);
+  const nivel = nivelDoTeste(acertos);
+  const certos = nivelSessao.respostas.filter(r => r.ok).length;
+  const total = nivelSessao.respostas.length;
+  const nota = total ? Math.round(certos / total * 100) : 0;
+  const primeiro = !estado.nivelFala;
+  const xp = primeiro ? 25 : 0;
+  const evento = registrarNivel({
+    nivel,
+    xp,
+    acertos: certos,
+    respostas: total,
+    nota,
+    perfeita: false,
+    comboMax: 0
+  });
+  nivelSessao.concluido = true;
+  nivelSessao.fim = {
+    titulo: `Nível de fala: ${nivel}`,
+    sub: ROTULO_NIVEL[nivel] || '',
+    nota,
+    xp: xp + (evento.bonusMissoes ?? 0),
+    evento,
+    destino: telaConversa,
+    painel: true,
+    resumo: true
+  };
+  pintarFim(nivelSessao.fim);
+}
+
+function telaPerguntas() {
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'pergunta';
+  registrarRota('pergunta');
+  perguntaSessao = null;
+  const lista = preferirNivel(PERGUNTAS, estado.nivelFala);
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('❓ Você pergunta', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'Desta vez a outra pessoa espera. A sua fala precisa ser uma pergunta. O melhor jeito só aparece depois da tentativa.'),
+    ...lista.map(c => cartaoComNivel(c, c.onde, () => abrirPergunta(c.id)))
+  );
+  focarTela();
+}
+
+function abrirPergunta(id) {
+  const cena = perguntaPorId(id);
+  if (!cena) return telaPerguntas();
+  perguntaSessao = {
+    cena,
+    i: 0,
+    acertos: 0,
+    notas: [],
+    erros: [],
+    feedback: null,
+    concluido: false,
+    fim: null
+  };
+  pintarPergunta();
+}
+
+function pintarPergunta() {
+  if (!perguntaSessao || perguntaSessao.concluido) return telaPerguntas();
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'pergunta';
+  registrarRota('pergunta');
+  const cena = perguntaSessao.cena;
+  const rodada = cena.rodadas[perguntaSessao.i];
+  const campo = campoResposta('Escreva a sua pergunta...');
+  const ouvir = () => falar(rodada.npc.en);
+  app.innerHTML = '';
+  const miolo = [
+    topoVoltar(cena.emoji + ' ' + cena.titulo, () => telaPerguntas()),
+    h('div', { class: 'revisao-sub' }, `Pergunta ${perguntaSessao.i + 1} de ${cena.rodadas.length} · ${cena.nivel}`),
+    h('div', { class: 'fala fala-npc' },
+      h('div', { class: 'fala-en', lang: 'en' }, rodada.npc.en),
+      h('div', { class: 'fala-pt' }, rodada.npc.pt)
+    )
+  ];
+  if (perguntaSessao.feedback) {
+    miolo.push(cartaoTutor(perguntaSessao.feedback));
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        if (perguntaSessao.i + 1 >= cena.rodadas.length) concluirPergunta();
+        else {
+          perguntaSessao.i++;
+          perguntaSessao.feedback = null;
+          pintarPergunta();
+        }
+      }
+    }, perguntaSessao.i + 1 >= cena.rodadas.length ? 'CONCLUIR' : 'CONTINUAR'));
+  } else {
+    miolo.push(h('p', { class: 'sombra-frase' }, rodada.missao));
+    miolo.push(campo.status, campo.mic, campo.entrada);
+    const verificar = h('button', { class: 'btn btn-verde', disabled: true }, 'VERIFICAR');
+    campo.entrada.addEventListener('input', () => {
+      verificar.disabled = !campo.entrada.value.trim();
+    });
+    const enviar = () => {
+      if (!campo.entrada.value.trim() || perguntaSessao.feedback) return;
+      const aval = avaliarPergunta(rodada, campo.entrada.value);
+      perguntaSessao.notas.push(aval.nota);
+      if (aval.ok) {
+        perguntaSessao.acertos++;
+        sons.acerto();
+      } else {
+        sons.erro();
+        perguntaSessao.erros.push({ en: aval.melhor, pt: rodada.missao });
+      }
+      perguntaSessao.feedback = aval;
+      pintarPergunta();
+    };
+    campo.entrada.addEventListener('keydown', e => {
+      if (e.key === 'Enter') enviar();
+    });
+    verificar.addEventListener('click', enviar);
+    miolo.push(verificar);
+    timerDeTela(ouvir, 280);
+  }
+  app.append(h('div', {}, miolo));
+  focarTela();
+  if (!perguntaSessao.feedback) campo.entrada.focus();
+}
+
+function concluirPergunta() {
+  if (!perguntaSessao || perguntaSessao.concluido) return pintarFim(perguntaSessao?.fim);
+  const total = perguntaSessao.cena.rodadas.length;
+  const nota = fecharNota(perguntaSessao.notas);
+  const xp = 10 + perguntaSessao.acertos * 8;
+  const evento = registrarPergunta({
+    xp,
+    acertos: perguntaSessao.acertos,
+    respostas: total,
+    nota,
+    errosFala: perguntaSessao.erros,
+    perfeita: false,
+    comboMax: 0
+  });
+  perguntaSessao.concluido = true;
+  perguntaSessao.fim = {
+    titulo: 'Você perguntou!',
+    sub: perguntaSessao.cena.titulo,
+    nota,
+    xp: xp + (evento.bonusMissoes ?? 0),
+    evento,
+    destino: telaPerguntas,
+    painel: true,
+    resumo: true
+  };
+  pintarFim(perguntaSessao.fim);
+}
+
+function telaReducoes() {
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'reducao';
+  registrarRota('reducao');
+  reducaoSessao = null;
+  const lista = preferirNivel(REDUCOES, estado.nivelFala);
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('⏩ Fala rápida', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, temTts
+      ? 'A voz é a do aparelho. Normal e devagar falam a frase curta. A frase cheia só aparece depois da resposta. Sem arquivo de áudio.'
+      : 'Sem voz neste aparelho. A frase curta aparece escrita para você ler e escolher.'),
+    h('button', { class: 'btn btn-verde', onclick: () => abrirReducao() }, 'TREINAR 4'),
+    ...lista.map(item => cartaoComNivel(item, item.pt, () => abrirReducao(item.id)))
+  );
+  focarTela();
+}
+
+function abrirReducao(id) {
+  const fila = filaAdaptada(REDUCOES, id, reducaoPorId);
+  if (!fila.length) return telaReducoes();
+  reducaoSessao = {
+    fila,
+    i: 0,
+    acertos: 0,
+    notas: [],
+    erros: [],
+    ouviu: !temTts,
+    feedback: null,
+    concluido: false,
+    fim: null
+  };
+  pintarReducao();
+}
+
+function pintarReducao() {
+  if (!reducaoSessao || reducaoSessao.concluido) return telaReducoes();
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'reducao';
+  registrarRota('reducao');
+  const item = reducaoSessao.fila[reducaoSessao.i];
+  const ouvir = taxa => falar(item.fala, taxa);
+  const controles = temTts
+    ? h('div', { class: 'fila-botoes' },
+      h('button', { class: 'btn btn-branco', type: 'button', onclick: () => ouvir(TAXA_NORMAL) }, 'NORMAL'),
+      h('button', { class: 'btn btn-branco', type: 'button', onclick: () => ouvir(TAXA_DEVAGAR) }, 'DEVAGAR')
+    )
+    : '';
+  app.innerHTML = '';
+  const miolo = [
+    topoVoltar(item.emoji + ' ' + item.titulo, () => telaReducoes()),
+    h('div', { class: 'revisao-sub' }, `Fala ${reducaoSessao.i + 1} de ${reducaoSessao.fila.length} · ${item.nivel}`)
+  ];
+  if (!reducaoSessao.ouviu && !reducaoSessao.feedback) {
+    miolo.push(h('p', { class: 'ia-aviso' }, 'A voz é a do aparelho. Normal é a velocidade natural. Devagar fica mais lento. A frase escrita só aparece depois.'));
+    miolo.push(controles);
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        reducaoSessao.ouviu = true;
+        pintarReducao();
+      }
+    }, 'JÁ OUVI'));
+    timerDeTela(() => ouvir(TAXA_NORMAL), 280);
+  } else if (!reducaoSessao.feedback) {
+    if (!temTts) {
+      miolo.push(h('p', { class: 'sombra-frase', lang: 'en' }, item.fala));
+      miolo.push(h('p', { class: 'ia-aviso' }, 'Sem voz neste aparelho. Leia e escolha.'));
+    } else {
+      miolo.push(controles);
+    }
+    miolo.push(h('p', { class: 'sombra-frase' }, item.pergunta));
+    miolo.push(h('div', { class: 'opcoes' }, item.opcoes.map((texto, indice) => h('button', {
+      class: 'opcao',
+      type: 'button',
+      lang: 'en',
+      onclick() {
+        if (reducaoSessao.feedback) return;
+        const ok = corrigirIndice(item, indice);
+        reducaoSessao.notas.push(ok ? 100 : 0);
+        if (ok) {
+          reducaoSessao.acertos++;
+          sons.acerto();
+        } else {
+          sons.erro();
+          reducaoSessao.erros.push({ en: item.fala, pt: item.opcoes[item.certa] });
+        }
+        reducaoSessao.feedback = { ok };
+        pintarReducao();
+      }
+    }, texto))));
+  } else {
+    miolo.push(h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, reducaoSessao.feedback.ok ? 'Isso.' : 'Olha a frase cheia.'),
+      h('p', {}, item.dica),
+      h('p', {}, item.pt),
+      h('p', { lang: 'en' }, 'Você ouviu: ', h('strong', {}, item.fala)),
+      h('p', { lang: 'en' }, 'Frase cheia: ', h('strong', {}, item.opcoes[item.certa]))
+    ));
+    if (temTts) miolo.push(controles);
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        if (reducaoSessao.i + 1 >= reducaoSessao.fila.length) concluirReducao();
+        else {
+          reducaoSessao.i++;
+          reducaoSessao.ouviu = !temTts;
+          reducaoSessao.feedback = null;
+          pintarReducao();
+        }
+      }
+    }, reducaoSessao.i + 1 >= reducaoSessao.fila.length ? 'CONCLUIR' : 'PRÓXIMA'));
+  }
+  app.append(h('div', {}, miolo));
+  focarTela();
+}
+
+function concluirReducao() {
+  if (!reducaoSessao || reducaoSessao.concluido) return pintarFim(reducaoSessao?.fim);
+  const total = reducaoSessao.fila.length;
+  const nota = fecharNota(reducaoSessao.notas);
+  const xp = 8 + reducaoSessao.acertos * 6;
+  const evento = registrarReducao({
+    xp,
+    acertos: reducaoSessao.acertos,
+    respostas: total,
+    nota,
+    errosFala: reducaoSessao.erros,
+    perfeita: false,
+    comboMax: 0
+  });
+  reducaoSessao.concluido = true;
+  reducaoSessao.fim = {
+    titulo: 'Fala rápida concluída!',
+    sub: 'O que a frase curta queria dizer',
+    nota,
+    xp: xp + (evento.bonusMissoes ?? 0),
+    evento,
+    destino: telaReducoes,
+    painel: true,
+    resumo: true
+  };
+  pintarFim(reducaoSessao.fim);
+}
+
+function telaFrasais() {
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'verbo';
+  registrarRota('verbo');
+  frasalSessao = null;
+  const lista = preferirNivel(FRASAIS, estado.nivelFala);
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('🧩 Phrasal verbs', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'Diga a frase em inglês. O jeito melhor só aparece depois da tentativa. Este treino não entra na Revisão Turbo.'),
+    h('button', { class: 'btn btn-verde', onclick: () => abrirFrasal() }, 'TREINAR 4'),
+    ...lista.map(item => cartaoComNivel(item, item.pt, () => abrirFrasal(item.id)))
+  );
+  focarTela();
+}
+
+function abrirFrasal(id) {
+  const fila = filaAdaptada(FRASAIS, id, frasalPorId);
+  if (!fila.length) return telaFrasais();
+  frasalSessao = {
+    fila,
+    i: 0,
+    acertos: 0,
+    notas: [],
+    erros: [],
+    feedback: null,
+    concluido: false,
+    fim: null
+  };
+  pintarFrasal();
+}
+
+function pintarFrasal() {
+  if (!frasalSessao || frasalSessao.concluido) return telaFrasais();
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'verbo';
+  registrarRota('verbo');
+  const item = frasalSessao.fila[frasalSessao.i];
+  const campo = campoResposta('Escreva em inglês...');
+  app.innerHTML = '';
+  const miolo = [
+    topoVoltar('🧩 ' + item.titulo, () => telaFrasais()),
+    h('div', { class: 'revisao-sub' }, `Frase ${frasalSessao.i + 1} de ${frasalSessao.fila.length} · ${item.nivel}`),
+    h('p', { class: 'sombra-frase' }, item.pt),
+    h('p', { class: 'ia-aviso' }, item.uso)
+  ];
+  if (frasalSessao.feedback) {
+    miolo.push(cartaoTutor(frasalSessao.feedback));
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        if (frasalSessao.i + 1 >= frasalSessao.fila.length) concluirFrasal();
+        else {
+          frasalSessao.i++;
+          frasalSessao.feedback = null;
+          pintarFrasal();
+        }
+      }
+    }, frasalSessao.i + 1 >= frasalSessao.fila.length ? 'CONCLUIR' : 'PRÓXIMA'));
+  } else {
+    miolo.push(campo.status, campo.mic, campo.entrada);
+    const verificar = h('button', { class: 'btn btn-verde', disabled: true }, 'VERIFICAR');
+    campo.entrada.addEventListener('input', () => {
+      verificar.disabled = !campo.entrada.value.trim();
+    });
+    const enviar = () => {
+      if (!campo.entrada.value.trim() || frasalSessao.feedback) return;
+      const aval = avaliarFrasal(item, campo.entrada.value);
+      frasalSessao.notas.push(aval.nota);
+      if (aval.ok) {
+        frasalSessao.acertos++;
+        sons.acerto();
+      } else {
+        sons.erro();
+        frasalSessao.erros.push({ en: aval.melhor, pt: item.pt });
+      }
+      frasalSessao.feedback = aval;
+      pintarFrasal();
+    };
+    campo.entrada.addEventListener('keydown', e => {
+      if (e.key === 'Enter') enviar();
+    });
+    verificar.addEventListener('click', enviar);
+    miolo.push(verificar);
+  }
+  app.append(h('div', {}, miolo));
+  focarTela();
+  if (!frasalSessao.feedback) campo.entrada.focus();
+}
+
+function concluirFrasal() {
+  if (!frasalSessao || frasalSessao.concluido) return pintarFim(frasalSessao?.fim);
+  const total = frasalSessao.fila.length;
+  const nota = fecharNota(frasalSessao.notas);
+  const xp = 8 + frasalSessao.acertos * 6;
+  const evento = registrarVerbo({
+    xp,
+    acertos: frasalSessao.acertos,
+    respostas: total,
+    nota,
+    errosFala: frasalSessao.erros,
+    perfeita: false,
+    comboMax: 0
+  });
+  frasalSessao.concluido = true;
+  frasalSessao.fim = {
+    titulo: 'Phrasal verbs concluídos!',
+    sub: 'Frases para a conversa',
+    nota,
+    xp: xp + (evento.bonusMissoes ?? 0),
+    evento,
+    destino: telaFrasais,
+    painel: true,
+    resumo: true
+  };
+  pintarFim(frasalSessao.fim);
+}
+
+function telaLivres() {
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'livre';
+  registrarRota('livre');
+  livreSessao = null;
+  const lista = preferirNivel(TEMAS, estado.nivelFala);
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('🙋 Falar de você', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'O relógio corre neste aparelho. O tutor olha o tamanho, as pistas e as ligações. Nada sai daqui.'),
+    ...lista.map(tema => cartaoComNivel(tema, `${tema.segundos} segundos`, () => abrirLivre(tema.id)))
+  );
+  focarTela();
+}
+
+function abrirLivre(id) {
+  const tema = temaPorId(id);
+  if (!tema) return telaLivres();
+  livreSessao = {
+    tema,
+    restante: tema.segundos,
+    texto: '',
+    feedback: null,
+    concluido: false,
+    fim: null
+  };
+  pintarLivre();
+}
+
+function relogioLivre(segundos) {
+  const s = Math.max(0, Number(segundos) || 0);
+  const m = Math.floor(s / 60);
+  const r = s % 60;
+  return `${m}:${String(r).padStart(2, '0')}`;
+}
+
+function ligarCronometroLivre() {
+  clearInterval(intervaloLivre);
+  intervaloLivre = setInterval(() => {
+    if (!livreSessao || livreSessao.feedback) {
+      clearInterval(intervaloLivre);
+      intervaloLivre = null;
+      return;
+    }
+    livreSessao.restante = Math.max(0, livreSessao.restante - 1);
+    const el = document.querySelector('[data-cronometro-livre]');
+    if (el) el.textContent = relogioLivre(livreSessao.restante);
+    if (livreSessao.restante <= 0) {
+      clearInterval(intervaloLivre);
+      intervaloLivre = null;
+      enviarLivre();
+    }
+  }, 1000);
+}
+
+function enviarLivre() {
+  if (!livreSessao || livreSessao.feedback) return;
+  clearInterval(intervaloLivre);
+  intervaloLivre = null;
+  const aval = avaliarLivre(livreSessao.tema, livreSessao.texto);
+  livreSessao.feedback = aval;
+  if (aval.ok) sons.acerto();
+  else sons.erro();
+  const xp = 8 + Math.round(aval.nota / 10);
+  const evento = registrarLivre({
+    xp,
+    acertos: aval.ok ? 1 : 0,
+    respostas: 1,
+    nota: aval.nota,
+    errosFala: aval.ok ? [] : [{ en: livreSessao.tema.titulo, pt: aval.faltas[0] || livreSessao.tema.pedido }],
+    perfeita: false,
+    comboMax: 0
+  });
+  livreSessao.fim = {
+    titulo: aval.ok ? 'Você falou!' : 'Fala registrada',
+    sub: livreSessao.tema.titulo,
+    nota: aval.nota,
+    xp: xp + (evento.bonusMissoes ?? 0),
+    evento,
+    destino: telaLivres,
+    painel: true,
+    resumo: true,
+    extra: h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, `${aval.palavras} palavras`),
+      h('p', {}, aval.pistas.length ? `Pistas usadas: ${aval.pistas.join(', ')}` : 'Nenhuma pista entrou.'),
+      ...aval.faltas.map(f => h('p', {}, f))
+    )
+  };
+  pintarLivre();
+}
+
+function pintarLivre() {
+  if (!livreSessao) return telaLivres();
+  if (livreSessao.concluido) return pintarFim(livreSessao.fim);
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'livre';
+  registrarRota('livre');
+  const tema = livreSessao.tema;
+  app.innerHTML = '';
+  const miolo = [
+    topoVoltar(tema.emoji + ' ' + tema.titulo, () => telaLivres()),
+    h('div', { class: 'revisao-sub' }, `${tema.nivel} · ${tema.segundos} segundos`),
+    h('div', { class: 'nota-grande', 'data-cronometro-livre': '1', role: 'timer' }, relogioLivre(livreSessao.restante)),
+    h('p', { class: 'sombra-frase' }, tema.pedido),
+    h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, 'Pistas'),
+      ...tema.pistas.map(p => h('div', { class: 'fala-en', lang: 'en' }, p)),
+      h('p', { class: 'ia-aviso' }, tema.dica)
+    )
+  ];
+  if (livreSessao.feedback) {
+    const aval = livreSessao.feedback;
+    miolo.push(h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, aval.ok ? `Nota ${aval.nota}` : `Nota ${aval.nota}. Dá para alongar.`),
+      h('p', {}, `${aval.palavras} palavras.`),
+      h('p', {}, aval.pistas.length ? `Pistas: ${aval.pistas.join(', ')}` : 'Nenhuma pista entrou.'),
+      ...aval.faltas.map(f => h('p', {}, f))
+    ));
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        livreSessao.concluido = true;
+        pintarFim(livreSessao.fim);
+      }
+    }, 'CONCLUIR'));
+  } else {
+    const entrada = h('textarea', {
+      class: 'entrada',
+      lang: 'en',
+      autocomplete: 'off',
+      autocapitalize: 'off',
+      spellcheck: 'false',
+      placeholder: 'Fale ou escreva em inglês',
+      'aria-label': 'Sua fala em inglês'
+    });
+    entrada.dataset.acrescentar = '1';
+    entrada.value = livreSessao.texto;
+    const status = h('div', { class: 'ia-aviso', role: 'status' }, temFala
+      ? 'Toque em Falar ou escreva. O microfone acrescenta no texto.'
+      : 'Sem microfone neste navegador. Escreva a fala.');
+    const mic = temFala
+      ? h('button', { class: 'btn btn-branco', type: 'button', onclick: () => reconhecerFala(status, entrada) }, 'FALAR')
+      : '';
+    const enviarBtn = h('button', { class: 'btn btn-verde', disabled: !entrada.value.trim() }, 'ENVIAR');
+    entrada.addEventListener('input', () => {
+      livreSessao.texto = entrada.value;
+      enviarBtn.disabled = !entrada.value.trim();
+    });
+    enviarBtn.addEventListener('click', () => {
+      if (!entrada.value.trim()) return;
+      livreSessao.texto = entrada.value;
+      enviarLivre();
+    });
+    miolo.push(status, mic, entrada, enviarBtn);
+  }
+  app.append(h('div', {}, miolo));
+  focarTela();
+  if (!livreSessao.feedback) ligarCronometroLivre();
+}
+
+function barrasDaSemana(dias) {
+  return h('div', { class: 'semana-fala', role: 'img', 'aria-label': 'Nota média desta semana, de segunda a domingo' },
+    dias.map(d => {
+      const indice = diaDaSemana(d.data);
+      const vazio = d.media == null;
+      const altura = vazio ? 6 : Math.max(8, Math.round(d.media * 0.88));
+      return h('div', { class: 'semana-fala-col' },
+        h('div', {
+          class: 'col' + (vazio ? ' col-vazia' : ''),
+          style: `height:${altura}px`,
+          title: vazio ? `${NOMES_SEMANA[indice]}: sem treino` : `${NOMES_SEMANA[indice]}: ${d.media}`
+        }),
+        h('div', { class: 'semana-fala-dia' }, LETRAS_SEMANA[indice])
+      );
+    })
+  );
+}
+
+function telaResumo() {
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'resumo';
+  registrarRota('resumo');
+  const hojeIso = diaLocalAgora();
+  const resumo = resumoSemana(estado.painel, hojeIso);
+  const sugestao = sugestaoSemana({
+    nivel: estado.nivelFala,
+    perguntas: estado.stats.perguntas,
+    reduzidas: estado.stats.reduzidas,
+    verbos: estado.stats.verbosFala,
+    livres: estado.stats.livres,
+    media: resumo.media
+  });
+  const erros = errosMaisComuns(3);
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('📅 Resumo da semana', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'O gráfico é desta semana, de segunda a domingo. Os contadores de perguntas, fala rápida, phrasal verbs e fala livre são do tempo todo, não só destes sete dias.'),
+    h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, resumo.media == null ? 'Sem nota nesta semana' : `Média da semana: ${resumo.media}`),
+      h('p', {}, resumo.treinos
+        ? `${resumo.treinos} treino${resumo.treinos > 1 ? 's' : ''}${resumo.precisao == null ? '.' : `. Precisão ${resumo.precisao}%.`}`
+        : 'Termine um teste, uma pergunta ou uma fala para pintar a barra.'),
+      barrasDaSemana(resumo.dias)
+    ),
+    h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, 'Sugestão'),
+      h('p', {}, sugestao)
+    ),
+    h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, estado.nivelFala ? `Nível de fala ${estado.nivelFala}` : 'Nível de fala ainda aberto'),
+      h('p', {}, `Perguntas ${estado.stats.perguntas} · fala rápida ${estado.stats.reduzidas} · phrasal verbs ${estado.stats.verbosFala} · fala livre ${estado.stats.livres}.`)
+    ),
+    erros.length
+      ? h('div', { class: 'card' },
+        h('div', { class: 'nivel-titulo' }, 'Erros que mais voltam'),
+        ...erros.map(e => h('div', { class: 'painel-erro' },
+          h('div', { class: 'fala-en', lang: 'en' }, e.en),
+          e.pt ? h('div', { class: 'fala-pt' }, e.pt) : ''
+        ))
+      )
+      : '',
+    h('button', { class: 'btn btn-branco', onclick: telaNivel }, 'TESTE DE NÍVEL')
+  );
+  focarTela();
+}
 
 async function iniciar() {
   contextoDoLog(() => telaAtiva);
@@ -4496,6 +5322,12 @@ async function iniciar() {
     pronuncia: () => (pronunciaSessao && !pronunciaSessao.concluido ? pintarPronuncia() : telaPronuncia()),
     ouvido: () => (ouvidoSessao && !ouvidoSessao.concluido ? pintarOuvido() : telaOuvido()),
     painel: telaPainel,
+    nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
+    pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
+    reducao: () => (reducaoSessao && !reducaoSessao.concluido ? pintarReducao() : telaReducoes()),
+    verbo: () => (frasalSessao && !frasalSessao.concluido ? pintarFrasal() : telaFrasais()),
+    livre: () => (livreSessao && !livreSessao.concluido ? pintarLivre() : telaLivres()),
+    resumo: telaResumo,
     resultado: () => (resultadoAtual ? pintarFim(resultadoAtual) : telaConversa())
   });
   window.addEventListener('popstate', aoVoltarDoNavegador);
