@@ -1,6 +1,7 @@
 import { UNIDADES, NIVEIS, BADGES, MISSOES } from './data.js';
 import { enviarProgresso, baixarProgresso } from './nuvem.js';
 import { IDS_CENARIOS, apagarPapo } from './conversa.js';
+import { FRASES, itemDaFrase } from './frases.js';
 
 const CHAVE = 'gringolingo';
 const CHAVE_CONTA = 'gringolingo:conta';
@@ -54,13 +55,15 @@ const padrao = () => ({
   missoes: null,
   lembrete: null,
   conversas: {},
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0 }
+  falaDia: null,
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
 
 const num = v => (Number.isFinite(Number(v)) ? Number(v) : 0);
 const chaveSegura = k => k !== '__proto__' && k !== 'constructor' && k !== 'prototype';
+const diaIso = v => (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : null);
 
 function deslizeLimpo(d) {
   if (!d || typeof d !== 'object') return null;
@@ -208,6 +211,7 @@ function sanitizar(salvo) {
   s.protetoresGastos = num(s.protetoresGastos);
   s.missoes = s.missoes && typeof s.missoes === 'object' && typeof s.missoes.dia === 'string' && Array.isArray(s.missoes.progresso) ? s.missoes : null;
   s.conversas = limparConversas(s.conversas);
+  s.falaDia = diaIso(s.falaDia);
   s.stats = { ...base.stats, ...(s.stats && typeof s.stats === 'object' ? s.stats : {}) };
   for (const k of Object.keys(s.stats)) s.stats[k] = num(s.stats[k]);
   if (salvo?.stats?.metasBatidas == null) {
@@ -530,6 +534,8 @@ function mesclar(remoto) {
     for (const k of Object.keys(estado.stats)) {
       estado.stats[k] = Math.max(estado.stats[k], num(remotoStats[k]));
     }
+    const remotoFala = diaIso(remoto.falaDia);
+    if (remotoFala && (!estado.falaDia || remotoFala > estado.falaDia)) estado.falaDia = remotoFala;
     if (!estado.conversas || typeof estado.conversas !== 'object') estado.conversas = {};
     for (const [id, v] of Object.entries(limparConversas(remoto.conversas))) {
       const local = estado.conversas[id] ?? { vezes: 0, melhor: 0 };
@@ -742,12 +748,31 @@ export function definirItensExtras(lista) {
   itensExtras = Array.isArray(lista) ? lista : [];
 }
 
+function frasesNaAgenda() {
+  return FRASES.filter(f => estado.itens[f.en]).map(itemDaFrase);
+}
+
+export function frasesVencidas() {
+  const limite = hoje();
+  return FRASES.filter(f => {
+    const agenda = estado.itens[f.en];
+    return !!agenda && typeof agenda.proxima === 'string' && agenda.proxima <= limite;
+  }).map(itemDaFrase);
+}
+
+export function agendarFrase(en, acertou) {
+  if (!FRASES.some(f => f.en === en)) return null;
+  agendar(en, !!acertou);
+  salvar();
+  return { ...estado.itens[en] };
+}
+
 export function itensAprendidos() {
   const itens = [];
   UNIDADES.forEach(u => u.licoes.forEach(l => {
     if (estado.licoes[l.id]) itens.push(...l.itens);
   }));
-  return [...itens, ...itensExtras];
+  return [...itens, ...itensExtras, ...frasesNaAgenda()];
 }
 
 function unidadeCompleta(u) {
@@ -806,6 +831,7 @@ function checarBadges() {
     papo: estado.stats.dialogos >= 1,
     sombra: estado.stats.sombra >= 1,
     ator: IDS_CENARIOS.every(id => (estado.conversas?.[id]?.vezes ?? 0) >= 1),
+    cinco: estado.stats.falas >= 1,
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -924,6 +950,20 @@ export function registrarDialogo(d) {
       melhor: Math.max(num(atual.melhor), Math.max(0, Math.min(num(d.nota), 100)))
     };
   }
+  return fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao);
+}
+
+export function registrarFala(d) {
+  if (!d?.completo) return null;
+  const diaSessao = hoje();
+  const nivelAntes = nivelInfo().numero;
+  const metaAntes = metaBatida(diaSessao);
+  const streakAntes = streakAtual();
+  const { usouProtetor } = atualizarStreak(diaSessao);
+  const missao = avancarMissoes({ ...d, tipo: 'fala' }, diaSessao);
+  estado.stats.falas++;
+  estado.falaDia = diaSessao;
+  aplicarAgendamentos(d.agendamentos);
   return fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao);
 }
 

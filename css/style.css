@@ -2987,6 +2987,16 @@ button.caixa-treinavel:hover {
   border-color: color-mix(in srgb, var(--roxo) 45%, var(--borda));
 }
 
+.fala-atalho {
+  border-color: color-mix(in srgb, var(--laranja) 55%, var(--borda));
+}
+
+.fala-timer {
+  font-variant-numeric: tabular-nums;
+  min-width: 4.5em;
+  text-align: center;
+}
+
 .fala {
   display: block;
   border-radius: 16px;

@@ -1,10 +1,11 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, INTERVALOS } from './game.js';
 import { sons, falar, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
-import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, pontuarSombra, filaSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
+import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
+import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
 import { h, aleatorio, amostra, embaralhar } from './util.js';
 import { trilhasVocab, progressoTrilha, palavrasVocabAprendidas, temLicaoVocab } from './vocabulario.js';
@@ -32,6 +33,7 @@ let avisoPerfil = null;
 let desafioAtivo = null;
 let timersDeTela = [];
 let intervaloRelampago = null;
+let intervaloFala = null;
 let saidaPedidaEm = 0;
 let saindoDaLicao = false;
 let voltandoTela = false;
@@ -60,6 +62,8 @@ function limparTela() {
   timersDeTela = [];
   clearInterval(intervaloRelampago);
   intervaloRelampago = null;
+  clearInterval(intervaloFala);
+  intervaloFala = null;
   saidaPedidaEm = 0;
   saindoDaLicao = false;
   voltandoTela = false;
@@ -221,6 +225,7 @@ function telaInicial() {
     cartaoBoasVindas(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'HOJE'),
     cartaoMeta(),
+    cartaoFala(),
     faixaSemana(),
     cartaoMissoes(),
     cartaoDicaDoDia(),
@@ -2957,8 +2962,8 @@ function calar() {
 function botaoConversa() {
   const feitas = CENARIOS.filter(c => (estado.conversas?.[c.id]?.vezes ?? 0) > 0).length;
   const sub = feitas
-    ? `${feitas} de ${CENARIOS.length} diálogos feitos. Sombra e cenas do dia a dia.`
-    : 'Diálogos do dia a dia, sombra e um parceiro opcional.';
+    ? `${feitas} de ${CENARIOS.length} diálogos feitos. Frases, sombra e cenas do dia a dia.`
+    : 'Diálogos, frases de sobrevivência, sombra e um parceiro opcional.';
   return h('button', { class: 'card revisao conversa-atalho', onclick: telaConversa },
     h('span', { class: 'revisao-emoji' }, '💬'),
     h('div', { class: 'revisao-textos' },
@@ -3097,7 +3102,7 @@ function telaConversa() {
   app.innerHTML = '';
   app.append(
     topoVoltar('💬 Conversar', () => voltarTela()),
-    h('p', { class: 'ia-aviso' }, 'Cenas do dia a dia, com o tutor em cada resposta. A sombra compara o que você falou com a frase. O parceiro de IA é opcional.'),
+    h('p', { class: 'ia-aviso' }, 'Cenas do dia a dia, com o tutor em cada resposta. O baralho guarda frases para se virar, e a sombra compara o que você falou. O parceiro de IA é opcional.'),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'DIÁLOGOS'),
     ...CENARIOS.map(c => {
       const prog = estado.conversas?.[c.id];
@@ -3114,7 +3119,15 @@ function telaConversa() {
       );
     }),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'TREINO'),
-    h('button', { class: 'card revisao', onclick: abrirSombra },
+    h('button', { class: 'card revisao', onclick: telaFrases },
+      h('span', { class: 'revisao-emoji' }, '💬'),
+      h('div', { class: 'revisao-textos' },
+        h('div', { class: 'revisao-titulo' }, 'Frases de sobrevivência'),
+        h('div', { class: 'revisao-sub' }, 'Repetir, ganhar tempo, concordar e interromper. Praticou, entra na revisão.')
+      ),
+      h('span', { class: 'revisao-seta' }, '›')
+    ),
+    h('button', { class: 'card revisao', onclick: () => abrirSombra() },
       h('span', { class: 'revisao-emoji' }, '🗣️'),
       h('div', { class: 'revisao-textos' },
         h('div', { class: 'revisao-titulo' }, 'Sombra'),
@@ -3282,9 +3295,12 @@ function concluirDialogo() {
   pintarFim(dialogo.fim);
 }
 
-function abrirSombra() {
-  const frases = montarRodada(embaralhar(filaSombra(itensAprendidos())), 5);
-  sombraSessao = { frases, i: 0, notas: [], feedback: null, revelado: false, concluido: false, fim: null };
+function abrirSombra(origem) {
+  const base = origem === 'baralho'
+    ? escolherSombra({ soBaralho: true, vencidas: frasesVencidas(), qtd: 8 })
+    : escolherSombra({ aprendidas: itensAprendidos(), vencidas: frasesVencidas(), qtd: 8 });
+  const frases = montarRodada(embaralhar(base), 5);
+  sombraSessao = { frases, i: 0, notas: [], feedback: null, revelado: false, concluido: false, fim: null, origem: origem || '' };
   pintarSombra();
 }
 
@@ -3367,6 +3383,11 @@ function concluirSombra() {
   const notas = sombraSessao.notas;
   const nota = notas.length ? Math.round(notas.reduce((s, n) => s + n, 0) / notas.length) : 0;
   const acertos = notas.filter(n => n >= 80).length;
+  if (sombraSessao.origem === 'baralho') {
+    sombraSessao.frases.forEach((f, i) => {
+      if (FRASES.some(p => p.en === f.en)) agendarFrase(f.en, (notas[i] ?? 0) >= 80);
+    });
+  }
   const xp = 5 + notas.reduce((s, n) => s + Math.round(n / 10), 0);
   const evento = registrarSombra({
     xp,
@@ -3389,6 +3410,7 @@ function concluirSombra() {
 
 function pintarFim(fim) {
   if (!fim) return telaConversa();
+  resultadoAtual = fim;
   calar();
   limparTela();
   window.scrollTo(0, 0);
@@ -3414,7 +3436,7 @@ function pintarFim(fim) {
     h('button', {
       class: 'btn btn-verde',
       onclick() {
-        voltarTela(telaConversa);
+        voltarTela(fim.destino || telaConversa);
       }
     }, 'CONTINUAR')
   ));
@@ -3524,6 +3546,401 @@ function telaParceiro() {
   focarTela();
 }
 
+let resultadoAtual = null;
+let categoriaAtual = null;
+let pratica = null;
+let falaSessao = null;
+
+function cartaoFala() {
+  const feito = estado.falaDia === diaLocalAgora();
+  return h('button', { class: 'card revisao fala-atalho', onclick: abrirFala },
+    h('span', { class: 'revisao-emoji' }, '⏱️'),
+    h('div', { class: 'revisao-textos' },
+      h('div', { class: 'revisao-titulo' }, feito ? 'Desafio de 5 minutos feito' : 'Desafio de 5 minutos'),
+      h('div', { class: 'revisao-sub' }, feito
+        ? 'Feito hoje. Repetir soma mais XP.'
+        : 'Um diálogo, sombra e frases para se virar. Vale a sequência e XP.')
+    ),
+    h('span', { class: 'revisao-seta' }, feito ? '✓' : '🗣️')
+  );
+}
+
+function rotuloAgenda(en) {
+  const agenda = estado.itens[en];
+  if (!agenda) return 'Nova';
+  if (typeof agenda.proxima === 'string' && agenda.proxima <= diaLocalAgora()) return 'Vence hoje';
+  const dias = INTERVALOS[Math.max(0, Math.min(agenda.caixa ?? 0, INTERVALOS.length - 1))] ?? 1;
+  return `Caixa de ${dias} dia${dias > 1 ? 's' : ''}`;
+}
+
+function telaFrases() {
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'frases';
+  registrarRota('frases');
+  const novas = FRASES.filter(f => !estado.itens[f.en]).length;
+  const vencidas = frasesVencidas().length;
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('💬 Frases', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'Frases curtas para não travar. Pratique uma e ela entra na caixa de 1 dia. Quando vencer, a Revisão Turbo cobra de novo. A sombra também usa este baralho.'),
+    h('div', { class: 'fila-botoes' },
+      novas
+        ? h('button', { class: 'btn btn-verde', onclick: estudarNovas }, 'ESTUDAR NOVAS')
+        : '',
+      vencidas
+        ? h('button', { class: 'btn btn-verde', onclick: iniciarRevisaoFrases }, `REVISAR ${vencidas}`)
+        : '',
+      h('button', { class: 'btn btn-branco', onclick: () => abrirSombra('baralho') }, 'SOMBREAR')
+    ),
+    h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'BARALHO'),
+    ...CATEGORIAS.map(c => {
+      const lista = frasesDaCategoria(c.id);
+      const naAgenda = lista.filter(f => estado.itens[f.en]).length;
+      return h('button', { class: 'card revisao', onclick: () => telaCategoria(c.id) },
+        h('span', { class: 'revisao-emoji' }, c.emoji),
+        h('div', { class: 'revisao-textos' },
+          h('div', { class: 'revisao-titulo' }, c.titulo),
+          h('div', { class: 'revisao-sub' }, naAgenda
+            ? `${naAgenda} de ${lista.length} na revisão. Ex.: ${c.exemplo}`
+            : c.exemplo)
+        ),
+        h('span', { class: 'revisao-seta' }, '›')
+      );
+    })
+  );
+  focarTela();
+}
+
+function telaCategoria(id) {
+  const cat = CATEGORIAS.find(c => c.id === id);
+  if (!cat) return telaFrases();
+  categoriaAtual = id;
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'categoria';
+  registrarRota('categoria');
+  app.innerHTML = '';
+  app.append(
+    topoVoltar(cat.emoji + ' ' + cat.titulo, () => voltarTela(telaFrases)),
+    ...frasesDaCategoria(id).map(f => h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo', lang: 'en' }, f.en),
+      h('div', { class: 'fala-pt' }, f.pt),
+      h('p', { class: 'ia-aviso' }, f.uso),
+      h('span', { class: 'pilula' }, rotuloAgenda(f.en)),
+      h('div', { class: 'fila-botoes' },
+        h('button', { class: 'btn btn-branco', type: 'button', onclick: () => falar(f.en) }, 'OUVIR'),
+        h('button', { class: 'btn btn-verde', type: 'button', onclick: () => abrirPratica([f], 'categoria') }, 'PRATICAR')
+      )
+    ))
+  );
+  focarTela();
+}
+
+function estudarNovas() {
+  const novas = embaralhar(FRASES.filter(f => !estado.itens[f.en])).slice(0, 5);
+  if (!novas.length) return telaFrases();
+  abrirPratica(novas, 'frases');
+}
+
+function iniciarRevisaoFrases() {
+  const itens = frasesVencidas().slice(0, 8);
+  if (!itens.length) return telaFrases();
+  const pool = FRASES.map(itemDaFrase);
+  const fila = gerarExercicios(itens, pool, Math.min(8, Math.max(4, itens.length * 2)));
+  sessao = {
+    tipo: 'revisao', pool, fila, itens,
+    idx: 0, planejados: fila.length, acertos: 0, respostas: 0,
+    xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map(), deslizes: []
+  };
+  telaExercicio();
+}
+
+function abrirPratica(fila, voltar) {
+  pratica = { fila, i: 0, feedback: null, concluido: false, voltar: voltar || 'frases' };
+  pintarPratica();
+}
+
+function pintarPratica() {
+  if (!pratica) return telaFrases();
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'pratica';
+  registrarRota('pratica');
+  const voltar = () => voltarTela(pratica?.voltar === 'categoria' && categoriaAtual
+    ? () => telaCategoria(categoriaAtual)
+    : telaFrases);
+  app.innerHTML = '';
+  if (pratica.concluido) {
+    app.append(
+      topoVoltar('💬 Frases', voltar),
+      h('div', { class: 'card' },
+        h('div', { class: 'nivel-titulo' }, 'Na agenda'),
+        h('p', {}, 'A frase entra na revisão. Acertar sobe a caixa. Errar traz ela de volta amanhã. A Revisão Turbo e a sombra passam a incluir essas frases.')
+      ),
+      h('button', { class: 'btn btn-verde', onclick: voltar }, 'VOLTAR AO BARALHO')
+    );
+    focarTela();
+    return;
+  }
+  const frase = pratica.fila[pratica.i];
+  const miolo = [
+    topoVoltar('💬 ' + (frase.cat ? (CATEGORIAS.find(c => c.id === frase.cat)?.titulo || 'Frase') : 'Frase'), voltar),
+    h('div', { class: 'revisao-sub' }, `Frase ${pratica.i + 1} de ${pratica.fila.length}`)
+  ];
+  if (pratica.feedback) {
+    const aval = pratica.feedback;
+    miolo.push(h('div', { class: 'nota-grande' }, String(aval.nota)));
+    if (aval.partes?.length) {
+      miolo.push(h('p', { class: 'sombra-frase', lang: 'en' }, aval.partes.map(p =>
+        h('span', { class: p.ok ? 'sombra-ok' : 'sombra-falta' }, p.t + ' ')
+      )));
+    }
+    if (!aval.ok) miolo.push(h('p', {}, 'Melhor jeito: ', h('strong', { lang: 'en' }, aval.melhor)));
+    miolo.push(h('p', { class: 'ia-aviso' }, frase.uso));
+    const agenda = estado.itens[frase.en];
+    const dias = INTERVALOS[Math.max(0, Math.min(agenda?.caixa ?? 0, INTERVALOS.length - 1))] ?? 1;
+    miolo.push(h('p', {}, `Caixa de ${dias} dia${dias > 1 ? 's' : ''}.`));
+    miolo.push(h('button', { class: 'btn btn-branco', type: 'button', onclick: () => falar(frase.en) }, 'OUVIR'));
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        if (pratica.i + 1 >= pratica.fila.length) {
+          pratica.concluido = true;
+          pintarPratica();
+        } else {
+          pratica.i++;
+          pratica.feedback = null;
+          pintarPratica();
+        }
+      }
+    }, pratica.i + 1 >= pratica.fila.length ? 'CONCLUIR' : 'PRÓXIMA'));
+  } else {
+    miolo.push(h('p', { class: 'ia-aviso' }, 'Como se diz, em inglês:'));
+    miolo.push(h('p', { class: 'sombra-frase' }, frase.pt));
+    const campo = campoResposta('Escreva em inglês...');
+    miolo.push(campo.status, campo.mic, campo.entrada);
+    const verificar = h('button', { class: 'btn btn-verde', disabled: true }, 'VERIFICAR');
+    campo.entrada.addEventListener('input', () => {
+      verificar.disabled = !campo.entrada.value.trim();
+    });
+    const enviar = () => {
+      if (!campo.entrada.value.trim() || pratica.feedback) return;
+      const aval = avaliarFrase(frase, campo.entrada.value);
+      agendarFrase(frase.en, aval.ok);
+      pratica.feedback = aval;
+      if (aval.ok) sons.acerto();
+      else sons.erro();
+      pintarPratica();
+    };
+    campo.entrada.addEventListener('keydown', e => {
+      if (e.key === 'Enter') enviar();
+    });
+    verificar.addEventListener('click', enviar);
+    miolo.push(verificar);
+    app.append(h('div', {}, miolo));
+    focarTela();
+    campo.entrada.focus();
+    return;
+  }
+  app.append(h('div', {}, miolo));
+  focarTela();
+}
+
+function abrirFala() {
+  const plano = montarDesafioFala(diaLocalAgora());
+  falaSessao = {
+    passos: plano.passos,
+    duracaoMs: plano.duracaoMs,
+    inicio: Date.now(),
+    i: 0,
+    respostas: [],
+    feedback: null,
+    revelado: false,
+    concluido: false,
+    fim: null
+  };
+  pintarFala();
+}
+
+function ligarRelogio(el) {
+  const tick = () => {
+    if (!falaSessao || falaSessao.concluido) return;
+    const resta = falaSessao.duracaoMs - (Date.now() - falaSessao.inicio);
+    const segundos = Math.max(0, Math.ceil(resta / 1000));
+    el.textContent = `${Math.floor(segundos / 60)}:${String(segundos % 60).padStart(2, '0')}`;
+    if (resta <= 0) finalizarFala(true);
+  };
+  tick();
+  intervaloFala = setInterval(tick, 250);
+}
+
+function seguirFala() {
+  if (!falaSessao || falaSessao.concluido) return;
+  if (falaSessao.i + 1 >= falaSessao.passos.length) finalizarFala(false);
+  else {
+    falaSessao.i++;
+    falaSessao.feedback = null;
+    falaSessao.revelado = false;
+    pintarFala();
+  }
+}
+
+function anotarFala(ok, nota, aval) {
+  if (!falaSessao || falaSessao.feedback || falaSessao.concluido) return;
+  const passo = falaSessao.passos[falaSessao.i];
+  falaSessao.respostas.push({ tipo: passo.tipo, ok, nota, en: passo.en || '' });
+  falaSessao.feedback = aval;
+  if (ok) sons.acerto();
+  else sons.erro();
+  pintarFala();
+}
+
+function finalizarFala(estourou) {
+  if (!falaSessao || falaSessao.concluido) return;
+  falaSessao.concluido = true;
+  const respostas = falaSessao.respostas;
+  const conta = falaConta(respostas, falaSessao.passos.length, estourou);
+  const acertos = respostas.filter(r => r.ok).length;
+  const nota = respostas.length ? Math.round(acertos / respostas.length * 100) : 0;
+  let evento = null;
+  let xp = 0;
+  if (conta) {
+    xp = xpDaFala(respostas, true);
+    evento = registrarFala({
+      completo: true,
+      xp,
+      acertos,
+      respostas: respostas.length,
+      perfeita: false,
+      comboMax: 0,
+      agendamentos: respostas
+        .filter(r => r.en && (r.tipo === 'frase' || r.tipo === 'sombra') && FRASES.some(f => f.en === r.en))
+        .map(r => ({ en: r.en, acertou: !!r.ok }))
+    });
+    xp += evento?.bonusMissoes ?? 0;
+  }
+  falaSessao.fim = {
+    titulo: conta ? 'Desafio concluído!' : 'Tempo esgotado',
+    sub: conta
+      ? 'Diálogo, sombra e frases no mesmo treino.'
+      : 'O mix ficou incompleto, então a sequência de hoje não mudou.',
+    nota,
+    xp,
+    evento,
+    destino: telaInicial
+  };
+  pintarFim(falaSessao.fim);
+}
+
+function pintarFala() {
+  if (!falaSessao || falaSessao.concluido) return falaSessao?.fim ? pintarFim(falaSessao.fim) : telaInicial();
+  calar();
+  limparTela();
+  app.innerHTML = '';
+  window.scrollTo(0, 0);
+  telaAtiva = 'fala';
+  registrarRota('fala');
+  const passo = falaSessao.passos[falaSessao.i];
+  const rotulo = passo.tipo === 'dialogo' ? 'Diálogo' : passo.tipo === 'sombra' ? 'Sombra' : 'Frase';
+  const timer = h('span', { class: 'pilula fala-timer', role: 'timer', 'aria-label': 'Tempo restante' }, '5:00');
+  const miolo = [
+    topoVoltar('⏱️ 5 minutos', () => voltarTela(telaInicial)),
+    h('div', { class: 'fila-botoes' },
+      h('span', { class: 'revisao-sub' }, `${rotulo} · passo ${falaSessao.i + 1} de ${falaSessao.passos.length}`),
+      timer
+    )
+  ];
+  if (passo.tipo === 'dialogo') {
+    miolo.push(h('div', { class: 'revisao-sub' }, `${passo.emoji} ${passo.titulo} · ${passo.onde}`));
+    miolo.push(h('div', { class: 'fala fala-npc' },
+      h('div', { class: 'fala-en', lang: 'en' }, passo.npc.en),
+      h('div', { class: 'fala-pt' }, passo.npc.pt)
+    ));
+    miolo.push(h('button', { class: 'btn btn-branco', type: 'button', onclick: () => falar(passo.npc.en) }, 'OUVIR DE NOVO'));
+  }
+  if (falaSessao.feedback) {
+    if (passo.tipo === 'dialogo') miolo.push(cartaoTutor(falaSessao.feedback));
+    else {
+      const aval = falaSessao.feedback;
+      miolo.push(h('div', { class: 'nota-grande' }, String(aval.nota)));
+      if (aval.partes?.length) {
+        miolo.push(h('p', { class: 'sombra-frase', lang: 'en' }, aval.partes.map(p =>
+          h('span', { class: p.ok ? 'sombra-ok' : 'sombra-falta' }, p.t + ' ')
+        )));
+      }
+      if (aval.sobras?.length) miolo.push(h('p', { class: 'ia-aviso' }, 'Sobrou: ' + aval.sobras.join(', ')));
+      if (passo.pt) miolo.push(h('p', { class: 'fala-pt' }, passo.pt));
+      if (passo.tipo === 'frase' && !aval.ok) {
+        miolo.push(h('p', {}, 'Melhor jeito: ', h('strong', { lang: 'en' }, aval.melhor || passo.en)));
+      }
+    }
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick: seguirFala
+    }, falaSessao.i + 1 >= falaSessao.passos.length ? 'CONCLUIR' : 'CONTINUAR'));
+    app.append(h('div', {}, miolo));
+    ligarRelogio(timer);
+    focarTela();
+    return;
+  }
+  if (passo.tipo === 'sombra') {
+    miolo.push(h('button', { class: 'btn btn-branco', type: 'button', onclick: () => falar(passo.en) }, 'OUVIR'));
+    if (falaSessao.revelado) miolo.push(h('p', { class: 'sombra-frase', lang: 'en' }, passo.en));
+    else {
+      miolo.push(h('p', { class: 'ia-aviso' }, 'Ouça e repita. Se o aparelho não falar, mostre a frase.'));
+      miolo.push(h('button', {
+        class: 'btn btn-branco',
+        type: 'button',
+        onclick() {
+          falaSessao.revelado = true;
+          pintarFala();
+        }
+      }, 'MOSTRAR A FRASE'));
+    }
+    timerDeTela(() => falar(passo.en), 280);
+  } else if (passo.tipo === 'frase') {
+    miolo.push(h('p', { class: 'ia-aviso' }, 'Como se diz, em inglês:'));
+    miolo.push(h('p', { class: 'sombra-frase' }, passo.pt));
+    if (passo.uso) miolo.push(h('p', { class: 'fala-pt' }, passo.uso));
+  } else {
+    miolo.push(h('p', { class: 'ia-aviso' }, passo.voce.pt));
+    timerDeTela(() => falar(passo.npc.en), 280);
+  }
+  const campo = campoResposta(passo.tipo === 'sombra' ? 'Repita em inglês...' : 'Escreva em inglês...');
+  miolo.push(campo.status, campo.mic, campo.entrada);
+  const verificar = h('button', { class: 'btn btn-verde', disabled: true }, passo.tipo === 'sombra' ? 'COMPARAR' : 'VERIFICAR');
+  campo.entrada.addEventListener('input', () => {
+    verificar.disabled = !campo.entrada.value.trim();
+  });
+  const enviar = () => {
+    const texto = campo.entrada.value.trim();
+    if (!texto || falaSessao.feedback) return;
+    if (passo.tipo === 'dialogo') {
+      const aval = avaliarResposta(passo.voce, texto);
+      anotarFala(aval.ok, aval.nota, aval);
+    } else if (passo.tipo === 'sombra') {
+      const aval = pontuarSombra(passo.en, texto);
+      anotarFala(aval.nota >= 80, aval.nota, aval);
+    } else {
+      const aval = avaliarFrase(passo, texto);
+      anotarFala(aval.ok, aval.nota, aval);
+    }
+  };
+  campo.entrada.addEventListener('keydown', e => {
+    if (e.key === 'Enter') enviar();
+  });
+  verificar.addEventListener('click', enviar);
+  miolo.push(verificar);
+  app.append(h('div', {}, miolo));
+  ligarRelogio(timer);
+  focarTela();
+  campo.entrada.focus();
+}
+
 let papoEsperando = false;
 
 async function iniciar() {
@@ -3541,11 +3958,11 @@ async function iniciar() {
     dialogo: () => (dialogo ? pintarDialogo() : telaConversa()),
     sombra: () => (sombraSessao ? pintarSombra() : telaConversa()),
     parceiro: telaParceiro,
-    resultado: () => {
-      if (dialogo?.fim) pintarFim(dialogo.fim);
-      else if (sombraSessao?.fim) pintarFim(sombraSessao.fim);
-      else telaConversa();
-    }
+    frases: telaFrases,
+    categoria: () => (categoriaAtual ? telaCategoria(categoriaAtual) : telaFrases()),
+    pratica: () => (pratica ? pintarPratica() : telaFrases()),
+    fala: () => (falaSessao && !falaSessao.concluido ? pintarFala() : telaInicial()),
+    resultado: () => (resultadoAtual ? pintarFim(resultadoAtual) : telaConversa())
   });
   window.addEventListener('popstate', aoVoltarDoNavegador);
   desafioAtivo = lerDesafio();
