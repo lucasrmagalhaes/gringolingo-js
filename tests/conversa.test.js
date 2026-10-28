@@ -18,8 +18,9 @@ beforeEach(() => {
 
 describe('diálogos guiados', () => {
   test('cinco cenas, cada uma com falas do app e respostas do aluno', () => {
-    assert.deepEqual(IDS_CENARIOS, ['restaurante', 'hotel', 'entrevista', 'papo', 'caminho']);
-    for (const c of CENARIOS) {
+    const lineares = CENARIOS.filter(c => !c.ramo);
+    assert.deepEqual(lineares.map(c => c.id), ['restaurante', 'hotel', 'entrevista', 'papo', 'caminho']);
+    for (const c of lineares) {
       assert.ok(c.titulo && c.onde && c.emoji);
       const rodadas = rodadasDo(c);
       assert.ok(rodadas.length >= 4, c.id);

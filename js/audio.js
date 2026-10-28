@@ -149,14 +149,26 @@ export function definirVelocidade(id) {
   if (VELOCIDADES.some(v => v.id === id)) localStorage.setItem(CHAVE_VELOCIDADE, id);
 }
 
+function utterance(texto, velocidade) {
+  const u = new SpeechSynthesisUtterance(texto);
+  u.lang = vozEn ? normalizarLang(vozEn) : 'en-US';
+  u.rate = velocidade ?? velocidadeAtual().valor;
+  if (vozEn) u.voice = vozEn;
+  return u;
+}
+
 export function falar(texto, velocidade) {
   if (!temTts) return;
   try {
     speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(texto);
-    u.lang = vozEn ? normalizarLang(vozEn) : 'en-US';
-    u.rate = velocidade ?? velocidadeAtual().valor;
-    if (vozEn) u.voice = vozEn;
-    speechSynthesis.speak(u);
+    speechSynthesis.speak(utterance(texto, velocidade));
+  } catch {}
+}
+
+export function falarSequencia(textos, velocidade) {
+  if (!temTts || !textos?.length) return;
+  try {
+    speechSynthesis.cancel();
+    textos.forEach(texto => speechSynthesis.speak(utterance(texto, velocidade)));
   } catch {}
 }

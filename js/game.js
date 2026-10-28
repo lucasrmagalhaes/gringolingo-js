@@ -1,6 +1,6 @@
 import { UNIDADES, NIVEIS, BADGES, MISSOES } from './data.js';
 import { enviarProgresso, baixarProgresso } from './nuvem.js';
-import { IDS_CENARIOS, apagarPapo } from './conversa.js';
+import { IDS_CINCO, apagarPapo } from './conversa.js';
 import { FRASES, itemDaFrase } from './frases.js';
 
 const CHAVE = 'gringolingo';
@@ -56,7 +56,9 @@ const padrao = () => ({
   lembrete: null,
   conversas: {},
   falaDia: null,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0 }
+  painel: {},
+  errosFala: [],
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -111,6 +113,42 @@ function dedupDeslizes(lista) {
   return [...map.values()]
     .sort((a, b) => (b.erros - b.acertos) - (a.erros - a.acertos) || a.en.localeCompare(b.en))
     .slice(0, 80);
+}
+
+function limparPainel(bruto) {
+  const saida = {};
+  if (!bruto || typeof bruto !== 'object' || Array.isArray(bruto)) return saida;
+  for (const [dia, v] of Object.entries(bruto)) {
+    if (!diaIso(dia) || !v || typeof v !== 'object') continue;
+    saida[dia] = {
+      soma: Math.max(0, Math.min(num(v.soma), 100000)),
+      n: Math.max(0, Math.min(num(v.n), 9999)),
+      acertos: Math.max(0, Math.min(num(v.acertos), 9999)),
+      respostas: Math.max(0, Math.min(num(v.respostas), 9999))
+    };
+  }
+  return Object.fromEntries(Object.entries(saida).sort(([a], [b]) => a < b ? -1 : 1).slice(-90));
+}
+
+function limparErrosFala(bruto) {
+  if (!Array.isArray(bruto)) return [];
+  const map = new Map();
+  for (const item of bruto) {
+    if (!item || typeof item.en !== 'string' || !item.en || item.en.length > 120 || !chaveSegura(item.en)) continue;
+    const n = Math.max(0, Math.min(num(item.n), 9999));
+    if (!n) continue;
+    const atual = map.get(item.en);
+    if (!atual || n > atual.n) {
+      map.set(item.en, {
+        en: item.en,
+        pt: typeof item.pt === 'string' ? item.pt.slice(0, 120) : (atual?.pt || ''),
+        n
+      });
+    } else if (atual && !atual.pt && typeof item.pt === 'string') {
+      atual.pt = item.pt.slice(0, 120);
+    }
+  }
+  return [...map.values()].sort((a, b) => b.n - a.n || a.en.localeCompare(b.en)).slice(0, 40);
 }
 
 function limparConversas(bruto) {
@@ -212,6 +250,8 @@ function sanitizar(salvo) {
   s.missoes = s.missoes && typeof s.missoes === 'object' && typeof s.missoes.dia === 'string' && Array.isArray(s.missoes.progresso) ? s.missoes : null;
   s.conversas = limparConversas(s.conversas);
   s.falaDia = diaIso(s.falaDia);
+  s.painel = limparPainel(s.painel);
+  s.errosFala = limparErrosFala(s.errosFala);
   s.stats = { ...base.stats, ...(s.stats && typeof s.stats === 'object' ? s.stats : {}) };
   for (const k of Object.keys(s.stats)) s.stats[k] = num(s.stats[k]);
   if (salvo?.stats?.metasBatidas == null) {
@@ -536,6 +576,12 @@ function mesclar(remoto) {
     }
     const remotoFala = diaIso(remoto.falaDia);
     if (remotoFala && (!estado.falaDia || remotoFala > estado.falaDia)) estado.falaDia = remotoFala;
+    estado.painel = limparPainel(estado.painel);
+    for (const [dia, v] of Object.entries(limparPainel(remoto.painel))) {
+      const local = estado.painel[dia];
+      if (!local || v.n > local.n || (v.n === local.n && v.soma > local.soma)) estado.painel[dia] = v;
+    }
+    estado.errosFala = limparErrosFala([...(estado.errosFala ?? []), ...limparErrosFala(remoto.errosFala)]);
     if (!estado.conversas || typeof estado.conversas !== 'object') estado.conversas = {};
     for (const [id, v] of Object.entries(limparConversas(remoto.conversas))) {
       const local = estado.conversas[id] ?? { vezes: 0, melhor: 0 };
@@ -830,8 +876,10 @@ function checarBadges() {
     ouvido: estado.stats.escutas >= 1,
     papo: estado.stats.dialogos >= 1,
     sombra: estado.stats.sombra >= 1,
-    ator: IDS_CENARIOS.every(id => (estado.conversas?.[id]?.vezes ?? 0) >= 1),
+    ator: IDS_CINCO.every(id => (estado.conversas?.[id]?.vezes ?? 0) >= 1),
     cinco: estado.stats.falas >= 1,
+    caminhos: estado.stats.ramos >= 1,
+    pares: estado.stats.pronuncias >= 1,
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -914,7 +962,34 @@ export function registrarRelampago(d) {
   };
 }
 
+function anotarPainel(nota, acertos, respostas) {
+  const d = hoje();
+  if (!estado.painel || typeof estado.painel !== 'object') estado.painel = {};
+  const atual = estado.painel[d] ?? { soma: 0, n: 0, acertos: 0, respostas: 0 };
+  estado.painel[d] = {
+    soma: atual.soma + Math.max(0, Math.min(num(nota), 100)),
+    n: atual.n + 1,
+    acertos: atual.acertos + Math.max(0, num(acertos)),
+    respostas: atual.respostas + Math.max(0, num(respostas))
+  };
+}
+
+function somarErrosFala(lista) {
+  if (!Array.isArray(lista) || !lista.length) return;
+  const base = (estado.errosFala ?? []).map(e => ({ ...e }));
+  for (const e of lista) {
+    if (!e || typeof e.en !== 'string' || !e.en) continue;
+    const add = Math.max(1, num(e.n) || 1);
+    const i = base.findIndex(x => x.en === e.en);
+    if (i >= 0) base[i] = { ...base[i], n: base[i].n + add, pt: base[i].pt || e.pt || '' };
+    else base.push({ en: e.en, pt: e.pt || '', n: add });
+  }
+  estado.errosFala = limparErrosFala(base);
+}
+
 function fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao) {
+  if (d.nota != null && d.nota !== '') anotarPainel(d.nota, d.acertos, d.respostas);
+  somarErrosFala(d.errosFala);
   estado.xp += d.xp + missao.bonus;
   registrarDia(d.xp + missao.bonus, diaSessao);
   estado.stats.acertos += num(d.acertos);
@@ -941,6 +1016,7 @@ export function registrarDialogo(d) {
   const { usouProtetor } = atualizarStreak(diaSessao);
   const missao = avancarMissoes({ ...d, tipo: 'dialogo' }, diaSessao);
   estado.stats.dialogos++;
+  if (d.ramo) estado.stats.ramos++;
   if (!estado.conversas || typeof estado.conversas !== 'object') estado.conversas = {};
   const id = typeof d.id === 'string' && chaveSegura(d.id) ? d.id : '';
   if (id) {
@@ -951,6 +1027,32 @@ export function registrarDialogo(d) {
     };
   }
   return fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao);
+}
+
+export function registrarPronuncia(d) {
+  const diaSessao = hoje();
+  const nivelAntes = nivelInfo().numero;
+  const metaAntes = metaBatida(diaSessao);
+  const streakAntes = streakAtual();
+  const { usouProtetor } = atualizarStreak(diaSessao);
+  const missao = avancarMissoes({ ...d, tipo: 'pronuncia' }, diaSessao);
+  estado.stats.pronuncias++;
+  return fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao);
+}
+
+export function registrarOuvido(d) {
+  const diaSessao = hoje();
+  const nivelAntes = nivelInfo().numero;
+  const metaAntes = metaBatida(diaSessao);
+  const streakAntes = streakAtual();
+  const { usouProtetor } = atualizarStreak(diaSessao);
+  const missao = avancarMissoes({ ...d, tipo: 'ouvido' }, diaSessao);
+  estado.stats.ouvidos++;
+  return fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao);
+}
+
+export function errosMaisComuns(limite = 5) {
+  return (estado.errosFala ?? []).slice(0, limite);
 }
 
 export function registrarFala(d) {

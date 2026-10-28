@@ -2987,6 +2987,50 @@ button.caixa-treinavel:hover {
   border-color: color-mix(in srgb, var(--roxo) 45%, var(--borda));
 }
 
+.pronuncia-atalho {
+  border-color: color-mix(in srgb, var(--verde) 45%, var(--borda));
+}
+
+.semana-fala {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 120px;
+  margin-top: 12px;
+}
+
+.semana-fala-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+  min-width: 0;
+}
+
+.semana-fala .col {
+  width: 100%;
+  background: var(--verde);
+  border-radius: 8px 8px 0 0;
+  min-height: 4px;
+}
+
+.semana-fala .col-vazia {
+  background: var(--trilho);
+}
+
+.semana-fala-dia {
+  margin-top: 4px;
+  font-size: var(--fonte-xs);
+  font-weight: 800;
+  color: var(--texto-suave);
+}
+
+.painel-erro {
+  margin-top: 12px;
+}
+
 .fala-atalho {
   border-color: color-mix(in srgb, var(--laranja) 55%, var(--borda));
 }
