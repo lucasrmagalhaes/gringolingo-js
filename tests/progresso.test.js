@@ -6,7 +6,8 @@ import { limparArmazenamento, hojeIso, diasIso } from './ambiente.js';
 const jogo = await import('../js/game.js');
 const {
   estado, registrarLicao, registrarRevisao, registrarRelampago, mesclarEstado,
-  limparEstadoMemoria, definirAgora, missoesDeHoje, streakAtual, INTERVALOS, METAS
+  limparEstadoMemoria, definirAgora, missoesDeHoje, streakAtual, INTERVALOS, METAS,
+  importarEstado, palavrasFracas, resumoPadroes
 } = jogo;
 
 function licaoBasica(extra = {}) {
@@ -214,5 +215,64 @@ describe('vocabulário extra não vaza entre contas', () => {
     assert.ok(itensAprendidos().some(i => i.en === 'able'));
     limparEstadoMemoria();
     assert.ok(!itensAprendidos().some(i => i.en === 'able'), 'reset precisa derrubar o vocabulário derivado');
+  });
+});
+
+describe('deslizes do tutor', () => {
+  test('erro recorrente sobe a contagem e o acerto depois abaixa o saldo', () => {
+    registrarLicao('b1', licaoBasica({
+      deslizes: [{ en: 'cat', pt: 'gato', chave: 'artigo', tipo: 'artigo' }],
+      agendamentos: [{ en: 'cat', acertou: false }]
+    }));
+    assert.equal(estado.deslizes[0].erros, 1);
+    assert.equal(estado.padroes[0].chave, 'artigo');
+    assert.equal(estado.padroes[0].n, 1);
+    registrarLicao('b1', licaoBasica({
+      deslizes: [{ en: 'cat', pt: 'gato', chave: 'artigo', tipo: 'artigo' }],
+      agendamentos: [{ en: 'cat', acertou: false }]
+    }));
+    assert.equal(resumoPadroes()[0].n, 2);
+    assert.equal(palavrasFracas([{ en: 'cat', pt: 'gato' }])[0].saldo, 2);
+    registrarLicao('b1', licaoBasica({ agendamentos: [{ en: 'cat', acertou: true }] }));
+    assert.equal(estado.deslizes.find(d => d.en === 'cat').acertos, 1);
+    assert.equal(palavrasFracas([{ en: 'cat', pt: 'gato' }])[0].saldo, 1);
+  });
+
+  test('merge fica com o maior contador e não duplica a palavra', () => {
+    estado.deslizes = [{ en: 'cat', pt: 'gato', chave: 'artigo', tipo: 'artigo', erros: 2, acertos: 1 }];
+    estado.padroes = [{ chave: 'artigo', tipo: 'artigo', n: 2 }];
+    mesclarEstado({
+      deslizes: [
+        { en: 'cat', pt: 'gato', chave: 'typo', tipo: 'typo', erros: 1, acertos: 0 },
+        { en: 'dog', pt: 'cão', chave: 'plural', tipo: 'plural', erros: 3, acertos: 1 }
+      ],
+      padroes: [
+        { chave: 'artigo', tipo: 'artigo', n: 5 },
+        { chave: 'plural', tipo: 'plural', n: 3 }
+      ]
+    });
+    const cat = estado.deslizes.find(d => d.en === 'cat');
+    const dog = estado.deslizes.find(d => d.en === 'dog');
+    assert.equal(cat.erros, 2);
+    assert.equal(cat.acertos, 1);
+    assert.equal(cat.chave, 'artigo');
+    assert.equal(dog.erros, 3);
+    assert.equal(estado.deslizes.filter(d => d.en === 'cat').length, 1);
+    assert.equal(estado.padroes.find(p => p.chave === 'artigo').n, 5);
+    assert.equal(estado.padroes.find(p => p.chave === 'plural').n, 3);
+  });
+
+  test('backup antigo sem o campo continua válido', () => {
+    importarEstado({ xp: 4, licoes: {} }, 'substituir');
+    assert.deepEqual(estado.deslizes, []);
+    assert.deepEqual(estado.padroes, []);
+    assert.equal(estado.xp, 4);
+  });
+
+  test('payload da versão 3 entra, e versão futura continua recusada', () => {
+    mesclarEstado({ versaoDados: 3, xp: 7, deslizes: [{ en: 'tea', pt: 'chá', chave: 'typo', tipo: 'typo', erros: 1, acertos: 0 }] });
+    assert.equal(estado.xp, 7);
+    assert.equal(estado.deslizes[0].en, 'tea');
+    assert.throws(() => mesclarEstado({ versaoDados: 99, xp: 1 }), /versão mais nova/);
   });
 });

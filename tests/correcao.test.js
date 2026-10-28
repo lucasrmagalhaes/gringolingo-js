@@ -331,4 +331,30 @@ describe('digitar: typo que forma outra palavra real não é perdoado', () => {
     assert.equal(resultado.correto, true);
     assert.equal(resultado.quase, true);
   });
+
+  test('letra trocada de lugar também é quase, com aviso do tutor', () => {
+    const { resultado } = digitar({ en: 'good morning', pt: 'bom dia' }, 'good mornign');
+    assert.equal(resultado.correto, true);
+    assert.equal(resultado.quase, true);
+    assert.equal(resultado.tutor.tipo, 'typo');
+    assert.equal(resultado.tutor.aceitar, true);
+    assert.match(resultado.tutor.porque, /mornign/);
+    assert.ok(resultado.tutor.dica);
+  });
+
+  test('typo dentro da frase que vira outra palavra real não passa', () => {
+    const { resultado } = digitar({ en: 'I have a mouse', pt: 'eu tenho um rato' }, 'I have a house');
+    assert.equal(resultado.correto, false);
+    assert.equal(resultado.quase, false);
+    assert.equal(resultado.tutor.tipo, 'troca');
+    assert.match(resultado.tutor.porque, /outra palavra/);
+  });
+
+  test('lunch e launch não se perdoam: é falso amigo, não errinho', () => {
+    const { resultado } = digitar({ en: 'lunch', pt: 'almoço' }, 'launch');
+    assert.equal(resultado.correto, false);
+    assert.equal(resultado.quase, false);
+    assert.equal(resultado.tutor.tipo, 'cognato');
+    assert.equal(resultado.tutor.chave, 'cognato:launch');
+  });
 });

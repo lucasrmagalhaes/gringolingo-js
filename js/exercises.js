@@ -1,6 +1,7 @@
 import { POOL_TILES, UNIDADES } from './data.js';
 import { temTts, falar, sons } from './audio.js';
 import { bancoCarregado } from './dicionario.js';
+import { diagnosticar } from './dicas.js';
 import { h, embaralhar, amostra, aleatorio } from './util.js';
 
 const CONTRACOES = new Map([
@@ -62,10 +63,16 @@ function ehPalavraConhecida(p) {
   return !!palavrasDoBanco?.has(p);
 }
 
-function quaseCerta(dada, aceitas) {
-  if (!dada) return false;
-  if (!dada.includes(' ') && ehPalavraConhecida(dada)) return false;
-  return aceitas.some(a => a.length >= 5 && levenshtein(dada, a) <= 1);
+function tutorDaResposta(texto, item, extra = {}) {
+  return diagnosticar({
+    dada: texto,
+    certa: extra.certa ?? item?.en ?? '',
+    alternativas: extra.alt ?? item?.alt,
+    nota: extra.nota ?? item?.nota,
+    opcao: !!extra.opcao,
+    palavraReal: ehPalavraConhecida,
+    contexto: extra.contexto ?? item?.en
+  });
 }
 
 export function diffPalavras(dadaTexto, certaTexto) {
@@ -99,17 +106,6 @@ export function diffPalavras(dadaTexto, certaTexto) {
     certa: certa.map((palavra, idx) => ({ palavra, falta: !casadasCerta.has(idx) })),
     dada: dada.map((palavra, idx) => ({ palavra, sobra: !casadasDada.has(idx) }))
   };
-}
-
-function levenshtein(a, b) {
-  const m = Array.from({ length: a.length + 1 }, (_, i) => [i]);
-  for (let j = 0; j <= b.length; j++) m[0][j] = j;
-  for (let i = 1; i <= a.length; i++) {
-    for (let j = 1; j <= b.length; j++) {
-      m[i][j] = Math.min(m[i - 1][j] + 1, m[i][j - 1] + 1, m[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
-    }
-  }
-  return m[a.length][b.length];
 }
 
 function ehFrase(item) {
@@ -370,7 +366,12 @@ function montarEscolha(ex, cb) {
         if (b.textContent === alvo) b.classList.add('certa');
         else if (b.textContent === sel && !ok) b.classList.add('errada');
       });
-      return { correto: ok, certa: alvo };
+      const tutor = ok ? null : tutorDaResposta(sel ?? '', ex.item, {
+        certa: alvo,
+        opcao: true,
+        contexto: ex.tipo === 'lacuna' ? ex.item.en : alvo
+      });
+      return { correto: ok, certa: alvo, tutor };
     }
   };
 }
@@ -406,9 +407,16 @@ function montarDigitar(ex, cb) {
       const dada = normalizar(input.value);
       const aceitas = [ex.item.en, ...(ex.item.alt ?? [])].map(normalizar);
       const ok = aceitas.includes(dada);
-      const quase = !ok && quaseCerta(dada, aceitas);
-      input.classList.add(ok || quase ? 'entrada-certa' : 'entrada-errada');
-      return { correto: ok || quase, quase, certa: ex.item.en, diff: ok || quase ? null : diffPalavras(input.value, ex.item.en) };
+      const tutor = ok ? null : tutorDaResposta(input.value, ex.item);
+      const quase = !ok && !!tutor?.aceitar;
+      input.classList.add(ok ? 'entrada-certa' : quase ? 'entrada-quase' : 'entrada-errada');
+      return {
+        correto: ok || quase,
+        quase,
+        certa: ex.item.en,
+        diff: ok || quase ? null : diffPalavras(input.value, ex.item.en),
+        tutor
+      };
     }
   };
 }
@@ -459,10 +467,17 @@ function montarFalar(ex, cb) {
       trancado = true;
       const dada = normalizar(ouvido);
       const aceitas = [ex.item.en, ...(ex.item.alt ?? [])].map(normalizar);
-      const certa = normalizar(ex.item.en);
-      const ok = aceitas.includes(dada) || (certa.length >= 5 && levenshtein(dada, certa) <= 1);
-      eco.classList.add(ok ? 'fala-certa' : 'fala-errada');
-      return { correto: ok, certa: ex.item.en, diff: ok ? null : diffPalavras(ouvido || '(nada)', ex.item.en) };
+      const ok = aceitas.includes(dada);
+      const tutor = ok ? null : tutorDaResposta(ouvido, ex.item);
+      const quase = !ok && !!tutor?.aceitar;
+      eco.classList.add(ok || quase ? 'fala-certa' : 'fala-errada');
+      return {
+        correto: ok || quase,
+        quase,
+        certa: ex.item.en,
+        diff: ok || quase ? null : diffPalavras(ouvido || '(nada)', ex.item.en),
+        tutor
+      };
     }
   };
 }
@@ -508,8 +523,9 @@ function montarFrase(ex, cb) {
       trancado = true;
       const dada = [...area.children].map(c => c.textContent).join(' ');
       const ok = normalizar(dada) === normalizar(ex.item.en);
+      const tutor = ok ? null : tutorDaResposta(dada, ex.item);
       area.classList.add(ok ? 'area-certa' : 'area-errada');
-      return { correto: ok, certa: ex.item.en, diff: ok ? null : diffPalavras(dada, ex.item.en) };
+      return { correto: ok, certa: ex.item.en, diff: ok ? null : diffPalavras(dada, ex.item.en), tutor };
     }
   };
 }
@@ -624,13 +640,11 @@ function montarVerbo(ex, cb) {
         if (b.textContent === alvo) b.classList.add('certa');
         else if (b.textContent === sel && !ok) b.classList.add('errada');
       });
-      return {
-        correto: ok,
-        certa: ex.item.en,
-        nota: ok ? null : (ex.item.terceira
-          ? 'Com he, she e it o verbo ganha -s (ou -es): ' + alvo
-          : 'Com I, you, we e they o verbo fica na forma base: ' + alvo)
-      };
+      const nota = ex.item.terceira
+        ? 'Com he, she e it o verbo ganha -s (ou -es): ' + alvo
+        : 'Com I, you, we e they o verbo fica na forma base: ' + alvo;
+      const tutor = ok ? null : tutorDaResposta(sel ?? '', ex.item, { certa: alvo, nota, opcao: true });
+      return { correto: ok, certa: ex.item.en, nota: ok ? null : nota, tutor };
     }
   };
 }
