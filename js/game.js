@@ -1,5 +1,6 @@
 import { UNIDADES, NIVEIS, BADGES, MISSOES } from './data.js';
 import { enviarProgresso, baixarProgresso } from './nuvem.js';
+import { IDS_CENARIOS, apagarPapo } from './conversa.js';
 
 const CHAVE = 'gringolingo';
 const CHAVE_CONTA = 'gringolingo:conta';
@@ -52,7 +53,8 @@ const padrao = () => ({
   protetoresGastos: 0,
   missoes: null,
   lembrete: null,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0 }
+  conversas: {},
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -106,6 +108,20 @@ function dedupDeslizes(lista) {
   return [...map.values()]
     .sort((a, b) => (b.erros - b.acertos) - (a.erros - a.acertos) || a.en.localeCompare(b.en))
     .slice(0, 80);
+}
+
+function limparConversas(bruto) {
+  const saida = {};
+  if (!bruto || typeof bruto !== 'object' || Array.isArray(bruto)) return saida;
+  for (const [id, v] of Object.entries(bruto)) {
+    if (!chaveSegura(id) || id.length > 40) continue;
+    if (!v || typeof v !== 'object') continue;
+    saida[id] = {
+      vezes: Math.max(0, Math.min(num(v.vezes), 9999)),
+      melhor: Math.max(0, Math.min(num(v.melhor), 100))
+    };
+  }
+  return saida;
 }
 
 function dedupPadroes(lista) {
@@ -191,6 +207,7 @@ function sanitizar(salvo) {
   s.protetoresGanhos = salvo?.protetoresGanhos != null ? num(s.protetoresGanhos) : Math.max(s.protetores, 1);
   s.protetoresGastos = num(s.protetoresGastos);
   s.missoes = s.missoes && typeof s.missoes === 'object' && typeof s.missoes.dia === 'string' && Array.isArray(s.missoes.progresso) ? s.missoes : null;
+  s.conversas = limparConversas(s.conversas);
   s.stats = { ...base.stats, ...(s.stats && typeof s.stats === 'object' ? s.stats : {}) };
   for (const k of Object.keys(s.stats)) s.stats[k] = num(s.stats[k]);
   if (salvo?.stats?.metasBatidas == null) {
@@ -334,6 +351,7 @@ export function limparEstadoMemoria() {
 export function resetarEstado() {
   localStorage.removeItem(CHAVE);
   localStorage.removeItem(CHAVE_CONTA);
+  apagarPapo();
   limparEstadoMemoria();
 }
 
@@ -511,6 +529,14 @@ function mesclar(remoto) {
     const remotoStats = remoto.stats && typeof remoto.stats === 'object' ? remoto.stats : {};
     for (const k of Object.keys(estado.stats)) {
       estado.stats[k] = Math.max(estado.stats[k], num(remotoStats[k]));
+    }
+    if (!estado.conversas || typeof estado.conversas !== 'object') estado.conversas = {};
+    for (const [id, v] of Object.entries(limparConversas(remoto.conversas))) {
+      const local = estado.conversas[id] ?? { vezes: 0, melhor: 0 };
+      estado.conversas[id] = {
+        vezes: Math.max(num(local.vezes), v.vezes),
+        melhor: Math.max(num(local.melhor), v.melhor)
+      };
     }
   }
 }
@@ -777,6 +803,9 @@ function checarBadges() {
     memoria50: memorizadas() >= 50,
     metas7: estado.stats.metasBatidas >= 7,
     ouvido: estado.stats.escutas >= 1,
+    papo: estado.stats.dialogos >= 1,
+    sombra: estado.stats.sombra >= 1,
+    ator: IDS_CENARIOS.every(id => (estado.conversas?.[id]?.vezes ?? 0) >= 1),
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -857,6 +886,57 @@ export function registrarRelampago(d) {
     missoes: missao.novas,
     bonusMissoes: missao.bonus
   };
+}
+
+function fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao) {
+  estado.xp += d.xp + missao.bonus;
+  registrarDia(d.xp + missao.bonus, diaSessao);
+  estado.stats.acertos += num(d.acertos);
+  estado.stats.respostas += num(d.respostas);
+  contarMetaBatida(metaAntes, diaSessao);
+  const novas = checarBadges();
+  salvar();
+  return {
+    badges: novas,
+    subiuNivel: nivelInfo().numero > nivelAntes ? nivelInfo() : null,
+    bateuMeta: !metaAntes && metaBatida(diaSessao),
+    streakNovo: streakAtual() > streakAntes ? streakAtual() : 0,
+    usouProtetor,
+    missoes: missao.novas,
+    bonusMissoes: missao.bonus
+  };
+}
+
+export function registrarDialogo(d) {
+  const diaSessao = hoje();
+  const nivelAntes = nivelInfo().numero;
+  const metaAntes = metaBatida(diaSessao);
+  const streakAntes = streakAtual();
+  const { usouProtetor } = atualizarStreak(diaSessao);
+  const missao = avancarMissoes({ ...d, tipo: 'dialogo' }, diaSessao);
+  estado.stats.dialogos++;
+  if (!estado.conversas || typeof estado.conversas !== 'object') estado.conversas = {};
+  const id = typeof d.id === 'string' && chaveSegura(d.id) ? d.id : '';
+  if (id) {
+    const atual = estado.conversas[id] ?? { vezes: 0, melhor: 0 };
+    estado.conversas[id] = {
+      vezes: num(atual.vezes) + 1,
+      melhor: Math.max(num(atual.melhor), Math.max(0, Math.min(num(d.nota), 100)))
+    };
+  }
+  return fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao);
+}
+
+export function registrarSombra(d) {
+  const diaSessao = hoje();
+  const nivelAntes = nivelInfo().numero;
+  const metaAntes = metaBatida(diaSessao);
+  const streakAntes = streakAtual();
+  const { usouProtetor } = atualizarStreak(diaSessao);
+  const missao = avancarMissoes({ ...d, tipo: 'sombra' }, diaSessao);
+  estado.stats.sombra++;
+  estado.stats.recordeSombra = Math.max(estado.stats.recordeSombra ?? 0, num(d.nota));
+  return fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao);
 }
 
 export function registrarEscuta(d) {
