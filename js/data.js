@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.5';
+export const VERSAO_APP = '2.6';
 
 export const NOVIDADES = [
+  {
+    versao: '2.6',
+    titulo: 'Opinião e meta',
+    itens: [
+      '💬 Dê uma opinião com um motivo e concorde ou discorde com educação',
+      '👀 Descreva uma cena: o que acontece e um detalhe',
+      '⚡ Pensa em inglês: quatro respostas curtas, vinte segundos cada',
+      '🗣️ Meta de falas da semana, com o lembrete na própria tela'
+    ]
+  },
   {
     versao: '2.5',
     titulo: 'Falar de novo',
@@ -836,6 +846,8 @@ export const MISSOES = [
   { id: 'dia1', emoji: '☀️', titulo: 'Responda a pergunta do dia', alvo: 1, xp: 15, medir: s => (s.tipo === 'perguntaDia' ? 1 : 0) },
   { id: 'deslize1', emoji: '🔁', titulo: 'Revise 1 deslize de fala', alvo: 1, xp: 15, medir: s => (s.tipo === 'deslize' ? 1 : 0) },
   { id: 'remoto1', emoji: '💻', titulo: 'Faça a entrevista longa', alvo: 1, xp: 15, medir: s => (s.tipo === 'remoto' ? 1 : 0) },
+  { id: 'opiniao1', emoji: '💬', titulo: 'Dê uma opinião com motivo', alvo: 1, xp: 15, medir: s => (s.tipo === 'opiniao' ? 1 : 0) },
+  { id: 'rapido1', emoji: '⚡', titulo: 'Responda no tempo', alvo: 1, xp: 15, medir: s => (s.tipo === 'rapido' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -875,6 +887,10 @@ export const BADGES = [
   { id: 'remoto', emoji: '🎤', nome: 'Remoto', desc: 'Termine a entrevista de seis falas' },
   { id: 'conto', emoji: '📖', nome: 'Era uma vez', desc: 'Conte uma história no passado' },
   { id: 'preco', emoji: '🔢', nome: 'Quanto é', desc: 'Acerte números, datas ou preços de ouvido' },
+  { id: 'opiniao', emoji: '💬', nome: 'Com jeito', desc: 'Dê uma opinião com um motivo' },
+  { id: 'olho', emoji: '👀', nome: 'Olho clínico', desc: 'Descreva uma cena' },
+  { id: 'rapido', emoji: '⚡', nome: 'Na hora', desc: 'Responda no tempo' },
+  { id: 'semanaFala', emoji: '🗣️', nome: 'Semana de fala', desc: 'Bata a meta de falas da semana' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 

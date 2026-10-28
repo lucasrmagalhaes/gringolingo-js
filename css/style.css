@@ -1017,6 +1017,24 @@ textarea.entrada {
 
 .meta-info {
   flex: 1;
+  min-width: 0;
+}
+
+.meta-fala {
+  align-items: flex-start;
+}
+
+.meta-fala-acao {
+  margin-top: 8px;
+  max-width: 100%;
+}
+
+.cronometro-rapido {
+  font-weight: 900;
+  font-size: var(--fonte-lg);
+  color: var(--laranja-texto);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 8px;
 }
 
 .meta-titulo {
@@ -1619,6 +1637,15 @@ textarea.entrada {
 }
 
 @media (max-width: 430px) {
+  .meta-card {
+    flex-wrap: wrap;
+  }
+
+  .meta-card .metas {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
   .topo {
     gap: 8px;
   }

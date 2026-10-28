@@ -2,7 +2,8 @@ import { UNIDADES, NIVEIS, BADGES, MISSOES } from './data.js';
 import { enviarProgresso, baixarProgresso } from './nuvem.js';
 import { IDS_CINCO, apagarPapo } from './conversa.js';
 import { FRASES, itemDaFrase } from './frases.js';
-import { nivelValido, rankNivel } from './fluencia.js';
+import { nivelValido, rankNivel, diasDaSemana } from './fluencia.js';
+import { contarFaladas } from './opiniao.js';
 
 const CHAVE = 'gringolingo';
 const CHAVE_CONTA = 'gringolingo:conta';
@@ -62,10 +63,13 @@ const padrao = () => ({
   nivelFala: null,
   perguntaDia: null,
   agendaFala: {},
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0 }
+  metaFala: 3,
+  metaFalaSemana: null,
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
+export const METAS_FALA = [2, 3, 5, 7];
 
 const num = v => (Number.isFinite(Number(v)) ? Number(v) : 0);
 const chaveSegura = k => k !== '__proto__' && k !== 'constructor' && k !== 'prototype';
@@ -280,6 +284,8 @@ function sanitizar(salvo) {
   s.nivelFala = nivelValido(s.nivelFala);
   s.perguntaDia = diaIso(s.perguntaDia);
   s.agendaFala = limparAgendaFala(s.agendaFala);
+  s.metaFala = METAS_FALA.includes(num(s.metaFala)) ? num(s.metaFala) : 3;
+  s.metaFalaSemana = diaIso(s.metaFalaSemana);
   s.stats = { ...base.stats, ...(s.stats && typeof s.stats === 'object' ? s.stats : {}) };
   for (const k of Object.keys(s.stats)) s.stats[k] = num(s.stats[k]);
   if (salvo?.stats?.metasBatidas == null) {
@@ -598,10 +604,16 @@ function mesclar(remoto) {
       }
     }
     if (remoto.meta && !estado.stats.licoes) estado.meta = METAS.includes(num(remoto.meta)) ? num(remoto.meta) : METAS_ANTIGAS[num(remoto.meta)] ?? estado.meta;
+    const metasLocais = num(estado.stats.metasFala);
+    const metaFalaLocal = METAS_FALA.includes(num(estado.metaFala)) ? num(estado.metaFala) : 3;
     const remotoStats = remoto.stats && typeof remoto.stats === 'object' ? remoto.stats : {};
     for (const k of Object.keys(estado.stats)) {
       estado.stats[k] = Math.max(estado.stats[k], num(remotoStats[k]));
     }
+    const remotoMetaFala = num(remoto.metaFala);
+    if (METAS_FALA.includes(remotoMetaFala) && metaFalaLocal === 3 && !metasLocais) estado.metaFala = remotoMetaFala;
+    const remotoSemanaFala = diaIso(remoto.metaFalaSemana);
+    if (remotoSemanaFala && (!estado.metaFalaSemana || remotoSemanaFala > estado.metaFalaSemana)) estado.metaFalaSemana = remotoSemanaFala;
     const remotoFala = diaIso(remoto.falaDia);
     if (remotoFala && (!estado.falaDia || remotoFala > estado.falaDia)) estado.falaDia = remotoFala;
     const remotoNivel = nivelValido(remoto.nivelFala);
@@ -707,6 +719,12 @@ export function metaBatida(d = hoje()) {
 
 export function definirMeta(valor) {
   estado.meta = valor;
+  salvar();
+}
+
+export function definirMetaFala(valor) {
+  if (!METAS_FALA.includes(valor)) return;
+  estado.metaFala = valor;
   salvar();
 }
 
@@ -934,6 +952,10 @@ function checarBadges() {
     remoto: estado.stats.entrevistas >= 1,
     conto: estado.stats.contos >= 1,
     preco: estado.stats.numeros >= 1,
+    opiniao: estado.stats.opinioes >= 1,
+    olho: estado.stats.cenasFala >= 1,
+    rapido: estado.stats.rapidos >= 1,
+    semanaFala: estado.stats.metasFala >= 1,
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -1093,8 +1115,20 @@ export function revisarDeslize(en, acertou) {
   return { caixa: atual.caixa, proxima: atual.proxima };
 }
 
+function marcarMetaFala(diaIso) {
+  const segunda = diasDaSemana(diaIso)[0];
+  if (!segunda) return;
+  if (estado.metaFalaSemana && estado.metaFalaSemana >= segunda) return;
+  if (contarFaladas(estado.painel, diaIso) < num(estado.metaFala)) return;
+  estado.metaFalaSemana = segunda;
+  estado.stats.metasFala = num(estado.stats.metasFala) + 1;
+}
+
 function fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao) {
-  if (d.nota != null && d.nota !== '') anotarPainel(d.nota, d.acertos, d.respostas);
+  if (d.nota != null && d.nota !== '') {
+    anotarPainel(d.nota, d.acertos, d.respostas);
+    marcarMetaFala(diaSessao);
+  }
   somarErrosFala(d.errosFala);
   estado.xp += d.xp + missao.bonus;
   registrarDia(d.xp + missao.bonus, diaSessao);
@@ -1203,6 +1237,18 @@ export function registrarConto(d) {
 
 export function registrarNumero(d) {
   return registrarTipo('numeros', 'numero', d);
+}
+
+export function registrarOpiniao(d) {
+  return registrarTipo('opinioes', 'opiniao', d);
+}
+
+export function registrarCena(d) {
+  return registrarTipo('cenasFala', 'cena', d);
+}
+
+export function registrarRapido(d) {
+  return registrarTipo('rapidos', 'rapido', d);
 }
 
 export function registrarPronuncia(d) {
