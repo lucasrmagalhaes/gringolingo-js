@@ -7,7 +7,7 @@ const jogo = await import('../js/game.js');
 const {
   estado, registrarLicao, registrarRevisao, registrarRelampago, mesclarEstado,
   limparEstadoMemoria, definirAgora, missoesDeHoje, streakAtual, INTERVALOS, METAS,
-  importarEstado, palavrasFracas, resumoPadroes
+  importarEstado, palavrasFracas, resumoPadroes, itensNaCaixa, registrarEscuta
 } = jogo;
 
 function licaoBasica(extra = {}) {
@@ -85,6 +85,40 @@ describe('registrarLicao', () => {
     registrarLicao('b1', licaoBasica({ xp: METAS[0] }));
     registrarLicao('b2', licaoBasica({ xp: METAS[0] }));
     assert.equal(estado.stats.metasBatidas, 1);
+  });
+});
+
+describe('escuta e caixas', () => {
+  test('escuta sobe o recorde, conta a sessão e libera a conquista', () => {
+    const evento = registrarEscuta({ xp: 12, comboMax: 2, perfeita: false, acertos: 4, respostas: 6, agendamentos: [], acertadosEn: [] });
+    assert.equal(estado.stats.escutas, 1);
+    assert.equal(estado.stats.recordeEscuta, 4);
+    assert.ok(estado.badges.includes('ouvido'));
+    assert.ok(evento.badges.some(b => b.id === 'ouvido'));
+    registrarEscuta({ xp: 8, comboMax: 1, perfeita: false, acertos: 2, respostas: 6, agendamentos: [], acertadosEn: [] });
+    assert.equal(estado.stats.escutas, 2);
+    assert.equal(estado.stats.recordeEscuta, 4);
+  });
+
+  test('merge da escuta fica com o maior recorde', () => {
+    estado.stats.escutas = 1;
+    estado.stats.recordeEscuta = 3;
+    mesclarEstado({ versaoDados: 3, xp: 0, stats: { escutas: 4, recordeEscuta: 2 } });
+    assert.equal(estado.stats.escutas, 4);
+    assert.equal(estado.stats.recordeEscuta, 3);
+  });
+
+  test('caixa 0 abriga quem ainda não tem agenda', () => {
+    estado.licoes = { b1: { estrelas: 1 } };
+    estado.itens = {
+      hello: { caixa: 2, proxima: '2026-12-01' },
+      hi: { caixa: 0, proxima: '2026-12-01' }
+    };
+    assert.deepEqual(itensNaCaixa(2).map(i => i.en), ['hello']);
+    const caixa0 = itensNaCaixa(0).map(i => i.en);
+    assert.ok(caixa0.includes('hi'));
+    assert.ok(caixa0.includes('good morning'));
+    assert.ok(!caixa0.includes('hello'));
   });
 });
 

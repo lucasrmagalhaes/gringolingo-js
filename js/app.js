@@ -1,9 +1,9 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, INTERVALOS } from './game.js';
 import { sons, falar, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
-import { gerarExercicios, gerarDificeis, gerarVerbos, exercicioFacil, montarExercicio } from './exercises.js';
+import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
 import { h, aleatorio, amostra } from './util.js';
 import { trilhasVocab, progressoTrilha, palavrasVocabAprendidas, temLicaoVocab } from './vocabulario.js';
@@ -18,6 +18,8 @@ let sessao = null;
 let usuarioEmail = null;
 let telaAtiva = 'inicial';
 let syncPendente = false;
+let semRede = typeof navigator !== 'undefined' && navigator.onLine === false;
+let pedidoInstalar = null;
 let authCarregando = false;
 let geracaoAuth = 0;
 let temGoogle = false;
@@ -214,6 +216,7 @@ function telaInicial() {
     ),
     bannerDesafio(),
     bannerStreak(),
+    faixaOffline(),
     cartaoBoasVindas(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'HOJE'),
     cartaoMeta(),
@@ -221,6 +224,8 @@ function telaInicial() {
     cartaoMissoes(),
     cartaoDicaDoDia(),
     botaoPontosFracos(),
+    botaoEscuta(),
+    cartaoInstalar(),
     botaoRevisao(),
     botaoMinhaLista(),
     botaoRelampago(),
@@ -422,6 +427,119 @@ function iniciarMinhaLista() {
     tipo: 'revisao', pool, fila, itens: alvo,
     idx: 0, planejados: semApresentacoes(fila), acertos: 0, respostas: 0,
     xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map()
+  };
+  telaExercicio();
+}
+
+function jaInstalado() {
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+
+function pareceIOS() {
+  const ua = navigator.userAgent || '';
+  return /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
+function faixaOffline() {
+  if (!semRede) return '';
+  return h('div', { class: 'faixa-offline', role: 'status' }, 'Sem internet agora. As lições e o seu progresso continuam neste aparelho.');
+}
+
+function cartaoInstalar() {
+  if (jaInstalado() || localStorage.getItem('gringolingo:ocultar-instalar') === '1') return '';
+  if (pedidoInstalar) {
+    return h('div', { class: 'card instalar-card' },
+      h('div', { class: 'revisao-titulo' }, '📥 Instalar o app'),
+      h('p', { class: 'dica-dia-corpo' }, 'Fica no celular e abre em tela cheia. As lições continuam offline.'),
+      h('div', { class: 'instalar-botoes' },
+        h('button', {
+          class: 'btn btn-verde',
+          onclick: async () => {
+            pedidoInstalar.prompt();
+            try { await pedidoInstalar.userChoice; } catch {}
+            pedidoInstalar = null;
+            if (telaAtiva === 'inicial') telaInicial();
+          }
+        }, 'INSTALAR'),
+        h('button', {
+          class: 'btn btn-branco',
+          onclick() {
+            localStorage.setItem('gringolingo:ocultar-instalar', '1');
+            if (telaAtiva === 'inicial') telaInicial();
+          }
+        }, 'AGORA NÃO')
+      )
+    );
+  }
+  if (!pareceIOS()) return '';
+  return h('div', { class: 'card instalar-card' },
+    h('div', { class: 'revisao-titulo' }, '📥 Instalar no iPhone'),
+    h('p', { class: 'dica-dia-corpo' }, 'Toque em Compartilhar e depois em Adicionar à Tela de Início. O app abre sozinho e segue offline.'),
+    h('button', {
+      class: 'btn btn-branco',
+      onclick() {
+        localStorage.setItem('gringolingo:ocultar-instalar', '1');
+        if (telaAtiva === 'inicial') telaInicial();
+      }
+    }, 'ENTENDI')
+  );
+}
+
+function botaoEscuta() {
+  if (itensAprendidos().length < 4) return '';
+  if (!temTts) {
+    return h('div', { class: 'card revisao escuta-off' },
+      h('span', { class: 'revisao-emoji' }, '👂'),
+      h('div', { class: 'revisao-textos' },
+        h('div', { class: 'revisao-titulo' }, 'Escuta'),
+        h('div', { class: 'revisao-sub' }, 'Este aparelho não tem voz em inglês. A escuta volta quando a voz existir.')
+      )
+    );
+  }
+  const recorde = estado.stats.recordeEscuta ?? 0;
+  const sub = temFala
+    ? 'Ouça a frase e escreva, ou repita no microfone.'
+    : 'Ouça a frase e escreva. Sem microfone neste navegador.';
+  return h('button', { class: 'card revisao escuta-atalho', onclick: iniciarEscuta },
+    h('span', { class: 'revisao-emoji' }, '👂'),
+    h('div', { class: 'revisao-textos' },
+      h('div', { class: 'revisao-titulo' }, 'Escuta'),
+      h('div', { class: 'revisao-sub' }, recorde ? `${sub} Recorde: ${recorde} acertos.` : sub)
+    ),
+    h('span', { class: 'revisao-seta' }, '🔊')
+  );
+}
+
+function iniciarEscuta() {
+  if (!temTts) return;
+  const aprendidos = itensAprendidos();
+  if (aprendidos.length < 4) return;
+  const saldo = new Map(palavrasFracas(aprendidos).map(f => [f.item.en, f.saldo]));
+  const vencidos = new Set(itensVencidos().map(i => i.en));
+  const ordenados = [...aprendidos].sort((a, b) => {
+    const vence = (vencidos.has(b.en) ? 1 : 0) - (vencidos.has(a.en) ? 1 : 0);
+    if (vence) return vence;
+    return (saldo.get(b.en) ?? 0) - (saldo.get(a.en) ?? 0);
+  });
+  const itens = ordenados.slice(0, 6);
+  const fila = gerarEscuta(itens, Math.min(6, Math.max(4, itens.length)));
+  sessao = {
+    tipo: 'escuta', pool: aprendidos, fila, itens,
+    idx: 0, planejados: fila.length, acertos: 0, respostas: 0,
+    xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map(), deslizes: []
+  };
+  telaExercicio();
+}
+
+function iniciarCaixa(indice) {
+  const itens = itensNaCaixa(indice).slice(0, 8);
+  if (!itens.length) return;
+  const pool = itensAprendidos();
+  const fila = gerarExercicios(itens, pool, Math.min(8, Math.max(4, itens.length)));
+  sessao = {
+    tipo: 'revisao', pool, fila, itens,
+    idx: 0, planejados: fila.length, acertos: 0, respostas: 0,
+    xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map(), deslizes: []
   };
   telaExercicio();
 }
@@ -1241,10 +1359,15 @@ function telaExercicio() {
       else telaExercicio();
     }
   });
+  if (sessao.tipo === 'escuta' && !temFala) {
+    areaEx.append(h('p', { class: 'aviso-fala' }, 'Sem microfone neste navegador. Ouça e escreva a frase.'));
+  }
   areaEx.append(ctrl.el);
   if (!ctrl.temVerificar) rodape.style.display = 'none';
   if (ex.tipo === 'falar') btnNaoSei.style.display = 'none';
-  ligarAtalhos(areaEx, btnVerificar, feedback, alternarDica);
+  ligarAtalhos(areaEx, btnVerificar, feedback, alternarDica, () => {
+    if (ex.item?.en) falar(ex.item.en);
+  });
   if (ctrl.focoInicial) ctrl.focoInicial.focus({ preventScroll: true });
   else focarTela();
   let corrigido = false;
@@ -1264,13 +1387,18 @@ function telaExercicio() {
   });
 }
 
-function ligarAtalhos(areaEx, btnVerificar, feedback, aoDica) {
+function ligarAtalhos(areaEx, btnVerificar, feedback, aoDica, aoOuvir) {
   if (atalhosAtivos) document.removeEventListener('keydown', atalhosAtivos);
   atalhosAtivos = e => {
     if (telaAtiva !== 'licao') return;
     if (e.altKey || e.ctrlKey || e.metaKey || e.repeat) return;
     const digitando = document.activeElement?.classList.contains('entrada');
     const btnFeedback = feedback.querySelector('.btn');
+    if ((e.key === 's' || e.key === 'S') && !digitando && !btnFeedback) {
+      e.preventDefault();
+      aoOuvir?.();
+      return;
+    }
     if ((e.key === 'd' || e.key === 'D' || e.key === '?') && !digitando && !btnFeedback) {
       e.preventDefault();
       aoDica?.();
@@ -1492,7 +1620,15 @@ function finalizar(derrotado) {
     });
   }
   let evento;
-  if (s.tipo === 'licao') {
+  if (s.tipo === 'escuta') {
+    const errosEn = new Set(s.erros.map(e => e.en));
+    evento = registrarEscuta({
+      xp: s.xp, comboMax: s.comboMax, perfeita,
+      acertos: s.acertos, respostas: s.planejados, agendamentos,
+      acertadosEn: s.itens.filter(i => !errosEn.has(i.en)).map(i => i.en),
+      deslizes: s.deslizes ?? []
+    });
+  } else if (s.tipo === 'licao') {
     evento = registrarLicao(s.licao.id, {
       estrelas, xp: s.xp, comboMax: s.comboMax, errosItens: s.erros,
       perfeita, acertos: s.acertos, respostas: s.planejados, agendamentos,
@@ -1530,7 +1666,7 @@ function telaResultado(estrelas, precisao, evento) {
   app.append(
     h('div', { class: 'resultado' },
       h('div', { class: 'emojao mascote-festa' }, mascote(estrelas === 3 ? 'coroa' : 'feliz', 132)),
-      h('h1', {}, s.tipo === 'revisao' ? 'Revisão concluída!' : 'Lição concluída!'),
+      h('h1', {}, s.tipo === 'escuta' ? 'Escuta concluída!' : s.tipo === 'revisao' ? 'Revisão concluída!' : 'Lição concluída!'),
       h('div', { class: 'resultado-frase' }, aleatorio(MASCOTE.resultado[estrelas])),
       stars,
       h('div', { class: 'pilulas-stats' },
@@ -2378,11 +2514,21 @@ function cartaoJornada() {
     ),
     totalItens ? h('div', { class: 'caixas' },
       h('div', { class: 'caixas-titulo' }, '🧠 Saúde da memória'),
-      caixas.map((n, i) => h('div', { class: 'caixa-linha' },
-        h('span', { class: 'caixa-rotulo' }, rotulos[i]),
-        h('div', { class: 'progresso caixa-prog' }, h('div', { style: `width:${totalItens ? n / totalItens * 100 : 0}%` })),
-        h('span', { class: 'caixa-num' }, String(n))
-      ))
+      h('p', { class: 'aviso-fala' }, 'Toque numa faixa com palavras para treinar só ela.'),
+      caixas.map((n, i) => {
+        const miolo = [
+          h('span', { class: 'caixa-rotulo' }, rotulos[i]),
+          h('div', { class: 'progresso caixa-prog' }, h('div', { style: `width:${totalItens ? n / totalItens * 100 : 0}%` })),
+          h('span', { class: 'caixa-num' }, String(n))
+        ];
+        if (!n) return h('div', { class: 'caixa-linha' }, miolo);
+        return h('button', {
+          class: 'caixa-linha caixa-treinavel',
+          type: 'button',
+          'aria-label': `Treinar ${n} palavra${n > 1 ? 's' : ''} da caixa de ${rotulos[i]}`,
+          onclick: () => iniciarCaixa(i)
+        }, miolo);
+      })
     ) : ''
   );
 }
@@ -2829,7 +2975,20 @@ async function iniciar() {
   aoCarregarVozes(() => {
     if (telaAtiva === 'perfil') repintarCartaoVoz();
   });
-  window.addEventListener('online', tentarReenviar);
+  window.addEventListener('online', () => {
+    semRede = false;
+    tentarReenviar();
+    if (telaAtiva === 'inicial') telaInicial();
+  });
+  window.addEventListener('offline', () => {
+    semRede = true;
+    if (telaAtiva === 'inicial') telaInicial();
+  });
+  window.addEventListener('beforeinstallprompt', evento => {
+    evento.preventDefault();
+    pedidoInstalar = evento;
+    if (telaAtiva === 'inicial' && !jaInstalado()) telaInicial();
+  });
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) tentarReenviar();
   });

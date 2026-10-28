@@ -446,6 +446,70 @@ export const UNIDADES = [
         ]
       }
     ]
+  },
+  {
+    id: 'lazer',
+    titulo: 'Tempo Livre',
+    emoji: '🌤️',
+    cor: '#3D5AFE',
+    licoes: [
+      {
+        id: 'z1', titulo: 'O tempo lá fora', emoji: '⛅',
+        dica: { titulo: 'O clima pede it', corpo: 'Em inglês o tempo sempre tem sujeito: it is hot, it is raining. "Está quente" sozinho não existe. It is raining é o que acontece agora. It rains é o hábito do lugar.' },
+        itens: [
+          { en: 'sunny', pt: 'ensolarado' },
+          { en: 'rainy', pt: 'chuvoso' },
+          { en: 'cloudy', pt: 'nublado' },
+          { en: 'windy', pt: 'ventoso' },
+          { en: 'it is hot', pt: 'está quente', nota: 'O clima pede it: it is hot. Sem o it a frase fica capenga.' },
+          { en: 'it is cold', pt: 'está frio' },
+          { en: 'the weather is nice', pt: 'o tempo está bom' },
+          { en: 'it is raining', pt: 'está chovendo', nota: 'Neste momento é it is raining. O hábito do lugar é it rains.' }
+        ]
+      },
+      {
+        id: 'z2', titulo: 'Como você está?', emoji: '😊',
+        dica: { titulo: 'Fome é am, não have', corpo: 'Estado e humor vão com to be: I am hungry, I am tired, I am bored. Have fica para sintoma: I have a headache. E bored é quem sente tédio. Boring é a coisa que entedia.' },
+        itens: [
+          { en: 'happy', pt: 'feliz' },
+          { en: 'sad', pt: 'triste' },
+          { en: 'tired', pt: 'cansado' },
+          { en: 'angry', pt: 'bravo', nota: 'Angry é bravo. Com fome é hungry. As duas se confundem fácil.' },
+          { en: 'I am hungry', pt: 'eu estou com fome', nota: 'Com fome é I am hungry. "I have hungry" é o português vazando.' },
+          { en: 'I am bored', pt: 'eu estou entediado', nota: 'Bored é quem está entediado. Boring é o que causa tédio: a boring movie.' },
+          { en: 'I feel great', pt: 'eu me sinto ótimo' },
+          { en: 'are you ok?', pt: 'você está bem?' }
+        ]
+      },
+      {
+        id: 'z3', titulo: 'Bora sair?', emoji: '🎟️',
+        dica: { titulo: 'Agora pede -ing', corpo: 'O que está acontecendo neste momento usa be + verbo com -ing: what are you doing, I am free. Plano e convite continuam no presente simples: do you want to come?' },
+        itens: [
+          { en: 'tonight', pt: 'hoje à noite' },
+          { en: 'tomorrow', pt: 'amanhã' },
+          { en: 'next week', pt: 'semana que vem' },
+          { en: 'I am free', pt: 'eu estou livre' },
+          { en: 'I am busy', pt: 'eu estou ocupado' },
+          { en: "let's go out", pt: 'vamos sair' },
+          { en: 'what are you doing?', pt: 'o que você está fazendo?', nota: 'Agora pede are + -ing: what are you doing? O hábito seria what do you do?' },
+          { en: 'do you want to come?', pt: 'você quer vir?' }
+        ]
+      },
+      {
+        id: 'z4', titulo: 'Combinado', emoji: '🤝',
+        dica: { titulo: 'Hora pede at', corpo: 'Hora e noite usam at: at seven, at night. Dia da semana usa on. Can na negativa é cannot ou can\'t, sem do, e o verbo seguinte vem puro.' },
+        itens: [
+          { en: 'sounds good', pt: 'parece bom' },
+          { en: 'maybe later', pt: 'talvez mais tarde' },
+          { en: "I can't tonight", pt: 'eu não posso hoje à noite', nota: 'A negativa de can é cannot, sem do: I can\'t tonight. Nada de "I don\'t can".' },
+          { en: 'see you tonight', pt: 'até hoje à noite' },
+          { en: 'that sounds fun', pt: 'isso parece divertido' },
+          { en: 'I would love to', pt: 'eu adoraria' },
+          { en: 'another time', pt: 'outra hora' },
+          { en: "let's meet at seven", pt: 'vamos nos encontrar às sete', nota: 'Hora pede at: at seven. Às sete da noite também pode ser at 7 p.m.' }
+        ]
+      }
+    ]
   }
 ];
 
@@ -464,9 +528,20 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '1.8';
+export const VERSAO_APP = '1.9';
 
 export const NOVIDADES = [
+  {
+    versao: '1.9',
+    titulo: 'Escuta, caixas e Tempo Livre',
+    itens: [
+      '👂 Modo Escuta: ouça a frase e escreva. Se o navegador tiver microfone, dá para repetir falando',
+      '🧠 Toque numa caixa da memória para treinar só aquelas palavras',
+      '🌤️ Unidade Tempo Livre: clima, humor e convite',
+      '📥 Aviso para instalar o app, e uma faixa quando a internet cai',
+      '⌨️ Tecla S ouve a frase de novo durante a lição'
+    ]
+  },
   {
     versao: '1.8',
     titulo: 'O tutor explica o erro',
@@ -629,6 +704,17 @@ export const HISTORIAS = [
       { de: 'louro', en: 'Nice! And on weekends?', pt: 'Legal! E nos fins de semana?' },
       { de: 'voce', en: 'I like to read books', pt: 'eu gosto de ler livros' }
     ]
+  },
+  {
+    unidade: 'lazer', titulo: 'Combinado no parque', cenario: 'Mensagem de sábado 🌳', emoji: '🌤️',
+    falas: [
+      { de: 'louro', en: 'Are you free tonight?', pt: 'Você está livre hoje à noite?' },
+      { de: 'voce', en: 'I am free', pt: 'eu estou livre' },
+      { de: 'louro', en: 'The weather is nice. Let\'s go out!', pt: 'O tempo está bom. Vamos sair!' },
+      { de: 'voce', en: 'sounds good', pt: 'parece bom' },
+      { de: 'louro', en: 'See you at seven?', pt: 'Até as sete?' },
+      { de: 'voce', en: 'see you tonight', pt: 'até hoje à noite' }
+    ]
   }
 ];
 
@@ -681,6 +767,7 @@ export const MISSOES = [
   { id: 'licao1', emoji: '📚', titulo: 'Complete 1 lição', alvo: 1, xp: 10, medir: s => (s.tipo === 'licao' ? 1 : 0) },
   { id: 'combo4', emoji: '⚡', titulo: 'Faça um combo x4', alvo: 1, xp: 10, medir: s => (s.comboMax >= 4 ? 1 : 0) },
   { id: 'revisao1', emoji: '🧠', titulo: 'Faça 1 Revisão Turbo', alvo: 1, xp: 15, medir: s => (s.tipo === 'revisao' ? 1 : 0) },
+  { id: 'escuta1', emoji: '👂', titulo: 'Faça 1 Escuta', alvo: 1, xp: 15, medir: s => (s.tipo === 'escuta' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -704,6 +791,7 @@ export const BADGES = [
   { id: 'perfeitas10', emoji: '🎖️', nome: 'Impecável', desc: 'Termine 10 lições sem errar' },
   { id: 'memoria50', emoji: '🌳', nome: 'Raiz Firme', desc: '50 palavras na memória longa' },
   { id: 'metas7', emoji: '🎯', nome: 'Meta em Dia', desc: 'Bata a meta diária 7 vezes' },
+  { id: 'ouvido', emoji: '👂', nome: 'Ouvido Afiado', desc: 'Complete uma sessão de Escuta' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 

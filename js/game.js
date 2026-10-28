@@ -52,7 +52,7 @@ const padrao = () => ({
   protetoresGastos: 0,
   missoes: null,
   lembrete: null,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0 }
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -417,6 +417,13 @@ export function distribuicaoDeCaixas() {
   return caixas;
 }
 
+// Palavras já vistas da trilha (e da Expansão) que estão numa caixa do Leitner.
+// Quem ainda não tem agenda conta na caixa 0, a de 1 dia.
+export function itensNaCaixa(indice) {
+  const alvo = Math.max(0, Math.min(num(indice), INTERVALOS.length - 1));
+  return itensAprendidos().filter(item => (estado.itens[item.en]?.caixa ?? 0) === alvo);
+}
+
 export function historicoRecente(dias) {
   return Array.from({ length: dias }, (_, i) => {
     const d = diasDeDistancia(-(dias - 1 - i));
@@ -769,6 +776,7 @@ function checarBadges() {
     perfeitas10: estado.stats.perfeitas >= 10,
     memoria50: memorizadas() >= 50,
     metas7: estado.stats.metasBatidas >= 7,
+    ouvido: estado.stats.escutas >= 1,
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -835,6 +843,38 @@ export function registrarRelampago(d) {
   estado.stats.respostas += d.respostas;
   estado.stats.comboMax = Math.max(estado.stats.comboMax, d.comboMax);
   estado.stats.recordeRelampago = Math.max(estado.stats.recordeRelampago ?? 0, d.acertos);
+  aplicarAgendamentos(d.agendamentos);
+  aplicarDeslizes(d.deslizes, d.agendamentos);
+  contarMetaBatida(metaAntes, diaSessao);
+  const novas = checarBadges();
+  salvar();
+  return {
+    badges: novas,
+    subiuNivel: nivelInfo().numero > nivelAntes ? nivelInfo() : null,
+    bateuMeta: !metaAntes && metaBatida(diaSessao),
+    streakNovo: streakAtual() > streakAntes ? streakAtual() : 0,
+    usouProtetor,
+    missoes: missao.novas,
+    bonusMissoes: missao.bonus
+  };
+}
+
+export function registrarEscuta(d) {
+  const diaSessao = hoje();
+  const nivelAntes = nivelInfo().numero;
+  const metaAntes = metaBatida(diaSessao);
+  const streakAntes = streakAtual();
+  const { usouProtetor } = atualizarStreak(diaSessao);
+  const missao = avancarMissoes({ ...d, tipo: 'escuta' }, diaSessao);
+  estado.xp += d.xp + missao.bonus;
+  registrarDia(d.xp + missao.bonus, diaSessao);
+  estado.stats.escutas++;
+  estado.stats.recordeEscuta = Math.max(estado.stats.recordeEscuta ?? 0, num(d.acertos));
+  estado.stats.acertos += d.acertos;
+  estado.stats.respostas += d.respostas;
+  estado.stats.comboMax = Math.max(estado.stats.comboMax, d.comboMax);
+  const acertadas = new Set(d.acertadosEn);
+  estado.erros = estado.erros.filter(e => !acertadas.has(e.en));
   aplicarAgendamentos(d.agendamentos);
   aplicarDeslizes(d.deslizes, d.agendamentos);
   contarMetaBatida(metaAntes, diaSessao);

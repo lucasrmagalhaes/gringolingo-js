@@ -358,3 +358,27 @@ describe('digitar: typo que forma outra palavra real não é perdoado', () => {
     assert.equal(resultado.tutor.chave, 'cognato:launch');
   });
 });
+
+describe('falar sem microfone', () => {
+  test('abre um campo e aceita a frase escrita', () => {
+    let mudou = false;
+    const visao = montarExercicio({ tipo: 'falar', item: { en: 'hello', pt: 'olá' } }, {
+      aoMudar: () => { mudou = true; },
+      aoEnter: () => {},
+      aoAuto: () => {},
+      aoPular: () => {}
+    });
+    const mic = buscar(visao.el, 'btn-mic');
+    const entrada = buscar(visao.el, 'entrada-fala');
+    assert.equal(entrada.getAttribute('hidden'), 'hidden');
+    mic.click();
+    assert.equal(entrada.getAttribute('hidden'), null);
+    assert.match(buscar(visao.el, 'fala-status').textContent, /microfone/);
+    entrada.value = 'hello';
+    entrada.disparar('input');
+    assert.equal(mudou, true);
+    const resultado = visao.corrigir();
+    assert.equal(resultado.correto, true);
+    assert.equal(resultado.quase, false);
+  });
+});
