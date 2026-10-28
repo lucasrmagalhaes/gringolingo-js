@@ -61,7 +61,8 @@ const padrao = () => ({
   errosFala: [],
   nivelFala: null,
   perguntaDia: null,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0 }
+  agendaFala: {},
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -152,6 +153,27 @@ function limparErrosFala(bruto) {
     }
   }
   return [...map.values()].sort((a, b) => b.n - a.n || a.en.localeCompare(b.en)).slice(0, 40);
+}
+
+function limparAgendaFala(bruto) {
+  const saida = {};
+  if (!bruto || typeof bruto !== 'object' || Array.isArray(bruto)) return saida;
+  for (const [en, v] of Object.entries(bruto)) {
+    if (typeof en !== 'string' || !chaveSegura(en) || en.length > 120 || en.length < 3) continue;
+    if (!v || typeof v !== 'object') continue;
+    const proxima = diaIso(v.proxima);
+    if (!proxima) continue;
+    saida[en] = {
+      caixa: Math.max(0, Math.min(num(v.caixa), INTERVALOS.length - 1)),
+      proxima,
+      pt: typeof v.pt === 'string' ? v.pt.slice(0, 120) : ''
+    };
+  }
+  return Object.fromEntries(
+    Object.entries(saida)
+      .sort((a, b) => (a[1].proxima < b[1].proxima ? -1 : a[1].proxima > b[1].proxima ? 1 : a[0].localeCompare(b[0])))
+      .slice(0, 40)
+  );
 }
 
 function limparConversas(bruto) {
@@ -257,6 +279,7 @@ function sanitizar(salvo) {
   s.errosFala = limparErrosFala(s.errosFala);
   s.nivelFala = nivelValido(s.nivelFala);
   s.perguntaDia = diaIso(s.perguntaDia);
+  s.agendaFala = limparAgendaFala(s.agendaFala);
   s.stats = { ...base.stats, ...(s.stats && typeof s.stats === 'object' ? s.stats : {}) };
   for (const k of Object.keys(s.stats)) s.stats[k] = num(s.stats[k]);
   if (salvo?.stats?.metasBatidas == null) {
@@ -591,6 +614,19 @@ function mesclar(remoto) {
       if (!local || v.n > local.n || (v.n === local.n && v.soma > local.soma)) estado.painel[dia] = v;
     }
     estado.errosFala = limparErrosFala([...(estado.errosFala ?? []), ...limparErrosFala(remoto.errosFala)]);
+    estado.agendaFala = limparAgendaFala(estado.agendaFala);
+    for (const [en, v] of Object.entries(limparAgendaFala(remoto.agendaFala))) {
+      const local = estado.agendaFala[en];
+      if (!local) estado.agendaFala[en] = v;
+      else {
+        estado.agendaFala[en] = {
+          caixa: Math.min(local.caixa, v.caixa),
+          proxima: local.proxima < v.proxima ? local.proxima : v.proxima,
+          pt: local.pt || v.pt
+        };
+      }
+    }
+    estado.agendaFala = limparAgendaFala(estado.agendaFala);
     if (!estado.conversas || typeof estado.conversas !== 'object') estado.conversas = {};
     for (const [id, v] of Object.entries(limparConversas(remoto.conversas))) {
       const local = estado.conversas[id] ?? { vezes: 0, melhor: 0 };
@@ -894,6 +930,10 @@ function checarBadges() {
     standup: estado.stats.tecnicos >= 1,
     reuniao: estado.stats.idiomas >= 1,
     doDia: estado.stats.diasPergunta >= 1,
+    volta: estado.stats.revisoesFala >= 1,
+    remoto: estado.stats.entrevistas >= 1,
+    conto: estado.stats.contos >= 1,
+    preco: estado.stats.numeros >= 1,
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -999,6 +1039,58 @@ function somarErrosFala(lista) {
     else base.push({ en: e.en, pt: e.pt || '', n: add });
   }
   estado.errosFala = limparErrosFala(base);
+  for (const e of lista) {
+    if (e && typeof e.en === 'string') puxarDeslize(e.en, e.pt);
+  }
+}
+
+function fraseDeFala(en) {
+  const texto = String(en || '').trim();
+  if (texto.length < 8 || texto.length > 120 || !chaveSegura(texto)) return false;
+  return texto.split(/\s+/).length >= 2;
+}
+
+function puxarDeslize(en, pt) {
+  if (!fraseDeFala(en)) return;
+  if (!estado.agendaFala || typeof estado.agendaFala !== 'object' || Array.isArray(estado.agendaFala)) estado.agendaFala = {};
+  const dia = hoje();
+  const atual = estado.agendaFala[en];
+  const dica = typeof pt === 'string' ? pt.slice(0, 120) : '';
+  if (!atual) {
+    estado.agendaFala[en] = { caixa: 0, proxima: dia, pt: dica };
+    return;
+  }
+  if (dica && !atual.pt) atual.pt = dica;
+  if (atual.proxima > dia) {
+    atual.caixa = Math.max(0, num(atual.caixa) - 1);
+    atual.proxima = dia;
+  }
+}
+
+export function deslizesVencidos(d = hoje()) {
+  const agenda = estado.agendaFala && typeof estado.agendaFala === 'object' ? estado.agendaFala : {};
+  const freq = new Map((estado.errosFala ?? []).map(e => [e.en, e.n]));
+  return Object.entries(agenda)
+    .filter(([, v]) => v && v.proxima <= d)
+    .map(([en, v]) => ({ en, pt: v.pt || '', caixa: num(v.caixa), proxima: v.proxima, n: freq.get(en) || 0 }))
+    .sort((a, b) => b.n - a.n || a.proxima.localeCompare(b.proxima) || a.en.localeCompare(b.en));
+}
+
+export function revisarDeslize(en, acertou) {
+  if (!estado.agendaFala || !estado.agendaFala[en]) return null;
+  const atual = estado.agendaFala[en];
+  if (acertou) {
+    const noTopo = num(atual.caixa) >= INTERVALOS.length - 1;
+    const caixa = Math.min(num(atual.caixa) + 1, INTERVALOS.length - 1);
+    const intervalo = INTERVALOS[noTopo ? INTERVALOS.length - 1 : num(atual.caixa)];
+    atual.caixa = caixa;
+    atual.proxima = diasDeDistancia(intervalo);
+  } else {
+    atual.caixa = Math.max(0, num(atual.caixa) - 1);
+    atual.proxima = diasDeDistancia(1);
+  }
+  salvar();
+  return { caixa: atual.caixa, proxima: atual.proxima };
 }
 
 function fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao) {
@@ -1095,6 +1187,22 @@ export function registrarPerguntaDia(d) {
   const diaSessao = hoje();
   if (!estado.perguntaDia || diaSessao > estado.perguntaDia) estado.perguntaDia = diaSessao;
   return registrarTipo('diasPergunta', 'perguntaDia', d);
+}
+
+export function registrarDeslize(d) {
+  return registrarTipo('revisoesFala', 'deslize', d);
+}
+
+export function registrarEntrevista(d) {
+  return registrarTipo('entrevistas', 'remoto', d);
+}
+
+export function registrarConto(d) {
+  return registrarTipo('contos', 'conto', d);
+}
+
+export function registrarNumero(d) {
+  return registrarTipo('numeros', 'numero', d);
 }
 
 export function registrarPronuncia(d) {

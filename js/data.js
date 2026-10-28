@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.4';
+export const VERSAO_APP = '2.5';
 
 export const NOVIDADES = [
+  {
+    versao: '2.5',
+    titulo: 'Falar de novo',
+    itens: [
+      '🔁 Frases que escaparam voltam na data, de qualquer modo de fala',
+      '🎤 Entrevista remota de seis falas, para uma vaga full stack',
+      '📖 Contar no passado, e números, datas e preços de ouvido',
+      '🐣 Começo com três caminhos: lição, teste de nível ou pergunta do dia'
+    ]
+  },
   {
     versao: '2.4',
     titulo: 'Inglês de trabalho',
@@ -824,6 +834,8 @@ export const MISSOES = [
   { id: 'livre1', emoji: '🗣️', titulo: 'Fale de um tema por um minuto', alvo: 1, xp: 15, medir: s => (s.tipo === 'livre' ? 1 : 0) },
   { id: 'tecnico1', emoji: '💻', titulo: 'Faça 1 cena de trabalho', alvo: 1, xp: 15, medir: s => (s.tipo === 'tecnico' ? 1 : 0) },
   { id: 'dia1', emoji: '☀️', titulo: 'Responda a pergunta do dia', alvo: 1, xp: 15, medir: s => (s.tipo === 'perguntaDia' ? 1 : 0) },
+  { id: 'deslize1', emoji: '🔁', titulo: 'Revise 1 deslize de fala', alvo: 1, xp: 15, medir: s => (s.tipo === 'deslize' ? 1 : 0) },
+  { id: 'remoto1', emoji: '💻', titulo: 'Faça a entrevista longa', alvo: 1, xp: 15, medir: s => (s.tipo === 'remoto' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -859,6 +871,10 @@ export const BADGES = [
   { id: 'standup', emoji: '💻', nome: 'Daily', desc: 'Termine uma cena de inglês de trabalho' },
   { id: 'reuniao', emoji: '🤝', nome: 'Na call', desc: 'Pratique um idiom de reunião' },
   { id: 'doDia', emoji: '☀️', nome: 'Do dia', desc: 'Responda a pergunta do dia' },
+  { id: 'volta', emoji: '🔁', nome: 'De novo', desc: 'Revise uma frase que já escapou' },
+  { id: 'remoto', emoji: '🎤', nome: 'Remoto', desc: 'Termine a entrevista de seis falas' },
+  { id: 'conto', emoji: '📖', nome: 'Era uma vez', desc: 'Conte uma história no passado' },
+  { id: 'preco', emoji: '🔢', nome: 'Quanto é', desc: 'Acerte números, datas ou preços de ouvido' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 

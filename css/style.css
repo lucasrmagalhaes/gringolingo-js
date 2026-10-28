@@ -1209,6 +1209,17 @@ textarea.entrada {
   color: var(--texto-suave);
 }
 
+.boas-acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.boas-acoes .btn {
+  width: 100%;
+}
+
 .pilula.destaque {
   border-color: var(--laranja);
   color: var(--laranja-texto);

@@ -1,13 +1,14 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
 import { SONS, CLIPS, somPorId, clipPorId, montarItem, corrigirClip, serieFala, resumoFala, TAXA_NORMAL, TAXA_DEVAGAR } from './pronuncia.js';
 import { ITENS_NIVEL, ROTULO_NIVEL, corrigirIndice, contarAcertos, nivelDoTeste, PERGUNTAS, perguntaPorId, avaliarPergunta, REDUCOES, reducaoPorId, FRASAIS, frasalPorId, avaliarFrasal, TEMAS, temaPorId, avaliarLivre, preferirNivel, montarSessao, resumoSemana, sugestaoSemana } from './fluencia.js';
 import { CENAS_TECNICAS, cenaTecnicaPorId, avaliarTecnico, IDIOMAS, idiomaPorId, avaliarIdioma, perguntaDoDia, avaliarDia } from './tecnico.js';
+import { ENTREVISTA, avaliarEntrevista, CONTOS, contoPorId, avaliarConto, avaliarDeslize, NUMEROS, numeroPorId } from './ensaio.js';
 import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS } from './voz.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
@@ -235,6 +236,7 @@ function telaInicial() {
     cartaoMeta(),
     cartaoFala(),
     cartaoPerguntaDia(),
+    cartaoDeslizes(),
     cartaoNivel(),
     faixaSemana(),
     cartaoMissoes(),
@@ -404,17 +406,18 @@ function cartaoMissoes() {
 }
 
 function cartaoBoasVindas() {
-  if (estado.stats.licoes) return '';
+  if (estado.xp > 0 || estado.stats.licoes || estado.nivelFala) return '';
   return h('div', { class: 'card boas-vindas' },
     h('div', { class: 'boas-emoji' }, mascote('feliz', 64)),
     h('div', { class: 'boas-texto' },
-      h('div', { class: 'boas-titulo' }, 'Bem-vindo, gringo!'),
-      h('div', { class: 'boas-sub' }, 'Cinco minutinhos por dia já mudam tudo. Bora começar pela primeira lição?')
+      h('div', { class: 'boas-titulo' }, 'Por onde começar'),
+      h('div', { class: 'boas-sub' }, 'Uma lição curta, um teste de nível ou a pergunta do dia. Dá para trocar depois. Tudo fica neste aparelho.')
     ),
-    h('button', {
-      class: 'btn btn-verde',
-      onclick: () => iniciarLicao(UNIDADES[0], UNIDADES[0].licoes[0])
-    }, 'COMEÇAR')
+    h('div', { class: 'boas-acoes' },
+      h('button', { class: 'btn btn-verde', type: 'button', onclick: () => iniciarLicao(UNIDADES[0], UNIDADES[0].licoes[0]) }, 'PRIMEIRA LIÇÃO'),
+      h('button', { class: 'btn btn-branco', type: 'button', onclick: telaNivel }, 'TESTE DE NÍVEL'),
+      h('button', { class: 'btn btn-branco', type: 'button', onclick: telaPerguntaDia }, 'PERGUNTA DO DIA')
+    )
   );
 }
 
@@ -4491,6 +4494,7 @@ function telaPainel() {
         ))
       )
       : h('p', { class: 'ia-aviso' }, 'Quando uma frase escapar, ela aparece aqui.'),
+    h('button', { class: 'btn btn-verde', onclick: telaDeslizes }, deslizesVencidos().length ? `REVISAR ${deslizesVencidos().length}` : 'DESLIZES DE FALA'),
     h('button', { class: 'btn btn-branco', onclick: telaResumo }, 'RESUMO DA SEMANA')
   );
   focarTela();
@@ -4505,6 +4509,10 @@ let livreSessao = null;
 let tecnicoSessao = null;
 let idiomaSessao = null;
 let diaSessao = null;
+let deslizeSessao = null;
+let remotoSessao = null;
+let contoSessao = null;
+let numeroSessao = null;
 let gravacaoUrl = null;
 let gravadorAtivo = null;
 let vozTimer = null;
@@ -4535,8 +4543,15 @@ function botaoFluencia(emoji, titulo, sub, onclick) {
 
 function blocoFluencia() {
   const nivel = estado.nivelFala;
-    return [
+  const vencidos = deslizesVencidos().length;
+  return [
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'FLUÊNCIA'),
+    botaoFluencia('🔁', 'Deslizes de fala', vencidos
+      ? `${vencidos} frase${vencidos > 1 ? 's' : ''} para repetir hoje.`
+      : 'Frases que escaparam voltam na data.', telaDeslizes),
+    botaoFluencia('🎤', 'Entrevista longa', 'Seis falas para uma vaga remota full stack.', telaRemoto),
+    botaoFluencia('📖', 'Contar no passado', 'Uma história curta, em duas falas.', telaContos),
+    botaoFluencia('🔢', 'Números, datas e preços', 'Ouça e escolha o valor. A voz é a do aparelho.', telaNumeros),
     botaoFluencia('💻', 'Inglês de trabalho', 'Standup, bug, code review, entrevista e demo.', telaTecnicos),
     botaoFluencia('🤝', 'Idioms de reunião', 'Touch base, circle back e o papo da call.', telaIdiomas),
     botaoFluencia('☀️', 'Pergunta do dia', estado.perguntaDia === diaLocalAgora()
@@ -5308,7 +5323,8 @@ function telaResumo() {
     h('div', { class: 'card' },
       h('div', { class: 'nivel-titulo' }, estado.nivelFala ? `Nível de fala ${estado.nivelFala}` : 'Nível de fala ainda aberto'),
       h('p', {}, `Perguntas ${estado.stats.perguntas} · fala rápida ${estado.stats.reduzidas} · phrasal verbs ${estado.stats.verbosFala} · fala livre ${estado.stats.livres}.`),
-      h('p', {}, `Trabalho ${estado.stats.tecnicos} · idioms ${estado.stats.idiomas} · pergunta do dia ${estado.stats.diasPergunta}.`)
+      h('p', {}, `Trabalho ${estado.stats.tecnicos} · idioms ${estado.stats.idiomas} · pergunta do dia ${estado.stats.diasPergunta}.`),
+      h('p', {}, `Deslizes ${estado.stats.revisoesFala} · entrevista ${estado.stats.entrevistas} · histórias ${estado.stats.contos} · números ${estado.stats.numeros}.`)
     ),
     erros.length
       ? h('div', { class: 'card' },
@@ -5842,6 +5858,391 @@ function pintarPerguntaDia() {
   });
 }
 
+function cartaoDeslizes() {
+  const n = deslizesVencidos().length;
+  if (!n) return '';
+  return h('button', { class: 'card revisao', onclick: telaDeslizes },
+    h('span', { class: 'revisao-emoji' }, '🔁'),
+    h('div', { class: 'revisao-textos' },
+      h('div', { class: 'revisao-titulo' }, 'Deslizes de fala'),
+      h('div', { class: 'revisao-sub' }, `${n} frase${n > 1 ? 's' : ''} para repetir hoje.`)
+    ),
+    h('span', { class: 'revisao-seta' }, '›')
+  );
+}
+
+function telaDeslizes() {
+  calar();
+  limparTela();
+  descartarVoz();
+  window.scrollTo(0, 0);
+  telaAtiva = 'deslize';
+  registrarRota('deslize');
+  deslizeSessao = null;
+  const fila = deslizesVencidos();
+  const agenda = estado.agendaFala && typeof estado.agendaFala === 'object' ? estado.agendaFala : {};
+  const esperando = Math.max(0, Object.keys(agenda).length - fila.length);
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('🔁 Deslizes de fala', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'Quando uma frase escapa, ela volta aqui. Acertar empurra a data. Errar traz para amanhã. Vale diálogo, sombra, trabalho, história e o resto.'),
+    fila.length
+      ? h('button', { class: 'btn btn-verde', onclick: abrirDeslizes }, `REVISAR ${fila.length}`)
+      : h('div', { class: 'card' },
+        h('div', { class: 'nivel-titulo' }, 'Nada vencendo hoje'),
+        h('p', {}, esperando
+          ? `${esperando} frase${esperando > 1 ? 's' : ''} já ficou para outro dia.`
+          : 'Erre uma frase numa cena e ela aparece aqui.')
+      ),
+    ...fila.map(item => h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, item.pt || 'Frase para repetir'),
+      h('span', { class: 'pilula' }, `${item.n} vez${item.n > 1 ? 'es' : ''}`)
+    ))
+  );
+  focarTela();
+}
+
+function abrirDeslizes() {
+  const fila = deslizesVencidos().slice(0, 6);
+  if (!fila.length) return telaDeslizes();
+  descartarVoz();
+  deslizeSessao = {
+    fila,
+    i: 0,
+    acertos: 0,
+    notas: [],
+    erros: [],
+    feedback: null,
+    concluido: false,
+    fim: null
+  };
+  pintarDeslize();
+}
+
+function pintarDeslize() {
+  if (!deslizeSessao || deslizeSessao.concluido) return telaDeslizes();
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'deslize';
+  registrarRota('deslize');
+  const item = deslizeSessao.fila[deslizeSessao.i];
+  const campo = campoResposta('Escreva em inglês...');
+  app.innerHTML = '';
+  const miolo = [
+    topoVoltar('🔁 Deslizes de fala', () => telaDeslizes()),
+    h('div', { class: 'revisao-sub' }, `Frase ${deslizeSessao.i + 1} de ${deslizeSessao.fila.length}`),
+    h('p', { class: 'sombra-frase' }, item.pt || 'Diga a frase de novo.')
+  ];
+  if (deslizeSessao.feedback) {
+    campo.status.textContent = '';
+    miolo.push(cartaoTutor(deslizeSessao.feedback));
+    miolo.push(barraModelo(deslizeSessao.feedback.melhor, campo.status));
+    miolo.push(campo.status);
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        if (deslizeSessao.i + 1 >= deslizeSessao.fila.length) concluirDeslize();
+        else {
+          descartarVoz();
+          deslizeSessao.i++;
+          deslizeSessao.feedback = null;
+          pintarDeslize();
+        }
+      }
+    }, deslizeSessao.i + 1 >= deslizeSessao.fila.length ? 'CONCLUIR' : 'PRÓXIMA'));
+  } else {
+    miolo.push(barraGravar(campo.status));
+    miolo.push(campo.status, campo.mic, campo.entrada);
+    const verificar = h('button', { class: 'btn btn-verde', disabled: true }, 'VERIFICAR');
+    campo.entrada.addEventListener('input', () => {
+      verificar.disabled = !campo.entrada.value.trim();
+    });
+    const enviar = async () => {
+      if (!campo.entrada.value.trim() || deslizeSessao.feedback) return;
+      await finalizarGravacao();
+      const aval = avaliarDeslize(item, campo.entrada.value);
+      revisarDeslize(item.en, aval.ok);
+      deslizeSessao.notas.push(aval.nota);
+      if (aval.ok) {
+        deslizeSessao.acertos++;
+        sons.acerto();
+      } else sons.erro();
+      deslizeSessao.feedback = aval;
+      pintarDeslize();
+    };
+    campo.entrada.addEventListener('keydown', e => {
+      if (e.key === 'Enter') enviar();
+    });
+    verificar.addEventListener('click', () => { enviar(); });
+    miolo.push(verificar);
+  }
+  app.append(h('div', {}, miolo));
+  ligarTeclasDaFala();
+  focarTela();
+  if (!deslizeSessao.feedback) campo.entrada.focus();
+}
+
+function concluirDeslize() {
+  if (!deslizeSessao || deslizeSessao.concluido) return pintarFim(deslizeSessao?.fim);
+  const total = deslizeSessao.fila.length;
+  const nota = fecharNota(deslizeSessao.notas);
+  const xp = 8 + deslizeSessao.acertos * 6;
+  const evento = registrarDeslize({
+    xp,
+    acertos: deslizeSessao.acertos,
+    respostas: total,
+    nota,
+    errosFala: [],
+    perfeita: false,
+    comboMax: 0
+  });
+  deslizeSessao.concluido = true;
+  deslizeSessao.fim = {
+    titulo: 'Deslizes revisados!',
+    sub: 'As certas foram para outro dia',
+    nota,
+    xp: xp + (evento.bonusMissoes ?? 0),
+    evento,
+    destino: telaDeslizes,
+    painel: true,
+    resumo: true
+  };
+  descartarVoz();
+  pintarFim(deslizeSessao.fim);
+}
+
+function telaRemoto() {
+  calar();
+  limparTela();
+  descartarVoz();
+  window.scrollTo(0, 0);
+  telaAtiva = 'remoto';
+  registrarRota('remoto');
+  remotoSessao = null;
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('🎤 Entrevista longa', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'Seis falas seguidas, para uma vaga full stack e remota. A frase modelo só aparece depois da tentativa.'),
+    h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, ENTREVISTA.onde),
+      h('p', {}, 'Você se apresenta, conta um projeto, um bug, o trabalho remoto, sugere uma mudança e faz uma pergunta.')
+    ),
+    h('button', { class: 'btn btn-verde', onclick: abrirRemoto }, 'COMEÇAR')
+  );
+  focarTela();
+}
+
+function abrirRemoto() {
+  descartarVoz();
+  remotoSessao = novaCena(ENTREVISTA);
+  pintarRemoto();
+}
+
+function pintarRemoto() {
+  pintarCenaFala(remotoSessao, {
+    rota: 'remoto',
+    aoLista: telaRemoto,
+    repintar: pintarRemoto,
+    avaliar: avaliarEntrevista,
+    rotulo: s => `Fala ${s.i + 1} de ${s.cena.rodadas.length}`,
+    aoConcluir: () => concluirCena(remotoSessao, registrarEntrevista, {
+      xpBase: 10,
+      xpAcerto: 6,
+      titulo: 'Entrevista feita!',
+      destino: telaRemoto
+    })
+  });
+}
+
+function telaContos() {
+  calar();
+  limparTela();
+  descartarVoz();
+  window.scrollTo(0, 0);
+  telaAtiva = 'conto';
+  registrarRota('conto');
+  contoSessao = null;
+  const lista = preferirNivel(CONTOS, estado.nivelFala);
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('📖 Contar no passado', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'Duas falas por história. O passado fica na sua resposta. A frase modelo só aparece depois.'),
+    ...lista.map(c => cartaoComNivel(c, c.rodadas[0].missao, () => abrirConto(c.id)))
+  );
+  focarTela();
+}
+
+function abrirConto(id) {
+  const cena = contoPorId(id);
+  if (!cena) return telaContos();
+  descartarVoz();
+  contoSessao = novaCena(cena);
+  pintarConto();
+}
+
+function pintarConto() {
+  pintarCenaFala(contoSessao, {
+    rota: 'conto',
+    aoLista: telaContos,
+    repintar: pintarConto,
+    avaliar: avaliarConto,
+    rotulo: s => `Fala ${s.i + 1} de ${s.cena.rodadas.length} · ${s.cena.nivel}`,
+    aoConcluir: () => concluirCena(contoSessao, registrarConto, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'História contada!',
+      destino: telaContos
+    })
+  });
+}
+
+function telaNumeros() {
+  calar();
+  limparTela();
+  descartarVoz();
+  window.scrollTo(0, 0);
+  telaAtiva = 'numero';
+  registrarRota('numero');
+  numeroSessao = null;
+  const lista = preferirNivel(NUMEROS, estado.nivelFala);
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('🔢 Números, datas e preços', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'A voz é a do aparelho. O valor escrito só aparece depois da escolha.'),
+    h('button', { class: 'btn btn-verde', onclick: () => abrirNumero() }, 'TREINAR 4'),
+    ...lista.map(item => cartaoComNivel(item, item.pergunta, () => abrirNumero(item.id)))
+  );
+  focarTela();
+}
+
+function abrirNumero(id) {
+  const fila = filaAdaptada(NUMEROS, id, numeroPorId);
+  if (!fila.length) return telaNumeros();
+  numeroSessao = {
+    fila,
+    i: 0,
+    acertos: 0,
+    notas: [],
+    erros: [],
+    ouviu: !temTts,
+    feedback: null,
+    concluido: false,
+    fim: null
+  };
+  pintarNumero();
+}
+
+function pintarNumero() {
+  if (!numeroSessao || numeroSessao.concluido) return telaNumeros();
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'numero';
+  registrarRota('numero');
+  const item = numeroSessao.fila[numeroSessao.i];
+  const ouvir = taxa => falar(item.fala, taxa);
+  const controles = temTts
+    ? h('div', { class: 'fila-botoes' },
+      h('button', { class: 'btn btn-branco', type: 'button', onclick: () => ouvir(TAXA_NORMAL) }, 'OUVIR'),
+      h('button', { class: 'btn btn-branco', type: 'button', onclick: () => ouvir(TAXA_DEVAGAR) }, 'DEVAGAR')
+    )
+    : '';
+  app.innerHTML = '';
+  const miolo = [
+    topoVoltar(item.emoji + ' ' + item.titulo, () => telaNumeros()),
+    h('div', { class: 'revisao-sub' }, `Item ${numeroSessao.i + 1} de ${numeroSessao.fila.length} · ${item.nivel}`)
+  ];
+  if (!numeroSessao.ouviu && !numeroSessao.feedback) {
+    miolo.push(h('p', { class: 'ia-aviso' }, 'Ouça primeiro. A frase escrita fica para depois.'));
+    miolo.push(controles);
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        numeroSessao.ouviu = true;
+        pintarNumero();
+      }
+    }, 'JÁ OUVI'));
+    timerDeTela(() => ouvir(TAXA_NORMAL), 280);
+  } else if (!numeroSessao.feedback) {
+    if (!temTts) {
+      miolo.push(h('p', { class: 'sombra-frase', lang: 'en' }, item.fala));
+      miolo.push(h('p', { class: 'ia-aviso' }, 'Sem voz neste aparelho. Leia e escolha.'));
+    } else miolo.push(controles);
+    miolo.push(h('p', { class: 'sombra-frase' }, item.pergunta));
+    miolo.push(h('p', { class: 'ia-aviso' }, 'Teclas 1, 2 e 3 escolhem a opção.'));
+    miolo.push(h('div', { class: 'opcoes' }, item.opcoes.map((texto, indice) => h('button', {
+      class: 'opcao',
+      type: 'button',
+      lang: 'en',
+      onclick() {
+        if (numeroSessao.feedback) return;
+        const ok = corrigirIndice(item, indice);
+        numeroSessao.notas.push(ok ? 100 : 0);
+        if (ok) {
+          numeroSessao.acertos++;
+          sons.acerto();
+        } else {
+          sons.erro();
+          numeroSessao.erros.push({ en: item.fala, pt: item.pergunta });
+        }
+        numeroSessao.feedback = { ok };
+        pintarNumero();
+      }
+    }, texto))));
+  } else {
+    miolo.push(h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, numeroSessao.feedback.ok ? 'Isso.' : 'Era outro valor.'),
+      h('p', {}, item.dica),
+      h('p', { lang: 'en' }, 'Você ouviu: ', h('strong', {}, item.fala))
+    ));
+    if (temTts) miolo.push(controles);
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        if (numeroSessao.i + 1 >= numeroSessao.fila.length) concluirNumero();
+        else {
+          numeroSessao.i++;
+          numeroSessao.ouviu = !temTts;
+          numeroSessao.feedback = null;
+          pintarNumero();
+        }
+      }
+    }, numeroSessao.i + 1 >= numeroSessao.fila.length ? 'CONCLUIR' : 'PRÓXIMO'));
+  }
+  app.append(h('div', {}, miolo));
+  ligarTeclasDaFala();
+  focarTela();
+}
+
+function concluirNumero() {
+  if (!numeroSessao || numeroSessao.concluido) return pintarFim(numeroSessao?.fim);
+  const total = numeroSessao.fila.length;
+  const nota = fecharNota(numeroSessao.notas);
+  const xp = 8 + numeroSessao.acertos * 6;
+  const evento = registrarNumero({
+    xp,
+    acertos: numeroSessao.acertos,
+    respostas: total,
+    nota,
+    errosFala: numeroSessao.erros,
+    perfeita: false,
+    comboMax: 0
+  });
+  numeroSessao.concluido = true;
+  numeroSessao.fim = {
+    titulo: 'Ouvido afiado!',
+    sub: 'Números, datas e preços',
+    nota,
+    xp: xp + (evento.bonusMissoes ?? 0),
+    evento,
+    destino: telaNumeros,
+    painel: true,
+    resumo: true
+  };
+  pintarFim(numeroSessao.fim);
+}
+
 async function iniciar() {
   aplicarFonte(localStorage.getItem('gringolingo:fonte'));
   contextoDoLog(() => telaAtiva);
@@ -5868,6 +6269,10 @@ async function iniciar() {
     tecnico: () => (tecnicoSessao && !tecnicoSessao.concluido ? pintarTecnico() : telaTecnicos()),
     idioma: () => (idiomaSessao && !idiomaSessao.concluido ? pintarIdioma() : telaIdiomas()),
     dia: () => (diaSessao && !diaSessao.concluido ? pintarPerguntaDia() : telaPerguntaDia()),
+    deslize: () => (deslizeSessao && !deslizeSessao.concluido ? pintarDeslize() : telaDeslizes()),
+    remoto: () => (remotoSessao && !remotoSessao.concluido ? pintarRemoto() : telaRemoto()),
+    conto: () => (contoSessao && !contoSessao.concluido ? pintarConto() : telaContos()),
+    numero: () => (numeroSessao && !numeroSessao.concluido ? pintarNumero() : telaNumeros()),
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
     reducao: () => (reducaoSessao && !reducaoSessao.concluido ? pintarReducao() : telaReducoes()),
