@@ -1,11 +1,12 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, INTERVALOS } from './game.js';
 import { sons, falar, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
+import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, pontuarSombra, filaSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
-import { h, aleatorio, amostra } from './util.js';
+import { h, aleatorio, amostra, embaralhar } from './util.js';
 import { trilhasVocab, progressoTrilha, palavrasVocabAprendidas, temLicaoVocab } from './vocabulario.js';
 import { nuvemConfigurada, sessaoAtual, entrar, criarConta, sair, baixarProgresso, aoMudarAuth, googleAtivo, entrarComGoogle, vincularGoogle, desvincularGoogle, provedoresDaConta, traduzirErro, apagarConta, SENHA_MINIMA } from './nuvem.js';
 import { registrar, logSalvo, limparLog, modoDebug, contextoDoLog } from './erros.js';
@@ -225,6 +226,7 @@ function telaInicial() {
     cartaoDicaDoDia(),
     botaoPontosFracos(),
     botaoEscuta(),
+    botaoConversa(),
     cartaoInstalar(),
     botaoRevisao(),
     botaoMinhaLista(),
@@ -2190,6 +2192,7 @@ function telaPerfil() {
     cartaoJornada(),
     cartaoTropecos(),
     cartaoVoz(),
+    cartaoIa(),
     cartaoLembrete(),
     cartaoBackup(),
     cartaoCompartilhar(),
@@ -2944,6 +2947,585 @@ function avisarMetricas() {
   setTimeout(() => btn.remove(), 12000);
 }
 
+let dialogo = null;
+let sombraSessao = null;
+
+function calar() {
+  if (temTts) speechSynthesis.cancel();
+}
+
+function botaoConversa() {
+  const feitas = CENARIOS.filter(c => (estado.conversas?.[c.id]?.vezes ?? 0) > 0).length;
+  const sub = feitas
+    ? `${feitas} de ${CENARIOS.length} diálogos feitos. Sombra e cenas do dia a dia.`
+    : 'Diálogos do dia a dia, sombra e um parceiro opcional.';
+  return h('button', { class: 'card revisao conversa-atalho', onclick: telaConversa },
+    h('span', { class: 'revisao-emoji' }, '💬'),
+    h('div', { class: 'revisao-textos' },
+      h('div', { class: 'revisao-titulo' }, 'Conversar'),
+      h('div', { class: 'revisao-sub' }, sub)
+    ),
+    h('span', { class: 'revisao-seta' }, '🗣️')
+  );
+}
+
+function reconhecerFala(status, entrada) {
+  const Reconhecedor = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!Reconhecedor) {
+    status.textContent = 'Este navegador não escuta o microfone. Escreva a frase.';
+    entrada.focus();
+    return;
+  }
+  let rec;
+  try {
+    rec = new Reconhecedor();
+  } catch {
+    status.textContent = 'O microfone não abriu. Escreva a frase no lugar.';
+    entrada.focus();
+    return;
+  }
+  rec.lang = 'en-US';
+  rec.maxAlternatives = 3;
+  rec.interimResults = false;
+  status.textContent = 'Ouvindo… fale agora.';
+  rec.onresult = ev => {
+    const alts = [...ev.results[0]].map(r => r.transcript).filter(Boolean);
+    entrada.value = alts[0] || '';
+    entrada.dispatchEvent(new Event('input', { bubbles: true }));
+    status.textContent = alts.length > 1 ? 'Peguei. Se não ficou certo, edite e verifique.' : 'Peguei. Confira e verifique.';
+    entrada.focus();
+  };
+  rec.onerror = () => {
+    status.textContent = 'Não consegui ouvir. Escreva a frase no lugar.';
+    entrada.focus();
+  };
+  try {
+    rec.start();
+  } catch {
+    status.textContent = 'O microfone não abriu. Escreva a frase no lugar.';
+    entrada.focus();
+  }
+}
+
+function formularioIa(aoSalvar) {
+  const atual = lerIa();
+  const status = h('div', { class: 'ia-aviso', role: 'status' }, atual.ligada
+    ? 'Parceiro ligado neste aparelho.'
+    : 'Parceiro desligado. Diálogos e sombra não precisam dele.');
+  const chave = h('input', {
+    type: 'password',
+    class: 'entrada',
+    autocomplete: 'off',
+    spellcheck: 'false',
+    placeholder: atual.chave ? 'Chave já salva. Digite outra só para trocar.' : 'Cole a chave do Google AI Studio',
+    'aria-label': 'Chave da API, só neste aparelho'
+  });
+  const modelo = h('input', {
+    class: 'entrada',
+    value: atual.modelo,
+    autocomplete: 'off',
+    spellcheck: 'false',
+    'aria-label': 'Nome do modelo'
+  });
+  const salvarCampos = ligada => salvarIa({
+    ligada,
+    chave: chave.value.trim() ? chave.value : undefined,
+    modelo: modelo.value
+  });
+  return h('div', {},
+    h('p', { class: 'ia-aviso' }, 'A chave não entra no backup nem na nuvem. O app segue inteiro sem ela.'),
+    chave,
+    h('div', { class: 'revisao-sub' }, 'Modelo'),
+    modelo,
+    status,
+    h('div', { class: 'fila-botoes' },
+      h('button', {
+        class: 'btn ' + (atual.ligada ? 'btn-branco' : 'btn-verde'),
+        onclick() {
+          const salva = salvarCampos(!atual.ligada);
+          if (!atual.ligada && !salva.ligada) {
+            status.textContent = 'Cole uma chave com pelo menos 20 caracteres para ligar.';
+            return;
+          }
+          aoSalvar();
+        }
+      }, atual.ligada ? 'DESLIGAR' : 'LIGAR'),
+      h('button', {
+        class: 'btn btn-branco',
+        onclick() {
+          salvarCampos(atual.ligada);
+          status.textContent = 'Salvo neste aparelho.';
+          aoSalvar();
+        }
+      }, 'SALVAR'),
+      h('button', {
+        class: 'btn btn-branco',
+        onclick() {
+          apagarIa();
+          aoSalvar();
+        }
+      }, 'APAGAR CHAVE')
+    )
+  );
+}
+
+function cartaoIa() {
+  return h('div', { class: 'card' },
+    h('div', { class: 'nivel-titulo' }, '🤖 Parceiro de conversa'),
+    formularioIa(() => {
+      if (telaAtiva === 'perfil') telaPerfil();
+      else if (telaAtiva === 'parceiro') telaParceiro();
+    })
+  );
+}
+
+function topoVoltar(titulo, aoVoltar) {
+  return h('div', { class: 'topo' },
+    h('button', { class: 'pilula btn-perfil', onclick: aoVoltar }, '← Voltar'),
+    h('div', { class: 'espaco' }),
+    h('div', { class: 'logo', role: 'heading', 'aria-level': '1' }, titulo)
+  );
+}
+
+function telaConversa() {
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'conversa';
+  registrarRota('conversa');
+  const recorde = estado.stats.recordeSombra ?? 0;
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('💬 Conversar', () => voltarTela()),
+    h('p', { class: 'ia-aviso' }, 'Cenas do dia a dia, com o tutor em cada resposta. A sombra compara o que você falou com a frase. O parceiro de IA é opcional.'),
+    h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'DIÁLOGOS'),
+    ...CENARIOS.map(c => {
+      const prog = estado.conversas?.[c.id];
+      const sub = prog?.vezes
+        ? `${prog.vezes} vez${prog.vezes > 1 ? 'es' : ''} · melhor ${prog.melhor}`
+        : c.onde;
+      return h('button', { class: 'card revisao', onclick: () => abrirDialogo(c.id) },
+        h('span', { class: 'revisao-emoji' }, c.emoji),
+        h('div', { class: 'revisao-textos' },
+          h('div', { class: 'revisao-titulo' }, c.titulo),
+          h('div', { class: 'revisao-sub' }, sub)
+        ),
+        h('span', { class: 'revisao-seta' }, '›')
+      );
+    }),
+    h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'TREINO'),
+    h('button', { class: 'card revisao', onclick: abrirSombra },
+      h('span', { class: 'revisao-emoji' }, '🗣️'),
+      h('div', { class: 'revisao-textos' },
+        h('div', { class: 'revisao-titulo' }, 'Sombra'),
+        h('div', { class: 'revisao-sub' }, recorde ? `Ouça, repita e veja a nota. Recorde: ${recorde}.` : 'Ouça, repita e veja quais palavras faltaram.')
+      ),
+      h('span', { class: 'revisao-seta' }, '›')
+    ),
+    h('button', { class: 'card revisao', onclick: telaParceiro },
+      h('span', { class: 'revisao-emoji' }, '🤖'),
+      h('div', { class: 'revisao-textos' },
+        h('div', { class: 'revisao-titulo' }, 'Parceiro'),
+        h('div', { class: 'revisao-sub' }, iaPronta()
+          ? 'Conversa livre no seu nível. A chave está só neste aparelho.'
+          : 'Desligado. Sem chave, nada sai do aparelho.')
+      ),
+      h('span', { class: 'revisao-seta' }, '›')
+    )
+  );
+  focarTela();
+}
+
+function campoResposta(placeholder) {
+  const entrada = h('input', {
+    class: 'entrada',
+    type: 'text',
+    lang: 'en',
+    autocomplete: 'off',
+    autocapitalize: 'off',
+    spellcheck: 'false',
+    placeholder,
+    'aria-label': placeholder
+  });
+  const status = h('div', { class: 'ia-aviso', role: 'status' }, temFala
+    ? 'Toque em Falar ou escreva a resposta.'
+    : 'Sem microfone neste navegador. Escreva a resposta.');
+  const mic = temFala
+    ? h('button', { class: 'btn btn-branco', type: 'button', onclick: () => reconhecerFala(status, entrada) }, 'FALAR')
+    : '';
+  return { entrada, status, mic };
+}
+
+function cartaoTutor(aval) {
+  const partes = [];
+  if (aval.ok && !aval.quase) {
+    partes.push(h('div', { class: 'nivel-titulo' }, 'Muito bem!'));
+  } else if (aval.quase) {
+    partes.push(h('div', { class: 'nivel-titulo' }, 'Quase. Vale, com um aviso.'));
+  } else {
+    partes.push(h('div', { class: 'nivel-titulo' }, aval.tutor?.titulo || 'Ainda não'));
+  }
+  if (aval.tutor?.porque) partes.push(h('p', {}, aval.tutor.porque));
+  if (aval.tutor?.dica) partes.push(h('div', { class: 'feedback-nota' }, '💡 ' + aval.tutor.dica));
+  if (!aval.ok || aval.quase) {
+    partes.push(h('p', {}, 'Melhor jeito: ', h('strong', { lang: 'en' }, aval.melhor)));
+  }
+  return h('div', { class: 'card' }, partes);
+}
+
+function abrirDialogo(id) {
+  const cenario = cenarioPorId(id);
+  if (!cenario) return telaConversa();
+  dialogo = {
+    cenario,
+    rodadas: rodadasDo(cenario),
+    i: 0,
+    acertos: 0,
+    respostas: 0,
+    notas: [],
+    feedback: null,
+    concluido: false,
+    fim: null
+  };
+  pintarDialogo();
+}
+
+function pintarDialogo() {
+  if (!dialogo) return telaConversa();
+  if (dialogo.concluido) return pintarFim(dialogo.fim);
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'dialogo';
+  registrarRota('dialogo');
+  const rodada = dialogo.rodadas[dialogo.i];
+  const npc = rodada.npc[rodada.npc.length - 1];
+  const campo = campoResposta('Escreva em inglês...');
+  const ouvir = () => falar(npc.en);
+  app.innerHTML = '';
+  const miolo = [
+    topoVoltar(dialogo.cenario.emoji + ' ' + dialogo.cenario.titulo, () => voltarTela()),
+    h('div', { class: 'revisao-sub' }, `Rodada ${dialogo.i + 1} de ${dialogo.rodadas.length} · ${dialogo.cenario.onde}`),
+    h('div', { class: 'fala fala-npc' },
+      h('div', { class: 'fala-en', lang: 'en' }, npc.en),
+      h('div', { class: 'fala-pt' }, npc.pt)
+    ),
+    h('button', { class: 'btn btn-branco', type: 'button', onclick: ouvir }, 'OUVIR DE NOVO')
+  ];
+  if (dialogo.feedback) {
+    miolo.push(cartaoTutor(dialogo.feedback));
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        if (dialogo.i + 1 >= dialogo.rodadas.length) concluirDialogo();
+        else {
+          dialogo.i++;
+          dialogo.feedback = null;
+          pintarDialogo();
+        }
+      }
+    }, dialogo.i + 1 >= dialogo.rodadas.length ? 'CONCLUIR' : 'CONTINUAR'));
+  } else {
+    miolo.push(h('p', { class: 'ia-aviso' }, rodada.voce.pt));
+    miolo.push(campo.status, campo.mic, campo.entrada);
+    const verificar = h('button', { class: 'btn btn-verde', disabled: true }, 'VERIFICAR');
+    campo.entrada.addEventListener('input', () => {
+      verificar.disabled = !campo.entrada.value.trim();
+    });
+    const enviar = () => {
+      if (!campo.entrada.value.trim() || dialogo.feedback) return;
+      const aval = avaliarResposta(rodada.voce, campo.entrada.value);
+      dialogo.respostas++;
+      dialogo.notas.push(aval.nota);
+      if (aval.ok) {
+        dialogo.acertos++;
+        sons.acerto();
+      } else sons.erro();
+      dialogo.feedback = aval;
+      pintarDialogo();
+    };
+    campo.entrada.addEventListener('keydown', e => {
+      if (e.key === 'Enter') enviar();
+    });
+    verificar.addEventListener('click', enviar);
+    miolo.push(verificar);
+    setTimeout(ouvir, 280);
+  }
+  app.append(h('div', {}, miolo));
+  focarTela();
+  if (!dialogo.feedback) campo.entrada.focus();
+}
+
+function concluirDialogo() {
+  if (!dialogo || dialogo.concluido) return pintarFim(dialogo?.fim);
+  const total = dialogo.rodadas.length;
+  const nota = total ? Math.round(dialogo.notas.reduce((s, n) => s + n, 0) / total) : 0;
+  const perfeita = dialogo.acertos === total && total > 0;
+  const xp = 10 + dialogo.acertos * 8 + (perfeita ? 15 : 0);
+  const evento = registrarDialogo({
+    id: dialogo.cenario.id,
+    xp,
+    acertos: dialogo.acertos,
+    respostas: dialogo.respostas,
+    nota,
+    perfeita,
+    comboMax: 0
+  });
+  dialogo.concluido = true;
+  dialogo.fim = {
+    titulo: 'Diálogo concluído!',
+    sub: dialogo.cenario.titulo,
+    nota,
+    xp: xp + evento.bonusMissoes,
+    evento
+  };
+  pintarFim(dialogo.fim);
+}
+
+function abrirSombra() {
+  const frases = montarRodada(embaralhar(filaSombra(itensAprendidos())), 5);
+  sombraSessao = { frases, i: 0, notas: [], feedback: null, revelado: false, concluido: false, fim: null };
+  pintarSombra();
+}
+
+function pintarSombra() {
+  if (!sombraSessao) return telaConversa();
+  if (sombraSessao.concluido) return pintarFim(sombraSessao.fim);
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'sombra';
+  registrarRota('sombra');
+  const frase = sombraSessao.frases[sombraSessao.i];
+  const campo = campoResposta('Repita em inglês...');
+  const ouvir = () => falar(frase.en);
+  app.innerHTML = '';
+  const miolo = [
+    topoVoltar('🗣️ Sombra', () => voltarTela()),
+    h('div', { class: 'revisao-sub' }, `Frase ${sombraSessao.i + 1} de ${sombraSessao.frases.length}`),
+    h('button', { class: 'btn btn-branco', type: 'button', onclick: ouvir }, 'OUVIR')
+  ];
+  if (sombraSessao.feedback) {
+    const aval = sombraSessao.feedback;
+    miolo.push(h('div', { class: 'nota-grande' }, String(aval.nota)));
+    miolo.push(h('p', { class: 'sombra-frase', lang: 'en' }, aval.partes.map(p => h('span', { class: p.ok ? 'sombra-ok' : 'sombra-falta' }, p.t + ' '))));
+    if (aval.sobras?.length) miolo.push(h('p', { class: 'ia-aviso' }, 'Sobrou: ' + aval.sobras.join(', ')));
+    if (frase.pt) miolo.push(h('p', { class: 'fala-pt' }, frase.pt));
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        if (sombraSessao.i + 1 >= sombraSessao.frases.length) concluirSombra();
+        else {
+          sombraSessao.i++;
+          sombraSessao.feedback = null;
+          sombraSessao.revelado = false;
+          pintarSombra();
+        }
+      }
+    }, sombraSessao.i + 1 >= sombraSessao.frases.length ? 'CONCLUIR' : 'PRÓXIMA'));
+  } else {
+    if (sombraSessao.revelado) {
+      miolo.push(h('p', { class: 'sombra-frase', lang: 'en' }, frase.en));
+    } else {
+      miolo.push(h('p', { class: 'ia-aviso' }, 'Ouça e repita. Se o aparelho não falar, mostre a frase.'));
+      miolo.push(h('button', {
+        class: 'btn btn-branco',
+        type: 'button',
+        onclick() {
+          sombraSessao.revelado = true;
+          pintarSombra();
+        }
+      }, 'MOSTRAR A FRASE'));
+    }
+    miolo.push(campo.status, campo.mic, campo.entrada);
+    const verificar = h('button', { class: 'btn btn-verde', disabled: true }, 'COMPARAR');
+    campo.entrada.addEventListener('input', () => {
+      verificar.disabled = !campo.entrada.value.trim();
+    });
+    const enviar = () => {
+      if (!campo.entrada.value.trim() || sombraSessao.feedback) return;
+      const aval = pontuarSombra(frase.en, campo.entrada.value);
+      sombraSessao.notas.push(aval.nota);
+      sombraSessao.feedback = aval;
+      if (aval.nota >= 80) sons.acerto();
+      else sons.erro();
+      pintarSombra();
+    };
+    campo.entrada.addEventListener('keydown', e => {
+      if (e.key === 'Enter') enviar();
+    });
+    verificar.addEventListener('click', enviar);
+    miolo.push(verificar);
+    setTimeout(ouvir, 280);
+  }
+  app.append(h('div', {}, miolo));
+  focarTela();
+}
+
+function concluirSombra() {
+  if (!sombraSessao || sombraSessao.concluido) return pintarFim(sombraSessao?.fim);
+  const notas = sombraSessao.notas;
+  const nota = notas.length ? Math.round(notas.reduce((s, n) => s + n, 0) / notas.length) : 0;
+  const acertos = notas.filter(n => n >= 80).length;
+  const xp = 5 + notas.reduce((s, n) => s + Math.round(n / 10), 0);
+  const evento = registrarSombra({
+    xp,
+    acertos,
+    respostas: notas.length,
+    nota,
+    perfeita: acertos === notas.length && notas.length > 0,
+    comboMax: 0
+  });
+  sombraSessao.concluido = true;
+  sombraSessao.fim = {
+    titulo: 'Sombra concluída!',
+    sub: 'Nota média da rodada',
+    nota,
+    xp: xp + evento.bonusMissoes,
+    evento
+  };
+  pintarFim(sombraSessao.fim);
+}
+
+function pintarFim(fim) {
+  if (!fim) return telaConversa();
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'resultado';
+  history.replaceState({ tela: 'resultado', prof: profundidade }, '');
+  const badges = fim.evento?.badges ?? [];
+  const missoes = fim.evento?.missoes ?? [];
+  app.innerHTML = '';
+  app.append(h('div', { class: 'resultado' },
+    h('h1', {}, fim.titulo),
+    h('p', {}, fim.sub),
+    h('div', { class: 'nota-grande' }, String(fim.nota)),
+    h('div', { class: 'pilula' }, `⭐ +${fim.xp} XP`),
+    fim.evento?.subiuNivel ? h('p', {}, `Você virou ${fim.evento.subiuNivel.titulo}!`) : '',
+    missoes.length ? h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, 'Missão cumprida!'),
+      ...missoes.map(m => h('div', {}, `${m.emoji} ${m.titulo}`))
+    ) : '',
+    badges.length ? h('div', { class: 'card' },
+      h('div', { class: 'nivel-titulo' }, 'Conquista nova!'),
+      ...badges.map(b => h('div', {}, `${b.emoji} ${b.nome}`))
+    ) : '',
+    h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        voltarTela(telaConversa);
+      }
+    }, 'CONTINUAR')
+  ));
+  focarTela();
+}
+
+function telaParceiro() {
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'parceiro';
+  registrarRota('parceiro');
+  if (!iaPronta()) {
+    app.innerHTML = '';
+    app.append(
+      topoVoltar('🤖 Parceiro', () => voltarTela()),
+      h('div', { class: 'card' },
+        h('div', { class: 'nivel-titulo' }, 'Desligado'),
+        h('p', {}, 'O parceiro só fala se você ligar e colar uma chave. Sem isso, nenhuma frase sua sai do aparelho. Diálogos e sombra continuam offline.')
+      ),
+      cartaoIa()
+    );
+    focarTela();
+    return;
+  }
+  const mensagens = lerPapo();
+  const lista = h('div', {});
+  const desenhar = () => {
+    lista.innerHTML = '';
+    if (!mensagens.length) {
+      lista.append(h('p', { class: 'ia-aviso' }, 'Manda uma frase em inglês. O Louro responde no seu nível e corrige em seguida.'));
+    }
+    mensagens.forEach(m => {
+      lista.append(h('div', { class: 'fala ' + (m.papel === 'voce' ? 'fala-voce' : 'fala-npc') },
+        h('div', { class: 'fala-en', lang: 'en' }, m.texto),
+        m.correcao ? h('p', {}, m.correcao) : '',
+        m.melhor ? h('p', {}, 'Melhor jeito: ', h('strong', { lang: 'en' }, m.melhor)) : ''
+      ));
+    });
+  };
+  desenhar();
+  const campo = campoResposta('Escreva em inglês...');
+  const enviarBtn = h('button', { class: 'btn btn-verde', disabled: true }, 'ENVIAR');
+  campo.entrada.addEventListener('input', () => {
+    enviarBtn.disabled = !campo.entrada.value.trim() || papoEsperando;
+  });
+  const enviar = async () => {
+    const texto = campo.entrada.value.trim();
+    if (!texto || papoEsperando) return;
+    papoEsperando = true;
+    enviarBtn.disabled = true;
+    campo.entrada.value = '';
+    mensagens.push({ papel: 'voce', texto, correcao: '', melhor: '' });
+    salvarPapo(mensagens);
+    campo.status.textContent = 'O Louro está pensando...';
+    desenhar();
+    const cfg = lerIa();
+    const nv = nivelInfo();
+    try {
+      const resp = await pedirParceiro({
+        chave: cfg.chave,
+        modelo: cfg.modelo,
+        nivel: nv.numero,
+        titulo: nv.titulo,
+        historico: mensagens.slice(0, -1),
+        mensagem: texto
+      });
+      mensagens.push({
+        papel: 'louro',
+        texto: resp.fala || '...',
+        correcao: resp.correcao,
+        melhor: resp.melhor
+      });
+      salvarPapo(mensagens);
+      if (resp.fala) falar(resp.fala);
+      campo.status.textContent = 'Toque em Falar ou escreva a resposta.';
+    } catch (e) {
+      campo.status.textContent = mensagemDeErroIa(e?.status);
+    }
+    papoEsperando = false;
+    enviarBtn.disabled = !campo.entrada.value.trim();
+    desenhar();
+  };
+  campo.entrada.addEventListener('keydown', e => {
+    if (e.key === 'Enter') enviar();
+  });
+  enviarBtn.addEventListener('click', () => { enviar(); });
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('🤖 Parceiro', () => voltarTela()),
+    h('p', { class: 'ia-aviso' }, `Nível ${nivelInfo().numero} · ${nivelInfo().titulo}. A conversa fica só neste aparelho.`),
+    lista,
+    campo.status,
+    ...(campo.mic ? [campo.mic] : []),
+    campo.entrada,
+    h('div', { class: 'fila-botoes' },
+      enviarBtn,
+      h('button', {
+        class: 'btn btn-branco',
+        onclick() {
+          apagarPapo();
+          telaParceiro();
+        }
+      }, 'LIMPAR')
+    )
+  );
+  focarTela();
+}
+
+let papoEsperando = false;
+
 async function iniciar() {
   contextoDoLog(() => telaAtiva);
   Object.assign(TELAS_POR_NOME, {
@@ -2954,7 +3536,16 @@ async function iniciar() {
     login: telaLogin,
     privacidade: telaPrivacidade,
     novidades: telaNovidades,
-    debug: telaDebug
+    debug: telaDebug,
+    conversa: telaConversa,
+    dialogo: () => (dialogo ? pintarDialogo() : telaConversa()),
+    sombra: () => (sombraSessao ? pintarSombra() : telaConversa()),
+    parceiro: telaParceiro,
+    resultado: () => {
+      if (dialogo?.fim) pintarFim(dialogo.fim);
+      else if (sombraSessao?.fim) pintarFim(sombraSessao.fim);
+      else telaConversa();
+    }
   });
   window.addEventListener('popstate', aoVoltarDoNavegador);
   desafioAtivo = lerDesafio();

@@ -2983,6 +2983,76 @@ button.caixa-treinavel:hover {
   flex-wrap: wrap;
 }
 
+.conversa-atalho {
+  border-color: color-mix(in srgb, var(--roxo) 45%, var(--borda));
+}
+
+.fala {
+  display: block;
+  border-radius: 16px;
+  padding: 12px 14px;
+  margin: 12px 0;
+  max-width: 100%;
+}
+
+.fala-npc {
+  background: var(--azul-claro);
+  border: 2px solid color-mix(in srgb, var(--azul) 35%, var(--borda));
+}
+
+.fala-voce {
+  background: var(--verde-claro);
+  border: 2px solid color-mix(in srgb, var(--verde) 40%, var(--borda));
+}
+
+.fala-en {
+  display: block;
+  font-weight: 900;
+  font-size: var(--fonte-lg);
+}
+
+.fala-pt {
+  display: block;
+  color: var(--texto-suave);
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.sombra-frase {
+  font-size: var(--fonte-xl);
+  font-weight: 900;
+  line-height: 1.6;
+}
+
+.sombra-ok {
+  color: var(--verde-texto);
+}
+
+.sombra-falta {
+  background: var(--verm-claro);
+  color: var(--vermelho-texto);
+  border-radius: 6px;
+  padding: 0 4px;
+}
+
+.nota-grande {
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.ia-aviso {
+  font-weight: 800;
+  color: var(--texto-suave);
+}
+
+.fila-botoes {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
 @media (max-width: 600px) {
   .logo {
     font-size: 19px;

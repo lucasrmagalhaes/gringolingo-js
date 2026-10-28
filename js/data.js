@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '1.9';
+export const VERSAO_APP = '2.0';
 
 export const NOVIDADES = [
+  {
+    versao: '2.0',
+    titulo: 'Conversar, sombra e parceiro',
+    itens: [
+      '💬 Diálogos guiados: café, hotel, entrevista, papo e caminho. O tutor corrige cada resposta',
+      '🗣️ Sombra: ouça, repita e veja a nota com as palavras que faltaram',
+      '🤖 Parceiro de conversa opcional. Desligado por padrão. A chave fica só neste aparelho',
+      '📥 Sem chave e sem rede, os diálogos e a sombra continuam offline'
+    ]
+  },
   {
     versao: '1.9',
     titulo: 'Escuta, caixas e Tempo Livre',
@@ -768,6 +778,7 @@ export const MISSOES = [
   { id: 'combo4', emoji: '⚡', titulo: 'Faça um combo x4', alvo: 1, xp: 10, medir: s => (s.comboMax >= 4 ? 1 : 0) },
   { id: 'revisao1', emoji: '🧠', titulo: 'Faça 1 Revisão Turbo', alvo: 1, xp: 15, medir: s => (s.tipo === 'revisao' ? 1 : 0) },
   { id: 'escuta1', emoji: '👂', titulo: 'Faça 1 Escuta', alvo: 1, xp: 15, medir: s => (s.tipo === 'escuta' ? 1 : 0) },
+  { id: 'dialogo1', emoji: '💬', titulo: 'Termine 1 diálogo', alvo: 1, xp: 15, medir: s => (s.tipo === 'dialogo' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -792,6 +803,9 @@ export const BADGES = [
   { id: 'memoria50', emoji: '🌳', nome: 'Raiz Firme', desc: '50 palavras na memória longa' },
   { id: 'metas7', emoji: '🎯', nome: 'Meta em Dia', desc: 'Bata a meta diária 7 vezes' },
   { id: 'ouvido', emoji: '👂', nome: 'Ouvido Afiado', desc: 'Complete uma sessão de Escuta' },
+  { id: 'papo', emoji: '💬', nome: 'Conversador', desc: 'Complete um diálogo guiado' },
+  { id: 'sombra', emoji: '🗣️', nome: 'Eco', desc: 'Complete uma sessão de sombra' },
+  { id: 'ator', emoji: '🎭', nome: 'Cinco Cenas', desc: 'Complete os cinco diálogos' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 

@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-207%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-224%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -65,6 +65,14 @@ navegador.
   de acertos mescla pelo maior número entre aparelhos.
 - **Treinar uma caixa**: no perfil, em Saúde da memória, toque numa faixa que já tem palavras. A
   revisão usa só as palavras daquela caixa, até 8. Palavras ainda sem agenda ficam na caixa de 1 dia.
+- **Diálogos guiados**: cinco cenas (pedir comida, check-in, entrevista, papo e caminho). O app fala
+  a deixa e você responde no microfone ou por escrito. O mesmo tutor explica o erro e mostra um jeito
+  melhor de dizer. Cada cena guarda o melhor resultado e conta XP e streak.
+- **Sombra**: ouça uma frase, repita e veja a nota. As palavras que faltaram ficam marcadas. Sem
+  microfone, dá para escrever. Se o aparelho não tiver voz, um botão mostra a frase.
+- **Parceiro de conversa (opcional, desligado)**: bate-papo em inglês no seu nível, com correção
+  depois de cada fala. Liga no perfil com uma chave do Google AI Studio. A chave fica só neste
+  aparelho: não entra no backup nem na nuvem. Sem chave e sem rede, diálogos e sombra seguem offline.
 - **Chefão de unidade**: liberado quando as 4 lições estão feitas. 12 exercícios difíceis, sem
   múltipla escolha, com 3 vidas.
 - **Correção que perdoa o que é para perdoar**: contrações (`don't` = `do not`), traduções
@@ -103,7 +111,7 @@ navegador.
 - **3 missões que trocam todo dia**, sorteadas de forma determinística a partir da data.
 - **Streak com protetor**: perdoa um dia perdido, e você ganha um novo protetor a cada 5 lições
   perfeitas. O app avisa quando a sequência está para vencer.
-- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **19 conquistas**, XP com
+- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **22 conquistas**, XP com
   bônus de combo, confete e efeitos sonoros sintetizados no WebAudio (nenhum arquivo de áudio no
   repositório).
 - **Desafio por link**: termine uma lição e mande o link para alguém tentar bater a sua pontuação.
@@ -158,7 +166,8 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | Módulo | O que faz |
 | --- | --- |
 | `js/app.js` | Todas as telas e o fluxo entre elas: home, trilha, lição, resultado, dicionário, perfil, login, novidades e diagnóstico. |
-| `js/game.js` | O estado do jogador: XP, streak, estrelas, conquistas, missões, agenda de Leitner, escutas, deslizes do tutor, `localStorage`, export/import e o merge com a nuvem. |
+| `js/game.js` | O estado do jogador: XP, streak, estrelas, conquistas, missões, agenda de Leitner, escutas, diálogos, deslizes do tutor, `localStorage`, export/import e o merge com a nuvem. |
+| `js/conversa.js` | Diálogos guiados, nota da sombra e o parceiro opcional. A chave da API fica fora do progresso sincronizado. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
 | `js/dicas.js` | Tutor offline: classifica o erro, explica em português e escolhe a dica. Também sorteia a dica do dia. |
 | `js/data.js` | O conteúdo: unidades, lições, itens, notas de gramática, níveis, conquistas, missões e as falas do mascote. |
@@ -239,7 +248,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **207 testes em 40 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **224 testes em 44 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -272,6 +281,7 @@ O que a suíte cobre:
   e o errinho de letra perdoado, inclusive letra trocada de lugar), múltipla escolha, montar frase
   com peças, ligar os pares e o exercício de falar quando o microfone não existe.
 - **`tests/escuta.test.js`**: a sessão de Escuta sem microfone vira só escrita do que foi ouvido.
+- **`tests/conversa.test.js`**: cenas guiadas, nota da sombra, chave do parceiro fora do backup e o merge dos diálogos.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
   limpeza de estado. `tests/progresso.test.js` cobre a Escuta (recorde, conquista e merge) e as
