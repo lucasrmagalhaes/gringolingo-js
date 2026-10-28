@@ -1,12 +1,14 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
 import { SONS, CLIPS, somPorId, clipPorId, montarItem, corrigirClip, serieFala, resumoFala, TAXA_NORMAL, TAXA_DEVAGAR } from './pronuncia.js';
 import { ITENS_NIVEL, ROTULO_NIVEL, corrigirIndice, contarAcertos, nivelDoTeste, PERGUNTAS, perguntaPorId, avaliarPergunta, REDUCOES, reducaoPorId, FRASAIS, frasalPorId, avaliarFrasal, TEMAS, temaPorId, avaliarLivre, preferirNivel, montarSessao, resumoSemana, sugestaoSemana } from './fluencia.js';
+import { CENAS_TECNICAS, cenaTecnicaPorId, avaliarTecnico, IDIOMAS, idiomaPorId, avaliarIdioma, perguntaDoDia, avaliarDia } from './tecnico.js';
+import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS } from './voz.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
 import { h, aleatorio, amostra, embaralhar } from './util.js';
@@ -184,6 +186,7 @@ function licaoDesbloqueada(u, idx) {
 
 function telaInicial() {
   limparTela();
+  descartarVoz();
   window.scrollTo(0, 0);
   telaAtiva = 'inicial';
   avisoPerfil = null;
@@ -231,6 +234,7 @@ function telaInicial() {
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'HOJE'),
     cartaoMeta(),
     cartaoFala(),
+    cartaoPerguntaDia(),
     cartaoNivel(),
     faixaSemana(),
     cartaoMissoes(),
@@ -2204,6 +2208,7 @@ function telaPerfil() {
     cartaoJornada(),
     cartaoTropecos(),
     cartaoVoz(),
+    cartaoFonte(),
     cartaoIa(),
     cartaoLembrete(),
     cartaoBackup(),
@@ -3122,6 +3127,7 @@ function topoVoltar(titulo, aoVoltar) {
 function telaConversa() {
   calar();
   limparTela();
+  descartarVoz();
   window.scrollTo(0, 0);
   telaAtiva = 'conversa';
   registrarRota('conversa');
@@ -4247,6 +4253,7 @@ function pintarPronuncia() {
     if (temTts) timerDeTela(() => ouvir(TAXA_NORMAL), 280);
   }
   app.append(h('div', {}, miolo));
+  ligarTeclasDaFala();
   focarTela();
 }
 
@@ -4404,6 +4411,7 @@ function pintarOuvido() {
     }, ouvidoSessao.i + 1 >= ouvidoSessao.fila.length ? 'CONCLUIR' : 'PRÓXIMA'));
   }
   app.append(h('div', {}, miolo));
+  ligarTeclasDaFala();
   focarTela();
 }
 
@@ -4494,6 +4502,13 @@ let perguntaSessao = null;
 let reducaoSessao = null;
 let frasalSessao = null;
 let livreSessao = null;
+let tecnicoSessao = null;
+let idiomaSessao = null;
+let diaSessao = null;
+let gravacaoUrl = null;
+let gravadorAtivo = null;
+let vozTimer = null;
+let vozGeracao = 0;
 
 function cartaoNivel() {
   if (estado.nivelFala) return '';
@@ -4520,8 +4535,13 @@ function botaoFluencia(emoji, titulo, sub, onclick) {
 
 function blocoFluencia() {
   const nivel = estado.nivelFala;
-  return [
+    return [
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'FLUÊNCIA'),
+    botaoFluencia('💻', 'Inglês de trabalho', 'Standup, bug, code review, entrevista e demo.', telaTecnicos),
+    botaoFluencia('🤝', 'Idioms de reunião', 'Touch base, circle back e o papo da call.', telaIdiomas),
+    botaoFluencia('☀️', 'Pergunta do dia', estado.perguntaDia === diaLocalAgora()
+      ? 'Feita hoje. Amanhã vem outra, com uma segunda pergunta.'
+      : 'Uma pergunta e outra em seguida. Vale a sequência.', telaPerguntaDia),
     botaoFluencia('🎯', 'Teste de nível', nivel
       ? `Seu nível de fala: ${nivel}. ${ROTULO_NIVEL[nivel] || ''}`
       : 'Oito perguntas, de A1 a B2. Nada fica trancado.', telaNivel),
@@ -4619,6 +4639,7 @@ function pintarNivel() {
       }
     }, nivelSessao.i + 1 >= ITENS_NIVEL.length ? 'VER MEU NÍVEL' : 'PRÓXIMA'));
   } else {
+    miolo.push(h('p', { class: 'ia-aviso' }, 'Teclas 1, 2 e 3 escolhem a opção.'));
     miolo.push(h('div', { class: 'opcoes' }, item.opcoes.map((texto, indice) => h('button', {
       class: 'opcao',
       type: 'button',
@@ -4635,6 +4656,7 @@ function pintarNivel() {
     }, texto))));
   }
   app.append(h('div', {}, miolo));
+  ligarTeclasDaFala();
   focarTela();
 }
 
@@ -4915,6 +4937,7 @@ function pintarReducao() {
     }, reducaoSessao.i + 1 >= reducaoSessao.fila.length ? 'CONCLUIR' : 'PRÓXIMA'));
   }
   app.append(h('div', {}, miolo));
+  ligarTeclasDaFala();
   focarTela();
 }
 
@@ -5284,7 +5307,8 @@ function telaResumo() {
     ),
     h('div', { class: 'card' },
       h('div', { class: 'nivel-titulo' }, estado.nivelFala ? `Nível de fala ${estado.nivelFala}` : 'Nível de fala ainda aberto'),
-      h('p', {}, `Perguntas ${estado.stats.perguntas} · fala rápida ${estado.stats.reduzidas} · phrasal verbs ${estado.stats.verbosFala} · fala livre ${estado.stats.livres}.`)
+      h('p', {}, `Perguntas ${estado.stats.perguntas} · fala rápida ${estado.stats.reduzidas} · phrasal verbs ${estado.stats.verbosFala} · fala livre ${estado.stats.livres}.`),
+      h('p', {}, `Trabalho ${estado.stats.tecnicos} · idioms ${estado.stats.idiomas} · pergunta do dia ${estado.stats.diasPergunta}.`)
     ),
     erros.length
       ? h('div', { class: 'card' },
@@ -5300,7 +5324,526 @@ function telaResumo() {
   focarTela();
 }
 
+function aplicarFonte(valor) {
+  const grande = valor === 'grande';
+  if (grande) document.documentElement.dataset.fonte = 'grande';
+  else delete document.documentElement.dataset.fonte;
+  try {
+    if (grande) localStorage.setItem('gringolingo:fonte', 'grande');
+    else localStorage.removeItem('gringolingo:fonte');
+  } catch {}
+}
+
+function cartaoFonte() {
+  const grande = document.documentElement.dataset.fonte === 'grande';
+  return h('div', { class: 'card' },
+    h('div', { class: 'nivel-titulo' }, '🔤 Tamanho do texto'),
+    h('p', {}, 'O maior ajuda a ler no celular. O tema escuro continua valendo.'),
+    h('div', { class: 'fila-botoes' },
+      h('button', {
+        class: 'btn ' + (grande ? 'btn-branco' : 'btn-verde'),
+        type: 'button',
+        onclick() {
+          aplicarFonte('normal');
+          telaPerfil();
+        }
+      }, 'NORMAL'),
+      h('button', {
+        class: 'btn ' + (grande ? 'btn-verde' : 'btn-branco'),
+        type: 'button',
+        onclick() {
+          aplicarFonte('grande');
+          telaPerfil();
+        }
+      }, 'MAIOR')
+    ),
+    h('p', { class: 'ia-aviso' }, 'Nas escolhas, as teclas 1, 2 e 3 marcam a opção. Enter segue em frente.')
+  );
+}
+
+function ligarTeclasDaFala() {
+  if (atalhosAtivos) document.removeEventListener('keydown', atalhosAtivos);
+  atalhosAtivos = e => {
+    if (e.altKey || e.ctrlKey || e.metaKey || e.repeat) return;
+    const tag = document.activeElement?.tagName;
+    const digitando = tag === 'INPUT' || tag === 'TEXTAREA';
+    if (e.key === 'Escape') {
+      const voltar = document.querySelector('.topo button');
+      if (voltar) {
+        e.preventDefault();
+        voltar.click();
+      }
+      return;
+    }
+    if (e.key === 'Enter' && !digitando) {
+      const seguir = document.querySelector('#app .btn-verde:not(:disabled)');
+      if (seguir) {
+        e.preventDefault();
+        seguir.click();
+      }
+      return;
+    }
+    if (digitando) return;
+    const n = Number(e.key);
+    if (n >= 1 && n <= 9) {
+      const opcao = document.querySelectorAll('#app .opcoes .opcao')[n - 1];
+      if (opcao) {
+        e.preventDefault();
+        opcao.click();
+      }
+    }
+  };
+  document.addEventListener('keydown', atalhosAtivos);
+}
+
+function descartarVoz() {
+  vozGeracao++;
+  if (vozTimer) {
+    clearTimeout(vozTimer);
+    vozTimer = null;
+  }
+  const rec = gravadorAtivo;
+  gravadorAtivo = null;
+  if (rec) {
+    try { rec.stream?.getTracks().forEach(trilha => trilha.stop()); } catch {}
+    try { if (rec.state !== 'inactive') rec.stop(); } catch {}
+  }
+  gravacaoUrl = soltarUrl(gravacaoUrl);
+}
+
+function finalizarGravacao() {
+  const rec = gravadorAtivo;
+  if (!rec || rec.state === 'inactive') return Promise.resolve();
+  return new Promise(resolve => {
+    rec.addEventListener('stop', () => resolve(), { once: true });
+    try { rec.stop(); } catch { resolve(); }
+  });
+}
+
+function tocarGravacao(status) {
+  if (!gravacaoUrl) {
+    status.textContent = 'Grave uma tentativa para ouvir a sua voz.';
+    return;
+  }
+  const audio = new Audio(gravacaoUrl);
+  audio.play().catch(() => {
+    status.textContent = 'Não consegui tocar a gravação.';
+  });
+}
+
+async function comecarGravacao(botao, status) {
+  if (gravadorAtivo && gravadorAtivo.state === 'recording') {
+    botao.textContent = 'GRAVAR';
+    await finalizarGravacao();
+    status.textContent = gravacaoUrl ? 'Gravação pronta. Ela fica só nesta tela.' : 'Não deu para gravar.';
+    return;
+  }
+  if (!podeGravar()) {
+    status.textContent = 'Este navegador não grava áudio. Dá para escrever e ouvir o modelo.';
+    return;
+  }
+  const geracao = vozGeracao;
+  let stream;
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  } catch {
+    if (geracao !== vozGeracao) return;
+    status.textContent = 'O microfone não abriu. Dá para escrever e ouvir o modelo.';
+    return;
+  }
+  if (geracao !== vozGeracao) {
+    stream.getTracks().forEach(trilha => trilha.stop());
+    return;
+  }
+  let rec;
+  try {
+    const mime = typeof MediaRecorder.isTypeSupported === 'function' && MediaRecorder.isTypeSupported('audio/webm')
+      ? 'audio/webm'
+      : '';
+    rec = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
+  } catch {
+    stream.getTracks().forEach(trilha => trilha.stop());
+    status.textContent = 'Não deu para gravar neste aparelho.';
+    return;
+  }
+  const pedacos = [];
+  rec.ondataavailable = ev => { if (ev.data?.size) pedacos.push(ev.data); };
+  rec.onstop = () => {
+    stream.getTracks().forEach(trilha => trilha.stop());
+    if (geracao !== vozGeracao) return;
+    gravadorAtivo = null;
+    if (vozTimer) {
+      clearTimeout(vozTimer);
+      vozTimer = null;
+    }
+    const blob = new Blob(pedacos, { type: rec.mimeType || 'audio/webm' });
+    if (!blob.size) return;
+    gravacaoUrl = soltarUrl(gravacaoUrl);
+    gravacaoUrl = urlDaGravacao(blob);
+  };
+  gravadorAtivo = rec;
+  rec.start();
+  botao.textContent = 'PARAR';
+  status.textContent = 'Gravando. Até 8 segundos. Nada é enviado.';
+  vozTimer = setTimeout(() => {
+    if (gravadorAtivo === rec && rec.state === 'recording') rec.stop();
+  }, LIMITE_GRAVACAO_MS);
+}
+
+function barraGravar(status) {
+  if (!podeGravar()) {
+    return h('p', { class: 'ia-aviso' }, 'Este navegador não grava áudio. Dá para escrever e ouvir o modelo depois.');
+  }
+  const botao = h('button', { class: 'btn btn-branco', type: 'button' }, 'GRAVAR');
+  botao.addEventListener('click', () => { comecarGravacao(botao, status); });
+  return h('div', {},
+    h('p', { class: 'ia-aviso' }, 'Grave a tentativa para comparar com o modelo. O áudio fica só nesta tela.'),
+    botao
+  );
+}
+
+function barraModelo(frase, status) {
+  return h('div', { class: 'fila-botoes' },
+    h('button', {
+      class: 'btn btn-branco',
+      type: 'button',
+      disabled: !gravacaoUrl,
+      onclick: () => tocarGravacao(status)
+    }, 'MINHA VOZ'),
+    h('button', { class: 'btn btn-branco', type: 'button', onclick: () => falar(frase) }, 'MODELO')
+  );
+}
+
+function novaCena(cena) {
+  return {
+    cena,
+    i: 0,
+    acertos: 0,
+    notas: [],
+    erros: [],
+    feedback: null,
+    concluido: false,
+    fim: null
+  };
+}
+
+function concluirCena(sessao, registrar, cfg) {
+  if (!sessao || sessao.concluido) return pintarFim(sessao?.fim);
+  const total = sessao.cena.rodadas.length;
+  const nota = fecharNota(sessao.notas);
+  const xp = cfg.xpBase + sessao.acertos * cfg.xpAcerto;
+  const evento = registrar({
+    xp,
+    acertos: sessao.acertos,
+    respostas: total,
+    nota,
+    errosFala: sessao.erros,
+    perfeita: false,
+    comboMax: 0
+  });
+  sessao.concluido = true;
+  sessao.fim = {
+    titulo: cfg.titulo,
+    sub: sessao.cena.titulo,
+    nota,
+    xp: xp + (evento.bonusMissoes ?? 0),
+    evento,
+    destino: cfg.destino,
+    painel: true,
+    resumo: true
+  };
+  descartarVoz();
+  pintarFim(sessao.fim);
+}
+
+function pintarCenaFala(sessao, cfg) {
+  if (!sessao || sessao.concluido) return cfg.aoLista();
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = cfg.rota;
+  registrarRota(cfg.rota);
+  const cena = sessao.cena;
+  const rodada = cena.rodadas[sessao.i];
+  const campo = campoResposta('Escreva em inglês...');
+  const ouvirNpc = () => falar(rodada.npc.en);
+  app.innerHTML = '';
+  const miolo = [
+    topoVoltar(cena.emoji + ' ' + cena.titulo, cfg.aoLista),
+    h('div', { class: 'revisao-sub' }, cfg.rotulo(sessao)),
+    h('div', { class: 'fala fala-npc' },
+      h('div', { class: 'fala-en', lang: 'en' }, rodada.npc.en),
+      h('div', { class: 'fala-pt' }, rodada.npc.pt)
+    )
+  ];
+  if (sessao.feedback) {
+    campo.status.textContent = '';
+    miolo.push(cartaoTutor(sessao.feedback));
+    miolo.push(barraModelo(sessao.feedback.melhor, campo.status));
+    miolo.push(campo.status);
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        if (sessao.i + 1 >= cena.rodadas.length) cfg.aoConcluir();
+        else {
+          descartarVoz();
+          sessao.i++;
+          sessao.feedback = null;
+          cfg.repintar();
+        }
+      }
+    }, sessao.i + 1 >= cena.rodadas.length ? 'CONCLUIR' : 'PRÓXIMA PERGUNTA'));
+  } else {
+    miolo.push(h('p', { class: 'sombra-frase' }, rodada.missao));
+    miolo.push(barraGravar(campo.status));
+    miolo.push(campo.status, campo.mic, campo.entrada);
+    const verificar = h('button', { class: 'btn btn-verde', disabled: true }, 'VERIFICAR');
+    campo.entrada.addEventListener('input', () => {
+      verificar.disabled = !campo.entrada.value.trim();
+    });
+    const enviar = async () => {
+      if (!campo.entrada.value.trim() || sessao.feedback) return;
+      await finalizarGravacao();
+      const aval = cfg.avaliar(rodada, campo.entrada.value);
+      sessao.notas.push(aval.nota);
+      if (aval.ok) {
+        sessao.acertos++;
+        sons.acerto();
+      } else {
+        sons.erro();
+        sessao.erros.push({ en: aval.melhor, pt: rodada.missao });
+      }
+      sessao.feedback = aval;
+      cfg.repintar();
+    };
+    campo.entrada.addEventListener('keydown', e => {
+      if (e.key === 'Enter') enviar();
+    });
+    verificar.addEventListener('click', () => { enviar(); });
+    miolo.push(verificar);
+    timerDeTela(ouvirNpc, 280);
+  }
+  app.append(h('div', {}, miolo));
+  ligarTeclasDaFala();
+  focarTela();
+  if (!sessao.feedback) campo.entrada.focus();
+}
+
+function telaTecnicos() {
+  calar();
+  limparTela();
+  descartarVoz();
+  window.scrollTo(0, 0);
+  telaAtiva = 'tecnico';
+  registrarRota('tecnico');
+  tecnicoSessao = null;
+  const lista = preferirNivel(CENAS_TECNICAS, estado.nivelFala);
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('💻 Inglês de trabalho', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'Standup, bug, review, entrevista e demo. Grave a sua voz e compare com o modelo depois da tentativa. Nada é enviado.'),
+    ...lista.map(c => cartaoComNivel(c, c.onde, () => abrirTecnico(c.id)))
+  );
+  focarTela();
+}
+
+function abrirTecnico(id) {
+  const cena = cenaTecnicaPorId(id);
+  if (!cena) return telaTecnicos();
+  descartarVoz();
+  tecnicoSessao = novaCena(cena);
+  pintarTecnico();
+}
+
+function pintarTecnico() {
+  pintarCenaFala(tecnicoSessao, {
+    rota: 'tecnico',
+    aoLista: telaTecnicos,
+    repintar: pintarTecnico,
+    avaliar: avaliarTecnico,
+    rotulo: s => `Turno ${s.i + 1} de ${s.cena.rodadas.length} · ${s.cena.nivel}`,
+    aoConcluir: () => concluirCena(tecnicoSessao, registrarTecnico, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Cena de trabalho feita!',
+      destino: telaTecnicos
+    })
+  });
+}
+
+function telaIdiomas() {
+  calar();
+  limparTela();
+  descartarVoz();
+  window.scrollTo(0, 0);
+  telaAtiva = 'idioma';
+  registrarRota('idioma');
+  idiomaSessao = null;
+  const lista = preferirNivel(IDIOMAS, estado.nivelFala);
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('🤝 Idioms de reunião', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'Frases curtas de call remota. O jeito melhor só aparece depois da tentativa.'),
+    h('button', { class: 'btn btn-verde', onclick: () => abrirIdioma() }, 'TREINAR 4'),
+    ...lista.map(item => cartaoComNivel(item, item.pt, () => abrirIdioma(item.id)))
+  );
+  focarTela();
+}
+
+function abrirIdioma(id) {
+  const fila = filaAdaptada(IDIOMAS, id, idiomaPorId);
+  if (!fila.length) return telaIdiomas();
+  descartarVoz();
+  idiomaSessao = {
+    fila,
+    i: 0,
+    acertos: 0,
+    notas: [],
+    erros: [],
+    feedback: null,
+    concluido: false,
+    fim: null
+  };
+  pintarIdioma();
+}
+
+function pintarIdioma() {
+  if (!idiomaSessao || idiomaSessao.concluido) return telaIdiomas();
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'idioma';
+  registrarRota('idioma');
+  const item = idiomaSessao.fila[idiomaSessao.i];
+  const campo = campoResposta('Escreva em inglês...');
+  app.innerHTML = '';
+  const miolo = [
+    topoVoltar(item.emoji + ' ' + item.titulo, () => telaIdiomas()),
+    h('div', { class: 'revisao-sub' }, `Frase ${idiomaSessao.i + 1} de ${idiomaSessao.fila.length} · ${item.nivel}`),
+    h('p', { class: 'sombra-frase' }, item.pt),
+    h('p', { class: 'ia-aviso' }, item.uso)
+  ];
+  if (idiomaSessao.feedback) {
+    campo.status.textContent = '';
+    miolo.push(cartaoTutor(idiomaSessao.feedback));
+    miolo.push(barraModelo(idiomaSessao.feedback.melhor, campo.status));
+    miolo.push(campo.status);
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        if (idiomaSessao.i + 1 >= idiomaSessao.fila.length) concluirIdioma();
+        else {
+          descartarVoz();
+          idiomaSessao.i++;
+          idiomaSessao.feedback = null;
+          pintarIdioma();
+        }
+      }
+    }, idiomaSessao.i + 1 >= idiomaSessao.fila.length ? 'CONCLUIR' : 'PRÓXIMA'));
+  } else {
+    miolo.push(barraGravar(campo.status));
+    miolo.push(campo.status, campo.mic, campo.entrada);
+    const verificar = h('button', { class: 'btn btn-verde', disabled: true }, 'VERIFICAR');
+    campo.entrada.addEventListener('input', () => {
+      verificar.disabled = !campo.entrada.value.trim();
+    });
+    const enviar = async () => {
+      if (!campo.entrada.value.trim() || idiomaSessao.feedback) return;
+      await finalizarGravacao();
+      const aval = avaliarIdioma(item, campo.entrada.value);
+      idiomaSessao.notas.push(aval.nota);
+      if (aval.ok) {
+        idiomaSessao.acertos++;
+        sons.acerto();
+      } else {
+        sons.erro();
+        idiomaSessao.erros.push({ en: aval.melhor, pt: item.pt });
+      }
+      idiomaSessao.feedback = aval;
+      pintarIdioma();
+    };
+    campo.entrada.addEventListener('keydown', e => {
+      if (e.key === 'Enter') enviar();
+    });
+    verificar.addEventListener('click', () => { enviar(); });
+    miolo.push(verificar);
+  }
+  app.append(h('div', {}, miolo));
+  ligarTeclasDaFala();
+  focarTela();
+  if (!idiomaSessao.feedback) campo.entrada.focus();
+}
+
+function concluirIdioma() {
+  if (!idiomaSessao || idiomaSessao.concluido) return pintarFim(idiomaSessao?.fim);
+  const total = idiomaSessao.fila.length;
+  const nota = fecharNota(idiomaSessao.notas);
+  const xp = 8 + idiomaSessao.acertos * 6;
+  const evento = registrarIdioma({
+    xp,
+    acertos: idiomaSessao.acertos,
+    respostas: total,
+    nota,
+    errosFala: idiomaSessao.erros,
+    perfeita: false,
+    comboMax: 0
+  });
+  idiomaSessao.concluido = true;
+  idiomaSessao.fim = {
+    titulo: 'Idioms da call!',
+    sub: 'Frases curtas de reunião',
+    nota,
+    xp: xp + (evento.bonusMissoes ?? 0),
+    evento,
+    destino: telaIdiomas,
+    painel: true,
+    resumo: true
+  };
+  descartarVoz();
+  pintarFim(idiomaSessao.fim);
+}
+
+function cartaoPerguntaDia() {
+  const feito = estado.perguntaDia === diaLocalAgora();
+  return h('button', { class: 'card revisao dia-atalho', onclick: telaPerguntaDia },
+    h('span', { class: 'revisao-emoji' }, '☀️'),
+    h('div', { class: 'revisao-textos' },
+      h('div', { class: 'revisao-titulo' }, feito ? 'Pergunta do dia feita' : 'Pergunta do dia'),
+      h('div', { class: 'revisao-sub' }, feito
+        ? 'Feita hoje. Amanhã vem outra, com uma segunda pergunta.'
+        : 'Uma pergunta de trabalho e outra em seguida.')
+    ),
+    h('span', { class: 'revisao-seta' }, feito ? '✓' : '›')
+  );
+}
+
+function telaPerguntaDia() {
+  descartarVoz();
+  diaSessao = novaCena(perguntaDoDia(diaLocalAgora()));
+  pintarPerguntaDia();
+}
+
+function pintarPerguntaDia() {
+  pintarCenaFala(diaSessao, {
+    rota: 'dia',
+    aoLista: () => {
+      descartarVoz();
+      voltarTela(telaInicial);
+    },
+    repintar: pintarPerguntaDia,
+    avaliar: avaliarDia,
+    rotulo: s => (s.i === 0 ? `Pergunta do dia · ${s.cena.nivel}` : `Pergunta seguinte · ${s.cena.nivel}`),
+    aoConcluir: () => concluirCena(diaSessao, registrarPerguntaDia, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Pergunta do dia feita!',
+      destino: telaInicial
+    })
+  });
+}
+
 async function iniciar() {
+  aplicarFonte(localStorage.getItem('gringolingo:fonte'));
   contextoDoLog(() => telaAtiva);
   Object.assign(TELAS_POR_NOME, {
     inicial: telaInicial,
@@ -5322,6 +5865,9 @@ async function iniciar() {
     pronuncia: () => (pronunciaSessao && !pronunciaSessao.concluido ? pintarPronuncia() : telaPronuncia()),
     ouvido: () => (ouvidoSessao && !ouvidoSessao.concluido ? pintarOuvido() : telaOuvido()),
     painel: telaPainel,
+    tecnico: () => (tecnicoSessao && !tecnicoSessao.concluido ? pintarTecnico() : telaTecnicos()),
+    idioma: () => (idiomaSessao && !idiomaSessao.concluido ? pintarIdioma() : telaIdiomas()),
+    dia: () => (diaSessao && !diaSessao.concluido ? pintarPerguntaDia() : telaPerguntaDia()),
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
     reducao: () => (reducaoSessao && !reducaoSessao.concluido ? pintarReducao() : telaReducoes()),
