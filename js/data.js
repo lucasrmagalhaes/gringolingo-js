@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.7';
+export const VERSAO_APP = '2.8';
 
 export const NOVIDADES = [
+  {
+    versao: '2.8',
+    titulo: 'No palco',
+    itens: [
+      '🎬 Apresente uma feature em um minuto e responda a plateia',
+      '📌 Sugira um corte de escopo e peça outra data',
+      '⭐ Conte um caso no formato STAR, em quatro falas',
+      '🎵 Marque a palavra forte ou se a pergunta sobe ou desce'
+    ]
+  },
   {
     versao: '2.7',
     titulo: 'Falar na call',
@@ -860,6 +870,8 @@ export const MISSOES = [
   { id: 'rapido1', emoji: '⚡', titulo: 'Responda no tempo', alvo: 1, xp: 15, medir: s => (s.tipo === 'rapido' ? 1 : 0) },
   { id: 'relato1', emoji: '🐛', titulo: 'Relate um bug em três falas', alvo: 1, xp: 15, medir: s => (s.tipo === 'relato' ? 1 : 0) },
   { id: 'claro1', emoji: '🔎', titulo: 'Peça para repetir ou parafraseie', alvo: 1, xp: 15, medir: s => (s.tipo === 'claro' ? 1 : 0) },
+  { id: 'demo1', emoji: '🎬', titulo: 'Apresente uma feature em um minuto', alvo: 1, xp: 15, medir: s => (s.tipo === 'demo' ? 1 : 0) },
+  { id: 'star1', emoji: '⭐', titulo: 'Conte um caso no formato STAR', alvo: 1, xp: 15, medir: s => (s.tipo === 'star' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -907,6 +919,10 @@ export const BADGES = [
   { id: 'cortesia', emoji: '🙏', nome: 'Com educação', desc: 'Dê e receba um comentário de review' },
   { id: 'aquecer', emoji: '☕', nome: 'Antes da call', desc: 'Puxe um papo curto antes da reunião' },
   { id: 'claro', emoji: '🔎', nome: 'Deixa eu ver', desc: 'Peça para repetir ou parafraseie' },
+  { id: 'demo', emoji: '🎬', nome: 'No palco', desc: 'Apresente uma feature e responda a plateia' },
+  { id: 'prazo', emoji: '📌', nome: 'No prazo', desc: 'Negocie prazo ou escopo com educação' },
+  { id: 'star', emoji: '⭐', nome: 'STAR', desc: 'Conte um caso em quatro falas' },
+  { id: 'enfase', emoji: '🎵', nome: 'A ênfase', desc: 'Marque a palavra forte ou a curva da pergunta' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 

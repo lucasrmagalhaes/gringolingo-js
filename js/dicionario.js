@@ -1,8 +1,10 @@
 import { UNIDADES } from './data.js';
-import { estado } from './game.js';
+import { estado, hoje } from './game.js';
 
 let bancoGeral = null;
 let carregando = null;
+let cursoCache = null;
+const chavesCache = new WeakMap();
 
 export function normalizarBusca(s) {
   return (s ?? '')
@@ -15,6 +17,7 @@ export function normalizarBusca(s) {
 }
 
 function verbetesDoCurso() {
+  if (cursoCache) return cursoCache;
   const mapa = new Map();
   UNIDADES.forEach(u => u.licoes.forEach(l => l.itens.forEach(i => {
     if (mapa.has(i.en)) return;
@@ -30,16 +33,17 @@ function verbetesDoCurso() {
       doCurso: true
     });
   })));
-  return [...mapa.values()];
+  cursoCache = [...mapa.values()];
+  return cursoCache;
 }
 
 export function statusDoItem(en) {
   const agenda = estado.itens[en];
   const aprendido = UNIDADES.some(u => u.licoes.some(l => estado.licoes[l.id] && l.itens.some(i => i.en === en)));
   if (!agenda) return aprendido ? { id: 'novo', emoji: '✨', texto: 'Ainda não praticada' } : { id: 'bloqueado', emoji: '🔒', texto: 'Lição ainda não liberada' };
-  const hoje = new Date().toISOString().slice(0, 10);
+  const dia = hoje();
   if (agenda.caixa >= 3) return { id: 'memoria', emoji: '🌱', texto: 'Na memória longa' };
-  if (agenda.proxima <= hoje) return { id: 'vencida', emoji: '📅', texto: 'Vencendo hoje' };
+  if (agenda.proxima <= dia) return { id: 'vencida', emoji: '📅', texto: 'Vencendo hoje' };
   return { id: 'agendada', emoji: '⏳', texto: 'Volta em ' + agenda.proxima.split('-').reverse().slice(0, 2).join('/') };
 }
 
@@ -69,32 +73,60 @@ export function totalDoCurso() {
   return verbetesDoCurso().length;
 }
 
+function chaves(verbete) {
+  let c = chavesCache.get(verbete);
+  if (!c) {
+    c = {
+      en: normalizarBusca(verbete.en),
+      pt: verbete.pt.map(normalizarBusca)
+    };
+    chavesCache.set(verbete, c);
+  }
+  return c;
+}
+
 function pontuar(verbete, termo) {
-  const en = normalizarBusca(verbete.en);
-  const pts = verbete.pt.map(normalizarBusca);
-  if (en === termo || pts.includes(termo)) return 0;
-  if (en.startsWith(termo) || pts.some(p => p.startsWith(termo))) return 1;
-  if (en.split(' ').some(p => p.startsWith(termo)) || pts.some(p => p.split(' ').some(x => x.startsWith(termo)))) return 2;
-  if (en.includes(termo) || pts.some(p => p.includes(termo))) return 3;
+  const { en, pt } = chaves(verbete);
+  if (en === termo || pt.includes(termo)) return 0;
+  if (en.startsWith(termo) || pt.some(p => p.startsWith(termo))) return 1;
+  if (en.split(' ').some(p => p.startsWith(termo)) || pt.some(p => p.split(' ').some(x => x.startsWith(termo)))) return 2;
+  if (en.includes(termo) || pt.some(p => p.includes(termo))) return 3;
   return -1;
+}
+
+function porNome(a, b) {
+  return a.en.localeCompare(b.en);
+}
+
+function universo(curso, geral) {
+  const doCursoEn = new Set(curso.map(v => v.en));
+  return [...curso, ...geral.filter(v => !doCursoEn.has(v.en))];
+}
+
+function aplicarFiltro(lista, filtro) {
+  if (filtro === 'curso') return lista.filter(v => v.doCurso);
+  if (filtro === 'aprendidas') return lista.filter(v => v.doCurso && ['memoria', 'agendada', 'vencida'].includes(statusDoItem(v.en).id));
+  if (filtro === 'revisar') return lista.filter(v => v.doCurso && ['vencida', 'novo'].includes(statusDoItem(v.en).id));
+  return lista;
 }
 
 export function buscar(texto, filtro = 'todas', limite = 60) {
   const termo = normalizarBusca(texto);
   const curso = verbetesDoCurso();
   const geral = bancoGeral ?? [];
-  const doCursoEn = new Set(curso.map(v => v.en));
-  const universo = [...curso, ...geral.filter(v => !doCursoEn.has(v.en))];
-  const filtrados = universo.filter(v => {
-    if (filtro === 'curso') return v.doCurso;
-    if (filtro === 'aprendidas') return v.doCurso && ['memoria', 'agendada', 'vencida'].includes(statusDoItem(v.en).id);
-    if (filtro === 'revisar') return v.doCurso && ['vencida', 'novo'].includes(statusDoItem(v.en).id);
-    return true;
-  });
+  if (!termo && filtro === 'todas') {
+    const cursoOrd = curso.slice().sort(porNome);
+    if (cursoOrd.length >= limite) return cursoOrd.slice(0, limite);
+    const doCursoEn = new Set(curso.map(v => v.en));
+    const resto = geral.filter(v => !doCursoEn.has(v.en)).sort(porNome);
+    return [...cursoOrd, ...resto].slice(0, limite);
+  }
+  const base = filtro === 'todas' ? universo(curso, geral) : curso;
+  const filtrados = aplicarFiltro(base, filtro);
   if (!termo) {
     return filtrados
       .slice()
-      .sort((a, b) => (a.doCurso === b.doCurso ? a.en.localeCompare(b.en) : a.doCurso ? -1 : 1))
+      .sort((a, b) => (a.doCurso === b.doCurso ? porNome(a, b) : a.doCurso ? -1 : 1))
       .slice(0, limite);
   }
   return filtrados

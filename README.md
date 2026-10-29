@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-290%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-299%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -132,6 +132,13 @@ navegador.
 - **Pular para o conteúdo**: o atalho fica escondido até receber o foco. As barras de progresso do
   nível e da meta do dia têm nome para leitor de tela. Depois de uma resposta, o foco vai para o
   retorno do tutor.
+- **Demo de produto**: um minuto para apresentar a feature e duas respostas da plateia. A cena curta
+  de demo do inglês de trabalho continua no lugar.
+- **Prazo e escopo**: sugira com "I'd suggest" e peça com "Could we", em duas falas.
+- **Entrevista STAR**: situação, tarefa, ação e resultado. A entrevista longa de vaga continua no lugar.
+- **Ênfase**: marque a palavra forte, ou se a pergunta sobe ou desce, e depois diga a frase.
+- **Busca do dicionário**: a lista vazia ordena só as palavras do curso, e "vence hoje" usa o dia
+  local do aparelho.
 - **Parceiro de conversa (opcional, desligado)**: bate-papo em inglês no seu nível, com correção
   depois de cada fala. Liga no perfil com uma chave do Google AI Studio. A chave fica só neste
   aparelho: não entra no backup nem na nuvem. Sem chave e sem rede, diálogos e sombra seguem offline.
@@ -173,7 +180,7 @@ navegador.
 - **3 missões que trocam todo dia**, sorteadas de forma determinística a partir da data.
 - **Streak com protetor**: perdoa um dia perdido, e você ganha um novo protetor a cada 5 lições
   perfeitas. O app avisa quando a sequência está para vencer.
-- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **42 conquistas**, XP com
+- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **46 conquistas**, XP com
   bônus de combo, confete e efeitos sonoros sintetizados no WebAudio (nenhum arquivo de áudio no
   repositório).
 - **Desafio por link**: termine uma lição e mande o link para alguém tentar bater a sua pontuação.
@@ -239,12 +246,13 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/ensaio.js` | Entrevista de seis falas, histórias no passado e a escuta de números, datas e preços. |
 | `js/opiniao.js` | Opinião com motivo, descrição de cenas, resposta rápida de vinte segundos e a conta da meta semanal de falas. |
 | `js/call.js` | Relato de bug em três falas, review educado, papo antes da reunião e pedido de esclarecimento. |
+| `js/palco.js` | Demo de um minuto, negociação de prazo, entrevista STAR e ênfase da frase. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
 | `js/dicas.js` | Tutor offline: classifica o erro, explica em português e escolhe a dica. Também sorteia a dica do dia. |
 | `js/data.js` | O conteúdo: unidades, lições, itens, notas de gramática, níveis, conquistas, missões e as falas do mascote. |
-| `js/dicionario.js` | Busca única em português e inglês (normalizada, sem acento), com ranking por tipo de casamento, filtros e status de memória. |
+| `js/dicionario.js` | Busca única em português e inglês (normalizada, sem acento), com ranking por tipo de casamento, filtros e status de memória. A busca vazia ordena só o curso. O dia de revisão é o dia local. |
 | `js/dicionario-dados.js` | O banco de 2.903 verbetes, importado dinamicamente só quando o dicionário abre. |
 | `js/vocabulario.js` | A Expansão de Vocabulário: deriva do banco do dicionário quatro trilhas de lições por classe gramatical (7 palavras cada), com desbloqueio sequencial e ids determinísticos. |
 | `js/nuvem.js` | Supabase: sessão, e-mail, Google, vinculação de identidades, download/upload do progresso e a tradução dos erros para português. |
@@ -321,7 +329,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **290 testes em 61 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **299 testes em 63 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -362,6 +370,8 @@ O que a suíte cobre:
 - **`tests/ensaio.test.js`**: a entrevista longa, as histórias no passado, os números de ouvido e a agenda dos deslizes.
 - **`tests/opiniao.test.js`**: opinião com motivo, descrição de cena, resposta rápida, a meta semanal de falas e o merge dessa meta.
 - **`tests/call.test.js`**: relato de bug, review educado, papo antes da reunião, esclarecimento e o atalho de pular conteúdo.
+- **`tests/palco.test.js`**: demo de um minuto, prazo educado, entrevista STAR, ênfase e as conquistas novas.
+- **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
   limpeza de estado. `tests/progresso.test.js` cobre a Escuta (recorde, conquista e merge) e as

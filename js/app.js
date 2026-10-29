@@ -1,7 +1,7 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
@@ -11,6 +11,7 @@ import { CENAS_TECNICAS, cenaTecnicaPorId, avaliarTecnico, IDIOMAS, idiomaPorId,
 import { ENTREVISTA, avaliarEntrevista, CONTOS, contoPorId, avaliarConto, avaliarDeslize, NUMEROS, numeroPorId } from './ensaio.js';
 import { OPINIOES, opiniaoPorId, avaliarOpiniao, CENAS_FALA, cenaPorId, avaliarCena, RAPIDOS, rapidoPorId, avaliarRapido, SEGUNDOS_RAPIDO, contarFaladas, lembreteMeta } from './opiniao.js';
 import { RELATOS, relatoPorId, avaliarRelato, CORTESIAS, cortesiaPorId, avaliarCortesia, AQUECIMENTOS, aquecerPorId, avaliarAquecer, CLAROS, claroPorId, avaliarClaro } from './call.js';
+import { DEMOS, demoPorId, avaliarDemo, PRAZOS, prazoPorId, avaliarPrazo, STARS, starPorId, avaliarStar, ENFASES, enfasePorId, avaliarEnfase, avaliarToque } from './palco.js';
 import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS } from './voz.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
@@ -43,6 +44,7 @@ let intervaloRelampago = null;
 let intervaloFala = null;
 let intervaloLivre = null;
 let intervaloRapido = null;
+let intervaloDemo = null;
 let saidaPedidaEm = 0;
 let saindoDaLicao = false;
 let voltandoTela = false;
@@ -77,6 +79,8 @@ function limparTela() {
   intervaloLivre = null;
   clearInterval(intervaloRapido);
   intervaloRapido = null;
+  clearInterval(intervaloDemo);
+  intervaloDemo = null;
   saidaPedidaEm = 0;
   saindoDaLicao = false;
   voltandoTela = false;
@@ -958,7 +962,7 @@ function telaDicionario() {
   let timerBusca = null;
   busca.addEventListener('input', () => {
     clearTimeout(timerBusca);
-    timerBusca = setTimeout(desenhar, 120);
+    timerBusca = timerDeTela(desenhar, 120);
   });
   app.append(
     h('div', { class: 'topo' },
@@ -3193,7 +3197,7 @@ function telaConversa() {
   app.innerHTML = '';
   app.append(
     topoVoltar('💬 Conversar', () => voltarTela()),
-    h('p', { class: 'ia-aviso' }, 'Na call: relato de bug, review educado, papo antes da reunião e pedido de esclarecimento. Opinião, cenas e o resto da fluência continuam abaixo.'),
+    h('p', { class: 'ia-aviso' }, 'Demo de um minuto, prazo, entrevista STAR e ênfase. Relato, review e o resto da fluência continuam abaixo.'),
     ...blocoFluencia(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'DIÁLOGOS'),
     ...CENARIOS.map(c => {
@@ -4575,6 +4579,10 @@ let relatoSessao = null;
 let cortesiaSessao = null;
 let aquecerSessao = null;
 let claroSessao = null;
+let demoSessao = null;
+let prazoSessao = null;
+let starSessao = null;
+let enfaseSessao = null;
 let gravacaoUrl = null;
 let gravadorAtivo = null;
 let vozTimer = null;
@@ -4608,6 +4616,10 @@ function blocoFluencia() {
   const vencidos = deslizesVencidos().length;
   return [
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'FLUÊNCIA'),
+    botaoFluencia('🎬', 'Demo de produto', 'Um minuto para apresentar e duas respostas da plateia.', telaDemos),
+    botaoFluencia('📌', 'Prazo e escopo', 'Sugira um corte e peça outra data, com educação.', telaPrazos),
+    botaoFluencia('⭐', 'Entrevista STAR', 'Quatro falas: situação, tarefa, ação e resultado.', telaStars),
+    botaoFluencia('🎵', 'Ênfase', 'Marque a palavra forte, ou se a voz sobe ou desce.', telaEnfases),
     botaoFluencia('🐛', 'Relatar um bug', 'Três falas: como repetir, a causa e a correção.', telaRelatos),
     botaoFluencia('🙏', 'Review com educação', 'Dê um comentário e receba outro sem ser seco.', telaCortesias),
     botaoFluencia('☕', 'Antes da reunião', 'Fim de semana, clima e viagem, em duas falas.', telaAquecer),
@@ -5396,6 +5408,7 @@ function telaResumo() {
       h('p', {}, `Deslizes ${estado.stats.revisoesFala} · entrevista ${estado.stats.entrevistas} · histórias ${estado.stats.contos} · números ${estado.stats.numeros}.`),
       h('p', {}, `Opiniões ${estado.stats.opinioes} · cenas ${estado.stats.cenasFala} · respostas rápidas ${estado.stats.rapidos}.`),
       h('p', {}, `Relatos ${estado.stats.relatos} · reviews ${estado.stats.cortesias} · papo de call ${estado.stats.aquecimentos} · esclarecer ${estado.stats.esclarecimentos}.`),
+      h('p', {}, `Demos ${estado.stats.demos} · prazos ${estado.stats.negociacoes} · STAR ${estado.stats.stars} · ênfase ${estado.stats.enfases}.`),
       h('p', {}, lembreteMeta(contarFaladas(estado.painel, hojeIso), estado.metaFala, hojeIso))
     ),
     erros.length
@@ -5682,6 +5695,15 @@ function pintarCenaFala(sessao, cfg) {
       }
     }, sessao.i + 1 >= cena.rodadas.length ? 'CONCLUIR' : 'PRÓXIMA PERGUNTA'));
   } else {
+    if (rodada.segundos) {
+      miolo.push(h('div', {
+        class: 'cronometro-demo',
+        'data-cronometro-demo': '1',
+        role: 'timer',
+        'aria-label': 'Tempo da fala'
+      }, formatarMinuto(rodada.segundos)));
+      miolo.push(h('p', { class: 'ia-aviso' }, 'Um minuto para apresentar. Quando zerar, ainda dá para enviar.'));
+    }
     miolo.push(h('p', { class: 'sombra-frase' }, rodada.missao));
     miolo.push(barraGravar(campo.status));
     miolo.push(campo.status, campo.mic, campo.entrada);
@@ -5715,6 +5737,7 @@ function pintarCenaFala(sessao, cfg) {
   ligarTeclasDaFala();
   focarTela();
   if (!sessao.feedback) campo.entrada.focus();
+  if (!sessao.feedback && rodada.segundos) ligarCronometroDemo(rodada.segundos);
 }
 
 function telaTecnicos() {
@@ -6580,6 +6603,288 @@ function concluirClaro() {
   pintarFim(claroSessao.fim);
 }
 
+function fraseComFoco(item) {
+  const foco = String(item.foco || '').toLowerCase();
+  return h('p', { class: 'sombra-frase', lang: 'en' }, String(item.melhor || '').split(/(\s+)/).map(p => {
+    const limpo = p.toLowerCase().replace(/[^a-z]/g, '');
+    return limpo && limpo === foco ? h('strong', {}, p) : p;
+  }));
+}
+
+function telaListaFala(rota, titulo, aviso, lista, abrir) {
+  calar();
+  limparTela();
+  descartarVoz();
+  window.scrollTo(0, 0);
+  telaAtiva = rota;
+  registrarRota(rota);
+  app.innerHTML = '';
+  app.append(
+    topoVoltar(titulo, () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, aviso),
+    ...lista.map(c => cartaoComNivel(c, c.onde, () => abrir(c.id)))
+  );
+  focarTela();
+}
+
+function telaDemos() {
+  demoSessao = null;
+  telaListaFala(
+    'demo',
+    '🎬 Demo de produto',
+    'Um minuto para apresentar a feature. Depois, duas perguntas da plateia. A frase modelo só aparece depois.',
+    preferirNivel(DEMOS, estado.nivelFala),
+    abrirDemo
+  );
+}
+
+function abrirDemo(id) {
+  const cena = demoPorId(id);
+  if (!cena) return telaDemos();
+  descartarVoz();
+  demoSessao = novaCena(cena);
+  pintarDemo();
+}
+
+function pintarDemo() {
+  pintarCenaFala(demoSessao, {
+    rota: 'demo',
+    aoLista: telaDemos,
+    repintar: pintarDemo,
+    avaliar: avaliarDemo,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(demoSessao, registrarDemo, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Demo feita!',
+      destino: telaDemos
+    })
+  });
+}
+
+function telaPrazos() {
+  prazoSessao = null;
+  telaListaFala(
+    'prazo',
+    '📌 Prazo e escopo',
+    "Sugira um corte e peça outra data. I'd suggest e Could we. A frase modelo só aparece depois.",
+    preferirNivel(PRAZOS, estado.nivelFala),
+    abrirPrazo
+  );
+}
+
+function abrirPrazo(id) {
+  const cena = prazoPorId(id);
+  if (!cena) return telaPrazos();
+  descartarVoz();
+  prazoSessao = novaCena(cena);
+  pintarPrazo();
+}
+
+function pintarPrazo() {
+  pintarCenaFala(prazoSessao, {
+    rota: 'prazo',
+    aoLista: telaPrazos,
+    repintar: pintarPrazo,
+    avaliar: avaliarPrazo,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(prazoSessao, registrarPrazo, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Prazo combinado!',
+      destino: telaPrazos
+    })
+  });
+}
+
+function telaStars() {
+  starSessao = null;
+  telaListaFala(
+    'star',
+    '⭐ Entrevista STAR',
+    'Quatro falas: situação, tarefa, ação e resultado. A frase modelo só aparece depois.',
+    preferirNivel(STARS, estado.nivelFala),
+    abrirStar
+  );
+}
+
+function abrirStar(id) {
+  const cena = starPorId(id);
+  if (!cena) return telaStars();
+  descartarVoz();
+  starSessao = novaCena(cena);
+  pintarStar();
+}
+
+function pintarStar() {
+  pintarCenaFala(starSessao, {
+    rota: 'star',
+    aoLista: telaStars,
+    repintar: pintarStar,
+    avaliar: avaliarStar,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(starSessao, registrarStar, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Caso contado!',
+      destino: telaStars
+    })
+  });
+}
+
+function telaEnfases() {
+  calar();
+  limparTela();
+  descartarVoz();
+  window.scrollTo(0, 0);
+  telaAtiva = 'enfase';
+  registrarRota('enfase');
+  enfaseSessao = null;
+  const lista = preferirNivel(ENFASES, estado.nivelFala);
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('🎵 Ênfase', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, 'Marque a palavra forte, ou se a pergunta sobe ou desce. Depois diga a frase. O modelo só aparece depois.'),
+    h('button', { class: 'btn btn-verde', onclick: () => abrirEnfase() }, 'TREINAR 4'),
+    ...lista.map(item => cartaoComNivel(item, item.pt, () => abrirEnfase(item.id)))
+  );
+  focarTela();
+}
+
+function abrirEnfase(id) {
+  const fila = filaAdaptada(ENFASES, id, enfasePorId);
+  if (!fila.length) return telaEnfases();
+  descartarVoz();
+  enfaseSessao = {
+    fila,
+    i: 0,
+    acertos: 0,
+    toques: 0,
+    notas: [],
+    erros: [],
+    escolha: null,
+    feedback: null,
+    concluido: false,
+    fim: null
+  };
+  pintarEnfase();
+}
+
+function pintarEnfase() {
+  if (!enfaseSessao || enfaseSessao.concluido) return telaEnfases();
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'enfase';
+  registrarRota('enfase');
+  const item = enfaseSessao.fila[enfaseSessao.i];
+  const campo = campoResposta('Escreva em inglês...');
+  app.innerHTML = '';
+  const miolo = [
+    topoVoltar(item.emoji + ' ' + item.titulo, () => telaEnfases()),
+    h('div', { class: 'revisao-sub' }, `Frase ${enfaseSessao.i + 1} de ${enfaseSessao.fila.length} · ${item.nivel}`),
+    h('p', { class: 'sombra-frase', 'data-foco': '1' }, item.pt),
+    h('p', { class: 'ia-aviso' }, item.uso)
+  ];
+  if (enfaseSessao.feedback) {
+    campo.status.textContent = '';
+    miolo.push(cartaoTutor(enfaseSessao.feedback));
+    miolo.push(h('p', { class: 'fala-en', lang: 'en' }, enfaseSessao.feedback.melhor));
+    miolo.push(barraModelo(enfaseSessao.feedback.melhor, campo.status));
+    miolo.push(campo.status);
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        if (enfaseSessao.i + 1 >= enfaseSessao.fila.length) concluirEnfase();
+        else {
+          descartarVoz();
+          enfaseSessao.i++;
+          enfaseSessao.feedback = null;
+          enfaseSessao.escolha = null;
+          pintarEnfase();
+        }
+      }
+    }, enfaseSessao.i + 1 >= enfaseSessao.fila.length ? 'CONCLUIR' : 'PRÓXIMA'));
+  } else if (!enfaseSessao.escolha) {
+    const opcoes = item.tipo === 'curva'
+      ? [{ valor: 'sobe', rotulo: 'SOBE' }, { valor: 'desce', rotulo: 'DESCE' }]
+      : item.palavras.map(p => ({ valor: p, rotulo: p }));
+    miolo.push(h('div', { class: 'opcoes' }, opcoes.map(op => h('button', {
+      class: 'opcao',
+      type: 'button',
+      lang: item.tipo === 'curva' ? 'pt' : 'en',
+      onclick() {
+        const toque = avaliarToque(item, op.valor);
+        if (toque.ok) enfaseSessao.toques++;
+        enfaseSessao.escolha = { ok: toque.ok };
+        pintarEnfase();
+      }
+    }, op.rotulo))));
+  } else {
+    miolo.push(h('p', { class: 'ia-aviso' }, item.porque));
+    if (item.tipo === 'palavra') miolo.push(fraseComFoco(item));
+    miolo.push(barraGravar(campo.status));
+    miolo.push(campo.status, campo.mic, campo.entrada);
+    const verificar = h('button', { class: 'btn btn-verde', disabled: true }, 'VERIFICAR');
+    campo.entrada.addEventListener('input', () => {
+      verificar.disabled = !campo.entrada.value.trim();
+    });
+    const enviar = async () => {
+      if (!campo.entrada.value.trim() || enfaseSessao.feedback) return;
+      await finalizarGravacao();
+      const aval = avaliarEnfase(item, campo.entrada.value);
+      enfaseSessao.notas.push(aval.nota);
+      if (aval.ok) {
+        enfaseSessao.acertos++;
+        sons.acerto();
+      } else {
+        sons.erro();
+        if (aval.melhor) enfaseSessao.erros.push({ en: aval.melhor, pt: item.pt });
+      }
+      enfaseSessao.feedback = aval;
+      pintarEnfase();
+    };
+    campo.entrada.addEventListener('keydown', e => {
+      if (e.key === 'Enter') enviar();
+    });
+    verificar.addEventListener('click', () => { enviar(); });
+    miolo.push(verificar);
+  }
+  app.append(h('div', {}, miolo));
+  ligarTeclasDaFala();
+  focarTela();
+  if (!enfaseSessao.feedback && enfaseSessao.escolha) campo.entrada.focus();
+}
+
+function concluirEnfase() {
+  if (!enfaseSessao || enfaseSessao.concluido) return pintarFim(enfaseSessao?.fim);
+  const total = enfaseSessao.fila.length;
+  const nota = fecharNota(enfaseSessao.notas);
+  const xp = 8 + enfaseSessao.acertos * 4 + enfaseSessao.toques * 2;
+  const evento = registrarEnfase({
+    xp,
+    acertos: enfaseSessao.acertos,
+    respostas: total,
+    nota,
+    errosFala: enfaseSessao.erros,
+    perfeita: false,
+    comboMax: 0
+  });
+  enfaseSessao.concluido = true;
+  enfaseSessao.fim = {
+    titulo: 'Ênfase no lugar!',
+    sub: 'Ênfase',
+    nota,
+    xp: xp + (evento.bonusMissoes ?? 0),
+    evento,
+    destino: telaEnfases,
+    painel: true,
+    resumo: true
+  };
+  descartarVoz();
+  pintarFim(enfaseSessao.fim);
+}
+
 function telaOpinioes() {
   calar();
   limparTela();
@@ -6698,6 +7003,32 @@ function abrirRapido(id) {
     fim: null
   };
   pintarRapido();
+}
+
+function formatarMinuto(total) {
+  const n = Math.max(0, Number(total) || 0);
+  return `${Math.floor(n / 60)}:${String(n % 60).padStart(2, '0')}`;
+}
+
+function ligarCronometroDemo(segundos) {
+  clearInterval(intervaloDemo);
+  let resta = Math.max(0, Number(segundos) || 0);
+  const el = document.querySelector('[data-cronometro-demo]');
+  const pintar = () => {
+    if (el) el.textContent = formatarMinuto(resta);
+  };
+  pintar();
+  if (resta <= 0) return;
+  intervaloDemo = setInterval(() => {
+    resta -= 1;
+    if (resta <= 0) {
+      clearInterval(intervaloDemo);
+      intervaloDemo = null;
+      if (el) el.textContent = '0:00';
+      return;
+    }
+    pintar();
+  }, 1000);
 }
 
 function ligarCronometroRapido(aoZero) {
@@ -6880,6 +7211,10 @@ async function iniciar() {
     cortesia: () => (cortesiaSessao && !cortesiaSessao.concluido ? pintarCortesia() : telaCortesias()),
     aquecer: () => (aquecerSessao && !aquecerSessao.concluido ? pintarAquecer() : telaAquecer()),
     claro: () => (claroSessao && !claroSessao.concluido ? pintarClaro() : telaClaros()),
+    demo: () => (demoSessao && !demoSessao.concluido ? pintarDemo() : telaDemos()),
+    prazo: () => (prazoSessao && !prazoSessao.concluido ? pintarPrazo() : telaPrazos()),
+    star: () => (starSessao && !starSessao.concluido ? pintarStar() : telaStars()),
+    enfase: () => (enfaseSessao && !enfaseSessao.concluido ? pintarEnfase() : telaEnfases()),
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
     reducao: () => (reducaoSessao && !reducaoSessao.concluido ? pintarReducao() : telaReducoes()),
