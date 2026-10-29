@@ -1061,7 +1061,8 @@ textarea.entrada {
   max-width: 100%;
 }
 
-.cronometro-rapido {
+.cronometro-rapido,
+.cronometro-demo {
   font-weight: 900;
   font-size: var(--fonte-lg);
   color: var(--laranja-texto);
