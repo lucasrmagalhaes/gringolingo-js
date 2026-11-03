@@ -11,6 +11,8 @@ export const CATEGORIAS = [
   { id: 'revisao', titulo: 'Revisão' }
 ];
 
+const TITULO_POR_CATEGORIA = new Map(CATEGORIAS.map(c => [c.id, c.titulo]));
+
 const BRUTOS = [
   ['modelo', 'trabalho', '🤖', 'Para leigos', 'Prompt, alucinação e RAG, em linguagem simples.', 'modelos'],
   ['furo', 'trabalho', '🛡️', 'O furo', 'CVE, patch e upgrade de dependência.', 'furos'],
@@ -130,7 +132,10 @@ const BRUTOS = [
   ['surpresa', 'revisao', '🎁', 'Treino surpresa', 'Um treino por dia, com uma sequência só deste modo.', 'surpresas', 'surpresa streak sequencia treino do dia'],
   ['brecha', 'trabalho', '🔓', 'A falha', 'Explique o furo no review e o conserto.', 'brechas', 'seguranca sql permissao segredo review'],
   ['muda', 'trabalho', '📐', 'A mudança', 'O cliente pede uma tela nova no meio do projeto.', 'mudas', 'cliente escopo tela sprint preco nota'],
-  ['gaucho', 'cotidiano', '🧉', 'O chimarrão', 'Rio Grande do Sul, chimarrão e churrasco.', 'gauchos', 'rio grande sul chimarrao churrasco porto alegre']
+  ['gaucho', 'cotidiano', '🧉', 'O chimarrão', 'Rio Grande do Sul, chimarrão e churrasco.', 'gauchos', 'rio grande sul chimarrao churrasco porto alegre'],
+  ['radar', 'trabalho', '📡', 'O radar', 'Métrica, alerta e o painel do plantão.', 'radares', 'observabilidade metrica alerta dashboard plantao'],
+  ['aplauso', 'trabalho', '👏', 'O aplauso', 'Agradeça o time em público, com nome.', 'aplausos', 'shout out obrigado time publico'],
+  ['gripe', 'cotidiano', '🤒', 'A gripe', 'Avise que está doente ou peça o dia.', 'gripes', 'doente consulta febre daily']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -148,15 +153,79 @@ export function normalizarBusca(s) {
   return String(s ?? '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
 }
 
+export function montarChaveBusca(treino) {
+  const tituloCat = TITULO_POR_CATEGORIA.get(treino?.categoria) || '';
+  return normalizarBusca(`${treino?.titulo || ''} ${treino?.sub || ''} ${treino?.busca || ''} ${treino?.categoria || ''} ${tituloCat}`);
+}
+
+for (const treino of TREINOS) treino.chaveBusca = montarChaveBusca(treino);
+
 export function filtrarTreinos(treinos, { categoria, busca } = {}) {
   const q = normalizarBusca(busca);
-  const tituloDe = id => CATEGORIAS.find(c => c.id === id)?.titulo || '';
-  return (Array.isArray(treinos) ? treinos : []).filter(t => {
+  const lista = Array.isArray(treinos) ? treinos : [];
+  if (!q && (!categoria || categoria === 'todos')) return lista.slice();
+  const tituloDe = id => TITULO_POR_CATEGORIA.get(id) || '';
+  return lista.filter(t => {
     if (categoria && categoria !== 'todos' && t.categoria !== categoria) return false;
     if (!q) return true;
-    const texto = normalizarBusca(`${t.titulo} ${t.sub} ${t.busca || ''} ${t.categoria} ${tituloDe(t.categoria)}`);
+    const texto = typeof t.chaveBusca === 'string'
+      ? t.chaveBusca
+      : normalizarBusca(`${t.titulo} ${t.sub} ${t.busca || ''} ${t.categoria} ${tituloDe(t.categoria)}`);
     return texto.includes(q);
   });
+}
+
+const PARADAS_CATALOGO = new Set([
+  'com', 'para', 'que', 'uma', 'uns', 'dos', 'das', 'por', 'the', 'and',
+  'de', 'do', 'da', 'em', 'no', 'na', 'ou', 'ao', 'seu', 'sua', 'voce',
+  'sem', 'num', 'numa', 'mais', 'menos'
+]);
+export const LIMIAR_PARECIDOS = 0.5;
+
+export function tokensDoTreino(treino) {
+  return normalizarBusca(`${treino?.titulo || ''} ${treino?.sub || ''}`)
+    .split(/[^a-z0-9]+/)
+    .filter(p => p.length >= 4 && !PARADAS_CATALOGO.has(p));
+}
+
+export function auditarCatalogo(treinos, limiar = LIMIAR_PARECIDOS) {
+  const lista = Array.isArray(treinos) ? treinos.filter(t => t && typeof t === 'object') : [];
+  const ids = new Map();
+  const titulos = new Map();
+  for (const t of lista) {
+    const id = String(t.id ?? '');
+    ids.set(id, (ids.get(id) || 0) + 1);
+    const titulo = normalizarBusca(t.titulo);
+    titulos.set(titulo, (titulos.get(titulo) || 0) + 1);
+  }
+  const idsRepetidos = [...ids].filter(([, n]) => n > 1).map(([id]) => id);
+  const titulosRepetidos = [...titulos].filter(([, n]) => n > 1).map(([titulo]) => titulo);
+  const corte = Number(limiar);
+  const minimo = Number.isFinite(corte) ? corte : LIMIAR_PARECIDOS;
+  const bolsas = lista.map(t => {
+    const toks = tokensDoTreino(t);
+    return { id: String(t.id ?? ''), set: new Set(toks), n: toks.length };
+  });
+  const parecidos = [];
+  for (let i = 0; i < bolsas.length; i++) {
+    if (bolsas[i].n < 3) continue;
+    for (let j = i + 1; j < bolsas.length; j++) {
+      if (bolsas[j].n < 3) continue;
+      let comum = 0;
+      for (const tok of bolsas[j].set) if (bolsas[i].set.has(tok)) comum++;
+      const uniao = bolsas[i].set.size + bolsas[j].set.size - comum;
+      if (!uniao) continue;
+      const nota = comum / uniao;
+      if (nota >= minimo) {
+        parecidos.push({
+          a: bolsas[i].id,
+          b: bolsas[j].id,
+          nota: Math.round(nota * 100) / 100
+        });
+      }
+    }
+  }
+  return { idsRepetidos, titulosRepetidos, parecidos };
 }
 
 export function treinoRecomendado(treinos, { nivel, stats, padroes, deslizes } = {}) {
