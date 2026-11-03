@@ -153,7 +153,10 @@ const BRUTOS = [
   ['dono', 'trabalho', '🪪', 'Quem aprova', 'A pasta tem dois donos e o merge pede um deles.', 'donos', 'code owner pasta merge aprovar'],
   ['manual', 'trabalho', '📘', 'O manual', 'O manual manda ler o alerta primeiro e fica no wiki.', 'manuais', 'runbook manual wiki alerta'],
   ['verde', 'trabalho', '🟢', 'O lado verde', 'O tráfego vai para o lado verde e a volta leva um minuto.', 'verdes', 'blue green deploy lado verde trafego'],
-  ['certificado', 'trabalho', '🔏', 'O certificado', 'O certificado vence na sexta e o aviso sai sete dias antes.', 'certificados', 'certificado tls sexta renovar']
+  ['certificado', 'trabalho', '🔏', 'O certificado', 'O certificado vence na sexta e o aviso sai sete dias antes.', 'certificados', 'certificado tls sexta renovar'],
+  ['rebase', 'trabalho', '🌿', 'O rebase', 'A branch está dois commits atrás e o rebase vai em cima da main.', 'rebases', 'rebase main conflito arquivo'],
+  ['consulta', 'trabalho', '🐌', 'A consulta', 'A consulta leva quatro segundos e roda em cada página.', 'consultas', 'slow query quatro segundos join plano'],
+  ['replica', 'trabalho', '🪞', 'A réplica', 'A réplica está dois minutos atrás e a leitura pode usar a cópia.', 'replicas', 'replica lag primario leitura dois minutos']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

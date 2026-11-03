@@ -357,6 +357,13 @@ export function termosDaFala(erros) {
     .slice(0, 24);
 }
 
+export function textoDaPalavra(erros) {
+  const topo = termosDaFala(erros)[0];
+  if (!topo) return { en: '', n: 0, texto: 'Nenhuma palavra escapou nas falas ainda.' };
+  const vezes = topo.n === 1 ? '1 vez' : `${topo.n} vezes`;
+  return { en: topo.en, n: topo.n, texto: `A palavra que mais volta é ${topo.en}. ${vezes}.` };
+}
+
 export function fraseDaPalavra(palavra) {
   const alvo = normalizarFala(palavra);
   return `Please keep ${alvo} in this sentence.`;

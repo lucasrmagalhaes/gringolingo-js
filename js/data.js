@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.42';
+export const VERSAO_APP = '2.43';
 
 export const NOVIDADES = [
+  {
+    versao: '2.43',
+    titulo: 'O rebase',
+    itens: [
+      '🌿 Rebaseie em cima da main e diga o arquivo do conflito',
+      '🐌 Conte os quatro segundos da consulta lenta',
+      '🪞 Diga que a réplica está dois minutos atrás',
+      '📒 Veja no hub a palavra que mais volta nas falas'
+    ]
+  },
   {
     versao: '2.42',
     titulo: 'O manual',
@@ -1309,6 +1319,9 @@ export const MISSOES = [
   { id: 'manual1', emoji: '📘', titulo: 'Siga o manual do plantão', alvo: 1, xp: 15, medir: s => (s.tipo === 'manual' ? 1 : 0) },
   { id: 'verde1', emoji: '🟢', titulo: 'Mude o tráfego para o lado verde', alvo: 1, xp: 15, medir: s => (s.tipo === 'verde' ? 1 : 0) },
   { id: 'certificado1', emoji: '🔏', titulo: 'Fale do certificado que vence', alvo: 1, xp: 15, medir: s => (s.tipo === 'certificado' ? 1 : 0) },
+  { id: 'rebase1', emoji: '🌿', titulo: 'Rebaseie a branch em cima da main', alvo: 1, xp: 15, medir: s => (s.tipo === 'rebase' ? 1 : 0) },
+  { id: 'consulta1', emoji: '🐌', titulo: 'Explique a consulta lenta', alvo: 1, xp: 15, medir: s => (s.tipo === 'consulta' ? 1 : 0) },
+  { id: 'replica1', emoji: '🪞', titulo: 'Diga o atraso da réplica', alvo: 1, xp: 15, medir: s => (s.tipo === 'replica' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1476,6 +1489,9 @@ export const BADGES = [
   { id: 'manual', emoji: '📘', nome: 'O manual', desc: 'Leia o alerta primeiro e ache o manual no wiki' },
   { id: 'verde', emoji: '🟢', nome: 'O lado verde', desc: 'Mande o tráfego para o lado verde e saiba voltar' },
   { id: 'certificado', emoji: '🔏', nome: 'O certificado', desc: 'Diga quando o certificado vence e quando o aviso sai' },
+  { id: 'rebase', emoji: '🌿', nome: 'O rebase', desc: 'Diga que a branch está atrás e rebaseie em cima da main' },
+  { id: 'consulta', emoji: '🐌', nome: 'A consulta', desc: 'Conte os quatro segundos e onde a consulta roda' },
+  { id: 'replica', emoji: '🪞', nome: 'A réplica', desc: 'Diga o atraso da cópia e para onde vai a escrita' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
