@@ -400,6 +400,13 @@ textarea {
   flex: 0 0 auto;
 }
 
+.passeio-status {
+  font-size: var(--fonte-xl);
+  font-weight: 900;
+  text-align: center;
+  margin: 8px 0 12px;
+}
+
 .revisao > .pilula {
   flex-shrink: 0;
 }
