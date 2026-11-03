@@ -12,6 +12,7 @@ import { ENTREVISTA, CONTOS } from './ensaio.js';
 import { CENAS_TECNICAS, IDIOMAS, PERGUNTAS_DIA } from './tecnico.js';
 import { PERGUNTAS } from './fluencia.js';
 import { FRASES } from './frases.js';
+import { LINHAS, SLACKS, SOCIAIS, TERMOS } from './oficina.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -450,6 +451,10 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Linha', itens: LINHAS },
+    { origem: 'Slack', itens: SLACKS },
+    { origem: 'Social', itens: SOCIAIS },
+    { origem: 'Termo', itens: TERMOS },
     { origem: 'Estimativa', itens: ESTIMATIVAS },
     { origem: 'Consenso', itens: CONSENSOS },
     { origem: 'Atendimento', itens: ATENDIMENTOS },
