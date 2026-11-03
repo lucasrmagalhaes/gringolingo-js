@@ -35,6 +35,7 @@ import { RESPEITOS, DEBITOS, INDICACOES } from './respeito.js';
 import { UXS, FORUNS, VISTOS } from './visto.js';
 import { FACILS, ESCOLHAS, SABADOS } from './facil.js';
 import { BRECHAS, MUDAS, GAUCHOS } from './brecha.js';
+import { RADARS, APLAUSOS, GRIPES } from './radar.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -473,6 +474,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Radar', itens: RADARS },
+    { origem: 'Aplauso', itens: APLAUSOS },
+    { origem: 'Gripe', itens: GRIPES },
     { origem: 'Brecha', itens: BRECHAS },
     { origem: 'Mudança', itens: MUDAS },
     { origem: 'Chimarrão', itens: GAUCHOS },

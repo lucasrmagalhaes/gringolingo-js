@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.35';
+export const VERSAO_APP = '2.36';
 
 export const NOVIDADES = [
+  {
+    versao: '2.36',
+    titulo: 'No radar',
+    itens: [
+      '📡 Explique métrica, alerta e o painel numa reunião de plantão',
+      '👏 Agradeça o time em público, com o nome de quem fez',
+      '🤒 Avise que está doente ou peça o dia',
+      '🔎 O catálogo recusa id e título repetidos, e a lista do hub pinta menos fora da tela'
+    ]
+  },
   {
     versao: '2.35',
     titulo: 'Na falha',
@@ -1218,6 +1228,9 @@ export const MISSOES = [
   { id: 'brecha1', emoji: '🔓', titulo: 'Explique um furo e o conserto', alvo: 1, xp: 15, medir: s => (s.tipo === 'brecha' ? 1 : 0) },
   { id: 'muda1', emoji: '📐', titulo: 'Negocie uma mudança de escopo', alvo: 1, xp: 15, medir: s => (s.tipo === 'muda' ? 1 : 0) },
   { id: 'gaucho1', emoji: '🧉', titulo: 'Fale do Sul, do chimarrão ou do churrasco', alvo: 1, xp: 15, medir: s => (s.tipo === 'gaucho' ? 1 : 0) },
+  { id: 'radar1', emoji: '📡', titulo: 'Explique métrica, alerta ou o painel', alvo: 1, xp: 15, medir: s => (s.tipo === 'radar' ? 1 : 0) },
+  { id: 'aplauso1', emoji: '👏', titulo: 'Agradeça alguém do time em público', alvo: 1, xp: 15, medir: s => (s.tipo === 'aplauso' ? 1 : 0) },
+  { id: 'gripe1', emoji: '🤒', titulo: 'Avise que está doente ou peça o dia', alvo: 1, xp: 15, medir: s => (s.tipo === 'gripe' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1364,6 +1377,9 @@ export const BADGES = [
   { id: 'brecha', emoji: '🔓', nome: 'A falha', desc: 'Explique um furo de segurança no review e o conserto' },
   { id: 'muda', emoji: '📐', nome: 'A mudança', desc: 'Negocie uma tela nova no meio do projeto' },
   { id: 'gaucho', emoji: '🧉', nome: 'O chimarrão', desc: 'Fale do Rio Grande do Sul, do chimarrão e do churrasco' },
+  { id: 'radar', emoji: '📡', nome: 'O radar', desc: 'Explique a métrica, o alerta ou o painel do plantão' },
+  { id: 'aplauso', emoji: '👏', nome: 'O aplauso', desc: 'Agradeça o time em público' },
+  { id: 'gripe', emoji: '🤒', nome: 'A gripe', desc: 'Avise que está doente ou peça o dia' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

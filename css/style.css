@@ -287,6 +287,8 @@ textarea {
   align-items: stretch;
   gap: 8px;
   margin-bottom: 16px;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 92px;
 }
 
 .hub-item > .card {
@@ -296,6 +298,8 @@ textarea {
 
 .estrela-treino {
   flex: 0 0 52px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 18px;
   border: 2px solid var(--borda);
   border-bottom-width: 4px;
