@@ -67,7 +67,7 @@ const padrao = () => ({
   agendaFala: {},
   metaFala: 3,
   metaFalaSemana: null,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0 }
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -975,6 +975,10 @@ function checarBadges() {
     estimativa: estado.stats.estimativas >= 1,
     consenso: estado.stats.consensos >= 1,
     atendimento: estado.stats.atendimentos >= 1,
+    gestor: estado.stats.gestores >= 1,
+    final: estado.stats.finais >= 1,
+    mala: estado.stats.viagens >= 1,
+    mistura: estado.stats.misturas >= 1,
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -1336,6 +1340,22 @@ export function registrarConsenso(d) {
 
 export function registrarAtendimento(d) {
   return registrarTipo('atendimentos', 'atendimento', d);
+}
+
+export function registrarGestor(d) {
+  return registrarTipo('gestores', 'gestor', d);
+}
+
+export function registrarFinal(d) {
+  return registrarTipo('finais', 'final', d);
+}
+
+export function registrarViagem(d) {
+  return registrarTipo('viagens', 'viagem', d);
+}
+
+export function registrarMistura(d) {
+  return registrarTipo('misturas', 'mistura', d);
 }
 
 export function registrarPronuncia(d) {
