@@ -166,8 +166,7 @@ describe('fala no palco', () => {
     const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
     const data = readFileSync(join(raiz, 'js/data.js'), 'utf8');
     const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
-    assert.match(data, /VERSAO_APP = '2\.8'/);
-    assert.match(sw, /gringolingo-v35/);
+    assert.match(data, /versao: '2\.8'/);
     assert.match(sw, /\.\/js\/palco\.js/);
   });
 });

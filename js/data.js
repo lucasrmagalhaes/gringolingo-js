@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.8';
+export const VERSAO_APP = '2.9';
 
 export const NOVIDADES = [
+  {
+    versao: '2.9',
+    titulo: 'No turno',
+    itens: [
+      '🏗️ Explique a escolha e a troca, com we went with',
+      '👥 Narre o que está fazendo e peça ajuda no pair',
+      '🚨 Dê status, peça desculpas e o próximo passo',
+      '📅 O plano da semana sugere treinos a partir dos deslizes'
+    ]
+  },
   {
     versao: '2.8',
     titulo: 'No palco',
@@ -872,6 +882,8 @@ export const MISSOES = [
   { id: 'claro1', emoji: '🔎', titulo: 'Peça para repetir ou parafraseie', alvo: 1, xp: 15, medir: s => (s.tipo === 'claro' ? 1 : 0) },
   { id: 'demo1', emoji: '🎬', titulo: 'Apresente uma feature em um minuto', alvo: 1, xp: 15, medir: s => (s.tipo === 'demo' ? 1 : 0) },
   { id: 'star1', emoji: '⭐', titulo: 'Conte um caso no formato STAR', alvo: 1, xp: 15, medir: s => (s.tipo === 'star' ? 1 : 0) },
+  { id: 'decisao1', emoji: '🏗️', titulo: 'Explique uma decisão e a troca', alvo: 1, xp: 15, medir: s => (s.tipo === 'decisao' ? 1 : 0) },
+  { id: 'plantao1', emoji: '🚨', titulo: 'Dê status, desculpa e o próximo passo', alvo: 1, xp: 15, medir: s => (s.tipo === 'plantao' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -923,6 +935,9 @@ export const BADGES = [
   { id: 'prazo', emoji: '📌', nome: 'No prazo', desc: 'Negocie prazo ou escopo com educação' },
   { id: 'star', emoji: '⭐', nome: 'STAR', desc: 'Conte um caso em quatro falas' },
   { id: 'enfase', emoji: '🎵', nome: 'A ênfase', desc: 'Marque a palavra forte ou a curva da pergunta' },
+  { id: 'decisao', emoji: '🏗️', nome: 'A escolha', desc: 'Explique uma decisão e a troca' },
+  { id: 'par', emoji: '👥', nome: 'Na dupla', desc: 'Narre o que faz e peça ajuda' },
+  { id: 'plantao', emoji: '🚨', nome: 'No plantão', desc: 'Dê status, desculpa e o próximo passo' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
