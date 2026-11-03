@@ -29,6 +29,7 @@ import { MESAS, MIGRAS, ESTREIAS } from './rodada.js';
 import { POKERS, LEIGOS, RECRUTAS } from './carta.js';
 import { CULPAS, RAIOS, OFERTAS } from './raio.js';
 import { PEDIDOS, COBERTURAS, LOOMS } from './caderno.js';
+import { GRAFICOS, HANDOFFS, ELEVADORES } from './grafico.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -467,6 +468,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Gráfico', itens: GRAFICOS },
+    { origem: 'Handoff', itens: HANDOFFS },
+    { origem: 'Elevador', itens: ELEVADORES },
     { origem: 'Pedido', itens: PEDIDOS },
     { origem: 'Cobertura', itens: COBERTURAS },
     { origem: 'Vídeo', itens: LOOMS },

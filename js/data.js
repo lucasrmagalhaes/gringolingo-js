@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.29';
+export const VERSAO_APP = '2.30';
 
 export const NOVIDADES = [
+  {
+    versao: '2.30',
+    titulo: 'No gráfico',
+    itens: [
+      '📉 Leia a alta, a queda e a causa em cima do gráfico',
+      '🕒 Peça o que ficou aberto e deixe a nota para o outro fuso',
+      '🚪 Apresente-se em trinta segundos para um diretor',
+      '🗂️ A semana junta vocabulário, frases mais erradas e a meta de minutos'
+    ]
+  },
   {
     versao: '2.29',
     titulo: 'No esclarecimento',
@@ -1136,6 +1146,10 @@ export const MISSOES = [
   { id: 'cobertura1', emoji: '🧪', titulo: 'Explique os testes ou a cobertura', alvo: 1, xp: 15, medir: s => (s.tipo === 'cobertura' ? 1 : 0) },
   { id: 'loom1', emoji: '🎥', titulo: 'Deixe um check-in de dois minutos', alvo: 1, xp: 15, medir: s => (s.tipo === 'loom' ? 1 : 0) },
   { id: 'caderno1', emoji: '📒', titulo: 'Use uma palavra sua numa frase', alvo: 1, xp: 15, medir: s => (s.tipo === 'caderno' ? 1 : 0) },
+  { id: 'grafico1', emoji: '📉', titulo: 'Explique a alta, a queda ou a causa', alvo: 1, xp: 15, medir: s => (s.tipo === 'grafico' ? 1 : 0) },
+  { id: 'handoff1', emoji: '🕒', titulo: 'Passe o contexto para o outro fuso', alvo: 1, xp: 15, medir: s => (s.tipo === 'handoff' ? 1 : 0) },
+  { id: 'elevador1', emoji: '🚪', titulo: 'Apresente-se em trinta segundos', alvo: 1, xp: 15, medir: s => (s.tipo === 'elevador' ? 1 : 0) },
+  { id: 'junta1', emoji: '🗂️', titulo: 'Feche a semana junta', alvo: 1, xp: 15, medir: s => (s.tipo === 'junta' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1260,6 +1274,10 @@ export const BADGES = [
   { id: 'cobertura', emoji: '🧪', nome: 'A cobertura', desc: 'Explique os testes, a cobertura ou o relógio falso' },
   { id: 'loom', emoji: '🎥', nome: 'O vídeo', desc: 'Deixe um check-in curto para o time assistir depois' },
   { id: 'caderno', emoji: '📒', nome: 'Meu vocabulário', desc: 'Use numa frase uma palavra que escapou nas falas' },
+  { id: 'grafico', emoji: '📉', nome: 'O gráfico', desc: 'Fale da alta, da queda ou da causa' },
+  { id: 'handoff', emoji: '🕒', nome: 'O handoff', desc: 'Peça o contexto e deixe a nota para o outro fuso' },
+  { id: 'elevador', emoji: '🚪', nome: 'O elevador', desc: 'Apresente-se em trinta segundos para um diretor' },
+  { id: 'junta', emoji: '🗂️', nome: 'A semana junta', desc: 'Revise vocabulário, frases mais erradas e a meta de minutos' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
