@@ -1,7 +1,7 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, registrarRequisito, registrarMetrica, registrarAprendizado, registrarPasseio, registrarFalha, registrarMentoria, registrarSocorro, registrarPalestra, registrarDuvida, registrarSinal, registrarSistema, registrarCodigo, registrarColega, registrarSimulado, registrarModelo, registrarFuro, registrarRotina, registrarPapo, registrarFuturo, registrarCultura, registrarAumento, registrarRota as registrarFalaRota, registrarVivo, registrarProduto, registrarFecho, registrarEspaco, registrarMapa, registrarDuro, registrarProposta, registrarNarrar, registrarBanco, registrarRecusa, registrarSprint, registrarSeguro, registrarMeetup, registrarCompleta, registrarRodada, registrarMigra, registrarEstreia, registrarFoco, marcarEspaco, resumoDesafio, definirMetaFala, definirMetaMinutos, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, resumoBackup, textoResumoBackup, nomeArquivoBackup, LIMITE_BACKUP, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, palavrasDoPadrao, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, registrarRequisito, registrarMetrica, registrarAprendizado, registrarPasseio, registrarFalha, registrarMentoria, registrarSocorro, registrarPalestra, registrarDuvida, registrarSinal, registrarSistema, registrarCodigo, registrarColega, registrarSimulado, registrarModelo, registrarFuro, registrarRotina, registrarPapo, registrarFuturo, registrarCultura, registrarAumento, registrarRota as registrarFalaRota, registrarVivo, registrarProduto, registrarFecho, registrarEspaco, registrarMapa, registrarDuro, registrarProposta, registrarNarrar, registrarBanco, registrarRecusa, registrarSprint, registrarSeguro, registrarMeetup, registrarCompleta, registrarRodada, registrarMigra, registrarEstreia, registrarFoco, registrarPoker, registrarLeigo, registrarRecruta, marcarEspaco, resumoDesafio, definirMetaFala, definirMetaMinutos, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, resumoBackup, textoResumoBackup, nomeArquivoBackup, LIMITE_BACKUP, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, palavrasDoPadrao, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES, falarComLocale, falarTrechos } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
@@ -33,6 +33,7 @@ import { SPRINTS, sprintPorId, avaliarSprint, SEGUROS, seguroPorId, avaliarSegur
 import { montarCompleta, faixaDaCompleta } from './completa.js';
 import { MESAS, mesaPorId, avaliarMesa, MIGRAS, migraPorId, avaliarMigra, ESTREIAS, estreiaPorId, avaliarEstreia } from './rodada.js';
 import { FOCOS, montarFoco, faixaDoFoco } from './foco.js';
+import { POKERS, pokerPorId, avaliarPoker, LEIGOS, leigoPorId, avaliarLeigo, RECRUTAS, recrutaPorId, avaliarRecruta } from './carta.js';
 import { somarSemana, textoMinutos, textoGrupo, lembreteMinutos, METAS_MINUTOS } from './semana.js';
 import { filaEspacada, diasAoAcertar, textoVolta } from './espaco.js';
 import { CATEGORIAS as GRUPOS_HUB, TREINOS, filtrarTreinos, treinoRecomendado } from './hub.js';
@@ -2799,6 +2800,84 @@ function pintarFoco() {
   });
 }
 
+function telaPokers() {
+  listarCena(
+    'poker',
+    '🃏 A carta',
+    'Duas falas: a carta e o motivo. A frase modelo só aparece depois.',
+    POKERS,
+    abrirPoker,
+    valor => { pokerSessao = valor; }
+  );
+}
+
+function abrirPoker(id) {
+  abrirCenaLista(id, pokerPorId, cena => { pokerSessao = cena; }, pintarPoker, telaPokers);
+}
+
+function pintarPoker() {
+  pintarCenaLista(pokerSessao, {
+    rota: 'poker',
+    aoLista: telaPokers,
+    repintar: pintarPoker,
+    avaliar: avaliarPoker,
+    registrar: registrarPoker,
+    tituloFim: 'Carta dita!'
+  });
+}
+
+function telaLeigos() {
+  listarCena(
+    'leigo',
+    '🧮 A conta da IA',
+    'Duas falas: a conta e o limite. A frase modelo só aparece depois.',
+    LEIGOS,
+    abrirLeigo,
+    valor => { leigoSessao = valor; }
+  );
+}
+
+function abrirLeigo(id) {
+  abrirCenaLista(id, leigoPorId, cena => { leigoSessao = cena; }, pintarLeigo, telaLeigos);
+}
+
+function pintarLeigo() {
+  pintarCenaLista(leigoSessao, {
+    rota: 'leigo',
+    aoLista: telaLeigos,
+    repintar: pintarLeigo,
+    avaliar: avaliarLeigo,
+    registrar: registrarLeigo,
+    tituloFim: 'Conta dita!'
+  });
+}
+
+function telaRecrutas() {
+  listarCena(
+    'recruta',
+    '📞 A ligação',
+    'Duas falas: a pretensão e a janela. A frase modelo só aparece depois.',
+    RECRUTAS,
+    abrirRecruta,
+    valor => { recrutaSessao = valor; }
+  );
+}
+
+function abrirRecruta(id) {
+  abrirCenaLista(id, recrutaPorId, cena => { recrutaSessao = cena; }, pintarRecruta, telaRecrutas);
+}
+
+function pintarRecruta() {
+  pintarCenaLista(recrutaSessao, {
+    rota: 'recruta',
+    aoLista: telaRecrutas,
+    repintar: pintarRecruta,
+    avaliar: avaliarRecruta,
+    registrar: registrarRecruta,
+    tituloFim: 'Ligação feita!'
+  });
+}
+
 function cartaoSobre() {
   const novo = localStorage.getItem('gringolingo:versao-vista') !== VERSAO_APP;
   return h('div', { class: 'card sobre-card' },
@@ -3098,7 +3177,13 @@ function cartaoJornada() {
 function cartaoBackup() {
   const msg = h('div', { class: 'revisao-sub', role: 'status' }, 'Baixe uma cópia do seu progresso ou traga de outro aparelho');
   const escolha = h('div', { class: 'backup-botoes' });
-  const entrada = h('input', { type: 'file', accept: 'application/json,.json', class: 'arquivo-escondido' });
+  const entrada = h('input', {
+    type: 'file',
+    accept: 'application/json,.json',
+    class: 'arquivo-escondido',
+    id: 'backup-arquivo',
+    'aria-label': 'Arquivo JSON de backup'
+  });
   const aplicar = (dados, modo) => {
     escolha.innerHTML = '';
     try {
@@ -3138,6 +3223,7 @@ function cartaoBackup() {
           confirmando = true;
           btnSubstituir.textContent = 'TEM CERTEZA? TOQUE DE NOVO';
           btnSubstituir.classList.add('btn-vermelho');
+          msg.textContent = 'Toque de novo para substituir o progresso deste aparelho.';
           return;
         }
         aplicar(dados, 'substituir');
@@ -3163,16 +3249,19 @@ function cartaoBackup() {
       h('button', {
         class: 'btn btn-branco',
         onclick() {
+          const nome = nomeArquivoBackup(diaLocalAgora(), VERSAO_APP);
           const blob = new Blob([JSON.stringify(exportarEstado(VERSAO_APP), null, 2)], { type: 'application/json' });
           const url = URL.createObjectURL(blob);
-          const a = h('a', { href: url, download: nomeArquivoBackup(new Date().toISOString(), VERSAO_APP) });
+          const a = h('a', { href: url, download: nome });
           document.body.append(a);
           a.click();
           a.remove();
+          msg.textContent = `Arquivo ${nome} baixado neste aparelho.`;
+          msg.className = 'revisao-sub';
           timerDeTela(() => URL.revokeObjectURL(url), 1000);
         }
       }, 'EXPORTAR'),
-      h('button', { class: 'btn btn-branco', onclick: () => entrada.click() }, 'IMPORTAR'),
+      h('button', { class: 'btn btn-branco', 'aria-controls': 'backup-arquivo', onclick: () => entrada.click() }, 'IMPORTAR'),
       entrada
     )
   );
@@ -5183,6 +5272,9 @@ let migraSessao = null;
 let estreiaSessao = null;
 let focoSessao = null;
 let focoEscolhido = 'frontend';
+let pokerSessao = null;
+let leigoSessao = null;
+let recrutaSessao = null;
 let filtroHub = { categoria: 'todos', busca: '' };
 let revisaoPrazo = 0;
 let gravacaoUrl = null;
@@ -5320,7 +5412,10 @@ function telasDoHub() {
     rodada: telaRodadas,
     migra: telaMigras,
     estreia: telaEstreias,
-    foco: telaFoco
+    foco: telaFoco,
+    poker: telaPokers,
+    leigo: telaLeigos,
+    recruta: telaRecrutas
   };
 }
 
@@ -6269,6 +6364,7 @@ function telaResumo() {
       h('p', {}, `Narrados ${estado.stats.narras} · bancos ${estado.stats.bancos} · recusas ${estado.stats.recusas}.`),
       h('p', {}, `Sprints ${estado.stats.sprints} · decisões seguras ${estado.stats.seguros} · meetups ${estado.stats.meetups} · entrevistas completas ${estado.stats.completas}.`),
       h('p', {}, `Mesas ${estado.stats.rodadas} · migrações ${estado.stats.migras} · estreias ${estado.stats.estreias} · focos ${estado.stats.focos}.`),
+      h('p', {}, `Cartas ${estado.stats.pokers} · contas de IA ${estado.stats.leigos} · ligações ${estado.stats.recrutas}.`),
       h('p', {}, lembreteMeta(contarFaladas(estado.painel, hojeIso), estado.metaFala, hojeIso))
     ),
     erros.length
@@ -10080,6 +10176,9 @@ async function iniciar() {
     migra: () => (migraSessao && !migraSessao.concluido ? pintarMigra() : telaMigras()),
     estreia: () => (estreiaSessao && !estreiaSessao.concluido ? pintarEstreia() : telaEstreias()),
     foco: () => (focoSessao && !focoSessao.concluido ? pintarFoco() : telaFoco()),
+    poker: () => (pokerSessao && !pokerSessao.concluido ? pintarPoker() : telaPokers()),
+    leigo: () => (leigoSessao && !leigoSessao.concluido ? pintarLeigo() : telaLeigos()),
+    recruta: () => (recrutaSessao && !recrutaSessao.concluido ? pintarRecruta() : telaRecrutas()),
     fracos: telaPontosFracos,
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
