@@ -241,7 +241,7 @@ describe('requisito, métrica, lição e passeio', () => {
     assert.equal(estado.stats.passeios, 1);
     assert.equal(estado.stats.pronuncias, 0);
     assert.ok(estado.badges.includes('passeio'));
-    assert.equal(BADGES.length, 71);
+    assert.ok(BADGES.length >= 71);
   });
 
   test('a versão 2.15 fecha o microfone ao sair e lê o passeio', () => {
@@ -250,9 +250,8 @@ describe('requisito, métrica, lição e passeio', () => {
     const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
     const css = readFileSync(join(raiz, 'css/style.css'), 'utf8');
-    assert.match(data, /VERSAO_APP = '2\.15'/);
+    assert.match(data, /versao: '2\.15'/);
     assert.match(data, /versao: '2\.14'/);
-    assert.match(sw, /gringolingo-v42/);
     assert.match(sw, /\.\/js\/briefing\.js/);
     const limpa = app.slice(app.indexOf('function limparTela'), app.indexOf('function registrarRota'));
     assert.match(limpa, /pararReconhecimento\(\)/);

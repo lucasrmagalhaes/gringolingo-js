@@ -1,7 +1,7 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, registrarRequisito, registrarMetrica, registrarAprendizado, registrarPasseio, resumoDesafio, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, registrarRequisito, registrarMetrica, registrarAprendizado, registrarPasseio, registrarFalha, registrarMentoria, registrarSocorro, resumoDesafio, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, resumoBackup, textoResumoBackup, nomeArquivoBackup, LIMITE_BACKUP, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES, falarComLocale, falarTrechos } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
@@ -19,6 +19,7 @@ import { GESTORES, gestorPorId, avaliarGestor, FINAIS, finalPorId, avaliarFinal,
 import { LINHAS, linhaPorId, avaliarLinha, SLACKS, slackPorId, avaliarSlack, SOCIAIS, socialPorId, avaliarSocial, TERMOS, termoPorId, avaliarTermo } from './oficina.js';
 import { SALARIOS, salarioPorId, avaliarSalario, PROJETOS, projetoPorId, avaliarProjeto, SOTAQUES as CENAS_SOTAQUE, sotaquePorId, avaliarSotaque, avaliarDesafio, montarDesafio, textoDesafio, rotuloVoz } from './vaga.js';
 import { REQUISITOS, requisitoPorId, avaliarRequisito, METRICAS, metricaPorId, avaliarMetrica, APRENDIZADOS, aprendizadoPorId, avaliarAprendizado, montarPasseio, decidirPasseio, falasDaPergunta, ESPERA_RESPOSTA_MS } from './briefing.js';
+import { FALHAS, falhaPorId, avaliarFalha, MENTORIAS, mentoriaPorId, avaliarMentoria, SOCORROS, socorroPorId, avaliarSocorro } from './guia.js';
 import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS, rotuloGravacao } from './voz.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
@@ -2669,16 +2670,16 @@ function cartaoBackup() {
     const arquivo = entrada.files?.[0];
     if (!arquivo) return;
     escolha.innerHTML = '';
-    if (arquivo.size > 1_000_000) {
+    if (arquivo.size > LIMITE_BACKUP) {
       msg.textContent = 'Arquivo grande demais para ser um backup do GringoLingo';
       msg.className = 'login-msg erro';
       return;
     }
     try {
       const dados = JSON.parse(await arquivo.text());
-      // Mesclar nunca perde nada; substituir volta exatamente ao backup —
-      // sem a escolha, restaurar um backup antigo parecia "não funcionar".
-      msg.textContent = 'Como aplicar o backup?';
+      const resumo = resumoBackup(dados);
+      if (!resumo) throw new Error('Arquivo não parece um backup do GringoLingo');
+      msg.textContent = textoResumoBackup(resumo) + ' Mesclar junta os dois. Substituir troca o progresso deste aparelho.';
       msg.className = 'login-msg';
       let confirmando = false;
       const btnSubstituir = h('button', { class: 'btn btn-branco perigo' }, 'SUBSTITUIR TUDO');
@@ -2712,13 +2713,13 @@ function cartaoBackup() {
       h('button', {
         class: 'btn btn-branco',
         onclick() {
-          const blob = new Blob([JSON.stringify(exportarEstado(), null, 2)], { type: 'application/json' });
+          const blob = new Blob([JSON.stringify(exportarEstado(VERSAO_APP), null, 2)], { type: 'application/json' });
           const url = URL.createObjectURL(blob);
-          const a = h('a', { href: url, download: `gringolingo-${new Date().toISOString().slice(0, 10)}.json` });
+          const a = h('a', { href: url, download: nomeArquivoBackup(new Date().toISOString(), VERSAO_APP) });
           document.body.append(a);
           a.click();
           a.remove();
-          setTimeout(() => URL.revokeObjectURL(url), 1000);
+          timerDeTela(() => URL.revokeObjectURL(url), 1000);
         }
       }, 'EXPORTAR'),
       h('button', { class: 'btn btn-branco', onclick: () => entrada.click() }, 'IMPORTAR'),
@@ -3232,7 +3233,7 @@ function telaConversa() {
   app.innerHTML = '';
   app.append(
     topoVoltar('💬 Conversar', () => voltarTela()),
-    h('p', { class: 'ia-aviso' }, 'Requisitos, métricas, um erro e o modo só áudio. O resto da fluência continua abaixo.'),
+    h('p', { class: 'ia-aviso' }, 'Falhas, mentoria e saúde no exterior. O resto da fluência continua abaixo.'),
     ...blocoFluencia(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'DIÁLOGOS'),
     ...CENARIOS.map(c => {
@@ -4646,6 +4647,9 @@ let metricaSessao = null;
 let aprendizadoSessao = null;
 let passeioSessao = null;
 let passeioGeracao = 0;
+let falhaSessao = null;
+let mentoriaSessao = null;
+let socorroSessao = null;
 let revisaoPrazo = 0;
 let gravacaoUrl = null;
 let gravadorAtivo = null;
@@ -4680,6 +4684,9 @@ function blocoFluencia() {
   const vencidos = deslizesVencidos().length;
   return [
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'FLUÊNCIA'),
+    botaoFluencia('🛠️', 'Por que falhou', 'O que quebrou e a causa: deploy, CI e permissão.', telaFalhas),
+    botaoFluencia('🌱', 'Mentoria', 'Uma dica e a ideia por trás, para um júnior.', telaMentorias),
+    botaoFluencia('🩺', 'No exterior', 'Farmácia, médico e emergência, em duas falas.', telaSocorros),
     botaoFluencia('🗒️', 'Requisitos', 'Pergunta de descoberta e a confirmação do que entendeu.', telaRequisitos),
     botaoFluencia('📈', 'Métricas', 'Números, porcentagens e crescimento.', telaMetricas),
     botaoFluencia('📖', 'Um erro', 'O erro, o efeito e a lição.', telaAprendizados),
@@ -5506,6 +5513,7 @@ function telaResumo() {
       h('p', {}, `Linhas ${estado.stats.linhas} · slacks ${estado.stats.slacks} · sociais ${estado.stats.sociais} · termos ${estado.stats.termos}.`),
       h('p', {}, `Salários ${estado.stats.salarios} · projetos ${estado.stats.projetos} · sotaques ${estado.stats.sotaques} · desafios ${estado.stats.desafios}.`),
       h('p', {}, `Requisitos ${estado.stats.requisitos} · métricas ${estado.stats.metricas} · lições ${estado.stats.aprendizados} · passeios ${estado.stats.passeios}.`),
+      h('p', {}, `Falhas ${estado.stats.falhas} · mentorias ${estado.stats.mentorias} · socorros ${estado.stats.socorros}.`),
       h('p', {}, lembreteMeta(contarFaladas(estado.painel, hojeIso), estado.metaFala, hojeIso))
     ),
     erros.length
@@ -5853,6 +5861,35 @@ function pintarCenaFala(sessao, cfg) {
   focarTela();
   if (!sessao.feedback) campo.entrada.focus();
   if (!sessao.feedback && rodada.segundos) ligarCronometroDemo(rodada.segundos);
+}
+
+function listarCena(rota, titulo, aviso, lista, abrir, zerar) {
+  zerar(null);
+  telaListaFala(rota, titulo, aviso, preferirNivel(lista, estado.nivelFala), abrir);
+}
+
+function abrirCenaLista(id, porId, guardar, pintar, aoLista) {
+  const cena = porId(id);
+  if (!cena) return aoLista();
+  descartarVoz();
+  guardar(novaCena(cena));
+  pintar();
+}
+
+function pintarCenaLista(sessao, cfg) {
+  pintarCenaFala(sessao, {
+    rota: cfg.rota,
+    aoLista: cfg.aoLista,
+    repintar: cfg.repintar,
+    avaliar: cfg.avaliar,
+    rotulo: cfg.rotulo || rotuloCall,
+    aoConcluir: () => concluirCena(sessao, cfg.registrar, {
+      xpBase: cfg.xpBase ?? 10,
+      xpAcerto: cfg.xpAcerto ?? 8,
+      titulo: cfg.tituloFim,
+      destino: cfg.aoLista
+    })
+  });
 }
 
 function telaTecnicos() {
@@ -6478,26 +6515,17 @@ function telaRelatos() {
 }
 
 function abrirRelato(id) {
-  const cena = relatoPorId(id);
-  if (!cena) return telaRelatos();
-  descartarVoz();
-  relatoSessao = novaCena(cena);
-  pintarRelato();
+  abrirCenaLista(id, relatoPorId, cena => { relatoSessao = cena; }, pintarRelato, telaRelatos);
 }
 
 function pintarRelato() {
-  pintarCenaFala(relatoSessao, {
+  pintarCenaLista(relatoSessao, {
     rota: 'relato',
     aoLista: telaRelatos,
     repintar: pintarRelato,
     avaliar: avaliarRelato,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(relatoSessao, registrarRelato, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Bug relatado!',
-      destino: telaRelatos
-    })
+    registrar: registrarRelato,
+    tituloFim: 'Bug relatado!'
   });
 }
 
@@ -6520,26 +6548,17 @@ function telaCortesias() {
 }
 
 function abrirCortesia(id) {
-  const cena = cortesiaPorId(id);
-  if (!cena) return telaCortesias();
-  descartarVoz();
-  cortesiaSessao = novaCena(cena);
-  pintarCortesia();
+  abrirCenaLista(id, cortesiaPorId, cena => { cortesiaSessao = cena; }, pintarCortesia, telaCortesias);
 }
 
 function pintarCortesia() {
-  pintarCenaFala(cortesiaSessao, {
+  pintarCenaLista(cortesiaSessao, {
     rota: 'cortesia',
     aoLista: telaCortesias,
     repintar: pintarCortesia,
     avaliar: avaliarCortesia,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(cortesiaSessao, registrarCortesia, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Review educado!',
-      destino: telaCortesias
-    })
+    registrar: registrarCortesia,
+    tituloFim: 'Review educado!'
   });
 }
 
@@ -6562,26 +6581,17 @@ function telaAquecer() {
 }
 
 function abrirAquecer(id) {
-  const cena = aquecerPorId(id);
-  if (!cena) return telaAquecer();
-  descartarVoz();
-  aquecerSessao = novaCena(cena);
-  pintarAquecer();
+  abrirCenaLista(id, aquecerPorId, cena => { aquecerSessao = cena; }, pintarAquecer, telaAquecer);
 }
 
 function pintarAquecer() {
-  pintarCenaFala(aquecerSessao, {
+  pintarCenaLista(aquecerSessao, {
     rota: 'aquecer',
     aoLista: telaAquecer,
     repintar: pintarAquecer,
     avaliar: avaliarAquecer,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(aquecerSessao, registrarAquecer, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Papo feito!',
-      destino: telaAquecer
-    })
+    registrar: registrarAquecer,
+    tituloFim: 'Papo feito!'
   });
 }
 
@@ -6776,107 +6786,80 @@ function abrirPlano(id) {
 }
 
 function telaDecisoes() {
-  decisaoSessao = null;
-  telaListaFala(
+  listarCena(
     'decisao',
     '🏗️ Decisão técnica',
     'Duas falas: a escolha e a troca. We went with e the trade-off. A frase modelo só aparece depois.',
-    preferirNivel(DECISOES, estado.nivelFala),
-    abrirDecisao
+    DECISOES,
+    abrirDecisao,
+    valor => { decisaoSessao = valor; }
   );
 }
 
 function abrirDecisao(id) {
-  const cena = decisaoPorId(id);
-  if (!cena) return telaDecisoes();
-  descartarVoz();
-  decisaoSessao = novaCena(cena);
-  pintarDecisao();
+  abrirCenaLista(id, decisaoPorId, cena => { decisaoSessao = cena; }, pintarDecisao, telaDecisoes);
 }
 
 function pintarDecisao() {
-  pintarCenaFala(decisaoSessao, {
+  pintarCenaLista(decisaoSessao, {
     rota: 'decisao',
     aoLista: telaDecisoes,
     repintar: pintarDecisao,
     avaliar: avaliarDecisao,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(decisaoSessao, registrarDecisao, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Decisão explicada!',
-      destino: telaDecisoes
-    })
+    registrar: registrarDecisao,
+    tituloFim: 'Decisão explicada!'
   });
 }
 
 function telaPares() {
-  parSessao = null;
-  telaListaFala(
+  listarCena(
     'par',
     '👥 Pair',
     'Narre o que você está fazendo e peça ajuda. A frase modelo só aparece depois.',
-    preferirNivel(PARES, estado.nivelFala),
-    abrirPar
+    PARES,
+    abrirPar,
+    valor => { parSessao = valor; }
   );
 }
 
 function abrirPar(id) {
-  const cena = parPorId(id);
-  if (!cena) return telaPares();
-  descartarVoz();
-  parSessao = novaCena(cena);
-  pintarPar();
+  abrirCenaLista(id, parPorId, cena => { parSessao = cena; }, pintarPar, telaPares);
 }
 
 function pintarPar() {
-  pintarCenaFala(parSessao, {
+  pintarCenaLista(parSessao, {
     rota: 'par',
     aoLista: telaPares,
     repintar: pintarPar,
     avaliar: avaliarPar,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(parSessao, registrarPar, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Ajuda pedida!',
-      destino: telaPares
-    })
+    registrar: registrarPar,
+    tituloFim: 'Ajuda pedida!'
   });
 }
 
 function telaPlantoes() {
-  plantaoSessao = null;
-  telaListaFala(
+  listarCena(
     'plantao',
     '🚨 Plantão',
     'Três falas: status, desculpa e o próximo passo. A frase modelo só aparece depois.',
-    preferirNivel(INCIDENTES, estado.nivelFala),
-    abrirPlantao
+    INCIDENTES,
+    abrirPlantao,
+    valor => { plantaoSessao = valor; }
   );
 }
 
 function abrirPlantao(id) {
-  const cena = incidentePorId(id);
-  if (!cena) return telaPlantoes();
-  descartarVoz();
-  plantaoSessao = novaCena(cena);
-  pintarPlantao();
+  abrirCenaLista(id, incidentePorId, cena => { plantaoSessao = cena; }, pintarPlantao, telaPlantoes);
 }
 
 function pintarPlantao() {
-  pintarCenaFala(plantaoSessao, {
+  pintarCenaLista(plantaoSessao, {
     rota: 'plantao',
     aoLista: telaPlantoes,
     repintar: pintarPlantao,
     avaliar: avaliarIncidente,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(plantaoSessao, registrarPlantao, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Plantão encerrado!',
-      destino: telaPlantoes
-    })
+    registrar: registrarPlantao,
+    tituloFim: 'Plantão encerrado!'
   });
 }
 
@@ -6906,212 +6889,158 @@ function cartaoHistorico(dias) {
 }
 
 function telaEstimativas() {
-  estimativaSessao = null;
-  telaListaFala(
+  listarCena(
     'estimativa',
     '⏳ Estimativa',
     'Duas falas: o prazo e a dúvida. It should take about e I am not sure yet. A frase modelo só aparece depois.',
-    preferirNivel(ESTIMATIVAS, estado.nivelFala),
-    abrirEstimativa
+    ESTIMATIVAS,
+    abrirEstimativa,
+    valor => { estimativaSessao = valor; }
   );
 }
 
 function abrirEstimativa(id) {
-  const cena = estimativaPorId(id);
-  if (!cena) return telaEstimativas();
-  descartarVoz();
-  estimativaSessao = novaCena(cena);
-  pintarEstimativa();
+  abrirCenaLista(id, estimativaPorId, cena => { estimativaSessao = cena; }, pintarEstimativa, telaEstimativas);
 }
 
 function pintarEstimativa() {
-  pintarCenaFala(estimativaSessao, {
+  pintarCenaLista(estimativaSessao, {
     rota: 'estimativa',
     aoLista: telaEstimativas,
     repintar: pintarEstimativa,
     avaliar: avaliarEstimativa,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(estimativaSessao, registrarEstimativa, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Prazo dito!',
-      destino: telaEstimativas
-    })
+    registrar: registrarEstimativa,
+    tituloFim: 'Prazo dito!'
   });
 }
 
 function telaConsensos() {
-  consensoSessao = null;
-  telaListaFala(
+  listarCena(
     'consenso',
     '⚖️ Consenso',
     'Duas falas: discorde e proponha um meio-termo. A frase modelo só aparece depois.',
-    preferirNivel(CONSENSOS, estado.nivelFala),
-    abrirConsenso
+    CONSENSOS,
+    abrirConsenso,
+    valor => { consensoSessao = valor; }
   );
 }
 
 function abrirConsenso(id) {
-  const cena = consensoPorId(id);
-  if (!cena) return telaConsensos();
-  descartarVoz();
-  consensoSessao = novaCena(cena);
-  pintarConsenso();
+  abrirCenaLista(id, consensoPorId, cena => { consensoSessao = cena; }, pintarConsenso, telaConsensos);
 }
 
 function pintarConsenso() {
-  pintarCenaFala(consensoSessao, {
+  pintarCenaLista(consensoSessao, {
     rota: 'consenso',
     aoLista: telaConsensos,
     repintar: pintarConsenso,
     avaliar: avaliarConsenso,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(consensoSessao, registrarConsenso, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Meio-termo feito!',
-      destino: telaConsensos
-    })
+    registrar: registrarConsenso,
+    tituloFim: 'Meio-termo feito!'
   });
 }
 
 function telaAtendimentos() {
-  atendimentoSessao = null;
-  telaListaFala(
+  listarCena(
     'atendimento',
     '📞 Atendimento',
     'Três falas no telefone: o problema, o detalhe e o pedido. A frase modelo só aparece depois.',
-    preferirNivel(ATENDIMENTOS, estado.nivelFala),
-    abrirAtendimento
+    ATENDIMENTOS,
+    abrirAtendimento,
+    valor => { atendimentoSessao = valor; }
   );
 }
 
 function abrirAtendimento(id) {
-  const cena = atendimentoPorId(id);
-  if (!cena) return telaAtendimentos();
-  descartarVoz();
-  atendimentoSessao = novaCena(cena);
-  pintarAtendimento();
+  abrirCenaLista(id, atendimentoPorId, cena => { atendimentoSessao = cena; }, pintarAtendimento, telaAtendimentos);
 }
 
 function pintarAtendimento() {
-  pintarCenaFala(atendimentoSessao, {
+  pintarCenaLista(atendimentoSessao, {
     rota: 'atendimento',
     aoLista: telaAtendimentos,
     repintar: pintarAtendimento,
     avaliar: avaliarAtendimento,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(atendimentoSessao, registrarAtendimento, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Ligação feita!',
-      destino: telaAtendimentos
-    })
+    registrar: registrarAtendimento,
+    tituloFim: 'Ligação feita!'
   });
 }
 
 function telaRequisitos() {
-  requisitoSessao = null;
-  telaListaFala(
+  listarCena(
     'requisito',
     '🗒️ Requisitos',
     'Pergunta de descoberta e depois a confirmação. A frase modelo só aparece depois.',
-    preferirNivel(REQUISITOS, estado.nivelFala),
-    abrirRequisito
+    REQUISITOS,
+    abrirRequisito,
+    valor => { requisitoSessao = valor; }
   );
 }
 
 function abrirRequisito(id) {
-  const cena = requisitoPorId(id);
-  if (!cena) return telaRequisitos();
-  descartarVoz();
-  requisitoSessao = novaCena(cena);
-  pintarRequisito();
+  abrirCenaLista(id, requisitoPorId, cena => { requisitoSessao = cena; }, pintarRequisito, telaRequisitos);
 }
 
 function pintarRequisito() {
-  pintarCenaFala(requisitoSessao, {
+  pintarCenaLista(requisitoSessao, {
     rota: 'requisito',
     aoLista: telaRequisitos,
     repintar: pintarRequisito,
     avaliar: avaliarRequisito,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(requisitoSessao, registrarRequisito, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Requisito dito!',
-      destino: telaRequisitos
-    })
+    registrar: registrarRequisito,
+    tituloFim: 'Requisito dito!'
   });
 }
 
 function telaMetricas() {
-  metricaSessao = null;
-  telaListaFala(
+  listarCena(
     'metrica',
     '📈 Métricas',
     'Números, porcentagens e crescimento. A frase modelo só aparece depois.',
-    preferirNivel(METRICAS, estado.nivelFala),
-    abrirMetrica
+    METRICAS,
+    abrirMetrica,
+    valor => { metricaSessao = valor; }
   );
 }
 
 function abrirMetrica(id) {
-  const cena = metricaPorId(id);
-  if (!cena) return telaMetricas();
-  descartarVoz();
-  metricaSessao = novaCena(cena);
-  pintarMetrica();
+  abrirCenaLista(id, metricaPorId, cena => { metricaSessao = cena; }, pintarMetrica, telaMetricas);
 }
 
 function pintarMetrica() {
-  pintarCenaFala(metricaSessao, {
+  pintarCenaLista(metricaSessao, {
     rota: 'metrica',
     aoLista: telaMetricas,
     repintar: pintarMetrica,
     avaliar: avaliarMetrica,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(metricaSessao, registrarMetrica, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Métrica dita!',
-      destino: telaMetricas
-    })
+    registrar: registrarMetrica,
+    tituloFim: 'Métrica dita!'
   });
 }
 
 function telaAprendizados() {
-  aprendizadoSessao = null;
-  telaListaFala(
+  listarCena(
     'aprendizado',
     '📖 Um erro',
     'O erro, o efeito e a lição. A frase modelo só aparece depois.',
-    preferirNivel(APRENDIZADOS, estado.nivelFala),
-    abrirAprendizado
+    APRENDIZADOS,
+    abrirAprendizado,
+    valor => { aprendizadoSessao = valor; }
   );
 }
 
 function abrirAprendizado(id) {
-  const cena = aprendizadoPorId(id);
-  if (!cena) return telaAprendizados();
-  descartarVoz();
-  aprendizadoSessao = novaCena(cena);
-  pintarAprendizado();
+  abrirCenaLista(id, aprendizadoPorId, cena => { aprendizadoSessao = cena; }, pintarAprendizado, telaAprendizados);
 }
 
 function pintarAprendizado() {
-  pintarCenaFala(aprendizadoSessao, {
+  pintarCenaLista(aprendizadoSessao, {
     rota: 'aprendizado',
     aoLista: telaAprendizados,
     repintar: pintarAprendizado,
     avaliar: avaliarAprendizado,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(aprendizadoSessao, registrarAprendizado, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Lição contada!',
-      destino: telaAprendizados
-    })
+    registrar: registrarAprendizado,
+    tituloFim: 'Lição contada!'
   });
 }
 
@@ -7376,84 +7305,144 @@ function pintarPasseio() {
   focarTela();
 }
 
+function telaFalhas() {
+  listarCena(
+    'falha',
+    '🛠️ Por que falhou',
+    'Duas falas: o que quebrou e a causa. Deploy, CI e permissão. A frase modelo só aparece depois.',
+    FALHAS,
+    abrirFalha,
+    valor => { falhaSessao = valor; }
+  );
+}
+
+function abrirFalha(id) {
+  abrirCenaLista(id, falhaPorId, cena => { falhaSessao = cena; }, pintarFalha, telaFalhas);
+}
+
+function pintarFalha() {
+  pintarCenaLista(falhaSessao, {
+    rota: 'falha',
+    aoLista: telaFalhas,
+    repintar: pintarFalha,
+    avaliar: avaliarFalha,
+    registrar: registrarFalha,
+    tituloFim: 'Causa dita!'
+  });
+}
+
+function telaMentorias() {
+  listarCena(
+    'mentoria',
+    '🌱 Mentoria',
+    'Duas falas: a dica e a ideia por trás. A frase modelo só aparece depois.',
+    MENTORIAS,
+    abrirMentoria,
+    valor => { mentoriaSessao = valor; }
+  );
+}
+
+function abrirMentoria(id) {
+  abrirCenaLista(id, mentoriaPorId, cena => { mentoriaSessao = cena; }, pintarMentoria, telaMentorias);
+}
+
+function pintarMentoria() {
+  pintarCenaLista(mentoriaSessao, {
+    rota: 'mentoria',
+    aoLista: telaMentorias,
+    repintar: pintarMentoria,
+    avaliar: avaliarMentoria,
+    registrar: registrarMentoria,
+    tituloFim: 'Dica dada!'
+  });
+}
+
+function telaSocorros() {
+  listarCena(
+    'socorro',
+    '🩺 No exterior',
+    'Duas falas: o pedido e o detalhe. Farmácia, médico e emergência. A frase modelo só aparece depois.',
+    SOCORROS,
+    abrirSocorro,
+    valor => { socorroSessao = valor; }
+  );
+}
+
+function abrirSocorro(id) {
+  abrirCenaLista(id, socorroPorId, cena => { socorroSessao = cena; }, pintarSocorro, telaSocorros);
+}
+
+function pintarSocorro() {
+  pintarCenaLista(socorroSessao, {
+    rota: 'socorro',
+    aoLista: telaSocorros,
+    repintar: pintarSocorro,
+    avaliar: avaliarSocorro,
+    registrar: registrarSocorro,
+    tituloFim: 'Socorro dito!'
+  });
+}
+
 function telaSalarios() {
-  salarioSessao = null;
-  telaListaFala(
+  listarCena(
     'salario',
     '💰 Salário',
     'Duas falas: o pedido e a troca. Faixa, plano de saúde e ações. A frase modelo só aparece depois.',
-    preferirNivel(SALARIOS, estado.nivelFala),
-    abrirSalario
+    SALARIOS,
+    abrirSalario,
+    valor => { salarioSessao = valor; }
   );
 }
 
 function abrirSalario(id) {
-  const cena = salarioPorId(id);
-  if (!cena) return telaSalarios();
-  descartarVoz();
-  salarioSessao = novaCena(cena);
-  pintarSalario();
+  abrirCenaLista(id, salarioPorId, cena => { salarioSessao = cena; }, pintarSalario, telaSalarios);
 }
 
 function pintarSalario() {
-  pintarCenaFala(salarioSessao, {
+  pintarCenaLista(salarioSessao, {
     rota: 'salario',
     aoLista: telaSalarios,
     repintar: pintarSalario,
     avaliar: avaliarSalario,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(salarioSessao, registrarSalario, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Oferta falada!',
-      destino: telaSalarios
-    })
+    registrar: registrarSalario,
+    tituloFim: 'Oferta falada!'
   });
 }
 
 function telaProjetos() {
-  projetoSessao = null;
-  telaListaFala(
+  listarCena(
     'projeto',
     '🧰 Portfólio',
     'Três falas: o problema, a stack e o resultado. A frase modelo só aparece depois.',
-    preferirNivel(PROJETOS, estado.nivelFala),
-    abrirProjeto
+    PROJETOS,
+    abrirProjeto,
+    valor => { projetoSessao = valor; }
   );
 }
 
 function abrirProjeto(id) {
-  const cena = projetoPorId(id);
-  if (!cena) return telaProjetos();
-  descartarVoz();
-  projetoSessao = novaCena(cena);
-  pintarProjeto();
+  abrirCenaLista(id, projetoPorId, cena => { projetoSessao = cena; }, pintarProjeto, telaProjetos);
 }
 
 function pintarProjeto() {
-  pintarCenaFala(projetoSessao, {
+  pintarCenaLista(projetoSessao, {
     rota: 'projeto',
     aoLista: telaProjetos,
     repintar: pintarProjeto,
     avaliar: avaliarProjeto,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(projetoSessao, registrarProjeto, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Projeto contado!',
-      destino: telaProjetos
-    })
+    registrar: registrarProjeto,
+    tituloFim: 'Projeto contado!'
   });
 }
 
 function telaSotaques() {
-  sotaqueSessao = null;
-  telaListaFala(
+  listarCena(
     'sotaque',
     '🎧 Sotaques',
     'Ouça a voz do aparelho e escreva a frase. Americano, britânico e indiano. A frase modelo só aparece depois.',
-    preferirNivel(CENAS_SOTAQUE, estado.nivelFala),
-    abrirSotaque
+    CENAS_SOTAQUE,
+    abrirSotaque,
+    valor => { sotaqueSessao = valor; }
   );
 }
 
@@ -7590,247 +7579,184 @@ function pintarDesafio() {
 }
 
 function telaLinhas() {
-  linhaSessao = null;
-  telaListaFala(
+  listarCena(
     'linha',
     '💻 Linha a linha',
     'Duas falas: o que a linha faz e o nome. Loop, callback, null check e edge case. A frase modelo só aparece depois.',
-    preferirNivel(LINHAS, estado.nivelFala),
-    abrirLinha
+    LINHAS,
+    abrirLinha,
+    valor => { linhaSessao = valor; }
   );
 }
 
 function abrirLinha(id) {
-  const cena = linhaPorId(id);
-  if (!cena) return telaLinhas();
-  descartarVoz();
-  linhaSessao = novaCena(cena);
-  pintarLinha();
+  abrirCenaLista(id, linhaPorId, cena => { linhaSessao = cena; }, pintarLinha, telaLinhas);
 }
 
 function pintarLinha() {
-  pintarCenaFala(linhaSessao, {
+  pintarCenaLista(linhaSessao, {
     rota: 'linha',
     aoLista: telaLinhas,
     repintar: pintarLinha,
     avaliar: avaliarLinha,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(linhaSessao, registrarLinha, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Linha dita!',
-      destino: telaLinhas
-    })
+    registrar: registrarLinha,
+    tituloFim: 'Linha dita!'
   });
 }
 
 function telaSlacks() {
-  slackSessao = null;
-  telaListaFala(
+  listarCena(
     'slack',
     '💬 Slack',
     'Duas falas curtas. Você escreve ou fala. Pedir review ou avisar atraso. A frase modelo só aparece depois.',
-    preferirNivel(SLACKS, estado.nivelFala),
-    abrirSlack
+    SLACKS,
+    abrirSlack,
+    valor => { slackSessao = valor; }
   );
 }
 
 function abrirSlack(id) {
-  const cena = slackPorId(id);
-  if (!cena) return telaSlacks();
-  descartarVoz();
-  slackSessao = novaCena(cena);
-  pintarSlack();
+  abrirCenaLista(id, slackPorId, cena => { slackSessao = cena; }, pintarSlack, telaSlacks);
 }
 
 function pintarSlack() {
-  pintarCenaFala(slackSessao, {
+  pintarCenaLista(slackSessao, {
     rota: 'slack',
     aoLista: telaSlacks,
     repintar: pintarSlack,
     avaliar: avaliarSlack,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(slackSessao, registrarSlack, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Recado enviado!',
-      destino: telaSlacks
-    })
+    registrar: registrarSlack,
+    tituloFim: 'Recado enviado!'
   });
 }
 
 function telaSociais() {
-  socialSessao = null;
-  telaListaFala(
+  listarCena(
     'social',
     '🍻 Happy hour',
     'Duas falas: o papo e um detalhe. Happy hour, hobby e o Brasil. A frase modelo só aparece depois.',
-    preferirNivel(SOCIAIS, estado.nivelFala),
-    abrirSocial
+    SOCIAIS,
+    abrirSocial,
+    valor => { socialSessao = valor; }
   );
 }
 
 function abrirSocial(id) {
-  const cena = socialPorId(id);
-  if (!cena) return telaSociais();
-  descartarVoz();
-  socialSessao = novaCena(cena);
-  pintarSocial();
+  abrirCenaLista(id, socialPorId, cena => { socialSessao = cena; }, pintarSocial, telaSociais);
 }
 
 function pintarSocial() {
-  pintarCenaFala(socialSessao, {
+  pintarCenaLista(socialSessao, {
     rota: 'social',
     aoLista: telaSociais,
     repintar: pintarSocial,
     avaliar: avaliarSocial,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(socialSessao, registrarSocial, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Papo feito!',
-      destino: telaSociais
-    })
+    registrar: registrarSocial,
+    tituloFim: 'Papo feito!'
   });
 }
 
 function telaTermos() {
-  termoSessao = null;
-  telaListaFala(
+  listarCena(
     'termo',
     '🔤 Termos técnicos',
     'Duas falas: o som e uma frase. Cache, queue, SQL, GUI, height e width. A frase modelo só aparece depois.',
-    preferirNivel(TERMOS, estado.nivelFala),
-    abrirTermo
+    TERMOS,
+    abrirTermo,
+    valor => { termoSessao = valor; }
   );
 }
 
 function abrirTermo(id) {
-  const cena = termoPorId(id);
-  if (!cena) return telaTermos();
-  descartarVoz();
-  termoSessao = novaCena(cena);
-  pintarTermo();
+  abrirCenaLista(id, termoPorId, cena => { termoSessao = cena; }, pintarTermo, telaTermos);
 }
 
 function pintarTermo() {
-  pintarCenaFala(termoSessao, {
+  pintarCenaLista(termoSessao, {
     rota: 'termo',
     aoLista: telaTermos,
     repintar: pintarTermo,
     avaliar: avaliarTermo,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(termoSessao, registrarTermo, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Som dito!',
-      destino: telaTermos
-    })
+    registrar: registrarTermo,
+    tituloFim: 'Som dito!'
   });
 }
 
 function telaGestores() {
-  gestorSessao = null;
-  telaListaFala(
+  listarCena(
     'gestor',
     '🗣️ Feedback 1:1',
     'Duas falas com o gestor: ouça o ponto e devolva um pedido. A frase modelo só aparece depois.',
-    preferirNivel(GESTORES, estado.nivelFala),
-    abrirGestor
+    GESTORES,
+    abrirGestor,
+    valor => { gestorSessao = valor; }
   );
 }
 
 function abrirGestor(id) {
-  const cena = gestorPorId(id);
-  if (!cena) return telaGestores();
-  descartarVoz();
-  gestorSessao = novaCena(cena);
-  pintarGestor();
+  abrirCenaLista(id, gestorPorId, cena => { gestorSessao = cena; }, pintarGestor, telaGestores);
 }
 
 function pintarGestor() {
-  pintarCenaFala(gestorSessao, {
+  pintarCenaLista(gestorSessao, {
     rota: 'gestor',
     aoLista: telaGestores,
     repintar: pintarGestor,
     avaliar: avaliarGestor,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(gestorSessao, registrarGestor, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Feedback feito!',
-      destino: telaGestores
-    })
+    registrar: registrarGestor,
+    tituloFim: 'Feedback feito!'
   });
 }
 
 function telaFinais() {
-  finalSessao = null;
-  telaListaFala(
+  listarCena(
     'final',
     '❓ Pergunta final',
     'Duas falas no fim da entrevista: a pergunta e um detalhe. A frase modelo só aparece depois.',
-    preferirNivel(FINAIS, estado.nivelFala),
-    abrirFinal
+    FINAIS,
+    abrirFinal,
+    valor => { finalSessao = valor; }
   );
 }
 
 function abrirFinal(id) {
-  const cena = finalPorId(id);
-  if (!cena) return telaFinais();
-  descartarVoz();
-  finalSessao = novaCena(cena);
-  pintarFinal();
+  abrirCenaLista(id, finalPorId, cena => { finalSessao = cena; }, pintarFinal, telaFinais);
 }
 
 function pintarFinal() {
-  pintarCenaFala(finalSessao, {
+  pintarCenaLista(finalSessao, {
     rota: 'final',
     aoLista: telaFinais,
     repintar: pintarFinal,
     avaliar: avaliarFinal,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(finalSessao, registrarFinal, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Pergunta feita!',
-      destino: telaFinais
-    })
+    registrar: registrarFinal,
+    tituloFim: 'Pergunta feita!'
   });
 }
 
 function telaViagens() {
-  viagemSessao = null;
-  telaListaFala(
+  listarCena(
     'viagem',
     '🛫 Viagem a trabalho',
     'Duas falas: a situação e o pedido. Conexão, imigração ou táxi. A frase modelo só aparece depois.',
-    preferirNivel(VIAGENS, estado.nivelFala),
-    abrirViagem
+    VIAGENS,
+    abrirViagem,
+    valor => { viagemSessao = valor; }
   );
 }
 
 function abrirViagem(id) {
-  const cena = viagemPorId(id);
-  if (!cena) return telaViagens();
-  descartarVoz();
-  viagemSessao = novaCena(cena);
-  pintarViagem();
+  abrirCenaLista(id, viagemPorId, cena => { viagemSessao = cena; }, pintarViagem, telaViagens);
 }
 
 function pintarViagem() {
-  pintarCenaFala(viagemSessao, {
+  pintarCenaLista(viagemSessao, {
     rota: 'viagem',
     aoLista: telaViagens,
     repintar: pintarViagem,
     avaliar: avaliarViagem,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(viagemSessao, registrarViagem, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Viagem feita!',
-      destino: telaViagens
-    })
+    registrar: registrarViagem,
+    tituloFim: 'Viagem feita!'
   });
 }
 
@@ -7971,142 +7897,106 @@ function pintarMistura() {
 }
 
 function telaRetros() {
-  retroSessao = null;
-  telaListaFala(
+  listarCena(
     'retro',
     '🔄 Retrospectiva',
     'Três falas: o que foi bem, o que melhorar e a ação. A frase modelo só aparece depois.',
-    preferirNivel(RETROS, estado.nivelFala),
-    abrirRetro
+    RETROS,
+    abrirRetro,
+    valor => { retroSessao = valor; }
   );
 }
 
 function abrirRetro(id) {
-  const cena = retroPorId(id);
-  if (!cena) return telaRetros();
-  descartarVoz();
-  retroSessao = novaCena(cena);
-  pintarRetro();
+  abrirCenaLista(id, retroPorId, cena => { retroSessao = cena; }, pintarRetro, telaRetros);
 }
 
 function pintarRetro() {
-  pintarCenaFala(retroSessao, {
+  pintarCenaLista(retroSessao, {
     rota: 'retro',
     aoLista: telaRetros,
     repintar: pintarRetro,
     avaliar: avaliarRetro,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(retroSessao, registrarRetro, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Retro fechada!',
-      destino: telaRetros
-    })
+    registrar: registrarRetro,
+    tituloFim: 'Retro fechada!'
   });
 }
 
 function telaChegadas() {
-  chegadaSessao = null;
-  telaListaFala(
+  listarCena(
     'chegada',
     '🧭 Onboarding',
     'Três falas: o projeto, o fluxo e a primeira tarefa. A frase modelo só aparece depois.',
-    preferirNivel(CHEGADAS, estado.nivelFala),
-    abrirChegada
+    CHEGADAS,
+    abrirChegada,
+    valor => { chegadaSessao = valor; }
   );
 }
 
 function abrirChegada(id) {
-  const cena = chegadaPorId(id);
-  if (!cena) return telaChegadas();
-  descartarVoz();
-  chegadaSessao = novaCena(cena);
-  pintarChegada();
+  abrirCenaLista(id, chegadaPorId, cena => { chegadaSessao = cena; }, pintarChegada, telaChegadas);
 }
 
 function pintarChegada() {
-  pintarCenaFala(chegadaSessao, {
+  pintarCenaLista(chegadaSessao, {
     rota: 'chegada',
     aoLista: telaChegadas,
     repintar: pintarChegada,
     avaliar: avaliarChegada,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(chegadaSessao, registrarChegada, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Boas-vindas feitas!',
-      destino: telaChegadas
-    })
+    registrar: registrarChegada,
+    tituloFim: 'Boas-vindas feitas!'
   });
 }
 
 function telaLigacoes() {
-  ligacaoSessao = null;
-  telaListaFala(
+  listarCena(
     'ligacao',
     '🔗 Conectores',
     'Duas falas: o fato e a ligação. However, on the other hand ou that said. A frase modelo só aparece depois.',
-    preferirNivel(LIGACOES, estado.nivelFala),
-    abrirLigacao
+    LIGACOES,
+    abrirLigacao,
+    valor => { ligacaoSessao = valor; }
   );
 }
 
 function abrirLigacao(id) {
-  const cena = ligacaoPorId(id);
-  if (!cena) return telaLigacoes();
-  descartarVoz();
-  ligacaoSessao = novaCena(cena);
-  pintarLigacao();
+  abrirCenaLista(id, ligacaoPorId, cena => { ligacaoSessao = cena; }, pintarLigacao, telaLigacoes);
 }
 
 function pintarLigacao() {
-  pintarCenaFala(ligacaoSessao, {
+  pintarCenaLista(ligacaoSessao, {
     rota: 'ligacao',
     aoLista: telaLigacoes,
     repintar: pintarLigacao,
     avaliar: avaliarLigacao,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(ligacaoSessao, registrarLigacao, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Ideias ligadas!',
-      destino: telaLigacoes
-    })
+    registrar: registrarLigacao,
+    tituloFim: 'Ideias ligadas!'
   });
 }
 
 function telaDemos() {
-  demoSessao = null;
-  telaListaFala(
+  listarCena(
     'demo',
     '🎬 Demo de produto',
     'Um minuto para apresentar a feature. Depois, duas perguntas da plateia. A frase modelo só aparece depois.',
-    preferirNivel(DEMOS, estado.nivelFala),
-    abrirDemo
+    DEMOS,
+    abrirDemo,
+    valor => { demoSessao = valor; }
   );
 }
 
 function abrirDemo(id) {
-  const cena = demoPorId(id);
-  if (!cena) return telaDemos();
-  descartarVoz();
-  demoSessao = novaCena(cena);
-  pintarDemo();
+  abrirCenaLista(id, demoPorId, cena => { demoSessao = cena; }, pintarDemo, telaDemos);
 }
 
 function pintarDemo() {
-  pintarCenaFala(demoSessao, {
+  pintarCenaLista(demoSessao, {
     rota: 'demo',
     aoLista: telaDemos,
     repintar: pintarDemo,
     avaliar: avaliarDemo,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(demoSessao, registrarDemo, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Demo feita!',
-      destino: telaDemos
-    })
+    registrar: registrarDemo,
+    tituloFim: 'Demo feita!'
   });
 }
 
@@ -8122,61 +8012,43 @@ function telaPrazos() {
 }
 
 function abrirPrazo(id) {
-  const cena = prazoPorId(id);
-  if (!cena) return telaPrazos();
-  descartarVoz();
-  prazoSessao = novaCena(cena);
-  pintarPrazo();
+  abrirCenaLista(id, prazoPorId, cena => { prazoSessao = cena; }, pintarPrazo, telaPrazos);
 }
 
 function pintarPrazo() {
-  pintarCenaFala(prazoSessao, {
+  pintarCenaLista(prazoSessao, {
     rota: 'prazo',
     aoLista: telaPrazos,
     repintar: pintarPrazo,
     avaliar: avaliarPrazo,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(prazoSessao, registrarPrazo, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Prazo combinado!',
-      destino: telaPrazos
-    })
+    registrar: registrarPrazo,
+    tituloFim: 'Prazo combinado!'
   });
 }
 
 function telaStars() {
-  starSessao = null;
-  telaListaFala(
+  listarCena(
     'star',
     '⭐ Entrevista STAR',
     'Quatro falas: situação, tarefa, ação e resultado. A frase modelo só aparece depois.',
-    preferirNivel(STARS, estado.nivelFala),
-    abrirStar
+    STARS,
+    abrirStar,
+    valor => { starSessao = valor; }
   );
 }
 
 function abrirStar(id) {
-  const cena = starPorId(id);
-  if (!cena) return telaStars();
-  descartarVoz();
-  starSessao = novaCena(cena);
-  pintarStar();
+  abrirCenaLista(id, starPorId, cena => { starSessao = cena; }, pintarStar, telaStars);
 }
 
 function pintarStar() {
-  pintarCenaFala(starSessao, {
+  pintarCenaLista(starSessao, {
     rota: 'star',
     aoLista: telaStars,
     repintar: pintarStar,
     avaliar: avaliarStar,
-    rotulo: rotuloCall,
-    aoConcluir: () => concluirCena(starSessao, registrarStar, {
-      xpBase: 10,
-      xpAcerto: 8,
-      titulo: 'Caso contado!',
-      destino: telaStars
-    })
+    registrar: registrarStar,
+    tituloFim: 'Caso contado!'
   });
 }
 
@@ -8688,6 +8560,9 @@ async function iniciar() {
     metrica: () => (metricaSessao && !metricaSessao.concluido ? pintarMetrica() : telaMetricas()),
     aprendizado: () => (aprendizadoSessao && !aprendizadoSessao.concluido ? pintarAprendizado() : telaAprendizados()),
     passeio: () => (passeioSessao && !passeioSessao.concluido ? pintarPasseio() : telaPasseio()),
+    falha: () => (falhaSessao && !falhaSessao.concluido ? pintarFalha() : telaFalhas()),
+    mentoria: () => (mentoriaSessao && !mentoriaSessao.concluido ? pintarMentoria() : telaMentorias()),
+    socorro: () => (socorroSessao && !socorroSessao.concluido ? pintarSocorro() : telaSocorros()),
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
     reducao: () => (reducaoSessao && !reducaoSessao.concluido ? pintarReducao() : telaReducoes()),

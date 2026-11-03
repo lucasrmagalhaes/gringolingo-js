@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-343%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-349%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -162,6 +162,11 @@ navegador.
 - **Um erro**: o erro, o efeito e a lição, em três falas.
 - **Só áudio**: lê a pergunta em voz alta e espera a resposta, para treinar andando.
 - **Microfone**: sair da tela interrompe o reconhecimento, para ele não escrever numa tela que já fechou.
+- **Por que falhou**: sintoma e causa de um deploy, de um CI vermelho e de uma permissão, em duas falas.
+- **Mentoria**: nomeie a função, escreva um teste que mostra o bug e mude um arquivo de cada vez.
+- **No exterior**: farmácia, febre e ambulância, em duas falas.
+- **Treinos iguais**: a lista, a abertura e a pintura dos treinos de fala passam pelos mesmos três ajudantes.
+- **Fonte**: a Nunito começa a baixar junto com a página, para o texto não pular quando a fonte chega.
 - **Estimativa**: diga "it should take about" e "I am not sure yet, but", em duas falas.
 - **Consenso**: discorde com um motivo e proponha um meio-termo.
 - **Atendimento**: ligue para o banco, a entrega ou o hotel, em três falas.
@@ -214,7 +219,7 @@ navegador.
 - **3 missões que trocam todo dia**, sorteadas de forma determinística a partir da data.
 - **Streak com protetor**: perdoa um dia perdido, e você ganha um novo protetor a cada 5 lições
   perfeitas. O app avisa quando a sequência está para vencer.
-- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **71 conquistas**, XP com
+- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **74 conquistas**, XP com
   bônus de combo, confete e efeitos sonoros sintetizados no WebAudio (nenhum arquivo de áudio no
   repositório).
 - **Desafio por link**: termine uma lição e mande o link para alguém tentar bater a sua pontuação.
@@ -231,7 +236,7 @@ navegador.
   [decisões técnicas](#decisões-técnicas).
 - **Fila de reenvio**: sem rede, a pilha da conta mostra ⚠️ e o envio é retentado quando a conexão
   volta ou a aba fica visível de novo.
-- **Backup em arquivo**: exporta e importa o progresso em JSON, sem depender de nuvem nenhuma.
+- **Backup em arquivo**: exporta e importa o progresso em JSON, sem depender de nuvem nenhuma. Antes de mesclar ou substituir, o perfil mostra a data, o XP, as lições e a sequência do arquivo. O nome do download traz a versão e o dia.
 - **LGPD**: dá para apagar a conta inteira pelo perfil — uma RPC `security definer` que só consegue
   apagar o próprio usuário, porque o alvo vem do JWT assinado e não do cliente.
 
@@ -288,6 +293,7 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/oficina.js` | Linha a linha, recado curto de Slack, papo de happy hour e o som de termos técnicos. |
 | `js/vaga.js` | Salário, portfólio, sotaques na voz do aparelho e o desafio diário de fala. |
 | `js/briefing.js` | Requisitos com o cliente, métricas, um erro que virou lição e o passeio só áudio. |
+| `js/guia.js` | Causa de uma falha de infra, dica para quem está começando e saúde no exterior. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -370,7 +376,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **343 testes em 70 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **349 testes em 71 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -419,6 +425,7 @@ O que a suíte cobre:
 - **`tests/oficina.test.js`**: linha a linha, recado de Slack, happy hour, o som dos termos e o relógio da revisão.
 - **`tests/vaga.test.js`**: salário, portfólio, sotaque, a sequência do desafio e o ícone alinhado.
 - **`tests/briefing.test.js`**: requisitos, métricas, a lição, o passeio só áudio e o microfone que fecha com a tela.
+- **`tests/guia.test.js`**: causa da falha, mentoria, saúde no exterior, o resumo do backup e os três ajudantes dos treinos.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

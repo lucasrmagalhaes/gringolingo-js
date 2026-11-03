@@ -71,7 +71,7 @@ const padrao = () => ({
   diaDesafio: null,
   sequenciaDesafio: 0,
   recordeDesafio: 0,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0 }
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -470,15 +470,51 @@ export async function enviarAgora() {
   marcarPendencia(false);
 }
 
-export function exportarEstado() {
-  return { app: 'gringolingo', versao: 1, quando: new Date().toISOString(), estado: JSON.parse(JSON.stringify(estado)) };
+export const LIMITE_BACKUP = 1_000_000;
+
+export function resumoBackup(bruto) {
+  const dados = bruto && typeof bruto === 'object' && !Array.isArray(bruto) ? (bruto.estado ?? bruto) : null;
+  const licoes = dados?.licoes;
+  if (!dados || typeof dados !== 'object' || Array.isArray(dados) || typeof dados.xp !== 'number' || !licoes || typeof licoes !== 'object' || Array.isArray(licoes)) {
+    return null;
+  }
+  return {
+    xp: Math.max(0, Math.floor(dados.xp)),
+    licoes: Object.keys(licoes).length,
+    streak: Math.max(0, Math.floor(Number(dados.streak) || 0)),
+    quando: typeof bruto.quando === 'string' && bruto.quando ? bruto.quando : null,
+    versaoApp: typeof bruto.versaoApp === 'string' ? bruto.versaoApp : null
+  };
+}
+
+export function textoResumoBackup(resumo) {
+  if (!resumo) return 'Arquivo não parece um backup do GringoLingo';
+  const dia = resumo.quando && /^\d{4}-\d{2}-\d{2}/.test(resumo.quando) ? resumo.quando.slice(0, 10) : 'sem data';
+  const licoes = resumo.licoes === 1 ? '1 lição' : `${resumo.licoes} lições`;
+  return `Arquivo de ${dia}. ${resumo.xp} XP, ${licoes}, sequência ${resumo.streak}.`;
+}
+
+export function nomeArquivoBackup(iso, versao) {
+  const dia = String(iso || '').slice(0, 10);
+  const data = /^\d{4}-\d{2}-\d{2}$/.test(dia) ? dia : 'sem-data';
+  const achado = String(versao || '').match(/\d+\.\d+/);
+  return `gringolingo-${achado ? achado[0] : 'app'}-${data}.json`;
+}
+
+export function exportarEstado(versaoApp) {
+  return {
+    app: 'gringolingo',
+    versao: 1,
+    versaoApp: typeof versaoApp === 'string' ? versaoApp : null,
+    quando: new Date().toISOString(),
+    estado: JSON.parse(JSON.stringify(estado))
+  };
 }
 
 export function importarEstado(bruto, modo = 'mesclar') {
+  const resumo = resumoBackup(bruto);
+  if (!resumo) throw new Error('Arquivo não parece um backup do GringoLingo');
   const dados = bruto?.estado ?? bruto;
-  if (!dados || typeof dados !== 'object' || typeof dados.xp !== 'number' || typeof dados.licoes !== 'object') {
-    throw new Error('Arquivo não parece um backup do GringoLingo');
-  }
   const antes = estado.xp;
   if (modo === 'substituir') {
     const novo = sanitizar(dados);
@@ -1016,6 +1052,9 @@ function checarBadges() {
     metrica: estado.stats.metricas >= 1,
     aprendizado: estado.stats.aprendizados >= 1,
     passeio: estado.stats.passeios >= 1,
+    falha: estado.stats.falhas >= 1,
+    mentoria: estado.stats.mentorias >= 1,
+    socorro: estado.stats.socorros >= 1,
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -1462,6 +1501,18 @@ export function registrarAprendizado(d) {
 
 export function registrarPasseio(d) {
   return registrarTipo('passeios', 'passeio', d);
+}
+
+export function registrarFalha(d) {
+  return registrarTipo('falhas', 'falha', d);
+}
+
+export function registrarMentoria(d) {
+  return registrarTipo('mentorias', 'mentoria', d);
+}
+
+export function registrarSocorro(d) {
+  return registrarTipo('socorros', 'socorro', d);
 }
 
 export function registrarPronuncia(d) {
