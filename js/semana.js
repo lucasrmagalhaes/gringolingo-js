@@ -57,6 +57,37 @@ export function textoGrupo(n, titulo) {
   return `${nome} em ${titulo}`;
 }
 
+function diaAnterior(iso) {
+  const partes = String(iso || '').split('-').map(Number);
+  if (partes.length !== 3 || partes.some(n => !Number.isFinite(n))) return '';
+  const data = new Date(partes[0], partes[1] - 1, partes[2]);
+  data.setDate(data.getDate() - 1);
+  const mes = String(data.getMonth() + 1).padStart(2, '0');
+  const dia = String(data.getDate()).padStart(2, '0');
+  return `${data.getFullYear()}-${mes}-${dia}`;
+}
+
+function teveFala(painel, iso) {
+  return Math.floor(Number(painel?.[iso]?.n) || 0) > 0;
+}
+
+export function textoDaSequencia(painel, diaIso) {
+  if (!teveFala(painel, diaIso)) {
+    if (teveFala(painel, diaAnterior(diaIso))) {
+      return { dias: 0, emRisco: true, texto: 'A sequência de ontem ainda vale. Fale hoje para continuar.' };
+    }
+    return { dias: 0, emRisco: false, texto: 'A sequência de fala ainda não começou.' };
+  }
+  let dias = 0;
+  let cursor = diaIso;
+  while (teveFala(painel, cursor) && dias < 400) {
+    dias += 1;
+    cursor = diaAnterior(cursor);
+  }
+  const texto = dias === 1 ? '1 dia seguido de fala.' : `${dias} dias seguidos de fala.`;
+  return { dias, emRisco: false, texto };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
