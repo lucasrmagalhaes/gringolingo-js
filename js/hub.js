@@ -123,7 +123,11 @@ const BRUTOS = [
   ['ux', 'trabalho', '🎨', 'O contraste', 'Explique contraste, foco e rótulo para quem desenha.', 'uxs', 'ux contraste foco rotulo acessibilidade designer'],
   ['forum', 'trabalho', '📣', 'O fórum', 'Descreva o problema e o que você já tentou.', 'foruns', 'forum ajuda publica cache navegador clique'],
   ['visto', 'entrevista', '🛂', 'O visto', 'Fale de visto, mudança de país ou remoto internacional.', 'vistos', 'visto relocation remoto brasil rh'],
-  ['mes', 'revisao', '📆', 'O mês', 'Notas, minutos e preenchimentos das últimas quatro semanas.', 'meses', 'mes notas minutos preenchimento semanas']
+  ['mes', 'revisao', '📆', 'O mês', 'Notas, minutos e preenchimentos das últimas quatro semanas.', 'meses', 'mes notas minutos preenchimento semanas'],
+  ['facil', 'trabalho', '🧭', 'O facilitador', 'Abra a reunião, olhe o relógio e feche com ações.', 'facils', 'facilitador reuniao pauta tempo acao'],
+  ['stack', 'trabalho', '🧰', 'A escolha', 'React ou Vue, SQL ou documento, TypeScript ou JavaScript.', 'stacks', 'react vue sql documento typescript javascript'],
+  ['sabado', 'cotidiano', '🌦️', 'O sábado', 'Conte o sábado, o domingo e um plano curto.', 'sabados', 'sabado domingo filme trilha plano'],
+  ['surpresa', 'revisao', '🎁', 'Treino surpresa', 'Um treino por dia, com uma sequência só deste modo.', 'surpresas', 'surpresa streak sequencia treino do dia']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

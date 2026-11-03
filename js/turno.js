@@ -33,6 +33,7 @@ import { GRAFICOS, HANDOFFS, ELEVADORES } from './grafico.js';
 import { PISTAS, CALMAS, FOLGAS } from './pista.js';
 import { RESPEITOS, DEBITOS, INDICACOES } from './respeito.js';
 import { UXS, FORUNS, VISTOS } from './visto.js';
+import { FACILS, ESCOLHAS, SABADOS } from './facil.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -471,6 +472,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Facilitador', itens: FACILS },
+    { origem: 'Escolha', itens: ESCOLHAS },
+    { origem: 'Sábado', itens: SABADOS },
     { origem: 'Contraste', itens: UXS },
     { origem: 'Fórum', itens: FORUNS },
     { origem: 'Visto', itens: VISTOS },

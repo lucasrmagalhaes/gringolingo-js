@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-436%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-442%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -235,6 +235,10 @@ navegador.
 - **O fórum**: descreva a lista vazia, a página antiga e o segundo clique, e diga o que já tentou.
 - **O visto**: fale de visto, de três meses para mudar e de quatro horas de sobreposição a partir do Brasil.
 - **O mês**: quatro semanas neste aparelho, com nota, minutos e preenchimentos. A primeira visita não entra na média.
+- **O facilitador**: abra a reunião pela meta, olhe os cinco minutos e feche com o dono da nota.
+- **A escolha**: explique React ou Vue, SQL ou documento, TypeScript ou JavaScript puro.
+- **O sábado**: conte a trilha, o domingo na cozinha e um filme sem planos grandes.
+- **Treino surpresa**: um treino por dia, com uma sequência só deste modo. O protetor do estudo não entra aqui.
 - **Estimativa**: diga "it should take about" e "I am not sure yet, but", em duas falas.
 - **Consenso**: discorde com um motivo e proponha um meio-termo.
 - **Atendimento**: ligue para o banco, a entrega ou o hotel, em três falas.
@@ -287,7 +291,7 @@ navegador.
 - **3 missões que trocam todo dia**, sorteadas de forma determinística a partir da data.
 - **Streak com protetor**: perdoa um dia perdido, e você ganha um novo protetor a cada 5 lições
   perfeitas. O app avisa quando a sequência está para vencer.
-- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **134 conquistas**, XP com
+- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **138 conquistas**, XP com
   bônus de combo, confete e efeitos sonoros sintetizados no WebAudio (nenhum arquivo de áudio no
   repositório).
 - **Desafio por link**: termine uma lição e mande o link para alguém tentar bater a sua pontuação.
@@ -385,6 +389,7 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/pista.js` | Bug que só aparece às vezes, mentoria com calma, limite da folga e as perguntas abertas do dia. |
 | `js/respeito.js` | Discordar de uma arquitetura, pedir tempo para a dívida e uma referência. |
 | `js/visto.js` | Contraste para o design, pedido de ajuda no fórum, visto com o RH e o relatório de quatro semanas. |
+| `js/facil.js` | Facilitar a reunião, escolher a stack, falar do sábado e sortear o treino surpresa do dia. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -467,7 +472,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **436 testes em 88 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **442 testes em 89 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -534,6 +539,7 @@ O que a suíte cobre:
 - **`tests/pista.test.js`**: bug raro, mentoria com calma, folga e as perguntas abertas da versão 2.31.
 - **`tests/respeito.test.js`**: respeito na arquitetura, dívida técnica, indicação e o preenchimento da versão 2.32.
 - **`tests/visto.test.js`**: contraste, fórum, visto, o mês offline e a versão 2.33.
+- **`tests/facil.test.js`**: facilitador, escolha de stack, sábado, a sequência da surpresa e a versão 2.34.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

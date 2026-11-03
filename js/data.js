@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.33';
+export const VERSAO_APP = '2.34';
 
 export const NOVIDADES = [
+  {
+    versao: '2.34',
+    titulo: 'No facilitador',
+    itens: [
+      '🧭 Abra a reunião, olhe o relógio e feche com ações',
+      '🧰 Escolha React ou Vue, SQL ou documento, TypeScript ou JavaScript',
+      '🌦️ Conte o sábado, o domingo e um plano curto',
+      '🎁 Um treino surpresa por dia, com uma sequência só deste modo'
+    ]
+  },
   {
     versao: '2.33',
     titulo: 'No contraste',
@@ -1191,6 +1201,10 @@ export const MISSOES = [
   { id: 'forum1', emoji: '📣', titulo: 'Peça ajuda e diga o que já tentou', alvo: 1, xp: 15, medir: s => (s.tipo === 'forum' ? 1 : 0) },
   { id: 'visto1', emoji: '🛂', titulo: 'Fale de visto, mudança ou remoto', alvo: 1, xp: 15, medir: s => (s.tipo === 'visto' ? 1 : 0) },
   { id: 'mes1', emoji: '📆', titulo: 'Abra o relatório do mês', alvo: 1, xp: 15, medir: s => (s.tipo === 'mes' ? 1 : 0) },
+  { id: 'facil1', emoji: '🧭', titulo: 'Abra, cronometre ou feche uma reunião', alvo: 1, xp: 15, medir: s => (s.tipo === 'facil' ? 1 : 0) },
+  { id: 'stack1', emoji: '🧰', titulo: 'Explique uma escolha de stack', alvo: 1, xp: 15, medir: s => (s.tipo === 'stack' ? 1 : 0) },
+  { id: 'sabado1', emoji: '🌦️', titulo: 'Fale do fim de semana e de um plano', alvo: 1, xp: 15, medir: s => (s.tipo === 'sabado' ? 1 : 0) },
+  { id: 'surpresa1', emoji: '🎁', titulo: 'Faça o treino surpresa de hoje', alvo: 1, xp: 15, medir: s => (s.surpresa ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1330,6 +1344,10 @@ export const BADGES = [
   { id: 'forum', emoji: '📣', nome: 'O fórum', desc: 'Descreva o problema e o que você já tentou' },
   { id: 'visto', emoji: '🛂', nome: 'O visto', desc: 'Fale de visto, mudança de país ou remoto' },
   { id: 'mes', emoji: '📆', nome: 'O mês', desc: 'Veja notas, minutos e preenchimentos das últimas quatro semanas' },
+  { id: 'facil', emoji: '🧭', nome: 'O facilitador', desc: 'Abra a reunião, controle o tempo e feche com ações' },
+  { id: 'stack', emoji: '🧰', nome: 'A escolha', desc: 'Explique React ou Vue, SQL ou documento, TypeScript ou JavaScript' },
+  { id: 'sabado', emoji: '🌦️', nome: 'O sábado', desc: 'Fale da trilha, do domingo e de um plano curto' },
+  { id: 'surpresa', emoji: '🎁', nome: 'Treino surpresa', desc: 'Faça o treino do dia e mantenha a sequência deste modo' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
