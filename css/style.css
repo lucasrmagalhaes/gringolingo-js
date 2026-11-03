@@ -282,6 +282,41 @@ textarea {
   margin-bottom: 6px;
 }
 
+.hub-item {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.hub-item > .card {
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+.estrela-treino {
+  flex: 0 0 52px;
+  border-radius: 18px;
+  border: 2px solid var(--borda);
+  border-bottom-width: 4px;
+  background: var(--superficie);
+  color: var(--texto-suave);
+  font-size: 22px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.estrela-treino[aria-pressed="true"] {
+  color: var(--amarelo);
+  border-color: var(--amarelo);
+  background: color-mix(in srgb, var(--amarelo) 18%, var(--superficie));
+}
+
+.estrela-treino:focus-visible {
+  outline: 3px solid var(--azul);
+  outline-offset: 2px;
+}
+
 .trilha-topo {
   margin: 8px 0 12px;
 }
