@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.20';
+export const VERSAO_APP = '2.21';
 
 export const NOVIDADES = [
+  {
+    versao: '2.21',
+    titulo: 'Na trilha',
+    itens: [
+      '📅 Uma trilha de 30 dias mostra o dia e usa o treino recomendado',
+      '🎬 Fale de esporte, filme e série',
+      '🏆 Peça um aumento e conte uma conquista',
+      '🔌 Explique endpoint, status e autenticação'
+    ]
+  },
   {
     versao: '2.20',
     titulo: 'No hub',
@@ -1015,6 +1025,9 @@ export const MISSOES = [
   { id: 'modelo1', emoji: '🤖', titulo: 'Explique a IA em linguagem simples', alvo: 1, xp: 15, medir: s => (s.tipo === 'modelo' ? 1 : 0) },
   { id: 'papo1', emoji: '💬', titulo: 'Faça a conversa livre do dia', alvo: 1, xp: 15, medir: s => (s.tipo === 'papo' ? 1 : 0) },
   { id: 'futuro1', emoji: '🚀', titulo: 'Fale do plano daqui a cinco anos', alvo: 1, xp: 15, medir: s => (s.tipo === 'futuro' ? 1 : 0) },
+  { id: 'cultura1', emoji: '🎬', titulo: 'Fale de um jogo, um filme ou uma série', alvo: 1, xp: 15, medir: s => (s.tipo === 'cultura' ? 1 : 0) },
+  { id: 'aumento1', emoji: '🏆', titulo: 'Peça um aumento ou conte uma conquista', alvo: 1, xp: 15, medir: s => (s.tipo === 'aumento' ? 1 : 0) },
+  { id: 'rota1', emoji: '🔌', titulo: 'Explique um endpoint, um status ou o token', alvo: 1, xp: 15, medir: s => (s.tipo === 'rota' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1106,6 +1119,9 @@ export const BADGES = [
   { id: 'rotina', emoji: '🏠', nome: 'Em casa', desc: 'Conte a manhã, o jantar ou a noite em família' },
   { id: 'assunto', emoji: '💬', nome: 'Assunto do dia', desc: 'Faça a conversa livre com acompanhamento' },
   { id: 'futuro', emoji: '🚀', nome: 'Daqui a cinco anos', desc: 'Diga a meta e o caminho da carreira' },
+  { id: 'cultura', emoji: '🎬', nome: 'No intervalo', desc: 'Fale de um jogo, um filme ou uma série' },
+  { id: 'aumento', emoji: '🏆', nome: 'A conquista', desc: 'Peça um aumento, uma promoção ou conte uma entrega' },
+  { id: 'rota', emoji: '🔌', nome: 'A rota', desc: 'Explique endpoint, status ou autenticação' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 

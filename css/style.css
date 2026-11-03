@@ -282,6 +282,14 @@ textarea {
   margin-bottom: 6px;
 }
 
+.trilha-topo {
+  margin: 8px 0 12px;
+}
+
+.trilha-topo .btn {
+  margin-top: 10px;
+}
+
 .pilula[aria-pressed="true"] {
   border-color: var(--azul);
   background: color-mix(in srgb, var(--azul) 16%, var(--superficie));

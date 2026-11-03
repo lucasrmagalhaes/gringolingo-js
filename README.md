@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-373%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-379%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -184,6 +184,10 @@ navegador.
 - **Treino recomendado**: o próximo treino sai do teste de nível, dos pontos fracos e do histórico.
 - **Daqui a cinco anos**: a meta e o caminho da carreira, em duas falas.
 - **Auditoria**: idioma, foco e o tamanho do JS conferidos nos testes, sem rede.
+- **Trilha de 30 dias**: o dia fica no topo do hub e o treino do dia é o recomendado.
+- **Esporte, filme e série**: um papo cultural em duas falas, fora da rotina de casa.
+- **O aumento**: peça o aumento, fale da promoção e de uma entrega.
+- **A API**: explique o endpoint, o status e o token em voz alta.
 - **Estimativa**: diga "it should take about" e "I am not sure yet, but", em duas falas.
 - **Consenso**: discorde com um motivo e proponha um meio-termo.
 - **Atendimento**: ligue para o banco, a entrega ou o hotel, em três falas.
@@ -236,7 +240,7 @@ navegador.
 - **3 missões que trocam todo dia**, sorteadas de forma determinística a partir da data.
 - **Streak com protetor**: perdoa um dia perdido, e você ganha um novo protetor a cada 5 lições
   perfeitas. O app avisa quando a sequência está para vencer.
-- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **86 conquistas**, XP com
+- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **89 conquistas**, XP com
   bônus de combo, confete e efeitos sonoros sintetizados no WebAudio (nenhum arquivo de áudio no
   repositório).
 - **Desafio por link**: termine uma lição e mande o link para alguém tentar bater a sua pontuação.
@@ -316,6 +320,8 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/lar.js` | IA em linguagem simples, furo de segurança, rotina de casa e a conversa livre do dia. |
 | `js/hub.js` | Grupos da fluência, busca, treino recomendado e a auditoria offline do pacote. |
 | `js/futuro.js` | Meta e caminho da carreira, em duas falas. |
+| `js/trilha.js` | O dia da trilha de 30 dias, a partir da data de início. |
+| `js/cultura.js` | Esporte, filme e série, pedido de aumento e a API em voz alta. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -398,7 +404,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **373 testes em 75 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **379 testes em 76 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -452,6 +458,7 @@ O que a suíte cobre:
 - **`tests/banca.test.js`**: sistema, código em voz alta, ajuda entre áreas, o simulado do dia e a faixa na mesma nota.
 - **`tests/lar.test.js`**: IA simples, CVE e patch, rotina de casa, a conversa livre do dia e a versão 2.19.
 - **`tests/hub.test.js`**: os grupos da fluência, a busca, o treino recomendado, a carreira e a auditoria da versão 2.20.
+- **`tests/cultura.test.js`**: a trilha de 30 dias, esporte e série, o aumento, a API e a versão 2.21.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

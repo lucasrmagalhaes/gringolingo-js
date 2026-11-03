@@ -75,7 +75,10 @@ const BRUTOS = [
   ['dia', 'revisao', '☀️', 'Pergunta do dia', 'Uma pergunta e outra em seguida. Vale a sequência.', 'diasPergunta'],
   ['nivel', 'revisao', '🎯', 'Teste de nível', 'Oito perguntas, de A1 a B2. Nada fica trancado.', ''],
   ['resumo', 'revisao', '📅', 'Resumo da semana', 'A nota desta semana e uma sugestão para a próxima.', ''],
-  ['rapido', 'revisao', '⚡', 'Pensa em inglês', 'Quatro respostas curtas. Vinte segundos cada.', 'rapidos']
+  ['rapido', 'revisao', '⚡', 'Pensa em inglês', 'Quatro respostas curtas. Vinte segundos cada.', 'rapidos'],
+  ['cultura', 'cotidiano', '🎬', 'Esporte, filme e série', 'Jogo, cinema e a série da semana, em duas falas.', 'culturas', 'esporte filme serie cinema jogo'],
+  ['aumento', 'trabalho', '🏆', 'O aumento', 'Peça aumento, fale da promoção e de uma conquista.', 'aumentos', 'promocao conquista raise'],
+  ['rota', 'trabalho', '🔌', 'A API', 'Endpoint, status e autenticação, em duas falas.', 'rotas', 'rest endpoint status autenticacao']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
