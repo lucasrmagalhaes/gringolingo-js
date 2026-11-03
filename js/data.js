@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.21';
+export const VERSAO_APP = '2.22';
 
 export const NOVIDADES = [
+  {
+    versao: '2.22',
+    titulo: 'No ar',
+    itens: [
+      '🔥 Dê o status, peça ajuda e feche a lição de um incidente',
+      '📦 Negocie prazo e escopo com quem cuida do produto',
+      '🙋 Pergunte do plantão, do crescimento e da vaga aberta',
+      '🔂 Revise as frases que você mais errou, na data certa'
+    ]
+  },
   {
     versao: '2.21',
     titulo: 'Na trilha',
@@ -1028,6 +1038,10 @@ export const MISSOES = [
   { id: 'cultura1', emoji: '🎬', titulo: 'Fale de um jogo, um filme ou uma série', alvo: 1, xp: 15, medir: s => (s.tipo === 'cultura' ? 1 : 0) },
   { id: 'aumento1', emoji: '🏆', titulo: 'Peça um aumento ou conte uma conquista', alvo: 1, xp: 15, medir: s => (s.tipo === 'aumento' ? 1 : 0) },
   { id: 'rota1', emoji: '🔌', titulo: 'Explique um endpoint, um status ou o token', alvo: 1, xp: 15, medir: s => (s.tipo === 'rota' ? 1 : 0) },
+  { id: 'vivo1', emoji: '🔥', titulo: 'Dê status, peça ajuda ou feche a lição', alvo: 1, xp: 15, medir: s => (s.tipo === 'vivo' ? 1 : 0) },
+  { id: 'produto1', emoji: '📦', titulo: 'Negocie prazo ou escopo com o produto', alvo: 1, xp: 15, medir: s => (s.tipo === 'produto' ? 1 : 0) },
+  { id: 'fecho1', emoji: '🙋', titulo: 'Faça uma pergunta no fim da entrevista', alvo: 1, xp: 15, medir: s => (s.tipo === 'fecho' ? 1 : 0) },
+  { id: 'espaco1', emoji: '🔂', titulo: 'Revise uma frase que você errou mais de uma vez', alvo: 1, xp: 15, medir: s => (s.tipo === 'espaco' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1122,6 +1136,10 @@ export const BADGES = [
   { id: 'cultura', emoji: '🎬', nome: 'No intervalo', desc: 'Fale de um jogo, um filme ou uma série' },
   { id: 'aumento', emoji: '🏆', nome: 'A conquista', desc: 'Peça um aumento, uma promoção ou conte uma entrega' },
   { id: 'rota', emoji: '🔌', nome: 'A rota', desc: 'Explique endpoint, status ou autenticação' },
+  { id: 'vivo', emoji: '🔥', nome: 'No ar', desc: 'Dê o status, peça ajuda ou feche a lição do incidente' },
+  { id: 'produto', emoji: '📦', nome: 'O corte', desc: 'Negocie prazo ou escopo com o produto' },
+  { id: 'fecho', emoji: '🙋', nome: 'A sua vez', desc: 'Pergunte do plantão, do crescimento ou da vaga aberta' },
+  { id: 'espaco', emoji: '🔂', nome: 'Outra vez', desc: 'Revise uma frase que você errou mais de uma vez' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 

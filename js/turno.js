@@ -21,6 +21,7 @@ import { SISTEMAS, CODIGOS, COLEGAS } from './banca.js';
 import { MODELOS, FUROS, ROTINAS, PAPOS } from './lar.js';
 import { FUTUROS } from './futuro.js';
 import { CULTURAS, AUMENTOS, ROTAS } from './cultura.js';
+import { VIVOS, PRODUTOS, FECHOS } from './vivo.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -459,6 +460,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Vivo', itens: VIVOS },
+    { origem: 'Produto', itens: PRODUTOS },
+    { origem: 'Fecho', itens: FECHOS },
     { origem: 'Cultura', itens: CULTURAS },
     { origem: 'Aumento', itens: AUMENTOS },
     { origem: 'Rota', itens: ROTAS },
