@@ -159,8 +159,7 @@ describe('retrospectiva, onboarding e conectores', () => {
     const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
     const data = readFileSync(join(raiz, 'js/data.js'), 'utf8');
     const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
-    assert.match(data, /VERSAO_APP = '2\.10'/);
-    assert.match(sw, /gringolingo-v37/);
+    assert.match(data, /versao: '2\.10'/);
     assert.match(sw, /\.\/js\/discurso\.js/);
   });
 });

@@ -3154,6 +3154,59 @@ button.caixa-treinavel:hover {
   color: var(--texto-suave);
 }
 
+.historico-fala {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 132px;
+  margin-top: 12px;
+}
+
+.historico-col {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 3px;
+}
+
+.historico-acerto,
+.historico-treino {
+  width: 100%;
+  min-height: 4px;
+  border-radius: 6px 6px 0 0;
+}
+
+.historico-acerto {
+  background: var(--azul);
+}
+
+.historico-treino {
+  background: var(--verde);
+}
+
+.historico-vazio {
+  background: var(--trilho);
+}
+
+.historico-dia {
+  font-size: var(--fonte-xs);
+  font-weight: 800;
+  color: var(--texto-suave);
+}
+
+.historico-legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+  color: var(--texto-suave);
+  font-size: var(--fonte-sm);
+}
+
 .painel-erro {
   margin-top: 12px;
 }
