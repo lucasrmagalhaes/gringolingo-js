@@ -329,8 +329,13 @@ textarea {
   margin: 8px 0 12px;
 }
 
-.balanco .btn {
+.balanco .btn,
+.fila-fala .btn {
   margin-top: 10px;
+}
+
+.fila-fala {
+  margin: 8px 0 12px;
 }
 
 .trilha-topo .btn {
