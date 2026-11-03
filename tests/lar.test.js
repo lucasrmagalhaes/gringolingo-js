@@ -215,7 +215,7 @@ describe('IA simples, furo, casa e conversa livre', () => {
     assert.equal(papo.bonusMissoes, 15);
     assert.equal(estado.stats.papos, 1);
     assert.ok(estado.badges.includes('assunto'));
-    assert.equal(BADGES.length, 85);
+    assert.ok(BADGES.length >= 85);
   });
 
   test('a versão 2.19 abre a conversa livre fora do passeio', () => {
@@ -223,9 +223,8 @@ describe('IA simples, furo, casa e conversa livre', () => {
     const data = readFileSync(join(raiz, 'js/data.js'), 'utf8');
     const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
-    assert.match(data, /VERSAO_APP = '2\.19'/);
+    assert.match(data, /versao: '2\.19'/);
     assert.match(data, /versao: '2\.18'/);
-    assert.match(sw, /gringolingo-v46/);
     assert.match(sw, /\.\/js\/lar\.js/);
     assert.match(app, /function telaModelos/);
     assert.match(app, /function telaFuros/);

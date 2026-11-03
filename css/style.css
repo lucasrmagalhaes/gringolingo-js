@@ -273,6 +273,24 @@ textarea {
   color: var(--laranja-texto);
 }
 
+.hub-busca {
+  margin: 8px 0 12px;
+}
+
+.hub-busca label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.pilula[aria-pressed="true"] {
+  border-color: var(--azul);
+  background: color-mix(in srgb, var(--azul) 16%, var(--superficie));
+}
+
+.fila-botoes > .pilula {
+  cursor: pointer;
+}
+
 .btn-perfil {
   cursor: pointer;
 }
