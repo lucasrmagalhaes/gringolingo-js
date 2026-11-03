@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.39';
+export const VERSAO_APP = '2.40';
 
 export const NOVIDADES = [
+  {
+    versao: '2.40',
+    titulo: 'O canário',
+    itens: [
+      '🐤 Mande a versão para uma máquina e diga se o canário passou',
+      '📭 Avise que o caminho velho fecha em junho',
+      '🪝 Diga que o mesmo evento pode chegar duas vezes',
+      '🌱 Veja no hub o próximo treino que ainda não teve prática'
+    ]
+  },
   {
     versao: '2.39',
     titulo: 'A bandeira',
@@ -1270,6 +1280,9 @@ export const MISSOES = [
   { id: 'bandeira1', emoji: '🎚️', titulo: 'Ligue uma bandeira ou diga quem desliga', alvo: 1, xp: 15, medir: s => (s.tipo === 'bandeira' ? 1 : 0) },
   { id: 'gelo1', emoji: '🧊', titulo: 'Marque o gelo da release', alvo: 1, xp: 15, medir: s => (s.tipo === 'gelo' ? 1 : 0) },
   { id: 'limite1', emoji: '🚥', titulo: 'Explique o limite da API', alvo: 1, xp: 15, medir: s => (s.tipo === 'limite' ? 1 : 0) },
+  { id: 'canario1', emoji: '🐤', titulo: 'Fale do canário ou da primeira máquina', alvo: 1, xp: 15, medir: s => (s.tipo === 'canario' ? 1 : 0) },
+  { id: 'despedida1', emoji: '📭', titulo: 'Avise a despedida de um caminho', alvo: 1, xp: 15, medir: s => (s.tipo === 'despedida' ? 1 : 0) },
+  { id: 'repeticao1', emoji: '🪝', titulo: 'Explique um evento que chega duas vezes', alvo: 1, xp: 15, medir: s => (s.tipo === 'repeticao' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1428,6 +1441,9 @@ export const BADGES = [
   { id: 'bandeira', emoji: '🎚️', nome: 'A bandeira', desc: 'Ligue para dez por cento e diga quem desliga' },
   { id: 'gelo', emoji: '🧊', nome: 'O gelo', desc: 'Marque o gelo e a exceção de hotfix' },
   { id: 'limite', emoji: '🚥', nome: 'O limite', desc: 'Diga o teto da API e o que o cliente faz' },
+  { id: 'canario', emoji: '🐤', nome: 'O canário', desc: 'Mande a versão para uma máquina e diga se passou' },
+  { id: 'despedida', emoji: '📭', nome: 'A despedida', desc: 'Avise que o caminho velho fecha em junho' },
+  { id: 'repeticao', emoji: '🪝', nome: 'A repetição', desc: 'Diga que o mesmo evento pode chegar duas vezes' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

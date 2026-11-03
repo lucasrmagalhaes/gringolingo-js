@@ -144,7 +144,10 @@ const BRUTOS = [
   ['jargao', 'trabalho', '🧾', 'Sem jargão', 'Explique a volta da página para o suporte.', 'jargoes', 'suporte cliente linguagem simples pagina'],
   ['bandeira', 'trabalho', '🎚️', 'A bandeira', 'Ligue para dez por cento e saiba quem desliga.', 'bandeiras', 'feature flag porcentagem deploy padrao'],
   ['gelo', 'trabalho', '🧊', 'O gelo', 'Sem merge depois das quatro, com exceção de hotfix.', 'gelos', 'code freeze quinta hotfix release'],
-  ['limite', 'trabalho', '🚥', 'O limite', 'Cem chamadas por minuto e o que o cliente faz.', 'limites', 'rate limit api 429 teto']
+  ['limite', 'trabalho', '🚥', 'O limite', 'Cem chamadas por minuto e o que o cliente faz.', 'limites', 'rate limit api 429 teto'],
+  ['canario', 'trabalho', '🐤', 'O canário', 'Uma máquina recebe a versão antes do restante.', 'canarios', 'canary deploy servidor saudavel'],
+  ['despedida', 'trabalho', '📭', 'A despedida', 'O caminho velho fecha em junho e o novo assume.', 'despedidas', 'deprecar endpoint junho versao'],
+  ['repeticao', 'trabalho', '🪝', 'A repetição', 'O mesmo evento pode chegar duas vezes.', 'repeticoes', 'webhook retry idempotente segunda vez']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -235,6 +238,18 @@ export function auditarCatalogo(treinos, limiar = LIMIAR_PARECIDOS) {
     }
   }
   return { idsRepetidos, titulosRepetidos, parecidos };
+}
+
+export function textoDaEstreia(treinos, stats) {
+  const lista = (Array.isArray(treinos) ? treinos : []).filter(t => t && t.stat);
+  const faltam = lista.filter(t => (Number(stats?.[t.stat]) || 0) <= 0);
+  const proximo = faltam[0] || null;
+  if (!faltam.length) {
+    return { faltam: 0, treino: null, texto: 'Todos os treinos com contagem já tiveram prática.' };
+  }
+  const conta = faltam.length === 1 ? '1 treino ainda sem prática.' : `${faltam.length} treinos ainda sem prática.`;
+  const nome = proximo ? ` O próximo é ${proximo.titulo}.` : '';
+  return { faltam: faltam.length, treino: proximo, texto: conta + nome };
 }
 
 export function treinoRecomendado(treinos, { nivel, stats, padroes, deslizes } = {}) {
