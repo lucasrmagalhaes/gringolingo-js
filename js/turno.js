@@ -38,6 +38,7 @@ import { BRECHAS, MUDAS, GAUCHOS } from './brecha.js';
 import { RADARS, APLAUSOS, GRIPES } from './radar.js';
 import { PMS, LAUDOS, RUMOS } from './remoto.js';
 import { ACESSOS, LICENCAS, JARGOES } from './equipe.js';
+import { BANDEIRAS, GELOS, LIMITES } from './rollout.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -476,6 +477,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Bandeira', itens: BANDEIRAS },
+    { origem: 'Gelo', itens: GELOS },
+    { origem: 'Limite', itens: LIMITES },
     { origem: 'Acesso', itens: ACESSOS },
     { origem: 'Licença', itens: LICENCAS },
     { origem: 'Jargão', itens: JARGOES },

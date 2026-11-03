@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.38';
+export const VERSAO_APP = '2.39';
 
 export const NOVIDADES = [
+  {
+    versao: '2.39',
+    titulo: 'A bandeira',
+    itens: [
+      '🎚️ Ligue a função para dez por cento e diga quem desliga',
+      '🧊 Marque o gelo: sem merge depois das quatro',
+      '🚥 Explique o limite da API e o que o cliente faz',
+      '🗣️ Veja no hub se já houve fala hoje'
+    ]
+  },
   {
     versao: '2.38',
     titulo: 'O acesso',
@@ -1257,6 +1267,9 @@ export const MISSOES = [
   { id: 'acesso1', emoji: '🔑', titulo: 'Mostre o wiki ou o repositório', alvo: 1, xp: 15, medir: s => (s.tipo === 'acesso' ? 1 : 0) },
   { id: 'licenca1', emoji: '💳', titulo: 'Peça a licença de uma ferramenta', alvo: 1, xp: 15, medir: s => (s.tipo === 'licenca' ? 1 : 0) },
   { id: 'jargao1', emoji: '🧾', titulo: 'Explique uma falha sem jargão', alvo: 1, xp: 15, medir: s => (s.tipo === 'jargao' ? 1 : 0) },
+  { id: 'bandeira1', emoji: '🎚️', titulo: 'Ligue uma bandeira ou diga quem desliga', alvo: 1, xp: 15, medir: s => (s.tipo === 'bandeira' ? 1 : 0) },
+  { id: 'gelo1', emoji: '🧊', titulo: 'Marque o gelo da release', alvo: 1, xp: 15, medir: s => (s.tipo === 'gelo' ? 1 : 0) },
+  { id: 'limite1', emoji: '🚥', titulo: 'Explique o limite da API', alvo: 1, xp: 15, medir: s => (s.tipo === 'limite' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1412,6 +1425,9 @@ export const BADGES = [
   { id: 'acesso', emoji: '🔑', nome: 'O acesso', desc: 'Mostre o wiki, o repositório e a quem chamar' },
   { id: 'licenca', emoji: '💳', nome: 'A licença', desc: 'Peça a ferramenta paga, com o preço do mês' },
   { id: 'jargao', emoji: '🧾', nome: 'Sem jargão', desc: 'Explique a volta da página para o suporte' },
+  { id: 'bandeira', emoji: '🎚️', nome: 'A bandeira', desc: 'Ligue para dez por cento e diga quem desliga' },
+  { id: 'gelo', emoji: '🧊', nome: 'O gelo', desc: 'Marque o gelo e a exceção de hotfix' },
+  { id: 'limite', emoji: '🚥', nome: 'O limite', desc: 'Diga o teto da API e o que o cliente faz' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

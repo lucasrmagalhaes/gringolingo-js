@@ -57,6 +57,21 @@ export function textoGrupo(n, titulo) {
   return `${nome} em ${titulo}`;
 }
 
+export function textoDeHoje(painel, diaIso) {
+  const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
+  const segundos = Math.max(0, Number(linha?.segundos) || 0);
+  const n = Math.max(0, Math.floor(Number(linha?.n) || 0));
+  const min = Math.floor(segundos / 60);
+  if (!n && segundos === 0) return { minutos: 0, treinos: 0, texto: 'Ainda não houve fala hoje.' };
+  if (min === 0) {
+    const feito = n === 1 ? '1 treino' : `${n} treinos`;
+    return { minutos: 0, treinos: n, texto: `Menos de 1 minuto hoje. ${feito}.` };
+  }
+  const tempo = min === 1 ? '1 minuto' : `${min} minutos`;
+  const feito = n === 1 ? '1 treino' : `${n} treinos`;
+  return { minutos: min, treinos: n, texto: `${tempo} hoje. ${feito}.` };
+}
+
 export function textoDoBalanco({ minutos, meta, treinos, menorTitulo } = {}) {
   const min = Math.max(0, Math.floor(Number(minutos) || 0));
   const alvo = Math.max(0, Math.floor(Number(meta) || 0));

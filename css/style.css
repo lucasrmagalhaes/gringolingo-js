@@ -330,12 +330,21 @@ textarea {
 }
 
 .balanco .btn,
-.fila-fala .btn {
+.fila-fala .btn,
+.fala-hoje .btn {
   margin-top: 10px;
 }
 
 .fila-fala {
   margin: 8px 0 12px;
+}
+
+.fala-hoje {
+  margin: 8px 0 12px;
+}
+
+body.com-aviso-metricas {
+  padding-bottom: 120px;
 }
 
 .trilha-topo .btn {
