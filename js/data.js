@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.9';
+export const VERSAO_APP = '2.10';
 
 export const NOVIDADES = [
+  {
+    versao: '2.10',
+    titulo: 'No sprint',
+    itens: [
+      '🔄 Diga o que foi bem, o que melhorar e a ação da sprint',
+      '🧭 Explique o projeto, o fluxo e a primeira tarefa',
+      '🔗 Ligue duas ideias com however, on the other hand ou that said',
+      '🎙️ O botão de gravar volta sozinho quando os 8 segundos acabam'
+    ]
+  },
   {
     versao: '2.9',
     titulo: 'No turno',
@@ -884,6 +894,8 @@ export const MISSOES = [
   { id: 'star1', emoji: '⭐', titulo: 'Conte um caso no formato STAR', alvo: 1, xp: 15, medir: s => (s.tipo === 'star' ? 1 : 0) },
   { id: 'decisao1', emoji: '🏗️', titulo: 'Explique uma decisão e a troca', alvo: 1, xp: 15, medir: s => (s.tipo === 'decisao' ? 1 : 0) },
   { id: 'plantao1', emoji: '🚨', titulo: 'Dê status, desculpa e o próximo passo', alvo: 1, xp: 15, medir: s => (s.tipo === 'plantao' ? 1 : 0) },
+  { id: 'retro1', emoji: '🔄', titulo: 'Feche uma retrospectiva em três falas', alvo: 1, xp: 15, medir: s => (s.tipo === 'retro' ? 1 : 0) },
+  { id: 'ligacao1', emoji: '🔗', titulo: 'Ligue duas ideias com um conector', alvo: 1, xp: 15, medir: s => (s.tipo === 'ligacao' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -938,6 +950,9 @@ export const BADGES = [
   { id: 'decisao', emoji: '🏗️', nome: 'A escolha', desc: 'Explique uma decisão e a troca' },
   { id: 'par', emoji: '👥', nome: 'Na dupla', desc: 'Narre o que faz e peça ajuda' },
   { id: 'plantao', emoji: '🚨', nome: 'No plantão', desc: 'Dê status, desculpa e o próximo passo' },
+  { id: 'retro', emoji: '🔄', nome: 'Na retro', desc: 'Diga o que foi bem, o que melhorar e a ação' },
+  { id: 'chegada', emoji: '🧭', nome: 'Boas-vindas', desc: 'Explique o projeto, o fluxo e a primeira tarefa' },
+  { id: 'ligacao', emoji: '🔗', nome: 'No entanto', desc: 'Ligue duas ideias com however, on the other hand ou that said' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 

@@ -447,3 +447,8 @@ export function avaliarPar(rodada, texto) {
 export function avaliarIncidente(rodada, texto) {
   return avaliarResposta(rodada, texto);
 }
+
+export function nomeDoTreino(titulo) {
+  const nome = String(titulo || '').replace(/\s+/g, ' ').trim();
+  return nome ? `Treinar ${nome}` : 'Treinar';
+}
