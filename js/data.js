@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.22';
+export const VERSAO_APP = '2.23';
 
 export const NOVIDADES = [
+  {
+    versao: '2.23',
+    titulo: 'No mapa',
+    itens: [
+      '🗺️ Explique a arquitetura e o fluxo para quem chegou agora',
+      '🗣️ Dê e receba um feedback duro no 1:1',
+      '📐 Apresente uma proposta e defenda a troca',
+      '📊 A semana mostra os minutos de fala e os treinos por grupo'
+    ]
+  },
   {
     versao: '2.22',
     titulo: 'No ar',
@@ -1042,6 +1052,9 @@ export const MISSOES = [
   { id: 'produto1', emoji: '📦', titulo: 'Negocie prazo ou escopo com o produto', alvo: 1, xp: 15, medir: s => (s.tipo === 'produto' ? 1 : 0) },
   { id: 'fecho1', emoji: '🙋', titulo: 'Faça uma pergunta no fim da entrevista', alvo: 1, xp: 15, medir: s => (s.tipo === 'fecho' ? 1 : 0) },
   { id: 'espaco1', emoji: '🔂', titulo: 'Revise uma frase que você errou mais de uma vez', alvo: 1, xp: 15, medir: s => (s.tipo === 'espaco' ? 1 : 0) },
+  { id: 'mapa1', emoji: '🗺️', titulo: 'Explique a arquitetura ou o fluxo do time', alvo: 1, xp: 15, medir: s => (s.tipo === 'mapa' ? 1 : 0) },
+  { id: 'duro1', emoji: '🗣️', titulo: 'Dê ou receba um feedback duro', alvo: 1, xp: 15, medir: s => (s.tipo === 'duro' ? 1 : 0) },
+  { id: 'proposta1', emoji: '📐', titulo: 'Apresente uma proposta e a troca', alvo: 1, xp: 15, medir: s => (s.tipo === 'proposta' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1140,6 +1153,10 @@ export const BADGES = [
   { id: 'produto', emoji: '📦', nome: 'O corte', desc: 'Negocie prazo ou escopo com o produto' },
   { id: 'fecho', emoji: '🙋', nome: 'A sua vez', desc: 'Pergunte do plantão, do crescimento ou da vaga aberta' },
   { id: 'espaco', emoji: '🔂', nome: 'Outra vez', desc: 'Revise uma frase que você errou mais de uma vez' },
+  { id: 'mapa', emoji: '🗺️', nome: 'O mapa', desc: 'Explique a arquitetura ou o fluxo para quem chegou' },
+  { id: 'duro', emoji: '🗣️', nome: 'O ponto difícil', desc: 'Dê ou receba um feedback duro no 1:1' },
+  { id: 'proposta', emoji: '📐', nome: 'A proposta', desc: 'Apresente uma RFC e o preço da escolha' },
+  { id: 'semana', emoji: '📊', nome: 'Dez minutos', desc: 'Some 10 minutos de fala nesta semana' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
