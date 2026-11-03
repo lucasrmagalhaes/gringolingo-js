@@ -24,6 +24,7 @@ import { CULTURAS, AUMENTOS, ROTAS } from './cultura.js';
 import { VIVOS, PRODUTOS, FECHOS } from './vivo.js';
 import { MAPAS, DUROS, PROPOSTAS } from './time.js';
 import { NARRAS, BANCOS, RECUSAS } from './narra.js';
+import { SPRINTS, SEGUROS, MEETUPS } from './cliente.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -462,6 +463,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Sprint', itens: SPRINTS },
+    { origem: 'Seguro', itens: SEGUROS },
+    { origem: 'Meetup', itens: MEETUPS },
     { origem: 'Narrar', itens: NARRAS },
     { origem: 'Banco', itens: BANCOS },
     { origem: 'Recusa', itens: RECUSAS },

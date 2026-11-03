@@ -89,7 +89,11 @@ const BRUTOS = [
   ['semana', 'revisao', '📊', 'Semana falada', 'Minutos de fala e treinos por grupo, nesta semana.', '', 'minutos progresso semana'],
   ['narrar', 'trabalho', '🎙️', 'O par narrado', 'Pense a próxima linha em voz alta, com o par.', 'narras', 'pair narrar voz alta linha'],
   ['banco', 'entrevista', '🗄️', 'Banco ou cache', 'Explique a guarda dos dados numa entrevista.', 'bancos', 'system design banco cache redis'],
-  ['recusa', 'trabalho', '🙅', 'O não educado', 'Recuse o pedido e ofereça outro caminho.', 'recusas', 'recusar pedido alternativa']
+  ['recusa', 'trabalho', '🙅', 'O não educado', 'Recuse o pedido e ofereça outro caminho.', 'recusas', 'recusar pedido alternativa'],
+  ['sprint', 'trabalho', '🖥️', 'Demo da sprint', 'Mostre o que saiu e responda uma pergunta fora do roteiro.', 'sprints', 'demo sprint cliente pergunta'],
+  ['seguro', 'trabalho', '🔐', 'A decisão segura', 'Furo, patch e por quanto tempo um dado fica guardado.', 'seguros', 'seguranca vulnerabilidade patch lgpd gdpr'],
+  ['meetup', 'cotidiano', '🎫', 'No meetup', 'Puxe assunto num evento de tecnologia.', 'meetups', 'networking meetup evento palestra'],
+  ['completa', 'entrevista', '🎓', 'Entrevista completa', 'Cinco treinos em sequência e uma nota no fim.', 'completas', 'simulado entrevista cinco treinos nota']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

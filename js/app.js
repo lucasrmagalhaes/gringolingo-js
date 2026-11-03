@@ -1,7 +1,7 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, registrarRequisito, registrarMetrica, registrarAprendizado, registrarPasseio, registrarFalha, registrarMentoria, registrarSocorro, registrarPalestra, registrarDuvida, registrarSinal, registrarSistema, registrarCodigo, registrarColega, registrarSimulado, registrarModelo, registrarFuro, registrarRotina, registrarPapo, registrarFuturo, registrarCultura, registrarAumento, registrarRota as registrarFalaRota, registrarVivo, registrarProduto, registrarFecho, registrarEspaco, registrarMapa, registrarDuro, registrarProposta, registrarNarrar, registrarBanco, registrarRecusa, marcarEspaco, resumoDesafio, definirMetaFala, definirMetaMinutos, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, resumoBackup, textoResumoBackup, nomeArquivoBackup, LIMITE_BACKUP, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, palavrasDoPadrao, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, registrarRequisito, registrarMetrica, registrarAprendizado, registrarPasseio, registrarFalha, registrarMentoria, registrarSocorro, registrarPalestra, registrarDuvida, registrarSinal, registrarSistema, registrarCodigo, registrarColega, registrarSimulado, registrarModelo, registrarFuro, registrarRotina, registrarPapo, registrarFuturo, registrarCultura, registrarAumento, registrarRota as registrarFalaRota, registrarVivo, registrarProduto, registrarFecho, registrarEspaco, registrarMapa, registrarDuro, registrarProposta, registrarNarrar, registrarBanco, registrarRecusa, registrarSprint, registrarSeguro, registrarMeetup, registrarCompleta, marcarEspaco, resumoDesafio, definirMetaFala, definirMetaMinutos, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, resumoBackup, textoResumoBackup, nomeArquivoBackup, LIMITE_BACKUP, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, palavrasDoPadrao, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES, falarComLocale, falarTrechos } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
@@ -29,6 +29,8 @@ import { diaDaTrilha, textoDoDia } from './trilha.js';
 import { VIVOS, vivoPorId, avaliarVivo, PRODUTOS, produtoPorId, avaliarProduto, FECHOS, fechoPorId, avaliarFecho } from './vivo.js';
 import { MAPAS, mapaPorId, avaliarMapa, DUROS, duroPorId, avaliarDuro, PROPOSTAS, propostaPorId, avaliarProposta } from './time.js';
 import { NARRAS, narraPorId, avaliarNarra, BANCOS, bancoPorId, avaliarBanco, RECUSAS, recusaPorId, avaliarRecusa } from './narra.js';
+import { SPRINTS, sprintPorId, avaliarSprint, SEGUROS, seguroPorId, avaliarSeguro, MEETUPS, meetupPorId, avaliarMeetup } from './cliente.js';
+import { montarCompleta, faixaDaCompleta } from './completa.js';
 import { somarSemana, textoMinutos, textoGrupo, lembreteMinutos, METAS_MINUTOS } from './semana.js';
 import { filaEspacada, diasAoAcertar, textoVolta } from './espaco.js';
 import { CATEGORIAS as GRUPOS_HUB, TREINOS, filtrarTreinos, treinoRecomendado } from './hub.js';
@@ -2526,6 +2528,128 @@ function pintarSimulado() {
   });
 }
 
+function telaSprints() {
+  listarCena(
+    'sprint',
+    '🖥️ Demo da sprint',
+    'Duas falas: o que saiu e a pergunta que você não esperava. A frase modelo só aparece depois.',
+    SPRINTS,
+    abrirSprint,
+    valor => { sprintSessao = valor; }
+  );
+}
+
+function abrirSprint(id) {
+  abrirCenaLista(id, sprintPorId, cena => { sprintSessao = cena; }, pintarSprint, telaSprints);
+}
+
+function pintarSprint() {
+  pintarCenaLista(sprintSessao, {
+    rota: 'sprint',
+    aoLista: telaSprints,
+    repintar: pintarSprint,
+    avaliar: avaliarSprint,
+    registrar: registrarSprint,
+    tituloFim: 'Sprint dita!'
+  });
+}
+
+function telaSeguros() {
+  listarCena(
+    'seguro',
+    '🔐 A decisão segura',
+    'Duas falas: o risco e o plano. A frase modelo só aparece depois.',
+    SEGUROS,
+    abrirSeguro,
+    valor => { seguroSessao = valor; }
+  );
+}
+
+function abrirSeguro(id) {
+  abrirCenaLista(id, seguroPorId, cena => { seguroSessao = cena; }, pintarSeguro, telaSeguros);
+}
+
+function pintarSeguro() {
+  pintarCenaLista(seguroSessao, {
+    rota: 'seguro',
+    aoLista: telaSeguros,
+    repintar: pintarSeguro,
+    avaliar: avaliarSeguro,
+    registrar: registrarSeguro,
+    tituloFim: 'Decisão dita!'
+  });
+}
+
+function telaMeetups() {
+  listarCena(
+    'meetup',
+    '🎫 No meetup',
+    'Duas falas: o oi e o assunto. A frase modelo só aparece depois.',
+    MEETUPS,
+    abrirMeetup,
+    valor => { meetupSessao = valor; }
+  );
+}
+
+function abrirMeetup(id) {
+  abrirCenaLista(id, meetupPorId, cena => { meetupSessao = cena; }, pintarMeetup, telaMeetups);
+}
+
+function pintarMeetup() {
+  pintarCenaLista(meetupSessao, {
+    rota: 'meetup',
+    aoLista: telaMeetups,
+    repintar: pintarMeetup,
+    avaliar: avaliarMeetup,
+    registrar: registrarMeetup,
+    tituloFim: 'Contato feito!'
+  });
+}
+
+function telaCompleta() {
+  calar();
+  limparTela();
+  descartarVoz();
+  window.scrollTo(0, 0);
+  telaAtiva = 'completa';
+  registrarRota('completa');
+  completaSessao = null;
+  const cena = montarCompleta(diaLocalAgora());
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('🎓 Entrevista completa', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, cena
+      ? 'Cinco treinos em sequência: Portfólio, Sistema, Salário, STAR, Pergunta. A nota sai no fim. A frase modelo só aparece depois.'
+      : 'A entrevista precisa de uma data válida.'),
+    cena ? h('ol', { id: 'completa-passos', 'aria-label': 'Cinco treinos da entrevista' },
+      cena.rodadas.map(r => h('li', {}, r.etapa))
+    ) : '',
+    cena ? h('button', { class: 'btn btn-verde', type: 'button', onclick: abrirCompleta }, 'COMEÇAR') : ''
+  );
+  focarTela();
+}
+
+function abrirCompleta() {
+  const cena = montarCompleta(diaLocalAgora());
+  if (!cena) return telaCompleta();
+  descartarVoz();
+  completaSessao = novaCena(cena);
+  pintarCompleta();
+}
+
+function pintarCompleta() {
+  pintarCenaLista(completaSessao, {
+    rota: 'completa',
+    aoLista: telaCompleta,
+    repintar: pintarCompleta,
+    avaliar: avaliarResposta,
+    registrar: registrarCompleta,
+    tituloFim: 'Entrevista feita!',
+    sub: nota => faixaDaCompleta(nota),
+    rotulo: s => `Treino ${s.i + 1} de ${s.cena.rodadas.length} · ${s.cena.rodadas[s.i].etapa}`
+  });
+}
+
 function cartaoSobre() {
   const novo = localStorage.getItem('gringolingo:versao-vista') !== VERSAO_APP;
   return h('div', { class: 'card sobre-card' },
@@ -4901,6 +5025,10 @@ let propostaSessao = null;
 let narraSessao = null;
 let bancoSessao = null;
 let recusaSessao = null;
+let sprintSessao = null;
+let seguroSessao = null;
+let meetupSessao = null;
+let completaSessao = null;
 let filtroHub = { categoria: 'todos', busca: '' };
 let revisaoPrazo = 0;
 let gravacaoUrl = null;
@@ -5030,7 +5158,11 @@ function telasDoHub() {
     semana: telaPainel,
     narrar: telaNarras,
     banco: telaBancos,
-    recusa: telaRecusas
+    recusa: telaRecusas,
+    sprint: telaSprints,
+    seguro: telaSeguros,
+    meetup: telaMeetups,
+    completa: telaCompleta
   };
 }
 
@@ -5977,6 +6109,7 @@ function telaResumo() {
       h('p', {}, `Ao vivo ${estado.stats.vivos} · produto ${estado.stats.produtos} · perguntas ${estado.stats.fechos} · revisões ${estado.stats.espacos}.`),
       h('p', {}, `Mapas ${estado.stats.mapas} · pontos difíceis ${estado.stats.duros} · propostas ${estado.stats.propostas}.`),
       h('p', {}, `Narrados ${estado.stats.narras} · bancos ${estado.stats.bancos} · recusas ${estado.stats.recusas}.`),
+      h('p', {}, `Sprints ${estado.stats.sprints} · decisões seguras ${estado.stats.seguros} · meetups ${estado.stats.meetups} · entrevistas completas ${estado.stats.completas}.`),
       h('p', {}, lembreteMeta(contarFaladas(estado.painel, hojeIso), estado.metaFala, hojeIso))
     ),
     erros.length
@@ -6257,7 +6390,7 @@ function pintarCenaFala(sessao, cfg) {
   app.innerHTML = '';
   const miolo = [
     topoVoltar(cena.emoji + ' ' + cena.titulo, cfg.aoLista),
-    h('div', { class: 'revisao-sub' }, cfg.rotulo(sessao)),
+    h('div', { class: 'revisao-sub', role: 'status', 'aria-live': 'polite' }, cfg.rotulo(sessao)),
     h('div', { class: 'fala fala-npc' },
       h('div', { class: 'fala-en', lang: 'en' }, rodada.npc.en),
       h('div', { class: 'fala-pt' }, rodada.npc.pt)
@@ -9780,6 +9913,10 @@ async function iniciar() {
     narrar: () => (narraSessao && !narraSessao.concluido ? pintarNarra() : telaNarras()),
     banco: () => (bancoSessao && !bancoSessao.concluido ? pintarBanco() : telaBancos()),
     recusa: () => (recusaSessao && !recusaSessao.concluido ? pintarRecusa() : telaRecusas()),
+    sprint: () => (sprintSessao && !sprintSessao.concluido ? pintarSprint() : telaSprints()),
+    seguro: () => (seguroSessao && !seguroSessao.concluido ? pintarSeguro() : telaSeguros()),
+    meetup: () => (meetupSessao && !meetupSessao.concluido ? pintarMeetup() : telaMeetups()),
+    completa: () => (completaSessao && !completaSessao.concluido ? pintarCompleta() : telaCompleta()),
     fracos: telaPontosFracos,
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
