@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.24';
+export const VERSAO_APP = '2.25';
 
 export const NOVIDADES = [
+  {
+    versao: '2.25',
+    titulo: 'Na sprint',
+    itens: [
+      '🖥️ Mostre a sprint e responda uma pergunta fora do roteiro',
+      '🔐 Explique um furo, um patch ou o tempo de um dado',
+      '🎫 Puxe assunto num meetup de tecnologia',
+      '🎓 Faça cinco treinos de entrevista e veja uma nota no fim'
+    ]
+  },
   {
     versao: '2.24',
     titulo: 'No par',
@@ -1068,6 +1078,10 @@ export const MISSOES = [
   { id: 'narrar1', emoji: '🎙️', titulo: 'Narre a próxima linha com o par', alvo: 1, xp: 15, medir: s => (s.tipo === 'narrar' ? 1 : 0) },
   { id: 'banco1', emoji: '🗄️', titulo: 'Explique banco ou cache na entrevista', alvo: 1, xp: 15, medir: s => (s.tipo === 'banco' ? 1 : 0) },
   { id: 'recusa1', emoji: '🙅', titulo: 'Recuse um pedido e ofereça outro caminho', alvo: 1, xp: 15, medir: s => (s.tipo === 'recusa' ? 1 : 0) },
+  { id: 'sprint1', emoji: '🖥️', titulo: 'Mostre a sprint e responda a surpresa', alvo: 1, xp: 15, medir: s => (s.tipo === 'sprint' ? 1 : 0) },
+  { id: 'seguro1', emoji: '🔐', titulo: 'Explique uma decisão de segurança', alvo: 1, xp: 15, medir: s => (s.tipo === 'seguro' ? 1 : 0) },
+  { id: 'meetup1', emoji: '🎫', titulo: 'Puxe assunto num meetup', alvo: 1, xp: 15, medir: s => (s.tipo === 'meetup' ? 1 : 0) },
+  { id: 'completa1', emoji: '🎓', titulo: 'Termine a entrevista de cinco treinos', alvo: 1, xp: 15, medir: s => (s.tipo === 'completa' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1174,6 +1188,10 @@ export const BADGES = [
   { id: 'banco', emoji: '🗄️', nome: 'A guarda', desc: 'Explique sessões, cache ou busca numa entrevista' },
   { id: 'recusa', emoji: '🙅', nome: 'O não educado', desc: 'Recuse um pedido e ofereça outro caminho' },
   { id: 'minutos', emoji: '⏱️', nome: 'Sua meta', desc: 'Bata a meta de minutos que você escolheu' },
+  { id: 'sprint', emoji: '🖥️', nome: 'A sprint', desc: 'Mostre o que saiu e responda uma pergunta fora do roteiro' },
+  { id: 'seguro', emoji: '🔐', nome: 'A decisão segura', desc: 'Fale de um furo, de um patch ou de apagar um dado' },
+  { id: 'meetup', emoji: '🎫', nome: 'No meetup', desc: 'Puxe assunto num evento de tecnologia' },
+  { id: 'completa', emoji: '🎓', nome: 'A entrevista', desc: 'Termine os cinco treinos e veja a nota' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
