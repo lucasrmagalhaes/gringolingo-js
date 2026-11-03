@@ -26,6 +26,7 @@ import { MAPAS, DUROS, PROPOSTAS } from './time.js';
 import { NARRAS, BANCOS, RECUSAS } from './narra.js';
 import { SPRINTS, SEGUROS, MEETUPS } from './cliente.js';
 import { MESAS, MIGRAS, ESTREIAS } from './rodada.js';
+import { POKERS, LEIGOS, RECRUTAS } from './carta.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -464,6 +465,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Carta', itens: POKERS },
+    { origem: 'Conta', itens: LEIGOS },
+    { origem: 'Ligação', itens: RECRUTAS },
     { origem: 'Mesa', itens: MESAS },
     { origem: 'Migra', itens: MIGRAS },
     { origem: 'Estreia', itens: ESTREIAS },

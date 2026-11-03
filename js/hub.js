@@ -97,7 +97,10 @@ const BRUTOS = [
   ['rodada', 'trabalho', '📝', 'A mesa da retro', 'Fato, ajuste e quem fica com a ação.', 'rodadas', 'retrospectiva fila dono acao'],
   ['migra', 'trabalho', '🚚', 'A migração', 'Banco ou biblioteca, e o risco da troca.', 'migras', 'migracao banco framework risco'],
   ['estreia', 'cotidiano', '👋', 'Primeiro dia', 'Um oi informal no time novo.', 'estreias', 'primeiro dia time estrangeiro cozinha almoco'],
-  ['foco', 'entrevista', '🧩', 'Entrevista por foco', 'Escolha frontend, backend ou IA e veja as notas.', 'focos', 'entrevista foco frontend backend ia historico nota']
+  ['foco', 'entrevista', '🧩', 'Entrevista por foco', 'Escolha frontend, backend ou IA e veja as notas.', 'focos', 'entrevista foco frontend backend ia historico nota'],
+  ['poker', 'trabalho', '🃏', 'A carta', 'Vote a estimativa e diga o motivo.', 'pokers', 'planning poker estimativa carta'],
+  ['leigo', 'trabalho', '🧮', 'A conta da IA', 'Custo, busca nos docs e o que a pessoa ainda lê.', 'leigos', 'ia llm rag prompt custo leigo'],
+  ['recruta', 'entrevista', '📞', 'A ligação', 'Pretensão, fuso e quando você pode começar.', 'recrutas', 'linkedin recrutador telefone pretensao fuso']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

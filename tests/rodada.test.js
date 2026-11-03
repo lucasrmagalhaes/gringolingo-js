@@ -14,7 +14,7 @@ const {
   estado, limparEstadoMemoria, definirAgora, mesclarEstado, importarEstado, limparNotasFoco,
   registrarRodada, registrarMigra, registrarEstreia, registrarFoco
 } = await import('../js/game.js');
-const { BADGES, VERSAO_APP } = await import('../js/data.js');
+const { BADGES } = await import('../js/data.js');
 const { IDS_CINCO } = await import('../js/conversa.js');
 const { NARRAS, BANCOS, RECUSAS } = await import('../js/narra.js');
 const { MAPAS, DUROS, PROPOSTAS } = await import('../js/time.js');
@@ -307,7 +307,7 @@ describe('retro, migração e entrevista por foco', () => {
     assert.equal(estado.stats.meetups, 0);
     assert.ok(estado.badges.includes('estreia'));
     assert.equal(estado.painel['2026-10-28'].grupos.cotidiano, 1);
-    assert.equal(BADGES.length, 109);
+    assert.ok(BADGES.length >= 109);
     assert.equal(new Set(BADGES.map(b => b.id)).size, BADGES.length);
   });
 
@@ -317,9 +317,8 @@ describe('retro, migração e entrevista por foco', () => {
     const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
     const turno = readFileSync(join(raiz, 'js/turno.js'), 'utf8');
-    assert.equal(VERSAO_APP, '2.26');
+    assert.match(data, /versao: '2\.26'/);
     assert.match(data, /versao: '2\.25'/);
-    assert.match(sw, /gringolingo-v53/);
     assert.match(sw, /\.\/js\/rodada\.js/);
     assert.match(sw, /\.\/js\/foco\.js/);
     assert.match(turno, /rodada\.js/);

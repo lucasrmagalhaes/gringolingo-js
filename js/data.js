@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.26';
+export const VERSAO_APP = '2.27';
 
 export const NOVIDADES = [
+  {
+    versao: '2.27',
+    titulo: 'Na carta',
+    itens: [
+      '🃏 Vote a estimativa e diga o motivo da carta',
+      '🧮 Explique custo, busca nos docs e o molde da resposta',
+      '📞 Fale de pretensão, fuso e quando pode começar',
+      '💾 O backup usa a data deste aparelho, não a de Londres'
+    ]
+  },
   {
     versao: '2.26',
     titulo: 'Na mesa',
@@ -1096,6 +1106,9 @@ export const MISSOES = [
   { id: 'migra1', emoji: '🚚', titulo: 'Explique uma migração e o risco', alvo: 1, xp: 15, medir: s => (s.tipo === 'migra' ? 1 : 0) },
   { id: 'estreia1', emoji: '👋', titulo: 'Puxe um oi no primeiro dia', alvo: 1, xp: 15, medir: s => (s.tipo === 'estreia' ? 1 : 0) },
   { id: 'foco1', emoji: '🧩', titulo: 'Termine a entrevista do foco escolhido', alvo: 1, xp: 15, medir: s => (s.tipo === 'foco' ? 1 : 0) },
+  { id: 'poker1', emoji: '🃏', titulo: 'Vote a carta e diga o motivo', alvo: 1, xp: 15, medir: s => (s.tipo === 'poker' ? 1 : 0) },
+  { id: 'leigo1', emoji: '🧮', titulo: 'Explique o custo, a busca ou o molde', alvo: 1, xp: 15, medir: s => (s.tipo === 'leigo' ? 1 : 0) },
+  { id: 'recruta1', emoji: '📞', titulo: 'Fale da pretensão, do fuso ou de quando começa', alvo: 1, xp: 15, medir: s => (s.tipo === 'recruta' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1210,6 +1223,9 @@ export const BADGES = [
   { id: 'migra', emoji: '🚚', nome: 'A migração', desc: 'Fale da troca de banco ou de biblioteca e do risco' },
   { id: 'estreia', emoji: '👋', nome: 'O primeiro dia', desc: 'Puxe um oi informal no time novo' },
   { id: 'foco', emoji: '🧩', nome: 'O foco', desc: 'Escolha frontend, backend ou IA e termine os cinco treinos' },
+  { id: 'poker', emoji: '🃏', nome: 'A carta', desc: 'Vote a estimativa e diga o motivo' },
+  { id: 'leigo', emoji: '🧮', nome: 'A conta da IA', desc: 'Fale do custo, da busca nos docs ou do molde' },
+  { id: 'recruta', emoji: '📞', nome: 'A ligação', desc: 'Fale da pretensão, do fuso ou de quando começa' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
