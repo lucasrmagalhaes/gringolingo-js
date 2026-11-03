@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.16';
+export const VERSAO_APP = '2.17';
 
 export const NOVIDADES = [
+  {
+    versao: '2.17',
+    titulo: 'Na plateia',
+    itens: [
+      '🎤 Abra, troque de slide e feche com perguntas',
+      '🙋 Ganhe tempo quando não souber a resposta',
+      '📶 Diga que a voz cortou ou que o vídeo travou',
+      '🧭 Cada padrão de erro ganha um botão de treino'
+    ]
+  },
   {
     versao: '2.16',
     titulo: 'Na causa',
@@ -968,6 +978,8 @@ export const MISSOES = [
   { id: 'metrica1', emoji: '📈', titulo: 'Apresente um número ou uma porcentagem', alvo: 1, xp: 15, medir: s => (s.tipo === 'metrica' ? 1 : 0) },
   { id: 'falha1', emoji: '🛠️', titulo: 'Explique por que um deploy ou um teste falhou', alvo: 1, xp: 15, medir: s => (s.tipo === 'falha' ? 1 : 0) },
   { id: 'socorro1', emoji: '🩺', titulo: 'Peça ajuda na farmácia ou no médico', alvo: 1, xp: 15, medir: s => (s.tipo === 'socorro' ? 1 : 0) },
+  { id: 'palestra1', emoji: '🎤', titulo: 'Abra uma palestra ou troque de slide', alvo: 1, xp: 15, medir: s => (s.tipo === 'palestra' ? 1 : 0) },
+  { id: 'sinal1', emoji: '📶', titulo: 'Diga que a chamada falhou', alvo: 1, xp: 15, medir: s => (s.tipo === 'sinal' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1047,6 +1059,9 @@ export const BADGES = [
   { id: 'falha', emoji: '🛠️', nome: 'A causa', desc: 'Diga por que o deploy, o CI ou a permissão falhou' },
   { id: 'mentoria', emoji: '🌱', nome: 'A dica', desc: 'Explique um conceito simples para um júnior' },
   { id: 'socorro', emoji: '🩺', nome: 'No exterior', desc: 'Peça ajuda na farmácia, no médico ou na emergência' },
+  { id: 'palestra', emoji: '🎤', nome: 'Na plateia', desc: 'Abra uma palestra, troque de slide ou chame as perguntas' },
+  { id: 'duvida', emoji: '🙋', nome: 'Boa pergunta', desc: 'Ganhe tempo quando não souber a resposta' },
+  { id: 'sinal', emoji: '📶', nome: 'O sinal', desc: 'Avise quando a voz corta, o vídeo trava ou a chamada cai' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
