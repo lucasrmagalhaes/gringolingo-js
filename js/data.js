@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.41';
+export const VERSAO_APP = '2.42';
 
 export const NOVIDADES = [
+  {
+    versao: '2.42',
+    titulo: 'O manual',
+    itens: [
+      '📘 Siga o manual: leia o alerta e ache o wiki',
+      '🟢 Mande o tráfego para o lado verde e saiba voltar em um minuto',
+      '🔏 Diga que o certificado vence na sexta',
+      '📊 Compare os minutos com o mesmo ponto da semana anterior'
+    ]
+  },
   {
     versao: '2.41',
     titulo: 'A carga',
@@ -1296,6 +1306,9 @@ export const MISSOES = [
   { id: 'carga1', emoji: '🏋️', titulo: 'Fale do teste de carga', alvo: 1, xp: 15, medir: s => (s.tipo === 'carga' ? 1 : 0) },
   { id: 'boletim1', emoji: '📰', titulo: 'Leia a nota da versão', alvo: 1, xp: 15, medir: s => (s.tipo === 'boletim' ? 1 : 0) },
   { id: 'dono1', emoji: '🪪', titulo: 'Diga quem aprova a pasta', alvo: 1, xp: 15, medir: s => (s.tipo === 'dono' ? 1 : 0) },
+  { id: 'manual1', emoji: '📘', titulo: 'Siga o manual do plantão', alvo: 1, xp: 15, medir: s => (s.tipo === 'manual' ? 1 : 0) },
+  { id: 'verde1', emoji: '🟢', titulo: 'Mude o tráfego para o lado verde', alvo: 1, xp: 15, medir: s => (s.tipo === 'verde' ? 1 : 0) },
+  { id: 'certificado1', emoji: '🔏', titulo: 'Fale do certificado que vence', alvo: 1, xp: 15, medir: s => (s.tipo === 'certificado' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1460,6 +1473,9 @@ export const BADGES = [
   { id: 'carga', emoji: '🏋️', nome: 'A carga', desc: 'Conte o teste de carga e onde ele rodou' },
   { id: 'boletim', emoji: '📰', nome: 'O boletim', desc: 'Leia a nota da versão, com as correções e o dia' },
   { id: 'dono', emoji: '🪪', nome: 'Quem aprova', desc: 'Diga os donos da pasta e peça um antes do merge' },
+  { id: 'manual', emoji: '📘', nome: 'O manual', desc: 'Leia o alerta primeiro e ache o manual no wiki' },
+  { id: 'verde', emoji: '🟢', nome: 'O lado verde', desc: 'Mande o tráfego para o lado verde e saiba voltar' },
+  { id: 'certificado', emoji: '🔏', nome: 'O certificado', desc: 'Diga quando o certificado vence e quando o aviso sai' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
