@@ -138,7 +138,10 @@ const BRUTOS = [
   ['gripe', 'cotidiano', '🤒', 'A gripe', 'Avise que está doente ou peça o dia.', 'gripes', 'doente consulta febre daily'],
   ['pm', 'trabalho', '📎', 'Com o PM', 'Negocie a data sem pular os testes.', 'pms', 'pm prazo quinta review testes'],
   ['laudo', 'trabalho', '📄', 'O laudo', 'Linha do tempo, causa e dono no post-mortem.', 'laudos', 'postmortem causa indice retro'],
-  ['rumo', 'trabalho', '🔭', 'O rumo', 'Peça feedback de carreira no 1:1.', 'rumos', 'carreira gestor feedback nivel habilidade']
+  ['rumo', 'trabalho', '🔭', 'O rumo', 'Peça feedback de carreira no 1:1.', 'rumos', 'carreira gestor feedback nivel habilidade'],
+  ['acesso', 'trabalho', '🔑', 'O acesso', 'Wiki, repositório e a quem chamar se o build falhar.', 'acessos', 'acesso wiki repo build novo'],
+  ['licenca', 'trabalho', '💳', 'A licença', 'Peça a ferramenta paga, com o preço do mês.', 'licencas', 'licenca ferramenta preco renovacao'],
+  ['jargao', 'trabalho', '🧾', 'Sem jargão', 'Explique a volta da página para o suporte.', 'jargoes', 'suporte cliente linguagem simples pagina']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

@@ -37,6 +37,7 @@ import { FACILS, ESCOLHAS, SABADOS } from './facil.js';
 import { BRECHAS, MUDAS, GAUCHOS } from './brecha.js';
 import { RADARS, APLAUSOS, GRIPES } from './radar.js';
 import { PMS, LAUDOS, RUMOS } from './remoto.js';
+import { ACESSOS, LICENCAS, JARGOES } from './equipe.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -475,6 +476,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Acesso', itens: ACESSOS },
+    { origem: 'Licença', itens: LICENCAS },
+    { origem: 'Jargão', itens: JARGOES },
     { origem: 'PM', itens: PMS },
     { origem: 'Laudo', itens: LAUDOS },
     { origem: 'Rumo', itens: RUMOS },
@@ -612,4 +616,42 @@ export function avaliarViagem(rodada, texto) {
 
 export function avaliarRevisao(rodada, texto) {
   return avaliarResposta(rodada, texto);
+}
+
+function dataCurta(iso) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || ''));
+  if (!m) return '';
+  return `${m[3]}/${m[2]}/${m[1]}`;
+}
+
+export function resumoDaFila(agenda, diaIso) {
+  const itens = [];
+  const hoje = String(diaIso || '');
+  if (agenda && typeof agenda === 'object' && !Array.isArray(agenda)) {
+    for (const [en, v] of Object.entries(agenda)) {
+      if (!v || typeof v.proxima !== 'string') continue;
+      itens.push({
+        en,
+        pt: typeof v.pt === 'string' ? v.pt : '',
+        proxima: v.proxima
+      });
+    }
+  }
+  const vencidos = itens
+    .filter(i => i.proxima <= hoje)
+    .sort((a, b) => a.en.localeCompare(b.en));
+  const futuros = itens
+    .filter(i => i.proxima > hoje)
+    .sort((a, b) => a.proxima.localeCompare(b.proxima) || a.en.localeCompare(b.en));
+  if (vencidos.length === 1) {
+    return { n: 1, texto: '1 frase para rever hoje.', dica: vencidos[0].pt };
+  }
+  if (vencidos.length > 1) {
+    const n = vencidos.length;
+    return { n, texto: `${n} frases para rever hoje.`, dica: vencidos[0].pt };
+  }
+  const quando = dataCurta(futuros[0]?.proxima);
+  if (quando) return { n: 0, texto: `Nada vence hoje. A próxima volta em ${quando}.`, dica: '' };
+  if (futuros.length) return { n: 0, texto: 'Nada vence hoje.', dica: '' };
+  return { n: 0, texto: 'Nenhuma frase escapou ainda.', dica: '' };
 }

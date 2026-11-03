@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.37';
+export const VERSAO_APP = '2.38';
 
 export const NOVIDADES = [
+  {
+    versao: '2.38',
+    titulo: 'O acesso',
+    itens: [
+      '🔑 Mostre o wiki, o repositório e a quem chamar',
+      '💳 Peça a licença da ferramenta, com o preço do mês',
+      '🧾 Explique a volta da página sem jargão',
+      '🔁 Veja no hub a frase que vence hoje'
+    ]
+  },
   {
     versao: '2.37',
     titulo: 'Com o PM',
@@ -1244,6 +1254,9 @@ export const MISSOES = [
   { id: 'pm1', emoji: '📎', titulo: 'Negocie a data com o PM', alvo: 1, xp: 15, medir: s => (s.tipo === 'pm' ? 1 : 0) },
   { id: 'laudo1', emoji: '📄', titulo: 'Conte um post-mortem', alvo: 1, xp: 15, medir: s => (s.tipo === 'laudo' ? 1 : 0) },
   { id: 'rumo1', emoji: '🔭', titulo: 'Peça feedback de carreira', alvo: 1, xp: 15, medir: s => (s.tipo === 'rumo' ? 1 : 0) },
+  { id: 'acesso1', emoji: '🔑', titulo: 'Mostre o wiki ou o repositório', alvo: 1, xp: 15, medir: s => (s.tipo === 'acesso' ? 1 : 0) },
+  { id: 'licenca1', emoji: '💳', titulo: 'Peça a licença de uma ferramenta', alvo: 1, xp: 15, medir: s => (s.tipo === 'licenca' ? 1 : 0) },
+  { id: 'jargao1', emoji: '🧾', titulo: 'Explique uma falha sem jargão', alvo: 1, xp: 15, medir: s => (s.tipo === 'jargao' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1396,6 +1409,9 @@ export const BADGES = [
   { id: 'pm', emoji: '📎', nome: 'Com o PM', desc: 'Negocie a data sem pular os testes' },
   { id: 'laudo', emoji: '📄', nome: 'O laudo', desc: 'Conte a linha do tempo, a causa e o dono' },
   { id: 'rumo', emoji: '🔭', nome: 'O rumo', desc: 'Peça feedback de carreira no 1:1' },
+  { id: 'acesso', emoji: '🔑', nome: 'O acesso', desc: 'Mostre o wiki, o repositório e a quem chamar' },
+  { id: 'licenca', emoji: '💳', nome: 'A licença', desc: 'Peça a ferramenta paga, com o preço do mês' },
+  { id: 'jargao', emoji: '🧾', nome: 'Sem jargão', desc: 'Explique a volta da página para o suporte' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
