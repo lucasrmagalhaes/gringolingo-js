@@ -15,6 +15,7 @@ import { FRASES } from './frases.js';
 import { LINHAS, SLACKS, SOCIAIS, TERMOS } from './oficina.js';
 import { SALARIOS, PROJETOS, SOTAQUES, FALAS_DIA } from './vaga.js';
 import { REQUISITOS, METRICAS, APRENDIZADOS, PASSEIOS } from './briefing.js';
+import { FALHAS, MENTORIAS, SOCORROS } from './guia.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -453,6 +454,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Falha', itens: FALHAS },
+    { origem: 'Mentoria', itens: MENTORIAS },
+    { origem: 'Socorro', itens: SOCORROS },
     { origem: 'Requisito', itens: REQUISITOS },
     { origem: 'Métrica', itens: METRICAS },
     { origem: 'Aprendizado', itens: APRENDIZADOS },
