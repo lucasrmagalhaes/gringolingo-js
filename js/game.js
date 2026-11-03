@@ -5,7 +5,7 @@ import { FRASES, itemDaFrase } from './frases.js';
 import { nivelValido, rankNivel, diasDaSemana } from './fluencia.js';
 import { contarFaladas } from './opiniao.js';
 import { frasesDoDesafio } from './vaga.js';
-import { grupoDoTipo, segundosDaFala, somarSemana, GRUPOS } from './semana.js';
+import { grupoDoTipo, segundosDaFala, somarSemana, GRUPOS, METAS_MINUTOS } from './semana.js';
 
 const CHAVE = 'gringolingo';
 const CHAVE_CONTA = 'gringolingo:conta';
@@ -70,10 +70,11 @@ const padrao = () => ({
   agendaFala: {},
   metaFala: 3,
   metaFalaSemana: null,
+  metaMinutos: 10,
   diaDesafio: null,
   sequenciaDesafio: 0,
   recordeDesafio: 0,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0, mapas: 0, duros: 0, propostas: 0 }
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0, mapas: 0, duros: 0, propostas: 0, narras: 0, bancos: 0, recusas: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -331,6 +332,7 @@ function sanitizar(salvo) {
   s.agendaFala = limparAgendaFala(s.agendaFala);
   s.metaFala = METAS_FALA.includes(num(s.metaFala)) ? num(s.metaFala) : 3;
   s.metaFalaSemana = diaIso(s.metaFalaSemana);
+  s.metaMinutos = METAS_MINUTOS.includes(num(s.metaMinutos)) ? num(s.metaMinutos) : 10;
   s.diaDesafio = diaIso(s.diaDesafio);
   s.sequenciaDesafio = Math.max(0, num(s.sequenciaDesafio));
   s.recordeDesafio = Math.max(s.sequenciaDesafio, num(s.recordeDesafio));
@@ -696,6 +698,8 @@ function mesclar(remoto) {
     }
     const remotoMetaFala = num(remoto.metaFala);
     if (METAS_FALA.includes(remotoMetaFala) && metaFalaLocal === 3 && !metasLocais) estado.metaFala = remotoMetaFala;
+    const remotoMinutos = num(remoto.metaMinutos);
+    if (METAS_MINUTOS.includes(remotoMinutos) && estado.metaMinutos === 10) estado.metaMinutos = remotoMinutos;
     const remotoSemanaFala = diaIso(remoto.metaFalaSemana);
     if (remotoSemanaFala && (!estado.metaFalaSemana || remotoSemanaFala > estado.metaFalaSemana)) estado.metaFalaSemana = remotoSemanaFala;
     const remotoFala = diaIso(remoto.falaDia);
@@ -828,6 +832,13 @@ export function definirMeta(valor) {
 export function definirMetaFala(valor) {
   if (!METAS_FALA.includes(valor)) return;
   estado.metaFala = valor;
+  salvar();
+}
+
+export function definirMetaMinutos(valor) {
+  if (!METAS_MINUTOS.includes(valor)) return;
+  estado.metaMinutos = valor;
+  checarBadges();
   salvar();
 }
 
@@ -1123,6 +1134,10 @@ function checarBadges() {
     duro: estado.stats.duros >= 1,
     proposta: estado.stats.propostas >= 1,
     semana: somarSemana(estado.painel, hoje()).minutos >= 10,
+    narrar: estado.stats.narras >= 1,
+    banco: estado.stats.bancos >= 1,
+    recusa: estado.stats.recusas >= 1,
+    minutos: somarSemana(estado.painel, hoje()).minutos >= num(estado.metaMinutos),
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -1678,6 +1693,18 @@ export function registrarDuro(d) {
 
 export function registrarProposta(d) {
   return registrarTipo('propostas', 'proposta', d);
+}
+
+export function registrarNarrar(d) {
+  return registrarTipo('narras', 'narrar', d);
+}
+
+export function registrarBanco(d) {
+  return registrarTipo('bancos', 'banco', d);
+}
+
+export function registrarRecusa(d) {
+  return registrarTipo('recusas', 'recusa', d);
 }
 
 export function marcarEspaco(en, pt) {
