@@ -40,6 +40,7 @@ import { PMS, LAUDOS, RUMOS } from './remoto.js';
 import { ACESSOS, LICENCAS, JARGOES } from './equipe.js';
 import { BANDEIRAS, GELOS, LIMITES } from './rollout.js';
 import { CANARIOS, DESPEDIDAS, REPETICOES } from './entrega.js';
+import { CARGAS, BOLETINS, DONOS } from './carga.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -478,6 +479,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Carga', itens: CARGAS },
+    { origem: 'Boletim', itens: BOLETINS },
+    { origem: 'Dono', itens: DONOS },
     { origem: 'Canário', itens: CANARIOS },
     { origem: 'Despedida', itens: DESPEDIDAS },
     { origem: 'Repetição', itens: REPETICOES },

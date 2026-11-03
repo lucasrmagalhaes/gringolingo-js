@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-466%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-470%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -258,6 +258,10 @@ navegador.
 - **O canário**: uma máquina recebe a versão antes, e o canário diz se passou.
 - **A despedida**: o caminho velho fecha em junho e o novo está no guia.
 - **A repetição**: o mesmo evento pode chegar duas vezes e a segunda não muda nada.
+- **A carga**: o teste de carga rodou dez minutos numa cópia, com erro abaixo de um por cento.
+- **O boletim**: a nota lista três correções, fica no topo e aparece na segunda.
+- **Quem aprova**: a pasta tem dois donos e o merge espera um deles.
+- **Sequência**: no hub, os dias seguidos de fala, com aviso se a de ontem ainda vale.
 - **Sem prática**: no hub, quantos treinos ainda não tiveram prática e qual é o próximo.
 - **Hoje**: no hub, se já houve fala hoje, com os minutos e a quantidade de treinos.
 - **Para rever**: no hub, a frase que vence hoje, com a dica em português e sem a resposta em inglês.
@@ -420,6 +424,7 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/equipe.js` | Acesso de quem chega, licença de ferramenta e explicação sem jargão. |
 | `js/rollout.js` | Bandeira de lançamento, gelo de release e limite da API. |
 | `js/entrega.js` | Canário de deploy, despedida de um caminho e evento que chega de novo. |
+| `js/carga.js` | Teste de carga, nota da versão e dono da pasta. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -502,7 +507,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **466 testes em 95 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **470 testes em 96 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -576,6 +581,7 @@ O que a suíte cobre:
 - **`tests/equipe.test.js`**: acesso, licença, linguagem simples, a fila de revisão e a versão 2.38.
 - **`tests/rollout.test.js`**: bandeira, gelo, limite da API, o cartão de hoje e a versão 2.39.
 - **`tests/entrega.test.js`**: canário, despedida, evento repetido, o próximo treino sem prática e a versão 2.40.
+- **`tests/carga.test.js`**: teste de carga, boletim, dono da pasta, a sequência de fala e a versão 2.41.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

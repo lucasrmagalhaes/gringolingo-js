@@ -353,6 +353,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-sequencia {
+  margin: 8px 0 12px;
+}
+
+.fala-sequencia .btn {
+  margin-top: 10px;
+}
+
 body.com-aviso-metricas {
   padding-bottom: 120px;
 }
@@ -368,6 +376,7 @@ body.com-aviso-metricas {
 
 .fila-botoes > .pilula {
   cursor: pointer;
+  min-height: 44px;
 }
 
 .btn-perfil {

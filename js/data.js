@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.40';
+export const VERSAO_APP = '2.41';
 
 export const NOVIDADES = [
+  {
+    versao: '2.41',
+    titulo: 'A carga',
+    itens: [
+      '🏋️ Conte os dez minutos do teste de carga e onde ele rodou',
+      '📰 Leia a nota: três correções, no topo, na segunda',
+      '🪪 Diga quem aprova a pasta antes do merge',
+      '🔥 Veja no hub se a sequência de fala ainda vale'
+    ]
+  },
   {
     versao: '2.40',
     titulo: 'O canário',
@@ -1283,6 +1293,9 @@ export const MISSOES = [
   { id: 'canario1', emoji: '🐤', titulo: 'Fale do canário ou da primeira máquina', alvo: 1, xp: 15, medir: s => (s.tipo === 'canario' ? 1 : 0) },
   { id: 'despedida1', emoji: '📭', titulo: 'Avise a despedida de um caminho', alvo: 1, xp: 15, medir: s => (s.tipo === 'despedida' ? 1 : 0) },
   { id: 'repeticao1', emoji: '🪝', titulo: 'Explique um evento que chega duas vezes', alvo: 1, xp: 15, medir: s => (s.tipo === 'repeticao' ? 1 : 0) },
+  { id: 'carga1', emoji: '🏋️', titulo: 'Fale do teste de carga', alvo: 1, xp: 15, medir: s => (s.tipo === 'carga' ? 1 : 0) },
+  { id: 'boletim1', emoji: '📰', titulo: 'Leia a nota da versão', alvo: 1, xp: 15, medir: s => (s.tipo === 'boletim' ? 1 : 0) },
+  { id: 'dono1', emoji: '🪪', titulo: 'Diga quem aprova a pasta', alvo: 1, xp: 15, medir: s => (s.tipo === 'dono' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1444,6 +1457,9 @@ export const BADGES = [
   { id: 'canario', emoji: '🐤', nome: 'O canário', desc: 'Mande a versão para uma máquina e diga se passou' },
   { id: 'despedida', emoji: '📭', nome: 'A despedida', desc: 'Avise que o caminho velho fecha em junho' },
   { id: 'repeticao', emoji: '🪝', nome: 'A repetição', desc: 'Diga que o mesmo evento pode chegar duas vezes' },
+  { id: 'carga', emoji: '🏋️', nome: 'A carga', desc: 'Conte o teste de carga e onde ele rodou' },
+  { id: 'boletim', emoji: '📰', nome: 'O boletim', desc: 'Leia a nota da versão, com as correções e o dia' },
+  { id: 'dono', emoji: '🪪', nome: 'Quem aprova', desc: 'Diga os donos da pasta e peça um antes do merge' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
