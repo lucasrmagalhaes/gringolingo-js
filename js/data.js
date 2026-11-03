@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.30';
+export const VERSAO_APP = '2.31';
 
 export const NOVIDADES = [
+  {
+    versao: '2.31',
+    titulo: 'No bug raro',
+    itens: [
+      '🏁 Conte um bug que só falha às vezes, com o log na mão',
+      '🐢 Explique um conceito devagar para um júnior',
+      '🏖️ Fale de férias, da noite e de duas semanas fora',
+      '💭 Cinco perguntas abertas, com palavras e tempo de cada resposta'
+    ]
+  },
   {
     versao: '2.30',
     titulo: 'No gráfico',
@@ -1150,6 +1160,10 @@ export const MISSOES = [
   { id: 'handoff1', emoji: '🕒', titulo: 'Passe o contexto para o outro fuso', alvo: 1, xp: 15, medir: s => (s.tipo === 'handoff' ? 1 : 0) },
   { id: 'elevador1', emoji: '🚪', titulo: 'Apresente-se em trinta segundos', alvo: 1, xp: 15, medir: s => (s.tipo === 'elevador' ? 1 : 0) },
   { id: 'junta1', emoji: '🗂️', titulo: 'Feche a semana junta', alvo: 1, xp: 15, medir: s => (s.tipo === 'junta' ? 1 : 0) },
+  { id: 'pista1', emoji: '🏁', titulo: 'Conte o bug que só falha às vezes', alvo: 1, xp: 15, medir: s => (s.tipo === 'pista' ? 1 : 0) },
+  { id: 'calma1', emoji: '🐢', titulo: 'Explique um conceito com calma', alvo: 1, xp: 15, medir: s => (s.tipo === 'calma' ? 1 : 0) },
+  { id: 'folga1', emoji: '🏖️', titulo: 'Fale de férias ou do limite da noite', alvo: 1, xp: 15, medir: s => (s.tipo === 'folga' ? 1 : 0) },
+  { id: 'abertas1', emoji: '💭', titulo: 'Responda as perguntas abertas', alvo: 1, xp: 15, medir: s => (s.tipo === 'abertas' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1278,6 +1292,10 @@ export const BADGES = [
   { id: 'handoff', emoji: '🕒', nome: 'O handoff', desc: 'Peça o contexto e deixe a nota para o outro fuso' },
   { id: 'elevador', emoji: '🚪', nome: 'O elevador', desc: 'Apresente-se em trinta segundos para um diretor' },
   { id: 'junta', emoji: '🗂️', nome: 'A semana junta', desc: 'Revise vocabulário, frases mais erradas e a meta de minutos' },
+  { id: 'pista', emoji: '🏁', nome: 'O bug raro', desc: 'Conte o sintoma e a prova de um bug intermitente' },
+  { id: 'calma', emoji: '🐢', nome: 'Com calma', desc: 'Explique um conceito devagar para um júnior' },
+  { id: 'folga', emoji: '🏖️', nome: 'A folga', desc: 'Fale de férias, do horário ou de duas semanas fora' },
+  { id: 'abertas', emoji: '💭', nome: 'Perguntas abertas', desc: 'Responda cinco perguntas e veja palavras e tempo' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 

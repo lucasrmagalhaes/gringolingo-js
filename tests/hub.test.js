@@ -114,7 +114,8 @@ const TITULOS = [
   'A carta', 'A conta da IA', 'A ligação',
   'A desculpa', 'O relâmpago', 'A oferta', 'Sombra',
   'Não entendi', 'A cobertura', 'O vídeo', 'Meu vocabulário',
-  'O gráfico', 'O handoff', 'O elevador', 'A semana junta'
+  'O gráfico', 'O handoff', 'O elevador', 'A semana junta',
+  'O bug raro', 'Com calma', 'A folga', 'Perguntas abertas'
 ];
 
 beforeEach(() => {
@@ -139,15 +140,15 @@ describe('hub de fluência e carreira', () => {
     assert.equal(hub.includes('Math.random'), false);
     assert.equal(futuro.includes('Math.random'), false);
     assert.ok(cargaHub < 250, String(cargaHub));
-    assert.equal(TREINOS.length, 101);
-    assert.equal(new Set(TREINOS.map(t => t.id)).size, 101);
+    assert.equal(TREINOS.length, 105);
+    assert.equal(new Set(TREINOS.map(t => t.id)).size, 105);
     const grupos = new Set(CATEGORIAS.map(c => c.id));
     assert.deepEqual([...grupos], ['trabalho', 'entrevista', 'cotidiano', 'pronuncia', 'revisao']);
     for (const t of TREINOS) assert.equal(grupos.has(t.categoria), true, t.id);
     for (const c of CATEGORIAS) assert.equal(TREINOS.some(t => t.categoria === c.id), true, c.id);
-    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 54);
-    assert.equal(TREINOS.filter(t => t.categoria === 'entrevista').length, 18);
-    assert.equal(TREINOS.filter(t => t.categoria === 'cotidiano').length, 12);
+    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 56);
+    assert.equal(TREINOS.filter(t => t.categoria === 'entrevista').length, 19);
+    assert.equal(TREINOS.filter(t => t.categoria === 'cotidiano').length, 13);
     assert.equal(TREINOS.filter(t => t.categoria === 'pronuncia').length, 5);
     assert.equal(TREINOS.filter(t => t.categoria === 'revisao').length, 12);
     assert.deepEqual(TREINOS.map(t => t.titulo), TITULOS);
@@ -157,8 +158,8 @@ describe('hub de fluência e carreira', () => {
   });
 
   test('a busca e o filtro não apagam o restante', () => {
-    assert.equal(filtrarTreinos(TREINOS, { categoria: 'todos', busca: '' }).length, 101);
-    assert.equal(filtrarTreinos(TREINOS, {}).length, 101);
+    assert.equal(filtrarTreinos(TREINOS, { categoria: 'todos', busca: '' }).length, 105);
+    assert.equal(filtrarTreinos(TREINOS, {}).length, 105);
     const entrevista = filtrarTreinos(TREINOS, { categoria: 'entrevista' });
     assert.equal(entrevista.some(t => t.id === 'futuro'), true);
     assert.equal(entrevista.some(t => t.id === 'simulado'), true);
@@ -167,7 +168,7 @@ describe('hub de fluência e carreira', () => {
     assert.deepEqual(cinco.map(t => t.id), ['futuro']);
     assert.equal(filtrarTreinos(TREINOS, { busca: 'zzzz' }).length, 0);
     const trabalho = filtrarTreinos(TREINOS, { busca: 'Trabalho' });
-    assert.equal(trabalho.filter(t => t.categoria === 'trabalho').length, 54);
+    assert.equal(trabalho.filter(t => t.categoria === 'trabalho').length, 56);
     const enfase = filtrarTreinos(TREINOS, { categoria: 'pronuncia', busca: 'enfase' });
     assert.deepEqual(enfase.map(t => t.id), ['enfase']);
   });
