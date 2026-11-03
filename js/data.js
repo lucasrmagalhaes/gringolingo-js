@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.19';
+export const VERSAO_APP = '2.20';
 
 export const NOVIDADES = [
+  {
+    versao: '2.20',
+    titulo: 'No hub',
+    itens: [
+      '🗂️ Os treinos de fluência ficam em grupos, com busca',
+      '✨ O treino recomendado olha o histórico e os pontos fracos',
+      '🚀 Fale a meta e o caminho da carreira',
+      '📏 Uma auditoria offline confere idioma, foco e o tamanho do JS'
+    ]
+  },
   {
     versao: '2.19',
     titulo: 'Em casa',
@@ -1004,6 +1014,7 @@ export const MISSOES = [
   { id: 'simulado1', emoji: '🎯', titulo: 'Faça o simulado remoto', alvo: 1, xp: 15, medir: s => (s.tipo === 'simulado' ? 1 : 0) },
   { id: 'modelo1', emoji: '🤖', titulo: 'Explique a IA em linguagem simples', alvo: 1, xp: 15, medir: s => (s.tipo === 'modelo' ? 1 : 0) },
   { id: 'papo1', emoji: '💬', titulo: 'Faça a conversa livre do dia', alvo: 1, xp: 15, medir: s => (s.tipo === 'papo' ? 1 : 0) },
+  { id: 'futuro1', emoji: '🚀', titulo: 'Fale do plano daqui a cinco anos', alvo: 1, xp: 15, medir: s => (s.tipo === 'futuro' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1094,6 +1105,7 @@ export const BADGES = [
   { id: 'furo', emoji: '🛡️', nome: 'O furo', desc: 'Fale de CVE, patch ou upgrade' },
   { id: 'rotina', emoji: '🏠', nome: 'Em casa', desc: 'Conte a manhã, o jantar ou a noite em família' },
   { id: 'assunto', emoji: '💬', nome: 'Assunto do dia', desc: 'Faça a conversa livre com acompanhamento' },
+  { id: 'futuro', emoji: '🚀', nome: 'Daqui a cinco anos', desc: 'Diga a meta e o caminho da carreira' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 

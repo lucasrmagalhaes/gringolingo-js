@@ -1,7 +1,7 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, registrarRequisito, registrarMetrica, registrarAprendizado, registrarPasseio, registrarFalha, registrarMentoria, registrarSocorro, registrarPalestra, registrarDuvida, registrarSinal, registrarSistema, registrarCodigo, registrarColega, registrarSimulado, registrarModelo, registrarFuro, registrarRotina, registrarPapo, resumoDesafio, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, resumoBackup, textoResumoBackup, nomeArquivoBackup, LIMITE_BACKUP, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, palavrasDoPadrao, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, registrarRequisito, registrarMetrica, registrarAprendizado, registrarPasseio, registrarFalha, registrarMentoria, registrarSocorro, registrarPalestra, registrarDuvida, registrarSinal, registrarSistema, registrarCodigo, registrarColega, registrarSimulado, registrarModelo, registrarFuro, registrarRotina, registrarPapo, registrarFuturo, resumoDesafio, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, resumoBackup, textoResumoBackup, nomeArquivoBackup, LIMITE_BACKUP, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, palavrasDoPadrao, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES, falarComLocale, falarTrechos } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
@@ -23,6 +23,8 @@ import { FALHAS, falhaPorId, avaliarFalha, MENTORIAS, mentoriaPorId, avaliarMent
 import { PALESTRAS, palestraPorId, avaliarPalestra, DUVIDAS, duvidaPorId, avaliarDuvida, SINAIS, sinalPorId, avaliarSinal } from './plateia.js';
 import { SISTEMAS, sistemaPorId, avaliarSistema, CODIGOS, codigoPorId, avaliarCodigo, COLEGAS, colegaPorId, avaliarColega, montarSimulado, faixaDoSimulado } from './banca.js';
 import { MODELOS, modeloPorId, avaliarModelo, FUROS, furoPorId, avaliarFuro, ROTINAS, rotinaPorId, avaliarRotina, montarPapo } from './lar.js';
+import { FUTUROS, futuroPorId, avaliarFuturo } from './futuro.js';
+import { CATEGORIAS as GRUPOS_HUB, TREINOS, filtrarTreinos, treinoRecomendado } from './hub.js';
 import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS, rotuloGravacao } from './voz.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
@@ -3385,7 +3387,7 @@ function telaConversa() {
   app.innerHTML = '';
   app.append(
     topoVoltar('💬 Conversar', () => voltarTela()),
-    h('p', { class: 'ia-aviso' }, 'Explique a IA, feche um furo e conte a rotina de casa. O resto da fluência continua abaixo.'),
+    h('p', { class: 'ia-aviso' }, 'Os treinos estão em grupos. Busque pelo nome ou comece pelo recomendado.'),
     ...blocoFluencia(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'DIÁLOGOS'),
     ...CENARIOS.map(c => {
@@ -3454,6 +3456,7 @@ function telaConversa() {
       h('span', { class: 'revisao-seta' }, '›')
     )
   );
+  pintarListaHub();
   focarTela();
 }
 
@@ -4813,6 +4816,8 @@ let modeloSessao = null;
 let furoSessao = null;
 let rotinaSessao = null;
 let papoSessao = null;
+let futuroSessao = null;
+let filtroHub = { categoria: 'todos', busca: '' };
 let revisaoPrazo = 0;
 let gravacaoUrl = null;
 let gravadorAtivo = null;
@@ -4842,80 +4847,182 @@ function botaoFluencia(emoji, titulo, sub, onclick) {
   );
 }
 
+function textoContagem(n) {
+  if (!n) return 'Nenhum treino com esse filtro.';
+  return n === 1 ? '1 treino' : `${n} treinos`;
+}
+
+function telasDoHub() {
+  return {
+    modelo: telaModelos,
+    furo: telaFuros,
+    colega: telaColegas,
+    palestra: telaPalestras,
+    duvida: telaDuvidas,
+    sinal: telaSinais,
+    falha: telaFalhas,
+    mentoria: telaMentorias,
+    requisito: telaRequisitos,
+    metrica: telaMetricas,
+    aprendizado: telaAprendizados,
+    linha: telaLinhas,
+    slack: telaSlacks,
+    gestor: telaGestores,
+    estimativa: telaEstimativas,
+    consenso: telaConsensos,
+    retro: telaRetros,
+    chegada: telaChegadas,
+    ligacao: telaLigacoes,
+    decisao: telaDecisoes,
+    par: telaPares,
+    plantao: telaPlantoes,
+    demo: telaDemos,
+    prazo: telaPrazos,
+    relato: telaRelatos,
+    cortesia: telaCortesias,
+    aquecer: telaAquecer,
+    claro: telaClaros,
+    opiniao: telaOpinioes,
+    tecnico: telaTecnicos,
+    idioma: telaIdiomas,
+    frasal: telaFrasais,
+    sistema: telaSistemas,
+    codigo: telaCodigos,
+    simulado: telaSimulado,
+    salario: telaSalarios,
+    projeto: telaProjetos,
+    final: telaFinais,
+    star: telaStars,
+    remoto: telaRemoto,
+    conto: telaContos,
+    livre: telaLivres,
+    futuro: telaFuturos,
+    rotina: telaRotinas,
+    papo: telaPapo,
+    socorro: telaSocorros,
+    passeio: telaPasseio,
+    social: telaSociais,
+    viagem: telaViagens,
+    atendimento: telaAtendimentos,
+    cena: telaDescricoes,
+    pergunta: telaPerguntas,
+    sotaque: telaSotaques,
+    enfase: telaEnfases,
+    termo: telaTermos,
+    reducao: telaReducoes,
+    numero: telaNumeros,
+    desafio: telaDesafio,
+    mistura: telaMisturas,
+    deslize: telaDeslizes,
+    dia: telaPerguntaDia,
+    nivel: telaNivel,
+    resumo: telaResumo,
+    rapido: telaRapidos
+  };
+}
+
+function subDoTreino(treino) {
+  if (treino.id === 'deslize') {
+    const n = deslizesVencidos().length;
+    if (n) return `${n} frase${n > 1 ? 's' : ''} para repetir hoje.`;
+  }
+  if (treino.id === 'dia' && estado.perguntaDia === diaLocalAgora()) {
+    return 'Feita hoje. Amanhã vem outra, com uma segunda pergunta.';
+  }
+  if (treino.id === 'nivel' && estado.nivelFala) {
+    return `Seu nível de fala: ${estado.nivelFala}. ${ROTULO_NIVEL[estado.nivelFala] || ''}`;
+  }
+  return treino.sub;
+}
+
+function abrirTreino(id) {
+  const fn = telasDoHub()[id];
+  if (typeof fn === 'function') fn();
+}
+
+function cartaoDoTreino(treino) {
+  return botaoFluencia(treino.emoji, treino.titulo, subDoTreino(treino), () => abrirTreino(treino.id));
+}
+
+function pintarListaHub() {
+  const lista = document.getElementById('lista-hub');
+  const status = document.getElementById('hub-status');
+  const visiveis = filtrarTreinos(TREINOS, filtroHub);
+  if (status) status.textContent = textoContagem(visiveis.length);
+  document.querySelectorAll('[data-categoria-hub]').forEach(chip => {
+    chip.setAttribute('aria-pressed', chip.getAttribute('data-categoria-hub') === filtroHub.categoria ? 'true' : 'false');
+  });
+  if (!lista) return;
+  const nos = [];
+  if (!visiveis.length) {
+    nos.push(h('p', { class: 'revisao-sub' }, 'Nenhum treino com esse filtro.'));
+  } else {
+    const cats = filtroHub.categoria === 'todos'
+      ? GRUPOS_HUB
+      : GRUPOS_HUB.filter(c => c.id === filtroHub.categoria);
+    for (const cat of cats) {
+      const grupo = visiveis.filter(t => t.categoria === cat.id);
+      if (!grupo.length) continue;
+      nos.push(h('div', { class: 'rotulo', role: 'heading', 'aria-level': '3' }, cat.titulo));
+      for (const treino of grupo) nos.push(cartaoDoTreino(treino));
+    }
+  }
+  lista.replaceChildren(...nos);
+}
+
 function blocoFluencia() {
-  const nivel = estado.nivelFala;
-  const vencidos = deslizesVencidos().length;
+  const rec = treinoRecomendado(TREINOS, {
+    nivel: estado.nivelFala,
+    stats: estado.stats,
+    padroes: resumoPadroes(8),
+    deslizes: deslizesVencidos().length
+  });
+  const total = filtrarTreinos(TREINOS, filtroHub).length;
+  const chips = [{ id: 'todos', titulo: 'Todos' }, ...GRUPOS_HUB].map(cat => h('button', {
+    type: 'button',
+    class: 'pilula',
+    'data-categoria-hub': cat.id,
+    'aria-pressed': filtroHub.categoria === cat.id ? 'true' : 'false',
+    onclick: () => {
+      filtroHub = { ...filtroHub, categoria: cat.id };
+      pintarListaHub();
+    }
+  }, cat.titulo));
+  const recomendado = rec ? h('button', {
+    class: 'card revisao',
+    type: 'button',
+    'aria-label': `Treino recomendado: ${rec.treino.titulo}. ${rec.porque}`,
+    onclick: () => abrirTreino(rec.treino.id)
+  },
+    h('span', { class: 'revisao-emoji' }, rec.treino.emoji),
+    h('div', { class: 'revisao-textos' },
+      h('div', { class: 'revisao-titulo' }, 'Treino recomendado'),
+      h('div', { class: 'revisao-sub' }, `${rec.treino.titulo}. ${rec.porque}`)
+    ),
+    h('span', { class: 'revisao-seta' }, '›')
+  ) : '';
   return [
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'FLUÊNCIA'),
-    botaoFluencia('🤖', 'Para leigos', 'Prompt, alucinação e RAG, em linguagem simples.', telaModelos),
-    botaoFluencia('🛡️', 'O furo', 'CVE, patch e upgrade de dependência.', telaFuros),
-    botaoFluencia('🏠', 'Em casa', 'Manhã, jantar e a rotina com a família.', telaRotinas),
-    botaoFluencia('💬', 'Conversa livre', 'Três assuntos do dia, com pergunta de acompanhamento.', telaPapo),
-    botaoFluencia('🏗️', 'Sistema', 'Pedido, escala e gargalo, em duas falas.', telaSistemas),
-    botaoFluencia('💻', 'Em voz alta', 'Pense alto enquanto resolve o problema.', telaCodigos),
-    botaoFluencia('🤝', 'Outra área', 'Peça e ofereça ajuda a design, QA e produto.', telaColegas),
-    botaoFluencia('🎯', 'Simulado', 'Seis falas de treinos que você já tem. Uma nota no fim.', telaSimulado),
-    botaoFluencia('🎤', 'Palestra', 'Abertura, troca de slide e perguntas no fim.', telaPalestras),
-    botaoFluencia('🙋', 'Sem a resposta', 'Ganhe tempo quando a pergunta pega de surpresa.', telaDuvidas),
-    botaoFluencia('📶', 'Sinal ruim', 'A voz corta, o vídeo trava, a chamada cai.', telaSinais),
-    botaoFluencia('🛠️', 'Por que falhou', 'O que quebrou e a causa: deploy, CI e permissão.', telaFalhas),
-    botaoFluencia('🌱', 'Mentoria', 'Uma dica e a ideia por trás, para um júnior.', telaMentorias),
-    botaoFluencia('🩺', 'No exterior', 'Farmácia, médico e emergência, em duas falas.', telaSocorros),
-    botaoFluencia('🗒️', 'Requisitos', 'Pergunta de descoberta e a confirmação do que entendeu.', telaRequisitos),
-    botaoFluencia('📈', 'Métricas', 'Números, porcentagens e crescimento.', telaMetricas),
-    botaoFluencia('📖', 'Um erro', 'O erro, o efeito e a lição.', telaAprendizados),
-    botaoFluencia('🚶', 'Só áudio', 'A pergunta é lida em voz alta. Você responde andando.', telaPasseio),
-    botaoFluencia('💰', 'Salário', 'Faixa, plano de saúde e ações.', telaSalarios),
-    botaoFluencia('🧰', 'Portfólio', 'Problema, stack e resultado.', telaProjetos),
-    botaoFluencia('🎧', 'Sotaques', 'Americano, britânico e indiano, na voz do aparelho.', telaSotaques),
-    botaoFluencia('📅', 'Desafio do dia', 'A sequência de dias aumenta as frases.', telaDesafio),
-    botaoFluencia('💻', 'Linha a linha', 'Explique o loop, o callback e o null check.', telaLinhas),
-    botaoFluencia('💬', 'Slack', 'Peça review ou avise um atraso, em poucas palavras.', telaSlacks),
-    botaoFluencia('🍻', 'Happy hour', 'Um brinde, o violão e o Brasil.', telaSociais),
-    botaoFluencia('🔤', 'Termos técnicos', 'O som de cache, queue, SQL, GUI, height e width.', telaTermos),
-    botaoFluencia('🗣️', 'Feedback 1:1', 'Ouça um ponto do gestor e devolva um pedido.', telaGestores),
-    botaoFluencia('❓', 'Pergunta final', 'Pergunte ao entrevistador sobre o time e os 90 dias.', telaFinais),
-    botaoFluencia('🛫', 'Viagem a trabalho', 'Conexão, imigração e táxi.', telaViagens),
-    botaoFluencia('⏱️', 'Três minutos', 'Frases dos treinos, num relógio de 3 minutos.', telaMisturas),
-    botaoFluencia('⏳', 'Estimativa', 'Diga o prazo e o que ainda não está certo.', telaEstimativas),
-    botaoFluencia('⚖️', 'Consenso', 'Discorde e proponha um meio-termo.', telaConsensos),
-    botaoFluencia('📞', 'Atendimento', 'Banco, entrega e hotel, no telefone.', telaAtendimentos),
-    botaoFluencia('🔄', 'Retrospectiva', 'O que foi bem, o que melhorar e a ação.', telaRetros),
-    botaoFluencia('🧭', 'Onboarding', 'Explique o projeto, o fluxo e a primeira tarefa.', telaChegadas),
-    botaoFluencia('🔗', 'Conectores', 'However, on the other hand e that said.', telaLigacoes),
-    botaoFluencia('🏗️', 'Decisão técnica', 'Explique a escolha e a troca, com we went with.', telaDecisoes),
-    botaoFluencia('👥', 'Pair', 'Narre o que está fazendo e peça ajuda.', telaPares),
-    botaoFluencia('🚨', 'Plantão', 'Status, desculpa e o próximo passo.', telaPlantoes),
-    botaoFluencia('🎬', 'Demo de produto', 'Um minuto para apresentar e duas respostas da plateia.', telaDemos),
-    botaoFluencia('📌', 'Prazo e escopo', 'Sugira um corte e peça outra data, com educação.', telaPrazos),
-    botaoFluencia('⭐', 'Entrevista STAR', 'Quatro falas: situação, tarefa, ação e resultado.', telaStars),
-    botaoFluencia('🎵', 'Ênfase', 'Marque a palavra forte, ou se a voz sobe ou desce.', telaEnfases),
-    botaoFluencia('🐛', 'Relatar um bug', 'Três falas: como repetir, a causa e a correção.', telaRelatos),
-    botaoFluencia('🙏', 'Review com educação', 'Dê um comentário e receba outro sem ser seco.', telaCortesias),
-    botaoFluencia('☕', 'Antes da reunião', 'Fim de semana, clima e viagem, em duas falas.', telaAquecer),
-    botaoFluencia('🔎', 'Esclarecer', 'Peça para repetir e confirme o que você entendeu.', telaClaros),
-    botaoFluencia('💬', 'Opinião', 'Dê um motivo e concorde ou discorde com educação.', telaOpinioes),
-    botaoFluencia('👀', 'Descrever a cena', 'Diga o que acontece e um detalhe.', telaDescricoes),
-    botaoFluencia('⚡', 'Pensa em inglês', 'Quatro respostas curtas. Vinte segundos cada.', telaRapidos),
-    botaoFluencia('🔁', 'Deslizes de fala', vencidos
-      ? `${vencidos} frase${vencidos > 1 ? 's' : ''} para repetir hoje.`
-      : 'Frases que escaparam voltam na data.', telaDeslizes),
-    botaoFluencia('🎤', 'Entrevista longa', 'Seis falas para uma vaga remota full stack.', telaRemoto),
-    botaoFluencia('📖', 'Contar no passado', 'Uma história curta, em duas falas.', telaContos),
-    botaoFluencia('🔢', 'Números, datas e preços', 'Ouça e escolha o valor. A voz é a do aparelho.', telaNumeros),
-    botaoFluencia('💻', 'Inglês de trabalho', 'Standup, bug, code review, entrevista e demo.', telaTecnicos),
-    botaoFluencia('🤝', 'Idioms de reunião', 'Touch base, circle back e o papo da call.', telaIdiomas),
-    botaoFluencia('☀️', 'Pergunta do dia', estado.perguntaDia === diaLocalAgora()
-      ? 'Feita hoje. Amanhã vem outra, com uma segunda pergunta.'
-      : 'Uma pergunta e outra em seguida. Vale a sequência.', telaPerguntaDia),
-    botaoFluencia('🎯', 'Teste de nível', nivel
-      ? `Seu nível de fala: ${nivel}. ${ROTULO_NIVEL[nivel] || ''}`
-      : 'Oito perguntas, de A1 a B2. Nada fica trancado.', telaNivel),
-    botaoFluencia('❓', 'Você pergunta', 'Café, loja, aeroporto e reunião. A fala é sua pergunta.', telaPerguntas),
-    botaoFluencia('⏩', 'Fala rápida', 'Gonna, wanna e palavras que se juntam. A voz é a do aparelho.', telaReducoes),
-    botaoFluencia('🧩', 'Phrasal verbs', 'Look for, figure out e combinações do trabalho.', telaFrasais),
-    botaoFluencia('🙋', 'Falar de você', 'Um minuto sobre você, um hobby ou o seu trabalho.', telaLivres),
-    botaoFluencia('📅', 'Resumo da semana', 'A nota desta semana e uma sugestão para a próxima.', telaResumo)
+    recomendado,
+    h('div', { class: 'hub-busca' },
+      h('label', { class: 'revisao-sub', for: 'busca-hub' }, 'Buscar treino'),
+      h('input', {
+        id: 'busca-hub',
+        class: 'entrada',
+        type: 'search',
+        autocomplete: 'off',
+        placeholder: 'Nome ou assunto',
+        'aria-label': 'Buscar treino',
+        value: filtroHub.busca,
+        oninput: ev => {
+          filtroHub = { ...filtroHub, busca: ev.target.value };
+          pintarListaHub();
+        }
+      })
+    ),
+    h('div', { class: 'fila-botoes', role: 'group', 'aria-label': 'Categorias dos treinos' }, ...chips),
+    h('p', { id: 'hub-status', class: 'revisao-sub', role: 'status' }, textoContagem(total)),
+    h('div', { id: 'lista-hub' })
   ];
 }
 
@@ -5690,7 +5797,7 @@ function telaResumo() {
       h('p', {}, `Falhas ${estado.stats.falhas} · mentorias ${estado.stats.mentorias} · socorros ${estado.stats.socorros}.`),
       h('p', {}, `Palestras ${estado.stats.palestras} · dúvidas ${estado.stats.duvidas} · sinais ${estado.stats.sinais}.`),
       h('p', {}, `Sistemas ${estado.stats.sistemas} · códigos ${estado.stats.codigos} · colegas ${estado.stats.colegas} · simulados ${estado.stats.simulados}.`),
-      h('p', {}, `Modelos ${estado.stats.modelos} · furos ${estado.stats.furos} · rotinas ${estado.stats.rotinas} · papos ${estado.stats.papos}.`),
+      h('p', {}, `Modelos ${estado.stats.modelos} · furos ${estado.stats.furos} · rotinas ${estado.stats.rotinas} · papos ${estado.stats.papos} · futuros ${estado.stats.futuros}.`),
       h('p', {}, lembreteMeta(contarFaladas(estado.painel, hojeIso), estado.metaFala, hojeIso))
     ),
     erros.length
@@ -7265,6 +7372,32 @@ function abrirPasseio() {
     fim: null
   };
   pintarPasseio();
+}
+
+function telaFuturos() {
+  listarCena(
+    'futuro',
+    '🚀 Daqui a cinco anos',
+    'Duas falas: a meta e o caminho. A frase modelo só aparece depois.',
+    FUTUROS,
+    abrirFuturo,
+    valor => { futuroSessao = valor; }
+  );
+}
+
+function abrirFuturo(id) {
+  abrirCenaLista(id, futuroPorId, cena => { futuroSessao = cena; }, pintarFuturo, telaFuturos);
+}
+
+function pintarFuturo() {
+  pintarCenaLista(futuroSessao, {
+    rota: 'futuro',
+    aoLista: telaFuturos,
+    repintar: pintarFuturo,
+    avaliar: avaliarFuturo,
+    registrar: registrarFuturo,
+    tituloFim: 'Plano dito!'
+  });
 }
 
 function textoPasseio(sessao) {
@@ -8986,6 +9119,7 @@ async function iniciar() {
     furo: () => (furoSessao && !furoSessao.concluido ? pintarFuro() : telaFuros()),
     rotina: () => (rotinaSessao && !rotinaSessao.concluido ? pintarRotina() : telaRotinas()),
     papo: () => (papoSessao && !papoSessao.concluido ? pintarPapo() : telaPapo()),
+    futuro: () => (futuroSessao && !futuroSessao.concluido ? pintarFuturo() : telaFuturos()),
     fracos: telaPontosFracos,
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
