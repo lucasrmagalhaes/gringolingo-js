@@ -169,8 +169,7 @@ describe('estimativa, consenso e atendimento', () => {
     const data = readFileSync(join(raiz, 'js/data.js'), 'utf8');
     const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
-    assert.match(data, /VERSAO_APP = '2\.11'/);
-    assert.match(sw, /gringolingo-v38/);
+    assert.match(data, /versao: '2\.11'/);
     assert.match(sw, /\.\/js\/cotidiano\.js/);
     assert.equal(app.includes('setTimeout(ouvir, 280)'), false);
     assert.match(app, /historicoFala\(estado\.painel/);

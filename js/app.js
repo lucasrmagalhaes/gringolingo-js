@@ -1,7 +1,7 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
@@ -15,6 +15,7 @@ import { DEMOS, demoPorId, avaliarDemo, PRAZOS, prazoPorId, avaliarPrazo, STARS,
 import { DECISOES, decisaoPorId, avaliarDecisao, PARES, parPorId, avaliarPar, INCIDENTES, incidentePorId, avaliarIncidente, planoDaSemana, nomeDoTreino } from './plantao.js';
 import { RETROS, retroPorId, avaliarRetro, CHEGADAS, chegadaPorId, avaliarChegada, LIGACOES, ligacaoPorId, avaliarLigacao } from './discurso.js';
 import { ESTIMATIVAS, estimativaPorId, avaliarEstimativa, CONSENSOS, consensoPorId, avaliarConsenso, ATENDIMENTOS, atendimentoPorId, avaliarAtendimento, historicoFala, rotuloHistorico } from './cotidiano.js';
+import { GESTORES, gestorPorId, avaliarGestor, FINAIS, finalPorId, avaliarFinal, VIAGENS, viagemPorId, avaliarViagem, catalogoFaladas, montarRevisao, avaliarRevisao, SEGUNDOS_REVISAO } from './turno.js';
 import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS, rotuloGravacao } from './voz.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
@@ -48,6 +49,7 @@ let intervaloFala = null;
 let intervaloLivre = null;
 let intervaloRapido = null;
 let intervaloDemo = null;
+let intervaloRevisao = null;
 let saidaPedidaEm = 0;
 let saindoDaLicao = false;
 let voltandoTela = false;
@@ -84,6 +86,8 @@ function limparTela() {
   intervaloRapido = null;
   clearInterval(intervaloDemo);
   intervaloDemo = null;
+  clearInterval(intervaloRevisao);
+  intervaloRevisao = null;
   saidaPedidaEm = 0;
   saindoDaLicao = false;
   voltandoTela = false;
@@ -2822,7 +2826,7 @@ function linhaApagarConta() {
       botao.classList.add('btn-vermelho');
       msg.textContent = 'Toque de novo para apagar tudo. Exporte um backup antes se quiser guardar.';
       msg.className = 'login-msg erro';
-      setTimeout(() => {
+      timerDeTela(() => {
         if (!confirmando) return;
         confirmando = false;
         botao.textContent = 'APAGAR';
@@ -3200,7 +3204,7 @@ function telaConversa() {
   app.innerHTML = '';
   app.append(
     topoVoltar('💬 Conversar', () => voltarTela()),
-    h('p', { class: 'ia-aviso' }, 'Estimativa, consenso e atendimento. Retro, onboarding e o resto da fluência continuam abaixo.'),
+    h('p', { class: 'ia-aviso' }, '1:1, pergunta de entrevista e viagem a trabalho. A revisão de três minutos mistura os treinos. O resto da fluência continua abaixo.'),
     ...blocoFluencia(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'DIÁLOGOS'),
     ...CENARIOS.map(c => {
@@ -4597,6 +4601,11 @@ let ligacaoSessao = null;
 let estimativaSessao = null;
 let consensoSessao = null;
 let atendimentoSessao = null;
+let gestorSessao = null;
+let finalSessao = null;
+let viagemSessao = null;
+let misturaSessao = null;
+let revisaoPrazo = 0;
 let gravacaoUrl = null;
 let gravadorAtivo = null;
 let vozTimer = null;
@@ -4630,6 +4639,10 @@ function blocoFluencia() {
   const vencidos = deslizesVencidos().length;
   return [
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'FLUÊNCIA'),
+    botaoFluencia('🗣️', 'Feedback 1:1', 'Ouça um ponto do gestor e devolva um pedido.', telaGestores),
+    botaoFluencia('❓', 'Pergunta final', 'Pergunte ao entrevistador sobre o time e os 90 dias.', telaFinais),
+    botaoFluencia('🛫', 'Viagem a trabalho', 'Conexão, imigração e táxi.', telaViagens),
+    botaoFluencia('⏱️', 'Três minutos', 'Frases dos treinos, num relógio de 3 minutos.', telaMisturas),
     botaoFluencia('⏳', 'Estimativa', 'Diga o prazo e o que ainda não está certo.', telaEstimativas),
     botaoFluencia('⚖️', 'Consenso', 'Discorde e proponha um meio-termo.', telaConsensos),
     botaoFluencia('📞', 'Atendimento', 'Banco, entrega e hotel, no telefone.', telaAtendimentos),
@@ -5436,6 +5449,7 @@ function telaResumo() {
       h('p', {}, `Decisões ${estado.stats.decisoes} · pair ${estado.stats.pares} · plantões ${estado.stats.incidentes}.`),
       h('p', {}, `Retros ${estado.stats.retros} · onboardings ${estado.stats.chegadas} · conectores ${estado.stats.ligacoes}.`),
       h('p', {}, `Estimativas ${estado.stats.estimativas} · consensos ${estado.stats.consensos} · atendimentos ${estado.stats.atendimentos}.`),
+      h('p', {}, `1:1 ${estado.stats.gestores} · perguntas finais ${estado.stats.finais} · viagens ${estado.stats.viagens} · revisões de 3 min ${estado.stats.misturas}.`),
       h('p', {}, lembreteMeta(contarFaladas(estado.painel, hojeIso), estado.metaFala, hojeIso))
     ),
     erros.length
@@ -5738,7 +5752,7 @@ function pintarCenaFala(sessao, cfg) {
           cfg.repintar();
         }
       }
-    }, sessao.i + 1 >= cena.rodadas.length ? 'CONCLUIR' : 'PRÓXIMA PERGUNTA'));
+    }, sessao.i + 1 >= cena.rodadas.length ? 'CONCLUIR' : 'PRÓXIMA'));
   } else {
     if (rodada.segundos) {
       miolo.push(h('div', {
@@ -6940,6 +6954,246 @@ function pintarAtendimento() {
   });
 }
 
+function telaGestores() {
+  gestorSessao = null;
+  telaListaFala(
+    'gestor',
+    '🗣️ Feedback 1:1',
+    'Duas falas com o gestor: ouça o ponto e devolva um pedido. A frase modelo só aparece depois.',
+    preferirNivel(GESTORES, estado.nivelFala),
+    abrirGestor
+  );
+}
+
+function abrirGestor(id) {
+  const cena = gestorPorId(id);
+  if (!cena) return telaGestores();
+  descartarVoz();
+  gestorSessao = novaCena(cena);
+  pintarGestor();
+}
+
+function pintarGestor() {
+  pintarCenaFala(gestorSessao, {
+    rota: 'gestor',
+    aoLista: telaGestores,
+    repintar: pintarGestor,
+    avaliar: avaliarGestor,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(gestorSessao, registrarGestor, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Feedback feito!',
+      destino: telaGestores
+    })
+  });
+}
+
+function telaFinais() {
+  finalSessao = null;
+  telaListaFala(
+    'final',
+    '❓ Pergunta final',
+    'Duas falas no fim da entrevista: a pergunta e um detalhe. A frase modelo só aparece depois.',
+    preferirNivel(FINAIS, estado.nivelFala),
+    abrirFinal
+  );
+}
+
+function abrirFinal(id) {
+  const cena = finalPorId(id);
+  if (!cena) return telaFinais();
+  descartarVoz();
+  finalSessao = novaCena(cena);
+  pintarFinal();
+}
+
+function pintarFinal() {
+  pintarCenaFala(finalSessao, {
+    rota: 'final',
+    aoLista: telaFinais,
+    repintar: pintarFinal,
+    avaliar: avaliarFinal,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(finalSessao, registrarFinal, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Pergunta feita!',
+      destino: telaFinais
+    })
+  });
+}
+
+function telaViagens() {
+  viagemSessao = null;
+  telaListaFala(
+    'viagem',
+    '🛫 Viagem a trabalho',
+    'Duas falas: a situação e o pedido. Conexão, imigração ou táxi. A frase modelo só aparece depois.',
+    preferirNivel(VIAGENS, estado.nivelFala),
+    abrirViagem
+  );
+}
+
+function abrirViagem(id) {
+  const cena = viagemPorId(id);
+  if (!cena) return telaViagens();
+  descartarVoz();
+  viagemSessao = novaCena(cena);
+  pintarViagem();
+}
+
+function pintarViagem() {
+  pintarCenaFala(viagemSessao, {
+    rota: 'viagem',
+    aoLista: telaViagens,
+    repintar: pintarViagem,
+    avaliar: avaliarViagem,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(viagemSessao, registrarViagem, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Viagem feita!',
+      destino: telaViagens
+    })
+  });
+}
+
+function telaMisturas() {
+  misturaSessao = null;
+  revisaoPrazo = 0;
+  calar();
+  limparTela();
+  descartarVoz();
+  window.scrollTo(0, 0);
+  telaAtiva = 'mistura';
+  registrarRota('mistura');
+  const n = catalogoFaladas().length;
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('⏱️ Três minutos', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, `Um relógio de 3 minutos mistura ${n} frases dos treinos. A frase modelo só aparece depois. O tempo não envia sozinho.`),
+    h('button', { class: 'btn btn-verde', onclick: abrirMistura }, 'COMEÇAR')
+  );
+  focarTela();
+}
+
+function abrirMistura() {
+  const passos = montarRevisao(catalogoFaladas(), diaLocalAgora(), 8);
+  if (!passos.length) return telaMisturas();
+  descartarVoz();
+  misturaSessao = novaCena({
+    id: 'misto',
+    titulo: 'Três minutos',
+    emoji: '⏱️',
+    nivel: 'misto',
+    onde: 'Frases dos treinos',
+    rodadas: passos
+  });
+  revisaoPrazo = Date.now() + SEGUNDOS_REVISAO * 1000;
+  pintarMistura();
+}
+
+function fecharRevisao() {
+  if (!misturaSessao || misturaSessao.concluido) return;
+  clearInterval(intervaloRevisao);
+  intervaloRevisao = null;
+  const respostas = misturaSessao.notas.length;
+  const acertos = misturaSessao.acertos;
+  if (!respostas) {
+    misturaSessao.concluido = true;
+    misturaSessao.fim = {
+      titulo: 'O tempo acabou',
+      sub: 'Nenhuma frase enviada.',
+      nota: 0,
+      xp: 0,
+      evento: { badges: [], bonusMissoes: 0 },
+      destino: telaMisturas,
+      painel: false,
+      resumo: false
+    };
+    descartarVoz();
+    pintarFim(misturaSessao.fim);
+    return;
+  }
+  const nota = fecharNota(misturaSessao.notas);
+  const xp = 6 + acertos * 4;
+  const evento = registrarMistura({
+    xp,
+    acertos,
+    respostas,
+    nota,
+    errosFala: misturaSessao.erros,
+    perfeita: false,
+    comboMax: 0
+  });
+  misturaSessao.concluido = true;
+  misturaSessao.fim = {
+    titulo: 'Três minutos feitos!',
+    sub: `${acertos} de ${respostas}`,
+    nota,
+    xp: xp + (evento.bonusMissoes ?? 0),
+    evento,
+    destino: telaMisturas,
+    painel: true,
+    resumo: true
+  };
+  descartarVoz();
+  pintarFim(misturaSessao.fim);
+}
+
+function ligarCronometroRevisao() {
+  clearInterval(intervaloRevisao);
+  intervaloRevisao = null;
+  const el = document.querySelector('[data-cronometro-revisao]');
+  const restaDe = () => Math.max(0, Math.ceil((revisaoPrazo - Date.now()) / 1000));
+  const pintar = () => {
+    if (el) el.textContent = formatarMinuto(restaDe());
+  };
+  pintar();
+  if (restaDe() <= 0) {
+    if (misturaSessao && !misturaSessao.feedback && !misturaSessao.concluido) fecharRevisao();
+    return;
+  }
+  intervaloRevisao = setInterval(() => {
+    if (restaDe() > 0) {
+      pintar();
+      return;
+    }
+    clearInterval(intervaloRevisao);
+    intervaloRevisao = null;
+    pintar();
+    if (!misturaSessao || misturaSessao.concluido || misturaSessao.feedback) return;
+    fecharRevisao();
+  }, 250);
+}
+
+function pintarMistura() {
+  pintarCenaFala(misturaSessao, {
+    rota: 'mistura',
+    aoLista: telaMisturas,
+    repintar: pintarMistura,
+    avaliar: avaliarRevisao,
+    rotulo: rotuloCall,
+    aoConcluir: fecharRevisao
+  });
+  if (!misturaSessao || misturaSessao.concluido) return;
+  const ancora = app.querySelector('.revisao-sub');
+  if (ancora) {
+    const relogio = h('div', {
+      class: 'cronometro-demo',
+      'data-cronometro-revisao': '1',
+      role: 'timer',
+      'aria-label': 'Tempo da revisão'
+    }, '');
+    ancora.after(
+      relogio,
+      h('p', { class: 'ia-aviso' }, 'Quando zerar, o que está no campo não é enviado.')
+    );
+  }
+  ligarCronometroRevisao();
+}
+
 function telaRetros() {
   retroSessao = null;
   telaListaFala(
@@ -7642,6 +7896,10 @@ async function iniciar() {
     estimativa: () => (estimativaSessao && !estimativaSessao.concluido ? pintarEstimativa() : telaEstimativas()),
     consenso: () => (consensoSessao && !consensoSessao.concluido ? pintarConsenso() : telaConsensos()),
     atendimento: () => (atendimentoSessao && !atendimentoSessao.concluido ? pintarAtendimento() : telaAtendimentos()),
+    gestor: () => (gestorSessao && !gestorSessao.concluido ? pintarGestor() : telaGestores()),
+    final: () => (finalSessao && !finalSessao.concluido ? pintarFinal() : telaFinais()),
+    viagem: () => (viagemSessao && !viagemSessao.concluido ? pintarViagem() : telaViagens()),
+    mistura: () => (misturaSessao && !misturaSessao.concluido ? pintarMistura() : telaMisturas()),
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
     reducao: () => (reducaoSessao && !reducaoSessao.concluido ? pintarReducao() : telaReducoes()),

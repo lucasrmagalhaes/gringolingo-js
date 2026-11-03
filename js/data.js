@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.11';
+export const VERSAO_APP = '2.12';
 
 export const NOVIDADES = [
+  {
+    versao: '2.12',
+    titulo: 'No 1:1',
+    itens: [
+      '🗣️ Receba um ponto e devolva um feedback no 1:1',
+      '❓ Pergunte ao entrevistador sobre o time e os 90 dias',
+      '🛫 Conexão, imigração e táxi, em fala curta',
+      '⏱️ Três minutos misturando frases dos treinos. O relógio não envia sozinho'
+    ]
+  },
   {
     versao: '2.11',
     titulo: 'Com calma',
@@ -908,6 +918,8 @@ export const MISSOES = [
   { id: 'ligacao1', emoji: '🔗', titulo: 'Ligue duas ideias com um conector', alvo: 1, xp: 15, medir: s => (s.tipo === 'ligacao' ? 1 : 0) },
   { id: 'estimativa1', emoji: '⏳', titulo: 'Dê uma estimativa e uma dúvida', alvo: 1, xp: 15, medir: s => (s.tipo === 'estimativa' ? 1 : 0) },
   { id: 'atendimento1', emoji: '📞', titulo: 'Ligue para o suporte e peça o próximo passo', alvo: 1, xp: 15, medir: s => (s.tipo === 'atendimento' ? 1 : 0) },
+  { id: 'gestor1', emoji: '🗣️', titulo: 'Faça um 1:1 com o gestor', alvo: 1, xp: 15, medir: s => (s.tipo === 'gestor' ? 1 : 0) },
+  { id: 'viagem1', emoji: '🛫', titulo: 'Fale no aeroporto, na imigração ou no táxi', alvo: 1, xp: 15, medir: s => (s.tipo === 'viagem' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -968,6 +980,10 @@ export const BADGES = [
   { id: 'estimativa', emoji: '⏳', nome: 'Mais ou menos', desc: 'Dê um prazo e diga o que ainda não está certo' },
   { id: 'consenso', emoji: '⚖️', nome: 'No meio', desc: 'Discorde e proponha um meio-termo' },
   { id: 'atendimento', emoji: '📞', nome: 'No telefone', desc: 'Ligue para o banco, a entrega ou o hotel' },
+  { id: 'gestor', emoji: '🗣️', nome: 'No 1:1', desc: 'Receba um ponto e devolva um feedback' },
+  { id: 'final', emoji: '❓', nome: 'Sua pergunta', desc: 'Pergunte ao entrevistador no fim da conversa' },
+  { id: 'mala', emoji: '🛫', nome: 'De mala', desc: 'Fale na conexão, na imigração ou no táxi' },
+  { id: 'mistura', emoji: '⏱️', nome: 'Três minutos', desc: 'Misture frases dos treinos por três minutos' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
