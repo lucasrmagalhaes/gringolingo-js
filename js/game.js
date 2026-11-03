@@ -65,13 +65,14 @@ const padrao = () => ({
   errosFala: [],
   nivelFala: null,
   perguntaDia: null,
+  trilhaInicio: null,
   agendaFala: {},
   metaFala: 3,
   metaFalaSemana: null,
   diaDesafio: null,
   sequenciaDesafio: 0,
   recordeDesafio: 0,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0 }
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -289,6 +290,7 @@ function sanitizar(salvo) {
   s.errosFala = limparErrosFala(s.errosFala);
   s.nivelFala = nivelValido(s.nivelFala);
   s.perguntaDia = diaIso(s.perguntaDia);
+  s.trilhaInicio = diaIso(s.trilhaInicio);
   s.agendaFala = limparAgendaFala(s.agendaFala);
   s.metaFala = METAS_FALA.includes(num(s.metaFala)) ? num(s.metaFala) : 3;
   s.metaFalaSemana = diaIso(s.metaFalaSemana);
@@ -663,6 +665,8 @@ function mesclar(remoto) {
     if (remotoFala && (!estado.falaDia || remotoFala > estado.falaDia)) estado.falaDia = remotoFala;
     const remotoNivel = nivelValido(remoto.nivelFala);
     if (rankNivel(remotoNivel) > rankNivel(estado.nivelFala)) estado.nivelFala = remotoNivel;
+    const remotoTrilha = diaIso(remoto.trilhaInicio);
+    if (remotoTrilha && (!estado.trilhaInicio || remotoTrilha < estado.trilhaInicio)) estado.trilhaInicio = remotoTrilha;
     const remotoPergunta = diaIso(remoto.perguntaDia);
     if (remotoPergunta && (!estado.perguntaDia || remotoPergunta > estado.perguntaDia)) estado.perguntaDia = remotoPergunta;
     const remotoDesafio = diaIso(remoto.diaDesafio);
@@ -1072,6 +1076,9 @@ function checarBadges() {
     rotina: estado.stats.rotinas >= 1,
     assunto: estado.stats.papos >= 1,
     futuro: estado.stats.futuros >= 1,
+    cultura: estado.stats.culturas >= 1,
+    aumento: estado.stats.aumentos >= 1,
+    rota: estado.stats.rotas >= 1,
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -1578,6 +1585,18 @@ export function registrarPapo(d) {
 
 export function registrarFuturo(d) {
   return registrarTipo('futuros', 'futuro', d);
+}
+
+export function registrarCultura(d) {
+  return registrarTipo('culturas', 'cultura', d);
+}
+
+export function registrarAumento(d) {
+  return registrarTipo('aumentos', 'aumento', d);
+}
+
+export function registrarRota(d) {
+  return registrarTipo('rotas', 'rota', d);
 }
 
 export function registrarPronuncia(d) {

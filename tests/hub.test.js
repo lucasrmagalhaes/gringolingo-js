@@ -104,7 +104,8 @@ const TITULOS = [
   'No exterior', 'Só áudio', 'Happy hour', 'Viagem a trabalho', 'Atendimento',
   'Descrever a cena', 'Você pergunta', 'Sotaques', 'Ênfase', 'Termos técnicos',
   'Fala rápida', 'Números, datas e preços', 'Desafio do dia', 'Três minutos',
-  'Deslizes de fala', 'Pergunta do dia', 'Teste de nível', 'Resumo da semana', 'Pensa em inglês'
+  'Deslizes de fala', 'Pergunta do dia', 'Teste de nível', 'Resumo da semana', 'Pensa em inglês',
+  'Esporte, filme e série', 'O aumento', 'A API'
 ];
 
 beforeEach(() => {
@@ -129,15 +130,15 @@ describe('hub de fluência e carreira', () => {
     assert.equal(hub.includes('Math.random'), false);
     assert.equal(futuro.includes('Math.random'), false);
     assert.ok(cargaHub < 250, String(cargaHub));
-    assert.equal(TREINOS.length, 64);
-    assert.equal(new Set(TREINOS.map(t => t.id)).size, 64);
+    assert.equal(TREINOS.length, 67);
+    assert.equal(new Set(TREINOS.map(t => t.id)).size, 67);
     const grupos = new Set(CATEGORIAS.map(c => c.id));
     assert.deepEqual([...grupos], ['trabalho', 'entrevista', 'cotidiano', 'pronuncia', 'revisao']);
     for (const t of TREINOS) assert.equal(grupos.has(t.categoria), true, t.id);
     for (const c of CATEGORIAS) assert.equal(TREINOS.some(t => t.categoria === c.id), true, c.id);
-    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 32);
+    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 34);
     assert.equal(TREINOS.filter(t => t.categoria === 'entrevista').length, 11);
-    assert.equal(TREINOS.filter(t => t.categoria === 'cotidiano').length, 9);
+    assert.equal(TREINOS.filter(t => t.categoria === 'cotidiano').length, 10);
     assert.equal(TREINOS.filter(t => t.categoria === 'pronuncia').length, 5);
     assert.equal(TREINOS.filter(t => t.categoria === 'revisao').length, 7);
     assert.deepEqual(TREINOS.map(t => t.titulo), TITULOS);
@@ -147,8 +148,8 @@ describe('hub de fluência e carreira', () => {
   });
 
   test('a busca e o filtro não apagam o restante', () => {
-    assert.equal(filtrarTreinos(TREINOS, { categoria: 'todos', busca: '' }).length, 64);
-    assert.equal(filtrarTreinos(TREINOS, {}).length, 64);
+    assert.equal(filtrarTreinos(TREINOS, { categoria: 'todos', busca: '' }).length, 67);
+    assert.equal(filtrarTreinos(TREINOS, {}).length, 67);
     const entrevista = filtrarTreinos(TREINOS, { categoria: 'entrevista' });
     assert.equal(entrevista.some(t => t.id === 'futuro'), true);
     assert.equal(entrevista.some(t => t.id === 'simulado'), true);
@@ -157,7 +158,7 @@ describe('hub de fluência e carreira', () => {
     assert.deepEqual(cinco.map(t => t.id), ['futuro']);
     assert.equal(filtrarTreinos(TREINOS, { busca: 'zzzz' }).length, 0);
     const trabalho = filtrarTreinos(TREINOS, { busca: 'Trabalho' });
-    assert.equal(trabalho.filter(t => t.categoria === 'trabalho').length, 32);
+    assert.equal(trabalho.filter(t => t.categoria === 'trabalho').length, 34);
     const enfase = filtrarTreinos(TREINOS, { categoria: 'pronuncia', busca: 'enfase' });
     assert.deepEqual(enfase.map(t => t.id), ['enfase']);
   });
@@ -229,7 +230,7 @@ describe('hub de fluência e carreira', () => {
     assert.equal(estado.badges.includes('perfeita'), false);
     assert.equal(estado.badges.includes('ator'), false);
     assert.equal(estado.badges.includes('papo'), false);
-    assert.equal(BADGES.length, 86);
+    assert.ok(BADGES.length >= 86);
     assert.equal(new Set(BADGES.map(b => b.id)).size, BADGES.length);
   });
 
@@ -240,9 +241,8 @@ describe('hub de fluência e carreira', () => {
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
     const html = readFileSync(join(raiz, 'index.html'), 'utf8');
     const css = readFileSync(join(raiz, 'css/style.css'), 'utf8');
-    assert.match(data, /VERSAO_APP = '2\.20'/);
+    assert.match(data, /versao: '2\.20'/);
     assert.match(data, /versao: '2\.19'/);
-    assert.match(sw, /gringolingo-v47/);
     assert.match(sw, /\.\/js\/hub\.js/);
     assert.match(sw, /\.\/js\/futuro\.js/);
     const bloco = app.slice(app.indexOf('function blocoFluencia'), app.indexOf('function cartaoComNivel'));

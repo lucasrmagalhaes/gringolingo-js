@@ -20,6 +20,7 @@ import { PALESTRAS, DUVIDAS, SINAIS } from './plateia.js';
 import { SISTEMAS, CODIGOS, COLEGAS } from './banca.js';
 import { MODELOS, FUROS, ROTINAS, PAPOS } from './lar.js';
 import { FUTUROS } from './futuro.js';
+import { CULTURAS, AUMENTOS, ROTAS } from './cultura.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -458,6 +459,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Cultura', itens: CULTURAS },
+    { origem: 'Aumento', itens: AUMENTOS },
+    { origem: 'Rota', itens: ROTAS },
     { origem: 'Futuro', itens: FUTUROS },
     { origem: 'Modelo', itens: MODELOS },
     { origem: 'Furo', itens: FUROS },
