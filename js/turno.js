@@ -30,6 +30,7 @@ import { POKERS, LEIGOS, RECRUTAS } from './carta.js';
 import { CULPAS, RAIOS, OFERTAS } from './raio.js';
 import { PEDIDOS, COBERTURAS, LOOMS } from './caderno.js';
 import { GRAFICOS, HANDOFFS, ELEVADORES } from './grafico.js';
+import { PISTAS, CALMAS, FOLGAS } from './pista.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -468,6 +469,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Pista', itens: PISTAS },
+    { origem: 'Calma', itens: CALMAS },
+    { origem: 'Folga', itens: FOLGAS },
     { origem: 'Gráfico', itens: GRAFICOS },
     { origem: 'Handoff', itens: HANDOFFS },
     { origem: 'Elevador', itens: ELEVADORES },
