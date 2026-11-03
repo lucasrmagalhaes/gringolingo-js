@@ -18,6 +18,7 @@ import { REQUISITOS, METRICAS, APRENDIZADOS, PASSEIOS } from './briefing.js';
 import { FALHAS, MENTORIAS, SOCORROS } from './guia.js';
 import { PALESTRAS, DUVIDAS, SINAIS } from './plateia.js';
 import { SISTEMAS, CODIGOS, COLEGAS } from './banca.js';
+import { MODELOS, FUROS, ROTINAS, PAPOS } from './lar.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -456,6 +457,10 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Modelo', itens: MODELOS },
+    { origem: 'Furo', itens: FUROS },
+    { origem: 'Rotina', itens: ROTINAS },
+    { origem: 'Papo', itens: PAPOS },
     { origem: 'Sistema', itens: SISTEMAS },
     { origem: 'Código', itens: CODIGOS },
     { origem: 'Colega', itens: COLEGAS },

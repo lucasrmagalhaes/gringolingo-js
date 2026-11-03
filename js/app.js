@@ -1,7 +1,7 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, registrarRequisito, registrarMetrica, registrarAprendizado, registrarPasseio, registrarFalha, registrarMentoria, registrarSocorro, registrarPalestra, registrarDuvida, registrarSinal, registrarSistema, registrarCodigo, registrarColega, registrarSimulado, resumoDesafio, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, resumoBackup, textoResumoBackup, nomeArquivoBackup, LIMITE_BACKUP, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, palavrasDoPadrao, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, registrarRequisito, registrarMetrica, registrarAprendizado, registrarPasseio, registrarFalha, registrarMentoria, registrarSocorro, registrarPalestra, registrarDuvida, registrarSinal, registrarSistema, registrarCodigo, registrarColega, registrarSimulado, registrarModelo, registrarFuro, registrarRotina, registrarPapo, resumoDesafio, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, resumoBackup, textoResumoBackup, nomeArquivoBackup, LIMITE_BACKUP, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, palavrasDoPadrao, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES, falarComLocale, falarTrechos } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
@@ -22,6 +22,7 @@ import { REQUISITOS, requisitoPorId, avaliarRequisito, METRICAS, metricaPorId, a
 import { FALHAS, falhaPorId, avaliarFalha, MENTORIAS, mentoriaPorId, avaliarMentoria, SOCORROS, socorroPorId, avaliarSocorro } from './guia.js';
 import { PALESTRAS, palestraPorId, avaliarPalestra, DUVIDAS, duvidaPorId, avaliarDuvida, SINAIS, sinalPorId, avaliarSinal } from './plateia.js';
 import { SISTEMAS, sistemaPorId, avaliarSistema, CODIGOS, codigoPorId, avaliarCodigo, COLEGAS, colegaPorId, avaliarColega, montarSimulado, faixaDoSimulado } from './banca.js';
+import { MODELOS, modeloPorId, avaliarModelo, FUROS, furoPorId, avaliarFuro, ROTINAS, rotinaPorId, avaliarRotina, montarPapo } from './lar.js';
 import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS, rotuloGravacao } from './voz.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
@@ -2421,6 +2422,45 @@ function treinarPadrao(chave) {
   telaExercicio();
 }
 
+function telaPapo() {
+  calar();
+  limparTela();
+  descartarVoz();
+  window.scrollTo(0, 0);
+  telaAtiva = 'papo';
+  registrarRota('papo');
+  papoSessao = null;
+  const cena = montarPapo(diaLocalAgora());
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('💬 Conversa livre', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, cena
+      ? `Três assuntos de hoje: ${cena.assuntos.join(', ')}. Cada um tem uma pergunta de acompanhamento. A frase modelo só aparece depois.`
+      : 'A conversa precisa de uma data válida.'),
+    cena ? h('button', { class: 'btn btn-verde', type: 'button', onclick: abrirPapo }, 'COMEÇAR') : ''
+  );
+  focarTela();
+}
+
+function abrirPapo() {
+  const cena = montarPapo(diaLocalAgora());
+  if (!cena) return telaPapo();
+  descartarVoz();
+  papoSessao = novaCena(cena);
+  pintarPapo();
+}
+
+function pintarPapo() {
+  pintarCenaLista(papoSessao, {
+    rota: 'papo',
+    aoLista: telaPapo,
+    repintar: pintarPapo,
+    avaliar: avaliarResposta,
+    registrar: registrarPapo,
+    tituloFim: 'Papo feito!'
+  });
+}
+
 function telaSimulado() {
   calar();
   limparTela();
@@ -3345,7 +3385,7 @@ function telaConversa() {
   app.innerHTML = '';
   app.append(
     topoVoltar('💬 Conversar', () => voltarTela()),
-    h('p', { class: 'ia-aviso' }, 'Sistema, código em voz alta e um simulado. O resto da fluência continua abaixo.'),
+    h('p', { class: 'ia-aviso' }, 'Explique a IA, feche um furo e conte a rotina de casa. O resto da fluência continua abaixo.'),
     ...blocoFluencia(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'DIÁLOGOS'),
     ...CENARIOS.map(c => {
@@ -4769,6 +4809,10 @@ let sistemaSessao = null;
 let codigoSessao = null;
 let colegaSessao = null;
 let simuladoSessao = null;
+let modeloSessao = null;
+let furoSessao = null;
+let rotinaSessao = null;
+let papoSessao = null;
 let revisaoPrazo = 0;
 let gravacaoUrl = null;
 let gravadorAtivo = null;
@@ -4803,6 +4847,10 @@ function blocoFluencia() {
   const vencidos = deslizesVencidos().length;
   return [
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'FLUÊNCIA'),
+    botaoFluencia('🤖', 'Para leigos', 'Prompt, alucinação e RAG, em linguagem simples.', telaModelos),
+    botaoFluencia('🛡️', 'O furo', 'CVE, patch e upgrade de dependência.', telaFuros),
+    botaoFluencia('🏠', 'Em casa', 'Manhã, jantar e a rotina com a família.', telaRotinas),
+    botaoFluencia('💬', 'Conversa livre', 'Três assuntos do dia, com pergunta de acompanhamento.', telaPapo),
     botaoFluencia('🏗️', 'Sistema', 'Pedido, escala e gargalo, em duas falas.', telaSistemas),
     botaoFluencia('💻', 'Em voz alta', 'Pense alto enquanto resolve o problema.', telaCodigos),
     botaoFluencia('🤝', 'Outra área', 'Peça e ofereça ajuda a design, QA e produto.', telaColegas),
@@ -5642,6 +5690,7 @@ function telaResumo() {
       h('p', {}, `Falhas ${estado.stats.falhas} · mentorias ${estado.stats.mentorias} · socorros ${estado.stats.socorros}.`),
       h('p', {}, `Palestras ${estado.stats.palestras} · dúvidas ${estado.stats.duvidas} · sinais ${estado.stats.sinais}.`),
       h('p', {}, `Sistemas ${estado.stats.sistemas} · códigos ${estado.stats.codigos} · colegas ${estado.stats.colegas} · simulados ${estado.stats.simulados}.`),
+      h('p', {}, `Modelos ${estado.stats.modelos} · furos ${estado.stats.furos} · rotinas ${estado.stats.rotinas} · papos ${estado.stats.papos}.`),
       h('p', {}, lembreteMeta(contarFaladas(estado.painel, hojeIso), estado.metaFala, hojeIso))
     ),
     erros.length
@@ -7512,6 +7561,84 @@ function pintarColega() {
   });
 }
 
+function telaModelos() {
+  listarCena(
+    'modelo',
+    '🤖 Para leigos',
+    'Duas falas: a ideia e um exemplo. Prompt, alucinação e notas. A frase modelo só aparece depois.',
+    MODELOS,
+    abrirModelo,
+    valor => { modeloSessao = valor; }
+  );
+}
+
+function abrirModelo(id) {
+  abrirCenaLista(id, modeloPorId, cena => { modeloSessao = cena; }, pintarModelo, telaModelos);
+}
+
+function pintarModelo() {
+  pintarCenaLista(modeloSessao, {
+    rota: 'modelo',
+    aoLista: telaModelos,
+    repintar: pintarModelo,
+    avaliar: avaliarModelo,
+    registrar: registrarModelo,
+    tituloFim: 'Ideia explicada!'
+  });
+}
+
+function telaFuros() {
+  listarCena(
+    'furo',
+    '🛡️ O furo',
+    'Duas falas: o aviso e o plano. CVE, patch e dependência. A frase modelo só aparece depois.',
+    FUROS,
+    abrirFuro,
+    valor => { furoSessao = valor; }
+  );
+}
+
+function abrirFuro(id) {
+  abrirCenaLista(id, furoPorId, cena => { furoSessao = cena; }, pintarFuro, telaFuros);
+}
+
+function pintarFuro() {
+  pintarCenaLista(furoSessao, {
+    rota: 'furo',
+    aoLista: telaFuros,
+    repintar: pintarFuro,
+    avaliar: avaliarFuro,
+    registrar: registrarFuro,
+    tituloFim: 'Furo fechado!'
+  });
+}
+
+function telaRotinas() {
+  listarCena(
+    'rotina',
+    '🏠 Em casa',
+    'Duas falas: a casa e a família. Manhã, jantar e noite. A frase modelo só aparece depois.',
+    ROTINAS,
+    abrirRotina,
+    valor => { rotinaSessao = valor; }
+  );
+}
+
+function abrirRotina(id) {
+  abrirCenaLista(id, rotinaPorId, cena => { rotinaSessao = cena; }, pintarRotina, telaRotinas);
+}
+
+function pintarRotina() {
+  pintarCenaLista(rotinaSessao, {
+    rota: 'rotina',
+    aoLista: telaRotinas,
+    repintar: pintarRotina,
+    avaliar: avaliarRotina,
+    registrar: registrarRotina,
+    tituloFim: 'Casa contada!'
+  });
+}
+
 function telaPalestras() {
   listarCena(
     'palestra',
@@ -8855,6 +8982,10 @@ async function iniciar() {
     codigo: () => (codigoSessao && !codigoSessao.concluido ? pintarCodigo() : telaCodigos()),
     colega: () => (colegaSessao && !colegaSessao.concluido ? pintarColega() : telaColegas()),
     simulado: () => (simuladoSessao && !simuladoSessao.concluido ? pintarSimulado() : telaSimulado()),
+    modelo: () => (modeloSessao && !modeloSessao.concluido ? pintarModelo() : telaModelos()),
+    furo: () => (furoSessao && !furoSessao.concluido ? pintarFuro() : telaFuros()),
+    rotina: () => (rotinaSessao && !rotinaSessao.concluido ? pintarRotina() : telaRotinas()),
+    papo: () => (papoSessao && !papoSessao.concluido ? pintarPapo() : telaPapo()),
     fracos: telaPontosFracos,
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
