@@ -1,7 +1,7 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
@@ -14,6 +14,7 @@ import { RELATOS, relatoPorId, avaliarRelato, CORTESIAS, cortesiaPorId, avaliarC
 import { DEMOS, demoPorId, avaliarDemo, PRAZOS, prazoPorId, avaliarPrazo, STARS, starPorId, avaliarStar, ENFASES, enfasePorId, avaliarEnfase, avaliarToque } from './palco.js';
 import { DECISOES, decisaoPorId, avaliarDecisao, PARES, parPorId, avaliarPar, INCIDENTES, incidentePorId, avaliarIncidente, planoDaSemana, nomeDoTreino } from './plantao.js';
 import { RETROS, retroPorId, avaliarRetro, CHEGADAS, chegadaPorId, avaliarChegada, LIGACOES, ligacaoPorId, avaliarLigacao } from './discurso.js';
+import { ESTIMATIVAS, estimativaPorId, avaliarEstimativa, CONSENSOS, consensoPorId, avaliarConsenso, ATENDIMENTOS, atendimentoPorId, avaliarAtendimento, historicoFala, rotuloHistorico } from './cotidiano.js';
 import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS, rotuloGravacao } from './voz.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
@@ -3199,7 +3200,7 @@ function telaConversa() {
   app.innerHTML = '';
   app.append(
     topoVoltar('💬 Conversar', () => voltarTela()),
-    h('p', { class: 'ia-aviso' }, 'Retrospectiva, onboarding e conectores. Decisão, pair e o resto da fluência continuam abaixo.'),
+    h('p', { class: 'ia-aviso' }, 'Estimativa, consenso e atendimento. Retro, onboarding e o resto da fluência continuam abaixo.'),
     ...blocoFluencia(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'DIÁLOGOS'),
     ...CENARIOS.map(c => {
@@ -3406,7 +3407,7 @@ function pintarDialogo() {
     });
     verificar.addEventListener('click', enviar);
     miolo.push(verificar);
-    setTimeout(ouvir, 280);
+    timerDeTela(ouvir, 280);
   }
   app.append(h('div', {}, miolo));
   focarTela();
@@ -3612,7 +3613,7 @@ function pintarSombra() {
     });
     verificar.addEventListener('click', enviar);
     miolo.push(verificar);
-    setTimeout(ouvir, 280);
+    timerDeTela(ouvir, 280);
   }
   app.append(h('div', {}, miolo));
   focarTela();
@@ -4514,6 +4515,7 @@ function telaPainel() {
   registrarRota('painel');
   const serie = serieFala(estado.painel, diaLocalAgora());
   const resumo = resumoFala(serie);
+  const historia = historicoFala(estado.painel, diaLocalAgora(), 14);
   const erros = errosMaisComuns(5);
   app.innerHTML = '';
   const barras = h('div', { class: 'semana-fala', role: 'img', 'aria-label': 'Nota média dos últimos 7 dias' },
@@ -4555,6 +4557,7 @@ function telaPainel() {
         ))
       )
       : h('p', { class: 'ia-aviso' }, 'Quando uma frase escapar, ela aparece aqui.'),
+    cartaoHistorico(historia),
     h('button', { class: 'btn btn-verde', onclick: telaDeslizes }, deslizesVencidos().length ? `REVISAR ${deslizesVencidos().length}` : 'DESLIZES DE FALA'),
     h('button', { class: 'btn btn-branco', onclick: telaResumo }, 'RESUMO DA SEMANA')
   );
@@ -4591,6 +4594,9 @@ let plantaoSessao = null;
 let retroSessao = null;
 let chegadaSessao = null;
 let ligacaoSessao = null;
+let estimativaSessao = null;
+let consensoSessao = null;
+let atendimentoSessao = null;
 let gravacaoUrl = null;
 let gravadorAtivo = null;
 let vozTimer = null;
@@ -4624,6 +4630,9 @@ function blocoFluencia() {
   const vencidos = deslizesVencidos().length;
   return [
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'FLUÊNCIA'),
+    botaoFluencia('⏳', 'Estimativa', 'Diga o prazo e o que ainda não está certo.', telaEstimativas),
+    botaoFluencia('⚖️', 'Consenso', 'Discorde e proponha um meio-termo.', telaConsensos),
+    botaoFluencia('📞', 'Atendimento', 'Banco, entrega e hotel, no telefone.', telaAtendimentos),
     botaoFluencia('🔄', 'Retrospectiva', 'O que foi bem, o que melhorar e a ação.', telaRetros),
     botaoFluencia('🧭', 'Onboarding', 'Explique o projeto, o fluxo e a primeira tarefa.', telaChegadas),
     botaoFluencia('🔗', 'Conectores', 'However, on the other hand e that said.', telaLigacoes),
@@ -5426,6 +5435,7 @@ function telaResumo() {
       h('p', {}, `Demos ${estado.stats.demos} · prazos ${estado.stats.negociacoes} · STAR ${estado.stats.stars} · ênfase ${estado.stats.enfases}.`),
       h('p', {}, `Decisões ${estado.stats.decisoes} · pair ${estado.stats.pares} · plantões ${estado.stats.incidentes}.`),
       h('p', {}, `Retros ${estado.stats.retros} · onboardings ${estado.stats.chegadas} · conectores ${estado.stats.ligacoes}.`),
+      h('p', {}, `Estimativas ${estado.stats.estimativas} · consensos ${estado.stats.consensos} · atendimentos ${estado.stats.atendimentos}.`),
       h('p', {}, lembreteMeta(contarFaladas(estado.painel, hojeIso), estado.metaFala, hojeIso))
     ),
     erros.length
@@ -6800,6 +6810,136 @@ function pintarPlantao() {
   });
 }
 
+function cartaoHistorico(dias) {
+  const maxTreinos = Math.max(1, ...dias.map(d => d.treinos));
+  return h('div', { class: 'card' },
+    h('div', { class: 'nivel-titulo' }, 'Últimos 14 dias'),
+    h('p', {}, rotuloHistorico(dias)),
+    h('div', { class: 'historico-fala', 'aria-hidden': 'true' },
+      dias.map(d => h('div', { class: 'historico-col' },
+        h('div', {
+          class: 'historico-acerto' + (d.precisao == null ? ' historico-vazio' : ''),
+          style: `height:${d.precisao == null ? 6 : Math.max(8, Math.round(d.precisao * 0.64))}px`
+        }),
+        h('div', {
+          class: 'historico-treino' + (d.treinos ? '' : ' historico-vazio'),
+          style: `height:${d.treinos ? Math.max(8, Math.round(d.treinos / maxTreinos * 48)) : 6}px`
+        }),
+        h('div', { class: 'historico-dia' }, d.data.slice(8))
+      ))
+    ),
+    h('div', { class: 'historico-legenda' },
+      h('span', {}, 'Verde: treinos'),
+      h('span', {}, 'Azul: acerto')
+    )
+  );
+}
+
+function telaEstimativas() {
+  estimativaSessao = null;
+  telaListaFala(
+    'estimativa',
+    '⏳ Estimativa',
+    'Duas falas: o prazo e a dúvida. It should take about e I am not sure yet. A frase modelo só aparece depois.',
+    preferirNivel(ESTIMATIVAS, estado.nivelFala),
+    abrirEstimativa
+  );
+}
+
+function abrirEstimativa(id) {
+  const cena = estimativaPorId(id);
+  if (!cena) return telaEstimativas();
+  descartarVoz();
+  estimativaSessao = novaCena(cena);
+  pintarEstimativa();
+}
+
+function pintarEstimativa() {
+  pintarCenaFala(estimativaSessao, {
+    rota: 'estimativa',
+    aoLista: telaEstimativas,
+    repintar: pintarEstimativa,
+    avaliar: avaliarEstimativa,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(estimativaSessao, registrarEstimativa, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Prazo dito!',
+      destino: telaEstimativas
+    })
+  });
+}
+
+function telaConsensos() {
+  consensoSessao = null;
+  telaListaFala(
+    'consenso',
+    '⚖️ Consenso',
+    'Duas falas: discorde e proponha um meio-termo. A frase modelo só aparece depois.',
+    preferirNivel(CONSENSOS, estado.nivelFala),
+    abrirConsenso
+  );
+}
+
+function abrirConsenso(id) {
+  const cena = consensoPorId(id);
+  if (!cena) return telaConsensos();
+  descartarVoz();
+  consensoSessao = novaCena(cena);
+  pintarConsenso();
+}
+
+function pintarConsenso() {
+  pintarCenaFala(consensoSessao, {
+    rota: 'consenso',
+    aoLista: telaConsensos,
+    repintar: pintarConsenso,
+    avaliar: avaliarConsenso,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(consensoSessao, registrarConsenso, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Meio-termo feito!',
+      destino: telaConsensos
+    })
+  });
+}
+
+function telaAtendimentos() {
+  atendimentoSessao = null;
+  telaListaFala(
+    'atendimento',
+    '📞 Atendimento',
+    'Três falas no telefone: o problema, o detalhe e o pedido. A frase modelo só aparece depois.',
+    preferirNivel(ATENDIMENTOS, estado.nivelFala),
+    abrirAtendimento
+  );
+}
+
+function abrirAtendimento(id) {
+  const cena = atendimentoPorId(id);
+  if (!cena) return telaAtendimentos();
+  descartarVoz();
+  atendimentoSessao = novaCena(cena);
+  pintarAtendimento();
+}
+
+function pintarAtendimento() {
+  pintarCenaFala(atendimentoSessao, {
+    rota: 'atendimento',
+    aoLista: telaAtendimentos,
+    repintar: pintarAtendimento,
+    avaliar: avaliarAtendimento,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(atendimentoSessao, registrarAtendimento, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Ligação feita!',
+      destino: telaAtendimentos
+    })
+  });
+}
+
 function telaRetros() {
   retroSessao = null;
   telaListaFala(
@@ -7499,6 +7639,9 @@ async function iniciar() {
     retro: () => (retroSessao && !retroSessao.concluido ? pintarRetro() : telaRetros()),
     chegada: () => (chegadaSessao && !chegadaSessao.concluido ? pintarChegada() : telaChegadas()),
     ligacao: () => (ligacaoSessao && !ligacaoSessao.concluido ? pintarLigacao() : telaLigacoes()),
+    estimativa: () => (estimativaSessao && !estimativaSessao.concluido ? pintarEstimativa() : telaEstimativas()),
+    consenso: () => (consensoSessao && !consensoSessao.concluido ? pintarConsenso() : telaConsensos()),
+    atendimento: () => (atendimentoSessao && !atendimentoSessao.concluido ? pintarAtendimento() : telaAtendimentos()),
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
     reducao: () => (reducaoSessao && !reducaoSessao.concluido ? pintarReducao() : telaReducoes()),
