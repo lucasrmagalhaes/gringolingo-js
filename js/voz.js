@@ -17,3 +17,20 @@ export function soltarUrl(url, escopo = globalThis) {
   if (url && typeof escopo.URL?.revokeObjectURL === 'function') escopo.URL.revokeObjectURL(url);
   return null;
 }
+
+export function rotuloGravacao(gravando) {
+  if (gravando) {
+    return {
+      texto: 'PARAR',
+      pressionado: 'true',
+      rotulo: 'Parar a gravação',
+      aviso: 'Gravando. Até 8 segundos. Nada é enviado.'
+    };
+  }
+  return {
+    texto: 'GRAVAR',
+    pressionado: 'false',
+    rotulo: 'Gravar a sua voz nesta tela',
+    aviso: 'Gravação pronta. Ela fica só nesta tela.'
+  };
+}

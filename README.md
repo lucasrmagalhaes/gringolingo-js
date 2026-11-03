@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-305%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-311%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -140,6 +140,10 @@ navegador.
 - **Decisão técnica**: duas falas, a escolha e a troca, com "we went with" e "the trade-off".
 - **Pair**: narre o que está fazendo e peça ajuda, em duas falas.
 - **Plantão**: status, desculpa e o próximo passo, em três falas.
+- **Retrospectiva**: três falas, o que foi bem, o que melhorar e a ação da sprint.
+- **Onboarding**: explique o projeto, o fluxo do time e a primeira tarefa.
+- **Conectores**: ligue duas ideias com however, on the other hand ou that said.
+- **Gravação**: o botão volta para GRAVAR quando os 8 segundos acabam, e cada treino do plano tem um nome para leitor de tela.
 - **Plano da semana**: o resumo sugere até três treinos a partir dos deslizes e dos padrões do tutor.
 - **Celular**: o topo respeita a área segura e o título da tela pode quebrar a linha.
 - **Busca do dicionário**: a lista vazia ordena só as palavras do curso, e "vence hoje" usa o dia
@@ -185,7 +189,7 @@ navegador.
 - **3 missões que trocam todo dia**, sorteadas de forma determinística a partir da data.
 - **Streak com protetor**: perdoa um dia perdido, e você ganha um novo protetor a cada 5 lições
   perfeitas. O app avisa quando a sequência está para vencer.
-- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **49 conquistas**, XP com
+- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **52 conquistas**, XP com
   bônus de combo, confete e efeitos sonoros sintetizados no WebAudio (nenhum arquivo de áudio no
   repositório).
 - **Desafio por link**: termine uma lição e mande o link para alguém tentar bater a sua pontuação.
@@ -253,6 +257,7 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/call.js` | Relato de bug em três falas, review educado, papo antes da reunião e pedido de esclarecimento. |
 | `js/palco.js` | Demo de um minuto, negociação de prazo, entrevista STAR e ênfase da frase. |
 | `js/plantao.js` | Decisão técnica, pair, plantão e o plano da semana a partir dos deslizes. |
+| `js/discurso.js` | Retrospectiva de sprint, onboarding de uma pessoa nova e conectores do discurso. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -335,7 +340,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **305 testes em 64 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **311 testes em 65 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -378,6 +383,7 @@ O que a suíte cobre:
 - **`tests/call.test.js`**: relato de bug, review educado, papo antes da reunião, esclarecimento e o atalho de pular conteúdo.
 - **`tests/palco.test.js`**: demo de um minuto, prazo educado, entrevista STAR, ênfase e as conquistas novas.
 - **`tests/plantao.test.js`**: decisão com trade-off, pair, plantão, o plano da semana e a área segura do topo.
+- **`tests/discurso.test.js`**: retrospectiva, onboarding, conectores, o nome do treino e o botão de gravar.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

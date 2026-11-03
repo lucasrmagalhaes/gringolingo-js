@@ -1,7 +1,7 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
@@ -12,8 +12,9 @@ import { ENTREVISTA, avaliarEntrevista, CONTOS, contoPorId, avaliarConto, avalia
 import { OPINIOES, opiniaoPorId, avaliarOpiniao, CENAS_FALA, cenaPorId, avaliarCena, RAPIDOS, rapidoPorId, avaliarRapido, SEGUNDOS_RAPIDO, contarFaladas, lembreteMeta } from './opiniao.js';
 import { RELATOS, relatoPorId, avaliarRelato, CORTESIAS, cortesiaPorId, avaliarCortesia, AQUECIMENTOS, aquecerPorId, avaliarAquecer, CLAROS, claroPorId, avaliarClaro } from './call.js';
 import { DEMOS, demoPorId, avaliarDemo, PRAZOS, prazoPorId, avaliarPrazo, STARS, starPorId, avaliarStar, ENFASES, enfasePorId, avaliarEnfase, avaliarToque } from './palco.js';
-import { DECISOES, decisaoPorId, avaliarDecisao, PARES, parPorId, avaliarPar, INCIDENTES, incidentePorId, avaliarIncidente, planoDaSemana } from './plantao.js';
-import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS } from './voz.js';
+import { DECISOES, decisaoPorId, avaliarDecisao, PARES, parPorId, avaliarPar, INCIDENTES, incidentePorId, avaliarIncidente, planoDaSemana, nomeDoTreino } from './plantao.js';
+import { RETROS, retroPorId, avaliarRetro, CHEGADAS, chegadaPorId, avaliarChegada, LIGACOES, ligacaoPorId, avaliarLigacao } from './discurso.js';
+import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS, rotuloGravacao } from './voz.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
 import { h, aleatorio, amostra, embaralhar } from './util.js';
@@ -3198,7 +3199,7 @@ function telaConversa() {
   app.innerHTML = '';
   app.append(
     topoVoltar('💬 Conversar', () => voltarTela()),
-    h('p', { class: 'ia-aviso' }, 'Decisão técnica, pair e plantão. Demo, prazo e o resto da fluência continuam abaixo.'),
+    h('p', { class: 'ia-aviso' }, 'Retrospectiva, onboarding e conectores. Decisão, pair e o resto da fluência continuam abaixo.'),
     ...blocoFluencia(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'DIÁLOGOS'),
     ...CENARIOS.map(c => {
@@ -3293,18 +3294,18 @@ function campoResposta(placeholder) {
 function cartaoTutor(aval) {
   const partes = [];
   if (aval.ok && !aval.quase) {
-    partes.push(h('div', { class: 'nivel-titulo', 'data-foco': '1' }, 'Muito bem!'));
+    partes.push(h('div', { class: 'nivel-titulo' }, 'Muito bem!'));
   } else if (aval.quase) {
-    partes.push(h('div', { class: 'nivel-titulo', 'data-foco': '1' }, 'Quase. Vale, com um aviso.'));
+    partes.push(h('div', { class: 'nivel-titulo' }, 'Quase. Vale, com um aviso.'));
   } else {
-    partes.push(h('div', { class: 'nivel-titulo', 'data-foco': '1' }, aval.tutor?.titulo || 'Ainda não'));
+    partes.push(h('div', { class: 'nivel-titulo' }, aval.tutor?.titulo || 'Ainda não'));
   }
   if (aval.tutor?.porque) partes.push(h('p', {}, aval.tutor.porque));
   if (aval.tutor?.dica) partes.push(h('div', { class: 'feedback-nota' }, '💡 ' + aval.tutor.dica));
   if (!aval.ok || aval.quase) {
     partes.push(h('p', {}, 'Melhor jeito: ', h('strong', { lang: 'en' }, aval.melhor)));
   }
-  return h('div', { class: 'card' }, partes);
+  return h('div', { class: 'card', role: 'status', 'data-foco': '1' }, partes);
 }
 
 function abrirDialogo(id) {
@@ -4587,6 +4588,9 @@ let enfaseSessao = null;
 let decisaoSessao = null;
 let parSessao = null;
 let plantaoSessao = null;
+let retroSessao = null;
+let chegadaSessao = null;
+let ligacaoSessao = null;
 let gravacaoUrl = null;
 let gravadorAtivo = null;
 let vozTimer = null;
@@ -4620,6 +4624,9 @@ function blocoFluencia() {
   const vencidos = deslizesVencidos().length;
   return [
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'FLUÊNCIA'),
+    botaoFluencia('🔄', 'Retrospectiva', 'O que foi bem, o que melhorar e a ação.', telaRetros),
+    botaoFluencia('🧭', 'Onboarding', 'Explique o projeto, o fluxo e a primeira tarefa.', telaChegadas),
+    botaoFluencia('🔗', 'Conectores', 'However, on the other hand e that said.', telaLigacoes),
     botaoFluencia('🏗️', 'Decisão técnica', 'Explique a escolha e a troca, com we went with.', telaDecisoes),
     botaoFluencia('👥', 'Pair', 'Narre o que está fazendo e peça ajuda.', telaPares),
     botaoFluencia('🚨', 'Plantão', 'Status, desculpa e o próximo passo.', telaPlantoes),
@@ -5418,6 +5425,7 @@ function telaResumo() {
       h('p', {}, `Relatos ${estado.stats.relatos} · reviews ${estado.stats.cortesias} · papo de call ${estado.stats.aquecimentos} · esclarecer ${estado.stats.esclarecimentos}.`),
       h('p', {}, `Demos ${estado.stats.demos} · prazos ${estado.stats.negociacoes} · STAR ${estado.stats.stars} · ênfase ${estado.stats.enfases}.`),
       h('p', {}, `Decisões ${estado.stats.decisoes} · pair ${estado.stats.pares} · plantões ${estado.stats.incidentes}.`),
+      h('p', {}, `Retros ${estado.stats.retros} · onboardings ${estado.stats.chegadas} · conectores ${estado.stats.ligacoes}.`),
       h('p', {}, lembreteMeta(contarFaladas(estado.painel, hojeIso), estado.metaFala, hojeIso))
     ),
     erros.length
@@ -5541,11 +5549,17 @@ function tocarGravacao(status) {
   });
 }
 
+function pintarBotaoGravacao(botao, gravando) {
+  const rotulo = gravando ? rotuloGravacao(true) : rotuloGravacao(false);
+  botao.textContent = rotulo.texto;
+  botao.setAttribute('aria-pressed', rotulo.pressionado);
+  botao.setAttribute('aria-label', rotulo.rotulo);
+  return rotulo;
+}
+
 async function comecarGravacao(botao, status) {
   if (gravadorAtivo && gravadorAtivo.state === 'recording') {
-    botao.textContent = 'GRAVAR';
     await finalizarGravacao();
-    status.textContent = gravacaoUrl ? 'Gravação pronta. Ela fica só nesta tela.' : 'Não deu para gravar.';
     return;
   }
   if (!podeGravar()) {
@@ -5587,14 +5601,21 @@ async function comecarGravacao(botao, status) {
       vozTimer = null;
     }
     const blob = new Blob(pedacos, { type: rec.mimeType || 'audio/webm' });
-    if (!blob.size) return;
+    const parado = rotuloGravacao(false);
+    pintarBotaoGravacao(botao, false);
+    if (!blob.size) {
+      status.textContent = 'Não deu para gravar.';
+      return;
+    }
     gravacaoUrl = soltarUrl(gravacaoUrl);
     gravacaoUrl = urlDaGravacao(blob);
+    status.textContent = parado.aviso;
   };
   gravadorAtivo = rec;
   rec.start();
-  botao.textContent = 'PARAR';
-  status.textContent = 'Gravando. Até 8 segundos. Nada é enviado.';
+  const gravando = rotuloGravacao(true);
+  pintarBotaoGravacao(botao, true);
+  status.textContent = gravando.aviso;
   vozTimer = setTimeout(() => {
     if (gravadorAtivo === rec && rec.state === 'recording') rec.stop();
   }, LIMITE_GRAVACAO_MS);
@@ -5604,7 +5625,12 @@ function barraGravar(status) {
   if (!podeGravar()) {
     return h('p', { class: 'ia-aviso' }, 'Este navegador não grava áudio. Dá para escrever e ouvir o modelo depois.');
   }
-  const botao = h('button', { class: 'btn btn-branco', type: 'button' }, 'GRAVAR');
+  const botao = h('button', {
+    class: 'btn btn-branco',
+    type: 'button',
+    'aria-pressed': rotuloGravacao(false).pressionado,
+    'aria-label': rotuloGravacao(false).rotulo
+  }, rotuloGravacao(false).texto);
   botao.addEventListener('click', () => { comecarGravacao(botao, status); });
   return h('div', {},
     h('p', { class: 'ia-aviso' }, 'Grave a tentativa para comparar com o modelo. O áudio fica só nesta tela.'),
@@ -6647,7 +6673,12 @@ function cartaoPlano() {
     ...plano.map(item => h('div', { class: 'plano-item' },
       h('div', { class: 'revisao-titulo' }, item.titulo),
       h('p', {}, item.porque),
-      h('button', { class: 'btn btn-branco', type: 'button', onclick: () => abrirPlano(item.id) }, 'TREINAR')
+      h('button', {
+        class: 'btn btn-branco',
+        type: 'button',
+        'aria-label': nomeDoTreino(item.titulo),
+        onclick: () => abrirPlano(item.id)
+      }, 'TREINAR')
     ))
   );
 }
@@ -6765,6 +6796,111 @@ function pintarPlantao() {
       xpAcerto: 8,
       titulo: 'Plantão encerrado!',
       destino: telaPlantoes
+    })
+  });
+}
+
+function telaRetros() {
+  retroSessao = null;
+  telaListaFala(
+    'retro',
+    '🔄 Retrospectiva',
+    'Três falas: o que foi bem, o que melhorar e a ação. A frase modelo só aparece depois.',
+    preferirNivel(RETROS, estado.nivelFala),
+    abrirRetro
+  );
+}
+
+function abrirRetro(id) {
+  const cena = retroPorId(id);
+  if (!cena) return telaRetros();
+  descartarVoz();
+  retroSessao = novaCena(cena);
+  pintarRetro();
+}
+
+function pintarRetro() {
+  pintarCenaFala(retroSessao, {
+    rota: 'retro',
+    aoLista: telaRetros,
+    repintar: pintarRetro,
+    avaliar: avaliarRetro,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(retroSessao, registrarRetro, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Retro fechada!',
+      destino: telaRetros
+    })
+  });
+}
+
+function telaChegadas() {
+  chegadaSessao = null;
+  telaListaFala(
+    'chegada',
+    '🧭 Onboarding',
+    'Três falas: o projeto, o fluxo e a primeira tarefa. A frase modelo só aparece depois.',
+    preferirNivel(CHEGADAS, estado.nivelFala),
+    abrirChegada
+  );
+}
+
+function abrirChegada(id) {
+  const cena = chegadaPorId(id);
+  if (!cena) return telaChegadas();
+  descartarVoz();
+  chegadaSessao = novaCena(cena);
+  pintarChegada();
+}
+
+function pintarChegada() {
+  pintarCenaFala(chegadaSessao, {
+    rota: 'chegada',
+    aoLista: telaChegadas,
+    repintar: pintarChegada,
+    avaliar: avaliarChegada,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(chegadaSessao, registrarChegada, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Boas-vindas feitas!',
+      destino: telaChegadas
+    })
+  });
+}
+
+function telaLigacoes() {
+  ligacaoSessao = null;
+  telaListaFala(
+    'ligacao',
+    '🔗 Conectores',
+    'Duas falas: o fato e a ligação. However, on the other hand ou that said. A frase modelo só aparece depois.',
+    preferirNivel(LIGACOES, estado.nivelFala),
+    abrirLigacao
+  );
+}
+
+function abrirLigacao(id) {
+  const cena = ligacaoPorId(id);
+  if (!cena) return telaLigacoes();
+  descartarVoz();
+  ligacaoSessao = novaCena(cena);
+  pintarLigacao();
+}
+
+function pintarLigacao() {
+  pintarCenaFala(ligacaoSessao, {
+    rota: 'ligacao',
+    aoLista: telaLigacoes,
+    repintar: pintarLigacao,
+    avaliar: avaliarLigacao,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(ligacaoSessao, registrarLigacao, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Ideias ligadas!',
+      destino: telaLigacoes
     })
   });
 }
@@ -7360,6 +7496,9 @@ async function iniciar() {
     decisao: () => (decisaoSessao && !decisaoSessao.concluido ? pintarDecisao() : telaDecisoes()),
     par: () => (parSessao && !parSessao.concluido ? pintarPar() : telaPares()),
     plantao: () => (plantaoSessao && !plantaoSessao.concluido ? pintarPlantao() : telaPlantoes()),
+    retro: () => (retroSessao && !retroSessao.concluido ? pintarRetro() : telaRetros()),
+    chegada: () => (chegadaSessao && !chegadaSessao.concluido ? pintarChegada() : telaChegadas()),
+    ligacao: () => (ligacaoSessao && !ligacaoSessao.concluido ? pintarLigacao() : telaLigacoes()),
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
     reducao: () => (reducaoSessao && !reducaoSessao.concluido ? pintarReducao() : telaReducoes()),

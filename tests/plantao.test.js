@@ -170,8 +170,7 @@ describe('decisão, pair e plantão', () => {
     const data = readFileSync(join(raiz, 'js/data.js'), 'utf8');
     const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
     const css = readFileSync(join(raiz, 'css/style.css'), 'utf8');
-    assert.match(data, /VERSAO_APP = '2\.9'/);
-    assert.match(sw, /gringolingo-v36/);
+    assert.match(data, /versao: '2\.9'/);
     assert.match(sw, /\.\/js\/plantao\.js/);
     assert.match(css, /padding: env\(safe-area-inset-top\)/);
     assert.match(css, /\.topo \{[\s\S]*top: env\(safe-area-inset-top\)/);
