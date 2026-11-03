@@ -81,7 +81,7 @@ const padrao = () => ({
   diaDesafio: null,
   sequenciaDesafio: 0,
   recordeDesafio: 0,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0, mapas: 0, duros: 0, propostas: 0, narras: 0, bancos: 0, recusas: 0, sprints: 0, seguros: 0, meetups: 0, completas: 0, rodadas: 0, migras: 0, estreias: 0, focos: 0, pokers: 0, leigos: 0, recrutas: 0, culpas: 0, raios: 0, ofertas: 0, pedidos: 0, coberturas: 0, looms: 0, cadernos: 0, graficos: 0, handoffs: 0, elevadores: 0, juntas: 0, pistas: 0, calmas: 0, folgas: 0, abertas: 0, respeitos: 0, debitos: 0, indicacoes: 0 }
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0, mapas: 0, duros: 0, propostas: 0, narras: 0, bancos: 0, recusas: 0, sprints: 0, seguros: 0, meetups: 0, completas: 0, rodadas: 0, migras: 0, estreias: 0, focos: 0, pokers: 0, leigos: 0, recrutas: 0, culpas: 0, raios: 0, ofertas: 0, pedidos: 0, coberturas: 0, looms: 0, cadernos: 0, graficos: 0, handoffs: 0, elevadores: 0, juntas: 0, pistas: 0, calmas: 0, folgas: 0, abertas: 0, respeitos: 0, debitos: 0, indicacoes: 0, uxs: 0, foruns: 0, vistos: 0, meses: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -159,6 +159,8 @@ function diaDoPainel(v) {
   };
   const segundos = Math.max(0, Math.min(num(v?.segundos), 200000));
   if (segundos) dia.segundos = segundos;
+  const muletas = Math.max(0, Math.min(num(v?.muletas), 200000));
+  if (muletas) dia.muletas = muletas;
   if (Object.keys(grupos).length) dia.grupos = grupos;
   return dia;
 }
@@ -170,6 +172,9 @@ function unirDiaPainel(a, b) {
   const base = diaDoPainel(remotoGanha ? b : a);
   const segundos = Math.max(num(a.segundos), num(b.segundos));
   if (segundos) base.segundos = Math.min(segundos, 200000);
+  const muletas = Math.max(num(a.muletas), num(b.muletas));
+  if (muletas) base.muletas = Math.min(muletas, 200000);
+  else delete base.muletas;
   const grupos = {};
   for (const id of GRUPOS) {
     const n = Math.max(num(a.grupos?.[id]), num(b.grupos?.[id]));
@@ -1208,6 +1213,10 @@ function checarBadges() {
     respeito: estado.stats.respeitos >= 1,
     debito: estado.stats.debitos >= 1,
     indicacao: estado.stats.indicacoes >= 1,
+    ux: estado.stats.uxs >= 1,
+    forum: estado.stats.foruns >= 1,
+    visto: estado.stats.vistos >= 1,
+    mes: estado.stats.meses >= 1,
     minutos: somarSemana(estado.painel, hoje()).minutos >= num(estado.metaMinutos),
     tudo: UNIDADES.every(unidadeCompleta)
   };
@@ -1305,6 +1314,8 @@ function anotarPainel(nota, acertos, respostas, extra = {}) {
     segundos: Math.min(200000, (Number(atual.segundos) || 0) + segundosDaFala(respostas, extra.segundos))
   };
   if (!dia.segundos) delete dia.segundos;
+  const muletas = Math.min(200000, (Number(atual.muletas) || 0) + Math.max(0, num(extra.muletas)));
+  if (muletas) dia.muletas = muletas;
   if (Object.keys(grupos).length) dia.grupos = grupos;
   estado.painel[d] = dia;
 }
@@ -1387,7 +1398,8 @@ function fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouPro
   if (d.nota != null && d.nota !== '') {
     anotarPainel(d.nota, d.acertos, d.respostas, {
       segundos: d.segundos,
-      grupo: grupoDoTipo(d.tipo)
+      grupo: grupoDoTipo(d.tipo),
+      muletas: d.muletas
     });
     marcarMetaFala(diaSessao);
   }
@@ -1894,6 +1906,22 @@ export function registrarDebito(d) {
 
 export function registrarIndicacao(d) {
   return registrarTipo('indicacoes', 'indicacao', d);
+}
+
+export function registrarUx(d) {
+  return registrarTipo('uxs', 'ux', d);
+}
+
+export function registrarForum(d) {
+  return registrarTipo('foruns', 'forum', d);
+}
+
+export function registrarVisto(d) {
+  return registrarTipo('vistos', 'visto', d);
+}
+
+export function registrarMes(d) {
+  return registrarTipo('meses', 'mes', d);
 }
 
 export function marcarEspaco(en, pt) {

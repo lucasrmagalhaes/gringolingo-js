@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.32';
+export const VERSAO_APP = '2.33';
 
 export const NOVIDADES = [
+  {
+    versao: '2.33',
+    titulo: 'No contraste',
+    itens: [
+      '🎨 Explique contraste, foco e rótulo para quem desenha a tela',
+      '📣 Peça ajuda num fórum e diga o que já tentou',
+      '🛂 Fale de visto, mudança de país ou remoto com o RH',
+      '📆 Veja notas, minutos e preenchimentos das últimas quatro semanas'
+    ]
+  },
   {
     versao: '2.32',
     titulo: 'No respeito',
@@ -1177,6 +1187,10 @@ export const MISSOES = [
   { id: 'respeito1', emoji: '🏛️', titulo: 'Discorde de uma arquitetura com respeito', alvo: 1, xp: 15, medir: s => (s.tipo === 'respeito' ? 1 : 0) },
   { id: 'debito1', emoji: '🧱', titulo: 'Peça tempo para a dívida técnica', alvo: 1, xp: 15, medir: s => (s.tipo === 'debito' ? 1 : 0) },
   { id: 'indicacao1', emoji: '✉️', titulo: 'Peça uma referência a um ex-colega', alvo: 1, xp: 15, medir: s => (s.tipo === 'indicacao' ? 1 : 0) },
+  { id: 'ux1', emoji: '🎨', titulo: 'Explique contraste, foco ou rótulo', alvo: 1, xp: 15, medir: s => (s.tipo === 'ux' ? 1 : 0) },
+  { id: 'forum1', emoji: '📣', titulo: 'Peça ajuda e diga o que já tentou', alvo: 1, xp: 15, medir: s => (s.tipo === 'forum' ? 1 : 0) },
+  { id: 'visto1', emoji: '🛂', titulo: 'Fale de visto, mudança ou remoto', alvo: 1, xp: 15, medir: s => (s.tipo === 'visto' ? 1 : 0) },
+  { id: 'mes1', emoji: '📆', titulo: 'Abra o relatório do mês', alvo: 1, xp: 15, medir: s => (s.tipo === 'mes' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1312,6 +1326,10 @@ export const BADGES = [
   { id: 'respeito', emoji: '🏛️', nome: 'Com respeito', desc: 'Discorde de uma arquitetura e ofereça outro caminho' },
   { id: 'debito', emoji: '🧱', nome: 'A dívida', desc: 'Explique a dívida técnica e peça tempo para refatorar' },
   { id: 'indicacao', emoji: '✉️', nome: 'A indicação', desc: 'Peça a um ex-colega para ser a sua referência' },
+  { id: 'ux', emoji: '🎨', nome: 'O contraste', desc: 'Explique contraste, foco do teclado ou o rótulo de um ícone' },
+  { id: 'forum', emoji: '📣', nome: 'O fórum', desc: 'Descreva o problema e o que você já tentou' },
+  { id: 'visto', emoji: '🛂', nome: 'O visto', desc: 'Fale de visto, mudança de país ou remoto' },
+  { id: 'mes', emoji: '📆', nome: 'O mês', desc: 'Veja notas, minutos e preenchimentos das últimas quatro semanas' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
