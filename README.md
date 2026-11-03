@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-450%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-454%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -246,6 +246,10 @@ navegador.
 - **O radar**: explique a latência p95, o alerta do orçamento de erro e os três gráficos do plantão.
 - **O aplauso**: agradeça o time em público, cite quem publicou a correção e aplauda o suporte.
 - **A gripe**: avise que está doente, peça a daily sem você e diga a hora da consulta.
+- **Com o PM**: peça dois dias para a review, diga que quarta só fecha sem os testes e mande a data nova.
+- **O laudo**: conte os doze minutos, o índice que faltava e quem fica com a ação até segunda.
+- **O rumo**: peça feedback de carreira, uma área maior e o que muda no próximo nível.
+- **Esta semana**: no hub, os minutos contra a meta e o grupo com menos prática, com o número no texto.
 - **Catálogo**: ids e títulos únicos, pares parecidos demais aparecem na auditoria, e a lista do hub não pinta o que está fora da tela.
 - **Estimativa**: diga "it should take about" e "I am not sure yet, but", em duas falas.
 - **Consenso**: discorde com um motivo e proponha um meio-termo.
@@ -400,6 +404,7 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/facil.js` | Facilitar a reunião, escolher a stack, falar do sábado e sortear o treino surpresa do dia. |
 | `js/brecha.js` | Furo no review, mudança de escopo com o cliente e o chimarrão do Sul. |
 | `js/radar.js` | Métrica do plantão, aplauso em público e o aviso de que está doente. |
+| `js/remoto.js` | Prazo com o PM, post-mortem e feedback de carreira. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -482,7 +487,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **450 testes em 91 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **454 testes em 92 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -552,6 +557,7 @@ O que a suíte cobre:
 - **`tests/facil.test.js`**: facilitador, escolha de stack, sábado, a sequência da surpresa e a versão 2.34.
 - **`tests/brecha.test.js`**: falha no review, mudança de escopo, chimarrão, favoritos e a versão 2.35.
 - **`tests/radar.test.js`**: métrica do plantão, aplauso, gripe, catálogo e a versão 2.36.
+- **`tests/remoto.test.js`**: prazo com o PM, post-mortem, feedback de carreira, o balanço da semana e a versão 2.37.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
