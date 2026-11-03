@@ -254,6 +254,26 @@ export function escolherSombra({ aprendidas = [], frases = FRASES, vencidas = []
   return saida.slice(0, teto);
 }
 
+export function ordenarSombra(lista, dia, qtd = 5) {
+  const itens = (Array.isArray(lista) ? lista : []).filter(f => f && typeof f.en === 'string' && f.en.includes(' '));
+  const teto = Math.max(0, qtd);
+  if (typeof dia !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(dia) || itens.length <= 2) {
+    return itens.slice(0, teto);
+  }
+  const cabeca = itens.slice(0, 2);
+  const cauda = embaralharCom(rngDoDia(dia), itens.slice(2));
+  return [...cabeca, ...cauda].slice(0, teto);
+}
+
+export function textoDaSombra(aval) {
+  const nota = Number.isFinite(Number(aval?.nota)) ? Math.max(0, Math.round(Number(aval.nota))) : 0;
+  const partes = Array.isArray(aval?.partes) ? aval.partes : [];
+  const faltou = partes.filter(p => p && p.ok === false && typeof p.t === 'string').map(p => p.t);
+  if (!partes.length) return `Nota ${nota}. Não há frase para comparar.`;
+  if (!faltou.length) return `Nota ${nota}. Todas as palavras entraram.`;
+  return `Nota ${nota}. Faltou: ${faltou.join(', ')}.`;
+}
+
 function rngDoDia(dia) {
   let x = 2166136261;
   const texto = String(dia);
