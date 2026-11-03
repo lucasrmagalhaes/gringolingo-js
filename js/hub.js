@@ -116,7 +116,10 @@ const BRUTOS = [
   ['pista', 'trabalho', '🏁', 'O bug raro', 'Sintoma e prova de um bug que só aparece às vezes.', 'pistas', 'bug intermitente corrida log clique'],
   ['calma', 'trabalho', '🐢', 'Com calma', 'Explique um conceito devagar, um passo de cada vez.', 'calmas', 'mentoria junior conceito paciencia'],
   ['folga', 'cotidiano', '🏖️', 'A folga', 'Férias, horário e o limite da noite.', 'folgas', 'ferias limite noite duas semanas'],
-  ['abertas', 'entrevista', '💭', 'Perguntas abertas', 'Cinco perguntas abertas. Cada resposta conta palavras e tempo.', 'abertas', 'entrevista conversa livre palavras tempo']
+  ['abertas', 'entrevista', '💭', 'Perguntas abertas', 'Cinco perguntas abertas. Cada resposta conta palavras, tempo e preenchimento.', 'abertas', 'entrevista conversa livre palavras tempo um like basically'],
+  ['respeito', 'trabalho', '🏛️', 'Com respeito', 'Discorde de uma arquitetura e ofereça outro caminho.', 'respeitos', 'arquitetura discordo respeito risco servico'],
+  ['debito', 'trabalho', '🧱', 'A dívida', 'Explique a dívida técnica e peça tempo para refatorar.', 'debitos', 'divida tecnica refactor sprint juros'],
+  ['indicacao', 'entrevista', '✉️', 'A indicação', 'Peça a um ex-colega para ser a sua referência.', 'indicacoes', 'referencia indicacao ex colega nota']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

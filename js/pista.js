@@ -383,11 +383,61 @@ export function contarPalavras(texto) {
   return norma.split(' ').filter(Boolean).length;
 }
 
+const PREENCHIMENTOS = ['um', 'uh', 'basically'];
+const VERBO_ANTES = new Set(['i', 'we', 'they', 'you', 'he', 'she', 'people', 'would', 'do', 'not', 'really', 'also']);
+export const CONECTORES_SUGERIDOS = ['because', 'so', 'for example', 'first'];
+
+export function partesDaFala(texto) {
+  const bruto = String(texto ?? '').trim().split(/\s+/).filter(Boolean);
+  const flat = [];
+  bruto.forEach((brutoToken, i) => {
+    normalizarFala(brutoToken).split(' ').filter(Boolean).forEach(t => flat.push({ i, t }));
+  });
+  const marcados = new Set();
+  const preenchimentos = [];
+  for (let k = 0; k < flat.length; k++) {
+    const t = flat[k].t;
+    const antes = flat[k - 1]?.t || '';
+    const preenchimento = PREENCHIMENTOS.includes(t) || (t === 'like' && !VERBO_ANTES.has(antes));
+    if (preenchimento) {
+      marcados.add(flat[k].i);
+      preenchimentos.push(t);
+    }
+  }
+  return {
+    partes: bruto.map((t, i) => ({ t, preenchimento: marcados.has(i) })),
+    preenchimentos
+  };
+}
+
+function temConector(norma, conector) {
+  const tokens = norma.split(' ').filter(Boolean);
+  const partes = conector.split(' ');
+  for (let i = 0; i <= tokens.length - partes.length; i++) {
+    if (partes.every((p, k) => tokens[i + k] === p)) return true;
+  }
+  return false;
+}
+
+export function sugerirConectores(texto) {
+  const norma = normalizarFala(texto);
+  return CONECTORES_SUGERIDOS.filter(c => !temConector(norma, c)).slice(0, 2);
+}
+
 export function avaliarAberta(texto, segundos) {
   const palavras = contarPalavras(texto);
   const tempo = Number.isFinite(Number(segundos)) ? Math.max(0, Math.round(Number(segundos))) : 0;
   const ok = palavras >= MINIMO_PALAVRAS;
-  return { ok, palavras, segundos: tempo, nota: ok ? 100 : 0 };
+  const marcado = partesDaFala(texto);
+  return {
+    ok,
+    palavras,
+    segundos: tempo,
+    nota: ok ? 100 : 0,
+    preenchimentos: marcado.preenchimentos,
+    partes: marcado.partes,
+    conectores: sugerirConectores(texto)
+  };
 }
 
 export function textoDaAberta(aval) {
@@ -400,9 +450,23 @@ export function textoDaAberta(aval) {
   return `${base} O mínimo é ${MINIMO_PALAVRAS} palavras.`;
 }
 
+export function textoDoPreenchimento(aval) {
+  const lista = Array.isArray(aval?.preenchimentos) ? aval.preenchimentos : [];
+  if (!lista.length) return 'Nenhum preenchimento.';
+  const unicos = [];
+  for (const item of lista) if (!unicos.includes(item)) unicos.push(item);
+  return `Preenchimento: ${unicos.join(', ')}.`;
+}
+
+export function textoDosConectores(aval) {
+  const lista = Array.isArray(aval?.conectores) ? aval.conectores : [];
+  if (!lista.length) return 'Os conectores já entraram.';
+  return `Conectores que cabem: ${lista.join(', ')}.`;
+}
+
 export function textoDasAbertas(lista) {
   const n = Array.isArray(lista) ? lista.length : 0;
-  return `${n} perguntas de hoje. Cada resposta conta palavras e tempo.`;
+  return `${n} perguntas de hoje. Cada resposta conta palavras, tempo e preenchimento.`;
 }
 
 export function pistaPorId(id) {
