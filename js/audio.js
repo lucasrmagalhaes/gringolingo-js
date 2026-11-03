@@ -194,6 +194,43 @@ export function falarComLocale(texto, locale) {
   };
 }
 
+export function falarTrechos(trechos, aoTerminar) {
+  const lista = (Array.isArray(trechos) ? trechos : []).filter(t => t && String(t.texto || '').trim());
+  const fim = typeof aoTerminar === 'function' ? aoTerminar : () => {};
+  if (!temTts || !lista.length) {
+    fim();
+    return false;
+  }
+  let todas = [];
+  try {
+    todas = speechSynthesis.getVoices() || [];
+  } catch {
+    todas = [];
+  }
+  try {
+    speechSynthesis.cancel();
+  } catch {
+    fim();
+    return false;
+  }
+  try {
+    lista.forEach((trecho, i) => {
+      const u = new SpeechSynthesisUtterance(String(trecho.texto));
+      const locale = trecho.lang || 'en-US';
+      const voz = escolherVoz(todas, locale);
+      u.lang = voz ? normalizarLang(voz) : locale;
+      u.rate = velocidadeAtual().valor;
+      if (voz) u.voice = voz;
+      if (i === lista.length - 1) u.onend = () => fim();
+      speechSynthesis.speak(u);
+    });
+  } catch {
+    fim();
+    return false;
+  }
+  return true;
+}
+
 export function falar(texto, velocidade) {
   if (!temTts) return;
   try {

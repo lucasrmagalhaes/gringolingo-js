@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.14';
+export const VERSAO_APP = '2.15';
 
 export const NOVIDADES = [
+  {
+    versao: '2.15',
+    titulo: 'No cliente',
+    itens: [
+      '🗒️ Pergunte quem usa e confirme o que entendeu',
+      '📈 Diga números, porcentagens e crescimento',
+      '📖 Conte um erro e a lição',
+      '🚶 Modo só áudio: a pergunta é lida e a resposta espera'
+    ]
+  },
   {
     versao: '2.14',
     titulo: 'Na mesa',
@@ -944,6 +954,8 @@ export const MISSOES = [
   { id: 'slack1', emoji: '💬', titulo: 'Mande um recado curto de Slack', alvo: 1, xp: 15, medir: s => (s.tipo === 'slack' ? 1 : 0) },
   { id: 'salario1', emoji: '💰', titulo: 'Negocie salário ou benefício', alvo: 1, xp: 15, medir: s => (s.tipo === 'salario' ? 1 : 0) },
   { id: 'projeto1', emoji: '🧰', titulo: 'Conte um projeto do portfólio', alvo: 1, xp: 15, medir: s => (s.tipo === 'projeto' ? 1 : 0) },
+  { id: 'requisito1', emoji: '🗒️', titulo: 'Confirme um requisito com o cliente', alvo: 1, xp: 15, medir: s => (s.tipo === 'requisito' ? 1 : 0) },
+  { id: 'metrica1', emoji: '📈', titulo: 'Apresente um número ou uma porcentagem', alvo: 1, xp: 15, medir: s => (s.tipo === 'metrica' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1016,6 +1028,10 @@ export const BADGES = [
   { id: 'projeto', emoji: '🧰', nome: 'No portfólio', desc: 'Conte o problema, a stack e o resultado' },
   { id: 'sotaque', emoji: '🎧', nome: 'Outro sotaque', desc: 'Ouça uma voz americana, britânica ou indiana' },
   { id: 'desafio', emoji: '📅', nome: 'Dia de fala', desc: 'Termine o desafio diário de fala' },
+  { id: 'requisito', emoji: '🗒️', nome: 'Na descoberta', desc: 'Pergunte quem usa e confirme o que entendeu' },
+  { id: 'metrica', emoji: '📈', nome: 'O número', desc: 'Diga uma porcentagem ou um crescimento' },
+  { id: 'aprendizado', emoji: '📖', nome: 'A lição', desc: 'Conte um erro e o que você aprendeu' },
+  { id: 'passeio', emoji: '🚶', nome: 'Mãos livres', desc: 'Treine no modo só áudio' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 

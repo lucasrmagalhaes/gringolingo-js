@@ -71,7 +71,7 @@ const padrao = () => ({
   diaDesafio: null,
   sequenciaDesafio: 0,
   recordeDesafio: 0,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0 }
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -1012,6 +1012,10 @@ function checarBadges() {
     projeto: estado.stats.projetos >= 1,
     sotaque: estado.stats.sotaques >= 1,
     desafio: estado.stats.desafios >= 1,
+    requisito: estado.stats.requisitos >= 1,
+    metrica: estado.stats.metricas >= 1,
+    aprendizado: estado.stats.aprendizados >= 1,
+    passeio: estado.stats.passeios >= 1,
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -1442,6 +1446,22 @@ export function registrarDesafioDia(d) {
     estado.recordeDesafio = Math.max(num(estado.recordeDesafio), estado.sequenciaDesafio);
   }
   return registrarTipo('desafios', 'desafioDia', d);
+}
+
+export function registrarRequisito(d) {
+  return registrarTipo('requisitos', 'requisito', d);
+}
+
+export function registrarMetrica(d) {
+  return registrarTipo('metricas', 'metrica', d);
+}
+
+export function registrarAprendizado(d) {
+  return registrarTipo('aprendizados', 'aprendizado', d);
+}
+
+export function registrarPasseio(d) {
+  return registrarTipo('passeios', 'passeio', d);
 }
 
 export function registrarPronuncia(d) {

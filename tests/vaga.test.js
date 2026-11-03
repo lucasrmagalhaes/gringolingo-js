@@ -233,9 +233,8 @@ describe('salário, portfólio, sotaque e desafio', () => {
     const data = readFileSync(join(raiz, 'js/data.js'), 'utf8');
     const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
     const css = readFileSync(join(raiz, 'css/style.css'), 'utf8');
-    assert.match(data, /VERSAO_APP = '2\.14'/);
+    assert.match(data, /versao: '2\.14'/);
     assert.match(data, /versao: '2\.13'/);
-    assert.match(sw, /gringolingo-v41/);
     assert.match(sw, /\.\/js\/vaga\.js/);
     const icone = css.slice(css.indexOf('.revisao-emoji'), css.indexOf('.revisao-textos'));
     assert.match(icone, /flex: 0 0 44px/);
