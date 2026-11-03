@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-416%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-420%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -216,6 +216,10 @@ navegador.
 - **O relâmpago**: cinco minutos sobre um projeto pessoal.
 - **A oferta**: notebook, verba de estudo e a data de início.
 - **Sombra**: o mesmo dia repete a ordem. A voz do aparelho lê a frase, e a nota diz qual palavra faltou.
+- **Não entendi**: peça o sotaque, a palavra que escapou e leia o requisito de volta.
+- **A cobertura**: diga que os testes rodam em todo push, o que a cobertura mostra e que a suíte fica sem rede.
+- **O vídeo**: um check-in de dois minutos, com o link na thread e sem reunião.
+- **Meu vocabulário**: as palavras que escaparam nas falas ficam neste aparelho para revisar numa frase.
 - **Estimativa**: diga "it should take about" e "I am not sure yet, but", em duas falas.
 - **Consenso**: discorde com um motivo e proponha um meio-termo.
 - **Atendimento**: ligue para o banco, a entrega ou o hotel, em três falas.
@@ -268,7 +272,7 @@ navegador.
 - **3 missões que trocam todo dia**, sorteadas de forma determinística a partir da data.
 - **Streak com protetor**: perdoa um dia perdido, e você ganha um novo protetor a cada 5 lições
   perfeitas. O app avisa quando a sequência está para vencer.
-- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **115 conquistas**, XP com
+- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **119 conquistas**, XP com
   bônus de combo, confete e efeitos sonoros sintetizados no WebAudio (nenhum arquivo de áudio no
   repositório).
 - **Desafio por link**: termine uma lição e mande o link para alguém tentar bater a sua pontuação.
@@ -361,6 +365,7 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/foco.js` | Entrevista por foco, com a mesma nota do simulado. |
 | `js/carta.js` | Planning poker, a conta da IA para quem não é da área e a ligação com o recrutador. |
 | `js/raio.js` | Desculpa sem culpar alguém, palestra de cinco minutos e a oferta final. |
+| `js/caderno.js` | Esclarecimento, cobertura dos testes, vídeo curto e as palavras que escaparam nas falas. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -443,7 +448,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **416 testes em 83 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **420 testes em 84 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -505,6 +510,7 @@ O que a suíte cobre:
 - **`tests/rodada.test.js`**: mesa da retro, migração, primeiro dia, entrevista por foco, histórico de notas e a versão 2.26.
 - **`tests/carta.test.js`**: planning poker, a conta da IA, a ligação com o recrutador, a data local do backup e a versão 2.27.
 - **`tests/raio.test.js`**: desculpa, palestra relâmpago, oferta final, a ordem da sombra e a versão 2.28.
+- **`tests/caderno.test.js`**: esclarecimento, cobertura, vídeo curto, vocabulário pessoal e a versão 2.29.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
