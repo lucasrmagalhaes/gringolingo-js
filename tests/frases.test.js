@@ -5,7 +5,8 @@ import './ambiente.js';
 import { limparArmazenamento } from './ambiente.js';
 
 const {
-  CATEGORIAS, FRASES, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala, NOTA_FRASE
+  CATEGORIAS, FRASES, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala, NOTA_FRASE,
+  ordenarSombra, textoDaSombra
 } = await import('../js/frases.js');
 const { FRASES_SOMBRA } = await import('../js/conversa.js');
 const {
@@ -93,6 +94,31 @@ describe('sombra com o baralho', () => {
     assert.equal(fila.length, 4);
     assert.ok(fila.every(f => FRASES.some(p => p.en === f.en)));
     assert.equal(fila.some(f => f.en === 'good morning'), false);
+  });
+
+  test('o mesmo dia repete a ordem e a nota da sombra é falada', () => {
+    const base = [
+      { en: 'Could you repeat that?', pt: 'repita' },
+      { en: 'Let me think.', pt: 'pense' },
+      { en: 'where is the station', pt: 'estacao' },
+      { en: 'I would like a coffee', pt: 'cafe' },
+      { en: 'see you later', pt: 'ate' },
+      { en: 'thank you for your help', pt: 'obrigado' }
+    ];
+    const a = ordenarSombra(base, '2026-10-28');
+    const b = ordenarSombra(base, '2026-10-28');
+    assert.deepEqual(a.map(f => f.en), b.map(f => f.en));
+    assert.equal(a[0].en, base[0].en);
+    assert.equal(a[1].en, base[1].en);
+    assert.equal(a.length, 5);
+    const outro = ordenarSombra(base, '2026-01-02');
+    assert.equal(outro[0].en, base[0].en);
+    assert.equal(JSON.stringify(a.map(f => f.en)) === JSON.stringify(outro.map(f => f.en)), false);
+    assert.deepEqual(ordenarSombra([], '2026-10-28'), []);
+    assert.deepEqual(ordenarSombra(base, 'ontem').map(f => f.en), base.slice(0, 5).map(f => f.en));
+    assert.equal(textoDaSombra({ nota: 100, partes: [{ t: 'let', ok: true }, { t: 'me', ok: true }] }), 'Nota 100. Todas as palavras entraram.');
+    assert.equal(textoDaSombra({ nota: 50, partes: [{ t: 'let', ok: true }, { t: 'me', ok: false }] }), 'Nota 50. Faltou: me.');
+    assert.equal(textoDaSombra(null), 'Nota 0. Não há frase para comparar.');
   });
 });
 

@@ -100,7 +100,11 @@ const BRUTOS = [
   ['foco', 'entrevista', '🧩', 'Entrevista por foco', 'Escolha frontend, backend ou IA e veja as notas.', 'focos', 'entrevista foco frontend backend ia historico nota'],
   ['poker', 'trabalho', '🃏', 'A carta', 'Vote a estimativa e diga o motivo.', 'pokers', 'planning poker estimativa carta'],
   ['leigo', 'trabalho', '🧮', 'A conta da IA', 'Custo, busca nos docs e o que a pessoa ainda lê.', 'leigos', 'ia llm rag prompt custo leigo'],
-  ['recruta', 'entrevista', '📞', 'A ligação', 'Pretensão, fuso e quando você pode começar.', 'recrutas', 'linkedin recrutador telefone pretensao fuso']
+  ['recruta', 'entrevista', '📞', 'A ligação', 'Pretensão, fuso e quando você pode começar.', 'recrutas', 'linkedin recrutador telefone pretensao fuso'],
+  ['culpa', 'trabalho', '🙏', 'A desculpa', 'Assuma o erro e diga o próximo passo.', 'culpas', 'blameless desculpa responsabilidade erro'],
+  ['raio', 'trabalho', '🔦', 'O relâmpago', 'Cinco minutos sobre um projeto pessoal.', 'raios', 'palestra relampago projeto pessoal cinco minutos'],
+  ['oferta', 'entrevista', '💻', 'A oferta', 'Equipamento, verba de estudo e a data de início.', 'ofertas', 'oferta equipamento notebook verba data inicio'],
+  ['sombra', 'revisao', '🗣️', 'Sombra', 'Ouça a voz do aparelho, repita e compare.', 'sombra', 'shadowing ouvir repetir comparar']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
