@@ -5,6 +5,7 @@ import { FRASES, itemDaFrase } from './frases.js';
 import { nivelValido, rankNivel, diasDaSemana } from './fluencia.js';
 import { contarFaladas } from './opiniao.js';
 import { frasesDoDesafio } from './vaga.js';
+import { grupoDoTipo, segundosDaFala, somarSemana, GRUPOS } from './semana.js';
 
 const CHAVE = 'gringolingo';
 const CHAVE_CONTA = 'gringolingo:conta';
@@ -72,7 +73,7 @@ const padrao = () => ({
   diaDesafio: null,
   sequenciaDesafio: 0,
   recordeDesafio: 0,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0 }
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0, mapas: 0, duros: 0, propostas: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -130,17 +131,53 @@ function dedupDeslizes(lista) {
     .slice(0, 80);
 }
 
+function limparGrupos(bruto) {
+  const saida = {};
+  if (!bruto || typeof bruto !== 'object' || Array.isArray(bruto)) return saida;
+  for (const id of GRUPOS) {
+    const n = Math.max(0, Math.min(num(bruto[id]), 9999));
+    if (n) saida[id] = n;
+  }
+  return saida;
+}
+
+function diaDoPainel(v) {
+  const grupos = limparGrupos(v?.grupos);
+  const dia = {
+    soma: Math.max(0, Math.min(num(v?.soma), 100000)),
+    n: Math.max(0, Math.min(num(v?.n), 9999)),
+    acertos: Math.max(0, Math.min(num(v?.acertos), 9999)),
+    respostas: Math.max(0, Math.min(num(v?.respostas), 9999))
+  };
+  const segundos = Math.max(0, Math.min(num(v?.segundos), 200000));
+  if (segundos) dia.segundos = segundos;
+  if (Object.keys(grupos).length) dia.grupos = grupos;
+  return dia;
+}
+
+function unirDiaPainel(a, b) {
+  if (!a) return b;
+  if (!b) return a;
+  const remotoGanha = b.n > a.n || (b.n === a.n && b.soma > a.soma);
+  const base = diaDoPainel(remotoGanha ? b : a);
+  const segundos = Math.max(num(a.segundos), num(b.segundos));
+  if (segundos) base.segundos = Math.min(segundos, 200000);
+  const grupos = {};
+  for (const id of GRUPOS) {
+    const n = Math.max(num(a.grupos?.[id]), num(b.grupos?.[id]));
+    if (n) grupos[id] = Math.min(n, 9999);
+  }
+  if (Object.keys(grupos).length) base.grupos = grupos;
+  else delete base.grupos;
+  return base;
+}
+
 function limparPainel(bruto) {
   const saida = {};
   if (!bruto || typeof bruto !== 'object' || Array.isArray(bruto)) return saida;
   for (const [dia, v] of Object.entries(bruto)) {
     if (!diaIso(dia) || !v || typeof v !== 'object') continue;
-    saida[dia] = {
-      soma: Math.max(0, Math.min(num(v.soma), 100000)),
-      n: Math.max(0, Math.min(num(v.n), 9999)),
-      acertos: Math.max(0, Math.min(num(v.acertos), 9999)),
-      respostas: Math.max(0, Math.min(num(v.respostas), 9999))
-    };
+    saida[dia] = diaDoPainel(v);
   }
   return Object.fromEntries(Object.entries(saida).sort(([a], [b]) => a < b ? -1 : 1).slice(-90));
 }
@@ -689,8 +726,7 @@ function mesclar(remoto) {
     estado.recordeDesafio = Math.max(num(estado.recordeDesafio), num(remoto.recordeDesafio), num(estado.sequenciaDesafio));
     estado.painel = limparPainel(estado.painel);
     for (const [dia, v] of Object.entries(limparPainel(remoto.painel))) {
-      const local = estado.painel[dia];
-      if (!local || v.n > local.n || (v.n === local.n && v.soma > local.soma)) estado.painel[dia] = v;
+      estado.painel[dia] = unirDiaPainel(estado.painel[dia], v);
     }
     estado.errosFala = limparErrosFala([...(estado.errosFala ?? []), ...limparErrosFala(remoto.errosFala)]);
     estado.agendaFala = limparAgendaFala(estado.agendaFala);
@@ -1083,6 +1119,10 @@ function checarBadges() {
     produto: estado.stats.produtos >= 1,
     fecho: estado.stats.fechos >= 1,
     espaco: estado.stats.espacos >= 1,
+    mapa: estado.stats.mapas >= 1,
+    duro: estado.stats.duros >= 1,
+    proposta: estado.stats.propostas >= 1,
+    semana: somarSemana(estado.painel, hoje()).minutos >= 10,
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -1165,16 +1205,22 @@ export function registrarRelampago(d) {
   };
 }
 
-function anotarPainel(nota, acertos, respostas) {
+function anotarPainel(nota, acertos, respostas, extra = {}) {
   const d = hoje();
   if (!estado.painel || typeof estado.painel !== 'object') estado.painel = {};
   const atual = estado.painel[d] ?? { soma: 0, n: 0, acertos: 0, respostas: 0 };
-  estado.painel[d] = {
+  const grupos = { ...(atual.grupos || {}) };
+  if (extra.grupo) grupos[extra.grupo] = (Number(grupos[extra.grupo]) || 0) + 1;
+  const dia = {
     soma: atual.soma + Math.max(0, Math.min(num(nota), 100)),
     n: atual.n + 1,
     acertos: atual.acertos + Math.max(0, num(acertos)),
-    respostas: atual.respostas + Math.max(0, num(respostas))
+    respostas: atual.respostas + Math.max(0, num(respostas)),
+    segundos: Math.min(200000, (Number(atual.segundos) || 0) + segundosDaFala(respostas, extra.segundos))
   };
+  if (!dia.segundos) delete dia.segundos;
+  if (Object.keys(grupos).length) dia.grupos = grupos;
+  estado.painel[d] = dia;
 }
 
 function somarErrosFala(lista) {
@@ -1253,7 +1299,10 @@ function marcarMetaFala(diaIso) {
 
 function fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao) {
   if (d.nota != null && d.nota !== '') {
-    anotarPainel(d.nota, d.acertos, d.respostas);
+    anotarPainel(d.nota, d.acertos, d.respostas, {
+      segundos: d.segundos,
+      grupo: grupoDoTipo(d.tipo)
+    });
     marcarMetaFala(diaSessao);
   }
   somarErrosFala(d.errosFala);
@@ -1304,7 +1353,7 @@ function registrarTipo(stat, tipo, d) {
   const { usouProtetor } = atualizarStreak(diaSessao);
   const missao = avancarMissoes({ ...d, tipo }, diaSessao);
   if (stat && Object.prototype.hasOwnProperty.call(estado.stats, stat)) estado.stats[stat]++;
-  return fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao);
+  return fecharPratica({ ...d, tipo }, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao);
 }
 
 export function registrarNivel(d) {
@@ -1617,6 +1666,18 @@ export function registrarFecho(d) {
 
 export function registrarEspaco(d) {
   return registrarTipo('espacos', 'espaco', d);
+}
+
+export function registrarMapa(d) {
+  return registrarTipo('mapas', 'mapa', d);
+}
+
+export function registrarDuro(d) {
+  return registrarTipo('duros', 'duro', d);
+}
+
+export function registrarProposta(d) {
+  return registrarTipo('propostas', 'proposta', d);
 }
 
 export function marcarEspaco(en, pt) {

@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-386%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-393%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -192,6 +192,10 @@ navegador.
 - **Com o produto**: negocie o que fica nesta entrega e o que espera.
 - **Suas perguntas**: plantão, crescimento e por que a vaga abriu.
 - **Mais erradas**: as frases que você errou duas vezes ou mais voltam na data da revisão.
+- **O mapa**: explique a arquitetura e o fluxo para quem chegou agora, em duas falas.
+- **O ponto difícil**: dê e receba um feedback duro no 1:1, sem repetir o elogio.
+- **A proposta**: apresente uma RFC e o preço da escolha, antes da decisão tomada.
+- **Semana falada**: o painel mostra os minutos de fala e os treinos de cada grupo.
 - **Estimativa**: diga "it should take about" e "I am not sure yet, but", em duas falas.
 - **Consenso**: discorde com um motivo e proponha um meio-termo.
 - **Atendimento**: ligue para o banco, a entrega ou o hotel, em três falas.
@@ -244,7 +248,7 @@ navegador.
 - **3 missões que trocam todo dia**, sorteadas de forma determinística a partir da data.
 - **Streak com protetor**: perdoa um dia perdido, e você ganha um novo protetor a cada 5 lições
   perfeitas. O app avisa quando a sequência está para vencer.
-- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **93 conquistas**, XP com
+- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **97 conquistas**, XP com
   bônus de combo, confete e efeitos sonoros sintetizados no WebAudio (nenhum arquivo de áudio no
   repositório).
 - **Desafio por link**: termine uma lição e mande o link para alguém tentar bater a sua pontuação.
@@ -328,6 +332,8 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/cultura.js` | Esporte, filme e série, pedido de aumento e a API em voz alta. |
 | `js/vivo.js` | Incidente ao vivo, prazo com o produto e perguntas no fim da entrevista. |
 | `js/espaco.js` | A fila das frases mais erradas, só as que já venceram na agenda. |
+| `js/time.js` | Arquitetura para quem chegou, feedback duro e a proposta técnica. |
+| `js/semana.js` | Minutos de fala e treinos por grupo, na semana corrente. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -410,7 +416,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **386 testes em 77 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **393 testes em 78 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -466,6 +472,7 @@ O que a suíte cobre:
 - **`tests/hub.test.js`**: os grupos da fluência, a busca, o treino recomendado, a carreira e a auditoria da versão 2.20.
 - **`tests/cultura.test.js`**: a trilha de 30 dias, esporte e série, o aumento, a API e a versão 2.21.
 - **`tests/vivo.test.js`**: incidente ao vivo, prazo com o produto, perguntas da entrevista, revisão espaçada e a versão 2.22.
+- **`tests/time.test.js`**: arquitetura, feedback duro, proposta, minutos da semana e a versão 2.23.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

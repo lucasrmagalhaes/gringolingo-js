@@ -3160,6 +3160,11 @@ button.caixa-treinavel:hover {
   font-size: 20px;
 }
 
+.semana-grupos {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
 .semana-fala {
   display: flex;
   align-items: flex-end;
