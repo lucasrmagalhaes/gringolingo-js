@@ -141,7 +141,10 @@ const BRUTOS = [
   ['rumo', 'trabalho', '🔭', 'O rumo', 'Peça feedback de carreira no 1:1.', 'rumos', 'carreira gestor feedback nivel habilidade'],
   ['acesso', 'trabalho', '🔑', 'O acesso', 'Wiki, repositório e a quem chamar se o build falhar.', 'acessos', 'acesso wiki repo build novo'],
   ['licenca', 'trabalho', '💳', 'A licença', 'Peça a ferramenta paga, com o preço do mês.', 'licencas', 'licenca ferramenta preco renovacao'],
-  ['jargao', 'trabalho', '🧾', 'Sem jargão', 'Explique a volta da página para o suporte.', 'jargoes', 'suporte cliente linguagem simples pagina']
+  ['jargao', 'trabalho', '🧾', 'Sem jargão', 'Explique a volta da página para o suporte.', 'jargoes', 'suporte cliente linguagem simples pagina'],
+  ['bandeira', 'trabalho', '🎚️', 'A bandeira', 'Ligue para dez por cento e saiba quem desliga.', 'bandeiras', 'feature flag porcentagem deploy padrao'],
+  ['gelo', 'trabalho', '🧊', 'O gelo', 'Sem merge depois das quatro, com exceção de hotfix.', 'gelos', 'code freeze quinta hotfix release'],
+  ['limite', 'trabalho', '🚥', 'O limite', 'Cem chamadas por minuto e o que o cliente faz.', 'limites', 'rate limit api 429 teto']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

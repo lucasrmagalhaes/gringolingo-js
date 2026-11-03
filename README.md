@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-458%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-462%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -252,6 +252,10 @@ navegador.
 - **O acesso**: mostre o wiki, convide para o repositório e diga a quem chamar se o build falhar.
 - **A licença**: peça a ferramenta de desenho, o preço de quarenta dólares e a renovação de sexta.
 - **Sem jargão**: diga que o botão novo foi desligado e que a página voltou à versão antiga.
+- **A bandeira**: dez por cento vê o botão, e dá para desligar a bandeira sem publicar de novo.
+- **O gelo**: sem merge depois das quatro, com exceção de hotfix até sexta de manhã.
+- **O limite**: cem chamadas por minuto, a API responde 429 e o teto sobe para duzentos.
+- **Hoje**: no hub, se já houve fala hoje, com os minutos e a quantidade de treinos.
 - **Para rever**: no hub, a frase que vence hoje, com a dica em português e sem a resposta em inglês.
 - **Esta semana**: no hub, os minutos contra a meta e o grupo com menos prática, com o número no texto.
 - **Catálogo**: ids e títulos únicos, pares parecidos demais aparecem na auditoria, e a lista do hub não pinta o que está fora da tela.
@@ -410,6 +414,7 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/radar.js` | Métrica do plantão, aplauso em público e o aviso de que está doente. |
 | `js/remoto.js` | Prazo com o PM, post-mortem e feedback de carreira. |
 | `js/equipe.js` | Acesso de quem chega, licença de ferramenta e explicação sem jargão. |
+| `js/rollout.js` | Bandeira de lançamento, gelo de release e limite da API. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -492,7 +497,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **458 testes em 93 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **462 testes em 94 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -564,6 +569,7 @@ O que a suíte cobre:
 - **`tests/radar.test.js`**: métrica do plantão, aplauso, gripe, catálogo e a versão 2.36.
 - **`tests/remoto.test.js`**: prazo com o PM, post-mortem, feedback de carreira, o balanço da semana e a versão 2.37.
 - **`tests/equipe.test.js`**: acesso, licença, linguagem simples, a fila de revisão e a versão 2.38.
+- **`tests/rollout.test.js`**: bandeira, gelo, limite da API, o cartão de hoje e a versão 2.39.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
