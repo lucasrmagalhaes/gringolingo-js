@@ -78,7 +78,11 @@ const BRUTOS = [
   ['rapido', 'revisao', '⚡', 'Pensa em inglês', 'Quatro respostas curtas. Vinte segundos cada.', 'rapidos'],
   ['cultura', 'cotidiano', '🎬', 'Esporte, filme e série', 'Jogo, cinema e a série da semana, em duas falas.', 'culturas', 'esporte filme serie cinema jogo'],
   ['aumento', 'trabalho', '🏆', 'O aumento', 'Peça aumento, fale da promoção e de uma conquista.', 'aumentos', 'promocao conquista raise'],
-  ['rota', 'trabalho', '🔌', 'A API', 'Endpoint, status e autenticação, em duas falas.', 'rotas', 'rest endpoint status autenticacao']
+  ['rota', 'trabalho', '🔌', 'A API', 'Endpoint, status e autenticação, em duas falas.', 'rotas', 'rest endpoint status autenticacao'],
+  ['vivo', 'trabalho', '🔥', 'Ao vivo', 'Status na hora, pedido de ajuda e a lição do incidente.', 'vivos', 'incidente producao status postmortem'],
+  ['produto', 'trabalho', '📦', 'Com o produto', 'Negocie o prazo e o que fica nesta entrega.', 'produtos', 'gerente prazo escopo'],
+  ['fecho', 'entrevista', '🙋', 'Suas perguntas', 'Plantão, crescimento e por que a vaga abriu.', 'fechos', 'entrevista pergunta on call'],
+  ['espaco', 'revisao', '🔂', 'Mais erradas', 'As frases que você mais errou, na data da revisão.', 'espacos', 'revisao espacada erros']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

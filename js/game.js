@@ -72,7 +72,7 @@ const padrao = () => ({
   diaDesafio: null,
   sequenciaDesafio: 0,
   recordeDesafio: 0,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0 }
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -1079,6 +1079,10 @@ function checarBadges() {
     cultura: estado.stats.culturas >= 1,
     aumento: estado.stats.aumentos >= 1,
     rota: estado.stats.rotas >= 1,
+    vivo: estado.stats.vivos >= 1,
+    produto: estado.stats.produtos >= 1,
+    fecho: estado.stats.fechos >= 1,
+    espaco: estado.stats.espacos >= 1,
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -1597,6 +1601,37 @@ export function registrarAumento(d) {
 
 export function registrarRota(d) {
   return registrarTipo('rotas', 'rota', d);
+}
+
+export function registrarVivo(d) {
+  return registrarTipo('vivos', 'vivo', d);
+}
+
+export function registrarProduto(d) {
+  return registrarTipo('produtos', 'produto', d);
+}
+
+export function registrarFecho(d) {
+  return registrarTipo('fechos', 'fecho', d);
+}
+
+export function registrarEspaco(d) {
+  return registrarTipo('espacos', 'espaco', d);
+}
+
+export function marcarEspaco(en, pt) {
+  const texto = String(en || '').trim();
+  if (texto.length < 8 || texto.length > 120 || !chaveSegura(texto) || texto.split(/\s+/).length < 2) return null;
+  if (!estado.agendaFala || typeof estado.agendaFala !== 'object' || Array.isArray(estado.agendaFala)) estado.agendaFala = {};
+  if (!estado.agendaFala[texto]) {
+    estado.agendaFala[texto] = {
+      caixa: 0,
+      proxima: hoje(),
+      pt: typeof pt === 'string' ? pt.slice(0, 120) : ''
+    };
+    salvar();
+  }
+  return { ...estado.agendaFala[texto] };
 }
 
 export function registrarPronuncia(d) {
