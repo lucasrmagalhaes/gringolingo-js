@@ -71,10 +71,11 @@ const padrao = () => ({
   metaFala: 3,
   metaFalaSemana: null,
   metaMinutos: 10,
+  notasFoco: [],
   diaDesafio: null,
   sequenciaDesafio: 0,
   recordeDesafio: 0,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0, mapas: 0, duros: 0, propostas: 0, narras: 0, bancos: 0, recusas: 0, sprints: 0, seguros: 0, meetups: 0, completas: 0 }
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0, mapas: 0, duros: 0, propostas: 0, narras: 0, bancos: 0, recusas: 0, sprints: 0, seguros: 0, meetups: 0, completas: 0, rodadas: 0, migras: 0, estreias: 0, focos: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -302,6 +303,36 @@ function aplicarDeslizes(eventos, agendamentos) {
 // Uma lição perfeita rende ~165 XP, então as metas antigas (20-80) eram batidas
 // com uma lição só; os valores migram para a escala nova mantendo a intenção.
 const METAS_ANTIGAS = { 20: 50, 30: 100, 50: 200, 80: 350 };
+const FOCOS_NOTA = ['frontend', 'backend', 'ia'];
+const TETO_NOTAS_FOCO = 8;
+
+function notaFocoLimpa(item) {
+  if (!item || typeof item !== 'object') return null;
+  if (!FOCOS_NOTA.includes(item.foco)) return null;
+  if (typeof item.dia !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(item.dia)) return null;
+  const nota = num(item.nota);
+  if (!Number.isFinite(nota) || nota < 0 || nota > 100) return null;
+  return { dia: item.dia, foco: item.foco, nota: Math.round(nota) };
+}
+
+export function limparNotasFoco(lista) {
+  if (!Array.isArray(lista)) return [];
+  const porChave = new Map();
+  for (const item of lista) {
+    const limpo = notaFocoLimpa(item);
+    if (!limpo) continue;
+    const chave = `${limpo.dia}:${limpo.foco}`;
+    const anterior = porChave.get(chave);
+    if (!anterior || limpo.nota > anterior.nota) porChave.set(chave, limpo);
+  }
+  return [...porChave.values()]
+    .sort((a, b) => b.dia.localeCompare(a.dia) || a.foco.localeCompare(b.foco))
+    .slice(0, TETO_NOTAS_FOCO);
+}
+
+function anotarFoco(dia, foco, nota) {
+  estado.notasFoco = limparNotasFoco([...(estado.notasFoco || []), { dia, foco, nota }]);
+}
 
 function sanitizar(salvo) {
   const base = padrao();
@@ -333,6 +364,7 @@ function sanitizar(salvo) {
   s.metaFala = METAS_FALA.includes(num(s.metaFala)) ? num(s.metaFala) : 3;
   s.metaFalaSemana = diaIso(s.metaFalaSemana);
   s.metaMinutos = METAS_MINUTOS.includes(num(s.metaMinutos)) ? num(s.metaMinutos) : 10;
+  s.notasFoco = limparNotasFoco(s.notasFoco);
   s.diaDesafio = diaIso(s.diaDesafio);
   s.sequenciaDesafio = Math.max(0, num(s.sequenciaDesafio));
   s.recordeDesafio = Math.max(s.sequenciaDesafio, num(s.recordeDesafio));
@@ -746,6 +778,10 @@ function mesclar(remoto) {
       }
     }
     estado.agendaFala = limparAgendaFala(estado.agendaFala);
+    estado.notasFoco = limparNotasFoco([
+      ...(estado.notasFoco || []),
+      ...(Array.isArray(remoto.notasFoco) ? remoto.notasFoco : [])
+    ]);
     if (!estado.conversas || typeof estado.conversas !== 'object') estado.conversas = {};
     for (const [id, v] of Object.entries(limparConversas(remoto.conversas))) {
       const local = estado.conversas[id] ?? { vezes: 0, melhor: 0 };
@@ -1141,6 +1177,10 @@ function checarBadges() {
     seguro: estado.stats.seguros >= 1,
     meetup: estado.stats.meetups >= 1,
     completa: estado.stats.completas >= 1,
+    rodada: estado.stats.rodadas >= 1,
+    migra: estado.stats.migras >= 1,
+    estreia: estado.stats.estreias >= 1,
+    foco: estado.stats.focos >= 1,
     minutos: somarSemana(estado.painel, hoje()).minutos >= num(estado.metaMinutos),
     tudo: UNIDADES.every(unidadeCompleta)
   };
@@ -1725,6 +1765,24 @@ export function registrarMeetup(d) {
 
 export function registrarCompleta(d) {
   return registrarTipo('completas', 'completa', d);
+}
+
+export function registrarRodada(d) {
+  return registrarTipo('rodadas', 'rodada', d);
+}
+
+export function registrarMigra(d) {
+  return registrarTipo('migras', 'migra', d);
+}
+
+export function registrarEstreia(d) {
+  return registrarTipo('estreias', 'estreia', d);
+}
+
+export function registrarFoco(d) {
+  const foco = typeof d?.foco === 'string' ? d.foco : '';
+  if (FOCOS_NOTA.includes(foco) && d?.nota != null && d.nota !== '') anotarFoco(hoje(), foco, d.nota);
+  return registrarTipo('focos', 'foco', d);
 }
 
 export function marcarEspaco(en, pt) {

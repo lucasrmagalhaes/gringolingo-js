@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.25';
+export const VERSAO_APP = '2.26';
 
 export const NOVIDADES = [
+  {
+    versao: '2.26',
+    titulo: 'Na mesa',
+    itens: [
+      '📝 Fato, ajuste e dono numa retro facilitada',
+      '🚚 Explique uma migração de banco ou de biblioteca e o risco',
+      '👋 Puxe um oi no primeiro dia de um time novo',
+      '🧩 Escolha frontend, backend ou IA e guarde a nota'
+    ]
+  },
   {
     versao: '2.25',
     titulo: 'Na sprint',
@@ -1082,6 +1092,10 @@ export const MISSOES = [
   { id: 'seguro1', emoji: '🔐', titulo: 'Explique uma decisão de segurança', alvo: 1, xp: 15, medir: s => (s.tipo === 'seguro' ? 1 : 0) },
   { id: 'meetup1', emoji: '🎫', titulo: 'Puxe assunto num meetup', alvo: 1, xp: 15, medir: s => (s.tipo === 'meetup' ? 1 : 0) },
   { id: 'completa1', emoji: '🎓', titulo: 'Termine a entrevista de cinco treinos', alvo: 1, xp: 15, medir: s => (s.tipo === 'completa' ? 1 : 0) },
+  { id: 'rodada1', emoji: '📝', titulo: 'Feche a mesa da retro com um dono', alvo: 1, xp: 15, medir: s => (s.tipo === 'rodada' ? 1 : 0) },
+  { id: 'migra1', emoji: '🚚', titulo: 'Explique uma migração e o risco', alvo: 1, xp: 15, medir: s => (s.tipo === 'migra' ? 1 : 0) },
+  { id: 'estreia1', emoji: '👋', titulo: 'Puxe um oi no primeiro dia', alvo: 1, xp: 15, medir: s => (s.tipo === 'estreia' ? 1 : 0) },
+  { id: 'foco1', emoji: '🧩', titulo: 'Termine a entrevista do foco escolhido', alvo: 1, xp: 15, medir: s => (s.tipo === 'foco' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1192,6 +1206,10 @@ export const BADGES = [
   { id: 'seguro', emoji: '🔐', nome: 'A decisão segura', desc: 'Fale de um furo, de um patch ou de apagar um dado' },
   { id: 'meetup', emoji: '🎫', nome: 'No meetup', desc: 'Puxe assunto num evento de tecnologia' },
   { id: 'completa', emoji: '🎓', nome: 'A entrevista', desc: 'Termine os cinco treinos e veja a nota' },
+  { id: 'rodada', emoji: '📝', nome: 'A mesa', desc: 'Diga o fato, o ajuste e quem fica com a ação' },
+  { id: 'migra', emoji: '🚚', nome: 'A migração', desc: 'Fale da troca de banco ou de biblioteca e do risco' },
+  { id: 'estreia', emoji: '👋', nome: 'O primeiro dia', desc: 'Puxe um oi informal no time novo' },
+  { id: 'foco', emoji: '🧩', nome: 'O foco', desc: 'Escolha frontend, backend ou IA e termine os cinco treinos' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 

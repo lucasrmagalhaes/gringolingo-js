@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-403%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-408%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -204,6 +204,10 @@ navegador.
 - **A decisão segura**: fale de um furo, de um patch ou de apagar um dado.
 - **No meetup**: puxe assunto num evento de tecnologia.
 - **Entrevista completa**: cinco treinos em sequência e a mesma nota do simulado.
+- **A mesa da retro**: fato, ajuste e quem fica com a ação. A retro antiga, de bem e melhorar, continua no catálogo.
+- **A migração**: explique a troca de banco ou de biblioteca e o risco.
+- **Primeiro dia**: um oi informal no time novo, fora do onboarding do projeto.
+- **Entrevista por foco**: escolha frontend, backend ou IA. A nota fica neste aparelho.
 - **Estimativa**: diga "it should take about" e "I am not sure yet, but", em duas falas.
 - **Consenso**: discorde com um motivo e proponha um meio-termo.
 - **Atendimento**: ligue para o banco, a entrega ou o hotel, em três falas.
@@ -256,7 +260,7 @@ navegador.
 - **3 missões que trocam todo dia**, sorteadas de forma determinística a partir da data.
 - **Streak com protetor**: perdoa um dia perdido, e você ganha um novo protetor a cada 5 lições
   perfeitas. O app avisa quando a sequência está para vencer.
-- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **105 conquistas**, XP com
+- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **109 conquistas**, XP com
   bônus de combo, confete e efeitos sonoros sintetizados no WebAudio (nenhum arquivo de áudio no
   repositório).
 - **Desafio por link**: termine uma lição e mande o link para alguém tentar bater a sua pontuação.
@@ -345,6 +349,8 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/narra.js` | Pair narrado, banco ou cache na entrevista e o não educado. |
 | `js/cliente.js` | Demo da sprint, decisão de segurança e papo de meetup. |
 | `js/completa.js` | Entrevista de cinco treinos com a mesma nota do simulado. |
+| `js/rodada.js` | Mesa da retro, migração e o oi do primeiro dia. |
+| `js/foco.js` | Entrevista por foco, com a mesma nota do simulado. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -427,7 +433,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **403 testes em 80 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **408 testes em 81 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -486,6 +492,7 @@ O que a suíte cobre:
 - **`tests/time.test.js`**: arquitetura, feedback duro, proposta, minutos da semana e a versão 2.23.
 - **`tests/narra.test.js`**: pair narrado, banco ou cache, recusa educada, meta de minutos e a versão 2.24.
 - **`tests/cliente.test.js`**: demo da sprint, decisão de segurança, meetup, entrevista de cinco treinos e a versão 2.25.
+- **`tests/rodada.test.js`**: mesa da retro, migração, primeiro dia, entrevista por foco, histórico de notas e a versão 2.26.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
