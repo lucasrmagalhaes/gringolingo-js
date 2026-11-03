@@ -104,7 +104,11 @@ const BRUTOS = [
   ['culpa', 'trabalho', '🙏', 'A desculpa', 'Assuma o erro e diga o próximo passo.', 'culpas', 'blameless desculpa responsabilidade erro'],
   ['raio', 'trabalho', '🔦', 'O relâmpago', 'Cinco minutos sobre um projeto pessoal.', 'raios', 'palestra relampago projeto pessoal cinco minutos'],
   ['oferta', 'entrevista', '💻', 'A oferta', 'Equipamento, verba de estudo e a data de início.', 'ofertas', 'oferta equipamento notebook verba data inicio'],
-  ['sombra', 'revisao', '🗣️', 'Sombra', 'Ouça a voz do aparelho, repita e compare.', 'sombra', 'shadowing ouvir repetir comparar']
+  ['sombra', 'revisao', '🗣️', 'Sombra', 'Ouça a voz do aparelho, repita e compare.', 'sombra', 'shadowing ouvir repetir comparar'],
+  ['pedido', 'trabalho', '🙋', 'Não entendi', 'Peça o sotaque, a palavra que escapou e leia o requisito de volta.', 'pedidos', 'esclarecer sotaque palavra requisito'],
+  ['cobertura', 'trabalho', '🧪', 'A cobertura', 'Diga como os testes e a cobertura protegem o merge.', 'coberturas', 'teste cobertura suite merge linhas'],
+  ['loom', 'trabalho', '🎥', 'O vídeo', 'Um check-in curto para o time assistir depois.', 'looms', 'loom video check-in assincrono'],
+  ['caderno', 'revisao', '📒', 'Meu vocabulário', 'Palavras que escaparam nas falas.', 'cadernos', 'vocabulario palavras erro fala caderno']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.28';
+export const VERSAO_APP = '2.29';
 
 export const NOVIDADES = [
+  {
+    versao: '2.29',
+    titulo: 'No esclarecimento',
+    itens: [
+      '🙋 Peça o sotaque, a palavra que escapou e leia o requisito de volta',
+      '🧪 Explique os testes, a cobertura e o relógio falso',
+      '🎥 Deixe um vídeo curto para o time assistir depois',
+      '📒 As palavras que escaparam nas falas ficam no seu vocabulário'
+    ]
+  },
   {
     versao: '2.28',
     titulo: 'Na desculpa',
@@ -1122,6 +1132,10 @@ export const MISSOES = [
   { id: 'culpa1', emoji: '🙏', titulo: 'Assuma um erro e diga o próximo passo', alvo: 1, xp: 15, medir: s => (s.tipo === 'culpa' ? 1 : 0) },
   { id: 'raio1', emoji: '🔦', titulo: 'Fale cinco minutos de um projeto pessoal', alvo: 1, xp: 15, medir: s => (s.tipo === 'raio' ? 1 : 0) },
   { id: 'oferta1', emoji: '💻', titulo: 'Negocie equipamento, verba ou a data', alvo: 1, xp: 15, medir: s => (s.tipo === 'oferta' ? 1 : 0) },
+  { id: 'pedido1', emoji: '🙋', titulo: 'Peça o sotaque, a palavra ou leia o requisito', alvo: 1, xp: 15, medir: s => (s.tipo === 'pedido' ? 1 : 0) },
+  { id: 'cobertura1', emoji: '🧪', titulo: 'Explique os testes ou a cobertura', alvo: 1, xp: 15, medir: s => (s.tipo === 'cobertura' ? 1 : 0) },
+  { id: 'loom1', emoji: '🎥', titulo: 'Deixe um check-in de dois minutos', alvo: 1, xp: 15, medir: s => (s.tipo === 'loom' ? 1 : 0) },
+  { id: 'caderno1', emoji: '📒', titulo: 'Use uma palavra sua numa frase', alvo: 1, xp: 15, medir: s => (s.tipo === 'caderno' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1242,6 +1256,10 @@ export const BADGES = [
   { id: 'culpa', emoji: '🙏', nome: 'A desculpa', desc: 'Assuma o erro e diga o próximo passo' },
   { id: 'raio', emoji: '🔦', nome: 'O relâmpago', desc: 'Conte um projeto pessoal em cinco minutos' },
   { id: 'oferta', emoji: '💻', nome: 'A oferta', desc: 'Fale do notebook, da verba de estudo ou da data' },
+  { id: 'pedido', emoji: '🙋', nome: 'Não entendi', desc: 'Peça o sotaque, a palavra ou leia o requisito de volta' },
+  { id: 'cobertura', emoji: '🧪', nome: 'A cobertura', desc: 'Explique os testes, a cobertura ou o relógio falso' },
+  { id: 'loom', emoji: '🎥', nome: 'O vídeo', desc: 'Deixe um check-in curto para o time assistir depois' },
+  { id: 'caderno', emoji: '📒', nome: 'Meu vocabulário', desc: 'Use numa frase uma palavra que escapou nas falas' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
