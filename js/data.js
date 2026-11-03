@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.23';
+export const VERSAO_APP = '2.24';
 
 export const NOVIDADES = [
+  {
+    versao: '2.24',
+    titulo: 'No par',
+    itens: [
+      '🎙️ Narre a próxima linha enquanto programa com um par',
+      '🗄️ Explique banco ou cache numa entrevista de sistema',
+      '🙅 Recuse um pedido e ofereça outro caminho',
+      '📊 Escolha a meta de minutos e veja o lembrete na semana'
+    ]
+  },
   {
     versao: '2.23',
     titulo: 'No mapa',
@@ -1055,6 +1065,9 @@ export const MISSOES = [
   { id: 'mapa1', emoji: '🗺️', titulo: 'Explique a arquitetura ou o fluxo do time', alvo: 1, xp: 15, medir: s => (s.tipo === 'mapa' ? 1 : 0) },
   { id: 'duro1', emoji: '🗣️', titulo: 'Dê ou receba um feedback duro', alvo: 1, xp: 15, medir: s => (s.tipo === 'duro' ? 1 : 0) },
   { id: 'proposta1', emoji: '📐', titulo: 'Apresente uma proposta e a troca', alvo: 1, xp: 15, medir: s => (s.tipo === 'proposta' ? 1 : 0) },
+  { id: 'narrar1', emoji: '🎙️', titulo: 'Narre a próxima linha com o par', alvo: 1, xp: 15, medir: s => (s.tipo === 'narrar' ? 1 : 0) },
+  { id: 'banco1', emoji: '🗄️', titulo: 'Explique banco ou cache na entrevista', alvo: 1, xp: 15, medir: s => (s.tipo === 'banco' ? 1 : 0) },
+  { id: 'recusa1', emoji: '🙅', titulo: 'Recuse um pedido e ofereça outro caminho', alvo: 1, xp: 15, medir: s => (s.tipo === 'recusa' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1157,6 +1170,10 @@ export const BADGES = [
   { id: 'duro', emoji: '🗣️', nome: 'O ponto difícil', desc: 'Dê ou receba um feedback duro no 1:1' },
   { id: 'proposta', emoji: '📐', nome: 'A proposta', desc: 'Apresente uma RFC e o preço da escolha' },
   { id: 'semana', emoji: '📊', nome: 'Dez minutos', desc: 'Some 10 minutos de fala nesta semana' },
+  { id: 'narrar', emoji: '🎙️', nome: 'O par narrado', desc: 'Diga a próxima linha antes de escrever' },
+  { id: 'banco', emoji: '🗄️', nome: 'A guarda', desc: 'Explique sessões, cache ou busca numa entrevista' },
+  { id: 'recusa', emoji: '🙅', nome: 'O não educado', desc: 'Recuse um pedido e ofereça outro caminho' },
+  { id: 'minutos', emoji: '⏱️', nome: 'Sua meta', desc: 'Bata a meta de minutos que você escolheu' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 

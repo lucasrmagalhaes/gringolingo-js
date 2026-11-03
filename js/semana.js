@@ -6,6 +6,7 @@ import { diasDaSemana } from './fluencia.js';
 
 export const SEGUNDOS_POR_RESPOSTA = 12;
 export const TETO_SESSAO = 1800;
+export const METAS_MINUTOS = [10, 20, 30, 45];
 export const GRUPOS = CATEGORIAS.map(c => c.id);
 
 const ALIAS = { perguntaDia: 'dia', verbo: 'frasal' };
@@ -54,4 +55,18 @@ export function textoGrupo(n, titulo) {
   const q = Math.max(0, Number(n) || 0);
   const nome = q === 1 ? '1 treino' : `${q} treinos`;
   return `${nome} em ${titulo}`;
+}
+
+export function lembreteMinutos(minutos, meta, diaIso) {
+  const feito = Math.max(0, Math.floor(Number(minutos) || 0));
+  const alvo = Math.max(0, Number(meta) || 0);
+  if (alvo > 0 && feito >= alvo) return `Meta de minutos batida: ${feito} de ${alvo}.`;
+  const base = new Date(`${diaIso}T12:00:00`);
+  const tarde = !Number.isNaN(base.getTime()) && ((base.getDay() + 6) % 7) >= 3;
+  const falta = Math.max(0, alvo - feito);
+  if (tarde) {
+    if (falta === 1) return 'Ainda dá tempo. Falta 1 minuto.';
+    return `Ainda dá tempo. Faltam ${falta} minutos.`;
+  }
+  return `${feito} de ${alvo} minutos nesta semana.`;
 }
