@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.18';
+export const VERSAO_APP = '2.19';
 
 export const NOVIDADES = [
+  {
+    versao: '2.19',
+    titulo: 'Em casa',
+    itens: [
+      '🤖 Explique prompt, alucinação e RAG em linguagem simples',
+      '🛡️ Fale de CVE, patch e upgrade de dependência',
+      '🏠 Conte a manhã, o jantar e a noite em família',
+      '💬 Uma conversa livre puxa três assuntos do dia'
+    ]
+  },
   {
     versao: '2.18',
     titulo: 'Na banca',
@@ -992,6 +1002,8 @@ export const MISSOES = [
   { id: 'sinal1', emoji: '📶', titulo: 'Diga que a chamada falhou', alvo: 1, xp: 15, medir: s => (s.tipo === 'sinal' ? 1 : 0) },
   { id: 'sistema1', emoji: '🏗️', titulo: 'Desenhe um sistema em voz alta', alvo: 1, xp: 15, medir: s => (s.tipo === 'sistema' ? 1 : 0) },
   { id: 'simulado1', emoji: '🎯', titulo: 'Faça o simulado remoto', alvo: 1, xp: 15, medir: s => (s.tipo === 'simulado' ? 1 : 0) },
+  { id: 'modelo1', emoji: '🤖', titulo: 'Explique a IA em linguagem simples', alvo: 1, xp: 15, medir: s => (s.tipo === 'modelo' ? 1 : 0) },
+  { id: 'papo1', emoji: '💬', titulo: 'Faça a conversa livre do dia', alvo: 1, xp: 15, medir: s => (s.tipo === 'papo' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1078,6 +1090,10 @@ export const BADGES = [
   { id: 'codigo', emoji: '💻', nome: 'Em voz alta', desc: 'Pense em voz alta enquanto resolve o problema' },
   { id: 'colega', emoji: '🤝', nome: 'Outra área', desc: 'Peça ou ofereça ajuda a design, QA ou produto' },
   { id: 'simulado', emoji: '🎯', nome: 'A banca', desc: 'Termine o simulado remoto e veja a nota' },
+  { id: 'modelo', emoji: '🤖', nome: 'Em palavras simples', desc: 'Explique prompt, alucinação ou RAG' },
+  { id: 'furo', emoji: '🛡️', nome: 'O furo', desc: 'Fale de CVE, patch ou upgrade' },
+  { id: 'rotina', emoji: '🏠', nome: 'Em casa', desc: 'Conte a manhã, o jantar ou a noite em família' },
+  { id: 'assunto', emoji: '💬', nome: 'Assunto do dia', desc: 'Faça a conversa livre com acompanhamento' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
