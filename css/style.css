@@ -373,6 +373,10 @@ textarea {
 
 .revisao-emoji {
   font-size: 36px;
+  width: 44px;
+  flex: 0 0 44px;
+  text-align: center;
+  line-height: 1;
 }
 
 .revisao-textos {
@@ -393,6 +397,11 @@ textarea {
 
 .revisao-seta {
   font-size: 24px;
+  flex: 0 0 auto;
+}
+
+.revisao > .pilula {
+  flex-shrink: 0;
 }
 
 .unidade {

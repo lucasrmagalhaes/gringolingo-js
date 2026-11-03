@@ -1,8 +1,8 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
-import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, resumoDesafio, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
+import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES, falarComLocale } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
 import { SONS, CLIPS, somPorId, clipPorId, montarItem, corrigirClip, serieFala, resumoFala, TAXA_NORMAL, TAXA_DEVAGAR } from './pronuncia.js';
@@ -17,6 +17,7 @@ import { RETROS, retroPorId, avaliarRetro, CHEGADAS, chegadaPorId, avaliarChegad
 import { ESTIMATIVAS, estimativaPorId, avaliarEstimativa, CONSENSOS, consensoPorId, avaliarConsenso, ATENDIMENTOS, atendimentoPorId, avaliarAtendimento, historicoFala, rotuloHistorico } from './cotidiano.js';
 import { GESTORES, gestorPorId, avaliarGestor, FINAIS, finalPorId, avaliarFinal, VIAGENS, viagemPorId, avaliarViagem, catalogoFaladas, montarRevisao, avaliarRevisao, SEGUNDOS_REVISAO } from './turno.js';
 import { LINHAS, linhaPorId, avaliarLinha, SLACKS, slackPorId, avaliarSlack, SOCIAIS, socialPorId, avaliarSocial, TERMOS, termoPorId, avaliarTermo } from './oficina.js';
+import { SALARIOS, salarioPorId, avaliarSalario, PROJETOS, projetoPorId, avaliarProjeto, SOTAQUES as CENAS_SOTAQUE, sotaquePorId, avaliarSotaque, avaliarDesafio, montarDesafio, textoDesafio, rotuloVoz } from './vaga.js';
 import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS, rotuloGravacao } from './voz.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
@@ -3207,7 +3208,7 @@ function telaConversa() {
   app.innerHTML = '';
   app.append(
     topoVoltar('💬 Conversar', () => voltarTela()),
-    h('p', { class: 'ia-aviso' }, 'Linha a linha, Slack, happy hour e o som de cache, queue e SQL. O resto da fluência continua abaixo.'),
+    h('p', { class: 'ia-aviso' }, 'Salário, portfólio, sotaques e o desafio do dia. O resto da fluência continua abaixo.'),
     ...blocoFluencia(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'DIÁLOGOS'),
     ...CENARIOS.map(c => {
@@ -4612,6 +4613,10 @@ let linhaSessao = null;
 let slackSessao = null;
 let socialSessao = null;
 let termoSessao = null;
+let salarioSessao = null;
+let projetoSessao = null;
+let sotaqueSessao = null;
+let desafioSessao = null;
 let revisaoPrazo = 0;
 let gravacaoUrl = null;
 let gravadorAtivo = null;
@@ -4646,6 +4651,10 @@ function blocoFluencia() {
   const vencidos = deslizesVencidos().length;
   return [
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'FLUÊNCIA'),
+    botaoFluencia('💰', 'Salário', 'Faixa, plano de saúde e ações.', telaSalarios),
+    botaoFluencia('🧰', 'Portfólio', 'Problema, stack e resultado.', telaProjetos),
+    botaoFluencia('🎧', 'Sotaques', 'Americano, britânico e indiano, na voz do aparelho.', telaSotaques),
+    botaoFluencia('📅', 'Desafio do dia', 'A sequência de dias aumenta as frases.', telaDesafio),
     botaoFluencia('💻', 'Linha a linha', 'Explique o loop, o callback e o null check.', telaLinhas),
     botaoFluencia('💬', 'Slack', 'Peça review ou avise um atraso, em poucas palavras.', telaSlacks),
     botaoFluencia('🍻', 'Happy hour', 'Um brinde, o violão e o Brasil.', telaSociais),
@@ -5462,6 +5471,7 @@ function telaResumo() {
       h('p', {}, `Estimativas ${estado.stats.estimativas} · consensos ${estado.stats.consensos} · atendimentos ${estado.stats.atendimentos}.`),
       h('p', {}, `1:1 ${estado.stats.gestores} · perguntas finais ${estado.stats.finais} · viagens ${estado.stats.viagens} · revisões de 3 min ${estado.stats.misturas}.`),
       h('p', {}, `Linhas ${estado.stats.linhas} · slacks ${estado.stats.slacks} · sociais ${estado.stats.sociais} · termos ${estado.stats.termos}.`),
+      h('p', {}, `Salários ${estado.stats.salarios} · projetos ${estado.stats.projetos} · sotaques ${estado.stats.sotaques} · desafios ${estado.stats.desafios}.`),
       h('p', {}, lembreteMeta(contarFaladas(estado.painel, hojeIso), estado.metaFala, hojeIso))
     ),
     erros.length
@@ -6966,6 +6976,219 @@ function pintarAtendimento() {
   });
 }
 
+function telaSalarios() {
+  salarioSessao = null;
+  telaListaFala(
+    'salario',
+    '💰 Salário',
+    'Duas falas: o pedido e a troca. Faixa, plano de saúde e ações. A frase modelo só aparece depois.',
+    preferirNivel(SALARIOS, estado.nivelFala),
+    abrirSalario
+  );
+}
+
+function abrirSalario(id) {
+  const cena = salarioPorId(id);
+  if (!cena) return telaSalarios();
+  descartarVoz();
+  salarioSessao = novaCena(cena);
+  pintarSalario();
+}
+
+function pintarSalario() {
+  pintarCenaFala(salarioSessao, {
+    rota: 'salario',
+    aoLista: telaSalarios,
+    repintar: pintarSalario,
+    avaliar: avaliarSalario,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(salarioSessao, registrarSalario, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Oferta falada!',
+      destino: telaSalarios
+    })
+  });
+}
+
+function telaProjetos() {
+  projetoSessao = null;
+  telaListaFala(
+    'projeto',
+    '🧰 Portfólio',
+    'Três falas: o problema, a stack e o resultado. A frase modelo só aparece depois.',
+    preferirNivel(PROJETOS, estado.nivelFala),
+    abrirProjeto
+  );
+}
+
+function abrirProjeto(id) {
+  const cena = projetoPorId(id);
+  if (!cena) return telaProjetos();
+  descartarVoz();
+  projetoSessao = novaCena(cena);
+  pintarProjeto();
+}
+
+function pintarProjeto() {
+  pintarCenaFala(projetoSessao, {
+    rota: 'projeto',
+    aoLista: telaProjetos,
+    repintar: pintarProjeto,
+    avaliar: avaliarProjeto,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(projetoSessao, registrarProjeto, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Projeto contado!',
+      destino: telaProjetos
+    })
+  });
+}
+
+function telaSotaques() {
+  sotaqueSessao = null;
+  telaListaFala(
+    'sotaque',
+    '🎧 Sotaques',
+    'Ouça a voz do aparelho e escreva a frase. Americano, britânico e indiano. A frase modelo só aparece depois.',
+    preferirNivel(CENAS_SOTAQUE, estado.nivelFala),
+    abrirSotaque
+  );
+}
+
+function abrirSotaque(id) {
+  const cena = sotaquePorId(id);
+  if (!cena) return telaSotaques();
+  descartarVoz();
+  sotaqueSessao = novaCena(cena);
+  pintarSotaque();
+}
+
+function pintarSotaque() {
+  const sessao = sotaqueSessao;
+  if (!sessao || sessao.concluido) return telaSotaques();
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'sotaque';
+  registrarRota('sotaque');
+  const cena = sessao.cena;
+  const rodada = cena.rodadas[sessao.i];
+  const campo = campoResposta('Escreva em inglês...');
+  const statusVoz = h('p', { class: 'ia-aviso', role: 'status' }, '');
+  const ouvir = () => {
+    const resultado = falarComLocale(rodada.melhor, cena.locale);
+    statusVoz.textContent = rotuloVoz(resultado, cena.locale);
+  };
+  app.innerHTML = '';
+  const miolo = [
+    topoVoltar(cena.emoji + ' ' + cena.titulo, telaSotaques),
+    h('div', { class: 'revisao-sub' }, rotuloCall(sessao)),
+    h('p', { class: 'sombra-frase' }, rodada.missao),
+    h('div', { class: 'pilula' }, cena.locale),
+    statusVoz
+  ];
+  if (sessao.feedback) {
+    miolo.push(cartaoTutor(sessao.feedback));
+    miolo.push(barraModelo(sessao.feedback.melhor, campo.status));
+    miolo.push(h('button', {
+      class: 'btn btn-verde',
+      onclick() {
+        if (sessao.i + 1 >= cena.rodadas.length) {
+          concluirCena(sessao, registrarSotaque, {
+            xpBase: 10,
+            xpAcerto: 8,
+            titulo: 'Sotaque ouvido!',
+            destino: telaSotaques
+          });
+        } else {
+          descartarVoz();
+          sessao.i++;
+          sessao.feedback = null;
+          pintarSotaque();
+        }
+      }
+    }, sessao.i + 1 >= cena.rodadas.length ? 'CONCLUIR' : 'PRÓXIMA'));
+  } else {
+    miolo.push(h('button', { class: 'btn btn-branco', type: 'button', onclick: ouvir }, 'OUVIR'));
+    miolo.push(barraGravar(campo.status));
+    miolo.push(campo.status, campo.mic, campo.entrada);
+    const verificar = h('button', { class: 'btn btn-verde', disabled: true }, 'VERIFICAR');
+    campo.entrada.addEventListener('input', () => {
+      verificar.disabled = !campo.entrada.value.trim();
+    });
+    const enviar = async () => {
+      if (!campo.entrada.value.trim() || sessao.feedback) return;
+      await finalizarGravacao();
+      const aval = avaliarSotaque(rodada, campo.entrada.value);
+      sessao.notas.push(aval.nota);
+      if (aval.ok) {
+        sessao.acertos++;
+        sons.acerto();
+      } else {
+        sons.erro();
+        sessao.erros.push({ en: aval.melhor, pt: rodada.missao });
+      }
+      sessao.feedback = aval;
+      pintarSotaque();
+    };
+    campo.entrada.addEventListener('keydown', e => {
+      if (e.key === 'Enter') enviar();
+    });
+    verificar.addEventListener('click', () => { enviar(); });
+    miolo.push(verificar);
+    timerDeTela(ouvir, 280);
+  }
+  app.append(h('div', {}, miolo));
+  ligarTeclasDaFala();
+  focarTela();
+  if (!sessao.feedback) campo.entrada.focus();
+}
+
+function telaDesafio() {
+  desafioSessao = null;
+  calar();
+  limparTela();
+  descartarVoz();
+  window.scrollTo(0, 0);
+  telaAtiva = 'desafio';
+  registrarRota('desafio');
+  const resumo = resumoDesafio(diaLocalAgora());
+  app.innerHTML = '';
+  app.append(
+    topoVoltar('📅 Desafio do dia', () => voltarTela(telaConversa)),
+    h('p', { class: 'ia-aviso' }, textoDesafio(resumo) + ' A frase modelo só aparece depois. Recorde: ' + resumo.recorde + '.'),
+    h('button', { class: 'btn btn-verde', onclick: abrirDesafio }, resumo.feito ? 'REPETIR' : 'COMEÇAR')
+  );
+  focarTela();
+}
+
+function abrirDesafio() {
+  const resumo = resumoDesafio(diaLocalAgora());
+  const cena = montarDesafio(diaLocalAgora(), resumo.entrando);
+  if (!cena) return telaDesafio();
+  descartarVoz();
+  desafioSessao = novaCena(cena);
+  pintarDesafio();
+}
+
+function pintarDesafio() {
+  pintarCenaFala(desafioSessao, {
+    rota: 'desafio',
+    aoLista: telaDesafio,
+    repintar: pintarDesafio,
+    avaliar: avaliarDesafio,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(desafioSessao, registrarDesafioDia, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Dia feito!',
+      destino: telaDesafio
+    })
+  });
+}
+
 function telaLinhas() {
   linhaSessao = null;
   telaListaFala(
@@ -8057,6 +8280,10 @@ async function iniciar() {
     slack: () => (slackSessao && !slackSessao.concluido ? pintarSlack() : telaSlacks()),
     social: () => (socialSessao && !socialSessao.concluido ? pintarSocial() : telaSociais()),
     termo: () => (termoSessao && !termoSessao.concluido ? pintarTermo() : telaTermos()),
+    salario: () => (salarioSessao && !salarioSessao.concluido ? pintarSalario() : telaSalarios()),
+    projeto: () => (projetoSessao && !projetoSessao.concluido ? pintarProjeto() : telaProjetos()),
+    sotaque: () => (sotaqueSessao && !sotaqueSessao.concluido ? pintarSotaque() : telaSotaques()),
+    desafio: () => (desafioSessao && !desafioSessao.concluido ? pintarDesafio() : telaDesafio()),
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
     reducao: () => (reducaoSessao && !reducaoSessao.concluido ? pintarReducao() : telaReducoes()),

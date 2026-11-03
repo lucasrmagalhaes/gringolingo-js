@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.13';
+export const VERSAO_APP = '2.14';
 
 export const NOVIDADES = [
+  {
+    versao: '2.14',
+    titulo: 'Na mesa',
+    itens: [
+      '💰 Negocie faixa, plano de saúde e ações',
+      '🧰 Conte um projeto: problema, stack e resultado',
+      '🎧 Ouça sotaque americano, britânico e indiano na voz do aparelho',
+      '📅 Desafio do dia: a sequência aumenta as frases, até 6'
+    ]
+  },
   {
     versao: '2.13',
     titulo: 'Na linha',
@@ -932,6 +942,8 @@ export const MISSOES = [
   { id: 'viagem1', emoji: '🛫', titulo: 'Fale no aeroporto, na imigração ou no táxi', alvo: 1, xp: 15, medir: s => (s.tipo === 'viagem' ? 1 : 0) },
   { id: 'linha1', emoji: '💻', titulo: 'Explique uma linha de código em voz alta', alvo: 1, xp: 15, medir: s => (s.tipo === 'linha' ? 1 : 0) },
   { id: 'slack1', emoji: '💬', titulo: 'Mande um recado curto de Slack', alvo: 1, xp: 15, medir: s => (s.tipo === 'slack' ? 1 : 0) },
+  { id: 'salario1', emoji: '💰', titulo: 'Negocie salário ou benefício', alvo: 1, xp: 15, medir: s => (s.tipo === 'salario' ? 1 : 0) },
+  { id: 'projeto1', emoji: '🧰', titulo: 'Conte um projeto do portfólio', alvo: 1, xp: 15, medir: s => (s.tipo === 'projeto' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1000,6 +1012,10 @@ export const BADGES = [
   { id: 'slack', emoji: '💬', nome: 'No Slack', desc: 'Peça uma review ou avise um atraso' },
   { id: 'social', emoji: '🍻', nome: 'Depois do trabalho', desc: 'Fale de happy hour, hobby ou do Brasil' },
   { id: 'termo', emoji: '🔤', nome: 'O som certo', desc: 'Diga cache, queue, SQL, GUI, height ou width' },
+  { id: 'salario', emoji: '💰', nome: 'Na mesa', desc: 'Negocie faixa, plano de saúde ou ações' },
+  { id: 'projeto', emoji: '🧰', nome: 'No portfólio', desc: 'Conte o problema, a stack e o resultado' },
+  { id: 'sotaque', emoji: '🎧', nome: 'Outro sotaque', desc: 'Ouça uma voz americana, britânica ou indiana' },
+  { id: 'desafio', emoji: '📅', nome: 'Dia de fala', desc: 'Termine o desafio diário de fala' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
