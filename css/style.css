@@ -1745,9 +1745,9 @@ textarea.entrada {
     padding: 6px 0;
   }
 
-  .card.revisao {
+  .badge-card {
     content-visibility: auto;
-    contain-intrinsic-size: auto 84px;
+    contain-intrinsic-size: auto 108px;
   }
 }
 

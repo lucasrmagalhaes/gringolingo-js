@@ -1,7 +1,7 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, registrarRequisito, registrarMetrica, registrarAprendizado, registrarPasseio, registrarFalha, registrarMentoria, registrarSocorro, resumoDesafio, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, resumoBackup, textoResumoBackup, nomeArquivoBackup, LIMITE_BACKUP, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, registrarRequisito, registrarMetrica, registrarAprendizado, registrarPasseio, registrarFalha, registrarMentoria, registrarSocorro, registrarPalestra, registrarDuvida, registrarSinal, resumoDesafio, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, resumoBackup, textoResumoBackup, nomeArquivoBackup, LIMITE_BACKUP, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, palavrasDoPadrao, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES, falarComLocale, falarTrechos } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
@@ -20,6 +20,7 @@ import { LINHAS, linhaPorId, avaliarLinha, SLACKS, slackPorId, avaliarSlack, SOC
 import { SALARIOS, salarioPorId, avaliarSalario, PROJETOS, projetoPorId, avaliarProjeto, SOTAQUES as CENAS_SOTAQUE, sotaquePorId, avaliarSotaque, avaliarDesafio, montarDesafio, textoDesafio, rotuloVoz } from './vaga.js';
 import { REQUISITOS, requisitoPorId, avaliarRequisito, METRICAS, metricaPorId, avaliarMetrica, APRENDIZADOS, aprendizadoPorId, avaliarAprendizado, montarPasseio, decidirPasseio, falasDaPergunta, ESPERA_RESPOSTA_MS } from './briefing.js';
 import { FALHAS, falhaPorId, avaliarFalha, MENTORIAS, mentoriaPorId, avaliarMentoria, SOCORROS, socorroPorId, avaliarSocorro } from './guia.js';
+import { PALESTRAS, palestraPorId, avaliarPalestra, DUVIDAS, duvidaPorId, avaliarDuvida, SINAIS, sinalPorId, avaliarSinal } from './plateia.js';
 import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS, rotuloGravacao } from './voz.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
@@ -443,15 +444,19 @@ function cartaoDicaDoDia() {
 
 function botaoPontosFracos() {
   const fracos = palavrasFracas(itensAprendidos());
-  if (!fracos.length) return '';
+  const padroes = resumoPadroes(1);
+  if (!fracos.length && !padroes.length) return '';
   const topo = fracos[0];
-  return h('button', { class: 'card revisao pontos-fracos', onclick: iniciarPontosFracos },
+  const sub = topo
+    ? `${fracos.length} palavra${fracos.length > 1 ? 's' : ''} para reforçar. A que mais volta: ${topo.item.en}.`
+    : 'Padrões de erro que mais voltam, cada um com um treino.';
+  return h('button', { class: 'card revisao pontos-fracos', onclick: telaPontosFracos },
     h('span', { class: 'revisao-emoji' }, '🧭'),
     h('div', { class: 'revisao-textos' },
       h('div', { class: 'revisao-titulo' }, 'Pontos fracos'),
-      h('div', { class: 'revisao-sub' }, `${fracos.length} palavra${fracos.length > 1 ? 's' : ''} para reforçar. A que mais volta: ${topo.item.en}.`)
+      h('div', { class: 'revisao-sub' }, sub)
     ),
-    h('span', { class: 'revisao-seta' }, '⚡')
+    h('span', { class: 'revisao-seta' }, '›')
   );
 }
 
@@ -2345,8 +2350,74 @@ function cartaoTropecos() {
         h('span', { class: 'tropeco-saldo' }, `${f.saldo}×`)
       ))
     ) : '',
-    fracos.length ? h('button', { class: 'btn btn-verde tropeco-btn', onclick: iniciarPontosFracos }, 'TREINAR AGORA') : ''
+    h('div', { class: 'backup-botoes' },
+      h('button', { class: 'btn btn-branco tropeco-btn', type: 'button', onclick: telaPontosFracos }, 'VER PADRÕES'),
+      fracos.length ? h('button', { class: 'btn btn-verde tropeco-btn', type: 'button', onclick: iniciarPontosFracos }, 'TREINAR AGORA') : ''
+    )
   );
+}
+
+function telaPontosFracos() {
+  calar();
+  limparTela();
+  window.scrollTo(0, 0);
+  telaAtiva = 'fracos';
+  registrarRota('fracos');
+  const aprendidos = itensAprendidos();
+  const padroes = resumoPadroes(8);
+  const fracos = palavrasFracas(aprendidos);
+  app.innerHTML = '';
+  const linhas = padroes.map(p => {
+    const rotulo = rotuloChave(p.chave, p.tipo);
+    const itens = palavrasDoPadrao(p.chave, aprendidos);
+    const attrs = {
+      class: 'btn ' + (itens.length ? 'btn-verde' : 'btn-branco') + ' tropeco-btn',
+      type: 'button',
+      'aria-label': itens.length
+        ? `Treinar o padrão ${rotulo}, ${p.n} vezes`
+        : `Padrão ${rotulo} sem palavra aberta agora`
+    };
+    if (itens.length) attrs.onclick = () => treinarPadrao(p.chave);
+    else attrs.disabled = '';
+    return h('div', { class: 'tropeco' },
+      h('div', { class: 'tropeco-nome' }, `${rotulo} · ${p.n}`),
+      h('p', { class: 'tropeco-dica' }, textoDoPadrao(p.chave, p.tipo)),
+      itens.length
+        ? h('p', { class: 'tropeco-dica' }, itens.slice(0, 4).map(f => f.item.en).join(', '))
+        : h('p', { class: 'tropeco-dica' }, 'Nenhuma palavra aberta com esse padrão agora.'),
+      h('button', attrs, itens.length ? 'TREINAR' : 'SEM PALAVRA')
+    );
+  });
+  app.append(
+    topoVoltar('🧭 Meus pontos fracos', () => voltarTela()),
+    h('p', { class: 'ia-aviso' }, 'O padrão que mais volta fica no topo. Cada um tem o próprio treino.'),
+    h('div', { class: 'card', 'data-foco': '1' },
+      h('div', { class: 'nivel-titulo' }, padroes.length ? 'Padrões que mais voltam' : 'Nenhum padrão repetido ainda'),
+      h('p', { class: 'dica-dia-corpo' }, padroes.length
+        ? 'Dois erros do mesmo tipo entram na lista. O botão treina só as palavras daquele padrão.'
+        : 'Quando um erro se repetir, ele aparece aqui, com um botão para treinar só ele.')
+    ),
+    ...linhas.map(linha => h('div', { class: 'card' }, linha)),
+    fracos.length
+      ? h('button', { class: 'btn btn-verde', type: 'button', onclick: iniciarPontosFracos }, 'TREINAR TODAS AS PALAVRAS')
+      : ''
+  );
+  focarTela();
+}
+
+function treinarPadrao(chave) {
+  const aprendidos = itensAprendidos();
+  const fracos = palavrasDoPadrao(chave, aprendidos);
+  const itens = fracos.slice(0, 8).map(f => f.item);
+  if (!itens.length) return;
+  const fila = gerarExercicios(itens, aprendidos, Math.min(8, Math.max(4, itens.length * 2)));
+  if (!fila.length) return;
+  sessao = {
+    tipo: 'revisao', pool: aprendidos, fila, itens,
+    idx: 0, planejados: fila.length, acertos: 0, respostas: 0,
+    xp: 0, combo: 0, comboMax: 0, erros: [], resultados: new Map(), deslizes: []
+  };
+  telaExercicio();
 }
 
 function cartaoSobre() {
@@ -3233,7 +3304,7 @@ function telaConversa() {
   app.innerHTML = '';
   app.append(
     topoVoltar('💬 Conversar', () => voltarTela()),
-    h('p', { class: 'ia-aviso' }, 'Falhas, mentoria e saúde no exterior. O resto da fluência continua abaixo.'),
+    h('p', { class: 'ia-aviso' }, 'Palestra, pergunta difícil e chamada ruim. O resto da fluência continua abaixo.'),
     ...blocoFluencia(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'DIÁLOGOS'),
     ...CENARIOS.map(c => {
@@ -4650,6 +4721,9 @@ let passeioGeracao = 0;
 let falhaSessao = null;
 let mentoriaSessao = null;
 let socorroSessao = null;
+let palestraSessao = null;
+let duvidaSessao = null;
+let sinalSessao = null;
 let revisaoPrazo = 0;
 let gravacaoUrl = null;
 let gravadorAtivo = null;
@@ -4684,6 +4758,9 @@ function blocoFluencia() {
   const vencidos = deslizesVencidos().length;
   return [
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'FLUÊNCIA'),
+    botaoFluencia('🎤', 'Palestra', 'Abertura, troca de slide e perguntas no fim.', telaPalestras),
+    botaoFluencia('🙋', 'Sem a resposta', 'Ganhe tempo quando a pergunta pega de surpresa.', telaDuvidas),
+    botaoFluencia('📶', 'Sinal ruim', 'A voz corta, o vídeo trava, a chamada cai.', telaSinais),
     botaoFluencia('🛠️', 'Por que falhou', 'O que quebrou e a causa: deploy, CI e permissão.', telaFalhas),
     botaoFluencia('🌱', 'Mentoria', 'Uma dica e a ideia por trás, para um júnior.', telaMentorias),
     botaoFluencia('🩺', 'No exterior', 'Farmácia, médico e emergência, em duas falas.', telaSocorros),
@@ -5514,6 +5591,7 @@ function telaResumo() {
       h('p', {}, `Salários ${estado.stats.salarios} · projetos ${estado.stats.projetos} · sotaques ${estado.stats.sotaques} · desafios ${estado.stats.desafios}.`),
       h('p', {}, `Requisitos ${estado.stats.requisitos} · métricas ${estado.stats.metricas} · lições ${estado.stats.aprendizados} · passeios ${estado.stats.passeios}.`),
       h('p', {}, `Falhas ${estado.stats.falhas} · mentorias ${estado.stats.mentorias} · socorros ${estado.stats.socorros}.`),
+      h('p', {}, `Palestras ${estado.stats.palestras} · dúvidas ${estado.stats.duvidas} · sinais ${estado.stats.sinais}.`),
       h('p', {}, lembreteMeta(contarFaladas(estado.painel, hojeIso), estado.metaFala, hojeIso))
     ),
     erros.length
@@ -7305,6 +7383,84 @@ function pintarPasseio() {
   focarTela();
 }
 
+function telaPalestras() {
+  listarCena(
+    'palestra',
+    '🎤 Palestra',
+    'Duas falas: a abertura, a troca de slide ou o convite às perguntas. A frase modelo só aparece depois.',
+    PALESTRAS,
+    abrirPalestra,
+    valor => { palestraSessao = valor; }
+  );
+}
+
+function abrirPalestra(id) {
+  abrirCenaLista(id, palestraPorId, cena => { palestraSessao = cena; }, pintarPalestra, telaPalestras);
+}
+
+function pintarPalestra() {
+  pintarCenaLista(palestraSessao, {
+    rota: 'palestra',
+    aoLista: telaPalestras,
+    repintar: pintarPalestra,
+    avaliar: avaliarPalestra,
+    registrar: registrarPalestra,
+    tituloFim: 'Palestra feita!'
+  });
+}
+
+function telaDuvidas() {
+  listarCena(
+    'duvida',
+    '🙋 Sem a resposta',
+    'Duas falas: ganhe tempo e diga quando volta. A frase modelo só aparece depois.',
+    DUVIDAS,
+    abrirDuvida,
+    valor => { duvidaSessao = valor; }
+  );
+}
+
+function abrirDuvida(id) {
+  abrirCenaLista(id, duvidaPorId, cena => { duvidaSessao = cena; }, pintarDuvida, telaDuvidas);
+}
+
+function pintarDuvida() {
+  pintarCenaLista(duvidaSessao, {
+    rota: 'duvida',
+    aoLista: telaDuvidas,
+    repintar: pintarDuvida,
+    avaliar: avaliarDuvida,
+    registrar: registrarDuvida,
+    tituloFim: 'Resposta adiada!'
+  });
+}
+
+function telaSinais() {
+  listarCena(
+    'sinal',
+    '📶 Sinal ruim',
+    'Duas falas: o que falhou na chamada e o que você pede. A frase modelo só aparece depois.',
+    SINAIS,
+    abrirSinal,
+    valor => { sinalSessao = valor; }
+  );
+}
+
+function abrirSinal(id) {
+  abrirCenaLista(id, sinalPorId, cena => { sinalSessao = cena; }, pintarSinal, telaSinais);
+}
+
+function pintarSinal() {
+  pintarCenaLista(sinalSessao, {
+    rota: 'sinal',
+    aoLista: telaSinais,
+    repintar: pintarSinal,
+    avaliar: avaliarSinal,
+    registrar: registrarSinal,
+    tituloFim: 'Chamada salva!'
+  });
+}
+
 function telaFalhas() {
   listarCena(
     'falha',
@@ -8563,6 +8719,10 @@ async function iniciar() {
     falha: () => (falhaSessao && !falhaSessao.concluido ? pintarFalha() : telaFalhas()),
     mentoria: () => (mentoriaSessao && !mentoriaSessao.concluido ? pintarMentoria() : telaMentorias()),
     socorro: () => (socorroSessao && !socorroSessao.concluido ? pintarSocorro() : telaSocorros()),
+    palestra: () => (palestraSessao && !palestraSessao.concluido ? pintarPalestra() : telaPalestras()),
+    duvida: () => (duvidaSessao && !duvidaSessao.concluido ? pintarDuvida() : telaDuvidas()),
+    sinal: () => (sinalSessao && !sinalSessao.concluido ? pintarSinal() : telaSinais()),
+    fracos: telaPontosFracos,
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
     reducao: () => (reducaoSessao && !reducaoSessao.concluido ? pintarReducao() : telaReducoes()),
