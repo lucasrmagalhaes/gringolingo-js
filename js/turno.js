@@ -17,6 +17,7 @@ import { SALARIOS, PROJETOS, SOTAQUES, FALAS_DIA } from './vaga.js';
 import { REQUISITOS, METRICAS, APRENDIZADOS, PASSEIOS } from './briefing.js';
 import { FALHAS, MENTORIAS, SOCORROS } from './guia.js';
 import { PALESTRAS, DUVIDAS, SINAIS } from './plateia.js';
+import { SISTEMAS, CODIGOS, COLEGAS } from './banca.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -455,6 +456,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Sistema', itens: SISTEMAS },
+    { origem: 'Código', itens: CODIGOS },
+    { origem: 'Colega', itens: COLEGAS },
     { origem: 'Palestra', itens: PALESTRAS },
     { origem: 'Dúvida', itens: DUVIDAS },
     { origem: 'Sinal', itens: SINAIS },

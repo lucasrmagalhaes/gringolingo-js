@@ -71,7 +71,7 @@ const padrao = () => ({
   diaDesafio: null,
   sequenciaDesafio: 0,
   recordeDesafio: 0,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0 }
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -1063,6 +1063,10 @@ function checarBadges() {
     palestra: estado.stats.palestras >= 1,
     duvida: estado.stats.duvidas >= 1,
     sinal: estado.stats.sinais >= 1,
+    sistema: estado.stats.sistemas >= 1,
+    codigo: estado.stats.codigos >= 1,
+    colega: estado.stats.colegas >= 1,
+    simulado: estado.stats.simulados >= 1,
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -1533,6 +1537,22 @@ export function registrarDuvida(d) {
 
 export function registrarSinal(d) {
   return registrarTipo('sinais', 'sinal', d);
+}
+
+export function registrarSistema(d) {
+  return registrarTipo('sistemas', 'sistema', d);
+}
+
+export function registrarCodigo(d) {
+  return registrarTipo('codigos', 'codigo', d);
+}
+
+export function registrarColega(d) {
+  return registrarTipo('colegas', 'colega', d);
+}
+
+export function registrarSimulado(d) {
+  return registrarTipo('simulados', 'simulado', d);
 }
 
 export function registrarPronuncia(d) {

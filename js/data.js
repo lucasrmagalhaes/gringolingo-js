@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.17';
+export const VERSAO_APP = '2.18';
 
 export const NOVIDADES = [
+  {
+    versao: '2.18',
+    titulo: 'Na banca',
+    itens: [
+      '🏗️ Desenhe um sistema: pedido, escala e gargalo',
+      '💻 Pense em voz alta enquanto resolve o problema',
+      '🤝 Peça e ofereça ajuda a design, QA e produto',
+      '🎯 Um simulado remoto junta treinos que você já tem'
+    ]
+  },
   {
     versao: '2.17',
     titulo: 'Na plateia',
@@ -980,6 +990,8 @@ export const MISSOES = [
   { id: 'socorro1', emoji: '🩺', titulo: 'Peça ajuda na farmácia ou no médico', alvo: 1, xp: 15, medir: s => (s.tipo === 'socorro' ? 1 : 0) },
   { id: 'palestra1', emoji: '🎤', titulo: 'Abra uma palestra ou troque de slide', alvo: 1, xp: 15, medir: s => (s.tipo === 'palestra' ? 1 : 0) },
   { id: 'sinal1', emoji: '📶', titulo: 'Diga que a chamada falhou', alvo: 1, xp: 15, medir: s => (s.tipo === 'sinal' ? 1 : 0) },
+  { id: 'sistema1', emoji: '🏗️', titulo: 'Desenhe um sistema em voz alta', alvo: 1, xp: 15, medir: s => (s.tipo === 'sistema' ? 1 : 0) },
+  { id: 'simulado1', emoji: '🎯', titulo: 'Faça o simulado remoto', alvo: 1, xp: 15, medir: s => (s.tipo === 'simulado' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1062,6 +1074,10 @@ export const BADGES = [
   { id: 'palestra', emoji: '🎤', nome: 'Na plateia', desc: 'Abra uma palestra, troque de slide ou chame as perguntas' },
   { id: 'duvida', emoji: '🙋', nome: 'Boa pergunta', desc: 'Ganhe tempo quando não souber a resposta' },
   { id: 'sinal', emoji: '📶', nome: 'O sinal', desc: 'Avise quando a voz corta, o vídeo trava ou a chamada cai' },
+  { id: 'sistema', emoji: '🏗️', nome: 'O desenho', desc: 'Fale o pedido, a escala e o gargalo' },
+  { id: 'codigo', emoji: '💻', nome: 'Em voz alta', desc: 'Pense em voz alta enquanto resolve o problema' },
+  { id: 'colega', emoji: '🤝', nome: 'Outra área', desc: 'Peça ou ofereça ajuda a design, QA ou produto' },
+  { id: 'simulado', emoji: '🎯', nome: 'A banca', desc: 'Termine o simulado remoto e veja a nota' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
