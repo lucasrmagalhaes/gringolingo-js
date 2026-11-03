@@ -192,9 +192,7 @@ describe('1:1, entrevista, viagem e revisão de 3 minutos', () => {
     const data = readFileSync(join(raiz, 'js/data.js'), 'utf8');
     const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
-    assert.match(data, /VERSAO_APP = '2\.12'/);
-    assert.match(data, /versao: '2\.11'/);
-    assert.match(sw, /gringolingo-v39/);
+    assert.match(data, /versao: '2\.12'/);
     assert.match(sw, /\.\/js\/turno\.js/);
     assert.equal(app.includes('PRÓXIMA PERGUNTA'), false);
     assert.match(app, /clearInterval\(intervaloRevisao\)/);

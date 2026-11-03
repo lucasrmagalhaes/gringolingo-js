@@ -1,7 +1,7 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
@@ -16,6 +16,7 @@ import { DECISOES, decisaoPorId, avaliarDecisao, PARES, parPorId, avaliarPar, IN
 import { RETROS, retroPorId, avaliarRetro, CHEGADAS, chegadaPorId, avaliarChegada, LIGACOES, ligacaoPorId, avaliarLigacao } from './discurso.js';
 import { ESTIMATIVAS, estimativaPorId, avaliarEstimativa, CONSENSOS, consensoPorId, avaliarConsenso, ATENDIMENTOS, atendimentoPorId, avaliarAtendimento, historicoFala, rotuloHistorico } from './cotidiano.js';
 import { GESTORES, gestorPorId, avaliarGestor, FINAIS, finalPorId, avaliarFinal, VIAGENS, viagemPorId, avaliarViagem, catalogoFaladas, montarRevisao, avaliarRevisao, SEGUNDOS_REVISAO } from './turno.js';
+import { LINHAS, linhaPorId, avaliarLinha, SLACKS, slackPorId, avaliarSlack, SOCIAIS, socialPorId, avaliarSocial, TERMOS, termoPorId, avaliarTermo } from './oficina.js';
 import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS, rotuloGravacao } from './voz.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
@@ -2142,12 +2143,14 @@ function alternarTema() {
 }
 
 function botaoTema() {
+  const escuro = temaAtual() === 'escuro';
   return h('button', {
     class: 'pilula btn-perfil',
-    'aria-label': 'Alternar tema',
-    title: temaAtual() === 'escuro' ? 'Mudar para o tema claro' : 'Mudar para o tema escuro',
+    'aria-label': escuro ? 'Mudar para o tema claro' : 'Mudar para o tema escuro',
+    'aria-pressed': escuro ? 'true' : 'false',
+    title: escuro ? 'Mudar para o tema claro' : 'Mudar para o tema escuro',
     onclick: alternarTema
-  }, temaAtual() === 'escuro' ? '☀️' : '🌙');
+  }, escuro ? '☀️' : '🌙');
 }
 
 function checarGoogle() {
@@ -3204,7 +3207,7 @@ function telaConversa() {
   app.innerHTML = '';
   app.append(
     topoVoltar('💬 Conversar', () => voltarTela()),
-    h('p', { class: 'ia-aviso' }, '1:1, pergunta de entrevista e viagem a trabalho. A revisão de três minutos mistura os treinos. O resto da fluência continua abaixo.'),
+    h('p', { class: 'ia-aviso' }, 'Linha a linha, Slack, happy hour e o som de cache, queue e SQL. O resto da fluência continua abaixo.'),
     ...blocoFluencia(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'DIÁLOGOS'),
     ...CENARIOS.map(c => {
@@ -4605,6 +4608,10 @@ let gestorSessao = null;
 let finalSessao = null;
 let viagemSessao = null;
 let misturaSessao = null;
+let linhaSessao = null;
+let slackSessao = null;
+let socialSessao = null;
+let termoSessao = null;
 let revisaoPrazo = 0;
 let gravacaoUrl = null;
 let gravadorAtivo = null;
@@ -4639,6 +4646,10 @@ function blocoFluencia() {
   const vencidos = deslizesVencidos().length;
   return [
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'FLUÊNCIA'),
+    botaoFluencia('💻', 'Linha a linha', 'Explique o loop, o callback e o null check.', telaLinhas),
+    botaoFluencia('💬', 'Slack', 'Peça review ou avise um atraso, em poucas palavras.', telaSlacks),
+    botaoFluencia('🍻', 'Happy hour', 'Um brinde, o violão e o Brasil.', telaSociais),
+    botaoFluencia('🔤', 'Termos técnicos', 'O som de cache, queue, SQL, GUI, height e width.', telaTermos),
     botaoFluencia('🗣️', 'Feedback 1:1', 'Ouça um ponto do gestor e devolva um pedido.', telaGestores),
     botaoFluencia('❓', 'Pergunta final', 'Pergunte ao entrevistador sobre o time e os 90 dias.', telaFinais),
     botaoFluencia('🛫', 'Viagem a trabalho', 'Conexão, imigração e táxi.', telaViagens),
@@ -5450,6 +5461,7 @@ function telaResumo() {
       h('p', {}, `Retros ${estado.stats.retros} · onboardings ${estado.stats.chegadas} · conectores ${estado.stats.ligacoes}.`),
       h('p', {}, `Estimativas ${estado.stats.estimativas} · consensos ${estado.stats.consensos} · atendimentos ${estado.stats.atendimentos}.`),
       h('p', {}, `1:1 ${estado.stats.gestores} · perguntas finais ${estado.stats.finais} · viagens ${estado.stats.viagens} · revisões de 3 min ${estado.stats.misturas}.`),
+      h('p', {}, `Linhas ${estado.stats.linhas} · slacks ${estado.stats.slacks} · sociais ${estado.stats.sociais} · termos ${estado.stats.termos}.`),
       h('p', {}, lembreteMeta(contarFaladas(estado.painel, hojeIso), estado.metaFala, hojeIso))
     ),
     erros.length
@@ -6954,6 +6966,146 @@ function pintarAtendimento() {
   });
 }
 
+function telaLinhas() {
+  linhaSessao = null;
+  telaListaFala(
+    'linha',
+    '💻 Linha a linha',
+    'Duas falas: o que a linha faz e o nome. Loop, callback, null check e edge case. A frase modelo só aparece depois.',
+    preferirNivel(LINHAS, estado.nivelFala),
+    abrirLinha
+  );
+}
+
+function abrirLinha(id) {
+  const cena = linhaPorId(id);
+  if (!cena) return telaLinhas();
+  descartarVoz();
+  linhaSessao = novaCena(cena);
+  pintarLinha();
+}
+
+function pintarLinha() {
+  pintarCenaFala(linhaSessao, {
+    rota: 'linha',
+    aoLista: telaLinhas,
+    repintar: pintarLinha,
+    avaliar: avaliarLinha,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(linhaSessao, registrarLinha, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Linha dita!',
+      destino: telaLinhas
+    })
+  });
+}
+
+function telaSlacks() {
+  slackSessao = null;
+  telaListaFala(
+    'slack',
+    '💬 Slack',
+    'Duas falas curtas. Você escreve ou fala. Pedir review ou avisar atraso. A frase modelo só aparece depois.',
+    preferirNivel(SLACKS, estado.nivelFala),
+    abrirSlack
+  );
+}
+
+function abrirSlack(id) {
+  const cena = slackPorId(id);
+  if (!cena) return telaSlacks();
+  descartarVoz();
+  slackSessao = novaCena(cena);
+  pintarSlack();
+}
+
+function pintarSlack() {
+  pintarCenaFala(slackSessao, {
+    rota: 'slack',
+    aoLista: telaSlacks,
+    repintar: pintarSlack,
+    avaliar: avaliarSlack,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(slackSessao, registrarSlack, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Recado enviado!',
+      destino: telaSlacks
+    })
+  });
+}
+
+function telaSociais() {
+  socialSessao = null;
+  telaListaFala(
+    'social',
+    '🍻 Happy hour',
+    'Duas falas: o papo e um detalhe. Happy hour, hobby e o Brasil. A frase modelo só aparece depois.',
+    preferirNivel(SOCIAIS, estado.nivelFala),
+    abrirSocial
+  );
+}
+
+function abrirSocial(id) {
+  const cena = socialPorId(id);
+  if (!cena) return telaSociais();
+  descartarVoz();
+  socialSessao = novaCena(cena);
+  pintarSocial();
+}
+
+function pintarSocial() {
+  pintarCenaFala(socialSessao, {
+    rota: 'social',
+    aoLista: telaSociais,
+    repintar: pintarSocial,
+    avaliar: avaliarSocial,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(socialSessao, registrarSocial, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Papo feito!',
+      destino: telaSociais
+    })
+  });
+}
+
+function telaTermos() {
+  termoSessao = null;
+  telaListaFala(
+    'termo',
+    '🔤 Termos técnicos',
+    'Duas falas: o som e uma frase. Cache, queue, SQL, GUI, height e width. A frase modelo só aparece depois.',
+    preferirNivel(TERMOS, estado.nivelFala),
+    abrirTermo
+  );
+}
+
+function abrirTermo(id) {
+  const cena = termoPorId(id);
+  if (!cena) return telaTermos();
+  descartarVoz();
+  termoSessao = novaCena(cena);
+  pintarTermo();
+}
+
+function pintarTermo() {
+  pintarCenaFala(termoSessao, {
+    rota: 'termo',
+    aoLista: telaTermos,
+    repintar: pintarTermo,
+    avaliar: avaliarTermo,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(termoSessao, registrarTermo, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Som dito!',
+      destino: telaTermos
+    })
+  });
+}
+
 function telaGestores() {
   gestorSessao = null;
   telaListaFala(
@@ -7165,7 +7317,7 @@ function ligarCronometroRevisao() {
     pintar();
     if (!misturaSessao || misturaSessao.concluido || misturaSessao.feedback) return;
     fecharRevisao();
-  }, 250);
+  }, 1000);
 }
 
 function pintarMistura() {
@@ -7184,7 +7336,8 @@ function pintarMistura() {
       class: 'cronometro-demo',
       'data-cronometro-revisao': '1',
       role: 'timer',
-      'aria-label': 'Tempo da revisão'
+      'aria-label': 'Tempo da revisão',
+      'aria-live': 'off'
     }, '');
     ancora.after(
       relogio,
@@ -7900,6 +8053,10 @@ async function iniciar() {
     final: () => (finalSessao && !finalSessao.concluido ? pintarFinal() : telaFinais()),
     viagem: () => (viagemSessao && !viagemSessao.concluido ? pintarViagem() : telaViagens()),
     mistura: () => (misturaSessao && !misturaSessao.concluido ? pintarMistura() : telaMisturas()),
+    linha: () => (linhaSessao && !linhaSessao.concluido ? pintarLinha() : telaLinhas()),
+    slack: () => (slackSessao && !slackSessao.concluido ? pintarSlack() : telaSlacks()),
+    social: () => (socialSessao && !socialSessao.concluido ? pintarSocial() : telaSociais()),
+    termo: () => (termoSessao && !termoSessao.concluido ? pintarTermo() : telaTermos()),
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
     reducao: () => (reducaoSessao && !reducaoSessao.concluido ? pintarReducao() : telaReducoes()),
