@@ -294,6 +294,8 @@ textarea {
 .hub-item > .card {
   margin-bottom: 0;
   min-width: 0;
+  width: auto;
+  flex: 1 1 auto;
 }
 
 .estrela-treino {
@@ -341,6 +343,14 @@ textarea {
 
 .fala-hoje {
   margin: 8px 0 12px;
+}
+
+.sem-pratica {
+  margin: 8px 0 12px;
+}
+
+.sem-pratica .btn {
+  margin-top: 10px;
 }
 
 body.com-aviso-metricas {
