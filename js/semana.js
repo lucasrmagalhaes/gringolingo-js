@@ -57,6 +57,37 @@ export function textoGrupo(n, titulo) {
   return `${nome} em ${titulo}`;
 }
 
+export function textoDoBalanco({ minutos, meta, treinos, menorTitulo } = {}) {
+  const min = Math.max(0, Math.floor(Number(minutos) || 0));
+  const alvo = Math.max(0, Math.floor(Number(meta) || 0));
+  const n = Math.max(0, Math.floor(Number(treinos) || 0));
+  const tempo = alvo > 0
+    ? `${min} de ${alvo} ${alvo === 1 ? 'minuto' : 'minutos'}`
+    : `${min} ${min === 1 ? 'minuto' : 'minutos'}`;
+  const feito = n === 1 ? '1 treino' : `${n} treinos`;
+  const grupo = menorTitulo ? ` Menos prática em ${menorTitulo}.` : '';
+  return `${tempo}. ${feito} nesta semana.${grupo}`;
+}
+
+export function balancoDaSemana(painel, diaIso, meta) {
+  const soma = somarSemana(painel, diaIso);
+  const alvo = Math.max(0, Math.floor(Number(meta) || 0));
+  let menor = null;
+  for (const id of GRUPOS) {
+    const n = soma.grupos[id] || 0;
+    const titulo = CATEGORIAS.find(c => c.id === id)?.titulo || id;
+    if (!menor || n < menor.n) menor = { id, n, titulo };
+  }
+  const pct = alvo ? Math.min(100, Math.round((soma.minutos / alvo) * 100)) : 0;
+  const texto = textoDoBalanco({
+    minutos: soma.minutos,
+    meta: alvo,
+    treinos: soma.treinos,
+    menorTitulo: menor?.titulo || ''
+  });
+  return { ...soma, meta: alvo, menor, pct, texto };
+}
+
 export function lembreteMinutos(minutos, meta, diaIso) {
   const feito = Math.max(0, Math.floor(Number(minutos) || 0));
   const alvo = Math.max(0, Number(meta) || 0);

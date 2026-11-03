@@ -325,6 +325,14 @@ textarea {
   margin: 8px 0 12px;
 }
 
+.balanco {
+  margin: 8px 0 12px;
+}
+
+.balanco .btn {
+  margin-top: 10px;
+}
+
 .trilha-topo .btn {
   margin-top: 10px;
 }

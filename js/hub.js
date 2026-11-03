@@ -135,7 +135,10 @@ const BRUTOS = [
   ['gaucho', 'cotidiano', '🧉', 'O chimarrão', 'Rio Grande do Sul, chimarrão e churrasco.', 'gauchos', 'rio grande sul chimarrao churrasco porto alegre'],
   ['radar', 'trabalho', '📡', 'O radar', 'Métrica, alerta e o painel do plantão.', 'radares', 'observabilidade metrica alerta dashboard plantao'],
   ['aplauso', 'trabalho', '👏', 'O aplauso', 'Agradeça o time em público, com nome.', 'aplausos', 'shout out obrigado time publico'],
-  ['gripe', 'cotidiano', '🤒', 'A gripe', 'Avise que está doente ou peça o dia.', 'gripes', 'doente consulta febre daily']
+  ['gripe', 'cotidiano', '🤒', 'A gripe', 'Avise que está doente ou peça o dia.', 'gripes', 'doente consulta febre daily'],
+  ['pm', 'trabalho', '📎', 'Com o PM', 'Negocie a data sem pular os testes.', 'pms', 'pm prazo quinta review testes'],
+  ['laudo', 'trabalho', '📄', 'O laudo', 'Linha do tempo, causa e dono no post-mortem.', 'laudos', 'postmortem causa indice retro'],
+  ['rumo', 'trabalho', '🔭', 'O rumo', 'Peça feedback de carreira no 1:1.', 'rumos', 'carreira gestor feedback nivel habilidade']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
