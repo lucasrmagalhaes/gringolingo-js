@@ -150,7 +150,10 @@ const BRUTOS = [
   ['repeticao', 'trabalho', '🪝', 'A repetição', 'O mesmo evento pode chegar duas vezes.', 'repeticoes', 'webhook retry idempotente segunda vez'],
   ['carga', 'trabalho', '🏋️', 'A carga', 'O teste de carga rodou dez minutos numa cópia.', 'cargas', 'load test carga dez minutos copia'],
   ['boletim', 'trabalho', '📰', 'O boletim', 'A nota lista três correções e aparece na segunda.', 'boletins', 'changelog nota versao correcoes segunda'],
-  ['dono', 'trabalho', '🪪', 'Quem aprova', 'A pasta tem dois donos e o merge pede um deles.', 'donos', 'code owner pasta merge aprovar']
+  ['dono', 'trabalho', '🪪', 'Quem aprova', 'A pasta tem dois donos e o merge pede um deles.', 'donos', 'code owner pasta merge aprovar'],
+  ['manual', 'trabalho', '📘', 'O manual', 'O manual manda ler o alerta primeiro e fica no wiki.', 'manuais', 'runbook manual wiki alerta'],
+  ['verde', 'trabalho', '🟢', 'O lado verde', 'O tráfego vai para o lado verde e a volta leva um minuto.', 'verdes', 'blue green deploy lado verde trafego'],
+  ['certificado', 'trabalho', '🔏', 'O certificado', 'O certificado vence na sexta e o aviso sai sete dias antes.', 'certificados', 'certificado tls sexta renovar']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

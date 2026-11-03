@@ -361,6 +361,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-comparacao {
+  margin: 8px 0 12px;
+}
+
+.fala-comparacao .btn {
+  margin-top: 10px;
+}
+
 body.com-aviso-metricas {
   padding-bottom: 120px;
 }
@@ -1948,10 +1956,10 @@ textarea.entrada {
 }
 
 .bolha-som {
-  width: 32px;
-  height: 32px;
-  font-size: 14px;
-  border-radius: 10px;
+  width: 44px;
+  height: 44px;
+  font-size: 18px;
+  border-radius: 12px;
   flex: none;
 }
 

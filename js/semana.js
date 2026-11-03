@@ -57,14 +57,29 @@ export function textoGrupo(n, titulo) {
   return `${nome} em ${titulo}`;
 }
 
-function diaAnterior(iso) {
+function deslocarIso(iso, dias) {
   const partes = String(iso || '').split('-').map(Number);
   if (partes.length !== 3 || partes.some(n => !Number.isFinite(n))) return '';
   const data = new Date(partes[0], partes[1] - 1, partes[2]);
-  data.setDate(data.getDate() - 1);
+  data.setDate(data.getDate() + dias);
   const mes = String(data.getMonth() + 1).padStart(2, '0');
   const dia = String(data.getDate()).padStart(2, '0');
   return `${data.getFullYear()}-${mes}-${dia}`;
+}
+
+function diaAnterior(iso) {
+  return deslocarIso(iso, -1);
+}
+
+function minutosDosDias(painel, dias) {
+  let segundos = 0;
+  for (const data of dias) segundos += Math.max(0, Number(painel?.[data]?.segundos) || 0);
+  return Math.floor(segundos / 60);
+}
+
+function textoMinutosCurtos(n) {
+  const min = Math.max(0, Math.floor(Number(n) || 0));
+  return min === 1 ? '1 minuto' : `${min} minutos`;
 }
 
 function teveFala(painel, iso) {
@@ -86,6 +101,42 @@ export function textoDaSequencia(painel, diaIso) {
   }
   const texto = dias === 1 ? '1 dia seguido de fala.' : `${dias} dias seguidos de fala.`;
   return { dias, emRisco: false, texto };
+}
+
+export function textoDaComparacao(painel, diaIso) {
+  const semana = diasDaSemana(diaIso);
+  const indice = semana.indexOf(diaIso);
+  if (indice < 0) {
+    return { minutos: 0, anterior: 0, delta: 0, atras: false, texto: 'Ainda não há minutos para comparar.' };
+  }
+  const atuais = semana.slice(0, indice + 1);
+  const passados = atuais.map(dia => deslocarIso(dia, -7)).filter(Boolean);
+  const minutos = minutosDosDias(painel, atuais);
+  const anterior = minutosDosDias(painel, passados);
+  const delta = minutos - anterior;
+  if (minutos === 0 && anterior === 0) {
+    return {
+      minutos,
+      anterior,
+      delta: 0,
+      atras: false,
+      texto: 'Ainda não há minutos para comparar com a semana anterior.'
+    };
+  }
+  const agora = textoMinutosCurtos(minutos);
+  if (delta === 0) {
+    return { minutos, anterior, delta, atras: false, texto: `${agora} até aqui, o mesmo da semana anterior.` };
+  }
+  const n = Math.abs(delta);
+  const verbo = n === 1 ? 'É 1' : `São ${n}`;
+  const sentido = delta > 0 ? 'a mais' : 'a menos';
+  return {
+    minutos,
+    anterior,
+    delta,
+    atras: delta < 0,
+    texto: `${agora} até aqui. ${verbo} ${sentido} que a semana anterior.`
+  };
 }
 
 export function textoDeHoje(painel, diaIso) {

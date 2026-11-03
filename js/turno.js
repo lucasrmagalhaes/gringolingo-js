@@ -41,6 +41,7 @@ import { ACESSOS, LICENCAS, JARGOES } from './equipe.js';
 import { BANDEIRAS, GELOS, LIMITES } from './rollout.js';
 import { CANARIOS, DESPEDIDAS, REPETICOES } from './entrega.js';
 import { CARGAS, BOLETINS, DONOS } from './carga.js';
+import { MANUAIS, VERDES, CERTIFICADOS } from './manual.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -479,6 +480,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Manual', itens: MANUAIS },
+    { origem: 'Lado verde', itens: VERDES },
+    { origem: 'Certificado', itens: CERTIFICADOS },
     { origem: 'Carga', itens: CARGAS },
     { origem: 'Boletim', itens: BOLETINS },
     { origem: 'Dono', itens: DONOS },
