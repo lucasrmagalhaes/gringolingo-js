@@ -88,6 +88,10 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+html {
+  scroll-padding-top: calc(64px + env(safe-area-inset-top));
+}
+
 body {
   margin: 0;
   font-family: 'Nunito', system-ui, sans-serif;
@@ -101,7 +105,7 @@ body {
 #app {
   max-width: 680px;
   margin: 0 auto;
-  padding: 0 max(16px, env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  padding: env(safe-area-inset-top) max(16px, env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
 }
 
 .pular {
@@ -120,7 +124,7 @@ body {
   position: fixed;
   left: 0;
   right: 0;
-  top: 0;
+  top: env(safe-area-inset-top);
   z-index: 40;
   width: auto;
   height: auto;
@@ -216,7 +220,7 @@ textarea {
   gap: 10px;
   padding: 18px 0;
   position: sticky;
-  top: 0;
+  top: env(safe-area-inset-top);
   background: var(--fundo);
   z-index: 10;
 }
@@ -228,6 +232,13 @@ textarea {
 .logo {
   font-size: 22px;
   font-weight: 900;
+}
+
+.logo-tela {
+  min-width: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
+  line-height: 1.15;
 }
 
 .logo-marca {
@@ -489,7 +500,7 @@ textarea {
   gap: 14px;
   padding: 18px 0;
   position: sticky;
-  top: 0;
+  top: env(safe-area-inset-top);
   background: var(--fundo);
   z-index: 10;
 }
@@ -1068,6 +1079,15 @@ textarea.entrada {
   color: var(--laranja-texto);
   font-variant-numeric: tabular-nums;
   margin-bottom: 8px;
+}
+
+.plano-item {
+  margin-top: 12px;
+}
+
+.plano-item .btn {
+  width: 100%;
+  margin-top: 8px;
 }
 
 .meta-titulo {

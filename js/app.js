@@ -1,7 +1,7 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, definirMetaFala, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
@@ -12,6 +12,7 @@ import { ENTREVISTA, avaliarEntrevista, CONTOS, contoPorId, avaliarConto, avalia
 import { OPINIOES, opiniaoPorId, avaliarOpiniao, CENAS_FALA, cenaPorId, avaliarCena, RAPIDOS, rapidoPorId, avaliarRapido, SEGUNDOS_RAPIDO, contarFaladas, lembreteMeta } from './opiniao.js';
 import { RELATOS, relatoPorId, avaliarRelato, CORTESIAS, cortesiaPorId, avaliarCortesia, AQUECIMENTOS, aquecerPorId, avaliarAquecer, CLAROS, claroPorId, avaliarClaro } from './call.js';
 import { DEMOS, demoPorId, avaliarDemo, PRAZOS, prazoPorId, avaliarPrazo, STARS, starPorId, avaliarStar, ENFASES, enfasePorId, avaliarEnfase, avaliarToque } from './palco.js';
+import { DECISOES, decisaoPorId, avaliarDecisao, PARES, parPorId, avaliarPar, INCIDENTES, incidentePorId, avaliarIncidente, planoDaSemana } from './plantao.js';
 import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS } from './voz.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
@@ -3182,7 +3183,7 @@ function topoVoltar(titulo, aoVoltar) {
   return h('div', { class: 'topo' },
     h('button', { class: 'pilula btn-perfil', onclick: aoVoltar }, '← Voltar'),
     h('div', { class: 'espaco' }),
-    h('div', { class: 'logo', role: 'heading', 'aria-level': '1' }, titulo)
+    h('div', { class: 'logo logo-tela', role: 'heading', 'aria-level': '1' }, titulo)
   );
 }
 
@@ -3197,7 +3198,7 @@ function telaConversa() {
   app.innerHTML = '';
   app.append(
     topoVoltar('💬 Conversar', () => voltarTela()),
-    h('p', { class: 'ia-aviso' }, 'Demo de um minuto, prazo, entrevista STAR e ênfase. Relato, review e o resto da fluência continuam abaixo.'),
+    h('p', { class: 'ia-aviso' }, 'Decisão técnica, pair e plantão. Demo, prazo e o resto da fluência continuam abaixo.'),
     ...blocoFluencia(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'DIÁLOGOS'),
     ...CENARIOS.map(c => {
@@ -4583,6 +4584,9 @@ let demoSessao = null;
 let prazoSessao = null;
 let starSessao = null;
 let enfaseSessao = null;
+let decisaoSessao = null;
+let parSessao = null;
+let plantaoSessao = null;
 let gravacaoUrl = null;
 let gravadorAtivo = null;
 let vozTimer = null;
@@ -4616,6 +4620,9 @@ function blocoFluencia() {
   const vencidos = deslizesVencidos().length;
   return [
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'FLUÊNCIA'),
+    botaoFluencia('🏗️', 'Decisão técnica', 'Explique a escolha e a troca, com we went with.', telaDecisoes),
+    botaoFluencia('👥', 'Pair', 'Narre o que está fazendo e peça ajuda.', telaPares),
+    botaoFluencia('🚨', 'Plantão', 'Status, desculpa e o próximo passo.', telaPlantoes),
     botaoFluencia('🎬', 'Demo de produto', 'Um minuto para apresentar e duas respostas da plateia.', telaDemos),
     botaoFluencia('📌', 'Prazo e escopo', 'Sugira um corte e peça outra data, com educação.', telaPrazos),
     botaoFluencia('⭐', 'Entrevista STAR', 'Quatro falas: situação, tarefa, ação e resultado.', telaStars),
@@ -5401,6 +5408,7 @@ function telaResumo() {
       h('div', { class: 'nivel-titulo' }, 'Sugestão'),
       h('p', {}, sugestao)
     ),
+    cartaoPlano(),
     h('div', { class: 'card' },
       h('div', { class: 'nivel-titulo' }, estado.nivelFala ? `Nível de fala ${estado.nivelFala}` : 'Nível de fala ainda aberto'),
       h('p', {}, `Perguntas ${estado.stats.perguntas} · fala rápida ${estado.stats.reduzidas} · phrasal verbs ${estado.stats.verbosFala} · fala livre ${estado.stats.livres}.`),
@@ -5409,6 +5417,7 @@ function telaResumo() {
       h('p', {}, `Opiniões ${estado.stats.opinioes} · cenas ${estado.stats.cenasFala} · respostas rápidas ${estado.stats.rapidos}.`),
       h('p', {}, `Relatos ${estado.stats.relatos} · reviews ${estado.stats.cortesias} · papo de call ${estado.stats.aquecimentos} · esclarecer ${estado.stats.esclarecimentos}.`),
       h('p', {}, `Demos ${estado.stats.demos} · prazos ${estado.stats.negociacoes} · STAR ${estado.stats.stars} · ênfase ${estado.stats.enfases}.`),
+      h('p', {}, `Decisões ${estado.stats.decisoes} · pair ${estado.stats.pares} · plantões ${estado.stats.incidentes}.`),
       h('p', {}, lembreteMeta(contarFaladas(estado.painel, hojeIso), estado.metaFala, hojeIso))
     ),
     erros.length
@@ -6627,6 +6636,139 @@ function telaListaFala(rota, titulo, aviso, lista, abrir) {
   focarTela();
 }
 
+function cartaoPlano() {
+  const plano = planoDaSemana({
+    deslizes: deslizesVencidos().length,
+    padroes: estado.padroes
+  });
+  return h('div', { class: 'card' },
+    h('div', { class: 'nivel-titulo' }, 'Plano da semana'),
+    h('p', {}, 'Treinos a partir do que já escapou na fala.'),
+    ...plano.map(item => h('div', { class: 'plano-item' },
+      h('div', { class: 'revisao-titulo' }, item.titulo),
+      h('p', {}, item.porque),
+      h('button', { class: 'btn btn-branco', type: 'button', onclick: () => abrirPlano(item.id) }, 'TREINAR')
+    ))
+  );
+}
+
+function abrirPlano(id) {
+  const destinos = {
+    deslize: telaDeslizes,
+    conto: telaContos,
+    enfase: telaEnfases,
+    claro: telaClaros,
+    rapido: telaRapidos,
+    livre: telaLivres
+  };
+  (destinos[id] || telaConversa)();
+}
+
+function telaDecisoes() {
+  decisaoSessao = null;
+  telaListaFala(
+    'decisao',
+    '🏗️ Decisão técnica',
+    'Duas falas: a escolha e a troca. We went with e the trade-off. A frase modelo só aparece depois.',
+    preferirNivel(DECISOES, estado.nivelFala),
+    abrirDecisao
+  );
+}
+
+function abrirDecisao(id) {
+  const cena = decisaoPorId(id);
+  if (!cena) return telaDecisoes();
+  descartarVoz();
+  decisaoSessao = novaCena(cena);
+  pintarDecisao();
+}
+
+function pintarDecisao() {
+  pintarCenaFala(decisaoSessao, {
+    rota: 'decisao',
+    aoLista: telaDecisoes,
+    repintar: pintarDecisao,
+    avaliar: avaliarDecisao,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(decisaoSessao, registrarDecisao, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Decisão explicada!',
+      destino: telaDecisoes
+    })
+  });
+}
+
+function telaPares() {
+  parSessao = null;
+  telaListaFala(
+    'par',
+    '👥 Pair',
+    'Narre o que você está fazendo e peça ajuda. A frase modelo só aparece depois.',
+    preferirNivel(PARES, estado.nivelFala),
+    abrirPar
+  );
+}
+
+function abrirPar(id) {
+  const cena = parPorId(id);
+  if (!cena) return telaPares();
+  descartarVoz();
+  parSessao = novaCena(cena);
+  pintarPar();
+}
+
+function pintarPar() {
+  pintarCenaFala(parSessao, {
+    rota: 'par',
+    aoLista: telaPares,
+    repintar: pintarPar,
+    avaliar: avaliarPar,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(parSessao, registrarPar, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Ajuda pedida!',
+      destino: telaPares
+    })
+  });
+}
+
+function telaPlantoes() {
+  plantaoSessao = null;
+  telaListaFala(
+    'plantao',
+    '🚨 Plantão',
+    'Três falas: status, desculpa e o próximo passo. A frase modelo só aparece depois.',
+    preferirNivel(INCIDENTES, estado.nivelFala),
+    abrirPlantao
+  );
+}
+
+function abrirPlantao(id) {
+  const cena = incidentePorId(id);
+  if (!cena) return telaPlantoes();
+  descartarVoz();
+  plantaoSessao = novaCena(cena);
+  pintarPlantao();
+}
+
+function pintarPlantao() {
+  pintarCenaFala(plantaoSessao, {
+    rota: 'plantao',
+    aoLista: telaPlantoes,
+    repintar: pintarPlantao,
+    avaliar: avaliarIncidente,
+    rotulo: rotuloCall,
+    aoConcluir: () => concluirCena(plantaoSessao, registrarPlantao, {
+      xpBase: 10,
+      xpAcerto: 8,
+      titulo: 'Plantão encerrado!',
+      destino: telaPlantoes
+    })
+  });
+}
+
 function telaDemos() {
   demoSessao = null;
   telaListaFala(
@@ -7215,6 +7357,9 @@ async function iniciar() {
     prazo: () => (prazoSessao && !prazoSessao.concluido ? pintarPrazo() : telaPrazos()),
     star: () => (starSessao && !starSessao.concluido ? pintarStar() : telaStars()),
     enfase: () => (enfaseSessao && !enfaseSessao.concluido ? pintarEnfase() : telaEnfases()),
+    decisao: () => (decisaoSessao && !decisaoSessao.concluido ? pintarDecisao() : telaDecisoes()),
+    par: () => (parSessao && !parSessao.concluido ? pintarPar() : telaPares()),
+    plantao: () => (plantaoSessao && !plantaoSessao.concluido ? pintarPlantao() : telaPlantoes()),
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
     reducao: () => (reducaoSessao && !reducaoSessao.concluido ? pintarReducao() : telaReducoes()),
