@@ -81,7 +81,7 @@ const padrao = () => ({
   diaDesafio: null,
   sequenciaDesafio: 0,
   recordeDesafio: 0,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0, mapas: 0, duros: 0, propostas: 0, narras: 0, bancos: 0, recusas: 0, sprints: 0, seguros: 0, meetups: 0, completas: 0, rodadas: 0, migras: 0, estreias: 0, focos: 0, pokers: 0, leigos: 0, recrutas: 0, culpas: 0, raios: 0, ofertas: 0, pedidos: 0, coberturas: 0, looms: 0, cadernos: 0, graficos: 0, handoffs: 0, elevadores: 0, juntas: 0, pistas: 0, calmas: 0, folgas: 0, abertas: 0 }
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0, mapas: 0, duros: 0, propostas: 0, narras: 0, bancos: 0, recusas: 0, sprints: 0, seguros: 0, meetups: 0, completas: 0, rodadas: 0, migras: 0, estreias: 0, focos: 0, pokers: 0, leigos: 0, recrutas: 0, culpas: 0, raios: 0, ofertas: 0, pedidos: 0, coberturas: 0, looms: 0, cadernos: 0, graficos: 0, handoffs: 0, elevadores: 0, juntas: 0, pistas: 0, calmas: 0, folgas: 0, abertas: 0, respeitos: 0, debitos: 0, indicacoes: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -1205,6 +1205,9 @@ function checarBadges() {
     calma: estado.stats.calmas >= 1,
     folga: estado.stats.folgas >= 1,
     abertas: estado.stats.abertas >= 1,
+    respeito: estado.stats.respeitos >= 1,
+    debito: estado.stats.debitos >= 1,
+    indicacao: estado.stats.indicacoes >= 1,
     minutos: somarSemana(estado.painel, hoje()).minutos >= num(estado.metaMinutos),
     tudo: UNIDADES.every(unidadeCompleta)
   };
@@ -1879,6 +1882,18 @@ export function registrarFolga(d) {
 
 export function registrarAberta(d) {
   return registrarTipo('abertas', 'abertas', d);
+}
+
+export function registrarRespeito(d) {
+  return registrarTipo('respeitos', 'respeito', d);
+}
+
+export function registrarDebito(d) {
+  return registrarTipo('debitos', 'debito', d);
+}
+
+export function registrarIndicacao(d) {
+  return registrarTipo('indicacoes', 'indicacao', d);
 }
 
 export function marcarEspaco(en, pt) {

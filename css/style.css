@@ -714,6 +714,12 @@ textarea.entrada {
   resize: vertical;
 }
 
+.preenchimento {
+  background: color-mix(in srgb, var(--amarelo) 35%, var(--superficie));
+  border-radius: 6px;
+  padding: 0 0.15em;
+}
+
 .entrada::placeholder {
   color: var(--texto-suave);
   font-weight: 700;

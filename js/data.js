@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.31';
+export const VERSAO_APP = '2.32';
 
 export const NOVIDADES = [
+  {
+    versao: '2.32',
+    titulo: 'No respeito',
+    itens: [
+      '🏛️ Discorde de uma arquitetura e ofereça outro caminho',
+      '🧱 Explique a dívida e peça tempo para refatorar',
+      '✉️ Peça uma referência a um ex-colega',
+      '💭 As perguntas abertas marcam um, like e basically e sugerem conectores'
+    ]
+  },
   {
     versao: '2.31',
     titulo: 'No bug raro',
@@ -1164,6 +1174,9 @@ export const MISSOES = [
   { id: 'calma1', emoji: '🐢', titulo: 'Explique um conceito com calma', alvo: 1, xp: 15, medir: s => (s.tipo === 'calma' ? 1 : 0) },
   { id: 'folga1', emoji: '🏖️', titulo: 'Fale de férias ou do limite da noite', alvo: 1, xp: 15, medir: s => (s.tipo === 'folga' ? 1 : 0) },
   { id: 'abertas1', emoji: '💭', titulo: 'Responda as perguntas abertas', alvo: 1, xp: 15, medir: s => (s.tipo === 'abertas' ? 1 : 0) },
+  { id: 'respeito1', emoji: '🏛️', titulo: 'Discorde de uma arquitetura com respeito', alvo: 1, xp: 15, medir: s => (s.tipo === 'respeito' ? 1 : 0) },
+  { id: 'debito1', emoji: '🧱', titulo: 'Peça tempo para a dívida técnica', alvo: 1, xp: 15, medir: s => (s.tipo === 'debito' ? 1 : 0) },
+  { id: 'indicacao1', emoji: '✉️', titulo: 'Peça uma referência a um ex-colega', alvo: 1, xp: 15, medir: s => (s.tipo === 'indicacao' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1295,7 +1308,10 @@ export const BADGES = [
   { id: 'pista', emoji: '🏁', nome: 'O bug raro', desc: 'Conte o sintoma e a prova de um bug intermitente' },
   { id: 'calma', emoji: '🐢', nome: 'Com calma', desc: 'Explique um conceito devagar para um júnior' },
   { id: 'folga', emoji: '🏖️', nome: 'A folga', desc: 'Fale de férias, do horário ou de duas semanas fora' },
-  { id: 'abertas', emoji: '💭', nome: 'Perguntas abertas', desc: 'Responda cinco perguntas e veja palavras e tempo' },
+  { id: 'abertas', emoji: '💭', nome: 'Perguntas abertas', desc: 'Responda cinco perguntas e veja palavras, tempo e preenchimento' },
+  { id: 'respeito', emoji: '🏛️', nome: 'Com respeito', desc: 'Discorde de uma arquitetura e ofereça outro caminho' },
+  { id: 'debito', emoji: '🧱', nome: 'A dívida', desc: 'Explique a dívida técnica e peça tempo para refatorar' },
+  { id: 'indicacao', emoji: '✉️', nome: 'A indicação', desc: 'Peça a um ex-colega para ser a sua referência' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
 
