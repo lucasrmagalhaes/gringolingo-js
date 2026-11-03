@@ -6,6 +6,8 @@ import { nivelValido, rankNivel, diasDaSemana } from './fluencia.js';
 import { contarFaladas } from './opiniao.js';
 import { frasesDoDesafio } from './vaga.js';
 import { grupoDoTipo, segundosDaFala, somarSemana, GRUPOS, METAS_MINUTOS } from './semana.js';
+import { TREINOS } from './hub.js';
+import { treinoDoDia } from './facil.js';
 
 const CHAVE = 'gringolingo';
 const CHAVE_CONTA = 'gringolingo:conta';
@@ -81,7 +83,12 @@ const padrao = () => ({
   diaDesafio: null,
   sequenciaDesafio: 0,
   recordeDesafio: 0,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0, mapas: 0, duros: 0, propostas: 0, narras: 0, bancos: 0, recusas: 0, sprints: 0, seguros: 0, meetups: 0, completas: 0, rodadas: 0, migras: 0, estreias: 0, focos: 0, pokers: 0, leigos: 0, recrutas: 0, culpas: 0, raios: 0, ofertas: 0, pedidos: 0, coberturas: 0, looms: 0, cadernos: 0, graficos: 0, handoffs: 0, elevadores: 0, juntas: 0, pistas: 0, calmas: 0, folgas: 0, abertas: 0, respeitos: 0, debitos: 0, indicacoes: 0, uxs: 0, foruns: 0, vistos: 0, meses: 0 }
+  surpresaDia: null,
+  surpresaStreak: 0,
+  recordeSurpresa: 0,
+  surpresaArmada: '',
+  surpresaArmadaDia: null,
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0, mapas: 0, duros: 0, propostas: 0, narras: 0, bancos: 0, recusas: 0, sprints: 0, seguros: 0, meetups: 0, completas: 0, rodadas: 0, migras: 0, estreias: 0, focos: 0, pokers: 0, leigos: 0, recrutas: 0, culpas: 0, raios: 0, ofertas: 0, pedidos: 0, coberturas: 0, looms: 0, cadernos: 0, graficos: 0, handoffs: 0, elevadores: 0, juntas: 0, pistas: 0, calmas: 0, folgas: 0, abertas: 0, respeitos: 0, debitos: 0, indicacoes: 0, uxs: 0, foruns: 0, vistos: 0, meses: 0, facils: 0, stacks: 0, sabados: 0, surpresas: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -379,6 +386,12 @@ function sanitizar(salvo) {
   s.diaDesafio = diaIso(s.diaDesafio);
   s.sequenciaDesafio = Math.max(0, num(s.sequenciaDesafio));
   s.recordeDesafio = Math.max(s.sequenciaDesafio, num(s.recordeDesafio));
+  s.surpresaDia = diaIso(s.surpresaDia);
+  s.surpresaStreak = Math.max(0, Math.min(num(s.surpresaStreak), 9999));
+  s.recordeSurpresa = Math.max(s.surpresaStreak, Math.min(num(s.recordeSurpresa), 9999));
+  s.surpresaArmadaDia = diaIso(s.surpresaArmadaDia);
+  s.surpresaArmada = typeof s.surpresaArmada === 'string' && s.surpresaArmada.length <= 40 && chaveSegura(s.surpresaArmada) ? s.surpresaArmada : '';
+  if (!s.surpresaArmadaDia) s.surpresaArmada = '';
   s.stats = { ...base.stats, ...(s.stats && typeof s.stats === 'object' ? s.stats : {}) };
   for (const k of Object.keys(s.stats)) s.stats[k] = num(s.stats[k]);
   if (salvo?.stats?.metasBatidas == null) {
@@ -771,6 +784,24 @@ function mesclar(remoto) {
       }
     }
     estado.recordeDesafio = Math.max(num(estado.recordeDesafio), num(remoto.recordeDesafio), num(estado.sequenciaDesafio));
+    const remotoSurpresa = diaIso(remoto.surpresaDia);
+    if (remotoSurpresa) {
+      const remotoSeq = Math.min(num(remoto.surpresaStreak), 9999);
+      if (!estado.surpresaDia) {
+        estado.surpresaDia = remotoSurpresa;
+        estado.surpresaStreak = remotoSeq;
+      } else if (remotoSurpresa > estado.surpresaDia) {
+        const continua = estado.surpresaDia === diaAnterior(remotoSurpresa);
+        estado.surpresaStreak = Math.min(9999, Math.max(remotoSeq, continua ? estado.surpresaStreak + 1 : 0));
+        estado.surpresaDia = remotoSurpresa;
+      } else if (remotoSurpresa === estado.surpresaDia) {
+        estado.surpresaStreak = Math.min(9999, Math.max(estado.surpresaStreak, remotoSeq));
+      } else {
+        const continua = remotoSurpresa === diaAnterior(estado.surpresaDia);
+        estado.surpresaStreak = Math.min(9999, Math.max(estado.surpresaStreak, continua ? remotoSeq + 1 : 0));
+      }
+    }
+    estado.recordeSurpresa = Math.min(9999, Math.max(num(estado.recordeSurpresa), num(remoto.recordeSurpresa), num(estado.surpresaStreak)));
     estado.painel = limparPainel(estado.painel);
     for (const [dia, v] of Object.entries(limparPainel(remoto.painel))) {
       estado.painel[dia] = unirDiaPainel(estado.painel[dia], v);
@@ -1217,6 +1248,10 @@ function checarBadges() {
     forum: estado.stats.foruns >= 1,
     visto: estado.stats.vistos >= 1,
     mes: estado.stats.meses >= 1,
+    facil: estado.stats.facils >= 1,
+    stack: estado.stats.stacks >= 1,
+    sabado: estado.stats.sabados >= 1,
+    surpresa: estado.stats.surpresas >= 1,
     minutos: somarSemana(estado.painel, hoje()).minutos >= num(estado.metaMinutos),
     tudo: UNIDADES.every(unidadeCompleta)
   };
@@ -1394,6 +1429,57 @@ function marcarMetaFala(diaIso) {
   estado.stats.metasFala = num(estado.stats.metasFala) + 1;
 }
 
+function limparSurpresaArmada() {
+  estado.surpresaArmada = '';
+  estado.surpresaArmadaDia = null;
+}
+
+function surpresaPronta(tipo, diaSessao) {
+  if (!tipo || estado.surpresaArmada !== tipo || estado.surpresaArmadaDia !== diaSessao) return false;
+  if (estado.surpresaDia === diaSessao) return false;
+  const treino = treinoDoDia(TREINOS, diaSessao);
+  return !!treino && treino.id === tipo;
+}
+
+function marcarSurpresa(tipo, diaSessao) {
+  if (estado.surpresaArmadaDia && estado.surpresaArmadaDia !== diaSessao) limparSurpresaArmada();
+  if (!surpresaPronta(tipo, diaSessao)) {
+    if (estado.surpresaArmada === tipo && estado.surpresaArmadaDia === diaSessao) limparSurpresaArmada();
+    return false;
+  }
+  limparSurpresaArmada();
+  if (estado.surpresaDia === diaAnterior(diaSessao)) estado.surpresaStreak = num(estado.surpresaStreak) + 1;
+  else estado.surpresaStreak = 1;
+  if (estado.surpresaStreak > 9999) estado.surpresaStreak = 9999;
+  estado.surpresaDia = diaSessao;
+  estado.recordeSurpresa = Math.max(num(estado.recordeSurpresa), estado.surpresaStreak);
+  if (Object.prototype.hasOwnProperty.call(estado.stats, 'surpresas')) estado.stats.surpresas++;
+  return true;
+}
+
+export function armarSurpresa(id) {
+  const texto = String(id || '');
+  if (!texto || texto.length > 40 || !chaveSegura(texto)) return false;
+  const treino = treinoDoDia(TREINOS, hoje());
+  if (!treino || treino.id !== texto) return false;
+  estado.surpresaArmada = texto;
+  estado.surpresaArmadaDia = hoje();
+  salvar();
+  return true;
+}
+
+export function resumoSurpresa(dia = hoje()) {
+  const treino = treinoDoDia(TREINOS, dia);
+  const feito = estado.surpresaDia === dia;
+  const viva = feito || estado.surpresaDia === diaAnterior(dia);
+  return {
+    treino,
+    feito,
+    sequencia: viva ? num(estado.surpresaStreak) : 0,
+    recorde: num(estado.recordeSurpresa)
+  };
+}
+
 function fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao) {
   if (d.nota != null && d.nota !== '') {
     anotarPainel(d.nota, d.acertos, d.respostas, {
@@ -1404,8 +1490,9 @@ function fecharPratica(d, diaSessao, nivelAntes, metaAntes, streakAntes, usouPro
     marcarMetaFala(diaSessao);
   }
   somarErrosFala(d.errosFala);
-  estado.xp += d.xp + missao.bonus;
-  registrarDia(d.xp + missao.bonus, diaSessao);
+  const bonusSurpresa = marcarSurpresa(d.tipo, diaSessao) ? 10 : 0;
+  estado.xp += d.xp + missao.bonus + bonusSurpresa;
+  registrarDia(d.xp + missao.bonus + bonusSurpresa, diaSessao);
   estado.stats.acertos += num(d.acertos);
   estado.stats.respostas += num(d.respostas);
   contarMetaBatida(metaAntes, diaSessao);
@@ -1449,7 +1536,7 @@ function registrarTipo(stat, tipo, d) {
   const metaAntes = metaBatida(diaSessao);
   const streakAntes = streakAtual();
   const { usouProtetor } = atualizarStreak(diaSessao);
-  const missao = avancarMissoes({ ...d, tipo }, diaSessao);
+  const missao = avancarMissoes({ ...d, tipo, surpresa: surpresaPronta(tipo, diaSessao) }, diaSessao);
   if (stat && Object.prototype.hasOwnProperty.call(estado.stats, stat)) estado.stats[stat]++;
   return fecharPratica({ ...d, tipo }, diaSessao, nivelAntes, metaAntes, streakAntes, usouProtetor, missao);
 }
@@ -1922,6 +2009,23 @@ export function registrarVisto(d) {
 
 export function registrarMes(d) {
   return registrarTipo('meses', 'mes', d);
+}
+
+export function registrarFacil(d) {
+  return registrarTipo('facils', 'facil', d);
+}
+
+export function registrarEscolhaStack(d) {
+  return registrarTipo('stacks', 'stack', d);
+}
+
+export function registrarSabado(d) {
+  return registrarTipo('sabados', 'sabado', d);
+}
+
+export function registrarTreino(tipo, d) {
+  const treino = TREINOS.find(t => t.id === tipo);
+  return registrarTipo(treino?.stat || null, tipo, d);
 }
 
 export function marcarEspaco(en, pt) {
