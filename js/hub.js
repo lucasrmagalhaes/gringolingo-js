@@ -108,7 +108,11 @@ const BRUTOS = [
   ['pedido', 'trabalho', '🙋', 'Não entendi', 'Peça o sotaque, a palavra que escapou e leia o requisito de volta.', 'pedidos', 'esclarecer sotaque palavra requisito'],
   ['cobertura', 'trabalho', '🧪', 'A cobertura', 'Diga como os testes e a cobertura protegem o merge.', 'coberturas', 'teste cobertura suite merge linhas'],
   ['loom', 'trabalho', '🎥', 'O vídeo', 'Um check-in curto para o time assistir depois.', 'looms', 'loom video check-in assincrono'],
-  ['caderno', 'revisao', '📒', 'Meu vocabulário', 'Palavras que escaparam nas falas.', 'cadernos', 'vocabulario palavras erro fala caderno']
+  ['caderno', 'revisao', '📒', 'Meu vocabulário', 'Palavras que escaparam nas falas.', 'cadernos', 'vocabulario palavras erro fala caderno'],
+  ['grafico', 'trabalho', '📉', 'O gráfico', 'Alta, queda e a causa, em cima do gráfico.', 'graficos', 'grafico metrica alta queda causa'],
+  ['handoff', 'trabalho', '🕒', 'O handoff', 'Peça o que ficou aberto e deixe o contexto para o outro fuso.', 'handoffs', 'handoff fuso contexto nota blocker'],
+  ['elevador', 'entrevista', '🚪', 'O elevador', 'Trinta segundos para um diretor, do cargo ao pedido.', 'elevadores', 'elevador diretor trinta segundos apresentar'],
+  ['junta', 'revisao', '🗂️', 'A semana junta', 'Vocabulário, frases mais erradas e a meta de minutos.', 'juntas', 'semana vocabulario mais erradas minutos meta']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
