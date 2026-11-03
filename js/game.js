@@ -88,7 +88,10 @@ const padrao = () => ({
   recordeSurpresa: 0,
   surpresaArmada: '',
   surpresaArmadaDia: null,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0, mapas: 0, duros: 0, propostas: 0, narras: 0, bancos: 0, recusas: 0, sprints: 0, seguros: 0, meetups: 0, completas: 0, rodadas: 0, migras: 0, estreias: 0, focos: 0, pokers: 0, leigos: 0, recrutas: 0, culpas: 0, raios: 0, ofertas: 0, pedidos: 0, coberturas: 0, looms: 0, cadernos: 0, graficos: 0, handoffs: 0, elevadores: 0, juntas: 0, pistas: 0, calmas: 0, folgas: 0, abertas: 0, respeitos: 0, debitos: 0, indicacoes: 0, uxs: 0, foruns: 0, vistos: 0, meses: 0, facils: 0, stacks: 0, sabados: 0, surpresas: 0 }
+  estrelas: [],
+  treinoAberto: '',
+  ordemHub: 'catalogo',
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0, mapas: 0, duros: 0, propostas: 0, narras: 0, bancos: 0, recusas: 0, sprints: 0, seguros: 0, meetups: 0, completas: 0, rodadas: 0, migras: 0, estreias: 0, focos: 0, pokers: 0, leigos: 0, recrutas: 0, culpas: 0, raios: 0, ofertas: 0, pedidos: 0, coberturas: 0, looms: 0, cadernos: 0, graficos: 0, handoffs: 0, elevadores: 0, juntas: 0, pistas: 0, calmas: 0, folgas: 0, abertas: 0, respeitos: 0, debitos: 0, indicacoes: 0, uxs: 0, foruns: 0, vistos: 0, meses: 0, facils: 0, stacks: 0, sabados: 0, surpresas: 0, brechas: 0, mudas: 0, gauchos: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -97,6 +100,21 @@ export const METAS_FALA = [2, 3, 5, 7];
 const num = v => (Number.isFinite(Number(v)) ? Number(v) : 0);
 const chaveSegura = k => k !== '__proto__' && k !== 'constructor' && k !== 'prototype';
 const diaIso = v => (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : null);
+
+function limparEstrelas(lista) {
+  if (!Array.isArray(lista)) return [];
+  const ids = new Set(TREINOS.map(t => t.id));
+  const vistos = new Set();
+  const saida = [];
+  for (const item of lista) {
+    const id = typeof item === 'string' ? item : '';
+    if (!id || id.length > 40 || !chaveSegura(id) || !ids.has(id) || vistos.has(id)) continue;
+    vistos.add(id);
+    saida.push(id);
+    if (saida.length >= 80) break;
+  }
+  return saida;
+}
 
 function deslizeLimpo(d) {
   if (!d || typeof d !== 'object') return null;
@@ -392,6 +410,9 @@ function sanitizar(salvo) {
   s.surpresaArmadaDia = diaIso(s.surpresaArmadaDia);
   s.surpresaArmada = typeof s.surpresaArmada === 'string' && s.surpresaArmada.length <= 40 && chaveSegura(s.surpresaArmada) ? s.surpresaArmada : '';
   if (!s.surpresaArmadaDia) s.surpresaArmada = '';
+  s.estrelas = limparEstrelas(s.estrelas);
+  s.treinoAberto = typeof s.treinoAberto === 'string' && TREINOS.some(t => t.id === s.treinoAberto) ? s.treinoAberto : '';
+  s.ordemHub = s.ordemHub === 'menos' ? 'menos' : 'catalogo';
   s.stats = { ...base.stats, ...(s.stats && typeof s.stats === 'object' ? s.stats : {}) };
   for (const k of Object.keys(s.stats)) s.stats[k] = num(s.stats[k]);
   if (salvo?.stats?.metasBatidas == null) {
@@ -802,6 +823,10 @@ function mesclar(remoto) {
       }
     }
     estado.recordeSurpresa = Math.min(9999, Math.max(num(estado.recordeSurpresa), num(remoto.recordeSurpresa), num(estado.surpresaStreak)));
+    estado.estrelas = limparEstrelas([...(estado.estrelas || []), ...(Array.isArray(remoto.estrelas) ? remoto.estrelas : [])]);
+    if (!estado.treinoAberto && typeof remoto.treinoAberto === 'string' && TREINOS.some(t => t.id === remoto.treinoAberto)) {
+      estado.treinoAberto = remoto.treinoAberto;
+    }
     estado.painel = limparPainel(estado.painel);
     for (const [dia, v] of Object.entries(limparPainel(remoto.painel))) {
       estado.painel[dia] = unirDiaPainel(estado.painel[dia], v);
@@ -1252,6 +1277,10 @@ function checarBadges() {
     stack: estado.stats.stacks >= 1,
     sabado: estado.stats.sabados >= 1,
     surpresa: estado.stats.surpresas >= 1,
+    brecha: estado.stats.brechas >= 1,
+    muda: estado.stats.mudas >= 1,
+    gaucho: estado.stats.gauchos >= 1,
+    estrela: Array.isArray(estado.estrelas) && estado.estrelas.length >= 1,
     minutos: somarSemana(estado.painel, hoje()).minutos >= num(estado.metaMinutos),
     tudo: UNIDADES.every(unidadeCompleta)
   };
@@ -2026,6 +2055,53 @@ export function registrarSabado(d) {
 export function registrarTreino(tipo, d) {
   const treino = TREINOS.find(t => t.id === tipo);
   return registrarTipo(treino?.stat || null, tipo, d);
+}
+
+export function registrarBrecha(d) {
+  return registrarTipo('brechas', 'brecha', d);
+}
+
+export function registrarMuda(d) {
+  return registrarTipo('mudas', 'muda', d);
+}
+
+export function registrarGaucho(d) {
+  return registrarTipo('gauchos', 'gaucho', d);
+}
+
+export function estrelaLigada(id) {
+  return Array.isArray(estado.estrelas) && estado.estrelas.includes(id);
+}
+
+export function alternarEstrela(id) {
+  const texto = String(id || '');
+  if (!texto || texto.length > 40 || !chaveSegura(texto)) return false;
+  if (!TREINOS.some(t => t.id === texto)) return false;
+  if (!Array.isArray(estado.estrelas)) estado.estrelas = [];
+  const i = estado.estrelas.indexOf(texto);
+  if (i >= 0) estado.estrelas.splice(i, 1);
+  else if (estado.estrelas.length >= 80) return false;
+  else estado.estrelas.push(texto);
+  checarBadges();
+  salvar();
+  return true;
+}
+
+export function marcarTreinoAberto(id) {
+  const texto = String(id || '');
+  if (!TREINOS.some(t => t.id === texto)) return false;
+  if (estado.treinoAberto === texto) return true;
+  estado.treinoAberto = texto;
+  salvar();
+  return true;
+}
+
+export function definirOrdemHub(modo) {
+  const prox = modo === 'menos' ? 'menos' : 'catalogo';
+  if (estado.ordemHub === prox) return prox;
+  estado.ordemHub = prox;
+  salvar();
+  return prox;
 }
 
 export function marcarEspaco(en, pt) {

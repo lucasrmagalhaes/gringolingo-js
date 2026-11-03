@@ -127,7 +127,10 @@ const BRUTOS = [
   ['facil', 'trabalho', '🧭', 'O facilitador', 'Abra a reunião, olhe o relógio e feche com ações.', 'facils', 'facilitador reuniao pauta tempo acao'],
   ['stack', 'trabalho', '🧰', 'A escolha', 'React ou Vue, SQL ou documento, TypeScript ou JavaScript.', 'stacks', 'react vue sql documento typescript javascript'],
   ['sabado', 'cotidiano', '🌦️', 'O sábado', 'Conte o sábado, o domingo e um plano curto.', 'sabados', 'sabado domingo filme trilha plano'],
-  ['surpresa', 'revisao', '🎁', 'Treino surpresa', 'Um treino por dia, com uma sequência só deste modo.', 'surpresas', 'surpresa streak sequencia treino do dia']
+  ['surpresa', 'revisao', '🎁', 'Treino surpresa', 'Um treino por dia, com uma sequência só deste modo.', 'surpresas', 'surpresa streak sequencia treino do dia'],
+  ['brecha', 'trabalho', '🔓', 'A falha', 'Explique o furo no review e o conserto.', 'brechas', 'seguranca sql permissao segredo review'],
+  ['muda', 'trabalho', '📐', 'A mudança', 'O cliente pede uma tela nova no meio do projeto.', 'mudas', 'cliente escopo tela sprint preco nota'],
+  ['gaucho', 'cotidiano', '🧉', 'O chimarrão', 'Rio Grande do Sul, chimarrão e churrasco.', 'gauchos', 'rio grande sul chimarrao churrasco porto alegre']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -189,6 +192,35 @@ export function treinoRecomendado(treinos, { nivel, stats, padroes, deslizes } =
   }
   if (!lista.length) return null;
   return { treino: lista[0], porque: 'Um treino curto para continuar.' };
+}
+
+export function ordenarTreinos(treinos, { modo, stats } = {}) {
+  const lista = Array.isArray(treinos) ? [...treinos] : [];
+  if (modo !== 'menos') return lista;
+  const pratica = t => (t && t.stat ? (Number(stats?.[t.stat]) || 0) : 0);
+  return lista.sort((a, b) => {
+    const na = pratica(a);
+    const nb = pratica(b);
+    if (na !== nb) return na - nb;
+    return (a.ordem ?? 0) - (b.ordem ?? 0);
+  });
+}
+
+export function filtrarEstrelas(treinos, estrelas, ativo) {
+  const lista = Array.isArray(treinos) ? treinos : [];
+  if (!ativo) return lista;
+  const marcas = new Set(Array.isArray(estrelas) ? estrelas : []);
+  return lista.filter(t => t && marcas.has(t.id));
+}
+
+export function treinoContinuar(treinos, id) {
+  if (!id) return null;
+  return (Array.isArray(treinos) ? treinos : []).find(t => t.id === id) || null;
+}
+
+export function textoDoContinuar(treino) {
+  if (!treino) return 'Nenhum treino aberto ainda.';
+  return `Continuar: ${treino.titulo}.`;
 }
 
 const TETO_JS = 1500000;

@@ -34,6 +34,7 @@ import { PISTAS, CALMAS, FOLGAS } from './pista.js';
 import { RESPEITOS, DEBITOS, INDICACOES } from './respeito.js';
 import { UXS, FORUNS, VISTOS } from './visto.js';
 import { FACILS, ESCOLHAS, SABADOS } from './facil.js';
+import { BRECHAS, MUDAS, GAUCHOS } from './brecha.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -472,6 +473,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Brecha', itens: BRECHAS },
+    { origem: 'Mudança', itens: MUDAS },
+    { origem: 'Chimarrão', itens: GAUCHOS },
     { origem: 'Facilitador', itens: FACILS },
     { origem: 'Escolha', itens: ESCOLHAS },
     { origem: 'Sábado', itens: SABADOS },
