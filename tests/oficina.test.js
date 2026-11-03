@@ -177,9 +177,8 @@ describe('linha, slack, social e termos', () => {
     const data = readFileSync(join(raiz, 'js/data.js'), 'utf8');
     const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
-    assert.match(data, /VERSAO_APP = '2\.13'/);
+    assert.match(data, /versao: '2\.13'/);
     assert.match(data, /versao: '2\.12'/);
-    assert.match(sw, /gringolingo-v40/);
     assert.match(sw, /\.\/js\/oficina\.js/);
     const tema = app.slice(app.indexOf('function botaoTema'), app.indexOf('function checarGoogle'));
     assert.match(tema, /Mudar para o tema claro/);

@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-329%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-336%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -152,6 +152,11 @@ navegador.
 - **Happy hour**: um brinde, o violão no fim de semana e o papo de ser do Brasil.
 - **Termos técnicos**: o som de cache, queue, SQL, GUI, height e width, e uma frase de uso.
 - **Tema e relógio**: o botão de tema diz para onde vai, e o relógio da revisão de 3 minutos atualiza a cada segundo.
+- **Salário**: faixa anual, plano de saúde e ações, em duas falas.
+- **Portfólio**: problema, stack e resultado de um projeto pessoal, em três falas.
+- **Sotaques**: ouça en-US, en-GB e en-IN na voz do aparelho, quando ela existir.
+- **Desafio do dia**: começa com 2 frases e ganha uma por dia seguido, até 6.
+- **Cartões**: o ícone e a seta dos treinos ficam no mesmo tamanho, para o título alinhar.
 - **Estimativa**: diga "it should take about" e "I am not sure yet, but", em duas falas.
 - **Consenso**: discorde com um motivo e proponha um meio-termo.
 - **Atendimento**: ligue para o banco, a entrega ou o hotel, em três falas.
@@ -204,7 +209,7 @@ navegador.
 - **3 missões que trocam todo dia**, sorteadas de forma determinística a partir da data.
 - **Streak com protetor**: perdoa um dia perdido, e você ganha um novo protetor a cada 5 lições
   perfeitas. O app avisa quando a sequência está para vencer.
-- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **63 conquistas**, XP com
+- **10 níveis** com títulos que vão de *Turista Perdido* a *Rei da Gringa*, **67 conquistas**, XP com
   bônus de combo, confete e efeitos sonoros sintetizados no WebAudio (nenhum arquivo de áudio no
   repositório).
 - **Desafio por link**: termine uma lição e mande o link para alguém tentar bater a sua pontuação.
@@ -276,6 +281,7 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/cotidiano.js` | Estimativa com incerteza, consenso em reunião, atendimento do dia a dia e o histórico de 14 dias. |
 | `js/turno.js` | Feedback de 1:1, pergunta no fim da entrevista, viagem a trabalho e a revisão de 3 minutos. |
 | `js/oficina.js` | Linha a linha, recado curto de Slack, papo de happy hour e o som de termos técnicos. |
+| `js/vaga.js` | Salário, portfólio, sotaques na voz do aparelho e o desafio diário de fala. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -358,7 +364,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **329 testes em 68 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **336 testes em 69 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -405,6 +411,7 @@ O que a suíte cobre:
 - **`tests/cotidiano.test.js`**: estimativa, consenso, atendimento, o histórico de 14 dias e o áudio que some com a tela.
 - **`tests/turno.test.js`**: feedback de 1:1, pergunta final, viagem a trabalho e a mistura de 3 minutos.
 - **`tests/oficina.test.js`**: linha a linha, recado de Slack, happy hour, o som dos termos e o relógio da revisão.
+- **`tests/vaga.test.js`**: salário, portfólio, sotaque, a sequência do desafio e o ícone alinhado.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

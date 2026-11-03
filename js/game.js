@@ -4,6 +4,7 @@ import { IDS_CINCO, apagarPapo } from './conversa.js';
 import { FRASES, itemDaFrase } from './frases.js';
 import { nivelValido, rankNivel, diasDaSemana } from './fluencia.js';
 import { contarFaladas } from './opiniao.js';
+import { frasesDoDesafio } from './vaga.js';
 
 const CHAVE = 'gringolingo';
 const CHAVE_CONTA = 'gringolingo:conta';
@@ -67,7 +68,10 @@ const padrao = () => ({
   agendaFala: {},
   metaFala: 3,
   metaFalaSemana: null,
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0 }
+  diaDesafio: null,
+  sequenciaDesafio: 0,
+  recordeDesafio: 0,
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -288,6 +292,9 @@ function sanitizar(salvo) {
   s.agendaFala = limparAgendaFala(s.agendaFala);
   s.metaFala = METAS_FALA.includes(num(s.metaFala)) ? num(s.metaFala) : 3;
   s.metaFalaSemana = diaIso(s.metaFalaSemana);
+  s.diaDesafio = diaIso(s.diaDesafio);
+  s.sequenciaDesafio = Math.max(0, num(s.sequenciaDesafio));
+  s.recordeDesafio = Math.max(s.sequenciaDesafio, num(s.recordeDesafio));
   s.stats = { ...base.stats, ...(s.stats && typeof s.stats === 'object' ? s.stats : {}) };
   for (const k of Object.keys(s.stats)) s.stats[k] = num(s.stats[k]);
   if (salvo?.stats?.metasBatidas == null) {
@@ -622,6 +629,24 @@ function mesclar(remoto) {
     if (rankNivel(remotoNivel) > rankNivel(estado.nivelFala)) estado.nivelFala = remotoNivel;
     const remotoPergunta = diaIso(remoto.perguntaDia);
     if (remotoPergunta && (!estado.perguntaDia || remotoPergunta > estado.perguntaDia)) estado.perguntaDia = remotoPergunta;
+    const remotoDesafio = diaIso(remoto.diaDesafio);
+    if (remotoDesafio) {
+      const remotoSeq = num(remoto.sequenciaDesafio);
+      if (!estado.diaDesafio) {
+        estado.diaDesafio = remotoDesafio;
+        estado.sequenciaDesafio = remotoSeq;
+      } else if (remotoDesafio > estado.diaDesafio) {
+        const continua = estado.diaDesafio === diaAnterior(remotoDesafio);
+        estado.sequenciaDesafio = Math.max(remotoSeq, continua ? estado.sequenciaDesafio + 1 : 0);
+        estado.diaDesafio = remotoDesafio;
+      } else if (remotoDesafio === estado.diaDesafio) {
+        estado.sequenciaDesafio = Math.max(estado.sequenciaDesafio, remotoSeq);
+      } else {
+        const continua = remotoDesafio === diaAnterior(estado.diaDesafio);
+        estado.sequenciaDesafio = Math.max(estado.sequenciaDesafio, continua ? remotoSeq + 1 : 0);
+      }
+    }
+    estado.recordeDesafio = Math.max(num(estado.recordeDesafio), num(remoto.recordeDesafio), num(estado.sequenciaDesafio));
     estado.painel = limparPainel(estado.painel);
     for (const [dia, v] of Object.entries(limparPainel(remoto.painel))) {
       const local = estado.painel[dia];
@@ -983,6 +1008,10 @@ function checarBadges() {
     slack: estado.stats.slacks >= 1,
     social: estado.stats.sociais >= 1,
     termo: estado.stats.termos >= 1,
+    salario: estado.stats.salarios >= 1,
+    projeto: estado.stats.projetos >= 1,
+    sotaque: estado.stats.sotaques >= 1,
+    desafio: estado.stats.desafios >= 1,
     tudo: UNIDADES.every(unidadeCompleta)
   };
   const novas = BADGES.filter(b => cond[b.id] && !estado.badges.includes(b.id));
@@ -1376,6 +1405,43 @@ export function registrarSocial(d) {
 
 export function registrarTermo(d) {
   return registrarTipo('termos', 'termo', d);
+}
+
+export function registrarSalario(d) {
+  return registrarTipo('salarios', 'salario', d);
+}
+
+export function registrarProjeto(d) {
+  return registrarTipo('projetos', 'projeto', d);
+}
+
+export function registrarSotaque(d) {
+  return registrarTipo('sotaques', 'sotaque', d);
+}
+
+export function resumoDesafio(d = hoje()) {
+  const feito = estado.diaDesafio === d;
+  const viva = feito || estado.diaDesafio === diaAnterior(d);
+  const sequencia = viva ? estado.sequenciaDesafio : 0;
+  const entrando = feito ? Math.max(0, sequencia - 1) : sequencia;
+  return {
+    feito,
+    sequencia,
+    entrando,
+    recorde: estado.recordeDesafio,
+    frases: frasesDoDesafio(entrando)
+  };
+}
+
+export function registrarDesafioDia(d) {
+  const diaSessao = hoje();
+  if (estado.diaDesafio !== diaSessao) {
+    if (estado.diaDesafio === diaAnterior(diaSessao)) estado.sequenciaDesafio = num(estado.sequenciaDesafio) + 1;
+    else estado.sequenciaDesafio = 1;
+    estado.diaDesafio = diaSessao;
+    estado.recordeDesafio = Math.max(num(estado.recordeDesafio), estado.sequenciaDesafio);
+  }
+  return registrarTipo('desafios', 'desafioDia', d);
 }
 
 export function registrarPronuncia(d) {

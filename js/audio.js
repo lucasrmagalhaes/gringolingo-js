@@ -157,6 +157,43 @@ function utterance(texto, velocidade) {
   return u;
 }
 
+function vozesAgora() {
+  if (!temTts) return vozes;
+  try {
+    const lidas = speechSynthesis.getVoices().filter(v => normalizarLang(v).toLowerCase().startsWith('en'));
+    if (lidas.length) vozes = lidas;
+  } catch {}
+  return vozes;
+}
+
+export function escolherVoz(lista, locale) {
+  const alvo = String(locale || '').replace('_', '-').toLowerCase();
+  if (!alvo) return null;
+  const itens = Array.isArray(lista) ? lista : [];
+  const lang = v => String(v?.lang || '').replace('_', '-').toLowerCase();
+  return itens.find(v => lang(v) === alvo) || itens.find(v => lang(v).startsWith(alvo)) || null;
+}
+
+export function falarComLocale(texto, locale) {
+  if (!temTts || !texto) return { falou: false, voz: null, locale: locale || '' };
+  const voz = escolherVoz(vozesAgora(), locale);
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(texto);
+    u.lang = voz ? normalizarLang(voz) : (locale || 'en-US');
+    u.rate = velocidadeAtual().valor;
+    if (voz) u.voice = voz;
+    speechSynthesis.speak(u);
+  } catch {
+    return { falou: false, voz: null, locale: locale || '' };
+  }
+  return {
+    falou: true,
+    locale: locale || '',
+    voz: voz ? { uri: voz.voiceURI, nome: voz.name, lang: normalizarLang(voz) } : null
+  };
+}
+
 export function falar(texto, velocidade) {
   if (!temTts) return;
   try {
