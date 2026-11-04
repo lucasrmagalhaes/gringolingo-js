@@ -58,6 +58,7 @@ import { INODOS, SAIDAS, MANADAS } from './inodo.js';
 import { GOTEJOS, FRIOS, CADEADOS } from './gotejo.js';
 import { COTAS, CICLOS, ZUMBIS } from './cota.js';
 import { SEGREDOS, FANTASMAS, INTEIROS } from './segredo.js';
+import { FILTROS, ORDENS, PROVAS } from './filtro.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -506,6 +507,9 @@ export function catalogoFaladas() {
     { origem: 'Segredo', itens: SEGREDOS },
     { origem: 'Fantasma', itens: FANTASMAS },
     { origem: 'Inteiro', itens: INTEIROS },
+    { origem: 'Filtro', itens: FILTROS },
+    { origem: 'Ordem', itens: ORDENS },
+    { origem: 'Prova', itens: PROVAS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

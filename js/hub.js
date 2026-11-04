@@ -216,7 +216,10 @@ const BRUTOS = [
   ['percentil', 'trabalho', '📐', 'O percentil', 'Noventa e nove por cento das chamadas cabem em duzentos milissegundos.', 'percentis', 'latency percentile two hundred milliseconds'],
   ['segredo', 'trabalho', '🕵️', 'O segredo', 'A chave secreta apareceu no log e qualquer pessoa leu.', 'segredos', 'secret leaked log key'],
   ['fantasma', 'trabalho', '👻', 'O fantasma', 'A segunda leitura viu uma linha que a primeira não tinha.', 'fantasmas', 'phantom read second row missing'],
-  ['inteiro', 'trabalho', '🔣', 'O inteiro', 'O contador passou do limite e voltou para zero.', 'inteiros', 'integer overflow counter wraps zero']
+  ['inteiro', 'trabalho', '🔣', 'O inteiro', 'O contador passou do limite e voltou para zero.', 'inteiros', 'integer overflow counter wraps zero'],
+  ['filtro', 'trabalho', '🧲', 'O filtro', 'O filtro de presença deu um sim falso e a chave não estava no conjunto.', 'filtros', 'bloom filter false positive key set'],
+  ['ordem', 'trabalho', '🔀', 'A ordem', 'A mensagem quatro chegou antes da três e a conta saiu invertida.', 'ordens', 'out of order message four before three'],
+  ['prova', 'trabalho', '🧬', 'A prova', 'A prova dos bytes não bateu com o arquivo que chegou pela rede.', 'provas', 'checksum mismatch bytes file']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -451,7 +454,7 @@ export function textoDoContinuar(treino) {
   return `Continuar: ${treino.titulo}.`;
 }
 
-const TETO_JS = 1630000;
+const TETO_JS = 1660000;
 
 export function auditarPacote({ html, css, sw, arquivos } = {}) {
   const falhas = [];

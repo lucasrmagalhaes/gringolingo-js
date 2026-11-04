@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-558%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-562%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -337,6 +337,10 @@ navegador.
 - **O fantasma**: a segunda leitura viu uma linha que a primeira não tinha.
 - **O inteiro**: o contador passou do limite e voltou para zero.
 - **Por dia**: no hub, a média de minutos por dia com fala, com atalho para a semana.
+- **O filtro**: o filtro de presença deu um sim falso e a chave não estava no conjunto.
+- **A ordem**: a mensagem quatro chegou antes da três e a conta saiu invertida.
+- **A prova**: a prova dos bytes não bateu com o arquivo que chegou pela rede.
+- **A parte**: no hub, quantos minutos desta semana entram na soma de fala, com atalho para a semana.
 - **A duração**: no hub, quanto dura cada treino desta semana, com atalho para a semana.
 - **A meta**: no hub, os minutos que ainda faltam para a meta desta semana, com atalho para a semana.
 - **A lacuna**: no hub, os dias desta semana ainda sem fala, com atalho para a semana.
@@ -535,6 +539,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/compacta.js` | Compactação de arquivos, diário de escrita e leitor atrasado. |
 | `js/corrida.js` | Corrida de escritas, índice que falta e percentil da latência. |
 | `js/segredo.js` | Segredo no log, leitura fantasma e contador que volta a zero. |
+| `js/filtro.js` | Filtro de presença, mensagens fora de ordem e prova dos bytes. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -616,7 +621,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **558 testes em 118 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **562 testes em 119 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -713,6 +718,7 @@ O que a suíte cobre:
 - **`tests/compacta.test.js`**: compactação, diário, vagão, os últimos 7 dias e a versão 2.61.
 - **`tests/corrida.test.js`**: corrida, índice, percentil, a soma de fala e a versão 2.62.
 - **`tests/segredo.test.js`**: segredo, fantasma, inteiro, a média por dia e a versão 2.63.
+- **`tests/filtro.test.js`**: filtro, ordem, prova, a parte desta semana e a versão 2.64.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
