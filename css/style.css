@@ -902,6 +902,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-ficha {
+  margin: 8px 0 12px;
+}
+
+.fala-ficha .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1081,6 +1089,8 @@ button.conta-entrar {
   min-height: 44px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  max-width: 100%;
   gap: 14px;
   color: #fff;
   border-radius: 18px;
@@ -1092,11 +1102,20 @@ button.conta-entrar {
 
 .unidade-emoji {
   font-size: 34px;
+  flex: none;
+}
+
+.unidade-cab > div {
+  flex: 1 1 140px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .unidade-titulo {
   font-size: var(--fonte-xl);
   font-weight: 900;
+  overflow-wrap: anywhere;
+  max-width: 100%;
 }
 
 .unidade-sub {

@@ -99,6 +99,7 @@ import { BITMAPS, ROARINGS, HYPERS } from './bitmap.js';
 import { CRDTS, LWWS, ORSETS } from './crdt.js';
 import { VECTORS, DOTS, CAUSALS } from './vector.js';
 import { SHARDS, REBALANCES, SPLITS } from './shard.js';
+import { WATERMARKS, BARRIERS, ALIGNS } from './watermark.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -670,6 +671,9 @@ export function catalogoFaladas() {
     { origem: 'Shard', itens: SHARDS },
     { origem: 'Rebalance', itens: REBALANCES },
     { origem: 'Split', itens: SPLITS },
+    { origem: 'Watermark', itens: WATERMARKS },
+    { origem: 'Barrier', itens: BARRIERS },
+    { origem: 'Align', itens: ALIGNS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },
