@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.09';
+export const VERSAO_APP = '3.10';
 
 export const NOVIDADES = [
+  {
+    versao: '3.10',
+    titulo: 'O stripe',
+    itens: [
+      '🧵 Diga que o stripe espalha o bloco',
+      '🔁 Avise que o parity recupera o dado',
+      '🔨 Diga que o rebuild refaz o disco',
+      '👅 Ouça no hub o par de som do dia'
+    ]
+  },
   {
     versao: '3.09',
     titulo: 'O journal',
@@ -2180,6 +2190,9 @@ export const MISSOES = [
   { id: 'journal1', emoji: '📓', titulo: 'Anote a mudança no journal', alvo: 1, xp: 15, medir: s => (s.tipo === 'journal' ? 1 : 0) },
   { id: 'segment1', emoji: '🗂️', titulo: 'Feche o arquivo no segment', alvo: 1, xp: 15, medir: s => (s.tipo === 'segment' ? 1 : 0) },
   { id: 'spill1', emoji: '💧', titulo: 'Mande o excesso ao disco no spill', alvo: 1, xp: 15, medir: s => (s.tipo === 'spill' ? 1 : 0) },
+  { id: 'stripe1', emoji: '🧵', titulo: 'Espalhe o bloco no stripe', alvo: 1, xp: 15, medir: s => (s.tipo === 'stripe' ? 1 : 0) },
+  { id: 'parity1', emoji: '🔁', titulo: 'Recupere o dado no parity', alvo: 1, xp: 15, medir: s => (s.tipo === 'parity' ? 1 : 0) },
+  { id: 'rebuild1', emoji: '🔨', titulo: 'Refaça o disco no rebuild', alvo: 1, xp: 15, medir: s => (s.tipo === 'rebuild' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2548,6 +2561,9 @@ export const BADGES = [
   { id: 'journal', emoji: '📓', nome: 'O journal', desc: 'Diga que o journal anota a mudança' },
   { id: 'segment', emoji: '🗂️', nome: 'O segment', desc: 'Diga que o segment fecha o arquivo' },
   { id: 'spill', emoji: '💧', nome: 'O spill', desc: 'Diga que o spill manda o excesso ao disco' },
+  { id: 'stripe', emoji: '🧵', nome: 'O stripe', desc: 'Diga que o stripe espalha o bloco' },
+  { id: 'parity', emoji: '🔁', nome: 'O parity', desc: 'Diga que o parity recupera o dado' },
+  { id: 'rebuild', emoji: '🔨', nome: 'O rebuild', desc: 'Diga que o rebuild refaz o disco' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

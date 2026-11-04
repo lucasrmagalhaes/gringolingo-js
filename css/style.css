@@ -959,6 +959,20 @@ textarea {
   overflow-wrap: anywhere;
 }
 
+.fala-som {
+  margin: 8px 0 12px;
+  max-width: 100%;
+}
+
+.fala-som .btn {
+  margin-top: 10px;
+  max-width: 100%;
+}
+
+.fala-som p {
+  overflow-wrap: anywhere;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1504,6 +1518,8 @@ textarea.entrada {
   border-radius: 12px;
   padding: 10px 14px;
   min-height: 44px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   font-size: 16px;
   font-weight: 800;
   cursor: pointer;
@@ -1523,8 +1539,9 @@ textarea.entrada {
 
 .pares {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
   gap: 10px;
+  max-width: 100%;
 }
 
 .par-col {
@@ -1934,6 +1951,8 @@ textarea.entrada {
   padding: 6px 11px;
   border-radius: 999px;
   cursor: pointer;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   transition: color 0.12s, background 0.12s;
   min-width: 44px;
   min-height: 44px;

@@ -1785,6 +1785,49 @@ export function textoDaEscuta(clips, diaIso) {
   };
 }
 
+function somValido(item) {
+  if (!item || typeof item !== 'object') return false;
+  const id = typeof item.id === 'string' ? item.id.trim() : '';
+  const titulo = typeof item.titulo === 'string' ? item.titulo.trim() : '';
+  const par = Array.isArray(item.pares) ? item.pares[0] : null;
+  const a = typeof par?.a === 'string' ? par.a.trim() : '';
+  const b = typeof par?.b === 'string' ? par.b.trim() : '';
+  if (!/^[a-z0-9]+$/.test(id)) return false;
+  if (titulo.length < 2 || titulo.length > 80) return false;
+  if (a.length < 2 || a.length > 80 || b.length < 2 || b.length > 80) return false;
+  if (id === '__proto__' || titulo === '__proto__' || a === '__proto__' || b === '__proto__') return false;
+  if (a === 'constructor' || b === 'constructor' || a === 'prototype' || b === 'prototype') return false;
+  return true;
+}
+
+function indiceDoSom(dia, total) {
+  let x = 2166136261;
+  const texto = `som:${String(dia)}`;
+  for (let i = 0; i < texto.length; i++) {
+    x ^= texto.charCodeAt(i);
+    x = Math.imul(x, 16777619);
+  }
+  x >>>= 0;
+  return total ? x % total : 0;
+}
+
+export function textoDoSom(sons, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { id: '', titulo: '', a: '', b: '', texto: 'Ainda não há som para ouvir.' };
+  const lista = (Array.isArray(sons) ? sons : []).filter(somValido);
+  if (!lista.length) return { id: '', titulo: '', a: '', b: '', texto: 'O som ainda não tem par.' };
+  const escolhido = lista[indiceDoSom(fim, lista.length)];
+  const par = escolhido.pares[0];
+  const ponto = texto => (/[.!?]$/.test(texto) ? texto : `${texto}.`);
+  return {
+    id: escolhido.id,
+    titulo: escolhido.titulo,
+    a: par.a.trim(),
+    b: par.b.trim(),
+    texto: `O som pede ${par.a.trim()} e ${par.b.trim()}. Ouça ${ponto(escolhido.titulo)}`
+  };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
