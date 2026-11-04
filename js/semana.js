@@ -491,6 +491,24 @@ export function textoDoAuge(painel, diaIso) {
   return { dias, minutos, texto: `O auge foi há ${dias} dias, com ${tempo}.` };
 }
 
+export function textoDoSete(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, texto: 'Ainda não há conta dos últimos 7 dias.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let dias = 0;
+  let cursor = fim;
+  for (let i = 0; i < 7; i++) {
+    const linha = fonte[cursor];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const segundos = inteiroNaoNegativo(linha?.segundos);
+    if (treinos > 0 || segundos > 0) dias += 1;
+    cursor = deslocarIso(cursor, -1);
+  }
+  if (dias === 0) return { dias: 0, texto: 'Nenhum dos últimos 7 dias teve fala.' };
+  if (dias === 1) return { dias: 1, texto: '1 dos últimos 7 dias teve fala.' };
+  return { dias, texto: `${dias} dos últimos 7 dias tiveram fala.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
