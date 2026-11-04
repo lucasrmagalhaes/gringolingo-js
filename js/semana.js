@@ -1828,6 +1828,62 @@ export function textoDoSom(sons, diaIso) {
   };
 }
 
+function verboValido(verbo) {
+  if (!verbo || typeof verbo !== 'object') return false;
+  const en = typeof verbo.en === 'string' ? verbo.en.trim() : '';
+  const en3 = typeof verbo.en3 === 'string' ? verbo.en3.trim() : '';
+  const pt = typeof verbo.pt === 'string' ? verbo.pt.trim() : '';
+  const pt3 = typeof verbo.pt3 === 'string' ? verbo.pt3.trim() : '';
+  if (!/^[a-z]+(?: [a-z]+)?$/.test(en) || !/^[a-z]+(?: [a-z]+)?$/.test(en3)) return false;
+  if (pt.length < 2 || pt.length > 40 || pt3.length < 2 || pt3.length > 40) return false;
+  const ruins = [en, en3, pt, pt3];
+  if (ruins.some(x => x === '__proto__' || x === 'constructor' || x === 'prototype')) return false;
+  return true;
+}
+
+function sujeitoValido(sujeito) {
+  if (!sujeito || typeof sujeito !== 'object' || sujeito.terceira !== true) return false;
+  const en = typeof sujeito.en === 'string' ? sujeito.en.trim() : '';
+  const pt = typeof sujeito.pt === 'string' ? sujeito.pt.trim() : '';
+  if (!/^[a-z]+(?: [a-z]+)?$/.test(en)) return false;
+  if (pt.length < 2 || pt.length > 40) return false;
+  if (en === '__proto__' || pt === '__proto__' || en === 'constructor' || pt === 'constructor') return false;
+  if (en === 'prototype' || pt === 'prototype') return false;
+  return true;
+}
+
+function indiceDoVerbo(dia, total) {
+  let x = 2166136261;
+  const texto = `verbo:${String(dia)}`;
+  for (let i = 0; i < texto.length; i++) {
+    x ^= texto.charCodeAt(i);
+    x = Math.imul(x, 16777619);
+  }
+  x >>>= 0;
+  return total ? x % total : 0;
+}
+
+export function textoDoVerbo(verbos, sujeitos, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { en: '', pt: '', texto: 'Ainda não há verbo para dizer.' };
+  const vs = (Array.isArray(verbos) ? verbos : []).filter(verboValido);
+  const ss = (Array.isArray(sujeitos) ? sujeitos : []).filter(sujeitoValido);
+  const pares = [];
+  for (const verbo of vs) {
+    for (const sujeito of ss) pares.push({ verbo, sujeito });
+  }
+  if (!pares.length) return { en: '', pt: '', texto: 'O verbo ainda não tem frase.' };
+  const escolhido = pares[indiceDoVerbo(fim, pares.length)];
+  const frase = `${escolhido.sujeito.en} ${escolhido.verbo.en3}`;
+  const pt = `${escolhido.sujeito.pt} ${escolhido.verbo.pt3}`;
+  const ponto = texto => (/[.!?]$/.test(texto) ? texto : `${texto}.`);
+  return {
+    en: frase,
+    pt,
+    texto: `O verbo pede ${pt}. Diga ${ponto(frase)}`
+  };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

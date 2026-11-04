@@ -973,6 +973,20 @@ textarea {
   overflow-wrap: anywhere;
 }
 
+.fala-verbo {
+  margin: 8px 0 12px;
+  max-width: 100%;
+}
+
+.fala-verbo .btn {
+  margin-top: 10px;
+  max-width: 100%;
+}
+
+.fala-verbo p {
+  overflow-wrap: anywhere;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -2700,6 +2714,7 @@ input.busca-dic::-webkit-search-cancel-button {
   align-items: flex-end;
   gap: 8px;
   max-width: 86%;
+  min-width: 0;
   animation: surgir 0.3s;
 }
 
@@ -2721,6 +2736,9 @@ input.busca-dic::-webkit-search-cancel-button {
   border: 2px solid var(--borda-suave);
   border-radius: 18px 18px 18px 4px;
   padding: 10px 14px;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .do-voce .bolha-corpo {
@@ -2732,6 +2750,8 @@ input.busca-dic::-webkit-search-cancel-button {
 .bolha-en {
   font-weight: 900;
   font-size: var(--fonte-md);
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .bolha-pt {
@@ -4220,6 +4240,8 @@ button.caixa-treinavel:hover {
   color: var(--texto-suave);
   font-weight: 800;
   margin-top: 4px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .sombra-frase {

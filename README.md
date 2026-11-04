@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-746%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-750%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -525,6 +525,10 @@ navegador.
 - **O parity**: o par recupera o dado.
 - **O rebuild**: a cópia refaz o disco.
 - **O som**: no hub, o par de pronúncia do dia, com atalho para treinar.
+- **O epoch**: a época abre o termo.
+- **O ballot**: a cédula conta o voto.
+- **A fence**: a trava segura a escrita.
+- **O verbo**: no hub, a frase do dia para conjugar.
 
 ### Hábito e gamificação
 
@@ -707,6 +711,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/tombstone.js` | Tombstone que marca a chave apagada, purge que tira a chave morta e reclaim que devolve o espaço. |
 | `js/journal.js` | Journal que anota a mudança, segment que fecha o arquivo e spill que manda o excesso ao disco. |
 | `js/stripe.js` | Stripe que espalha o bloco, parity que recupera o dado e rebuild que refaz o disco. |
+| `js/epoch.js` | Epoch que abre o termo, ballot que conta o voto e fence que segura a escrita. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -788,7 +793,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **746 testes em 165 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **750 testes em 166 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -932,6 +937,7 @@ O que a suíte cobre:
 - **`tests/tombstone.test.js`**: tombstone, purge, reclaim, a pergunta do dia e a versão 3.08.
 - **`tests/journal.test.js`**: journal, segment, spill, a escuta do dia e a versão 3.09.
 - **`tests/stripe.test.js`**: stripe, parity, rebuild, o som do dia e a versão 3.10.
+- **`tests/epoch.test.js`**: epoch, ballot, fence, o verbo do dia e a versão 3.11.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

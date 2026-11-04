@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.10';
+export const VERSAO_APP = '3.11';
 
 export const NOVIDADES = [
+  {
+    versao: '3.11',
+    titulo: 'O epoch',
+    itens: [
+      '🌅 Diga que o epoch abre o termo',
+      '🗳️ Avise que o ballot conta o voto',
+      '🪵 Diga que a fence segura a escrita',
+      '🔤 Diga no hub o verbo do dia'
+    ]
+  },
   {
     versao: '3.10',
     titulo: 'O stripe',
@@ -2193,6 +2203,9 @@ export const MISSOES = [
   { id: 'stripe1', emoji: '🧵', titulo: 'Espalhe o bloco no stripe', alvo: 1, xp: 15, medir: s => (s.tipo === 'stripe' ? 1 : 0) },
   { id: 'parity1', emoji: '🔁', titulo: 'Recupere o dado no parity', alvo: 1, xp: 15, medir: s => (s.tipo === 'parity' ? 1 : 0) },
   { id: 'rebuild1', emoji: '🔨', titulo: 'Refaça o disco no rebuild', alvo: 1, xp: 15, medir: s => (s.tipo === 'rebuild' ? 1 : 0) },
+  { id: 'epoch1', emoji: '🌅', titulo: 'Abra o termo no epoch', alvo: 1, xp: 15, medir: s => (s.tipo === 'epoch' ? 1 : 0) },
+  { id: 'ballot1', emoji: '🗳️', titulo: 'Conte o voto no ballot', alvo: 1, xp: 15, medir: s => (s.tipo === 'ballot' ? 1 : 0) },
+  { id: 'fence1', emoji: '🪵', titulo: 'Segure a escrita na fence', alvo: 1, xp: 15, medir: s => (s.tipo === 'fence' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2564,6 +2577,9 @@ export const BADGES = [
   { id: 'stripe', emoji: '🧵', nome: 'O stripe', desc: 'Diga que o stripe espalha o bloco' },
   { id: 'parity', emoji: '🔁', nome: 'O parity', desc: 'Diga que o parity recupera o dado' },
   { id: 'rebuild', emoji: '🔨', nome: 'O rebuild', desc: 'Diga que o rebuild refaz o disco' },
+  { id: 'epoch', emoji: '🌅', nome: 'O epoch', desc: 'Diga que o epoch abre o termo' },
+  { id: 'ballot', emoji: '🗳️', nome: 'O ballot', desc: 'Diga que o ballot conta o voto' },
+  { id: 'fence', emoji: '🪵', nome: 'A fence', desc: 'Diga que a fence segura a escrita' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
