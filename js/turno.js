@@ -57,6 +57,7 @@ import { RESERVAS, VARREDURAS, PORTAS } from './reserva.js';
 import { INODOS, SAIDAS, MANADAS } from './inodo.js';
 import { GOTEJOS, FRIOS, CADEADOS } from './gotejo.js';
 import { COTAS, CICLOS, ZUMBIS } from './cota.js';
+import { CISOES, RAJADAS, BRASAS } from './cisao.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -495,6 +496,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Cisão', itens: CISOES },
+    { origem: 'Rajada', itens: RAJADAS },
+    { origem: 'Brasa', itens: BRASAS },
     { origem: 'Cota', itens: COTAS },
     { origem: 'Ciclo', itens: CICLOS },
     { origem: 'Zumbi', itens: ZUMBIS },

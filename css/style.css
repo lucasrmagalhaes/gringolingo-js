@@ -491,6 +491,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-costume {
+  margin: 8px 0 12px;
+}
+
+.fala-costume .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -2837,6 +2845,11 @@ button.caixa-treinavel:hover {
   justify-content: center;
   flex-wrap: wrap;
   margin-top: 26px;
+}
+
+.resultado-botoes > .btn {
+  min-height: 44px;
+  min-width: 44px;
 }
 
 .novas-badges {

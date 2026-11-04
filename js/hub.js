@@ -198,7 +198,10 @@ const BRUTOS = [
   ['cadeado', 'trabalho', '🔐', 'O cadeado', 'O processo tentou ler o arquivo e a permissão recusou a leitura.', 'cadeados', 'permission denied read file access'],
   ['cota', 'trabalho', '📏', 'A cota', 'A cota do usuário fechou e o arquivo novo não grava.', 'cotas', 'disk quota gigabytes user file'],
   ['ciclo', 'trabalho', '🔁', 'O ciclo', 'O serviço cai e volta sozinho sem ficar estável.', 'ciclos', 'crash loop restart process stable'],
-  ['zumbi', 'trabalho', '🧟', 'O zumbi', 'O filho terminou e o pai nunca colheu o fim.', 'zumbis', 'zombie process child parent wait']
+  ['zumbi', 'trabalho', '🧟', 'O zumbi', 'O filho terminou e o pai nunca colheu o fim.', 'zumbis', 'zombie process child parent wait'],
+  ['cisao', 'trabalho', '🪞', 'A cisão', 'Dois nós acham que mandam ao mesmo tempo e a escrita divide.', 'cisoes', 'split brain two leaders nodes write'],
+  ['rajada', 'trabalho', '🌊', 'A rajada', 'Os clientes tentam de novo juntos e multiplicam a carga.', 'rajadas', 'retry storm clients together load'],
+  ['brasa', 'trabalho', '🔥', 'A brasa', 'Uma chave recebe quase todas as escritas do mapa.', 'brasas', 'hot key writes percent map']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -433,7 +436,7 @@ export function textoDoContinuar(treino) {
   return `Continuar: ${treino.titulo}.`;
 }
 
-const TETO_JS = 1520000;
+const TETO_JS = 1540000;
 
 export function auditarPacote({ html, css, sw, arquivos } = {}) {
   const falhas = [];

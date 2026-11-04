@@ -401,6 +401,40 @@ export function textoDoHiato(painel, diaIso) {
   return { dias: maior, texto: `O maior hiato foi de ${maior} dias.` };
 }
 
+const NOME_GETDAY = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+const ARTIGO_GETDAY = ['no', 'na', 'na', 'na', 'na', 'na', 'no'];
+
+function diaDaSemanaLocal(iso) {
+  const partes = String(iso).split('-').map(Number);
+  return new Date(partes[0], partes[1] - 1, partes[2]).getDay();
+}
+
+export function textoDoCostume(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, dia: null, texto: 'Ainda não há costume de fala.' };
+  const contagem = [0, 0, 0, 0, 0, 0, 0];
+  let total = 0;
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const segundos = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && segundos <= 0) continue;
+    contagem[diaDaSemanaLocal(data)] += 1;
+    total += 1;
+  }
+  if (total < 2) return { dias: null, dia: null, texto: 'Ainda não há costume de fala.' };
+  const ordem = [1, 2, 3, 4, 5, 6, 0];
+  let escolhido = 1;
+  for (const indice of ordem) {
+    if (contagem[indice] > contagem[escolhido]) escolhido = indice;
+  }
+  const dias = contagem[escolhido];
+  const dia = NOME_GETDAY[escolhido];
+  return { dias, dia, texto: `Você fala mais ${ARTIGO_GETDAY[escolhido]} ${dia}.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
