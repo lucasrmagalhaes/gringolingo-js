@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-514%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-518%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -34,7 +34,7 @@ navegador.
 | O dicionário | Sua jornada |
 | --- | --- |
 | <img src="docs/img/dicionario.png" alt="Dicionário com a busca por trabalho e o status de memória de cada palavra"> | <img src="docs/img/perfil.png" alt="Perfil com estatísticas, gráfico de 30 dias e saúde da memória"> |
-| Uma busca só, aceita português ou inglês, com ou sem acento — e mostra em que pé está a sua memória de cada palavra. | Gráfico de XP dos últimos 30 dias e a distribuição das palavras pelas caixas de revisão. |
+| Uma busca só, aceita português ou inglês, com ou sem acento. E mostra em que pé está a sua memória de cada palavra. | Gráfico de XP dos últimos 30 dias e a distribuição das palavras pelas caixas de revisão. |
 
 <div align="center">
 
@@ -295,6 +295,10 @@ navegador.
 - **Os ponteiros**: os relógios dos servidores diferem em dois segundos e a assinatura falha.
 - **A eleição**: o líder antigo saiu e dois de três precisam concordar.
 - **O freio**: a fila encheu e o produtor passa a enviar mais devagar.
+- **A pausa**: a coleta parou o processo por dois segundos e as chamadas esperaram.
+- **A deriva**: a configuração publicada difere do arquivo no repositório.
+- **O descritor**: o processo abriu arquivos demais e a próxima abertura falha.
+- **A meta**: no hub, os minutos que ainda faltam para a meta desta semana, com atalho para a semana.
 - **A lacuna**: no hub, os dias desta semana ainda sem fala, com atalho para a semana.
 - **O ritmo**: no hub, os minutos por dia com fala nesta semana, com atalho para a semana.
 - **Os dias**: no hub, quantos dias desta semana tiveram fala, com atalho para a semana.
@@ -343,13 +347,13 @@ navegador.
   um tem um botão para treinar só as palavras daquele erro. Acertar de novo abaixa o saldo da palavra.
 - **Revisão espaçada de verdade (Leitner)**: cada palavra tem uma caixa e volta a ser cobrada em
   1, 3, 7, 16 e 35 dias. Acertou, sobe de caixa; errou, desce uma caixa e reaparece amanhã (só dois
-  erros seguidos zeram — um tropeço não apaga semanas de espaçamento). A home mostra quantas
-  palavras vencem hoje. O dia do app é o **dia local do aparelho** — streak e missões viram à
+  erros seguidos zeram. Um tropeço não apaga semanas de espaçamento). A home mostra quantas
+  palavras vencem hoje. O dia do app é o **dia local do aparelho**. Streak e missões viram à
   meia-noite, não às 21h.
 - **Expansão de Vocabulário**: as 2.700+ palavras mais frequentes do inglês (o banco inteiro do
   dicionário) viram lições jogáveis de 7 palavras, em quatro trilhas por classe gramatical com
-  desbloqueio sequencial. **Toda palavra que você nunca viu é apresentada antes de ser cobrada** —
-  grafia, pronúncia, classe e traduções — e depois entra na mesma agenda de revisão espaçada do
+  desbloqueio sequencial. **Toda palavra que você nunca viu é apresentada antes de ser cobrada**.
+  Grafia, pronúncia, classe e traduções. E depois entra na mesma agenda de revisão espaçada do
   curso. Sinônimos com a mesma tradução se aceitam mutuamente na digitação e nunca competem na
   múltipla escolha.
 - **Minha Lista**: favorite palavras no dicionário e treine só elas.
@@ -375,13 +379,13 @@ navegador.
 
 - **Funciona 100% sem conta.** O progresso mora no `localStorage`; login é opcional.
 - **Login por e-mail ou Google** (Supabase Auth). O botão do Google só aparece se o provedor estiver
-  realmente ativo no projeto — o app detecta sozinho.
+  realmente ativo no projeto. O app detecta sozinho.
 - **Merge conservador** entre o aparelho e a nuvem: nada de “o último que salvou ganha”. Veja em
   [decisões técnicas](#decisões-técnicas).
 - **Fila de reenvio**: sem rede, a pilha da conta mostra ⚠️ e o envio é retentado quando a conexão
   volta ou a aba fica visível de novo.
 - **Backup em arquivo**: exporta e importa o progresso em JSON, sem depender de nuvem nenhuma. Antes de mesclar ou substituir, o perfil mostra a data, o XP, as lições e a sequência do arquivo. O nome do download traz a versão e o dia.
-- **LGPD**: dá para apagar a conta inteira pelo perfil — uma RPC `security definer` que só consegue
+- **LGPD**: dá para apagar a conta inteira pelo perfil. Uma RPC `security definer` que só consegue
   apagar o próprio usuário, porque o alvo vem do JWT assinado e não do cliente.
 
 ### PWA e offline
@@ -392,7 +396,7 @@ navegador.
 - **Funciona offline**: o service worker precacheia o app inteiro e serve o `index.html` como
   fallback de navegação. Sem internet, a home mostra uma faixa: as lições e o progresso continuam
   neste aparelho.
-- **Aviso de versão nova** no app já aberto: “✨ Nova versão disponível — tocar para atualizar”.
+- **Aviso de versão nova** no app já aberto: “✨ Nova versão disponível. Tocar para atualizar”.
 - **Lembrete diário** opcional por notificação, no horário que você escolher.
 
 ### Acessibilidade e detalhes
@@ -401,7 +405,7 @@ navegador.
   **S** ouve a frase de novo (fora do campo de texto e com o feedback fechado).
 - Foco gerenciado a cada troca de tela, `aria-live` no feedback, `aria-pressed` nas opções e rótulos
   descritivos nos botões.
-- `prefers-reduced-motion` respeitado — inclusive nas *view transitions* entre telas.
+- `prefers-reduced-motion` respeitado. Inclusive nas *view transitions* entre telas.
 - Tema claro e escuro, com a cor da barra do sistema acompanhando.
 - **Texto maior**: no perfil, NORMAL ou MAIOR. Nas telas de fala, as teclas 1, 2 e 3 marcam a opção.
   Enter segue em frente e Esc volta. A preferência fica só neste aparelho.
@@ -415,7 +419,7 @@ navegador.
 ## Arquitetura
 
 Uma SPA sem router: `index.html` é uma casca com `<div id="app">`, e cada tela é uma função que
-redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as vezes de JSX.
+redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de JSX.
 
 | Módulo | O que faz |
 | --- | --- |
@@ -480,6 +484,7 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/maquina.js` | Processador no pico, cópia da noite e processo sem memória. |
 | `js/impasse.js` | Impasse entre dois trabalhos, nome que não resolve e carta morta. |
 | `js/ponteiro.js` | Relógio desalinhado, eleição de líder e freio da fila. |
+| `js/pausa.js` | Pausa da coleta, configuração que deriva e descritor de arquivo. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -492,7 +497,7 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/audio.js` | Efeitos sonoros sintetizados no WebAudio, vibração e a pronúncia via `speechSynthesis` (escolha de voz e velocidade). |
 | `js/compartilhar.js` | Desenha o card 1080×1080 de progresso no canvas e dispara a Web Share API. |
 | `js/mascote.js` | Desenha o Louro em SVG inline, com poses (neutro, feliz, pensando, dormindo, coroa). |
-| `js/metricas.js` | Métricas anônimas de uso: registra só o nome do evento (`abertura`, `licao`, `conta`, `instalou`) e a data na tabela `eventos` do Supabase — com aviso no app e desligável no perfil. |
+| `js/metricas.js` | Métricas anônimas de uso: registra só o nome do evento (`abertura`, `licao`, `conta`, `instalou`) e a data na tabela `eventos` do Supabase. Com aviso no app e desligável no perfil. |
 | `js/erros.js` | Log em anel dos últimos 30 erros no `localStorage`, alimentado por `error` e `unhandledrejection`, exposto em `?debug`. |
 | `js/util.js` | `h()`, embaralhar, amostra, aleatório. É só isso. |
 | `js/config.js` | URL e anon key do projeto Supabase. |
@@ -511,18 +516,18 @@ dev server.
 
 **Leitner para a revisão espaçada.** Cinco caixas, com intervalos de 1, 3, 7, 16 e 35 dias. Acerto sobe
 uma caixa e adia; erro zera e traz para amanhã. É o algoritmo mais simples que entrega o essencial da
-repetição espaçada — sem a complexidade (e o estado) de um SM-2 — e cabe inteiro em `agendar()`, cinco
+repetição espaçada. Sem a complexidade (e o estado) de um SM-2. E cabe inteiro em `agendar()`, cinco
 linhas. A distribuição das caixas vira o gráfico de “saúde da memória” no perfil.
 
 **Merge conservador no sync multi-dispositivo.** Dois celulares abertos na mesma conta não podem fazer
 você perder XP. Então `mesclarEstado()` nunca sobrescreve: XP e estatísticas entram por `Math.max`,
 estrelas por lição ficam com a maior, conquistas / erros / favoritas são união de conjuntos, o
 histórico resolve dia a dia, missões do mesmo dia somam o progresso sem pagar bônus duas vezes e os
-protetores de streak mesclam por contadores de ganho/gasto — gastar num aparelho não regenera pelo
+protetores de streak mesclam por contadores de ganho/gasto. Gastar num aparelho não regenera pelo
 outro. Antes de reenviar uma pendência, o app baixa e mescla o que estiver na nuvem, para nunca
 sobrescrever o progresso feito em outro aparelho; e o payload remoto é validado campo a campo antes
 de entrar (tipo, versão do formato e chaves perigosas). A agenda de revisão é o caso mais delicado, e a regra é deliberadamente
-pessimista: fica com a **menor** caixa e a **data mais próxima** dos dois lados — na dúvida você revisa
+pessimista: fica com a **menor** caixa e a **data mais próxima** dos dois lados. Na dúvida você revisa
 antes, nunca depois. O streak tem quatro ramos explícitos (sem histórico local, remoto mais novo, mesmo
 dia, local mais novo) e reconhece dias consecutivos em vez de só comparar números. Os quatro ramos são
 testados.
@@ -532,7 +537,7 @@ espírito das estatísticas. Backup antigo, sem esses campos, abre normal: as li
 formato da nuvem está na versão 3; um app antigo não sobrescreve esse payload.
 
 **Service worker versionado à mão.** A constante `VERSAO` no topo do `sw.js` nomeia o cache; o `activate`
-apaga todos os outros. Publicar uma versão é incrementar essa constante — e quem já está com o app aberto
+apaga todos os outros. Publicar uma versão é incrementar essa constante. E quem já está com o app aberto
 vê o aviso de atualização e resolve com um toque. Sem um plugin de build gerando hash, a invalidação fica
 explícita e óbvia, que é exatamente o que se quer de um cache offline. Requisições para o Supabase nunca
 passam pelo service worker.
@@ -544,8 +549,7 @@ versão auditável no diff e tira um terceiro do carregamento. E o import é din
 não baixa um byte de Supabase.
 
 **Testes com `node --test`, sem dependências.** O runner nativo do Node basta. `tests/ambiente.js` stuba
-`window`, `document`, `localStorage` e `speechSynthesis` para os módulos do app rodarem fora do navegador
-— e é isso que permite testar a lógica de verdade (correção, geração de exercícios, merge, agenda) sem
+`window`, `document`, `localStorage` e `speechSynthesis` para os módulos do app rodarem fora do navegador. E é isso que permite testar a lógica de verdade (correção, geração de exercícios, merge, agenda) sem
 headless browser, sem framework de mock e sem instalar nada.
 
 ---
@@ -558,11 +562,11 @@ node servidor.js
 
 Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python3 -m http.server 8123`).
 
-> É preciso um servidor por causa dos ES modules — abrir o `index.html` direto do disco não funciona.
+> É preciso um servidor por causa dos ES modules. Abrir o `index.html` direto do disco não funciona.
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **514 testes em 107 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **518 testes em 108 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -577,16 +581,16 @@ node --test "tests/*.test.js"
 node --test tests/jogo.test.js
 ```
 
-A mesma suíte roda no CI (`.github/workflows/testes.yml`) a cada push, em Node 20 e 22 — uma
+A mesma suíte roda no CI (`.github/workflows/testes.yml`) a cada push, em Node 20 e 22. Uma
 regressão não chega mais ao ar sem ser vista.
 
 > **No Windows**, com o projeto aberto pelo caminho UNC do WSL (`\\wsl.localhost\...`), passar a
-> **pasta** (`node --test tests/`) pode falhar com `Cannot find module` — use `node --test` sem
+> **pasta** (`node --test tests/`) pode falhar com `Cannot find module`. Use `node --test` sem
 > argumento ou o glob acima. Rodando por dentro do WSL a pasta funciona normalmente.
 
 O que a suíte cobre:
 
-- **`tests/exercicios.test.js`** — `diffPalavras` (faltou, sobrou, trocou, tudo diferente),
+- **`tests/exercicios.test.js`**. `diffPalavras` (faltou, sobrou, trocou, tudo diferente),
   `gerarExercicios` (quantidade exata e o exercício de pares) e os distratores, que nunca podem
   entregar uma opção que é pedaço da resposta certa (`take a shower` jamais recebe `shower`).
 - **`tests/dicas.test.js`**: o tutor offline (artigo, ordem, plural, tempo verbal, falso amigo, typo
@@ -648,6 +652,7 @@ O que a suíte cobre:
 - **`tests/maquina.test.js`**: processador, cópia da noite, estouro de memória, os dias com fala e a versão 2.50.
 - **`tests/impasse.test.js`**: impasse, domínio, carta morta, o ritmo da semana e a versão 2.51.
 - **`tests/ponteiro.test.js`**: ponteiros, eleição, freio, a lacuna da semana e a versão 2.52.
+- **`tests/pausa.test.js`**: pausa, deriva, descritor, a meta da semana e a versão 2.53.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
@@ -661,7 +666,7 @@ O que a suíte cobre:
 
 Abra <https://lucasrmagalhaes.github.io/gringolingo-js/> e escolha “Adicionar à tela de início” (o
 Android/Chrome mostra o convite sozinho; no iPhone é pelo menu Compartilhar do Safari). O app ganha
-ícone próprio, abre em tela cheia e funciona offline — as lições ficam em cache e o progresso sobe
+ícone próprio, abre em tela cheia e funciona offline. As lições ficam em cache e o progresso sobe
 para a nuvem quando a rede volta.
 
 > Ao publicar uma versão nova, incremente `VERSAO` no topo do `sw.js`. Quem já tem o app aberto vê o
@@ -674,7 +679,7 @@ para a nuvem quando a rede volta.
 Sem configurar nada, o app funciona 100% offline com o progresso no `localStorage`. A nuvem só entra
 para quem quiser login e sincronização entre aparelhos.
 
-O schema é versionado em **[`docs/supabase.sql`](docs/supabase.sql)** — tabela, constraint de tamanho,
+O schema é versionado em **[`docs/supabase.sql`](docs/supabase.sql)**. Tabela, constraint de tamanho,
 trigger de carimbo no servidor, RLS, grants e a RPC de exclusão de conta, tudo idempotente e não
 destrutivo. O arquivo é a fonte da verdade e justifica cada decisão no próprio comentário.
 
@@ -683,7 +688,7 @@ destrutivo. O arquivo é a fonte da verdade e justifica cada decisão no própri
 
 1. Crie um projeto grátis em <https://supabase.com>.
 2. No painel, abra **SQL Editor → New query**, cole o conteúdo de `docs/supabase.sql` e rode. Ele pode
-   ser executado quantas vezes for preciso — não apaga nem altera dados.
+   ser executado quantas vezes for preciso. Não apaga nem altera dados.
 3. Copie a **Project URL** e a **anon public key** (Settings → API) para `js/config.js`. A anon key é
    pública por design: a segurança vem das políticas de RLS do passo 2.
 4. (Recomendado para uso pessoal) Em **Authentication → Sign In / Providers → Email**, desative
@@ -698,10 +703,10 @@ destrutivo. O arquivo é a fonte da verdade e justifica cada decisão no própri
 A seção 9 do `docs/supabase.sql` lista os ajustes que **não** dá para versionar e que precisam ser
 feitos no painel uma vez por projeto: senha mínima de 8 caracteres, exigência de tipos de caractere
 e a limpeza dos *Redirect URLs*. A proteção contra senhas vazadas (HaveIBeenPwned) também está
-documentada lá, mas o painel só a libera no **plano Pro** — no free ela fica desabilitada.
+documentada lá, mas o painel só a libera no **plano Pro**. No free ela fica desabilitada.
 
 O tamanho mínimo aparece em um lugar só do código: `SENHA_MINIMA` em `js/nuvem.js`, usada no
-placeholder e na checagem antes do cadastro. A mensagem de erro, porém, não depende dela — o
+placeholder e na checagem antes do cadastro. A mensagem de erro, porém, não depende dela. O
 `traduzirErro` lê o número da própria resposta do servidor, então se o valor do painel mudar o app
 não passa a mentir sobre o requisito. Há teste cobrindo isso em `tests/erros-auth.test.js`.
 
@@ -725,7 +730,7 @@ invisível e o login por e-mail continua funcionando.
    **Authentication → Settings** (sem isso, o botão de vincular retorna um erro explicando).
 
 Vinculado, a mesma conta aceita os dois modos de entrada e o progresso é um só. No perfil dá para
-desvincular — o app impede remover a última forma de login que sobrou.
+desvincular. O app impede remover a última forma de login que sobrou.
 
 </details>
 
@@ -733,7 +738,7 @@ desvincular — o app impede remover a última forma de login que sobrou.
 <summary><b>Manter o projeto free acordado</b></summary>
 
 `.github/workflows/keep-alive.yml` chama a RPC pública `ping()` (via PostgREST) três vezes por
-semana — atividade real no Postgres, que é o que conta para a pausa por inatividade do plano
+semana. Atividade real no Postgres, que é o que conta para a pausa por inatividade do plano
 gratuito. Atenção: o GitHub desativa workflows agendados após 60 dias sem commits no repositório.
 
 </details>
@@ -757,7 +762,7 @@ sw.js                             service worker (cache offline)
 manifest.webmanifest              metadados do PWA
 icones/                           ícones do app (192, 512, maskable, apple-touch e og-image)
 servidor.js                       servidor estático mínimo (Node)
-package.json                      só metadado ("type": "module") — zero dependências
+package.json                      só metadado ("type": "module"). Zero dependências
 LICENSE                           MIT
 ```
 

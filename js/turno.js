@@ -52,6 +52,7 @@ import { LINTS, ORIGENS, LINKS } from './cerca.js';
 import { CPUS, COPIAS, ESTOUROS } from './maquina.js';
 import { IMPASSES, DOMINIOS, MORTAS } from './impasse.js';
 import { PONTEIROS, ELEICOES, FREIOS } from './ponteiro.js';
+import { PAUSAS, DERIVAS, DESCRITORES } from './pausa.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -490,6 +491,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Pausa', itens: PAUSAS },
+    { origem: 'Deriva', itens: DERIVAS },
+    { origem: 'Descritor', itens: DESCRITORES },
     { origem: 'Ponteiros', itens: PONTEIROS },
     { origem: 'Eleição', itens: ELEICOES },
     { origem: 'Freio', itens: FREIOS },

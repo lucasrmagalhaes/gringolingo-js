@@ -287,6 +287,22 @@ export function textoDaLacuna(painel, diaIso) {
   return { n, texto: `${n} dias em branco nesta semana.` };
 }
 
+export function textoDaMeta(painel, diaIso, meta) {
+  const alvo = Math.floor(Number(meta));
+  if (!Number.isFinite(alvo) || alvo <= 0) {
+    return { falta: 0, minutos: 0, meta: 0, texto: 'A meta de minutos ainda não foi escolhida.' };
+  }
+  const minutos = somarSemana(painel, diaIso).minutos;
+  if (minutos >= alvo) {
+    return { falta: 0, minutos, meta: alvo, texto: 'A meta desta semana já foi cumprida.' };
+  }
+  const falta = alvo - minutos;
+  const texto = falta === 1
+    ? 'Falta 1 minuto para a meta desta semana.'
+    : `Faltam ${falta} minutos para a meta desta semana.`;
+  return { falta, minutos, meta: alvo, texto };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

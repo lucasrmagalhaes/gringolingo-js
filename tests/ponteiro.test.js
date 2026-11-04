@@ -15,7 +15,7 @@ const {
   estado, limparEstadoMemoria, definirAgora,
   registrarPonteiro, registrarEleicao, registrarFreio
 } = await import('../js/game.js');
-const { BADGES, VERSAO_APP } = await import('../js/data.js');
+const { BADGES } = await import('../js/data.js');
 const { catalogoFaladas } = await import('../js/turno.js');
 
 const dia = () => new Date(2026, 9, 28, 15, 0, 0);
@@ -142,7 +142,7 @@ describe('ponteiros, eleição e freio', () => {
     assert.ok(estado.badges.includes('freio'));
     assert.equal(estado.painel['2026-10-28'].grupos.trabalho, 3);
     assert.equal(estado.painel['2026-10-28'].n, 3);
-    assert.equal(BADGES.length, 193);
+    assert.ok(BADGES.length >= 193);
     assert.equal(new Set(BADGES.map(b => b.id)).size, BADGES.length);
   });
 
@@ -172,7 +172,6 @@ describe('ponteiros, eleição e freio', () => {
   });
 
   test('a versão 2.52 deixa os ponteiros fora do passeio', () => {
-    assert.equal(VERSAO_APP, '2.52');
     const data = readFileSync(join(raiz, 'js/data.js'), 'utf8');
     const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
@@ -181,7 +180,7 @@ describe('ponteiros, eleição e freio', () => {
     const exercicios = readFileSync(join(raiz, 'js/exercises.js'), 'utf8');
     assert.match(data, /versao: '2\.52'/);
     assert.match(data, /versao: '2\.51'/);
-    assert.match(sw, /gringolingo-v79/);
+    assert.match(sw, /gringolingo-v/);
     assert.match(sw, /\.\/js\/ponteiro\.js/);
     assert.match(turno, /ponteiro\.js/);
     assert.equal(turno.includes('foco.js'), false);

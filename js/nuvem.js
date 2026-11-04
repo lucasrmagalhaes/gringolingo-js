@@ -190,7 +190,7 @@ export async function aoMudarAuth(cb) {
 }
 
 async function usuarioDaSessao(c) {
-  // getSession lê do storage local (e renova sozinho) — getUser ia à rede a
+  // getSession lê do storage local (e renova sozinho). GetUser ia à rede a
   // cada envio e, offline, virava um falso "sessão expirada".
   const { data } = await c.auth.getSession();
   return data?.session?.user ?? null;
@@ -207,7 +207,7 @@ export async function baixarProgresso() {
 }
 
 // O check de tamanho/shape do banco nunca vai passar reenviando o mesmo
-// payload — o chamador usa essa marca para parar de tentar.
+// payload. O chamador usa essa marca para parar de tentar.
 function ehErroPermanente(error) {
   return error?.code === '23514' || /check constraint|progresso_dados/i.test(error?.message ?? '');
 }

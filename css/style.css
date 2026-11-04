@@ -451,6 +451,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-meta {
+  margin: 8px 0 12px;
+}
+
+.fala-meta .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1404,6 +1412,7 @@ textarea.entrada {
   border: 2px solid var(--borda-suave);
   border-radius: 12px;
   padding: 8px 2px;
+  min-height: 44px;
   text-align: center;
 }
 
@@ -3253,8 +3262,8 @@ button.caixa-treinavel:hover {
 }
 
 /* === Cartão da conta como lista de configurações === */
-/* Três linhas na mesma grade — texto à esquerda, ação compacta à direita —
-   com o vermelho reservado ao que é destrutivo de verdade. */
+/* Três linhas na mesma grade. Texto à esquerda, ação compacta à direita.
+   Com o vermelho reservado ao que é destrutivo de verdade. */
 .conta-card {
   gap: 0;
 }

@@ -198,7 +198,7 @@ async function main() {
     prontos.set(nomeLocal.get(url), { reescrito, trocas, url });
   }
 
-  // A pasta só é tocada depois de TODOS os downloads darem certo — uma falha
+  // A pasta só é tocada depois de TODOS os downloads darem certo. Uma falha
   // no meio não pode deixar o vendor pela metade com integridade velha.
   for (const arquivo of await readdir(DESTINO)) {
     if (arquivo.endsWith('.js')) await rm(`${DESTINO}/${arquivo}`);
