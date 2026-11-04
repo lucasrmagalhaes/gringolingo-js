@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.79';
+export const VERSAO_APP = '2.80';
 
 export const NOVIDADES = [
+  {
+    versao: '2.80',
+    titulo: 'O quórum',
+    itens: [
+      '🗳️ Diga que a escrita espera a maioria',
+      '✋ Avise que mais da metade precisa confirmar',
+      '⚖️ Diga que o árbitro desempata a rede',
+      '📝 Veja no hub a cobertura dos dias de treino'
+    ]
+  },
   {
     versao: '2.79',
     titulo: 'O cofre',
@@ -1790,6 +1800,9 @@ export const MISSOES = [
   { id: 'cofre1', emoji: '🏦', titulo: 'Guarde a chave fora do app', alvo: 1, xp: 15, medir: s => (s.tipo === 'cofre' ? 1 : 0) },
   { id: 'audiencia1', emoji: '👂', titulo: 'Mostre o serviço certo do passe', alvo: 1, xp: 15, medir: s => (s.tipo === 'audiencia' ? 1 : 0) },
   { id: 'revogacao1', emoji: '🚫', titulo: 'Corte o passe que já venceu', alvo: 1, xp: 15, medir: s => (s.tipo === 'revogacao' ? 1 : 0) },
+  { id: 'quorum1', emoji: '🗳️', titulo: 'Espere a maioria antes de gravar', alvo: 1, xp: 15, medir: s => (s.tipo === 'quorum' ? 1 : 0) },
+  { id: 'maioria1', emoji: '✋', titulo: 'Confirme com mais da metade', alvo: 1, xp: 15, medir: s => (s.tipo === 'maioria' ? 1 : 0) },
+  { id: 'arbitro1', emoji: '⚖️', titulo: 'Desempate quando a rede parte', alvo: 1, xp: 15, medir: s => (s.tipo === 'arbitro' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2068,6 +2081,9 @@ export const BADGES = [
   { id: 'cofre', emoji: '🏦', nome: 'O cofre', desc: 'Diga que a chave mora fora do app' },
   { id: 'audiencia', emoji: '👂', nome: 'A audiência', desc: 'Avise que o passe só vale para o serviço certo' },
   { id: 'revogacao', emoji: '🚫', nome: 'A revogação', desc: 'Diga que o passe antigo deixa de valer' },
+  { id: 'quorum', emoji: '🗳️', nome: 'O quórum', desc: 'Diga que a escrita espera a maioria' },
+  { id: 'maioria', emoji: '✋', nome: 'A maioria', desc: 'Avise que mais da metade precisa confirmar' },
+  { id: 'arbitro', emoji: '⚖️', nome: 'O árbitro', desc: 'Diga que o árbitro desempata a rede' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

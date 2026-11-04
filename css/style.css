@@ -244,6 +244,7 @@ textarea {
 }
 
 .logo-marca {
+  min-height: 44px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -664,6 +665,14 @@ textarea {
 }
 
 .fala-proporcao .btn {
+  margin-top: 10px;
+}
+
+.fala-cobertura {
+  margin: 8px 0 12px;
+}
+
+.fala-cobertura .btn {
   margin-top: 10px;
 }
 
