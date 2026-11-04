@@ -858,6 +858,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-pratica {
+  margin: 8px 0 12px;
+}
+
+.fala-pratica .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1493,11 +1501,18 @@ textarea.entrada {
   margin: 0 auto;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 16px;
+}
+
+.feedback-conteudo > .btn {
+  min-height: 44px;
+  max-width: 100%;
 }
 
 .feedback-textos {
   flex: 1;
+  min-width: min(100%, 180px);
   max-height: 42vh;
   overflow: auto;
 }

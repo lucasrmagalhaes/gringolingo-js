@@ -1437,6 +1437,39 @@ export function textoDaAusencia(painel, diaIso) {
   return { dias, id: falta, titulo, texto: `A ausência ficou ${artigo} ${nome}.` };
 }
 
+export function textoDaPratica(painel, diaIso, treinos, stats) {
+  const fim = String(diaIso || '');
+  const lista = (Array.isArray(treinos) ? treinos : []).filter(t => t && t.id && t.stat && t.titulo);
+  const livre = t => (Number(stats?.[t.stat]) || 0) <= 0;
+  if (!dataValida(fim)) return { dias: null, id: '', titulo: '', texto: 'Ainda não há prática de fala.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  const vistos = new Set();
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const n = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (n <= 0 && seg <= 0) continue;
+    dias += 1;
+    const grupos = linha?.grupos && typeof linha.grupos === 'object' ? linha.grupos : {};
+    for (const id of GRUPOS) {
+      if (inteiroNaoNegativo(grupos[id]) > 0) vistos.add(id);
+    }
+  }
+  const faltam = GRUPOS.filter(id => !vistos.has(id));
+  const ordem = faltam.length ? faltam : GRUPOS;
+  let escolhido = null;
+  for (const cat of ordem) {
+    escolhido = lista.find(t => t.categoria === cat && livre(t));
+    if (escolhido) break;
+  }
+  if (!escolhido) escolhido = lista.find(livre);
+  if (!escolhido) return { dias, id: '', titulo: '', texto: 'A prática já passou pelos treinos.' };
+  const subtitulo = String(escolhido.sub || '').replace(/\.$/, '');
+  return { dias, id: escolhido.id, titulo: escolhido.titulo, texto: `Pratique ${escolhido.titulo}. ${subtitulo}.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

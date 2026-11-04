@@ -94,6 +94,7 @@ import { SNAPSHOTS, RESTORES, PROMOTES } from './snapshot.js';
 import { BLOOMS, CUCOS, ESBOCOS } from './bloom.js';
 import { MERKLES, RADIXES, TRIES } from './merkle.js';
 import { GOSSIPS, PHIS, ACCRUALS } from './gossip.js';
+import { HINTS, VACUUMS, FREEZES } from './hint.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -650,6 +651,9 @@ export function catalogoFaladas() {
     { origem: 'Gossip', itens: GOSSIPS },
     { origem: 'Phi', itens: PHIS },
     { origem: 'Accrual', itens: ACCRUALS },
+    { origem: 'Hint', itens: HINTS },
+    { origem: 'Vacuum', itens: VACUUMS },
+    { origem: 'Freeze', itens: FREEZES },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },
