@@ -994,6 +994,30 @@ export function textoDaCadencia(painel, diaIso) {
   return { dias, cadencia, texto: `A cadência dos dias é de ${cadencia} por semana.` };
 }
 
+export function textoDaDensidade(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, densidade: 0, texto: 'Ainda não há densidade de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let primeira = '';
+  let dias = 0;
+  let segundos = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    segundos += seg;
+    if (!primeira || data < primeira) primeira = data;
+  }
+  if (dias === 0) return { dias: 0, densidade: 0, texto: 'A densidade dos dias ainda é 0 minutos.' };
+  const minutos = Math.floor(segundos / 60);
+  const densidade = Math.round((minutos * 7) / (diasEntreIso(primeira, fim) + 1));
+  if (densidade === 1) return { dias, densidade, texto: 'A densidade dos dias é de 1 minuto por semana.' };
+  return { dias, densidade, texto: `A densidade dos dias é de ${densidade} minutos por semana.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
