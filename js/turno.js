@@ -84,6 +84,7 @@ import { FLOCOS, EPOCAS, VETORES } from './floco.js';
 import { SUJEIRAS, INSTANTANEOS, SERIAIS } from './sujeira.js';
 import { FOMES, INVERSOES, IDADES } from './fome.js';
 import { SIDECARS, EMBAIXADORES, ADAPTADORES } from './sidecar.js';
+import { BIZANTINOS, PARTICOES, GENERAIS } from './bizantino.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -610,6 +611,9 @@ export function catalogoFaladas() {
     { origem: 'Sidecar', itens: SIDECARS },
     { origem: 'Embaixador', itens: EMBAIXADORES },
     { origem: 'Adaptador', itens: ADAPTADORES },
+    { origem: 'Bizantino', itens: BIZANTINOS },
+    { origem: 'Partição', itens: PARTICOES },
+    { origem: 'General', itens: GENERAIS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

@@ -41,7 +41,7 @@ const BRUTOS = [
   ['relato', 'trabalho', '🐛', 'Relatar um bug', 'Três falas: como repetir, a causa e a correção.', 'relatos'],
   ['cortesia', 'trabalho', '🙏', 'Review com educação', 'Dê um comentário e receba outro sem ser seco.', 'cortesias'],
   ['aquecer', 'trabalho', '☕', 'Antes da reunião', 'Fim de semana, clima e viagem, em duas falas.', 'aquecimentos'],
-  ['claro', 'trabalho', '🔎', 'Esclarecer', 'Peça para repetir e confirme o que você entendeu.', 'esclarecimentos'],
+  ['claro', 'trabalho', '🔎', 'Esclarecer', 'Peça para repetir e confirme.', 'esclarecimentos'],
   ['opiniao', 'trabalho', '💬', 'Opinião', 'Dê um motivo e concorde ou discorde com educação.', 'opinioes'],
   ['tecnico', 'trabalho', '💻', 'Inglês de trabalho', 'Standup, bug, code review, entrevista e demo.', 'tecnicos'],
   ['idioma', 'trabalho', '🤝', 'Idioms de reunião', 'Touch base, circle back e o papo da call.', 'idiomas'],
@@ -67,33 +67,33 @@ const BRUTOS = [
   ['cena', 'cotidiano', '👀', 'Descrever a cena', 'Diga o que acontece e um detalhe.', 'cenasFala'],
   ['pergunta', 'cotidiano', '❓', 'Você pergunta', 'Café, loja, aeroporto e reunião.', 'perguntas'],
   ['sotaque', 'pronuncia', '🎧', 'Sotaques', 'Americano, britânico e indiano.', 'sotaques'],
-  ['enfase', 'pronuncia', '🎵', 'Ênfase', 'Marque a palavra forte, ou se a voz sobe ou desce.', 'enfases'],
+  ['enfase', 'pronuncia', '🎵', 'Ênfase', 'Marque a palavra forte.', 'enfases'],
   ['termo', 'pronuncia', '🔤', 'Termos técnicos', 'O som de cache, queue, SQL, GUI, height e width.', 'termos'],
   ['reducao', 'pronuncia', '⏩', 'Fala rápida', 'Gonna, wanna e palavras que se juntam.', 'reduzidas'],
   ['numero', 'pronuncia', '🔢', 'Números, datas e preços', 'Ouça e escolha o valor.', 'numeros'],
   ['desafio', 'revisao', '📅', 'Desafio do dia', 'A sequência de dias aumenta as frases.', 'desafios'],
   ['mistura', 'revisao', '⏱️', 'Três minutos', 'Frases dos treinos, num relógio de 3 minutos.', 'misturas'],
   ['deslize', 'revisao', '🔁', 'Deslizes de fala', 'Frases que escaparam voltam na data.', 'revisoesFala'],
-  ['dia', 'revisao', '☀️', 'Pergunta do dia', 'Uma pergunta e outra em seguida. Vale a sequência.', 'diasPergunta'],
+  ['dia', 'revisao', '☀️', 'Pergunta do dia', 'Uma pergunta e outra em seguida.', 'diasPergunta'],
   ['nivel', 'revisao', '🎯', 'Teste de nível', 'Oito perguntas, de A1 a B2. Nada fica trancado.', ''],
-  ['resumo', 'revisao', '📅', 'Resumo da semana', 'A nota desta semana e uma sugestão para a próxima.', ''],
+  ['resumo', 'revisao', '📅', 'Resumo da semana', 'A nota desta semana.', ''],
   ['rapido', 'revisao', '⚡', 'Pensa em inglês', 'Quatro respostas curtas. Vinte segundos cada.', 'rapidos'],
   ['cultura', 'cotidiano', '🎬', 'Esporte, filme e série', 'Jogo, cinema e a série da semana.', 'culturas'],
-  ['aumento', 'trabalho', '🏆', 'O aumento', 'Peça aumento, fale da promoção e de uma conquista.', 'aumentos'],
+  ['aumento', 'trabalho', '🏆', 'O aumento', 'Peça aumento e fale da promoção.', 'aumentos'],
   ['rota', 'trabalho', '🔌', 'A API', 'Endpoint, status e autenticação, em duas falas.', 'rotas'],
   ['vivo', 'trabalho', '🔥', 'Ao vivo', 'Status na hora e pedido de ajuda.', 'vivos'],
   ['produto', 'trabalho', '📦', 'Com o produto', 'Negocie o prazo e o que fica nesta entrega.', 'produtos'],
   ['fecho', 'entrevista', '🙋', 'Suas perguntas', 'Plantão, crescimento e por que a vaga abriu.', 'fechos'],
-  ['espaco', 'revisao', '🔂', 'Mais erradas', 'As frases que você mais errou, na data da revisão.', 'espacos'],
+  ['espaco', 'revisao', '🔂', 'Mais erradas', 'As frases que você mais errou.', 'espacos'],
   ['mapa', 'trabalho', '🗺️', 'O mapa', 'Arquitetura e fluxo, para quem chegou agora.', 'mapas'],
   ['duro', 'trabalho', '🗣️', 'O ponto difícil', 'Dar e receber um feedback duro no 1:1.', 'duros'],
   ['proposta', 'trabalho', '📐', 'A proposta', 'Apresente uma RFC e defenda a troca.', 'propostas'],
-  ['semana', 'revisao', '📊', 'Semana falada', 'Minutos de fala e treinos por grupo, nesta semana.', ''],
+  ['semana', 'revisao', '📊', 'Semana falada', 'Minutos de fala e treinos por grupo.', ''],
   ['narrar', 'trabalho', '🎙️', 'O par narrado', 'Pense a próxima linha em voz alta, com o par.', 'narras'],
   ['banco', 'entrevista', '🗄️', 'Banco ou cache', 'Explique a guarda dos dados numa entrevista.', 'bancos'],
   ['recusa', 'trabalho', '🙅', 'O não educado', 'Recuse o pedido e ofereça outro caminho.', 'recusas'],
   ['sprint', 'trabalho', '🖥️', 'Demo da sprint', 'Mostre o que saiu e responda uma pergunta.', 'sprints'],
-  ['seguro', 'trabalho', '🔐', 'A decisão segura', 'Furo, patch e por quanto tempo um dado fica guardado.', 'seguros'],
+  ['seguro', 'trabalho', '🔐', 'A decisão segura', 'Furo, patch e o tempo de guarda.', 'seguros'],
   ['meetup', 'cotidiano', '🎫', 'No meetup', 'Puxe assunto num evento de tecnologia.', 'meetups'],
   ['completa', 'entrevista', '🎓', 'Entrevista completa', 'Cinco treinos em sequência e uma nota no fim.', 'completas'],
   ['rodada', 'trabalho', '📝', 'A mesa da retro', 'Fato, ajuste e quem fica com a ação.', 'rodadas'],
@@ -115,8 +115,8 @@ const BRUTOS = [
   ['handoff', 'trabalho', '🕒', 'O handoff', 'Peça o que ficou aberto e deixe o contexto.', 'handoffs'],
   ['elevador', 'entrevista', '🚪', 'O elevador', 'Trinta segundos para um diretor.', 'elevadores'],
   ['junta', 'revisao', '🗂️', 'A semana junta', 'Vocabulário e frases mais erradas.', 'juntas'],
-  ['pista', 'trabalho', '🏁', 'O bug raro', 'Sintoma e prova de um bug que só aparece às vezes.', 'pistas'],
-  ['calma', 'trabalho', '🐢', 'Com calma', 'Explique um conceito devagar, um passo de cada vez.', 'calmas'],
+  ['pista', 'trabalho', '🏁', 'O bug raro', 'Sintoma e prova de um bug.', 'pistas'],
+  ['calma', 'trabalho', '🐢', 'Com calma', 'Explique um conceito devagar.', 'calmas'],
   ['folga', 'cotidiano', '🏖️', 'A folga', 'Férias, horário e o limite da noite.', 'folgas'],
   ['abertas', 'entrevista', '💭', 'Perguntas abertas', 'Cinco perguntas abertas.', 'abertas'],
   ['respeito', 'trabalho', '🏛️', 'Com respeito', 'Discorde de uma arquitetura.', 'respeitos'],
@@ -129,7 +129,7 @@ const BRUTOS = [
   ['facil', 'trabalho', '🧭', 'O facilitador', 'Abra a reunião, olhe o relógio e feche com ações.', 'facils'],
   ['stack', 'trabalho', '🧰', 'A escolha', 'React ou Vue, SQL ou documento.', 'stacks'],
   ['sabado', 'cotidiano', '🌦️', 'O sábado', 'Conte o sábado, o domingo e um plano curto.', 'sabados'],
-  ['surpresa', 'revisao', '🎁', 'Treino surpresa', 'Um treino por dia, com uma sequência só deste modo.', 'surpresas'],
+  ['surpresa', 'revisao', '🎁', 'Treino surpresa', 'Um treino por dia.', 'surpresas'],
   ['brecha', 'trabalho', '🔓', 'A falha', 'Explique o furo no review e o conserto.', 'brechas'],
   ['muda', 'trabalho', '📐', 'A mudança', 'O cliente pede uma tela nova no meio do projeto.', 'mudas'],
   ['gaucho', 'cotidiano', '🧉', 'O chimarrão', 'Rio Grande do Sul, chimarrão e churrasco.', 'gauchos'],
@@ -153,7 +153,7 @@ const BRUTOS = [
   ['dono', 'trabalho', '🪪', 'Quem aprova', 'A pasta tem dois donos e o merge pede um deles.', 'donos'],
   ['manual', 'trabalho', '📘', 'O manual', 'O manual manda ler o alerta primeiro.', 'manuais'],
   ['verde', 'trabalho', '🟢', 'O lado verde', 'O tráfego vai para o lado verde.', 'verdes'],
-  ['certificado', 'trabalho', '🔏', 'O certificado', 'O certificado vence na sexta e o aviso sai antes.', 'certificados'],
+  ['certificado', 'trabalho', '🔏', 'O certificado', 'O certificado vence na sexta.', 'certificados'],
   ['rebase', 'trabalho', '🌿', 'O rebase', 'A branch está atrás da main.', 'rebases'],
   ['consulta', 'trabalho', '🐌', 'A consulta', 'A consulta leva quatro segundos.', 'consultas'],
   ['replica', 'trabalho', '🪞', 'A réplica', 'A réplica está atrás da principal.', 'replicas'],
@@ -294,7 +294,10 @@ const BRUTOS = [
   ['idade', 'trabalho', '🧓', 'A idade', 'A espera longa sobe a prioridade.', 'idades'],
   ['sidecar', 'trabalho', '🛵', 'O sidecar', 'O ajudante mora ao lado e entrega a chamada.', 'sidecars'],
   ['embaixador', 'trabalho', '🌐', 'O embaixador', 'Um proxy único representa quem chama de fora.', 'embaixadores'],
-  ['adaptador', 'trabalho', '🔌', 'O adaptador', 'A tradução liga o cliente antigo à API nova.', 'adaptadores']
+  ['adaptador', 'trabalho', '🔌', 'O adaptador', 'A tradução liga o cliente antigo à API nova.', 'adaptadores'],
+  ['bizantino', 'trabalho', '🤥', 'O bizantino', 'Um nó mente e os outros ainda concordam.', 'bizantinos'],
+  ['particao', 'trabalho', '🧱', 'A partição', 'A rede se divide e os lados não se veem.', 'particoes'],
+  ['general', 'trabalho', '⚔️', 'O general', 'Dois exércitos só avançam com a mesma ordem.', 'generais']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -529,7 +532,7 @@ export function textoDoContinuar(treino) {
   return `Continuar: ${treino.titulo}.`;
 }
 
-const TETO_JS = 1990000;
+const TETO_JS = 2020000;
 
 export function auditarPacote({ html, css, sw, arquivos } = {}) {
   const falhas = [];
