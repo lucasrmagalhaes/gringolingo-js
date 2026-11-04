@@ -652,6 +652,28 @@ export function textoDoLote(painel, diaIso) {
   return { dias, lote, texto: `O lote desta semana é ${lote} treinos.` };
 }
 
+export function textoDoSaldo(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, saldo: 0, texto: 'Ainda não há saldo de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  const naSemana = new Set(diasDaSemana(fim).filter(data => data && data <= fim));
+  let dias = 0;
+  let saldo = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    if (!naSemana.has(data)) saldo += treinos;
+  }
+  if (dias === 0) return { dias: 0, saldo: 0, texto: 'O saldo de antes desta semana ainda é 0 treinos.' };
+  if (saldo <= 0) return { dias, saldo: 0, texto: 'Nada ficou antes desta semana.' };
+  if (saldo === 1) return { dias, saldo: 1, texto: 'Antes desta semana há 1 treino.' };
+  return { dias, saldo, texto: `Antes desta semana há ${saldo} treinos.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
