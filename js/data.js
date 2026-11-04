@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.81';
+export const VERSAO_APP = '2.82';
 
 export const NOVIDADES = [
+  {
+    versao: '2.82',
+    titulo: 'O orquestrador',
+    itens: [
+      '🎼 Diga que o coordenador dispara a sequência',
+      '💃 Avise que o vizinho escolhe a etapa',
+      '↩️ Diga que a falha desfaz a etapa anterior',
+      '📝 Veja no hub a cadência dos dias de treino'
+    ]
+  },
   {
     versao: '2.81',
     titulo: 'O líder',
@@ -1816,6 +1826,9 @@ export const MISSOES = [
   { id: 'lider1', emoji: '🧭', titulo: 'Conduza o mandato com os outros nós', alvo: 1, xp: 15, medir: s => (s.tipo === 'lider' ? 1 : 0) },
   { id: 'mandato1', emoji: '📜', titulo: 'Suba o número a cada eleição', alvo: 1, xp: 15, medir: s => (s.tipo === 'mandato' ? 1 : 0) },
   { id: 'seguidor1', emoji: '👣', titulo: 'Copie o registro sem escrever sozinho', alvo: 1, xp: 15, medir: s => (s.tipo === 'seguidor' ? 1 : 0) },
+  { id: 'orquestrador1', emoji: '🎼', titulo: 'Dispare a sequência pelo coordenador', alvo: 1, xp: 15, medir: s => (s.tipo === 'orquestrador' ? 1 : 0) },
+  { id: 'coreografia1', emoji: '💃', titulo: 'Deixe o vizinho escolher a etapa', alvo: 1, xp: 15, medir: s => (s.tipo === 'coreografia' ? 1 : 0) },
+  { id: 'compensacao1', emoji: '↩️', titulo: 'Desfaça a etapa que falhou', alvo: 1, xp: 15, medir: s => (s.tipo === 'compensacao' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2100,6 +2113,9 @@ export const BADGES = [
   { id: 'lider', emoji: '🧭', nome: 'O líder', desc: 'Diga que o líder conduz o mandato' },
   { id: 'mandato', emoji: '📜', nome: 'O mandato', desc: 'Avise que cada eleição sobe o número' },
   { id: 'seguidor', emoji: '👣', nome: 'O seguidor', desc: 'Diga que o seguidor copia o registro' },
+  { id: 'orquestrador', emoji: '🎼', nome: 'O orquestrador', desc: 'Diga que o coordenador dispara a sequência' },
+  { id: 'coreografia', emoji: '💃', nome: 'A coreografia', desc: 'Diga que o vizinho escolhe a etapa' },
+  { id: 'compensacao', emoji: '↩️', nome: 'A compensação', desc: 'Diga que a falha desfaz a etapa anterior' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

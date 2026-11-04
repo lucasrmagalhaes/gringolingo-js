@@ -973,6 +973,27 @@ export function textoDoIntervalo(painel, diaIso) {
   return { dias, intervalo, texto: `O intervalo dos dias é de ${intervalo} dias.` };
 }
 
+export function textoDaCadencia(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, cadencia: 0, texto: 'Ainda não há cadência de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let primeira = '';
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    if (!primeira || data < primeira) primeira = data;
+  }
+  if (dias === 0) return { dias: 0, cadencia: 0, texto: 'A cadência dos dias ainda é 0.' };
+  const cadencia = Math.round((dias * 7) / (diasEntreIso(primeira, fim) + 1));
+  if (cadencia === 1) return { dias, cadencia, texto: 'A cadência dos dias é de 1 por semana.' };
+  return { dias, cadencia, texto: `A cadência dos dias é de ${cadencia} por semana.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

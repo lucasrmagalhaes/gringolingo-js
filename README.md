@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-630%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-634%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -266,7 +266,7 @@ navegador.
 - **O certificado**: o certificado vence na sexta e o aviso sai sete dias antes.
 - **O rebase**: a branch está dois commits atrás e o rebase vai em cima da main.
 - **A consulta**: a consulta leva quatro segundos e roda em cada carga de página.
-- **A réplica**: a réplica está dois minutos atrás e a leitura pode usar a cópia.
+- **A réplica**: a réplica está atrás e a leitura pode usar a cópia.
 - **O ensaio**: o teste vai para o ensaio antes da produção, numa cópia de ontem.
 - **O disco**: o disco está noventa por cento cheio e o log velho pode sair.
 - **A página**: a lista mostra vinte linhas e a próxima começa depois do último id.
@@ -289,25 +289,25 @@ navegador.
 - **O processador**: o processador fica perto de noventa por cento e a gente olha o pico.
 - **A cópia**: a cópia da noite começa às duas e fica pronta de manhã.
 - **O estouro**: o processo estourou a memória e a gente sobe o limite.
-- **O impasse**: os dois trabalhos esperam um pelo outro e a gente solta o mais antigo.
-- **O domínio**: o nome do site não resolve e a gente aponta o endereço novo.
+- **O impasse**: dois trabalhos esperam um pelo outro e soltam o antigo.
+- **O domínio**: o nome do site não resolve e aponta o endereço novo.
 - **A carta morta**: a mensagem ruim vai para a fila ao lado e a gente lê o motivo.
-- **Os ponteiros**: os relógios dos servidores diferem em dois segundos e a assinatura falha.
+- **Os ponteiros**: os relógios diferem e a assinatura falha.
 - **A eleição**: o líder antigo saiu e dois de três precisam concordar.
 - **O freio**: a fila encheu e o produtor passa a enviar mais devagar.
 - **A pausa**: a coleta parou o processo por dois segundos e as chamadas esperaram.
 - **A deriva**: a configuração publicada difere do arquivo no repositório.
-- **O descritor**: o processo abriu arquivos demais e a próxima abertura falha.
-- **A reserva**: o servidor passou a usar a reserva de memória e as respostas atrasaram.
-- **A varredura**: a tela dispara uma consulta nova para cada linha da lista.
-- **A porta**: nenhum processo escuta nessa porta de rede e o cliente recebe recusa.
+- **O descritor**: o processo abriu arquivos demais e a abertura falha.
+- **A reserva**: o servidor usou a reserva e as respostas atrasaram.
+- **A varredura**: a tela dispara uma consulta para cada linha da lista.
+- **A porta**: nenhum processo escuta nessa porta e o cliente recebe recusa.
 - **O inodo**: os nomes livres acabaram e o arquivo novo não aparece no volume.
-- **A saída**: o serviço recebeu o aviso de encerrar e espera as tarefas abertas.
+- **A saída**: o serviço recebeu o aviso e espera as tarefas abertas.
 - **A manada**: o cache venceu de uma vez e a enxurrada caiu no armazenamento.
 - **A última**: no hub, há quantos dias foi a última fala, com atalho para a semana.
 - **O gotejo**: a memória cresce sem parar e nada volta para o sistema.
 - **O frio**: a função dorme e a primeira chamada espera ela acordar.
-- **O cadeado**: o processo tentou ler o arquivo e a permissão recusou a leitura.
+- **O cadeado**: o processo tentou ler e a permissão recusou.
 - **A primeira**: no hub, há quantos dias foi a primeira fala, com atalho para a semana.
 - **A cota**: a cota do usuário fechou e o arquivo novo não grava.
 - **O ciclo**: o serviço cai e volta sozinho sem ficar estável.
@@ -325,19 +325,19 @@ navegador.
 - **O cano**: a outra ponta fechou o cano no meio da resposta.
 - **O giro**: o navegador girou entre dois endereços e desistiu.
 - **O auge**: no hub, o dia com mais segundos de fala, com atalho para a semana.
-- **A compactação**: o armazenamento reescreveu seis arquivos velhos de uma vez.
-- **O diário**: o diário de escrita ocupou quatro gigabytes e a nova escrita espera.
+- **A compactação**: o armazenamento reescreveu seis arquivos velhos.
+- **O diário**: o diário ocupou quatro gigabytes e a escrita espera.
 - **O vagão**: o leitor ficou mil mensagens atrás do fim publicado.
 - **O sete**: no hub, quantos dos últimos 7 dias tiveram fala, com atalho para a semana.
 - **A corrida**: dois pedidos gravaram o mesmo saldo ao mesmo tempo.
 - **O índice**: a busca leu cada linha porque o índice da coluna faltou.
-- **O percentil**: noventa e nove por cento das chamadas cabem em duzentos milissegundos.
+- **O percentil**: noventa e nove por cento cabe em duzentos milissegundos.
 - **A soma**: no hub, a soma dos minutos de fala até hoje, com atalho para a semana.
 - **O segredo**: a chave secreta apareceu no log e qualquer pessoa leu.
 - **O fantasma**: a segunda leitura viu uma linha que a primeira não tinha.
 - **O inteiro**: o contador passou do limite e voltou para zero.
 - **Por dia**: no hub, a média de minutos por dia com fala, com atalho para a semana.
-- **O filtro**: o filtro de presença deu um sim falso e a chave não estava no conjunto.
+- **O filtro**: o filtro deu um sim falso e a chave não estava.
 - **A ordem**: a mensagem quatro chegou antes da três e a conta saiu invertida.
 - **A prova**: a prova dos bytes não bateu com o arquivo que chegou pela rede.
 - **A parte**: no hub, quantos minutos desta semana entram na soma de fala, com atalho para a semana.
@@ -408,6 +408,11 @@ navegador.
 - **Dicionário embutido**: 3.001 verbetes (os 247 do curso mais um banco das palavras mais frequentes do
   inglês), com classe gramatical, áudio e, para as do curso, o status da sua memória (🌱 memorizada,
   📅 vencendo hoje, ⏳ volta em 07/08…). Carregado sob demanda, só quando você abre a tela.
+
+- **O orquestrador**: o coordenador dispara a sequência.
+- **A coreografia**: o vizinho escolhe a etapa seguinte.
+- **A compensação**: a falha desfaz a etapa anterior.
+- **A cadência**: no hub, os dias de fala por semana do intervalo, com atalho para a semana.
 
 ### Hábito e gamificação
 
@@ -561,6 +566,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/cofre.js` | Cofre que guarda a chave, audiência do passe e revogação que corta o passe antigo. |
 | `js/quorum.js` | Quórum que exige a maioria, maioria que confirma a escrita e árbitro que desempata a rede. |
 | `js/lider.js` | Líder que conduz o mandato, mandato que sobe na eleição e seguidor que copia o registro. |
+| `js/orquestra.js` | Orquestrador que dispara a sequência, vizinho que escolhe a etapa e falha que desfaz a anterior. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -642,7 +648,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **630 testes em 136 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **634 testes em 137 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -757,6 +763,7 @@ O que a suíte cobre:
 - **`tests/cofre.test.js`**: cofre, audiência, revogação, a proporção dos dias de treino e a versão 2.79.
 - **`tests/quorum.test.js`**: quórum, maioria, árbitro, a cobertura dos dias de treino e a versão 2.80.
 - **`tests/lider.test.js`**: líder, mandato, seguidor, o intervalo entre os dias de treino e a versão 2.81.
+- **`tests/orquestra.test.js`**: orquestrador, coreografia, compensação, a cadência dos dias de treino e a versão 2.82.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
