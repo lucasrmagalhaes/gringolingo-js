@@ -609,6 +609,27 @@ export function textoDoFora(painel, diaIso) {
   return { dias, minutos, texto: `Fora desta semana há ${minutos} minutos.` };
 }
 
+export function textoDoTotal(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, total: 0, texto: 'Ainda não há total de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let dias = 0;
+  let total = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    total += treinos;
+  }
+  if (dias === 0) return { dias: 0, total: 0, texto: 'O total de treinos ainda é 0.' };
+  if (total === 0) return { dias, total: 0, texto: 'O total de treinos ainda é 0.' };
+  if (total === 1) return { dias, total: 1, texto: 'O total de treinos é 1.' };
+  return { dias, total, texto: `O total de treinos é ${total}.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

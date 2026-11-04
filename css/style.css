@@ -555,6 +555,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-total {
+  margin: 8px 0 12px;
+}
+
+.fala-total .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -3227,6 +3235,7 @@ button.caixa-treinavel:hover {
 }
 
 .banner-fechar {
+  min-height: 44px;
   position: absolute;
   top: 4px;
   right: 4px;
