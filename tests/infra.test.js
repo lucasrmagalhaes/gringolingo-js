@@ -42,7 +42,7 @@ describe('CSP do index.html', () => {
     const hash = createHash('sha256').update(scripts[0]).digest('base64');
     assert.ok(
       html.includes(`'sha256-${hash}'`),
-      `a CSP não contém o hash do script inline ('sha256-${hash}') — recalcule após editar o script`
+      `a CSP não contém o hash do script inline ('sha256-${hash}'). Recalcule após editar o script`
     );
   });
 

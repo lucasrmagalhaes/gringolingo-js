@@ -7,7 +7,7 @@ const { gerarVerbos, exercicioFacil, gerarExercicios, montarExercicio } = await 
 const { VERBOS, SUJEITOS } = await import('../js/data.js');
 
 describe('gerarVerbos', () => {
-  test('toda geração tem a forma correta entre as opções — inclusive sujeitos de duas palavras', () => {
+  test('toda geração tem a forma correta entre as opções. Inclusive sujeitos de duas palavras', () => {
     for (let rodada = 0; rodada < 50; rodada++) {
       for (const ex of gerarVerbos(VERBOS, SUJEITOS, 10)) {
         assert.ok(ex.opcoes.includes(ex.item.forma), `"${ex.item.en}": forma "${ex.item.forma}" fora de ${JSON.stringify(ex.opcoes)}`);

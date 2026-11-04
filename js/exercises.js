@@ -214,7 +214,7 @@ function conjugarPt(v, s) {
   const raiz = v.pt.slice(0, -2);
   const term = v.pt.slice(-2);
   // 1ª pessoa regular é sempre raiz + "o"; as irregulares moram na tabela acima
-  // — verbo novo que não siga isso (servir, seguir) precisa entrar lá.
+  // Verbo novo que não siga isso (servir, seguir) precisa entrar lá.
   if (s.pt === 'eu') return raiz + 'o';
   if (s.pt === 'nós') return raiz + (term === 'ar' ? 'amos' : term === 'er' ? 'emos' : 'imos');
   if (s.pt === 'eles') return raiz + (term === 'ar' ? 'am' : 'em');
@@ -289,7 +289,7 @@ export function gerarExercicios(itens, pool, qtd = 8, novosEn = null) {
   }
   if (!novosEn?.size) return exs;
   // Palavra que a pessoa nunca viu é APRESENTADA (grafia, som, tradução)
-  // antes da primeira vez em que é cobrada — em vez de cair de paraquedas
+  // antes da primeira vez em que é cobrada. Em vez de cair de paraquedas
   // numa pergunta que ela não tem como responder.
   const porEn = new Map(itens.map(i => [i.en, i]));
   const apresentadas = new Set();

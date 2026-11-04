@@ -2,7 +2,7 @@ import { UNIDADES } from './data.js';
 
 // Expansão de Vocabulário: transforma o banco do dicionário (as ~2.900
 // palavras mais frequentes do inglês) em lições jogáveis. O banco é
-// alfabético, então a organização honesta é por classe gramatical — quatro
+// alfabético, então a organização honesta é por classe gramatical. Quatro
 // trilhas com desbloqueio sequencial, sete palavras por lição.
 export const POR_LICAO = 7;
 
@@ -31,7 +31,7 @@ export function trilhasVocab(banco) {
       .map(itemDeVerbete);
     // Sinônimos com a MESMA tradução ("figure out"/"find out" = descobrir)
     // viram alt (digitar aceita qualquer um) e evitar (nunca são alternativa
-    // errada um do outro) — senão a lição fica impossível de gabaritar.
+    // errada um do outro). Senão a lição fica impossível de gabaritar.
     const porTraducao = new Map();
     palavras.forEach(p => {
       const chave = p.pt.toLowerCase();

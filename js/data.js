@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.52';
+export const VERSAO_APP = '2.53';
 
 export const NOVIDADES = [
+  {
+    versao: '2.53',
+    titulo: 'A pausa',
+    itens: [
+      '⌛ Diga que a pausa durou dois segundos',
+      '📄 Iguale a configuração ao arquivo do repositório',
+      '📁 Avise que o processo abriu arquivos demais',
+      '📝 Veja no hub quantos minutos faltam para a meta'
+    ]
+  },
   {
     versao: '2.52',
     titulo: 'Os ponteiros',
@@ -1439,6 +1449,9 @@ export const MISSOES = [
   { id: 'ponteiro1', emoji: '🕰️', titulo: 'Alinhe os relógios dos servidores', alvo: 1, xp: 15, medir: s => (s.tipo === 'ponteiro' ? 1 : 0) },
   { id: 'eleicao1', emoji: '🗳️', titulo: 'Eleja o líder com dois votos', alvo: 1, xp: 15, medir: s => (s.tipo === 'eleicao' ? 1 : 0) },
   { id: 'freio1', emoji: '🛞', titulo: 'Freie o produtor da fila cheia', alvo: 1, xp: 15, medir: s => (s.tipo === 'freio' ? 1 : 0) },
+  { id: 'pausa1', emoji: '⌛', titulo: 'Fale da pausa de dois segundos', alvo: 1, xp: 15, medir: s => (s.tipo === 'pausa' ? 1 : 0) },
+  { id: 'deriva1', emoji: '📄', titulo: 'Iguale a configuração ao repositório', alvo: 1, xp: 15, medir: s => (s.tipo === 'deriva' ? 1 : 0) },
+  { id: 'descritor1', emoji: '📁', titulo: 'Feche os arquivos que sobraram', alvo: 1, xp: 15, medir: s => (s.tipo === 'descritor' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1636,6 +1649,9 @@ export const BADGES = [
   { id: 'ponteiro', emoji: '🕰️', nome: 'Os ponteiros', desc: 'Alinhe os relógios que diferem em dois segundos' },
   { id: 'eleicao', emoji: '🗳️', nome: 'A eleição', desc: 'Peça dois votos de três para o líder novo' },
   { id: 'freio', emoji: '🛞', nome: 'O freio', desc: 'Diminua o ritmo quando a fila encher' },
+  { id: 'pausa', emoji: '⌛', nome: 'A pausa', desc: 'Diga que a coleta parou o processo por dois segundos' },
+  { id: 'deriva', emoji: '📄', nome: 'A deriva', desc: 'Iguale a configuração publicada ao repositório' },
+  { id: 'descritor', emoji: '📁', nome: 'O descritor', desc: 'Feche arquivos quando a próxima abertura falhar' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

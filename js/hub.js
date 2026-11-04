@@ -183,7 +183,10 @@ const BRUTOS = [
   ['morta', 'trabalho', '📮', 'A carta morta', 'A mensagem ruim vai para a fila ao lado e a gente lê o motivo.', 'mortas', 'dead letter side queue payload'],
   ['ponteiro', 'trabalho', '🕰️', 'Os ponteiros', 'Os relógios dos servidores diferem em dois segundos e a assinatura falha.', 'ponteiros', 'clock skew two seconds signature'],
   ['eleicao', 'trabalho', '🗳️', 'A eleição', 'O líder antigo saiu e dois de três precisam concordar.', 'eleicoes', 'quorum leader two of three votes'],
-  ['freio', 'trabalho', '🛞', 'O freio', 'A fila encheu e o produtor passa a enviar mais devagar.', 'freios', 'backpressure queue producer slow']
+  ['freio', 'trabalho', '🛞', 'O freio', 'A fila encheu e o produtor passa a enviar mais devagar.', 'freios', 'backpressure queue producer slow'],
+  ['pausa', 'trabalho', '⌛', 'A pausa', 'A coleta parou o processo por dois segundos e as chamadas esperaram.', 'pausas', 'gc pause two seconds calls waited'],
+  ['deriva', 'trabalho', '📄', 'A deriva', 'A configuração publicada difere do arquivo no repositório.', 'derivas', 'config drift repo file lines'],
+  ['descritor', 'trabalho', '📁', 'O descritor', 'O processo abriu arquivos demais e a próxima abertura falha.', 'descritores', 'file descriptor too many files limit']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

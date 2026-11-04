@@ -17,7 +17,7 @@ const licao = extra => ({
 });
 
 // Datas construídas por componentes LOCAIS: 21h de São Paulo é 0h UTC do dia
-// seguinte — o cenário que fazia o app virar o dia mais cedo.
+// seguinte. O cenário que fazia o app virar o dia mais cedo.
 const local = (ano, mes, dia, hora, min) => new Date(ano, mes - 1, dia, hora, min);
 
 beforeEach(() => {
