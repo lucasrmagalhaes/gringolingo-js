@@ -74,6 +74,7 @@ import { RECUOS, VIGIAS, AMPULHETAS } from './recuo.js';
 import { CARONAS, VENENOS, FAROIS } from './carona.js';
 import { ANCORAS, MALHAS, FENDAS } from './ancora.js';
 import { COFRES, AUDIENCIAS, REVOGACOES } from './cofre.js';
+import { QUORUMS, MAIORIAS, ARBITROS } from './quorum.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -570,6 +571,9 @@ export function catalogoFaladas() {
     { origem: 'Cofre', itens: COFRES },
     { origem: 'Audiência', itens: AUDIENCIAS },
     { origem: 'Revogação', itens: REVOGACOES },
+    { origem: 'Quórum', itens: QUORUMS },
+    { origem: 'Maioria', itens: MAIORIAS },
+    { origem: 'Árbitro', itens: ARBITROS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

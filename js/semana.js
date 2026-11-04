@@ -928,6 +928,27 @@ export function textoDaProporcao(painel, diaIso) {
   return { dias, proporcao, texto: `A proporção dos dias é de ${dias} em ${proporcao}.` };
 }
 
+export function textoDaCobertura(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, cobertura: 0, texto: 'Ainda não há cobertura de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let primeira = '';
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    if (!primeira || data < primeira) primeira = data;
+  }
+  if (dias === 0) return { dias: 0, cobertura: 0, texto: 'A cobertura dos dias ainda é 0 por cento.' };
+  const cobertura = Math.round((dias * 100) / (diasEntreIso(primeira, fim) + 1));
+  if (cobertura === 1) return { dias, cobertura, texto: 'A cobertura dos dias é de 1 por cento.' };
+  return { dias, cobertura, texto: `A cobertura dos dias é de ${cobertura} por cento.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
