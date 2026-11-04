@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.70';
+export const VERSAO_APP = '2.71';
 
 export const NOVIDADES = [
+  {
+    versao: '2.71',
+    titulo: 'A piscina',
+    itens: [
+      '🏊 Diga que a piscina ficou sem vagas livres',
+      '🪣 Avise que o balde ficou sem fichas',
+      '🚧 Diga que um número maior barrou o dono antigo',
+      '📝 Veja no hub o menor dia de treinos'
+    ]
+  },
   {
     versao: '2.70',
     titulo: 'O disjuntor',
@@ -1673,6 +1683,9 @@ export const MISSOES = [
   { id: 'disjuntor1', emoji: '🛑', titulo: 'Feche o disjuntor aberto', alvo: 1, xp: 15, medir: s => (s.tipo === 'disjuntor' ? 1 : 0) },
   { id: 'aluguel1', emoji: '🔑', titulo: 'Renove o aluguel vencido', alvo: 1, xp: 15, medir: s => (s.tipo === 'aluguel' ? 1 : 0) },
   { id: 'pulso1', emoji: '💓', titulo: 'Conte os pulsos perdidos', alvo: 1, xp: 15, medir: s => (s.tipo === 'pulso' ? 1 : 0) },
+  { id: 'piscina1', emoji: '🏊', titulo: 'Abra uma vaga na piscina', alvo: 1, xp: 15, medir: s => (s.tipo === 'piscina' ? 1 : 0) },
+  { id: 'balde1', emoji: '🪣', titulo: 'Reponha as fichas do balde', alvo: 1, xp: 15, medir: s => (s.tipo === 'balde' ? 1 : 0) },
+  { id: 'cerca1', emoji: '🚧', titulo: 'Aumente o número da cerca', alvo: 1, xp: 15, medir: s => (s.tipo === 'cerca' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1924,6 +1937,9 @@ export const BADGES = [
   { id: 'disjuntor', emoji: '🛑', nome: 'O disjuntor', desc: 'Diga que o disjuntor abriu depois de cinco falhas' },
   { id: 'aluguel', emoji: '🔑', nome: 'O aluguel', desc: 'Avise que o aluguel venceu depois de trinta segundos' },
   { id: 'pulso', emoji: '💓', nome: 'O pulso', desc: 'Diga que o nó perdeu três pulsos' },
+  { id: 'piscina', emoji: '🏊', nome: 'A piscina', desc: 'Diga que a piscina ficou sem vagas livres' },
+  { id: 'balde', emoji: '🪣', nome: 'O balde', desc: 'Avise que o balde ficou sem fichas' },
+  { id: 'cerca', emoji: '🚧', nome: 'A cerca', desc: 'Diga que um número maior barrou o dono antigo' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

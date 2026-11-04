@@ -65,6 +65,7 @@ import { REPLAYS, ECOS, LEQUES } from './replay.js';
 import { SAGAS, CAIXAS, APAGADOS } from './saga.js';
 import { ESPERAS, CURSORES, FILAS } from './espera.js';
 import { DISJUNTORES, ALUGUEIS, PULSOS } from './disjuntor.js';
+import { PISCINAS, BALDES, CERCAS } from './piscina.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -534,6 +535,9 @@ export function catalogoFaladas() {
     { origem: 'Disjuntor', itens: DISJUNTORES },
     { origem: 'Aluguel', itens: ALUGUEIS },
     { origem: 'Pulso', itens: PULSOS },
+    { origem: 'Piscina', itens: PISCINAS },
+    { origem: 'Balde', itens: BALDES },
+    { origem: 'Cerca', itens: CERCAS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },
