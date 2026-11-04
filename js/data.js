@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.57';
+export const VERSAO_APP = '2.58';
 
 export const NOVIDADES = [
+  {
+    versao: '2.58',
+    titulo: 'A cisão',
+    itens: [
+      '🪞 Diga que o grupo ficou com dois líderes',
+      '🌊 Avise que os clientes tentam de novo juntos',
+      '🔥 Diga que uma chave recebe a maior parte das escritas',
+      '📝 Veja no hub o dia da semana em que você mais fala'
+    ]
+  },
   {
     versao: '2.57',
     titulo: 'A cota',
@@ -1504,6 +1514,9 @@ export const MISSOES = [
   { id: 'cota1', emoji: '📏', titulo: 'Abra a cota que fechou', alvo: 1, xp: 15, medir: s => (s.tipo === 'cota' ? 1 : 0) },
   { id: 'ciclo1', emoji: '🔁', titulo: 'Pare o ciclo de queda', alvo: 1, xp: 15, medir: s => (s.tipo === 'ciclo' ? 1 : 0) },
   { id: 'zumbi1', emoji: '🧟', titulo: 'Espere o processo zumbi', alvo: 1, xp: 15, medir: s => (s.tipo === 'zumbi' ? 1 : 0) },
+  { id: 'cisao1', emoji: '🪞', titulo: 'Junte os dois líderes', alvo: 1, xp: 15, medir: s => (s.tipo === 'cisao' ? 1 : 0) },
+  { id: 'rajada1', emoji: '🌊', titulo: 'Acalme as tentativas juntas', alvo: 1, xp: 15, medir: s => (s.tipo === 'rajada' ? 1 : 0) },
+  { id: 'brasa1', emoji: '🔥', titulo: 'Espalhe a chave quente', alvo: 1, xp: 15, medir: s => (s.tipo === 'brasa' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1716,6 +1729,9 @@ export const BADGES = [
   { id: 'cota', emoji: '📏', nome: 'A cota', desc: 'Diga que o usuário passou da cota do disco' },
   { id: 'ciclo', emoji: '🔁', nome: 'O ciclo', desc: 'Avise que o processo continua reiniciando' },
   { id: 'zumbi', emoji: '🧟', nome: 'O zumbi', desc: 'Diga que o filho terminou e o pai não esperou' },
+  { id: 'cisao', emoji: '🪞', nome: 'A cisão', desc: 'Diga que o grupo ficou com dois líderes' },
+  { id: 'rajada', emoji: '🌊', nome: 'A rajada', desc: 'Avise que os clientes tentam de novo juntos' },
+  { id: 'brasa', emoji: '🔥', nome: 'A brasa', desc: 'Diga que uma chave recebe a maior parte das escritas' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

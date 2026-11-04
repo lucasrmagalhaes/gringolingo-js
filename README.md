@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-534%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-538%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -313,6 +313,10 @@ navegador.
 - **O ciclo**: o serviço cai e volta sozinho sem ficar estável.
 - **O zumbi**: o filho terminou e o pai nunca colheu o fim.
 - **O hiato**: no hub, o maior vão entre dois dias com fala, com atalho para a semana.
+- **A cisão**: dois nós acham que mandam ao mesmo tempo e a escrita divide.
+- **A rajada**: os clientes tentam de novo juntos e multiplicam a carga.
+- **A brasa**: uma chave recebe quase todas as escritas do mapa.
+- **O costume**: no hub, o dia da semana em que a fala mais aparece, com atalho para a semana.
 - **A duração**: no hub, quanto dura cada treino desta semana, com atalho para a semana.
 - **A meta**: no hub, os minutos que ainda faltam para a meta desta semana, com atalho para a semana.
 - **A lacuna**: no hub, os dias desta semana ainda sem fala, com atalho para a semana.
@@ -505,6 +509,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/inodo.js` | Nomes do disco, saída do serviço e cache que vence junto. |
 | `js/gotejo.js` | Memória que cresce, função que dorme e leitura recusada. |
 | `js/cota.js` | Cota do disco, ciclo de queda e processo zumbi. |
+| `js/cisao.js` | Cisão de líderes, rajada de tentativas e chave quente. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -586,7 +591,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **534 testes em 112 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **538 testes em 113 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -677,6 +682,7 @@ O que a suíte cobre:
 - **`tests/inodo.test.js`**: inodo, saída, manada, a última fala e a versão 2.55.
 - **`tests/gotejo.test.js`**: gotejo, frio, cadeado, a primeira fala e a versão 2.56.
 - **`tests/cota.test.js`**: cota, ciclo, zumbi, o hiato entre falas e a versão 2.57.
+- **`tests/cisao.test.js`**: cisão, rajada, brasa, o costume da semana e a versão 2.58.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
