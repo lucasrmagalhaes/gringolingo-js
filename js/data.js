@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.05';
+export const VERSAO_APP = '3.06';
 
 export const NOVIDADES = [
+  {
+    versao: '3.06',
+    titulo: 'O witness',
+    itens: [
+      '👁️ Diga que a testemunha viu o acordo fechado',
+      '🗳️ Avise que o voto entra na contagem final',
+      '🎓 Diga que quem aprende só escuta o grupo',
+      '📝 Diga no hub a frase de sobrevivência que ainda não entrou'
+    ]
+  },
   {
     versao: '3.05',
     titulo: 'O watermark',
@@ -2128,6 +2138,9 @@ export const MISSOES = [
   { id: 'watermark1', emoji: '🪧', titulo: 'Marque até onde a leitura chegou', alvo: 1, xp: 15, medir: s => (s.tipo === 'watermark' ? 1 : 0) },
   { id: 'barrier1', emoji: '🚧', titulo: 'Espere o lote inteiro na barreira', alvo: 1, xp: 15, medir: s => (s.tipo === 'barrier' ? 1 : 0) },
   { id: 'align1', emoji: '📐', titulo: 'Deixe as linhas na mesma altura', alvo: 1, xp: 15, medir: s => (s.tipo === 'align' ? 1 : 0) },
+  { id: 'witness1', emoji: '👁️', titulo: 'Diga que a testemunha viu o acordo', alvo: 1, xp: 15, medir: s => (s.tipo === 'witness' ? 1 : 0) },
+  { id: 'voter1', emoji: '🗳️', titulo: 'Lance o voto na contagem final', alvo: 1, xp: 15, medir: s => (s.tipo === 'voter' ? 1 : 0) },
+  { id: 'learner1', emoji: '🎓', titulo: 'Escute só o grupo que aprende', alvo: 1, xp: 15, medir: s => (s.tipo === 'learner' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2484,6 +2497,9 @@ export const BADGES = [
   { id: 'watermark', emoji: '🪧', nome: 'O watermark', desc: 'Diga que a marca mostra até onde a leitura chegou' },
   { id: 'barrier', emoji: '🚧', nome: 'O barrier', desc: 'Diga que a barreira espera o lote inteiro' },
   { id: 'align', emoji: '📐', nome: 'O align', desc: 'Diga que as linhas ficam na mesma altura' },
+  { id: 'witness', emoji: '👁️', nome: 'O witness', desc: 'Diga que a testemunha viu o acordo fechado' },
+  { id: 'voter', emoji: '🗳️', nome: 'O voter', desc: 'Diga que o voto entra na contagem final' },
+  { id: 'learner', emoji: '🎓', nome: 'O learner', desc: 'Diga que quem aprende só escuta o grupo' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

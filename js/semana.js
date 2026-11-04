@@ -1656,6 +1656,42 @@ export function textoDaFicha(itens, diaIso) {
   return { en: escolhido.en, pt: escolhido.pt, texto: `A ficha pede ${escolhido.pt}. Diga ${escolhido.en}.` };
 }
 
+function baralhoValido(item) {
+  if (!item || typeof item !== 'object') return false;
+  const en = typeof item.en === 'string' ? item.en.trim() : '';
+  const pt = typeof item.pt === 'string' ? item.pt.trim() : '';
+  if (en.length < 8 || en.length > 120) return false;
+  if (pt.length < 2 || pt.length > 80) return false;
+  if (en.split(/\s+/).length < 2) return false;
+  if (en === '__proto__' || en === 'constructor' || en === 'prototype') return false;
+  if (pt === '__proto__' || pt === 'constructor' || pt === 'prototype') return false;
+  return true;
+}
+
+export function textoDoBaralho(frases, agenda, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { en: '', pt: '', texto: 'Ainda não há baralho de fala.' };
+  const fonte = agenda && typeof agenda === 'object' && !Array.isArray(agenda) ? agenda : {};
+  const lista = (Array.isArray(frases) ? frases : []).filter(baralhoValido).map(item => ({
+    en: item.en.trim().replace(/\.$/, ''),
+    pt: item.pt.trim().replace(/\.$/, '')
+  }));
+  if (!lista.length) return { en: '', pt: '', texto: 'O baralho ainda não tem frase.' };
+  const ponto = texto => (/[.!?]$/.test(texto) ? texto : `${texto}.`);
+  const frase = (pt, en) => `O baralho pede ${ponto(pt)} Diga ${ponto(en)}`;
+  const nova = lista.find(item => !fonte[item.en] || typeof fonte[item.en] !== 'object');
+  if (nova) return { en: nova.en, pt: nova.pt, texto: frase(nova.pt, nova.en) };
+  const devidos = lista
+    .filter(item => {
+      const proxima = String(fonte[item.en]?.proxima || '');
+      return dataValida(proxima) && proxima <= fim;
+    })
+    .sort((a, b) => String(fonte[a.en].proxima).localeCompare(String(fonte[b.en].proxima)) || a.en.localeCompare(b.en));
+  if (!devidos.length) return { en: '', pt: '', texto: 'O baralho espera a próxima frase.' };
+  const escolhido = devidos[0];
+  return { en: escolhido.en, pt: escolhido.pt, texto: frase(escolhido.pt, escolhido.en) };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
