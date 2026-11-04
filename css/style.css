@@ -499,6 +499,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-marca {
+  margin: 8px 0 12px;
+}
+
+.fala-marca .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -2561,6 +2569,11 @@ button.caixa-treinavel:hover {
 .backup-botoes {
   display: flex;
   gap: 8px;
+}
+
+.backup-botoes > .btn,
+.vocab-botoes > .btn {
+  min-height: 44px;
 }
 
 .arquivo-escondido {

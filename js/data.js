@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.58';
+export const VERSAO_APP = '2.59';
 
 export const NOVIDADES = [
+  {
+    versao: '2.59',
+    titulo: 'O datagrama',
+    itens: [
+      '📨 Diga que a rede deixou cair dois pacotes',
+      '🎫 Avise que o passe curto venceu',
+      '🖊️ Diga que o carimbo da linha mudou',
+      '📝 Veja no hub a maior marca seguida de fala'
+    ]
+  },
   {
     versao: '2.58',
     titulo: 'A cisão',
@@ -1517,6 +1527,9 @@ export const MISSOES = [
   { id: 'cisao1', emoji: '🪞', titulo: 'Junte os dois líderes', alvo: 1, xp: 15, medir: s => (s.tipo === 'cisao' ? 1 : 0) },
   { id: 'rajada1', emoji: '🌊', titulo: 'Acalme as tentativas juntas', alvo: 1, xp: 15, medir: s => (s.tipo === 'rajada' ? 1 : 0) },
   { id: 'brasa1', emoji: '🔥', titulo: 'Espalhe a chave quente', alvo: 1, xp: 15, medir: s => (s.tipo === 'brasa' ? 1 : 0) },
+  { id: 'datagrama1', emoji: '📨', titulo: 'Recupere os pacotes perdidos', alvo: 1, xp: 15, medir: s => (s.tipo === 'datagrama' ? 1 : 0) },
+  { id: 'passe1', emoji: '🎫', titulo: 'Renove o passe curto', alvo: 1, xp: 15, medir: s => (s.tipo === 'passe' ? 1 : 0) },
+  { id: 'carimbo1', emoji: '🖊️', titulo: 'Grave com o carimbo novo', alvo: 1, xp: 15, medir: s => (s.tipo === 'carimbo' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1732,6 +1745,9 @@ export const BADGES = [
   { id: 'cisao', emoji: '🪞', nome: 'A cisão', desc: 'Diga que o grupo ficou com dois líderes' },
   { id: 'rajada', emoji: '🌊', nome: 'A rajada', desc: 'Avise que os clientes tentam de novo juntos' },
   { id: 'brasa', emoji: '🔥', nome: 'A brasa', desc: 'Diga que uma chave recebe a maior parte das escritas' },
+  { id: 'datagrama', emoji: '📨', nome: 'O datagrama', desc: 'Diga que a rede deixou cair dois pacotes' },
+  { id: 'passe', emoji: '🎫', nome: 'O passe', desc: 'Avise que o passe curto venceu' },
+  { id: 'carimbo', emoji: '🖊️', nome: 'O carimbo', desc: 'Diga que o carimbo da linha mudou' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
