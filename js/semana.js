@@ -1129,6 +1129,28 @@ export function textoDoCurto(painel, diaIso) {
   return { dias, curto, texto: `O curto dos dias é de ${curto} segundos.` };
 }
 
+export function textoDoLongo(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, longo: 0, texto: 'Ainda não há longo de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let dias = 0;
+  let longo = 0;
+  let viu = false;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    if (!viu || seg > longo) longo = seg;
+    viu = true;
+  }
+  if (dias === 0) return { dias: 0, longo: 0, texto: 'O longo dos dias ainda é 0 segundos.' };
+  if (longo === 1) return { dias, longo, texto: 'O longo dos dias é de 1 segundo.' };
+  return { dias, longo, texto: `O longo dos dias é de ${longo} segundos.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

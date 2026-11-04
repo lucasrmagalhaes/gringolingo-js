@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.88';
+export const VERSAO_APP = '2.89';
 
 export const NOVIDADES = [
+  {
+    versao: '2.89',
+    titulo: 'O sidecar',
+    itens: [
+      '🛵 Diga que o ajudante mora ao lado',
+      '🌐 Avise que o proxy fala por quem está fora',
+      '🔌 Diga que a tradução liga o cliente antigo',
+      '📝 Veja no hub o longo dos segundos de fala'
+    ]
+  },
   {
     versao: '2.88',
     titulo: 'A fome',
@@ -1907,6 +1917,9 @@ export const MISSOES = [
   { id: 'fome1', emoji: '🍖', titulo: 'Veja a tarefa que nunca ganha a vez', alvo: 1, xp: 15, medir: s => (s.tipo === 'fome' ? 1 : 0) },
   { id: 'inversao1', emoji: '🔃', titulo: 'Note a baixa que segura a alta', alvo: 1, xp: 15, medir: s => (s.tipo === 'inversao' ? 1 : 0) },
   { id: 'idade1', emoji: '🧓', titulo: 'Suba a prioridade da espera longa', alvo: 1, xp: 15, medir: s => (s.tipo === 'idade' ? 1 : 0) },
+  { id: 'sidecar1', emoji: '🛵', titulo: 'Deixe o ajudante morar ao lado', alvo: 1, xp: 15, medir: s => (s.tipo === 'sidecar' ? 1 : 0) },
+  { id: 'embaixador1', emoji: '🌐', titulo: 'Deixe o proxy falar por quem está fora', alvo: 1, xp: 15, medir: s => (s.tipo === 'embaixador' ? 1 : 0) },
+  { id: 'adaptador1', emoji: '🔌', titulo: 'Ligue o cliente antigo à API nova', alvo: 1, xp: 15, medir: s => (s.tipo === 'adaptador' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2212,6 +2225,9 @@ export const BADGES = [
   { id: 'fome', emoji: '🍖', nome: 'A fome', desc: 'Diga que a tarefa espera e não roda' },
   { id: 'inversao', emoji: '🔃', nome: 'A inversão', desc: 'Diga que a baixa segura o recurso' },
   { id: 'idade', emoji: '🧓', nome: 'A idade', desc: 'Diga que a espera sobe a prioridade' },
+  { id: 'sidecar', emoji: '🛵', nome: 'O sidecar', desc: 'Diga que o ajudante mora ao lado' },
+  { id: 'embaixador', emoji: '🌐', nome: 'O embaixador', desc: 'Diga que o proxy fala por quem está fora' },
+  { id: 'adaptador', emoji: '🔌', nome: 'O adaptador', desc: 'Diga que a tradução liga o cliente antigo' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

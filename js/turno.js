@@ -83,6 +83,7 @@ import { RUMORES, REPAROS, DEIXAS } from './rumor.js';
 import { FLOCOS, EPOCAS, VETORES } from './floco.js';
 import { SUJEIRAS, INSTANTANEOS, SERIAIS } from './sujeira.js';
 import { FOMES, INVERSOES, IDADES } from './fome.js';
+import { SIDECARS, EMBAIXADORES, ADAPTADORES } from './sidecar.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -606,6 +607,9 @@ export function catalogoFaladas() {
     { origem: 'Fome', itens: FOMES },
     { origem: 'Inversão', itens: INVERSOES },
     { origem: 'Idade', itens: IDADES },
+    { origem: 'Sidecar', itens: SIDECARS },
+    { origem: 'Embaixador', itens: EMBAIXADORES },
+    { origem: 'Adaptador', itens: ADAPTADORES },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },
