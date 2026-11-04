@@ -165,7 +165,10 @@ const BRUTOS = [
   ['job', 'trabalho', '🌙', 'O job', 'O job roda às três da manhã e falhou quatro noites.', 'jobs', 'cron job tres manha quatro noites'],
   ['colheita', 'trabalho', '🍒', 'A colheita', 'Um commit sobe sozinho e os outros ficam para trás.', 'colheitas', 'cherry pick commit sozinho release'],
   ['sessao', 'trabalho', '⏳', 'A sessão', 'A sessão acaba depois de oito horas e pode ir até doze.', 'sessoes', 'sessao oito horas doze login'],
-  ['tanque', 'trabalho', '🪣', 'O tanque', 'O tanque enche com vinte conexões e as ociosas podem fechar.', 'tanques', 'pool vinte conexoes ociosas']
+  ['tanque', 'trabalho', '🪣', 'O tanque', 'O tanque enche com vinte conexões e as ociosas podem fechar.', 'tanques', 'pool vinte conexoes ociosas'],
+  ['sonda', 'trabalho', '🩺', 'A sonda', 'A sonda falhou duas vezes e a gente olha de novo.', 'sondas', 'health check duas vezes'],
+  ['semente', 'trabalho', '🌱', 'A semente', 'A semente enche o banco vazio com dez linhas.', 'sementes', 'seed banco vazio dez linhas'],
+  ['registro', 'trabalho', '📋', 'O registro', 'Suba o registro para debug quando o erro voltar.', 'registros', 'log level debug info erro']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
