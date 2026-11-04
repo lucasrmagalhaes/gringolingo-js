@@ -1015,6 +1015,20 @@ textarea {
   overflow-wrap: anywhere;
 }
 
+.fala-expressao {
+  margin: 8px 0 12px;
+  max-width: 100%;
+}
+
+.fala-expressao .btn {
+  margin-top: 10px;
+  max-width: 100%;
+}
+
+.fala-expressao p {
+  overflow-wrap: anywhere;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -3450,6 +3464,8 @@ button.caixa-treinavel:hover {
   border-radius: 10px;
   background: rgba(255, 200, 0, 0.18);
   border: 1px solid rgba(255, 200, 0, 0.45);
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .resultado {
@@ -4239,6 +4255,8 @@ button.caixa-treinavel:hover {
 
 .painel-erro {
   margin-top: 12px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .fala-atalho {

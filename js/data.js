@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.13';
+export const VERSAO_APP = '3.14';
 
 export const NOVIDADES = [
+  {
+    versao: '3.14',
+    titulo: 'O sstable',
+    itens: [
+      '🧱 Diga que o sstable ordena a chave',
+      '🔒 Avise que o latch segura a leitura',
+      '🚥 Diga que o throttle limita a chamada',
+      '🧩 Diga no hub a expressão do dia'
+    ]
+  },
   {
     versao: '3.13',
     titulo: 'O manifest',
@@ -2232,6 +2242,9 @@ export const MISSOES = [
   { id: 'manifest1', emoji: '📜', titulo: 'Liste o arquivo no manifest', alvo: 1, xp: 15, medir: s => (s.tipo === 'manifest' ? 1 : 0) },
   { id: 'hedge1', emoji: '🐇', titulo: 'Cubra a espera no hedge', alvo: 1, xp: 15, medir: s => (s.tipo === 'hedge' ? 1 : 0) },
   { id: 'debounce1', emoji: '⏲️', titulo: 'Espere a pausa no debounce', alvo: 1, xp: 15, medir: s => (s.tipo === 'debounce' ? 1 : 0) },
+  { id: 'sstable1', emoji: '🧱', titulo: 'Ordene a chave no sstable', alvo: 1, xp: 15, medir: s => (s.tipo === 'sstable' ? 1 : 0) },
+  { id: 'latch1', emoji: '🔒', titulo: 'Segure a leitura no latch', alvo: 1, xp: 15, medir: s => (s.tipo === 'latch' ? 1 : 0) },
+  { id: 'throttle1', emoji: '🚥', titulo: 'Limite a chamada no throttle', alvo: 1, xp: 15, medir: s => (s.tipo === 'throttle' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2612,6 +2625,9 @@ export const BADGES = [
   { id: 'manifest', emoji: '📜', nome: 'O manifest', desc: 'Diga que o manifesto lista o arquivo' },
   { id: 'hedge', emoji: '🐇', nome: 'O hedge', desc: 'Diga que o hedge cobre a espera' },
   { id: 'debounce', emoji: '⏲️', nome: 'O debounce', desc: 'Diga que o debounce espera a pausa' },
+  { id: 'sstable', emoji: '🧱', nome: 'O sstable', desc: 'Diga que o sstable ordena a chave' },
+  { id: 'latch', emoji: '🔒', nome: 'O latch', desc: 'Diga que o latch segura a leitura' },
+  { id: 'throttle', emoji: '🚥', nome: 'O throttle', desc: 'Diga que o throttle limita a chamada' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

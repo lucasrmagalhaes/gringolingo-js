@@ -108,6 +108,7 @@ import { STRIPES, PARITIES, REBUILDS } from './stripe.js';
 import { EPOCHS, BALLOTS, FENCES } from './epoch.js';
 import { FLUSHES, MEMTABLES, EXTENTS } from './flush.js';
 import { MANIFESTS, HEDGES, DEBOUNCES } from './manifest.js';
+import { SSTABLES, LATCHES, THROTTLES } from './sstable.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -706,6 +707,9 @@ export function catalogoFaladas() {
     { origem: 'Manifest', itens: MANIFESTS },
     { origem: 'Hedge', itens: HEDGES },
     { origem: 'Debounce', itens: DEBOUNCES },
+    { origem: 'Sstable', itens: SSTABLES },
+    { origem: 'Latch', itens: LATCHES },
+    { origem: 'Throttle', itens: THROTTLES },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },
