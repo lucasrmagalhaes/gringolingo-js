@@ -742,6 +742,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-longo {
+  margin: 8px 0 12px;
+}
+
+.fala-longo .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -2520,6 +2528,7 @@ textarea.entrada {
 }
 
 .escuta-atalho {
+  min-height: 44px;
   border-color: color-mix(in srgb, var(--azul) 45%, var(--borda));
 }
 
