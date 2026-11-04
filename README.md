@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-646%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-650%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -268,14 +268,14 @@ navegador.
 - **A consulta**: a consulta leva quatro segundos e roda em cada carga de página.
 - **A réplica**: a réplica está atrás e a leitura pode usar a cópia.
 - **O ensaio**: o teste vai para o ensaio antes da produção.
-- **O disco**: o disco está noventa por cento cheio e o log velho pode sair.
-- **A página**: a lista mostra vinte linhas e a próxima começa depois.
+- **O disco**: o disco está noventa por cento cheio.
+- **A página**: a lista mostra vinte linhas.
 - **O grupo**: no hub, o grupo com menos prática, com atalho para filtrar.
 - **O squash**: três commits viram um só antes do merge.
-- **O circuito**: o circuito abre depois de cinco erros e a chamada falha.
+- **O circuito**: o circuito abre depois de cinco erros.
 - **O job**: o job roda às três da manhã e falhou quatro noites.
 - **A colheita**: um commit sobe sozinho e os outros ficam para trás.
-- **A sessão**: a sessão acaba depois de oito horas e pode ir até doze.
+- **A sessão**: a sessão acaba depois de oito horas.
 - **O tanque**: o tanque enche com vinte conexões.
 - **A sonda**: a sonda falhou duas vezes e a gente olha de novo.
 - **A semente**: a semente enche o banco vazio com dez linhas.
@@ -283,30 +283,30 @@ navegador.
 - **O rastro**: o id da chamada fica no cabeçalho e vai para o ticket.
 - **A parada**: a parada começa à meia-noite e dura uma hora.
 - **O pod**: reinicie só um pod e deixe os outros no ar.
-- **O lint**: o lint falhou em dois arquivos e o aviso fica no diff.
-- **A origem**: o navegador bloqueia a outra origem até liberar o site.
+- **O lint**: o lint falhou em dois arquivos.
+- **A origem**: o navegador bloqueia a outra origem.
 - **O link**: o link assinado vale uma hora e depois expira.
 - **O processador**: o processador fica perto de noventa por cento.
-- **A cópia**: a cópia da noite começa às duas e fica pronta de manhã.
+- **A cópia**: a cópia da noite começa às duas.
 - **O estouro**: o processo estourou a memória e a gente sobe o limite.
-- **O impasse**: dois trabalhos esperam um pelo outro e soltam o antigo.
+- **O impasse**: dois trabalhos esperam um pelo outro.
 - **O domínio**: o nome do site não resolve e aponta o endereço novo.
 - **A carta morta**: a carta morta guarda o motivo da recusa.
 - **Os ponteiros**: os relógios diferem e a assinatura falha.
 - **A eleição**: o líder antigo saiu e dois de três precisam concordar.
-- **O freio**: a fila encheu e o produtor passa a enviar mais devagar.
+- **O freio**: a fila encheu e o produtor desacelera.
 - **A pausa**: a coleta parou o processo por dois segundos.
-- **A deriva**: a configuração publicada difere do arquivo no repositório.
+- **A deriva**: a configuração publicada difere do arquivo.
 - **O descritor**: o processo abriu arquivos demais.
 - **A reserva**: o servidor usou a reserva e as respostas atrasaram.
 - **A varredura**: a tela dispara uma consulta para cada linha.
-- **A porta**: nenhum processo escuta nessa porta e o cliente recebe recusa.
+- **A porta**: nenhum processo escuta nessa porta.
 - **O inodo**: os nomes livres acabaram e o arquivo novo não aparece.
-- **A saída**: o serviço recebeu o aviso e espera as tarefas abertas.
+- **A saída**: o serviço espera as tarefas abertas.
 - **A manada**: o cache venceu de uma vez e a enxurrada caiu.
 - **A última**: no hub, há quantos dias foi a última fala, com atalho para a semana.
-- **O gotejo**: a memória cresce sem parar e nada volta para o sistema.
-- **O frio**: a função dorme e a primeira chamada espera ela acordar.
+- **O gotejo**: a memória cresce sem parar.
+- **O frio**: a função dorme e a primeira chamada espera.
 - **O cadeado**: o processo tentou ler e a permissão recusou.
 - **A primeira**: no hub, há quantos dias foi a primeira fala, com atalho para a semana.
 - **A cota**: a cota do usuário fechou e o arquivo novo não grava.
@@ -341,7 +341,7 @@ navegador.
 - **A ordem**: a mensagem quatro chegou antes da três.
 - **A prova**: a prova dos bytes não bateu com o arquivo.
 - **A parte**: no hub, quantos minutos desta semana entram na soma de fala, com atalho para a semana.
-- **O órfão**: a linha filha apontou para um pai que não existe mais.
+- **O órfão**: a linha filha apontou para um pai ausente.
 - **O aceno**: o segundo sítio nunca confirmou.
 - **O gasto**: três dias de erro gastaram o mês.
 - **O fora**: no hub, os minutos de fala que ficaram fora desta semana, com atalho para a semana.
@@ -425,6 +425,10 @@ navegador.
 - **O reparo**: a leitura conserta a cópia que ficou atrás.
 - **A deixa**: o vizinho guarda a escrita até o dono voltar.
 - **A sobra**: no hub, os minutos de fala fora do dia mais longo, com atalho para a semana.
+- **O floco**: o id nasce do tempo do nó e de um contador.
+- **A época**: a geração sobe quando a formação muda.
+- **O vetor**: o nó anota a própria visão dos eventos.
+- **O resto**: no hub, os segundos de fala que não fecham um minuto, com atalho para a semana.
 
 ### Hábito e gamificação
 
@@ -582,6 +586,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/primario.js` | Primário que aceita a escrita, espelho que só copia e ascensão que vira dona. |
 | `js/travessia.js` | Travessia que confirma no disco, retaguarda que espera no cache e contorno que pula o cache. |
 | `js/rumor.js` | Rumor que espalha o estado, reparo que conserta na leitura e deixa que guarda a escrita. |
+| `js/floco.js` | Floco que nasce do tempo, época que sobe com a formação e vetor que anota a visão. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -663,7 +668,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **646 testes em 140 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **650 testes em 141 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -782,6 +787,7 @@ O que a suíte cobre:
 - **`tests/primario.test.js`**: primário, espelho, ascensão, a densidade dos minutos de fala e a versão 2.83.
 - **`tests/travessia.test.js`**: travessia, retaguarda, contorno, o peso do dia mais longo e a versão 2.84.
 - **`tests/rumor.test.js`**: rumor, reparo, deixa, a sobra fora do dia mais longo e a versão 2.85.
+- **`tests/floco.test.js`**: floco, época, vetor, o resto dos segundos de fala e a versão 2.86.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

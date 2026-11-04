@@ -1065,6 +1065,27 @@ export function textoDaSobra(painel, diaIso) {
   return { dias, sobra, texto: `A sobra dos dias é de ${sobra} minutos.` };
 }
 
+export function textoDoResto(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, resto: 0, texto: 'Ainda não há resto de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let dias = 0;
+  let segundos = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    segundos += seg;
+  }
+  if (dias === 0) return { dias: 0, resto: 0, texto: 'O resto dos dias ainda é 0 segundos.' };
+  const resto = segundos % 60;
+  if (resto === 1) return { dias, resto, texto: 'O resto dos dias é de 1 segundo.' };
+  return { dias, resto, texto: `O resto dos dias é de ${resto} segundos.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

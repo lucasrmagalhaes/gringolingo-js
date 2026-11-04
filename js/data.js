@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.85';
+export const VERSAO_APP = '2.86';
 
 export const NOVIDADES = [
+  {
+    versao: '2.86',
+    titulo: 'O floco',
+    itens: [
+      '❄️ Diga que o id nasce do tempo do nó',
+      '🗓️ Avise que a geração sobe com a formação',
+      '🧮 Diga que o nó anota a própria visão',
+      '📝 Veja no hub o resto dos segundos de fala'
+    ]
+  },
   {
     versao: '2.85',
     titulo: 'O rumor',
@@ -1868,6 +1878,9 @@ export const MISSOES = [
   { id: 'rumor1', emoji: '🗞️', titulo: 'Espalhe o estado de boca em boca', alvo: 1, xp: 15, medir: s => (s.tipo === 'rumor' ? 1 : 0) },
   { id: 'reparo1', emoji: '🩹', titulo: 'Conserte a cópia na leitura', alvo: 1, xp: 15, medir: s => (s.tipo === 'reparo' ? 1 : 0) },
   { id: 'deixa1', emoji: '🧳', titulo: 'Guarde a escrita até o dono voltar', alvo: 1, xp: 15, medir: s => (s.tipo === 'deixa' ? 1 : 0) },
+  { id: 'floco1', emoji: '❄️', titulo: 'Monte o id com o tempo do nó', alvo: 1, xp: 15, medir: s => (s.tipo === 'floco' ? 1 : 0) },
+  { id: 'epoca1', emoji: '🗓️', titulo: 'Suba a geração quando a formação muda', alvo: 1, xp: 15, medir: s => (s.tipo === 'epoca' ? 1 : 0) },
+  { id: 'vetor1', emoji: '🧮', titulo: 'Anote a visão deste nó', alvo: 1, xp: 15, medir: s => (s.tipo === 'vetor' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2164,6 +2177,9 @@ export const BADGES = [
   { id: 'rumor', emoji: '🗞️', nome: 'O rumor', desc: 'Diga que os nós espalham o estado' },
   { id: 'reparo', emoji: '🩹', nome: 'O reparo', desc: 'Diga que a leitura conserta a cópia' },
   { id: 'deixa', emoji: '🧳', nome: 'A deixa', desc: 'Diga que o vizinho guarda a escrita' },
+  { id: 'floco', emoji: '❄️', nome: 'O floco', desc: 'Diga que o floco nasce do tempo' },
+  { id: 'epoca', emoji: '🗓️', nome: 'A época', desc: 'Diga que a época sobe com a formação' },
+  { id: 'vetor', emoji: '🧮', nome: 'O vetor', desc: 'Diga que o vetor anota a visão' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
