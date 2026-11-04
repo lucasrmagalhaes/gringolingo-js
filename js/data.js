@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.98';
+export const VERSAO_APP = '2.99';
 
 export const NOVIDADES = [
+  {
+    versao: '2.99',
+    titulo: 'O gossip',
+    itens: [
+      '📣 Diga que os nós trocam o estado entre si',
+      '📉 Avise que a suspeita sobe com a pausa',
+      '🧺 Diga que a falha soma aos poucos',
+      '📝 Veja no hub o grupo que a fala ainda não tocou'
+    ]
+  },
   {
     versao: '2.98',
     titulo: 'O merkle',
@@ -2037,6 +2047,9 @@ export const MISSOES = [
   { id: 'merkle1', emoji: '🌳', titulo: 'Resuma as folhas num selo', alvo: 1, xp: 15, medir: s => (s.tipo === 'merkle' ? 1 : 0) },
   { id: 'radix1', emoji: '✂️', titulo: 'Corte o prefixo comum da árvore', alvo: 1, xp: 15, medir: s => (s.tipo === 'radix' ? 1 : 0) },
   { id: 'trie1', emoji: '🔤', titulo: 'Guarde a palavra letra a letra', alvo: 1, xp: 15, medir: s => (s.tipo === 'trie' ? 1 : 0) },
+  { id: 'gossip1', emoji: '📣', titulo: 'Troque o estado entre os nós', alvo: 1, xp: 15, medir: s => (s.tipo === 'gossip' ? 1 : 0) },
+  { id: 'phi1', emoji: '📉', titulo: 'Suba a suspeita com a pausa', alvo: 1, xp: 15, medir: s => (s.tipo === 'phi' ? 1 : 0) },
+  { id: 'accrual1', emoji: '🧺', titulo: 'Some a falha aos poucos', alvo: 1, xp: 15, medir: s => (s.tipo === 'accrual' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2372,6 +2385,9 @@ export const BADGES = [
   { id: 'merkle', emoji: '🌳', nome: 'O merkle', desc: 'Diga que a árvore resume as folhas num selo' },
   { id: 'radix', emoji: '✂️', nome: 'O radix', desc: 'Diga que a árvore corta o prefixo comum' },
   { id: 'trie', emoji: '🔤', nome: 'O trie', desc: 'Diga que a árvore guarda a palavra letra a letra' },
+  { id: 'gossip', emoji: '📣', nome: 'O gossip', desc: 'Diga que os nós trocam o estado entre si' },
+  { id: 'phi', emoji: '📉', nome: 'O phi', desc: 'Diga que a suspeita sobe com a pausa' },
+  { id: 'accrual', emoji: '🧺', nome: 'O accrual', desc: 'Diga que a falha soma aos poucos' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
