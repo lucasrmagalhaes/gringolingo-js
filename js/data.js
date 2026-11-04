@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.59';
+export const VERSAO_APP = '2.60';
 
 export const NOVIDADES = [
+  {
+    versao: '2.60',
+    titulo: 'A pilha',
+    itens: [
+      '📚 Diga que a pilha de chamadas cresceu sem fundo',
+      '🔧 Avise que a outra ponta fechou o cano',
+      '🌀 Diga que o navegador girou entre dois endereços',
+      '📝 Veja no hub o auge de segundos de fala'
+    ]
+  },
   {
     versao: '2.59',
     titulo: 'O datagrama',
@@ -1530,6 +1540,9 @@ export const MISSOES = [
   { id: 'datagrama1', emoji: '📨', titulo: 'Recupere os pacotes perdidos', alvo: 1, xp: 15, medir: s => (s.tipo === 'datagrama' ? 1 : 0) },
   { id: 'passe1', emoji: '🎫', titulo: 'Renove o passe curto', alvo: 1, xp: 15, medir: s => (s.tipo === 'passe' ? 1 : 0) },
   { id: 'carimbo1', emoji: '🖊️', titulo: 'Grave com o carimbo novo', alvo: 1, xp: 15, medir: s => (s.tipo === 'carimbo' ? 1 : 0) },
+  { id: 'pilha1', emoji: '📚', titulo: 'Pare a pilha sem fundo', alvo: 1, xp: 15, medir: s => (s.tipo === 'pilha' ? 1 : 0) },
+  { id: 'cano1', emoji: '🔧', titulo: 'Abra o cano que fechou', alvo: 1, xp: 15, medir: s => (s.tipo === 'cano' ? 1 : 0) },
+  { id: 'giro1', emoji: '🌀', titulo: 'Pare o giro de endereços', alvo: 1, xp: 15, medir: s => (s.tipo === 'giro' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1748,6 +1761,9 @@ export const BADGES = [
   { id: 'datagrama', emoji: '📨', nome: 'O datagrama', desc: 'Diga que a rede deixou cair dois pacotes' },
   { id: 'passe', emoji: '🎫', nome: 'O passe', desc: 'Avise que o passe curto venceu' },
   { id: 'carimbo', emoji: '🖊️', nome: 'O carimbo', desc: 'Diga que o carimbo da linha mudou' },
+  { id: 'pilha', emoji: '📚', nome: 'A pilha', desc: 'Diga que a pilha de chamadas cresceu sem fundo' },
+  { id: 'cano', emoji: '🔧', nome: 'O cano', desc: 'Avise que a outra ponta fechou o cano' },
+  { id: 'giro', emoji: '🌀', nome: 'O giro', desc: 'Diga que o navegador girou entre dois endereços' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

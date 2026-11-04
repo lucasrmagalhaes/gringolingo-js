@@ -461,6 +461,36 @@ export function textoDaMarca(painel, diaIso) {
   return { dias: maior, texto: `A maior marca foi de ${maior} dias.` };
 }
 
+export function textoDoAuge(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, minutos: 0, texto: 'Ainda não há auge de fala.' };
+  let melhor = '';
+  let segundos = 0;
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    const treinos = inteiroNaoNegativo(linha?.n);
+    if (treinos <= 0 && seg <= 0) continue;
+    if (!melhor || seg > segundos || (seg === segundos && data > melhor)) {
+      melhor = data;
+      segundos = seg;
+    }
+  }
+  if (!melhor) return { dias: null, minutos: 0, texto: 'Ainda não há auge de fala.' };
+  const minutos = Math.floor(segundos / 60);
+  const dias = diasEntreIso(melhor, fim);
+  const tempo = minutos <= 0
+    ? 'menos de 1 minuto'
+    : minutos === 1
+      ? '1 minuto'
+      : `${minutos} minutos`;
+  if (dias <= 0) return { dias: 0, minutos, texto: `O auge foi hoje, com ${tempo}.` };
+  if (dias === 1) return { dias: 1, minutos, texto: `O auge foi ontem, com ${tempo}.` };
+  return { dias, minutos, texto: `O auge foi há ${dias} dias, com ${tempo}.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

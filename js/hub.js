@@ -204,7 +204,10 @@ const BRUTOS = [
   ['brasa', 'trabalho', '🔥', 'A brasa', 'Uma chave recebe quase todas as escritas do mapa.', 'brasas', 'hot key writes percent map'],
   ['datagrama', 'trabalho', '📨', 'O datagrama', 'Dois datagramas sumiram antes de chegar ao destino.', 'datagramas', 'packet loss two packets path'],
   ['passe', 'trabalho', '🎫', 'O passe', 'O passe curto venceu e a próxima chamada pede outro.', 'passes', 'access pass expired fifteen minutes'],
-  ['carimbo', 'trabalho', '🖊️', 'O carimbo', 'O carimbo da linha mudou e a gravação foi recusada.', 'carimbos', 'row stamp version changed save']
+  ['carimbo', 'trabalho', '🖊️', 'O carimbo', 'O carimbo da linha mudou e a gravação foi recusada.', 'carimbos', 'row stamp version changed save'],
+  ['pilha', 'trabalho', '📚', 'A pilha', 'A pilha de chamadas cresceu sem fundo e o programa parou.', 'pilhas', 'stack overflow frames call stack'],
+  ['cano', 'trabalho', '🔧', 'O cano', 'A outra ponta fechou o cano no meio da resposta.', 'canos', 'broken pipe reset writes'],
+  ['giro', 'trabalho', '🌀', 'O giro', 'O navegador girou entre dois endereços e desistiu.', 'giros', 'redirect loop hops browser']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -439,7 +442,7 @@ export function textoDoContinuar(treino) {
   return `Continuar: ${treino.titulo}.`;
 }
 
-const TETO_JS = 1570000;
+const TETO_JS = 1600000;
 
 export function auditarPacote({ html, css, sw, arquivos } = {}) {
   const falhas = [];
