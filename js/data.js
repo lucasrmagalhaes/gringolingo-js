@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.75';
+export const VERSAO_APP = '2.76';
 
 export const NOVIDADES = [
+  {
+    versao: '2.76',
+    titulo: 'O recuo',
+    itens: [
+      '⏬ Diga que cada falha dobra a espera',
+      '🐕 Avise que o vigia encerra a tarefa atrasada',
+      '🏺 Diga que o passe vence em quinze minutos',
+      '📝 Veja no hub a repetição dos dias de treino'
+    ]
+  },
   {
     versao: '2.75',
     titulo: 'O semáforo',
@@ -1738,6 +1748,9 @@ export const MISSOES = [
   { id: 'semaforo1', emoji: '🚦', titulo: 'Solte uma vaga do semáforo', alvo: 1, xp: 15, medir: s => (s.tipo === 'semaforo' ? 1 : 0) },
   { id: 'barreira1', emoji: '🏁', titulo: 'Espere os quatro na barreira', alvo: 1, xp: 15, medir: s => (s.tipo === 'barreira' ? 1 : 0) },
   { id: 'trinco1', emoji: '🪝', titulo: 'Zere a contagem do trinco', alvo: 1, xp: 15, medir: s => (s.tipo === 'trinco' ? 1 : 0) },
+  { id: 'recuo1', emoji: '⏬', titulo: 'Dobre o intervalo da tentativa', alvo: 1, xp: 15, medir: s => (s.tipo === 'recuo' ? 1 : 0) },
+  { id: 'vigia1', emoji: '🐕', titulo: 'Encerre a tarefa atrasada', alvo: 1, xp: 15, medir: s => (s.tipo === 'vigia' ? 1 : 0) },
+  { id: 'ampulheta1', emoji: '🏺', titulo: 'Troque o passe vencido', alvo: 1, xp: 15, medir: s => (s.tipo === 'ampulheta' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2004,6 +2017,9 @@ export const BADGES = [
   { id: 'semaforo', emoji: '🚦', nome: 'O semáforo', desc: 'Diga que só dois trabalhos passam juntos' },
   { id: 'barreira', emoji: '🏁', nome: 'A barreira', desc: 'Avise que os quatro precisam chegar juntos' },
   { id: 'trinco', emoji: '🪝', nome: 'O trinco', desc: 'Diga que o trinco abre quando a conta zera' },
+  { id: 'recuo', emoji: '⏬', nome: 'O recuo', desc: 'Diga que cada falha dobra a espera' },
+  { id: 'vigia', emoji: '🐕', nome: 'O vigia', desc: 'Avise que o vigia encerra a tarefa atrasada' },
+  { id: 'ampulheta', emoji: '🏺', nome: 'A ampulheta', desc: 'Diga que o passe vence em quinze minutos' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

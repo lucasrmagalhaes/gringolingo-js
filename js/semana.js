@@ -837,6 +837,34 @@ export function textoDaModa(painel, diaIso) {
   return { dias, moda, texto: `A moda dos dias é de ${moda} treinos.` };
 }
 
+export function textoDaRepeticao(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, repeticao: 0, texto: 'Ainda não há repetição de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  const contagem = new Map();
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    contagem.set(treinos, (contagem.get(treinos) || 0) + 1);
+  }
+  if (dias === 0) return { dias: 0, repeticao: 0, texto: 'A repetição dos dias ainda é 0 dias.' };
+  let moda = null;
+  let vezes = 0;
+  for (const [valor, n] of contagem) {
+    if (n > vezes || (n === vezes && (moda === null || valor < moda))) {
+      moda = valor;
+      vezes = n;
+    }
+  }
+  if (vezes === 1) return { dias, repeticao: 1, texto: 'A repetição dos dias é de 1 dia.' };
+  return { dias, repeticao: vezes, texto: `A repetição dos dias é de ${vezes} dias.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
