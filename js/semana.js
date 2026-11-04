@@ -216,6 +216,21 @@ export function textoDoApoio(painel, diaIso) {
   return { n, texto: `${n} preenchimentos nesta semana.` };
 }
 
+export function textoDaNota(painel, diaIso) {
+  let soma = 0;
+  let n = 0;
+  for (const data of diasDaSemana(diaIso)) {
+    if (!data || data > diaIso) continue;
+    const linha = painel && typeof painel === 'object' ? painel[data] : null;
+    if (!linha) continue;
+    soma += inteiroNaoNegativo(linha.soma);
+    n += inteiroNaoNegativo(linha.n);
+  }
+  if (!n) return { nota: null, n: 0, texto: 'Ainda não há nota nesta semana.' };
+  const nota = Math.min(100, Math.round(soma / n));
+  return { nota, n, texto: `A nota desta semana é ${nota}.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

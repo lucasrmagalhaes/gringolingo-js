@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.48';
+export const VERSAO_APP = '2.49';
 
 export const NOVIDADES = [
+  {
+    versao: '2.49',
+    titulo: 'O lint',
+    itens: [
+      '🧹 Diga que o lint falhou em dois arquivos',
+      '🌐 Libere a outra origem que o navegador bloqueia',
+      '🔗 Mande um link assinado que vale uma hora',
+      '📝 Veja no hub a nota média desta semana'
+    ]
+  },
   {
     versao: '2.48',
     titulo: 'O rastro',
@@ -1387,6 +1397,9 @@ export const MISSOES = [
   { id: 'rastro1', emoji: '🔎', titulo: 'Copie o id da chamada', alvo: 1, xp: 15, medir: s => (s.tipo === 'rastro' ? 1 : 0) },
   { id: 'parada1', emoji: '🕛', titulo: 'Marque a janela da parada', alvo: 1, xp: 15, medir: s => (s.tipo === 'parada' ? 1 : 0) },
   { id: 'pod1', emoji: '🫛', titulo: 'Reinicie um pod', alvo: 1, xp: 15, medir: s => (s.tipo === 'pod' ? 1 : 0) },
+  { id: 'lint1', emoji: '🧹', titulo: 'Fale do lint que falhou', alvo: 1, xp: 15, medir: s => (s.tipo === 'lint' ? 1 : 0) },
+  { id: 'origem1', emoji: '🌐', titulo: 'Libere a outra origem', alvo: 1, xp: 15, medir: s => (s.tipo === 'origem' ? 1 : 0) },
+  { id: 'link1', emoji: '🔗', titulo: 'Mande um link assinado', alvo: 1, xp: 15, medir: s => (s.tipo === 'link' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1572,6 +1585,9 @@ export const BADGES = [
   { id: 'rastro', emoji: '🔎', nome: 'O rastro', desc: 'Copie o id da chamada para o ticket' },
   { id: 'parada', emoji: '🕛', nome: 'A parada', desc: 'Marque a janela da meia-noite e a hora de volta' },
   { id: 'pod', emoji: '🫛', nome: 'O pod', desc: 'Reinicie um pod e deixe os outros no ar' },
+  { id: 'lint', emoji: '🧹', nome: 'O lint', desc: 'Diga que o lint falhou e olhe o aviso no diff' },
+  { id: 'origem', emoji: '🌐', nome: 'A origem', desc: 'Diga que o navegador bloqueia e libere o site' },
+  { id: 'link', emoji: '🔗', nome: 'O link', desc: 'Mande um link assinado que vale uma hora' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

@@ -171,7 +171,10 @@ const BRUTOS = [
   ['registro', 'trabalho', '📋', 'O registro', 'Suba o registro para debug quando o erro voltar.', 'registros', 'log level debug info erro'],
   ['rastro', 'trabalho', '🔎', 'O rastro', 'O id da chamada fica no cabeçalho.', 'rastros', 'request id header ticket'],
   ['parada', 'trabalho', '🕛', 'A parada', 'A parada começa à meia-noite e dura uma hora.', 'paradas', 'maintenance window midnight hour'],
-  ['pod', 'trabalho', '🫛', 'O pod', 'Reinicie só um pod e deixe os outros no ar.', 'pods', 'restart one pod traffic']
+  ['pod', 'trabalho', '🫛', 'O pod', 'Reinicie só um pod e deixe os outros no ar.', 'pods', 'restart one pod traffic'],
+  ['lint', 'trabalho', '🧹', 'O lint', 'O lint falhou em dois arquivos e o aviso fica no diff.', 'lints', 'linter dois arquivos warning diff'],
+  ['origem', 'trabalho', '🌐', 'A origem', 'O navegador bloqueia a outra origem até liberar o site.', 'origens', 'cors origin browser allow'],
+  ['link', 'trabalho', '🔗', 'O link', 'O link assinado vale uma hora e depois expira.', 'links', 'signed url one hour expires']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
