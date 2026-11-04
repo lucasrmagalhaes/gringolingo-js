@@ -1470,6 +1470,67 @@ export function textoDaPratica(painel, diaIso, treinos, stats) {
   return { dias, id: escolhido.id, titulo: escolhido.titulo, texto: `Pratique ${escolhido.titulo}. ${subtitulo}.` };
 }
 
+const NOME_REFORCO = {
+  trabalho: 'trabalho',
+  entrevista: 'entrevista',
+  cotidiano: 'dia a dia',
+  pronuncia: 'pronúncia',
+  revisao: 'revisão'
+};
+
+const ARTIGO_REFORCO = {
+  trabalho: 'no',
+  entrevista: 'na',
+  cotidiano: 'no',
+  pronuncia: 'na',
+  revisao: 'na'
+};
+
+export function textoDoReforco(painel, diaIso, treinos, stats) {
+  const fim = String(diaIso || '');
+  const lista = (Array.isArray(treinos) ? treinos : []).filter(t => t && t.id && t.stat && t.titulo);
+  const livre = t => (Number(stats?.[t.stat]) || 0) <= 0;
+  if (!dataValida(fim)) return { dias: null, id: '', titulo: '', texto: 'Ainda não há reforço de fala.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  const vistos = new Set();
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const n = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (n <= 0 && seg <= 0) continue;
+    dias += 1;
+    const grupos = linha?.grupos && typeof linha.grupos === 'object' ? linha.grupos : {};
+    for (const id of GRUPOS) {
+      if (inteiroNaoNegativo(grupos[id]) > 0) vistos.add(id);
+    }
+  }
+  if (!dias) return { dias: 0, id: '', titulo: '', texto: 'O reforço ainda não tem fala.' };
+  const ordem = GRUPOS.filter(id => vistos.has(id));
+  if (!ordem.length) return { dias, id: '', titulo: '', texto: 'O reforço ainda não tem grupo.' };
+  let escolhido = null;
+  let cat = '';
+  for (const id of ordem) {
+    const achado = lista.find(t => t.categoria === id && livre(t));
+    if (achado) {
+      escolhido = achado;
+      cat = id;
+      break;
+    }
+  }
+  if (!escolhido) return { dias, id: '', titulo: '', texto: 'O reforço já cobriu os grupos da fala.' };
+  const nome = NOME_REFORCO[cat] || cat;
+  const artigo = ARTIGO_REFORCO[cat] || 'em';
+  const subtitulo = String(escolhido.sub || '').replace(/\.$/, '');
+  return {
+    dias,
+    id: escolhido.id,
+    titulo: escolhido.titulo,
+    texto: `Reforce ${artigo} ${nome} com ${escolhido.titulo}. ${subtitulo}.`
+  };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

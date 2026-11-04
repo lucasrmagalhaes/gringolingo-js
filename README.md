@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-706%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-710%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -485,6 +485,10 @@ navegador.
 - **O vacuum**: a limpeza devolve o espaço.
 - **O freeze**: a linha antiga fica para leitura.
 - **A prática**: no hub, o próximo treino para praticar, com atalho para começar.
+- **O bitmap**: o mapa marca o bit da chave.
+- **O roaring**: os bits iguais viram um intervalo.
+- **O hyper**: a conta estima itens distintos.
+- **O reforço**: no hub, o próximo treino do grupo que você já falou, com atalho para começar.
 
 ### Hábito e gamificação
 
@@ -657,6 +661,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/merkle.js` | Merkle que sela as folhas, radix que corta o prefixo e trie que guarda a palavra. |
 | `js/gossip.js` | Gossip que troca o estado, phi que sobe a suspeita e accrual que soma a falha. |
 | `js/hint.js` | Hint que aponta a linha, vacuum que devolve o espaço e freeze que deixa a linha antiga para leitura. |
+| `js/bitmap.js` | Bitmap que marca o bit, roaring que junta o intervalo e hyper que estima os distintos. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -738,7 +743,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **706 testes em 155 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **710 testes em 156 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -872,6 +877,7 @@ O que a suíte cobre:
 - **`tests/merkle.test.js`**: merkle, radix, trie, o fecho da fala e a versão 2.98.
 - **`tests/gossip.test.js`**: gossip, phi, accrual, a ausência da fala e a versão 2.99.
 - **`tests/hint.test.js`**: hint, vacuum, freeze, a prática do próximo treino e a versão 3.00.
+- **`tests/bitmap.test.js`**: bitmap, roaring, hyper, o reforço do grupo já falado e a versão 3.01.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

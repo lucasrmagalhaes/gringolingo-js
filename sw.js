@@ -1,4 +1,4 @@
-const VERSAO = 'gringolingo-v127';
+const VERSAO = 'gringolingo-v128';
 
 const ESSENCIAIS = [
   './',
@@ -127,6 +127,7 @@ const ESSENCIAIS = [
   './js/merkle.js',
   './js/gossip.js',
   './js/hint.js',
+  './js/bitmap.js',
   './js/util.js',
   './js/vocabulario.js',
   './js/voz.js'
