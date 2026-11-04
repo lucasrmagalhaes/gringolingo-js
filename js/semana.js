@@ -1281,6 +1281,38 @@ export function textoDaVirada(painel, diaIso) {
   return { dias, meses, texto: `A virada cobre ${meses} meses.` };
 }
 
+function semanaIso(iso) {
+  const [ano, mes, dia] = String(iso).split('-').map(Number);
+  const data = new Date(Date.UTC(ano, mes - 1, dia));
+  const diaSemana = data.getUTCDay() || 7;
+  data.setUTCDate(data.getUTCDate() + 4 - diaSemana);
+  const anoIso = data.getUTCFullYear();
+  const inicio = new Date(Date.UTC(anoIso, 0, 1));
+  const semana = Math.ceil((((data - inicio) / 86400000) + 1) / 7);
+  return `${anoIso}-${String(semana).padStart(2, '0')}`;
+}
+
+export function textoDaFaixa(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, semanas: 0, texto: 'Ainda não há faixa de semanas.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  const vistos = new Set();
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    vistos.add(semanaIso(data));
+  }
+  const semanas = vistos.size;
+  if (dias === 0) return { dias: 0, semanas: 0, texto: 'A faixa ainda cobre 0 semanas.' };
+  if (semanas === 1) return { dias, semanas, texto: 'A faixa cobre 1 semana.' };
+  return { dias, semanas, texto: `A faixa cobre ${semanas} semanas.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

@@ -89,6 +89,7 @@ import { WALS, LSNS, CHECKPOINTS } from './wal.js';
 import { NONCES, HMACS, ENVELOPES } from './nonce.js';
 import { LEASES, RENOVACOES, VENCIMENTOS } from './lease.js';
 import { OUTBOXES, INBOXES, RELAYS } from './outbox.js';
+import { OFFSETS, LAGS, ACKS } from './offset.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -630,6 +631,9 @@ export function catalogoFaladas() {
     { origem: 'Outbox', itens: OUTBOXES },
     { origem: 'Inbox', itens: INBOXES },
     { origem: 'Relay', itens: RELAYS },
+    { origem: 'Offset', itens: OFFSETS },
+    { origem: 'Lag', itens: LAGS },
+    { origem: 'Ack', itens: ACKS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },
