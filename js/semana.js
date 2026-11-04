@@ -344,6 +344,38 @@ export function textoDaUltima(painel, diaIso) {
   return { dias: null, texto: 'Ainda não há fala registrada.' };
 }
 
+function dataValida(iso) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(String(iso || ''));
+}
+
+function diasEntreIso(inicio, fim) {
+  const a = String(inicio).split('-').map(Number);
+  const b = String(fim).split('-').map(Number);
+  const da = new Date(a[0], a[1] - 1, a[2]);
+  const db = new Date(b[0], b[1] - 1, b[2]);
+  return Math.round((db.getTime() - da.getTime()) / 86400000);
+}
+
+export function textoDaPrimeira(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, texto: 'Ainda não há primeira fala.' };
+  let primeira = '';
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const segundos = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && segundos <= 0) continue;
+    if (!primeira || data < primeira) primeira = data;
+  }
+  if (!primeira) return { dias: null, texto: 'Ainda não há primeira fala.' };
+  const dias = diasEntreIso(primeira, fim);
+  if (dias <= 0) return { dias: 0, texto: 'A primeira fala foi hoje.' };
+  if (dias === 1) return { dias: 1, texto: 'A primeira fala foi ontem.' };
+  return { dias, texto: `A primeira fala foi há ${dias} dias.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

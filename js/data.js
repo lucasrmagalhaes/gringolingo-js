@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.55';
+export const VERSAO_APP = '2.56';
 
 export const NOVIDADES = [
+  {
+    versao: '2.56',
+    titulo: 'O gotejo',
+    itens: [
+      '💧 Diga que a memória continua crescendo',
+      '🥶 Avise que a função acordou de uma partida fria',
+      '🔐 Diga que a permissão recusou a leitura',
+      '📝 Veja no hub quando foi a primeira fala'
+    ]
+  },
   {
     versao: '2.55',
     titulo: 'O inodo',
@@ -1478,6 +1488,9 @@ export const MISSOES = [
   { id: 'inodo1', emoji: '📛', titulo: 'Fale dos nomes que acabaram', alvo: 1, xp: 15, medir: s => (s.tipo === 'inodo' ? 1 : 0) },
   { id: 'saida1', emoji: '🛎️', titulo: 'Encerre o serviço com calma', alvo: 1, xp: 15, medir: s => (s.tipo === 'saida' ? 1 : 0) },
   { id: 'manada1', emoji: '🐑', titulo: 'Segure o cache que venceu junto', alvo: 1, xp: 15, medir: s => (s.tipo === 'manada' ? 1 : 0) },
+  { id: 'gotejo1', emoji: '💧', titulo: 'Fale da memória que não devolve', alvo: 1, xp: 15, medir: s => (s.tipo === 'gotejo' ? 1 : 0) },
+  { id: 'frio1', emoji: '🥶', titulo: 'Aqueça a função que dormiu', alvo: 1, xp: 15, medir: s => (s.tipo === 'frio' ? 1 : 0) },
+  { id: 'cadeado1', emoji: '🔐', titulo: 'Libere a leitura do arquivo', alvo: 1, xp: 15, medir: s => (s.tipo === 'cadeado' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1684,6 +1697,9 @@ export const BADGES = [
   { id: 'inodo', emoji: '📛', nome: 'O inodo', desc: 'Diga que os nomes livres acabaram no volume' },
   { id: 'saida', emoji: '🛎️', nome: 'A saída', desc: 'Avise que o serviço recebeu o sinal de parar' },
   { id: 'manada', emoji: '🐑', nome: 'A manada', desc: 'Diga que o cache venceu e a enxurrada caiu' },
+  { id: 'gotejo', emoji: '💧', nome: 'O gotejo', desc: 'Diga que a memória cresce e nada volta' },
+  { id: 'frio', emoji: '🥶', nome: 'O frio', desc: 'Avise que a função acordou de uma partida fria' },
+  { id: 'cadeado', emoji: '🔐', nome: 'O cadeado', desc: 'Diga que a permissão recusou a leitura' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
