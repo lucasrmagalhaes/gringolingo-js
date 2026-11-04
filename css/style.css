@@ -531,6 +531,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-pordia {
+  margin: 8px 0 12px;
+}
+
+.fala-pordia .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -888,6 +896,7 @@ button.conta-entrar {
 }
 
 .btn-som {
+  min-height: 44px;
   background: var(--azul);
   border: none;
   color: #fff;

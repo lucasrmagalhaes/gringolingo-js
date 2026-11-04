@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.62';
+export const VERSAO_APP = '2.63';
 
 export const NOVIDADES = [
+  {
+    versao: '2.63',
+    titulo: 'O segredo',
+    itens: [
+      '🕵️ Diga que a chave secreta apareceu no log',
+      '👻 Avise que a segunda leitura viu uma linha nova',
+      '🔣 Diga que o contador voltou para zero',
+      '📝 Veja no hub a média de minutos por dia com fala'
+    ]
+  },
   {
     versao: '2.62',
     titulo: 'A corrida',
@@ -1569,6 +1579,9 @@ export const MISSOES = [
   { id: 'corrida1', emoji: '🏎️', titulo: 'Separe as duas escritas do saldo', alvo: 1, xp: 15, medir: s => (s.tipo === 'corrida' ? 1 : 0) },
   { id: 'indice1', emoji: '📇', titulo: 'Crie o índice que faltou', alvo: 1, xp: 15, medir: s => (s.tipo === 'indice' ? 1 : 0) },
   { id: 'percentil1', emoji: '📐', titulo: 'Meça o percentil das chamadas', alvo: 1, xp: 15, medir: s => (s.tipo === 'percentil' ? 1 : 0) },
+  { id: 'segredo1', emoji: '🕵️', titulo: 'Tire o segredo do log', alvo: 1, xp: 15, medir: s => (s.tipo === 'segredo' ? 1 : 0) },
+  { id: 'fantasma1', emoji: '👻', titulo: 'Isole a leitura fantasma', alvo: 1, xp: 15, medir: s => (s.tipo === 'fantasma' ? 1 : 0) },
+  { id: 'inteiro1', emoji: '🔣', titulo: 'Segure o contador no limite', alvo: 1, xp: 15, medir: s => (s.tipo === 'inteiro' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1796,6 +1809,9 @@ export const BADGES = [
   { id: 'corrida', emoji: '🏎️', nome: 'A corrida', desc: 'Diga que dois pedidos gravaram o mesmo saldo' },
   { id: 'indice', emoji: '📇', nome: 'O índice', desc: 'Avise que a busca leu cada linha sem índice' },
   { id: 'percentil', emoji: '📐', nome: 'O percentil', desc: 'Diga que noventa e nove por cento das chamadas cabem' },
+  { id: 'segredo', emoji: '🕵️', nome: 'O segredo', desc: 'Diga que a chave secreta apareceu no log' },
+  { id: 'fantasma', emoji: '👻', nome: 'O fantasma', desc: 'Avise que a segunda leitura viu uma linha nova' },
+  { id: 'inteiro', emoji: '🔣', nome: 'O inteiro', desc: 'Diga que o contador voltou para zero' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

@@ -213,7 +213,10 @@ const BRUTOS = [
   ['vagao', 'trabalho', '🚃', 'O vagão', 'O leitor ficou mil mensagens atrás do fim publicado.', 'vagoes', 'consumer lag thousand messages'],
   ['corrida', 'trabalho', '🏎️', 'A corrida', 'Dois pedidos gravaram o mesmo saldo ao mesmo tempo.', 'corridas', 'race condition two writes balance'],
   ['indice', 'trabalho', '📇', 'O índice', 'A busca leu cada linha porque o índice da coluna faltou.', 'indices', 'missing index full scan column'],
-  ['percentil', 'trabalho', '📐', 'O percentil', 'Noventa e nove por cento das chamadas cabem em duzentos milissegundos.', 'percentis', 'latency percentile two hundred milliseconds']
+  ['percentil', 'trabalho', '📐', 'O percentil', 'Noventa e nove por cento das chamadas cabem em duzentos milissegundos.', 'percentis', 'latency percentile two hundred milliseconds'],
+  ['segredo', 'trabalho', '🕵️', 'O segredo', 'A chave secreta apareceu no log e qualquer pessoa leu.', 'segredos', 'secret leaked log key'],
+  ['fantasma', 'trabalho', '👻', 'O fantasma', 'A segunda leitura viu uma linha que a primeira não tinha.', 'fantasmas', 'phantom read second row missing'],
+  ['inteiro', 'trabalho', '🔣', 'O inteiro', 'O contador passou do limite e voltou para zero.', 'inteiros', 'integer overflow counter wraps zero']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -448,7 +451,7 @@ export function textoDoContinuar(treino) {
   return `Continuar: ${treino.titulo}.`;
 }
 
-const TETO_JS = 1600000;
+const TETO_JS = 1630000;
 
 export function auditarPacote({ html, css, sw, arquivos } = {}) {
   const falhas = [];

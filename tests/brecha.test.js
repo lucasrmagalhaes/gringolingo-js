@@ -323,7 +323,7 @@ describe('falha, mudança, chimarrão e a descoberta', () => {
     assert.deepEqual(estado.estrelas, ['brecha']);
     const backup = exportarEstado('2.35');
     backup.estado.estrelas = ['brecha', 'nao', 'brecha', ...TREINOS.map(t => t.id)];
-    backup.estado.treinoAberto = 'fantasma';
+    backup.estado.treinoAberto = 'nao-existe';
     backup.estado.ordemHub = 'menos';
     importarEstado(backup, 'substituir');
     assert.equal(estado.estrelas.length, 80);

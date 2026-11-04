@@ -57,6 +57,7 @@ import { RESERVAS, VARREDURAS, PORTAS } from './reserva.js';
 import { INODOS, SAIDAS, MANADAS } from './inodo.js';
 import { GOTEJOS, FRIOS, CADEADOS } from './gotejo.js';
 import { COTAS, CICLOS, ZUMBIS } from './cota.js';
+import { SEGREDOS, FANTASMAS, INTEIROS } from './segredo.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -502,6 +503,9 @@ export function catalogoFaladas() {
   cacheFaladas = coletarFaladas([
     { origem: 'Corrida', itens: CORRIDAS },
     { origem: 'Índice', itens: INDICES },
+    { origem: 'Segredo', itens: SEGREDOS },
+    { origem: 'Fantasma', itens: FANTASMAS },
+    { origem: 'Inteiro', itens: INTEIROS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },
