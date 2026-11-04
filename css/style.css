@@ -611,6 +611,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-meio {
+  margin: 8px 0 12px;
+}
+
+.fala-meio .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -3534,6 +3542,7 @@ button.caixa-treinavel:hover {
 }
 
 .conversa-atalho {
+  min-height: 44px;
   border-color: color-mix(in srgb, var(--roxo) 45%, var(--borda));
 }
 
