@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.06';
+export const VERSAO_APP = '3.07';
 
 export const NOVIDADES = [
+  {
+    versao: '3.07',
+    titulo: 'O checksum',
+    itens: [
+      '🧾 Diga que a soma confere o bloco inteiro',
+      '🛡️ Avise que a parede isola o excesso',
+      '🛟 Diga que o plano reserva entra no lugar',
+      '🗣️ Ouça no hub a frase curta do dia e repita'
+    ]
+  },
   {
     versao: '3.06',
     titulo: 'O witness',
@@ -2141,6 +2151,9 @@ export const MISSOES = [
   { id: 'witness1', emoji: '👁️', titulo: 'Diga que a testemunha viu o acordo', alvo: 1, xp: 15, medir: s => (s.tipo === 'witness' ? 1 : 0) },
   { id: 'voter1', emoji: '🗳️', titulo: 'Lance o voto na contagem final', alvo: 1, xp: 15, medir: s => (s.tipo === 'voter' ? 1 : 0) },
   { id: 'learner1', emoji: '🎓', titulo: 'Escute só o grupo que aprende', alvo: 1, xp: 15, medir: s => (s.tipo === 'learner' ? 1 : 0) },
+  { id: 'checksum1', emoji: '🧾', titulo: 'Confira o bloco inteiro na soma', alvo: 1, xp: 15, medir: s => (s.tipo === 'checksum' ? 1 : 0) },
+  { id: 'bulkhead1', emoji: '🛡️', titulo: 'Isole o excesso com a parede', alvo: 1, xp: 15, medir: s => (s.tipo === 'bulkhead' ? 1 : 0) },
+  { id: 'fallback1', emoji: '🛟', titulo: 'Deixe o plano reserva entrar no lugar', alvo: 1, xp: 15, medir: s => (s.tipo === 'fallback' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2500,6 +2513,9 @@ export const BADGES = [
   { id: 'witness', emoji: '👁️', nome: 'O witness', desc: 'Diga que a testemunha viu o acordo fechado' },
   { id: 'voter', emoji: '🗳️', nome: 'O voter', desc: 'Diga que o voto entra na contagem final' },
   { id: 'learner', emoji: '🎓', nome: 'O learner', desc: 'Diga que quem aprende só escuta o grupo' },
+  { id: 'checksum', emoji: '🧾', nome: 'O checksum', desc: 'Diga que a soma confere o bloco inteiro' },
+  { id: 'bulkhead', emoji: '🛡️', nome: 'O bulkhead', desc: 'Diga que a parede isola o excesso' },
+  { id: 'fallback', emoji: '🛟', nome: 'O fallback', desc: 'Diga que o plano reserva entra no lugar' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

@@ -101,6 +101,7 @@ import { VECTORS, DOTS, CAUSALS } from './vector.js';
 import { SHARDS, REBALANCES, SPLITS } from './shard.js';
 import { WATERMARKS, BARRIERS, ALIGNS } from './watermark.js';
 import { WITNESSES, VOTERS, LEARNERS } from './witness.js';
+import { CHECKSUMS, BULKHEADS, FALLBACKS } from './checksum.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -678,6 +679,9 @@ export function catalogoFaladas() {
     { origem: 'Witness', itens: WITNESSES },
     { origem: 'Voter', itens: VOTERS },
     { origem: 'Learner', itens: LEARNERS },
+    { origem: 'Checksum', itens: CHECKSUMS },
+    { origem: 'Bulkhead', itens: BULKHEADS },
+    { origem: 'Fallback', itens: FALLBACKS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },
