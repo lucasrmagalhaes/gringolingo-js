@@ -376,6 +376,31 @@ export function textoDaPrimeira(painel, diaIso) {
   return { dias, texto: `A primeira fala foi há ${dias} dias.` };
 }
 
+export function textoDoHiato(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, texto: 'Ainda não há hiato entre falas.' };
+  const datas = [];
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const segundos = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && segundos <= 0) continue;
+    datas.push(data);
+  }
+  datas.sort();
+  if (datas.length < 2) return { dias: null, texto: 'Ainda não há hiato entre falas.' };
+  let maior = 0;
+  for (let i = 1; i < datas.length; i++) {
+    const vazio = diasEntreIso(datas[i - 1], datas[i]) - 1;
+    if (vazio > maior) maior = vazio;
+  }
+  if (maior <= 0) return { dias: 0, texto: 'As falas seguem sem dia no meio.' };
+  if (maior === 1) return { dias: 1, texto: 'O maior hiato foi de 1 dia.' };
+  return { dias: maior, texto: `O maior hiato foi de ${maior} dias.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

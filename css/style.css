@@ -483,6 +483,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-hiato {
+  margin: 8px 0 12px;
+}
+
+.fala-hiato .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -2256,6 +2264,12 @@ textarea.entrada {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+}
+
+.instalar-botoes > .btn,
+.instalar-card > .btn {
+  min-height: 44px;
+  min-width: 44px;
 }
 
 .aviso-fala {
