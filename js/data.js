@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.69';
+export const VERSAO_APP = '2.70';
 
 export const NOVIDADES = [
+  {
+    versao: '2.70',
+    titulo: 'O disjuntor',
+    itens: [
+      '🛑 Diga que o disjuntor abriu depois de cinco falhas',
+      '🔑 Avise que o aluguel venceu depois de trinta segundos',
+      '💓 Diga que o nó perdeu três pulsos',
+      '📝 Veja no hub o maior dia de treinos'
+    ]
+  },
   {
     versao: '2.69',
     titulo: 'A espera',
@@ -1660,6 +1670,9 @@ export const MISSOES = [
   { id: 'espera1', emoji: '⏲️', titulo: 'Corte a espera longa', alvo: 1, xp: 15, medir: s => (s.tipo === 'espera' ? 1 : 0) },
   { id: 'cursor1', emoji: '🔖', titulo: 'Marque o lugar da página', alvo: 1, xp: 15, medir: s => (s.tipo === 'cursor' ? 1 : 0) },
   { id: 'fila1', emoji: '📥', titulo: 'Esvazie a fila parada', alvo: 1, xp: 15, medir: s => (s.tipo === 'fila' ? 1 : 0) },
+  { id: 'disjuntor1', emoji: '🛑', titulo: 'Feche o disjuntor aberto', alvo: 1, xp: 15, medir: s => (s.tipo === 'disjuntor' ? 1 : 0) },
+  { id: 'aluguel1', emoji: '🔑', titulo: 'Renove o aluguel vencido', alvo: 1, xp: 15, medir: s => (s.tipo === 'aluguel' ? 1 : 0) },
+  { id: 'pulso1', emoji: '💓', titulo: 'Conte os pulsos perdidos', alvo: 1, xp: 15, medir: s => (s.tipo === 'pulso' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1908,6 +1921,9 @@ export const BADGES = [
   { id: 'espera', emoji: '⏲️', nome: 'A espera', desc: 'Diga que a chamada parou depois de três segundos' },
   { id: 'cursor', emoji: '🔖', nome: 'O cursor', desc: 'Avise que a página seguinte perdeu o lugar' },
   { id: 'fila', emoji: '📥', nome: 'A fila', desc: 'Diga que a fila passou de mil mensagens' },
+  { id: 'disjuntor', emoji: '🛑', nome: 'O disjuntor', desc: 'Diga que o disjuntor abriu depois de cinco falhas' },
+  { id: 'aluguel', emoji: '🔑', nome: 'O aluguel', desc: 'Avise que o aluguel venceu depois de trinta segundos' },
+  { id: 'pulso', emoji: '💓', nome: 'O pulso', desc: 'Diga que o nó perdeu três pulsos' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
