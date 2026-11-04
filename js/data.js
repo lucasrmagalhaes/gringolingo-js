@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.11';
+export const VERSAO_APP = '3.12';
 
 export const NOVIDADES = [
+  {
+    versao: '3.12',
+    titulo: 'O flush',
+    itens: [
+      '🚰 Diga que o flush desce a memória',
+      '📥 Avise que a memtable guarda a linha',
+      '📚 Diga que o extent junta as páginas',
+      '🔢 Ouça no hub o número do dia'
+    ]
+  },
   {
     versao: '3.11',
     titulo: 'O epoch',
@@ -2206,6 +2216,9 @@ export const MISSOES = [
   { id: 'epoch1', emoji: '🌅', titulo: 'Abra o termo no epoch', alvo: 1, xp: 15, medir: s => (s.tipo === 'epoch' ? 1 : 0) },
   { id: 'ballot1', emoji: '🗳️', titulo: 'Conte o voto no ballot', alvo: 1, xp: 15, medir: s => (s.tipo === 'ballot' ? 1 : 0) },
   { id: 'fence1', emoji: '🪵', titulo: 'Segure a escrita na fence', alvo: 1, xp: 15, medir: s => (s.tipo === 'fence' ? 1 : 0) },
+  { id: 'flush1', emoji: '🚰', titulo: 'Desça a memória no flush', alvo: 1, xp: 15, medir: s => (s.tipo === 'flush' ? 1 : 0) },
+  { id: 'memtable1', emoji: '📥', titulo: 'Guarde a linha na memtable', alvo: 1, xp: 15, medir: s => (s.tipo === 'memtable' ? 1 : 0) },
+  { id: 'extent1', emoji: '📚', titulo: 'Junte a página no extent', alvo: 1, xp: 15, medir: s => (s.tipo === 'extent' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2580,6 +2593,9 @@ export const BADGES = [
   { id: 'epoch', emoji: '🌅', nome: 'O epoch', desc: 'Diga que o epoch abre o termo' },
   { id: 'ballot', emoji: '🗳️', nome: 'O ballot', desc: 'Diga que o ballot conta o voto' },
   { id: 'fence', emoji: '🪵', nome: 'A fence', desc: 'Diga que a fence segura a escrita' },
+  { id: 'flush', emoji: '🚰', nome: 'O flush', desc: 'Diga que o flush desce a memória' },
+  { id: 'memtable', emoji: '📥', nome: 'A memtable', desc: 'Diga que a memtable guarda a linha' },
+  { id: 'extent', emoji: '📚', nome: 'O extent', desc: 'Diga que o extent junta as páginas' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
