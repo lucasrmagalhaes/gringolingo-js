@@ -717,6 +717,27 @@ export function textoDoMaior(painel, diaIso) {
   return { dias, maior, texto: `O maior dia teve ${maior} treinos.` };
 }
 
+export function textoDoMenor(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, menor: 0, texto: 'Ainda não há menor dia de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let dias = 0;
+  let menor = null;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    if (menor === null || treinos < menor) menor = treinos;
+  }
+  if (dias === 0) return { dias: 0, menor: 0, texto: 'O menor dia ainda é 0 treinos.' };
+  if (menor <= 0) return { dias, menor: 0, texto: 'O menor dia ficou abaixo de 1 treino.' };
+  if (menor === 1) return { dias, menor: 1, texto: 'O menor dia teve 1 treino.' };
+  return { dias, menor, texto: `O menor dia teve ${menor} treinos.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
