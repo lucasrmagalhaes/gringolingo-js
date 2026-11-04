@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-654%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-658%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -273,8 +273,8 @@ navegador.
 - **O grupo**: no hub, o grupo com menos prática, com atalho para filtrar.
 - **O squash**: três commits viram um só antes do merge.
 - **O circuito**: o circuito abre depois de cinco erros.
-- **O job**: o job roda às três da manhã e falhou quatro noites.
-- **A colheita**: um commit sobe sozinho e os outros ficam para trás.
+- **O job**: o job roda às três da manhã.
+- **A colheita**: um commit sobe sozinho.
 - **A sessão**: a sessão acaba depois de oito horas.
 - **O tanque**: o tanque enche com vinte conexões.
 - **A sonda**: a sonda falhou duas vezes e a gente olha de novo.
@@ -319,7 +319,7 @@ navegador.
 - **O costume**: no hub, o dia da semana em que a fala mais aparece, com atalho para a semana.
 - **O datagrama**: dois datagramas sumiram antes de chegar.
 - **O passe**: o passe curto venceu.
-- **O carimbo**: o carimbo da linha mudou e a gravação foi recusada.
+- **O carimbo**: o carimbo da linha mudou.
 - **A marca**: no hub, a maior sequência seguida de fala, com atalho para a semana.
 - **A pilha**: a pilha de chamadas cresceu sem fundo.
 - **O cano**: a outra ponta fechou o cano.
@@ -433,6 +433,10 @@ navegador.
 - **O instantâneo**: a consulta olha o banco parado na abertura.
 - **O serial**: o resultado cabe numa ordem só de transações.
 - **O grão**: no hub, a média de segundos de fala por dia, com atalho para a semana.
+- **A fome**: a tarefa espera e nunca ganha a vez.
+- **A inversão**: a tarefa baixa segura o recurso da alta.
+- **A idade**: a espera longa sobe a prioridade.
+- **O curto**: no hub, o dia de fala com menos segundos, com atalho para a semana.
 
 ### Hábito e gamificação
 
@@ -592,6 +596,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/rumor.js` | Rumor que espalha o estado, reparo que conserta na leitura e deixa que guarda a escrita. |
 | `js/floco.js` | Floco que nasce do tempo, época que sobe com a formação e vetor que anota a visão. |
 | `js/sujeira.js` | Sujeira que lê o valor aberto, instantâneo que congela o banco e serial que cabe numa ordem. |
+| `js/fome.js` | Fome que espera sem ganhar a vez, inversão que segura o recurso e idade que sobe a prioridade. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -673,7 +678,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **654 testes em 142 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **658 testes em 143 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -794,6 +799,7 @@ O que a suíte cobre:
 - **`tests/rumor.test.js`**: rumor, reparo, deixa, a sobra fora do dia mais longo e a versão 2.85.
 - **`tests/floco.test.js`**: floco, época, vetor, o resto dos segundos de fala e a versão 2.86.
 - **`tests/sujeira.test.js`**: sujeira, instantâneo, serial, o grão dos segundos de fala e a versão 2.87.
+- **`tests/fome.test.js`**: fome, inversão, idade, o curto dos segundos de fala e a versão 2.88.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

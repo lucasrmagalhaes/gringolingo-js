@@ -734,6 +734,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-curto {
+  margin: 8px 0 12px;
+}
+
+.fala-curto .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -2521,6 +2529,7 @@ textarea.entrada {
 }
 
 .faixa-offline {
+  min-height: 44px;
   background: var(--laranja);
   color: var(--sobre-cor);
   border-radius: 14px;
