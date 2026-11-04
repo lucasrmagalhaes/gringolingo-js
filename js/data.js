@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.92';
+export const VERSAO_APP = '2.93';
 
 export const NOVIDADES = [
+  {
+    versao: '2.93',
+    titulo: 'O lease',
+    itens: [
+      '🔑 Diga que a trava alugada vale por um tempo',
+      '🔄 Avise que a trava ganha tempo antes de cair',
+      '⌛ Diga que a trava solta quando o tempo acaba',
+      '📝 Veja no hub o turno dos dias úteis'
+    ]
+  },
   {
     versao: '2.92',
     titulo: 'O nonce',
@@ -1959,6 +1969,9 @@ export const MISSOES = [
   { id: 'nonce1', emoji: '🎲', titulo: 'Use o número uma vez e não deixe voltar', alvo: 1, xp: 15, medir: s => (s.tipo === 'nonce' ? 1 : 0) },
   { id: 'hmac1', emoji: '🏷️', titulo: 'Confira a mensagem com o selo e a chave', alvo: 1, xp: 15, medir: s => (s.tipo === 'hmac' ? 1 : 0) },
   { id: 'envelope1', emoji: '✉️', titulo: 'Leve a chave dentro de outra chave', alvo: 1, xp: 15, medir: s => (s.tipo === 'envelope' ? 1 : 0) },
+  { id: 'lease1', emoji: '🔑', titulo: 'Alugue a trava por um tempo curto', alvo: 1, xp: 15, medir: s => (s.tipo === 'lease' ? 1 : 0) },
+  { id: 'renova1', emoji: '🔄', titulo: 'Ganhe tempo na trava antes de cair', alvo: 1, xp: 15, medir: s => (s.tipo === 'renovacao' ? 1 : 0) },
+  { id: 'vence1', emoji: '⌛', titulo: 'Solte a trava quando o tempo acaba', alvo: 1, xp: 15, medir: s => (s.tipo === 'vencimento' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2276,6 +2289,9 @@ export const BADGES = [
   { id: 'nonce', emoji: '🎲', nome: 'O nonce', desc: 'Diga que o número entra uma vez e não volta' },
   { id: 'hmac', emoji: '🏷️', nome: 'O hmac', desc: 'Diga que o selo confere a mensagem e a chave' },
   { id: 'envelope', emoji: '✉️', nome: 'O envelope', desc: 'Diga que a chave viaja dentro de outra chave' },
+  { id: 'lease', emoji: '🔑', nome: 'O lease', desc: 'Diga que a trava alugada vale por um tempo' },
+  { id: 'renovacao', emoji: '🔄', nome: 'A renovação', desc: 'Diga que a trava ganha tempo antes de cair' },
+  { id: 'vencimento', emoji: '⌛', nome: 'O vencimento', desc: 'Diga que a trava solta quando o tempo acaba' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

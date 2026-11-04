@@ -87,6 +87,7 @@ import { SIDECARS, EMBAIXADORES, ADAPTADORES } from './sidecar.js';
 import { BIZANTINOS, PARTICOES, GENERAIS } from './bizantino.js';
 import { WALS, LSNS, CHECKPOINTS } from './wal.js';
 import { NONCES, HMACS, ENVELOPES } from './nonce.js';
+import { LEASES, RENOVACOES, VENCIMENTOS } from './lease.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -622,6 +623,9 @@ export function catalogoFaladas() {
     { origem: 'Nonce', itens: NONCES },
     { origem: 'Hmac', itens: HMACS },
     { origem: 'Envelope', itens: ENVELOPES },
+    { origem: 'Lease', itens: LEASES },
+    { origem: 'Renovação', itens: RENOVACOES },
+    { origem: 'Vencimento', itens: VENCIMENTOS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

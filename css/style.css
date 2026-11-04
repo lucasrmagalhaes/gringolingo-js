@@ -774,6 +774,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-turno {
+  margin: 8px 0 12px;
+}
+
+.fala-turno .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -2054,6 +2062,12 @@ textarea.entrada {
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M18 6L6 18M6 6l12 12' stroke='black' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") center/12px no-repeat, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
+}
+
+input.busca-dic::-webkit-search-cancel-button {
+  min-height: 44px;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .busca-dic::-webkit-search-cancel-button {
