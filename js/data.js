@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.03';
+export const VERSAO_APP = '3.04';
 
 export const NOVIDADES = [
+  {
+    versao: '3.04',
+    titulo: 'O shard',
+    itens: [
+      '🧩 Diga que o pedaço guarda uma parte da chave',
+      '⚖️ Avise que as partes trocam de lugar',
+      '🪓 Diga que a parte grande vira duas',
+      '📝 Diga de novo no hub a frase de fala que já venceu'
+    ]
+  },
   {
     versao: '3.03',
     titulo: 'O vector',
@@ -2102,6 +2112,9 @@ export const MISSOES = [
   { id: 'vector1', emoji: '🧭', titulo: 'Marque os fatos no relógio do vector', alvo: 1, xp: 15, medir: s => (s.tipo === 'vector' ? 1 : 0) },
   { id: 'dot1', emoji: '⚫', titulo: 'Nomeie a escrita com um ponto', alvo: 1, xp: 15, medir: s => (s.tipo === 'dot' ? 1 : 0) },
   { id: 'causal1', emoji: '🔗', titulo: 'Deixe a causa chegar antes do efeito', alvo: 1, xp: 15, medir: s => (s.tipo === 'causal' ? 1 : 0) },
+  { id: 'shard1', emoji: '🧩', titulo: 'Guarde uma parte da chave no pedaço', alvo: 1, xp: 15, medir: s => (s.tipo === 'shard' ? 1 : 0) },
+  { id: 'rebalance1', emoji: '⚖️', titulo: 'Mova a carga para outra parte', alvo: 1, xp: 15, medir: s => (s.tipo === 'rebalance' ? 1 : 0) },
+  { id: 'split1', emoji: '🪓', titulo: 'Divida a parte cheia em duas', alvo: 1, xp: 15, medir: s => (s.tipo === 'split' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2452,6 +2465,9 @@ export const BADGES = [
   { id: 'vector', emoji: '🧭', nome: 'O vector', desc: 'Diga que cada nó guarda o próprio relógio' },
   { id: 'dot', emoji: '⚫', nome: 'O dot', desc: 'Diga que o ponto nomeia uma escrita' },
   { id: 'causal', emoji: '🔗', nome: 'O causal', desc: 'Diga que a causa chega antes do efeito' },
+  { id: 'shard', emoji: '🧩', nome: 'O shard', desc: 'Diga que o pedaço guarda uma parte da chave' },
+  { id: 'rebalance', emoji: '⚖️', nome: 'O rebalance', desc: 'Diga que as partes trocam de lugar' },
+  { id: 'split', emoji: '🪓', nome: 'O split', desc: 'Diga que a parte grande vira duas' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

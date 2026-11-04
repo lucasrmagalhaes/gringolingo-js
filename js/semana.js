@@ -1593,6 +1593,36 @@ export function textoDaVez(treinos, estrelas, stats) {
   return { id: escolhido.id, titulo: escolhido.titulo, texto };
 }
 
+function fraseDeRetorno(en) {
+  const texto = String(en || '').trim();
+  if (texto.length < 8 || texto.length > 120) return false;
+  if (texto === '__proto__' || texto === 'constructor' || texto === 'prototype') return false;
+  return texto.split(/\s+/).length >= 2;
+}
+
+export function textoDoRetorno(agenda, diaIso, erros) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { id: '', en: '', texto: 'Ainda não há retorno de fala.' };
+  const fonte = agenda && typeof agenda === 'object' && !Array.isArray(agenda) ? agenda : {};
+  const freq = new Map();
+  for (const item of (Array.isArray(erros) ? erros : [])) {
+    if (!item || typeof item.en !== 'string') continue;
+    freq.set(item.en, Number(item.n) || 0);
+  }
+  const chaves = Object.keys(fonte).filter(en => fraseDeRetorno(en) && fonte[en] && typeof fonte[en] === 'object');
+  if (!chaves.length) return { id: '', en: '', texto: 'O retorno ainda não tem frase.' };
+  const devidos = chaves
+    .filter(en => {
+      const proxima = String(fonte[en].proxima || '');
+      return dataValida(proxima) && proxima <= fim;
+    })
+    .map(en => ({ en, proxima: String(fonte[en].proxima), n: freq.get(en) || 0 }))
+    .sort((a, b) => b.n - a.n || a.proxima.localeCompare(b.proxima) || a.en.localeCompare(b.en));
+  if (!devidos.length) return { id: '', en: '', texto: 'O retorno espera a próxima frase.' };
+  const frase = devidos[0].en.replace(/\.$/, '');
+  return { id: 'deslize', en: devidos[0].en, texto: `O retorno pede ${frase}.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
