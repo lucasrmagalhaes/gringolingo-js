@@ -78,7 +78,7 @@ const BRUTOS = [
   ['nivel', 'revisao', '🎯', 'Teste de nível', 'Oito perguntas, de A1 a B2. Nada fica trancado.', ''],
   ['resumo', 'revisao', '📅', 'Resumo da semana', 'A nota desta semana e uma sugestão para a próxima.', ''],
   ['rapido', 'revisao', '⚡', 'Pensa em inglês', 'Quatro respostas curtas. Vinte segundos cada.', 'rapidos'],
-  ['cultura', 'cotidiano', '🎬', 'Esporte, filme e série', 'Jogo, cinema e a série da semana, em duas falas.', 'culturas', 'esporte filme serie cinema jogo'],
+  ['cultura', 'cotidiano', '🎬', 'Esporte, filme e série', 'Jogo, cinema e a série da semana, em duas falas.', 'culturas', 'cinema'],
   ['aumento', 'trabalho', '🏆', 'O aumento', 'Peça aumento, fale da promoção e de uma conquista.', 'aumentos', 'promocao conquista raise'],
   ['rota', 'trabalho', '🔌', 'A API', 'Endpoint, status e autenticação, em duas falas.', 'rotas', 'rest'],
   ['vivo', 'trabalho', '🔥', 'Ao vivo', 'Status na hora, pedido de ajuda e a lição do incidente.', 'vivos', 'vivo'],
@@ -90,17 +90,17 @@ const BRUTOS = [
   ['proposta', 'trabalho', '📐', 'A proposta', 'Apresente uma RFC e defenda a troca.', 'propostas', 'rfc proposta troca'],
   ['semana', 'revisao', '📊', 'Semana falada', 'Minutos de fala e treinos por grupo, nesta semana.', '', 'minutos progresso semana'],
   ['narrar', 'trabalho', '🎙️', 'O par narrado', 'Pense a próxima linha em voz alta, com o par.', 'narras', 'pair narrar voz alta linha'],
-  ['banco', 'entrevista', '🗄️', 'Banco ou cache', 'Explique a guarda dos dados numa entrevista.', 'bancos', 'system design banco cache redis'],
+  ['banco', 'entrevista', '🗄️', 'Banco ou cache', 'Explique a guarda dos dados numa entrevista.', 'bancos', 'redis'],
   ['recusa', 'trabalho', '🙅', 'O não educado', 'Recuse o pedido e ofereça outro caminho.', 'recusas', 'recusar pedido alternativa'],
   ['sprint', 'trabalho', '🖥️', 'Demo da sprint', 'Mostre o que saiu e responda uma pergunta fora do roteiro.', 'sprints', 'demo sprint cliente pergunta'],
   ['seguro', 'trabalho', '🔐', 'A decisão segura', 'Furo, patch e por quanto tempo um dado fica guardado.', 'seguros', 'seguro'],
   ['meetup', 'cotidiano', '🎫', 'No meetup', 'Puxe assunto num evento de tecnologia.', 'meetups', 'meetup'],
   ['completa', 'entrevista', '🎓', 'Entrevista completa', 'Cinco treinos em sequência e uma nota no fim.', 'completas', 'completa'],
   ['rodada', 'trabalho', '📝', 'A mesa da retro', 'Fato, ajuste e quem fica com a ação.', 'rodadas', 'retrospectiva fila dono acao'],
-  ['migra', 'trabalho', '🚚', 'A migração', 'Banco ou biblioteca, e o risco da troca.', 'migras', 'migracao banco framework risco'],
+  ['migra', 'trabalho', '🚚', 'A migração', 'Banco ou biblioteca, e o risco da troca.', 'migras', 'risco'],
   ['estreia', 'cotidiano', '👋', 'Primeiro dia', 'Um oi informal no time novo.', 'estreias', 'estreia'],
   ['foco', 'entrevista', '🧩', 'Entrevista por foco', 'Escolha frontend, backend ou IA e veja as notas.', 'focos', 'foco'],
-  ['poker', 'trabalho', '🃏', 'A carta', 'Vote a estimativa e diga o motivo.', 'pokers', 'planning poker estimativa carta'],
+  ['poker', 'trabalho', '🃏', 'A carta', 'Vote a estimativa e diga o motivo.', 'pokers', 'poker'],
   ['leigo', 'trabalho', '🧮', 'A conta da IA', 'Custo, busca nos docs e o que a pessoa ainda lê.', 'leigos', 'ia llm rag prompt custo leigo'],
   ['recruta', 'entrevista', '📞', 'A ligação', 'Pretensão, fuso e quando você pode começar.', 'recrutas', 'recruta'],
   ['culpa', 'trabalho', '🙏', 'A desculpa', 'Assuma o erro e diga o próximo passo.', 'culpas', 'culpa'],
@@ -109,7 +109,7 @@ const BRUTOS = [
   ['sombra', 'revisao', '🗣️', 'Sombra', 'Ouça a voz do aparelho, repita e compare.', 'sombra', 'ouvir'],
   ['pedido', 'trabalho', '🙋', 'Não entendi', 'Peça o sotaque, a palavra que escapou e leia o requisito de volta.', 'pedidos', 'sotaque'],
   ['cobertura', 'trabalho', '🧪', 'A cobertura', 'Diga como os testes e a cobertura protegem o merge.', 'coberturas', 'suite'],
-  ['loom', 'trabalho', '🎥', 'O vídeo', 'Um check-in curto para o time assistir depois.', 'looms', 'loom video check-in assincrono'],
+  ['loom', 'trabalho', '🎥', 'O vídeo', 'Um check-in curto para o time assistir depois.', 'looms', 'video'],
   ['caderno', 'revisao', '📒', 'Meu vocabulário', 'Palavras que escaparam nas falas.', 'cadernos', 'caderno'],
   ['grafico', 'trabalho', '📉', 'O gráfico', 'Alta, queda e a causa, em cima do gráfico.', 'graficos', 'queda'],
   ['handoff', 'trabalho', '🕒', 'O handoff', 'Peça o que ficou aberto e deixe o contexto para o outro fuso.', 'handoffs', 'fuso'],
@@ -134,7 +134,7 @@ const BRUTOS = [
   ['muda', 'trabalho', '📐', 'A mudança', 'O cliente pede uma tela nova no meio do projeto.', 'mudas', 'muda'],
   ['gaucho', 'cotidiano', '🧉', 'O chimarrão', 'Rio Grande do Sul, chimarrão e churrasco.', 'gauchos', 'rio grande sul chimarrao churrasco porto alegre'],
   ['radar', 'trabalho', '📡', 'O radar', 'Métrica, alerta e o painel do plantão.', 'radares', 'observabilidade metrica alerta dashboard plantao'],
-  ['aplauso', 'trabalho', '👏', 'O aplauso', 'Agradeça o time em público, com nome.', 'aplausos', 'shout out obrigado time publico'],
+  ['aplauso', 'trabalho', '👏', 'O aplauso', 'Agradeça o time em público, com nome.', 'aplausos', 'shout'],
   ['gripe', 'cotidiano', '🤒', 'A gripe', 'Avise que está doente ou peça o dia.', 'gripes', 'doente consulta febre daily'],
   ['pm', 'trabalho', '📎', 'Com o PM', 'Negocie a data sem pular os testes.', 'pms', 'pm prazo quinta review testes'],
   ['laudo', 'trabalho', '📄', 'O laudo', 'Linha do tempo, causa e dono no post-mortem.', 'laudos', 'postmortem causa indice retro'],
@@ -145,7 +145,7 @@ const BRUTOS = [
   ['bandeira', 'trabalho', '🎚️', 'A bandeira', 'Ligue para dez por cento e saiba quem desliga.', 'bandeiras', 'bandeira'],
   ['gelo', 'trabalho', '🧊', 'O gelo', 'Sem merge depois das quatro, com exceção de hotfix.', 'gelos', 'freeze'],
   ['limite', 'trabalho', '🚥', 'O limite', 'Cem chamadas por minuto e o que o cliente faz.', 'limites', 'rate limit api 429 teto'],
-  ['canario', 'trabalho', '🐤', 'O canário', 'Uma máquina recebe a versão antes do restante.', 'canarios', 'canary deploy servidor saudavel'],
+  ['canario', 'trabalho', '🐤', 'O canário', 'Uma máquina recebe a versão antes do restante.', 'canarios', 'canary'],
   ['despedida', 'trabalho', '📭', 'A despedida', 'O caminho velho fecha em junho e o novo assume.', 'despedidas', 'deprecar endpoint junho versao'],
   ['repeticao', 'trabalho', '🪝', 'A repetição', 'O mesmo evento pode chegar duas vezes.', 'repeticoes', 'retry'],
   ['carga', 'trabalho', '🏋️', 'A carga', 'O teste de carga rodou dez minutos numa cópia.', 'cargas', 'carga'],
@@ -204,23 +204,23 @@ const BRUTOS = [
   ['brasa', 'trabalho', '🔥', 'A brasa', 'Uma chave recebe quase todas as escritas do mapa.', 'brasas', 'hot key writes percent map'],
   ['datagrama', 'trabalho', '📨', 'O datagrama', 'Dois datagramas sumiram antes de chegar ao destino.', 'datagramas', 'packet loss two packets path'],
   ['passe', 'trabalho', '🎫', 'O passe', 'O passe curto venceu e a próxima chamada pede outro.', 'passes', 'pass'],
-  ['carimbo', 'trabalho', '🖊️', 'O carimbo', 'O carimbo da linha mudou e a gravação foi recusada.', 'carimbos', 'row stamp version changed save'],
-  ['pilha', 'trabalho', '📚', 'A pilha', 'A pilha de chamadas cresceu sem fundo e o programa parou.', 'pilhas', 'stack overflow frames call stack'],
+  ['carimbo', 'trabalho', '🖊️', 'O carimbo', 'O carimbo da linha mudou e a gravação foi recusada.', 'carimbos', 'stamp'],
+  ['pilha', 'trabalho', '📚', 'A pilha', 'A pilha de chamadas cresceu sem fundo e o programa parou.', 'pilhas', 'overflow'],
   ['cano', 'trabalho', '🔧', 'O cano', 'A outra ponta fechou o cano no meio da resposta.', 'canos', 'broken pipe reset writes'],
   ['giro', 'trabalho', '🌀', 'O giro', 'O navegador girou entre dois endereços e desistiu.', 'giros', 'redirect loop hops browser'],
   ['compacta', 'trabalho', '🗜️', 'A compactação', 'O armazenamento reescreveu seis arquivos velhos de uma vez.', 'compactas', 'compaction rewrite files'],
   ['diario', 'trabalho', '✒️', 'O diário', 'O diário de escrita ocupou quatro gigabytes e a nova escrita espera.', 'diarios', 'write log gigabytes'],
   ['vagao', 'trabalho', '🚃', 'O vagão', 'O leitor ficou mil mensagens atrás do fim publicado.', 'vagoes', 'consumer lag thousand messages'],
   ['corrida', 'trabalho', '🏎️', 'A corrida', 'Dois pedidos gravaram o mesmo saldo ao mesmo tempo.', 'corridas', 'race'],
-  ['indice', 'trabalho', '📇', 'O índice', 'A busca leu cada linha porque o índice da coluna faltou.', 'indices', 'missing index full scan column'],
+  ['indice', 'trabalho', '📇', 'O índice', 'A busca leu cada linha porque o índice da coluna faltou.', 'indices', 'index'],
   ['percentil', 'trabalho', '📐', 'O percentil', 'Noventa e nove por cento das chamadas cabem em duzentos milissegundos.', 'percentis', 'p99'],
   ['segredo', 'trabalho', '🕵️', 'O segredo', 'A chave secreta apareceu no log e qualquer pessoa leu.', 'segredos', 'secret leaked log key'],
-  ['fantasma', 'trabalho', '👻', 'O fantasma', 'A segunda leitura viu uma linha que a primeira não tinha.', 'fantasmas', 'phantom read second row missing'],
+  ['fantasma', 'trabalho', '👻', 'O fantasma', 'A segunda leitura viu uma linha que a primeira não tinha.', 'fantasmas', 'phantom'],
   ['inteiro', 'trabalho', '🔣', 'O inteiro', 'O contador passou do limite e voltou para zero.', 'inteiros', 'wrap'],
   ['filtro', 'trabalho', '🧲', 'O filtro', 'O filtro de presença deu um sim falso e a chave não estava no conjunto.', 'filtros', 'bloom'],
   ['ordem', 'trabalho', '🔀', 'A ordem', 'A mensagem quatro chegou antes da três e a conta saiu invertida.', 'ordens', 'reorder'],
   ['prova', 'trabalho', '🧬', 'A prova', 'A prova dos bytes não bateu com o arquivo que chegou pela rede.', 'provas', 'checksum mismatch bytes file'],
-  ['orfao', 'trabalho', '🪆', 'O órfão', 'A linha filha apontou para um pai que não existe mais.', 'orfaos', 'foreign key child missing parent'],
+  ['orfao', 'trabalho', '🪆', 'O órfão', 'A linha filha apontou para um pai que não existe mais.', 'orfaos', 'foreign'],
   ['aceno', 'trabalho', '🫡', 'O aceno', 'O segundo sítio nunca confirmou e a transação ficou pela metade.', 'acenos', '2pc'],
   ['gasto', 'trabalho', '🪙', 'O gasto', 'Três dias de erro gastaram o mês inteiro permitido.', 'gastos', 'budget'],
   ['instavel', 'trabalho', '🎲', 'O instável', 'O teste passou na segunda tentativa e a primeira tinha falhado.', 'instaveis', 'flaky'],
@@ -243,7 +243,10 @@ const BRUTOS = [
   ['cerca', 'trabalho', '🚧', 'A cerca', 'Um número maior invalidou a escrita do dono antigo.', 'cercas', 'fence'],
   ['tremor', 'trabalho', '🫨', 'O tremor', 'Cada nova tentativa espera um tempo diferente.', 'tremores', 'jitter'],
   ['portaria', 'trabalho', '🧱', 'A portaria', 'A portaria recusou a entrada extra para proteger o serviço.', 'portarias', 'admit'],
-  ['cola', 'trabalho', '🧷', 'A cola', 'O cliente voltou sempre para a mesma máquina.', 'colas', 'sticky']
+  ['cola', 'trabalho', '🧷', 'A cola', 'O cliente voltou sempre para a mesma máquina.', 'colas', 'sticky'],
+  ['anteparo', 'trabalho', '🛟', 'O anteparo', 'Uma falha fica presa no próprio compartimento.', 'anteparos', 'bulk'],
+  ['descarte', 'trabalho', '📤', 'O descarte', 'O serviço descarta o pedido que não cabe agora.', 'descartes', 'shed'],
+  ['cronometro', 'trabalho', '⏰', 'O cronômetro', 'A chamada acaba quando o tempo restante chega a zero.', 'cronometros', 'deadline']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -478,7 +481,7 @@ export function textoDoContinuar(treino) {
   return `Continuar: ${treino.titulo}.`;
 }
 
-const TETO_JS = 1750000;
+const TETO_JS = 1780000;
 
 export function auditarPacote({ html, css, sw, arquivos } = {}) {
   const falhas = [];

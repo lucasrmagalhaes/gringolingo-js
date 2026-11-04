@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.72';
+export const VERSAO_APP = '2.73';
 
 export const NOVIDADES = [
+  {
+    versao: '2.73',
+    titulo: 'O anteparo',
+    itens: [
+      '🛟 Diga que a falha ficou presa no próprio compartimento',
+      '📤 Avise que o serviço devolveu o pedido que não cabe',
+      '⏰ Diga que a chamada parou quando o tempo chegou a zero',
+      '📝 Veja no hub o meio dos dias de treino'
+    ]
+  },
   {
     versao: '2.72',
     titulo: 'O tremor',
@@ -1699,6 +1709,9 @@ export const MISSOES = [
   { id: 'tremor1', emoji: '🫨', titulo: 'Varie o tempo da tentativa', alvo: 1, xp: 15, medir: s => (s.tipo === 'tremor' ? 1 : 0) },
   { id: 'portaria1', emoji: '🧱', titulo: 'Recuse a entrada extra', alvo: 1, xp: 15, medir: s => (s.tipo === 'portaria' ? 1 : 0) },
   { id: 'cola1', emoji: '🧷', titulo: 'Grude o cliente na máquina', alvo: 1, xp: 15, medir: s => (s.tipo === 'cola' ? 1 : 0) },
+  { id: 'anteparo1', emoji: '🛟', titulo: 'Feche o compartimento da falha', alvo: 1, xp: 15, medir: s => (s.tipo === 'anteparo' ? 1 : 0) },
+  { id: 'descarte1', emoji: '📤', titulo: 'Devolva o pedido que não cabe', alvo: 1, xp: 15, medir: s => (s.tipo === 'descarte' ? 1 : 0) },
+  { id: 'cronometro1', emoji: '⏰', titulo: 'Corte a chamada no zero', alvo: 1, xp: 15, medir: s => (s.tipo === 'cronometro' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1956,6 +1969,9 @@ export const BADGES = [
   { id: 'tremor', emoji: '🫨', nome: 'O tremor', desc: 'Diga que cada nova tentativa esperou um tempo diferente' },
   { id: 'portaria', emoji: '🧱', nome: 'A portaria', desc: 'Avise que a portaria recusou a chamada extra' },
   { id: 'cola', emoji: '🧷', nome: 'A cola', desc: 'Diga que o cliente voltou para a mesma máquina' },
+  { id: 'anteparo', emoji: '🛟', nome: 'O anteparo', desc: 'Diga que a falha ficou presa no próprio compartimento' },
+  { id: 'descarte', emoji: '📤', nome: 'O descarte', desc: 'Avise que o serviço devolveu o pedido que não cabe' },
+  { id: 'cronometro', emoji: '⏰', nome: 'O cronômetro', desc: 'Diga que a chamada parou quando o tempo chegou a zero' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

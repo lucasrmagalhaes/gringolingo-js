@@ -763,6 +763,30 @@ export function textoDaDiferenca(painel, diaIso) {
   return { dias, diferenca, texto: `A diferença entre os dias é de ${diferenca} treinos.` };
 }
 
+export function textoDoMeio(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, meio: 0, texto: 'Ainda não há meio de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  const valores = [];
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    valores.push(treinos);
+  }
+  const dias = valores.length;
+  if (dias === 0) return { dias: 0, meio: 0, texto: 'O meio dos dias ainda é 0 treinos.' };
+  valores.sort((a, b) => a - b);
+  const meio = dias % 2 === 1
+    ? valores[(dias - 1) / 2]
+    : Math.floor((valores[dias / 2 - 1] + valores[dias / 2]) / 2);
+  if (meio <= 0) return { dias, meio: 0, texto: 'O meio dos dias ficou abaixo de 1 treino.' };
+  if (meio === 1) return { dias, meio: 1, texto: 'O meio dos dias é de 1 treino.' };
+  return { dias, meio, texto: `O meio dos dias é de ${meio} treinos.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
