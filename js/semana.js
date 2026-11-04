@@ -203,6 +203,19 @@ export function textoDoPico(painel, diaIso) {
   return { dia, minutos: melhor.minutos, empate, texto };
 }
 
+export function textoDoApoio(painel, diaIso) {
+  let n = 0;
+  for (const data of diasDaSemana(diaIso)) {
+    if (!data || data > diaIso) continue;
+    const linha = painel && typeof painel === 'object' ? painel[data] : null;
+    if (!linha) continue;
+    n += inteiroNaoNegativo(linha.muletas);
+  }
+  if (!n) return { n: 0, texto: 'Nenhum preenchimento nesta semana.' };
+  if (n === 1) return { n: 1, texto: '1 preenchimento nesta semana.' };
+  return { n, texto: `${n} preenchimentos nesta semana.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

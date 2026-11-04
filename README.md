@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-494%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-498%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -280,6 +280,10 @@ navegador.
 - **A sonda**: a sonda falhou duas vezes e a gente olha de novo.
 - **A semente**: a semente enche o banco vazio com dez linhas.
 - **O registro**: suba o registro para debug quando o erro voltar.
+- **O rastro**: o id da chamada fica no cabeçalho e vai para o ticket.
+- **A parada**: a parada começa à meia-noite e dura uma hora.
+- **O pod**: reinicie só um pod e deixe os outros no ar.
+- **O apoio**: no hub, quantos preenchimentos esta semana teve, com atalho para o mês.
 - **O pico**: no hub, o dia desta semana com mais minutos de fala.
 - **O acerto**: no hub, a taxa de acerto desta semana, com atalho para o histórico.
 - **A estrela**: no hub, o favorito que ainda não teve prática, com atalho para a lista.
@@ -455,6 +459,7 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/corte.js` | Squash antes do merge, circuito que abre e job da madrugada. |
 | `js/folha.js` | Cherry-pick de um commit, fim da sessão e tanque de conexões. |
 | `js/pulso.js` | Sonda de saúde, semente do banco e nível do registro. |
+| `js/guarda.js` | Id da chamada, janela da meia-noite e reinício de um pod. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -537,7 +542,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **494 testes em 102 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **498 testes em 103 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -618,6 +623,7 @@ O que a suíte cobre:
 - **`tests/corte.test.js`**: squash, circuito, job, o favorito sem prática e a versão 2.45.
 - **`tests/folha.test.js`**: colheita, sessão, tanque, o acerto da semana e a versão 2.46.
 - **`tests/pulso.test.js`**: sonda, semente, registro, o dia com mais fala e a versão 2.47.
+- **`tests/guarda.test.js`**: rastro, parada, pod, os preenchimentos da semana e a versão 2.48.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
