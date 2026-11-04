@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.97';
+export const VERSAO_APP = '2.98';
 
 export const NOVIDADES = [
+  {
+    versao: '2.98',
+    titulo: 'O merkle',
+    itens: [
+      '🌳 Diga que a árvore resume as folhas num selo',
+      '✂️ Avise que a árvore corta o prefixo comum',
+      '🔤 Diga que a árvore guarda a palavra letra a letra',
+      '📝 Veja no hub o dia da semana em que a fala fechou'
+    ]
+  },
   {
     versao: '2.97',
     titulo: 'O bloom',
@@ -2024,6 +2034,9 @@ export const MISSOES = [
   { id: 'bloom1', emoji: '🌸', titulo: 'Marque a chave no filtro', alvo: 1, xp: 15, medir: s => (s.tipo === 'bloom' ? 1 : 0) },
   { id: 'cuco1', emoji: '🪺', titulo: 'Mude a chave para o outro ninho', alvo: 1, xp: 15, medir: s => (s.tipo === 'cuco' ? 1 : 0) },
   { id: 'esboco1', emoji: '✏️', titulo: 'Guarde uma conta pequena no desenho', alvo: 1, xp: 15, medir: s => (s.tipo === 'esboco' ? 1 : 0) },
+  { id: 'merkle1', emoji: '🌳', titulo: 'Resuma as folhas num selo', alvo: 1, xp: 15, medir: s => (s.tipo === 'merkle' ? 1 : 0) },
+  { id: 'radix1', emoji: '✂️', titulo: 'Corte o prefixo comum da árvore', alvo: 1, xp: 15, medir: s => (s.tipo === 'radix' ? 1 : 0) },
+  { id: 'trie1', emoji: '🔤', titulo: 'Guarde a palavra letra a letra', alvo: 1, xp: 15, medir: s => (s.tipo === 'trie' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2356,6 +2369,9 @@ export const BADGES = [
   { id: 'bloom', emoji: '🌸', nome: 'O bloom', desc: 'Diga que o filtro pode dizer que a chave está lá' },
   { id: 'cuco', emoji: '🪺', nome: 'O cuco', desc: 'Diga que a chave muda de ninho quando o lugar enche' },
   { id: 'esboco', emoji: '✏️', nome: 'O esboço', desc: 'Diga que o desenho guarda uma conta pequena' },
+  { id: 'merkle', emoji: '🌳', nome: 'O merkle', desc: 'Diga que a árvore resume as folhas num selo' },
+  { id: 'radix', emoji: '✂️', nome: 'O radix', desc: 'Diga que a árvore corta o prefixo comum' },
+  { id: 'trie', emoji: '🔤', nome: 'O trie', desc: 'Diga que a árvore guarda a palavra letra a letra' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

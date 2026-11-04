@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-694%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-698%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -473,6 +473,10 @@ navegador.
 - **O cuco**: a chave muda de ninho quando o lugar enche.
 - **O esboço**: o desenho guarda uma conta pequena.
 - **A estação**: no hub, a época do ano em que a fala começou, com atalho para a semana.
+- **O merkle**: a árvore resume as folhas num selo.
+- **O radix**: a árvore corta o prefixo comum.
+- **O trie**: a árvore guarda a palavra letra a letra.
+- **O fecho**: no hub, o dia da semana em que a fala fechou, com atalho para a semana.
 
 ### Hábito e gamificação
 
@@ -642,6 +646,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/offset.js` | Offset que marca a leitura, lag que fica atrás e ack que confirma o trecho. |
 | `js/snapshot.js` | Snapshot que guarda o instante, restore que devolve e promote que eleva a cópia. |
 | `js/bloom.js` | Bloom que marca a chave, cuco que muda de ninho e esboço que guarda a conta. |
+| `js/merkle.js` | Merkle que sela as folhas, radix que corta o prefixo e trie que guarda a palavra. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -723,7 +728,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **694 testes em 152 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **698 testes em 153 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -854,6 +859,7 @@ O que a suíte cobre:
 - **`tests/offset.test.js`**: offset, lag, ack, a faixa das semanas e a versão 2.95.
 - **`tests/snapshot.test.js`**: snapshot, restore, promote, a abertura da fala e a versão 2.96.
 - **`tests/bloom.test.js`**: bloom, cuco, esboço, a estação da fala e a versão 2.97.
+- **`tests/merkle.test.js`**: merkle, radix, trie, o fecho da fala e a versão 2.98.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
