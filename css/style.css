@@ -443,6 +443,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-lacuna {
+  margin: 8px 0 12px;
+}
+
+.fala-lacuna .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -833,6 +841,7 @@ body.com-aviso-metricas {
   border-bottom-width: 4px;
   border-radius: 14px;
   padding: 14px 16px;
+  min-height: 44px;
   font-size: var(--fonte-lg);
   font-weight: 800;
   cursor: pointer;
@@ -948,6 +957,7 @@ textarea.entrada {
   border-bottom-width: 4px;
   border-radius: 12px;
   padding: 10px 14px;
+  min-height: 44px;
   font-size: 16px;
   font-weight: 800;
   cursor: pointer;

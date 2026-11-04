@@ -339,7 +339,7 @@ function montarEscolha(ex, cb) {
   // pronunciar com fonética portuguesa.
   const opcoesEmIngles = ex.tipo === 'escolhaPtEn' || ex.tipo === 'ouvir' || ex.tipo === 'lacuna';
   const botoes = ex.opcoes.map(op => {
-    const b = h('button', { class: 'opcao', 'aria-pressed': 'false', ...(opcoesEmIngles ? { lang: 'en' } : {}) }, op);
+    const b = h('button', { class: 'opcao', type: 'button', 'aria-pressed': 'false', ...(opcoesEmIngles ? { lang: 'en' } : {}) }, op);
     b.addEventListener('click', () => {
       if (trancado) return;
       sel = op;
@@ -539,12 +539,12 @@ function montarFrase(ex, cb) {
   const banco = h('div', { class: 'banco', lang: 'en' });
   const atualiza = () => cb.aoMudar(area.children.length > 0);
   ex.tiles.forEach(t => {
-    const b = h('button', { class: 'tile' }, t);
+    const b = h('button', { class: 'tile', type: 'button' }, t);
     b.addEventListener('click', () => {
       if (trancado || b.classList.contains('usada')) return;
       b.classList.add('usada');
       sons.toque();
-      const a = h('button', { class: 'tile' }, t);
+      const a = h('button', { class: 'tile', type: 'button' }, t);
       a.addEventListener('click', () => {
         if (trancado) return;
         a.remove();
@@ -631,12 +631,12 @@ function montarPares(ex, cb) {
     }
   }
   const colE = h('div', { class: 'par-col', lang: 'en' }, embaralhar(ex.pares).map(p => {
-    const b = h('button', { class: 'opcao par-btn', 'data-en': p.en }, p.en);
+    const b = h('button', { class: 'opcao par-btn', type: 'button', 'data-en': p.en }, p.en);
     b.addEventListener('click', () => clicar(b, 'e'));
     return b;
   }));
   const colD = h('div', { class: 'par-col' }, embaralhar(ex.pares).map(p => {
-    const b = h('button', { class: 'opcao par-btn', 'data-en': p.en }, p.pt);
+    const b = h('button', { class: 'opcao par-btn', type: 'button', 'data-en': p.en }, p.pt);
     b.addEventListener('click', () => clicar(b, 'd'));
     return b;
   }));
@@ -658,7 +658,7 @@ function montarVerbo(ex, cb) {
   const alvo = ex.item.forma;
   const sujeito = ex.item.sujeito;
   const botoes = ex.opcoes.map(op => {
-    const b = h('button', { class: 'opcao', 'aria-pressed': 'false' }, op);
+    const b = h('button', { class: 'opcao', type: 'button', 'aria-pressed': 'false' }, op);
     b.addEventListener('click', () => {
       if (trancado) return;
       sel = op;
