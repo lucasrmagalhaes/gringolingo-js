@@ -71,6 +71,7 @@ import { ANTEPAROS, DESCARTES, CRONOMETROS } from './anteparo.js';
 import { AMOSTRAS, NICHOS, LACRES } from './amostra.js';
 import { SEMAFOROS, BARREIRAS, TRINCOS } from './semaforo.js';
 import { RECUOS, VIGIAS, AMPULHETAS } from './recuo.js';
+import { CARONAS, VENENOS, FAROIS } from './carona.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -558,6 +559,9 @@ export function catalogoFaladas() {
     { origem: 'Recuo', itens: RECUOS },
     { origem: 'Vigia', itens: VIGIAS },
     { origem: 'Ampulheta', itens: AMPULHETAS },
+    { origem: 'Carona', itens: CARONAS },
+    { origem: 'Veneno', itens: VENENOS },
+    { origem: 'Farol', itens: FAROIS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },
