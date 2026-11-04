@@ -509,6 +509,28 @@ export function textoDoSete(painel, diaIso) {
   return { dias, texto: `${dias} dos últimos 7 dias tiveram fala.` };
 }
 
+export function textoDaSoma(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, minutos: 0, texto: 'Ainda não há soma de fala.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let segundos = 0;
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    segundos += seg;
+  }
+  const minutos = Math.floor(segundos / 60);
+  if (dias === 0) return { dias: 0, minutos: 0, texto: 'A soma de fala ainda é 0 minutos.' };
+  if (minutos <= 0) return { dias, minutos: 0, texto: 'A soma de fala é de menos de 1 minuto.' };
+  if (minutos === 1) return { dias, minutos: 1, texto: 'A soma de fala é de 1 minuto.' };
+  return { dias, minutos, texto: `A soma de fala é de ${minutos} minutos.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

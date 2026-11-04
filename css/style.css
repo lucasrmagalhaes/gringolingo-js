@@ -523,6 +523,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-soma {
+  margin: 8px 0 12px;
+}
+
+.fala-soma .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1683,6 +1691,7 @@ textarea.entrada {
 }
 
 .btn-mic {
+  min-height: 44px;
   display: block;
   margin: 8px auto;
   width: 96px;

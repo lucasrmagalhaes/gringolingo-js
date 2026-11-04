@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.61';
+export const VERSAO_APP = '2.62';
 
 export const NOVIDADES = [
+  {
+    versao: '2.62',
+    titulo: 'A corrida',
+    itens: [
+      '🏎️ Diga que dois pedidos gravaram o mesmo saldo',
+      '📇 Avise que a busca leu cada linha sem índice',
+      '📐 Diga que noventa e nove por cento das chamadas cabem',
+      '📝 Veja no hub a soma de minutos de fala'
+    ]
+  },
   {
     versao: '2.61',
     titulo: 'A compactação',
@@ -1556,6 +1566,9 @@ export const MISSOES = [
   { id: 'compacta1', emoji: '🗜️', titulo: 'Solte a compactação dos arquivos', alvo: 1, xp: 15, medir: s => (s.tipo === 'compacta' ? 1 : 0) },
   { id: 'diario1', emoji: '✒️', titulo: 'Libere o diário de escrita', alvo: 1, xp: 15, medir: s => (s.tipo === 'diario' ? 1 : 0) },
   { id: 'vagao1', emoji: '🚃', titulo: 'Alcance o fim das mensagens', alvo: 1, xp: 15, medir: s => (s.tipo === 'vagao' ? 1 : 0) },
+  { id: 'corrida1', emoji: '🏎️', titulo: 'Separe as duas escritas do saldo', alvo: 1, xp: 15, medir: s => (s.tipo === 'corrida' ? 1 : 0) },
+  { id: 'indice1', emoji: '📇', titulo: 'Crie o índice que faltou', alvo: 1, xp: 15, medir: s => (s.tipo === 'indice' ? 1 : 0) },
+  { id: 'percentil1', emoji: '📐', titulo: 'Meça o percentil das chamadas', alvo: 1, xp: 15, medir: s => (s.tipo === 'percentil' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1780,6 +1793,9 @@ export const BADGES = [
   { id: 'compacta', emoji: '🗜️', nome: 'A compactação', desc: 'Diga que o armazenamento reescreveu seis arquivos velhos' },
   { id: 'diario', emoji: '✒️', nome: 'O diário', desc: 'Avise que o diário de escrita ocupou quatro gigabytes' },
   { id: 'vagao', emoji: '🚃', nome: 'O vagão', desc: 'Diga que o leitor ficou mil mensagens atrás' },
+  { id: 'corrida', emoji: '🏎️', nome: 'A corrida', desc: 'Diga que dois pedidos gravaram o mesmo saldo' },
+  { id: 'indice', emoji: '📇', nome: 'O índice', desc: 'Avise que a busca leu cada linha sem índice' },
+  { id: 'percentil', emoji: '📐', nome: 'O percentil', desc: 'Diga que noventa e nove por cento das chamadas cabem' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

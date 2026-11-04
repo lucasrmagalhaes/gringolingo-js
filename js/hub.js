@@ -210,7 +210,10 @@ const BRUTOS = [
   ['giro', 'trabalho', '🌀', 'O giro', 'O navegador girou entre dois endereços e desistiu.', 'giros', 'redirect loop hops browser'],
   ['compacta', 'trabalho', '🗜️', 'A compactação', 'O armazenamento reescreveu seis arquivos velhos de uma vez.', 'compactas', 'compaction rewrite files'],
   ['diario', 'trabalho', '✒️', 'O diário', 'O diário de escrita ocupou quatro gigabytes e a nova escrita espera.', 'diarios', 'write log gigabytes'],
-  ['vagao', 'trabalho', '🚃', 'O vagão', 'O leitor ficou mil mensagens atrás do fim publicado.', 'vagoes', 'consumer lag thousand messages']
+  ['vagao', 'trabalho', '🚃', 'O vagão', 'O leitor ficou mil mensagens atrás do fim publicado.', 'vagoes', 'consumer lag thousand messages'],
+  ['corrida', 'trabalho', '🏎️', 'A corrida', 'Dois pedidos gravaram o mesmo saldo ao mesmo tempo.', 'corridas', 'race condition two writes balance'],
+  ['indice', 'trabalho', '📇', 'O índice', 'A busca leu cada linha porque o índice da coluna faltou.', 'indices', 'missing index full scan column'],
+  ['percentil', 'trabalho', '📐', 'O percentil', 'Noventa e nove por cento das chamadas cabem em duzentos milissegundos.', 'percentis', 'latency percentile two hundred milliseconds']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
