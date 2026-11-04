@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.65';
+export const VERSAO_APP = '2.66';
 
 export const NOVIDADES = [
+  {
+    versao: '2.66',
+    titulo: 'O instável',
+    itens: [
+      '🎲 Diga que o teste passou na segunda tentativa',
+      '📧 Avise que o e-mail já estava na tabela',
+      '🔌 Diga que desligamos uma máquina de propósito',
+      '📝 Veja no hub o total de treinos já registrados'
+    ]
+  },
   {
     versao: '2.65',
     titulo: 'O órfão',
@@ -1608,6 +1618,9 @@ export const MISSOES = [
   { id: 'orfao1', emoji: '🪆', titulo: 'Ligue a filha ao pai', alvo: 1, xp: 15, medir: s => (s.tipo === 'orfao' ? 1 : 0) },
   { id: 'aceno1', emoji: '🫡', titulo: 'Feche o aceno dos dois sítios', alvo: 1, xp: 15, medir: s => (s.tipo === 'aceno' ? 1 : 0) },
   { id: 'gasto1', emoji: '🪙', titulo: 'Segure o gasto do mês', alvo: 1, xp: 15, medir: s => (s.tipo === 'gasto' ? 1 : 0) },
+  { id: 'instavel1', emoji: '🎲', titulo: 'Rode o teste de novo', alvo: 1, xp: 15, medir: s => (s.tipo === 'instavel' ? 1 : 0) },
+  { id: 'duplicado1', emoji: '📧', titulo: 'Recuse o e-mail repetido', alvo: 1, xp: 15, medir: s => (s.tipo === 'duplicado' ? 1 : 0) },
+  { id: 'apagao1', emoji: '🔌', titulo: 'Meça a máquina desligada', alvo: 1, xp: 15, medir: s => (s.tipo === 'apagao' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1844,6 +1857,9 @@ export const BADGES = [
   { id: 'orfao', emoji: '🪆', nome: 'O órfão', desc: 'Diga que a linha filha apontou para um pai que não existe' },
   { id: 'aceno', emoji: '🫡', nome: 'O aceno', desc: 'Avise que o segundo sítio nunca confirmou' },
   { id: 'gasto', emoji: '🪙', nome: 'O gasto', desc: 'Diga que três dias de erro gastaram o mês inteiro' },
+  { id: 'instavel', emoji: '🎲', nome: 'O instável', desc: 'Diga que o teste passou na segunda tentativa' },
+  { id: 'duplicado', emoji: '📧', nome: 'O duplicado', desc: 'Avise que o e-mail já estava na tabela' },
+  { id: 'apagao', emoji: '🔌', nome: 'O apagão', desc: 'Diga que desligamos uma máquina de propósito' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
