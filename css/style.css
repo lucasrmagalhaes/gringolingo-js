@@ -850,6 +850,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-ausencia {
+  margin: 8px 0 12px;
+}
+
+.fala-ausencia .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1437,7 +1445,13 @@ textarea.entrada {
   margin: 0 auto;
   display: flex;
   justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 12px;
+}
+
+.rodape-conteudo > .btn {
+  max-width: 100%;
+  min-height: 44px;
 }
 
 .btn-nao-sei {

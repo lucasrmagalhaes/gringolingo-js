@@ -1394,6 +1394,49 @@ export function textoDoFecho(painel, diaIso) {
   return { dias, dia, texto: `O fecho cai ${artigo} ${dia}.` };
 }
 
+const NOME_AUSENCIA = {
+  trabalho: 'trabalho',
+  entrevista: 'entrevista',
+  cotidiano: 'dia a dia',
+  pronuncia: 'pronúncia',
+  revisao: 'revisão'
+};
+
+const ARTIGO_AUSENCIA = {
+  trabalho: 'no',
+  entrevista: 'na',
+  cotidiano: 'no',
+  pronuncia: 'na',
+  revisao: 'na'
+};
+
+export function textoDaAusencia(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, id: '', titulo: '', texto: 'Ainda não há ausência de fala.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  const vistos = new Set();
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    const grupos = linha?.grupos && typeof linha.grupos === 'object' ? linha.grupos : {};
+    for (const id of GRUPOS) {
+      if (inteiroNaoNegativo(grupos[id]) > 0) vistos.add(id);
+    }
+  }
+  if (!dias) return { dias: 0, id: '', titulo: '', texto: 'A ausência ainda não tem fala.' };
+  const falta = GRUPOS.find(id => !vistos.has(id)) || '';
+  if (!falta) return { dias, id: '', titulo: '', texto: 'A ausência não sobrou em grupo nenhum.' };
+  const titulo = CATEGORIAS.find(c => c.id === falta)?.titulo || falta;
+  const nome = NOME_AUSENCIA[falta] || falta;
+  const artigo = ARTIGO_AUSENCIA[falta] || 'em';
+  return { dias, id: falta, titulo, texto: `A ausência ficou ${artigo} ${nome}.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
