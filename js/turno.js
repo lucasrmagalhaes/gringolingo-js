@@ -69,6 +69,7 @@ import { PISCINAS, BALDES, CERCAS } from './piscina.js';
 import { TREMORES, PORTARIAS, COLAS } from './tremor.js';
 import { ANTEPAROS, DESCARTES, CRONOMETROS } from './anteparo.js';
 import { AMOSTRAS, NICHOS, LACRES } from './amostra.js';
+import { SEMAFOROS, BARREIRAS, TRINCOS } from './semaforo.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -550,6 +551,9 @@ export function catalogoFaladas() {
     { origem: 'Amostra', itens: AMOSTRAS },
     { origem: 'Nicho', itens: NICHOS },
     { origem: 'Lacre', itens: LACRES },
+    { origem: 'Semáforo', itens: SEMAFOROS },
+    { origem: 'Barreira', itens: BARREIRAS },
+    { origem: 'Trinco', itens: TRINCOS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.74';
+export const VERSAO_APP = '2.75';
 
 export const NOVIDADES = [
+  {
+    versao: '2.75',
+    titulo: 'O semáforo',
+    itens: [
+      '🚦 Diga que só dois trabalhos passam juntos',
+      '🏁 Avise que os quatro precisam chegar juntos',
+      '🪝 Diga que o trinco abre quando a conta zera',
+      '📝 Veja no hub a moda dos dias de treino'
+    ]
+  },
   {
     versao: '2.74',
     titulo: 'A amostra',
@@ -1725,6 +1735,9 @@ export const MISSOES = [
   { id: 'amostra1', emoji: '🧫', titulo: 'Guarde uma linha em dez', alvo: 1, xp: 15, medir: s => (s.tipo === 'amostra' ? 1 : 0) },
   { id: 'nicho1', emoji: '🪺', titulo: 'Mande a chave para o nicho', alvo: 1, xp: 15, medir: s => (s.tipo === 'nicho' ? 1 : 0) },
   { id: 'lacre1', emoji: '🔒', titulo: 'Troque o lacre do pacote', alvo: 1, xp: 15, medir: s => (s.tipo === 'lacre' ? 1 : 0) },
+  { id: 'semaforo1', emoji: '🚦', titulo: 'Solte uma vaga do semáforo', alvo: 1, xp: 15, medir: s => (s.tipo === 'semaforo' ? 1 : 0) },
+  { id: 'barreira1', emoji: '🏁', titulo: 'Espere os quatro na barreira', alvo: 1, xp: 15, medir: s => (s.tipo === 'barreira' ? 1 : 0) },
+  { id: 'trinco1', emoji: '🪝', titulo: 'Zere a contagem do trinco', alvo: 1, xp: 15, medir: s => (s.tipo === 'trinco' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1988,6 +2001,9 @@ export const BADGES = [
   { id: 'amostra', emoji: '🧫', nome: 'A amostra', desc: 'Diga que guardamos uma linha a cada dez' },
   { id: 'nicho', emoji: '🪺', nome: 'O nicho', desc: 'Avise que a chave caiu no nicho dela' },
   { id: 'lacre', emoji: '🔒', nome: 'O lacre', desc: 'Diga que o lacre do pacote mudou' },
+  { id: 'semaforo', emoji: '🚦', nome: 'O semáforo', desc: 'Diga que só dois trabalhos passam juntos' },
+  { id: 'barreira', emoji: '🏁', nome: 'A barreira', desc: 'Avise que os quatro precisam chegar juntos' },
+  { id: 'trinco', emoji: '🪝', nome: 'O trinco', desc: 'Diga que o trinco abre quando a conta zera' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
