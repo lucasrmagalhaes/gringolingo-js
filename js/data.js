@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.00';
+export const VERSAO_APP = '3.01';
 
 export const NOVIDADES = [
+  {
+    versao: '3.01',
+    titulo: 'O bitmap',
+    itens: [
+      '🗺️ Diga que o mapa marca o bit da chave',
+      '🦁 Avise que os bits iguais viram um intervalo',
+      '🧮 Diga que a conta estima itens distintos',
+      '📝 Veja no hub o treino para reforçar o grupo que você já falou'
+    ]
+  },
   {
     versao: '3.00',
     titulo: 'O hint',
@@ -2063,6 +2073,9 @@ export const MISSOES = [
   { id: 'hint1', emoji: '🔖', titulo: 'Aponte a linha que pode sair', alvo: 1, xp: 15, medir: s => (s.tipo === 'hint' ? 1 : 0) },
   { id: 'vacuum1', emoji: '🧹', titulo: 'Devolva o espaço morto', alvo: 1, xp: 15, medir: s => (s.tipo === 'vacuum' ? 1 : 0) },
   { id: 'freeze1', emoji: '🧊', titulo: 'Deixe a linha antiga só para leitura', alvo: 1, xp: 15, medir: s => (s.tipo === 'freeze' ? 1 : 0) },
+  { id: 'bitmap1', emoji: '🗺️', titulo: 'Marque o bit da chave', alvo: 1, xp: 15, medir: s => (s.tipo === 'bitmap' ? 1 : 0) },
+  { id: 'roaring1', emoji: '🦁', titulo: 'Junte os bits iguais num intervalo', alvo: 1, xp: 15, medir: s => (s.tipo === 'roaring' ? 1 : 0) },
+  { id: 'hyper1', emoji: '🧮', titulo: 'Estime os itens distintos', alvo: 1, xp: 15, medir: s => (s.tipo === 'hyper' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2404,6 +2417,9 @@ export const BADGES = [
   { id: 'hint', emoji: '🔖', nome: 'O hint', desc: 'Diga que a dica aponta a linha' },
   { id: 'vacuum', emoji: '🧹', nome: 'O vacuum', desc: 'Diga que a limpeza devolve o espaço' },
   { id: 'freeze', emoji: '🧊', nome: 'O freeze', desc: 'Diga que a linha antiga fica para leitura' },
+  { id: 'bitmap', emoji: '🗺️', nome: 'O bitmap', desc: 'Diga que o mapa marca o bit da chave' },
+  { id: 'roaring', emoji: '🦁', nome: 'O roaring', desc: 'Diga que os bits iguais viram um intervalo' },
+  { id: 'hyper', emoji: '🧮', nome: 'O hyper', desc: 'Diga que a conta estima itens distintos' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
