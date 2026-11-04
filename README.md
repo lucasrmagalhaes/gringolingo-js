@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-538%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-542%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -317,6 +317,10 @@ navegador.
 - **A rajada**: os clientes tentam de novo juntos e multiplicam a carga.
 - **A brasa**: uma chave recebe quase todas as escritas do mapa.
 - **O costume**: no hub, o dia da semana em que a fala mais aparece, com atalho para a semana.
+- **O datagrama**: dois datagramas sumiram antes de chegar ao destino.
+- **O passe**: o passe curto venceu e a próxima chamada pede outro.
+- **O carimbo**: o carimbo da linha mudou e a gravação foi recusada.
+- **A marca**: no hub, a maior sequência seguida de fala, com atalho para a semana.
 - **A duração**: no hub, quanto dura cada treino desta semana, com atalho para a semana.
 - **A meta**: no hub, os minutos que ainda faltam para a meta desta semana, com atalho para a semana.
 - **A lacuna**: no hub, os dias desta semana ainda sem fala, com atalho para a semana.
@@ -510,6 +514,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/gotejo.js` | Memória que cresce, função que dorme e leitura recusada. |
 | `js/cota.js` | Cota do disco, ciclo de queda e processo zumbi. |
 | `js/cisao.js` | Cisão de líderes, rajada de tentativas e chave quente. |
+| `js/datagrama.js` | Datagrama perdido, passe curto e carimbo da linha. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -591,7 +596,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **538 testes em 113 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **542 testes em 114 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -683,6 +688,7 @@ O que a suíte cobre:
 - **`tests/gotejo.test.js`**: gotejo, frio, cadeado, a primeira fala e a versão 2.56.
 - **`tests/cota.test.js`**: cota, ciclo, zumbi, o hiato entre falas e a versão 2.57.
 - **`tests/cisao.test.js`**: cisão, rajada, brasa, o costume da semana e a versão 2.58.
+- **`tests/datagrama.test.js`**: datagrama, passe, carimbo, a marca de fala e a versão 2.59.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

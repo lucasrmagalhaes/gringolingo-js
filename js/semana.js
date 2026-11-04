@@ -435,6 +435,32 @@ export function textoDoCostume(painel, diaIso) {
   return { dias, dia, texto: `Você fala mais ${ARTIGO_GETDAY[escolhido]} ${dia}.` };
 }
 
+export function textoDaMarca(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, texto: 'Ainda não há marca de fala.' };
+  const datas = [];
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const segundos = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && segundos <= 0) continue;
+    datas.push(data);
+  }
+  datas.sort();
+  if (!datas.length) return { dias: null, texto: 'Ainda não há marca de fala.' };
+  let maior = 1;
+  let atual = 1;
+  for (let i = 1; i < datas.length; i++) {
+    if (diasEntreIso(datas[i - 1], datas[i]) === 1) atual += 1;
+    else atual = 1;
+    if (atual > maior) maior = atual;
+  }
+  if (maior === 1) return { dias: 1, texto: 'A maior marca foi de 1 dia.' };
+  return { dias: maior, texto: `A maior marca foi de ${maior} dias.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

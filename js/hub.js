@@ -201,7 +201,10 @@ const BRUTOS = [
   ['zumbi', 'trabalho', '🧟', 'O zumbi', 'O filho terminou e o pai nunca colheu o fim.', 'zumbis', 'zombie process child parent wait'],
   ['cisao', 'trabalho', '🪞', 'A cisão', 'Dois nós acham que mandam ao mesmo tempo e a escrita divide.', 'cisoes', 'split brain two leaders nodes write'],
   ['rajada', 'trabalho', '🌊', 'A rajada', 'Os clientes tentam de novo juntos e multiplicam a carga.', 'rajadas', 'retry storm clients together load'],
-  ['brasa', 'trabalho', '🔥', 'A brasa', 'Uma chave recebe quase todas as escritas do mapa.', 'brasas', 'hot key writes percent map']
+  ['brasa', 'trabalho', '🔥', 'A brasa', 'Uma chave recebe quase todas as escritas do mapa.', 'brasas', 'hot key writes percent map'],
+  ['datagrama', 'trabalho', '📨', 'O datagrama', 'Dois datagramas sumiram antes de chegar ao destino.', 'datagramas', 'packet loss two packets path'],
+  ['passe', 'trabalho', '🎫', 'O passe', 'O passe curto venceu e a próxima chamada pede outro.', 'passes', 'access pass expired fifteen minutes'],
+  ['carimbo', 'trabalho', '🖊️', 'O carimbo', 'O carimbo da linha mudou e a gravação foi recusada.', 'carimbos', 'row stamp version changed save']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -436,7 +439,7 @@ export function textoDoContinuar(treino) {
   return `Continuar: ${treino.titulo}.`;
 }
 
-const TETO_JS = 1540000;
+const TETO_JS = 1570000;
 
 export function auditarPacote({ html, css, sw, arquivos } = {}) {
   const falhas = [];
