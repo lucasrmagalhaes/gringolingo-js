@@ -826,6 +826,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-abertura {
+  margin: 8px 0 12px;
+}
+
+.fala-abertura .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -2157,6 +2165,8 @@ input.busca-dic::-webkit-search-cancel-button {
 
 .dic-filtros {
   display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
   margin-bottom: 10px;
 }
 
