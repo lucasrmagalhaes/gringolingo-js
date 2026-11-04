@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.89';
+export const VERSAO_APP = '2.90';
 
 export const NOVIDADES = [
+  {
+    versao: '2.90',
+    titulo: 'O bizantino',
+    itens: [
+      '🤥 Diga que um nó mente e os outros concordam',
+      '🧱 Avise que a rede se divide e os lados não se veem',
+      '⚔️ Diga que os dois exércitos avançam com a mesma ordem',
+      '📝 Veja no hub o salto entre o dia mais longo e o mais curto'
+    ]
+  },
   {
     versao: '2.89',
     titulo: 'O sidecar',
@@ -1920,6 +1930,9 @@ export const MISSOES = [
   { id: 'sidecar1', emoji: '🛵', titulo: 'Deixe o ajudante morar ao lado', alvo: 1, xp: 15, medir: s => (s.tipo === 'sidecar' ? 1 : 0) },
   { id: 'embaixador1', emoji: '🌐', titulo: 'Deixe o proxy falar por quem está fora', alvo: 1, xp: 15, medir: s => (s.tipo === 'embaixador' ? 1 : 0) },
   { id: 'adaptador1', emoji: '🔌', titulo: 'Ligue o cliente antigo à API nova', alvo: 1, xp: 15, medir: s => (s.tipo === 'adaptador' ? 1 : 0) },
+  { id: 'bizantino1', emoji: '🤥', titulo: 'Deixe um nó mentir e os outros concordarem', alvo: 1, xp: 15, medir: s => (s.tipo === 'bizantino' ? 1 : 0) },
+  { id: 'particao1', emoji: '🧱', titulo: 'Divida a rede e separe os lados', alvo: 1, xp: 15, medir: s => (s.tipo === 'particao' ? 1 : 0) },
+  { id: 'general1', emoji: '⚔️', titulo: 'Avance só com a mesma ordem', alvo: 1, xp: 15, medir: s => (s.tipo === 'general' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2228,6 +2241,9 @@ export const BADGES = [
   { id: 'sidecar', emoji: '🛵', nome: 'O sidecar', desc: 'Diga que o ajudante mora ao lado' },
   { id: 'embaixador', emoji: '🌐', nome: 'O embaixador', desc: 'Diga que o proxy fala por quem está fora' },
   { id: 'adaptador', emoji: '🔌', nome: 'O adaptador', desc: 'Diga que a tradução liga o cliente antigo' },
+  { id: 'bizantino', emoji: '🤥', nome: 'O bizantino', desc: 'Diga que um nó mente e os outros concordam' },
+  { id: 'particao', emoji: '🧱', nome: 'A partição', desc: 'Diga que a rede se divide e os lados não se veem' },
+  { id: 'general', emoji: '⚔️', nome: 'O general', desc: 'Diga que os exércitos avançam com a mesma ordem' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

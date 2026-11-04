@@ -750,6 +750,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-salto {
+  margin: 8px 0 12px;
+}
+
+.fala-salto .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -2524,6 +2532,7 @@ textarea.entrada {
 }
 
 .relampago-atalho {
+  min-height: 44px;
   border-color: color-mix(in srgb, var(--laranja) 40%, var(--borda));
 }
 
