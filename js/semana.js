@@ -1018,6 +1018,30 @@ export function textoDaDensidade(painel, diaIso) {
   return { dias, densidade, texto: `A densidade dos dias é de ${densidade} minutos por semana.` };
 }
 
+export function textoDoPeso(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, peso: 0, texto: 'Ainda não há peso de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let dias = 0;
+  let segundos = 0;
+  let maior = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    segundos += seg;
+    if (seg > maior) maior = seg;
+  }
+  if (dias === 0) return { dias: 0, peso: 0, texto: 'O peso dos dias ainda é 0 por cento.' };
+  if (segundos === 0) return { dias, peso: 0, texto: 'O peso dos dias é de 0 por cento.' };
+  const peso = Math.round((maior * 100) / segundos);
+  if (peso === 1) return { dias, peso, texto: 'O peso dos dias é de 1 por cento.' };
+  return { dias, peso, texto: `O peso dos dias é de ${peso} por cento.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

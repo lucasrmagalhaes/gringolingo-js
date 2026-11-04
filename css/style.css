@@ -701,6 +701,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-peso {
+  margin: 8px 0 12px;
+}
+
+.fala-peso .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1719,6 +1727,7 @@ textarea.entrada {
 }
 
 .missao {
+  min-height: 44px;
   display: flex;
   align-items: center;
   gap: 10px;
