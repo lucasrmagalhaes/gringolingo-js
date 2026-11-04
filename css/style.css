@@ -603,6 +603,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-diferenca {
+  margin: 8px 0 12px;
+}
+
+.fala-diferenca .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -3530,6 +3538,7 @@ button.caixa-treinavel:hover {
 }
 
 .pronuncia-atalho {
+  min-height: 44px;
   border-color: color-mix(in srgb, var(--verde) 45%, var(--borda));
 }
 

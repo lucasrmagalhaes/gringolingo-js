@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-590%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-594%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -551,6 +551,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/espera.js` | Espera que estoura, página que perde o lugar e fila que passa de mil. |
 | `js/disjuntor.js` | Disjuntor que abre, aluguel que vence e pulso que some. |
 | `js/piscina.js` | Piscina sem vaga, balde de fichas vazio e cerca que invalida o dono antigo. |
+| `js/tremor.js` | Tremor no tempo, portaria que recusa e cola que gruda o cliente. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -632,7 +633,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **590 testes em 126 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **594 testes em 127 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -737,6 +738,7 @@ O que a suíte cobre:
 - **`tests/espera.test.js`**: espera, cursor, fila, o passo por dia de fala e a versão 2.69.
 - **`tests/disjuntor.test.js`**: disjuntor, aluguel, pulso, o maior dia de treinos e a versão 2.70.
 - **`tests/piscina.test.js`**: piscina, balde, cerca, o menor dia de treinos e a versão 2.71.
+- **`tests/tremor.test.js`**: tremor, portaria, cola, a diferença de treinos entre os dias e a versão 2.72.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

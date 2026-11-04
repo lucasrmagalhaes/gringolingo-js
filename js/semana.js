@@ -738,6 +738,31 @@ export function textoDoMenor(painel, diaIso) {
   return { dias, menor, texto: `O menor dia teve ${menor} treinos.` };
 }
 
+export function textoDaDiferenca(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, diferenca: 0, texto: 'Ainda não há diferença de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let dias = 0;
+  let menor = null;
+  let maior = null;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    if (menor === null || treinos < menor) menor = treinos;
+    if (maior === null || treinos > maior) maior = treinos;
+  }
+  if (dias === 0) return { dias: 0, diferenca: 0, texto: 'A diferença entre os dias ainda é 0 treinos.' };
+  if (dias === 1) return { dias: 1, diferenca: 0, texto: 'Com um dia só, a diferença é 0 treinos.' };
+  const diferenca = maior - menor;
+  if (diferenca <= 0) return { dias, diferenca: 0, texto: 'A diferença entre os dias é de 0 treinos.' };
+  if (diferenca === 1) return { dias, diferenca: 1, texto: 'A diferença entre os dias é de 1 treino.' };
+  return { dias, diferenca, texto: `A diferença entre os dias é de ${diferenca} treinos.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
