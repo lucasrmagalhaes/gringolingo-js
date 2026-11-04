@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.87';
+export const VERSAO_APP = '2.88';
 
 export const NOVIDADES = [
+  {
+    versao: '2.88',
+    titulo: 'A fome',
+    itens: [
+      '🍖 Diga que a tarefa espera e não roda',
+      '🔃 Avise que a baixa segura o recurso',
+      '🧓 Diga que a espera sobe a prioridade',
+      '📝 Veja no hub o curto dos segundos de fala'
+    ]
+  },
   {
     versao: '2.87',
     titulo: 'A sujeira',
@@ -1894,6 +1904,9 @@ export const MISSOES = [
   { id: 'sujeira1', emoji: '🫧', titulo: 'Veja o valor que ainda não fechou', alvo: 1, xp: 15, medir: s => (s.tipo === 'sujeira' ? 1 : 0) },
   { id: 'instantaneo1', emoji: '📸', titulo: 'Olhe o banco parado na abertura', alvo: 1, xp: 15, medir: s => (s.tipo === 'instantaneo' ? 1 : 0) },
   { id: 'serial1', emoji: '🔢', titulo: 'Encaixe o resultado numa ordem só', alvo: 1, xp: 15, medir: s => (s.tipo === 'serial' ? 1 : 0) },
+  { id: 'fome1', emoji: '🍖', titulo: 'Veja a tarefa que nunca ganha a vez', alvo: 1, xp: 15, medir: s => (s.tipo === 'fome' ? 1 : 0) },
+  { id: 'inversao1', emoji: '🔃', titulo: 'Note a baixa que segura a alta', alvo: 1, xp: 15, medir: s => (s.tipo === 'inversao' ? 1 : 0) },
+  { id: 'idade1', emoji: '🧓', titulo: 'Suba a prioridade da espera longa', alvo: 1, xp: 15, medir: s => (s.tipo === 'idade' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2196,6 +2209,9 @@ export const BADGES = [
   { id: 'sujeira', emoji: '🫧', nome: 'A sujeira', desc: 'Diga que a leitura pega o valor aberto' },
   { id: 'instantaneo', emoji: '📸', nome: 'O instantâneo', desc: 'Diga que a foto congela as linhas' },
   { id: 'serial', emoji: '🔢', nome: 'O serial', desc: 'Diga que o resultado cabe numa ordem' },
+  { id: 'fome', emoji: '🍖', nome: 'A fome', desc: 'Diga que a tarefa espera e não roda' },
+  { id: 'inversao', emoji: '🔃', nome: 'A inversão', desc: 'Diga que a baixa segura o recurso' },
+  { id: 'idade', emoji: '🧓', nome: 'A idade', desc: 'Diga que a espera sobe a prioridade' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
