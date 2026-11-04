@@ -910,6 +910,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-baralho {
+  margin: 8px 0 12px;
+}
+
+.fala-baralho .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -965,6 +973,8 @@ body.com-aviso-metricas {
   min-height: 44px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  max-width: 100%;
   gap: 16px;
   background-image: linear-gradient(135deg, color-mix(in srgb, var(--verde) 12%, transparent), transparent 55%);
   border-color: color-mix(in srgb, var(--verde) 30%, var(--borda-suave));
@@ -982,13 +992,17 @@ body.com-aviso-metricas {
 }
 
 .nivel-info {
-  flex: 1;
+  flex: 1 1 140px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .nivel-titulo {
   font-weight: 900;
   font-size: var(--fonte-lg);
   margin-bottom: 8px;
+  overflow-wrap: anywhere;
+  max-width: 100%;
 }
 
 .nivel-xp {
