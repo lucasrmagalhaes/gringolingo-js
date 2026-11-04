@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-626%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-630%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -560,6 +560,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/ancora.js` | Âncora que guarda o estado, malha que liga vizinhos e fenda que divide o tráfego. |
 | `js/cofre.js` | Cofre que guarda a chave, audiência do passe e revogação que corta o passe antigo. |
 | `js/quorum.js` | Quórum que exige a maioria, maioria que confirma a escrita e árbitro que desempata a rede. |
+| `js/lider.js` | Líder que conduz o mandato, mandato que sobe na eleição e seguidor que copia o registro. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -641,7 +642,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **626 testes em 135 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **630 testes em 136 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -755,6 +756,7 @@ O que a suíte cobre:
 - **`tests/ancora.test.js`**: âncora, malha, fenda, o vão dos dias de treino e a versão 2.78.
 - **`tests/cofre.test.js`**: cofre, audiência, revogação, a proporção dos dias de treino e a versão 2.79.
 - **`tests/quorum.test.js`**: quórum, maioria, árbitro, a cobertura dos dias de treino e a versão 2.80.
+- **`tests/lider.test.js`**: líder, mandato, seguidor, o intervalo entre os dias de treino e a versão 2.81.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.80';
+export const VERSAO_APP = '2.81';
 
 export const NOVIDADES = [
+  {
+    versao: '2.81',
+    titulo: 'O líder',
+    itens: [
+      '🧭 Diga que o líder conduz o mandato',
+      '📜 Avise que cada eleição sobe o número',
+      '👣 Diga que o seguidor copia o registro',
+      '📝 Veja no hub o intervalo entre os dias de treino'
+    ]
+  },
   {
     versao: '2.80',
     titulo: 'O quórum',
@@ -1803,6 +1813,9 @@ export const MISSOES = [
   { id: 'quorum1', emoji: '🗳️', titulo: 'Espere a maioria antes de gravar', alvo: 1, xp: 15, medir: s => (s.tipo === 'quorum' ? 1 : 0) },
   { id: 'maioria1', emoji: '✋', titulo: 'Confirme com mais da metade', alvo: 1, xp: 15, medir: s => (s.tipo === 'maioria' ? 1 : 0) },
   { id: 'arbitro1', emoji: '⚖️', titulo: 'Desempate quando a rede parte', alvo: 1, xp: 15, medir: s => (s.tipo === 'arbitro' ? 1 : 0) },
+  { id: 'lider1', emoji: '🧭', titulo: 'Conduza o mandato com os outros nós', alvo: 1, xp: 15, medir: s => (s.tipo === 'lider' ? 1 : 0) },
+  { id: 'mandato1', emoji: '📜', titulo: 'Suba o número a cada eleição', alvo: 1, xp: 15, medir: s => (s.tipo === 'mandato' ? 1 : 0) },
+  { id: 'seguidor1', emoji: '👣', titulo: 'Copie o registro sem escrever sozinho', alvo: 1, xp: 15, medir: s => (s.tipo === 'seguidor' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2084,6 +2097,9 @@ export const BADGES = [
   { id: 'quorum', emoji: '🗳️', nome: 'O quórum', desc: 'Diga que a escrita espera a maioria' },
   { id: 'maioria', emoji: '✋', nome: 'A maioria', desc: 'Avise que mais da metade precisa confirmar' },
   { id: 'arbitro', emoji: '⚖️', nome: 'O árbitro', desc: 'Diga que o árbitro desempata a rede' },
+  { id: 'lider', emoji: '🧭', nome: 'O líder', desc: 'Diga que o líder conduz o mandato' },
+  { id: 'mandato', emoji: '📜', nome: 'O mandato', desc: 'Avise que cada eleição sobe o número' },
+  { id: 'seguidor', emoji: '👣', nome: 'O seguidor', desc: 'Diga que o seguidor copia o registro' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

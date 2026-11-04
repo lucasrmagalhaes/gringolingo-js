@@ -75,6 +75,7 @@ import { CARONAS, VENENOS, FAROIS } from './carona.js';
 import { ANCORAS, MALHAS, FENDAS } from './ancora.js';
 import { COFRES, AUDIENCIAS, REVOGACOES } from './cofre.js';
 import { QUORUMS, MAIORIAS, ARBITROS } from './quorum.js';
+import { LIDERES, MANDATOS, SEGUIDORES } from './lider.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -574,6 +575,9 @@ export function catalogoFaladas() {
     { origem: 'Quórum', itens: QUORUMS },
     { origem: 'Maioria', itens: MAIORIAS },
     { origem: 'Árbitro', itens: ARBITROS },
+    { origem: 'Líder', itens: LIDERES },
+    { origem: 'Mandato', itens: MANDATOS },
+    { origem: 'Seguidor', itens: SEGUIDORES },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

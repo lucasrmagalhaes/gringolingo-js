@@ -259,6 +259,7 @@ textarea {
 }
 
 .pilula {
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -673,6 +674,14 @@ textarea {
 }
 
 .fala-cobertura .btn {
+  margin-top: 10px;
+}
+
+.fala-intervalo {
+  margin: 8px 0 12px;
+}
+
+.fala-intervalo .btn {
   margin-top: 10px;
 }
 
