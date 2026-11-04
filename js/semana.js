@@ -1176,6 +1176,29 @@ export function textoDoSalto(painel, diaIso) {
   return { dias, salto, texto: `O salto dos dias é de ${salto} segundos.` };
 }
 
+export function textoDaMediana(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, mediana: 0, texto: 'Ainda não há mediana de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  const valores = [];
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    valores.push(seg);
+  }
+  const dias = valores.length;
+  if (dias === 0) return { dias: 0, mediana: 0, texto: 'A mediana dos dias ainda é 0 segundos.' };
+  valores.sort((a, b) => a - b);
+  const mediana = dias % 2 === 1
+    ? valores[(dias - 1) / 2]
+    : Math.floor((valores[dias / 2 - 1] + valores[dias / 2]) / 2);
+  if (mediana === 1) return { dias, mediana, texto: 'A mediana dos dias é de 1 segundo.' };
+  return { dias, mediana, texto: `A mediana dos dias é de ${mediana} segundos.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
