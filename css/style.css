@@ -286,6 +286,34 @@ textarea {
   margin-bottom: 6px;
 }
 
+.hub-busca-linha {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hub-busca-linha .entrada {
+  flex: 1;
+  min-width: 0;
+}
+
+.busca-limpar {
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 14px;
+  border: 2px solid var(--borda);
+  background: var(--superficie);
+  color: var(--azul);
+  font-family: inherit;
+  font-weight: 900;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.busca-limpar.oculta {
+  display: none;
+}
+
 .hub-item {
   min-height: 44px;
   display: flex;
@@ -779,6 +807,14 @@ textarea {
 }
 
 .fala-turno .btn {
+  margin-top: 10px;
+}
+
+.fala-virada {
+  margin: 8px 0 12px;
+}
+
+.fala-virada .btn {
   margin-top: 10px;
 }
 
