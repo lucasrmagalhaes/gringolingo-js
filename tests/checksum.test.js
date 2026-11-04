@@ -192,7 +192,7 @@ describe('checksum, bulkhead e fallback', () => {
     assert.match(data, /VERSAO_APP = '3\.\d\d'/);
     assert.match(data, /versao: '3\.07'/);
     assert.match(data, /versao: '3\.06'/);
-    assert.match(sw, /gringolingo-v13\d/);
+    assert.match(sw, /gringolingo-v1\d\d/);
     assert.match(sw, /\.\/js\/checksum\.js/);
     assert.match(turno, /checksum\.js/);
     assert.equal(turno.includes('foco.js'), false);

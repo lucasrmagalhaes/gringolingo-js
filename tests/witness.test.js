@@ -196,7 +196,7 @@ describe('witness, voter e learner', () => {
     const css = readFileSync(join(raiz, 'css/style.css'), 'utf8');
     assert.match(data, /versao: '3\.06'/);
     assert.match(data, /versao: '3\.05'/);
-    assert.match(sw, /gringolingo-v13\d/);
+    assert.match(sw, /gringolingo-v1\d\d/);
     assert.match(sw, /\.\/js\/witness\.js/);
     assert.match(turno, /witness\.js/);
     assert.equal(turno.includes('foco.js'), false);

@@ -1908,6 +1908,41 @@ function indiceDoNumero(dia, total) {
   return total ? x % total : 0;
 }
 
+function reducaoValida(item) {
+  if (!item || typeof item !== 'object') return false;
+  const id = typeof item.id === 'string' ? item.id.trim() : '';
+  const titulo = typeof item.titulo === 'string' ? item.titulo.trim() : '';
+  if (!/^[a-z0-9]+$/.test(id)) return false;
+  if (titulo.length < 2 || titulo.length > 40) return false;
+  if (id === '__proto__' || titulo === '__proto__' || titulo === 'constructor' || titulo === 'prototype') return false;
+  return true;
+}
+
+function indiceDaReducao(dia, total) {
+  let x = 2166136261;
+  const texto = `reducao:${String(dia)}`;
+  for (let i = 0; i < texto.length; i++) {
+    x ^= texto.charCodeAt(i);
+    x = Math.imul(x, 16777619);
+  }
+  x >>>= 0;
+  return total ? x % total : 0;
+}
+
+export function textoDaReducao(reducoes, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { id: '', titulo: '', texto: 'Ainda não há redução para ouvir.' };
+  const lista = (Array.isArray(reducoes) ? reducoes : []).filter(reducaoValida);
+  if (!lista.length) return { id: '', titulo: '', texto: 'A redução ainda não tem frase.' };
+  const escolhido = lista[indiceDaReducao(fim, lista.length)];
+  const ponto = texto => (/[.!?]$/.test(texto) ? texto : `${texto}.`);
+  return {
+    id: escolhido.id,
+    titulo: escolhido.titulo,
+    texto: `A redução pede ${ponto(escolhido.titulo)} Ouça a frase curta.`
+  };
+}
+
 export function textoDoNumero(numeros, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { id: '', titulo: '', pergunta: '', texto: 'Ainda não há número para ouvir.' };

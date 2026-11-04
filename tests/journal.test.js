@@ -191,7 +191,7 @@ describe('journal, segment e spill', () => {
     assert.match(data, /VERSAO_APP = '3\.\d\d'/);
     assert.match(data, /versao: '3\.09'/);
     assert.match(data, /versao: '3\.08'/);
-    assert.match(sw, /gringolingo-v13\d/);
+    assert.match(sw, /gringolingo-v1\d\d/);
     assert.match(sw, /\.\/js\/journal\.js/);
     assert.match(turno, /journal\.js/);
     assert.equal(turno.includes('foco.js'), false);
