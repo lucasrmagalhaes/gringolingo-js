@@ -189,7 +189,10 @@ const BRUTOS = [
   ['descritor', 'trabalho', '📁', 'O descritor', 'O processo abriu arquivos demais e a próxima abertura falha.', 'descritores', 'file descriptor too many files limit'],
   ['reserva', 'trabalho', '🪫', 'A reserva', 'O servidor passou a usar a reserva de memória e as respostas atrasaram muito.', 'reservas', 'swap memory server responses slow'],
   ['varredura', 'trabalho', '🧵', 'A varredura', 'A tela dispara uma consulta nova para cada linha da lista enorme.', 'varreduras', 'n plus one query per row list'],
-  ['porta', 'trabalho', '🚪', 'A porta', 'Nenhum processo escuta nessa porta de rede e o cliente recebe recusa imediata.', 'portas', 'connection refused port listener']
+  ['porta', 'trabalho', '🚪', 'A porta', 'Nenhum processo escuta nessa porta de rede e o cliente recebe recusa imediata.', 'portas', 'connection refused port listener'],
+  ['inodo', 'trabalho', '📛', 'O inodo', 'Os nomes livres acabaram e o arquivo novo não aparece no volume.', 'inodos', 'inode file names disk volume'],
+  ['saida', 'trabalho', '🛎️', 'A saída', 'O serviço recebeu o aviso de encerrar e espera as tarefas abertas.', 'saidas', 'graceful shutdown stop signal tasks'],
+  ['manada', 'trabalho', '🐑', 'A manada', 'O cache venceu de uma vez e a enxurrada caiu no armazenamento.', 'manadas', 'cache stampede expire database herd']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

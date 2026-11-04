@@ -467,6 +467,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-ultima {
+  margin: 8px 0 12px;
+}
+
+.fala-ultima .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -2297,6 +2305,11 @@ textarea.entrada {
 .sobre-botoes {
   display: flex;
   gap: 8px;
+}
+
+.sobre-botoes > .pilula {
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .sobre-link {
