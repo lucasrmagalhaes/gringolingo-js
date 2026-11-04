@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.54';
+export const VERSAO_APP = '2.55';
 
 export const NOVIDADES = [
+  {
+    versao: '2.55',
+    titulo: 'O inodo',
+    itens: [
+      '📛 Diga que o disco ficou sem nomes de arquivo',
+      '🛎️ Avise que o serviço recebeu o sinal de parar',
+      '🐑 Diga que o cache venceu tudo de uma vez',
+      '📝 Veja no hub quando foi a última fala'
+    ]
+  },
   {
     versao: '2.54',
     titulo: 'A reserva',
@@ -1465,6 +1475,9 @@ export const MISSOES = [
   { id: 'reserva1', emoji: '🪫', titulo: 'Fale da reserva de memória', alvo: 1, xp: 15, medir: s => (s.tipo === 'reserva' ? 1 : 0) },
   { id: 'varredura1', emoji: '🧵', titulo: 'Junte a consulta de cada linha', alvo: 1, xp: 15, medir: s => (s.tipo === 'varredura' ? 1 : 0) },
   { id: 'porta1', emoji: '🚪', titulo: 'Abra a porta que recusou', alvo: 1, xp: 15, medir: s => (s.tipo === 'porta' ? 1 : 0) },
+  { id: 'inodo1', emoji: '📛', titulo: 'Fale dos nomes que acabaram', alvo: 1, xp: 15, medir: s => (s.tipo === 'inodo' ? 1 : 0) },
+  { id: 'saida1', emoji: '🛎️', titulo: 'Encerre o serviço com calma', alvo: 1, xp: 15, medir: s => (s.tipo === 'saida' ? 1 : 0) },
+  { id: 'manada1', emoji: '🐑', titulo: 'Segure o cache que venceu junto', alvo: 1, xp: 15, medir: s => (s.tipo === 'manada' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1668,6 +1681,9 @@ export const BADGES = [
   { id: 'reserva', emoji: '🪫', nome: 'A reserva', desc: 'Diga que o servidor passou a usar a memória de troca' },
   { id: 'varredura', emoji: '🧵', nome: 'A varredura', desc: 'Junte as consultas quando a tela dispara uma por linha' },
   { id: 'porta', emoji: '🚪', nome: 'A porta', desc: 'Avise que nada escuta e a conexão é recusada' },
+  { id: 'inodo', emoji: '📛', nome: 'O inodo', desc: 'Diga que os nomes livres acabaram no volume' },
+  { id: 'saida', emoji: '🛎️', nome: 'A saída', desc: 'Avise que o serviço recebeu o sinal de parar' },
+  { id: 'manada', emoji: '🐑', nome: 'A manada', desc: 'Diga que o cache venceu e a enxurrada caiu' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

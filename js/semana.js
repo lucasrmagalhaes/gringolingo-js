@@ -323,6 +323,27 @@ export function textoDaDuracao(painel, diaIso) {
   return { segundos, n, media, texto: `Cada treino desta semana durou ${minutos} minutos.` };
 }
 
+export function textoDaUltima(painel, diaIso) {
+  const inicio = String(diaIso || '');
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(inicio)) {
+    return { dias: null, texto: 'Ainda não há fala registrada.' };
+  }
+  let cursor = inicio;
+  for (let i = 0; i < 400; i++) {
+    if (!cursor) break;
+    const linha = painel && typeof painel === 'object' ? painel[cursor] : null;
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const segundos = inteiroNaoNegativo(linha?.segundos);
+    if (treinos > 0 || segundos > 0) {
+      if (i === 0) return { dias: 0, texto: 'A última fala foi hoje.' };
+      if (i === 1) return { dias: 1, texto: 'A última fala foi ontem.' };
+      return { dias: i, texto: `A última fala foi há ${i} dias.` };
+    }
+    cursor = deslocarIso(cursor, -1);
+  }
+  return { dias: null, texto: 'Ainda não há fala registrada.' };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

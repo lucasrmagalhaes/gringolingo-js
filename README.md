@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-522%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-526%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -301,6 +301,10 @@ navegador.
 - **A reserva**: o servidor passou a usar a reserva de memória e as respostas atrasaram.
 - **A varredura**: a tela dispara uma consulta nova para cada linha da lista.
 - **A porta**: nenhum processo escuta nessa porta de rede e o cliente recebe recusa.
+- **O inodo**: os nomes livres acabaram e o arquivo novo não aparece no volume.
+- **A saída**: o serviço recebeu o aviso de encerrar e espera as tarefas abertas.
+- **A manada**: o cache venceu de uma vez e a enxurrada caiu no armazenamento.
+- **A última**: no hub, há quantos dias foi a última fala, com atalho para a semana.
 - **A duração**: no hub, quanto dura cada treino desta semana, com atalho para a semana.
 - **A meta**: no hub, os minutos que ainda faltam para a meta desta semana, com atalho para a semana.
 - **A lacuna**: no hub, os dias desta semana ainda sem fala, com atalho para a semana.
@@ -490,6 +494,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/ponteiro.js` | Relógio desalinhado, eleição de líder e freio da fila. |
 | `js/pausa.js` | Pausa da coleta, configuração que deriva e descritor de arquivo. |
 | `js/reserva.js` | Reserva de memória, consulta por linha e porta que recusa. |
+| `js/inodo.js` | Nomes do disco, saída do serviço e cache que vence junto. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -571,7 +576,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **522 testes em 109 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **526 testes em 110 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -659,6 +664,7 @@ O que a suíte cobre:
 - **`tests/ponteiro.test.js`**: ponteiros, eleição, freio, a lacuna da semana e a versão 2.52.
 - **`tests/pausa.test.js`**: pausa, deriva, descritor, a meta da semana e a versão 2.53.
 - **`tests/reserva.test.js`**: reserva, varredura, porta, a duração de cada treino e a versão 2.54.
+- **`tests/inodo.test.js`**: inodo, saída, manada, a última fala e a versão 2.55.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

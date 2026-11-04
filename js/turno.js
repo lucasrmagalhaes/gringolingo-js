@@ -54,6 +54,7 @@ import { IMPASSES, DOMINIOS, MORTAS } from './impasse.js';
 import { PONTEIROS, ELEICOES, FREIOS } from './ponteiro.js';
 import { PAUSAS, DERIVAS, DESCRITORES } from './pausa.js';
 import { RESERVAS, VARREDURAS, PORTAS } from './reserva.js';
+import { INODOS, SAIDAS, MANADAS } from './inodo.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -492,6 +493,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Inodo', itens: INODOS },
+    { origem: 'Saída', itens: SAIDAS },
+    { origem: 'Manada', itens: MANADAS },
     { origem: 'Reserva', itens: RESERVAS },
     { origem: 'Varredura', itens: VARREDURAS },
     { origem: 'Porta', itens: PORTAS },
