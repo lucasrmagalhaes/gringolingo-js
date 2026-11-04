@@ -7,14 +7,14 @@ let cliente = null;
 export const SENHA_MINIMA = 8;
 
 const MAPA_ERROS = [
-  ['manual linking is disabled', 'Vinculação desativada no Supabase — ative "Manual linking" nas configurações de Auth'],
+  ['manual linking is disabled', 'Vinculação desativada no Supabase. Ative "Manual linking" nas configurações de Auth'],
   ['identity is already linked', 'Essa conta do Google já está vinculada a outro usuário 🙈'],
   ['at least 1 identity', 'Você precisa manter pelo menos uma forma de entrar 🔐'],
   ['provider is not enabled', 'Login com Google não está ativado no Supabase'],
   ['invalid login credentials', 'E-mail ou senha incorretos 🙈'],
-  ['user already registered', 'Esse e-mail já tem conta — tenta entrar!'],
+  ['user already registered', 'Esse e-mail já tem conta. Tenta entrar!'],
   ['email not confirmed', 'Confirma teu e-mail primeiro (olha a caixa de entrada) 📬'],
-  ['rate limit', 'Calma, gringo! Muitas tentativas — espera um pouco ⏳'],
+  ['rate limit', 'Calma, gringo! Muitas tentativas. Espera um pouco ⏳'],
   ['you can only request this after', 'Calma, gringo! Espera uns segundos e tenta de novo ⏳'],
   ['is invalid', 'E-mail inválido'],
   ['failed to fetch', 'Sem conexão com a nuvem 📡']
@@ -47,7 +47,7 @@ const PADROES_ERROS = [
   ],
   [
     /pwned|leaked|data breach/i,
-    () => 'Essa senha já apareceu em vazamentos públicos — escolhe outra 🔐'
+    () => 'Essa senha já apareceu em vazamentos públicos. Escolhe outra 🔐'
   ]
 ];
 
@@ -165,7 +165,7 @@ export async function criarConta(email, senha) {
   const { data, error } = await c.auth.signUp({ email, password: senha });
   if (error) throw new Error(traduzirErro(error.message));
   if (!data.session && data.user && (data.user.identities?.length ?? 0) === 0) {
-    throw new Error('Esse e-mail já tem conta — tenta entrar!');
+    throw new Error('Esse e-mail já tem conta. Tenta entrar!');
   }
   return data.session;
 }
@@ -216,7 +216,7 @@ export async function enviarProgresso(dados) {
   const c = await obterCliente();
   if (!c) throw new Error('Nuvem não configurada');
   const user = await usuarioDaSessao(c);
-  if (!user) throw new Error('Sessão expirada — entra de novo pra sincronizar 🔑');
+  if (!user) throw new Error('Sessão expirada. Entra de novo pra sincronizar 🔑');
   const { error } = await c.from('progresso').upsert({ user_id: user.id, dados });
   if (error) {
     const erro = new Error(traduzirErro(error.message));

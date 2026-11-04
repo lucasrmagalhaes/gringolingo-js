@@ -231,6 +231,21 @@ export function textoDaNota(painel, diaIso) {
   return { nota, n, texto: `A nota desta semana é ${nota}.` };
 }
 
+export function textoDosDias(painel, diaIso) {
+  let n = 0;
+  for (const data of diasDaSemana(diaIso)) {
+    if (!data || data > diaIso) continue;
+    const linha = painel && typeof painel === 'object' ? painel[data] : null;
+    if (!linha) continue;
+    const treinos = inteiroNaoNegativo(linha.n);
+    const segundos = inteiroNaoNegativo(linha.segundos);
+    if (treinos > 0 || segundos > 0) n += 1;
+  }
+  if (!n) return { n: 0, texto: 'Nenhum dia com fala nesta semana.' };
+  if (n === 1) return { n: 1, texto: '1 dia com fala nesta semana.' };
+  return { n, texto: `${n} dias com fala nesta semana.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
