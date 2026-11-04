@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.71';
+export const VERSAO_APP = '2.72';
 
 export const NOVIDADES = [
+  {
+    versao: '2.72',
+    titulo: 'O tremor',
+    itens: [
+      '🫨 Diga que cada nova tentativa esperou um tempo diferente',
+      '🧱 Avise que a portaria recusou a chamada extra',
+      '🧷 Diga que o cliente voltou para a mesma máquina',
+      '📝 Veja no hub a diferença de treinos entre os dias'
+    ]
+  },
   {
     versao: '2.71',
     titulo: 'A piscina',
@@ -1686,6 +1696,9 @@ export const MISSOES = [
   { id: 'piscina1', emoji: '🏊', titulo: 'Abra uma vaga na piscina', alvo: 1, xp: 15, medir: s => (s.tipo === 'piscina' ? 1 : 0) },
   { id: 'balde1', emoji: '🪣', titulo: 'Reponha as fichas do balde', alvo: 1, xp: 15, medir: s => (s.tipo === 'balde' ? 1 : 0) },
   { id: 'cerca1', emoji: '🚧', titulo: 'Aumente o número da cerca', alvo: 1, xp: 15, medir: s => (s.tipo === 'cerca' ? 1 : 0) },
+  { id: 'tremor1', emoji: '🫨', titulo: 'Varie o tempo da tentativa', alvo: 1, xp: 15, medir: s => (s.tipo === 'tremor' ? 1 : 0) },
+  { id: 'portaria1', emoji: '🧱', titulo: 'Recuse a entrada extra', alvo: 1, xp: 15, medir: s => (s.tipo === 'portaria' ? 1 : 0) },
+  { id: 'cola1', emoji: '🧷', titulo: 'Grude o cliente na máquina', alvo: 1, xp: 15, medir: s => (s.tipo === 'cola' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1940,6 +1953,9 @@ export const BADGES = [
   { id: 'piscina', emoji: '🏊', nome: 'A piscina', desc: 'Diga que a piscina ficou sem vagas livres' },
   { id: 'balde', emoji: '🪣', nome: 'O balde', desc: 'Avise que o balde ficou sem fichas' },
   { id: 'cerca', emoji: '🚧', nome: 'A cerca', desc: 'Diga que um número maior barrou o dono antigo' },
+  { id: 'tremor', emoji: '🫨', nome: 'O tremor', desc: 'Diga que cada nova tentativa esperou um tempo diferente' },
+  { id: 'portaria', emoji: '🧱', nome: 'A portaria', desc: 'Avise que a portaria recusou a chamada extra' },
+  { id: 'cola', emoji: '🧷', nome: 'A cola', desc: 'Diga que o cliente voltou para a mesma máquina' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
