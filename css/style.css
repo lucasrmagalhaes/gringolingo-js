@@ -987,6 +987,20 @@ textarea {
   overflow-wrap: anywhere;
 }
 
+.fala-numero {
+  margin: 8px 0 12px;
+  max-width: 100%;
+}
+
+.fala-numero .btn {
+  margin-top: 10px;
+  max-width: 100%;
+}
+
+.fala-numero p {
+  overflow-wrap: anywhere;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1356,11 +1370,14 @@ button.conta-entrar {
   text-transform: uppercase;
   color: var(--texto-suave);
   margin: 0 0 14px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .prompt-card {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 16px;
   background: transparent;
   border: none;
@@ -1370,6 +1387,9 @@ button.conta-entrar {
   font-weight: 900;
   line-height: 1.25;
   margin: 0 0 28px;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .btn-som {

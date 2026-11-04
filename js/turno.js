@@ -106,6 +106,7 @@ import { TOMBSTONES, PURGES, RECLAIMS } from './tombstone.js';
 import { JOURNALS, SEGMENTS, SPILLS } from './journal.js';
 import { STRIPES, PARITIES, REBUILDS } from './stripe.js';
 import { EPOCHS, BALLOTS, FENCES } from './epoch.js';
+import { FLUSHES, MEMTABLES, EXTENTS } from './flush.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -698,6 +699,9 @@ export function catalogoFaladas() {
     { origem: 'Epoch', itens: EPOCHS },
     { origem: 'Ballot', itens: BALLOTS },
     { origem: 'Fence', itens: FENCES },
+    { origem: 'Flush', itens: FLUSHES },
+    { origem: 'Memtable', itens: MEMTABLES },
+    { origem: 'Extent', itens: EXTENTS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },
