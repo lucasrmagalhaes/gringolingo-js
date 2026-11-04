@@ -81,6 +81,7 @@ import { PRIMARIOS, ESPELHOS, ASCENSOES } from './primario.js';
 import { TRAVESSIAS, RETAGUARDAS, CONTORNOS } from './travessia.js';
 import { RUMORES, REPAROS, DEIXAS } from './rumor.js';
 import { FLOCOS, EPOCAS, VETORES } from './floco.js';
+import { SUJEIRAS, INSTANTANEOS, SERIAIS } from './sujeira.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -598,6 +599,9 @@ export function catalogoFaladas() {
     { origem: 'Floco', itens: FLOCOS },
     { origem: 'Época', itens: EPOCAS },
     { origem: 'Vetor', itens: VETORES },
+    { origem: 'Sujeira', itens: SUJEIRAS },
+    { origem: 'Instantâneo', itens: INSTANTANEOS },
+    { origem: 'Serial', itens: SERIAIS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

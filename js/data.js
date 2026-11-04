@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.86';
+export const VERSAO_APP = '2.87';
 
 export const NOVIDADES = [
+  {
+    versao: '2.87',
+    titulo: 'A sujeira',
+    itens: [
+      '🫧 Diga que a leitura pega o valor aberto',
+      '📸 Avise que a foto congela as linhas',
+      '🔢 Diga que o resultado cabe numa ordem',
+      '📝 Veja no hub o grão dos segundos de fala'
+    ]
+  },
   {
     versao: '2.86',
     titulo: 'O floco',
@@ -1881,6 +1891,9 @@ export const MISSOES = [
   { id: 'floco1', emoji: '❄️', titulo: 'Monte o id com o tempo do nó', alvo: 1, xp: 15, medir: s => (s.tipo === 'floco' ? 1 : 0) },
   { id: 'epoca1', emoji: '🗓️', titulo: 'Suba a geração quando a formação muda', alvo: 1, xp: 15, medir: s => (s.tipo === 'epoca' ? 1 : 0) },
   { id: 'vetor1', emoji: '🧮', titulo: 'Anote a visão deste nó', alvo: 1, xp: 15, medir: s => (s.tipo === 'vetor' ? 1 : 0) },
+  { id: 'sujeira1', emoji: '🫧', titulo: 'Veja o valor que ainda não fechou', alvo: 1, xp: 15, medir: s => (s.tipo === 'sujeira' ? 1 : 0) },
+  { id: 'instantaneo1', emoji: '📸', titulo: 'Olhe o banco parado na abertura', alvo: 1, xp: 15, medir: s => (s.tipo === 'instantaneo' ? 1 : 0) },
+  { id: 'serial1', emoji: '🔢', titulo: 'Encaixe o resultado numa ordem só', alvo: 1, xp: 15, medir: s => (s.tipo === 'serial' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2180,6 +2193,9 @@ export const BADGES = [
   { id: 'floco', emoji: '❄️', nome: 'O floco', desc: 'Diga que o floco nasce do tempo' },
   { id: 'epoca', emoji: '🗓️', nome: 'A época', desc: 'Diga que a época sobe com a formação' },
   { id: 'vetor', emoji: '🧮', nome: 'O vetor', desc: 'Diga que o vetor anota a visão' },
+  { id: 'sujeira', emoji: '🫧', nome: 'A sujeira', desc: 'Diga que a leitura pega o valor aberto' },
+  { id: 'instantaneo', emoji: '📸', nome: 'O instantâneo', desc: 'Diga que a foto congela as linhas' },
+  { id: 'serial', emoji: '🔢', nome: 'O serial', desc: 'Diga que o resultado cabe numa ordem' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

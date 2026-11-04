@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-650%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-654%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -262,11 +262,11 @@ navegador.
 - **O boletim**: a nota lista três correções, fica no topo e aparece na segunda.
 - **Quem aprova**: a pasta tem dois donos e o merge espera um deles.
 - **O manual**: o manual manda ler o alerta primeiro e fica no wiki do time.
-- **O lado verde**: o tráfego vai para o lado verde e a volta leva um minuto.
+- **O lado verde**: o tráfego vai para o lado verde.
 - **O certificado**: o certificado vence na sexta e o aviso sai antes.
-- **O rebase**: a branch está atrás e o rebase vai em cima da main.
+- **O rebase**: a branch está atrás da main.
 - **A consulta**: a consulta leva quatro segundos e roda em cada carga de página.
-- **A réplica**: a réplica está atrás e a leitura pode usar a cópia.
+- **A réplica**: a réplica está atrás da principal.
 - **O ensaio**: o teste vai para o ensaio antes da produção.
 - **O disco**: o disco está noventa por cento cheio.
 - **A página**: a lista mostra vinte linhas.
@@ -288,20 +288,20 @@ navegador.
 - **O link**: o link assinado vale uma hora e depois expira.
 - **O processador**: o processador fica perto de noventa por cento.
 - **A cópia**: a cópia da noite começa às duas.
-- **O estouro**: o processo estourou a memória e a gente sobe o limite.
+- **O estouro**: o processo estourou a memória.
 - **O impasse**: dois trabalhos esperam um pelo outro.
-- **O domínio**: o nome do site não resolve e aponta o endereço novo.
+- **O domínio**: o nome do site não resolve.
 - **A carta morta**: a carta morta guarda o motivo da recusa.
 - **Os ponteiros**: os relógios diferem e a assinatura falha.
-- **A eleição**: o líder antigo saiu e dois de três precisam concordar.
+- **A eleição**: o líder antigo saiu e dois de três concordam.
 - **O freio**: a fila encheu e o produtor desacelera.
 - **A pausa**: a coleta parou o processo por dois segundos.
 - **A deriva**: a configuração publicada difere do arquivo.
 - **O descritor**: o processo abriu arquivos demais.
-- **A reserva**: o servidor usou a reserva e as respostas atrasaram.
+- **A reserva**: o servidor usou a reserva.
 - **A varredura**: a tela dispara uma consulta para cada linha.
 - **A porta**: nenhum processo escuta nessa porta.
-- **O inodo**: os nomes livres acabaram e o arquivo novo não aparece.
+- **O inodo**: os nomes livres acabaram.
 - **A saída**: o serviço espera as tarefas abertas.
 - **A manada**: o cache venceu de uma vez e a enxurrada caiu.
 - **A última**: no hub, há quantos dias foi a última fala, com atalho para a semana.
@@ -309,7 +309,7 @@ navegador.
 - **O frio**: a função dorme e a primeira chamada espera.
 - **O cadeado**: o processo tentou ler e a permissão recusou.
 - **A primeira**: no hub, há quantos dias foi a primeira fala, com atalho para a semana.
-- **A cota**: a cota do usuário fechou e o arquivo novo não grava.
+- **A cota**: a cota do usuário fechou.
 - **O ciclo**: o serviço cai e volta sozinho sem ficar estável.
 - **O zumbi**: o filho terminou e o pai nunca colheu o fim.
 - **O hiato**: no hub, o maior vão entre dois dias com fala, com atalho para a semana.
@@ -318,7 +318,7 @@ navegador.
 - **A brasa**: uma chave recebe quase todas as escritas.
 - **O costume**: no hub, o dia da semana em que a fala mais aparece, com atalho para a semana.
 - **O datagrama**: dois datagramas sumiram antes de chegar.
-- **O passe**: o passe curto venceu e a próxima chamada pede outro.
+- **O passe**: o passe curto venceu.
 - **O carimbo**: o carimbo da linha mudou e a gravação foi recusada.
 - **A marca**: no hub, a maior sequência seguida de fala, com atalho para a semana.
 - **A pilha**: a pilha de chamadas cresceu sem fundo.
@@ -429,6 +429,10 @@ navegador.
 - **A época**: a geração sobe quando a formação muda.
 - **O vetor**: o nó anota a própria visão dos eventos.
 - **O resto**: no hub, os segundos de fala que não fecham um minuto, com atalho para a semana.
+- **A sujeira**: a leitura pega um valor que ainda não fechou.
+- **O instantâneo**: a consulta olha o banco parado na abertura.
+- **O serial**: o resultado cabe numa ordem só de transações.
+- **O grão**: no hub, a média de segundos de fala por dia, com atalho para a semana.
 
 ### Hábito e gamificação
 
@@ -587,6 +591,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/travessia.js` | Travessia que confirma no disco, retaguarda que espera no cache e contorno que pula o cache. |
 | `js/rumor.js` | Rumor que espalha o estado, reparo que conserta na leitura e deixa que guarda a escrita. |
 | `js/floco.js` | Floco que nasce do tempo, época que sobe com a formação e vetor que anota a visão. |
+| `js/sujeira.js` | Sujeira que lê o valor aberto, instantâneo que congela o banco e serial que cabe numa ordem. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -668,7 +673,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **650 testes em 141 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **654 testes em 142 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -788,6 +793,7 @@ O que a suíte cobre:
 - **`tests/travessia.test.js`**: travessia, retaguarda, contorno, o peso do dia mais longo e a versão 2.84.
 - **`tests/rumor.test.js`**: rumor, reparo, deixa, a sobra fora do dia mais longo e a versão 2.85.
 - **`tests/floco.test.js`**: floco, época, vetor, o resto dos segundos de fala e a versão 2.86.
+- **`tests/sujeira.test.js`**: sujeira, instantâneo, serial, o grão dos segundos de fala e a versão 2.87.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

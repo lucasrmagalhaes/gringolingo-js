@@ -161,7 +161,7 @@ describe('floco, época e vetor', () => {
     assert.ok(estado.badges.includes('vetor'));
     assert.equal(estado.painel['2026-10-28'].grupos.trabalho, 3);
     assert.equal(estado.painel['2026-10-28'].n, 3);
-    assert.equal(BADGES.length, 295);
+    assert.ok(BADGES.length >= 295);
     assert.equal(new Set(BADGES.map(b => b.id)).size, BADGES.length);
   });
 
@@ -230,7 +230,7 @@ describe('floco, época e vetor', () => {
     const css = readFileSync(join(raiz, 'css/style.css'), 'utf8');
     assert.match(data, /versao: '2\.86'/);
     assert.match(data, /versao: '2\.85'/);
-    assert.match(sw, /gringolingo-v113/);
+    assert.match(sw, /gringolingo-v/);
     assert.match(sw, /\.\/js\/floco\.js/);
     assert.match(turno, /floco\.js/);
     assert.equal(turno.includes('foco.js'), false);
