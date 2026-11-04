@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.60';
+export const VERSAO_APP = '2.61';
 
 export const NOVIDADES = [
+  {
+    versao: '2.61',
+    titulo: 'A compactação',
+    itens: [
+      '🗜️ Diga que o armazenamento reescreveu seis arquivos velhos',
+      '✒️ Avise que o diário de escrita ocupou quatro gigabytes',
+      '🚃 Diga que o leitor ficou mil mensagens atrás',
+      '📝 Veja no hub quantos dos últimos 7 dias tiveram fala'
+    ]
+  },
   {
     versao: '2.60',
     titulo: 'A pilha',
@@ -1543,6 +1553,9 @@ export const MISSOES = [
   { id: 'pilha1', emoji: '📚', titulo: 'Pare a pilha sem fundo', alvo: 1, xp: 15, medir: s => (s.tipo === 'pilha' ? 1 : 0) },
   { id: 'cano1', emoji: '🔧', titulo: 'Abra o cano que fechou', alvo: 1, xp: 15, medir: s => (s.tipo === 'cano' ? 1 : 0) },
   { id: 'giro1', emoji: '🌀', titulo: 'Pare o giro de endereços', alvo: 1, xp: 15, medir: s => (s.tipo === 'giro' ? 1 : 0) },
+  { id: 'compacta1', emoji: '🗜️', titulo: 'Solte a compactação dos arquivos', alvo: 1, xp: 15, medir: s => (s.tipo === 'compacta' ? 1 : 0) },
+  { id: 'diario1', emoji: '✒️', titulo: 'Libere o diário de escrita', alvo: 1, xp: 15, medir: s => (s.tipo === 'diario' ? 1 : 0) },
+  { id: 'vagao1', emoji: '🚃', titulo: 'Alcance o fim das mensagens', alvo: 1, xp: 15, medir: s => (s.tipo === 'vagao' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1764,6 +1777,9 @@ export const BADGES = [
   { id: 'pilha', emoji: '📚', nome: 'A pilha', desc: 'Diga que a pilha de chamadas cresceu sem fundo' },
   { id: 'cano', emoji: '🔧', nome: 'O cano', desc: 'Avise que a outra ponta fechou o cano' },
   { id: 'giro', emoji: '🌀', nome: 'O giro', desc: 'Diga que o navegador girou entre dois endereços' },
+  { id: 'compacta', emoji: '🗜️', nome: 'A compactação', desc: 'Diga que o armazenamento reescreveu seis arquivos velhos' },
+  { id: 'diario', emoji: '✒️', nome: 'O diário', desc: 'Avise que o diário de escrita ocupou quatro gigabytes' },
+  { id: 'vagao', emoji: '🚃', nome: 'O vagão', desc: 'Diga que o leitor ficou mil mensagens atrás' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

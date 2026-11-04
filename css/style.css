@@ -515,6 +515,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-sete {
+  margin: 8px 0 12px;
+}
+
+.fala-sete .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1380,6 +1388,7 @@ textarea.entrada {
   color: var(--laranja-texto);
   font-variant-numeric: tabular-nums;
   margin-bottom: 8px;
+  min-height: 44px;
 }
 
 .plano-item {

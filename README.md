@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-546%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-550%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -325,6 +325,10 @@ navegador.
 - **O cano**: a outra ponta fechou o cano no meio da resposta.
 - **O giro**: o navegador girou entre dois endereços e desistiu.
 - **O auge**: no hub, o dia com mais segundos de fala, com atalho para a semana.
+- **A compactação**: o armazenamento reescreveu seis arquivos velhos de uma vez.
+- **O diário**: o diário de escrita ocupou quatro gigabytes e a nova escrita espera.
+- **O vagão**: o leitor ficou mil mensagens atrás do fim publicado.
+- **O sete**: no hub, quantos dos últimos 7 dias tiveram fala, com atalho para a semana.
 - **A duração**: no hub, quanto dura cada treino desta semana, com atalho para a semana.
 - **A meta**: no hub, os minutos que ainda faltam para a meta desta semana, com atalho para a semana.
 - **A lacuna**: no hub, os dias desta semana ainda sem fala, com atalho para a semana.
@@ -520,6 +524,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/cisao.js` | Cisão de líderes, rajada de tentativas e chave quente. |
 | `js/datagrama.js` | Datagrama perdido, passe curto e carimbo da linha. |
 | `js/pilha.js` | Pilha sem fundo, cano fechado e giro de endereços. |
+| `js/compacta.js` | Compactação de arquivos, diário de escrita e leitor atrasado. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -601,7 +606,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **546 testes em 115 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **550 testes em 116 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -695,6 +700,7 @@ O que a suíte cobre:
 - **`tests/cisao.test.js`**: cisão, rajada, brasa, o costume da semana e a versão 2.58.
 - **`tests/datagrama.test.js`**: datagrama, passe, carimbo, a marca de fala e a versão 2.59.
 - **`tests/pilha.test.js`**: pilha, cano, giro, o auge de fala e a versão 2.60.
+- **`tests/compacta.test.js`**: compactação, diário, vagão, os últimos 7 dias e a versão 2.61.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

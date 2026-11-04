@@ -207,7 +207,10 @@ const BRUTOS = [
   ['carimbo', 'trabalho', '🖊️', 'O carimbo', 'O carimbo da linha mudou e a gravação foi recusada.', 'carimbos', 'row stamp version changed save'],
   ['pilha', 'trabalho', '📚', 'A pilha', 'A pilha de chamadas cresceu sem fundo e o programa parou.', 'pilhas', 'stack overflow frames call stack'],
   ['cano', 'trabalho', '🔧', 'O cano', 'A outra ponta fechou o cano no meio da resposta.', 'canos', 'broken pipe reset writes'],
-  ['giro', 'trabalho', '🌀', 'O giro', 'O navegador girou entre dois endereços e desistiu.', 'giros', 'redirect loop hops browser']
+  ['giro', 'trabalho', '🌀', 'O giro', 'O navegador girou entre dois endereços e desistiu.', 'giros', 'redirect loop hops browser'],
+  ['compacta', 'trabalho', '🗜️', 'A compactação', 'O armazenamento reescreveu seis arquivos velhos de uma vez.', 'compactas', 'compaction rewrite files'],
+  ['diario', 'trabalho', '✒️', 'O diário', 'O diário de escrita ocupou quatro gigabytes e a nova escrita espera.', 'diarios', 'write log gigabytes'],
+  ['vagao', 'trabalho', '🚃', 'O vagão', 'O leitor ficou mil mensagens atrás do fim publicado.', 'vagoes', 'consumer lag thousand messages']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
