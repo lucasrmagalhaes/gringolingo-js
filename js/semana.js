@@ -1224,6 +1224,42 @@ export function textoDoMosaico(painel, diaIso) {
   return { dias, grupos, total, texto: `O mosaico cobre ${grupos} de ${total} grupos.` };
 }
 
+function diaUtc(iso) {
+  const [ano, mes, dia] = String(iso).split('-').map(Number);
+  return new Date(Date.UTC(ano, mes - 1, dia)).getUTCDay();
+}
+
+export function textoDoTurno(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, uteis: 0, folgas: 0, texto: 'Ainda não há turno de dias.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let dias = 0;
+  let uteis = 0;
+  let folgas = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    const indice = diaUtc(data);
+    if (indice === 0 || indice === 6) folgas += 1;
+    else uteis += 1;
+  }
+  if (dias === 0) return { dias: 0, uteis: 0, folgas: 0, texto: 'O turno ainda cobre 0 dias úteis.' };
+  const textoUtil = uteis === 1 ? '1 dia útil' : `${uteis} dias úteis`;
+  const textoFolga = folgas === 1 ? '1 de fim de semana' : `${folgas} de fim de semana`;
+  if (uteis === 0) {
+    const so = folgas === 1
+      ? 'O turno cobre 1 dia de fim de semana.'
+      : `O turno cobre ${folgas} dias de fim de semana.`;
+    return { dias, uteis, folgas, texto: so };
+  }
+  if (folgas === 0) return { dias, uteis, folgas, texto: `O turno cobre ${textoUtil}.` };
+  return { dias, uteis, folgas, texto: `O turno cobre ${textoUtil} e ${textoFolga}.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
