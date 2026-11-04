@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-478%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-482%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -267,6 +267,10 @@ navegador.
 - **O rebase**: a branch está dois commits atrás e o rebase vai em cima da main.
 - **A consulta**: a consulta leva quatro segundos e roda em cada carga de página.
 - **A réplica**: a réplica está dois minutos atrás e a leitura pode usar a cópia.
+- **O ensaio**: o teste vai para o ensaio antes da produção, numa cópia de ontem.
+- **O disco**: o disco está noventa por cento cheio e o log velho pode sair.
+- **A página**: a lista mostra vinte linhas e a próxima começa depois do último id.
+- **O grupo**: no hub, o grupo com menos prática, com atalho para filtrar.
 - **A palavra**: no hub, a palavra que mais volta nas falas, com atalho para repetir.
 - **Semana anterior**: no hub, os minutos até o mesmo ponto da semana anterior.
 - **Sequência**: no hub, os dias seguidos de fala, com aviso se a de ontem ainda vale.
@@ -435,6 +439,7 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/carga.js` | Teste de carga, nota da versão e dono da pasta. |
 | `js/manual.js` | Manual de plantão, troca para o lado verde e certificado do site. |
 | `js/atraso.js` | Rebase da branch, consulta lenta e réplica atrasada. |
+| `js/lote.js` | Ensaio antes da produção, disco cheio e página com poucas linhas. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -517,7 +522,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **478 testes em 98 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **482 testes em 99 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -594,6 +599,7 @@ O que a suíte cobre:
 - **`tests/carga.test.js`**: teste de carga, boletim, dono da pasta, a sequência de fala e a versão 2.41.
 - **`tests/manual.test.js`**: manual de plantão, lado verde, certificado, a comparação com a semana anterior e a versão 2.42.
 - **`tests/atraso.test.js`**: rebase, consulta lenta, réplica, a palavra que mais volta e a versão 2.43.
+- **`tests/lote.test.js`**: ensaio, disco cheio, página, o grupo com menos prática e a versão 2.44.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

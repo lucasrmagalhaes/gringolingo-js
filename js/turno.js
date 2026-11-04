@@ -43,6 +43,7 @@ import { CANARIOS, DESPEDIDAS, REPETICOES } from './entrega.js';
 import { CARGAS, BOLETINS, DONOS } from './carga.js';
 import { MANUAIS, VERDES, CERTIFICADOS } from './manual.js';
 import { REBASES, CONSULTAS, REPLICAS } from './atraso.js';
+import { ENSAIOS, DISCOS, PAGINAS } from './lote.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -481,6 +482,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Ensaio', itens: ENSAIOS },
+    { origem: 'Disco', itens: DISCOS },
+    { origem: 'Página', itens: PAGINAS },
     { origem: 'Rebase', itens: REBASES },
     { origem: 'Consulta', itens: CONSULTAS },
     { origem: 'Réplica', itens: REPLICAS },

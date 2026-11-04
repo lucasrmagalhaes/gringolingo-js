@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.43';
+export const VERSAO_APP = '2.44';
 
 export const NOVIDADES = [
+  {
+    versao: '2.44',
+    titulo: 'O ensaio',
+    itens: [
+      '🧪 Teste no ensaio antes da produção, numa cópia de ontem',
+      '💽 Diga que o disco está noventa por cento cheio',
+      '📃 Mostre vinte linhas e a próxima página depois do último id',
+      '📊 Veja no hub o grupo com menos prática'
+    ]
+  },
   {
     versao: '2.43',
     titulo: 'O rebase',
@@ -1322,6 +1332,9 @@ export const MISSOES = [
   { id: 'rebase1', emoji: '🌿', titulo: 'Rebaseie a branch em cima da main', alvo: 1, xp: 15, medir: s => (s.tipo === 'rebase' ? 1 : 0) },
   { id: 'consulta1', emoji: '🐌', titulo: 'Explique a consulta lenta', alvo: 1, xp: 15, medir: s => (s.tipo === 'consulta' ? 1 : 0) },
   { id: 'replica1', emoji: '🪞', titulo: 'Diga o atraso da réplica', alvo: 1, xp: 15, medir: s => (s.tipo === 'replica' ? 1 : 0) },
+  { id: 'ensaio1', emoji: '🧪', titulo: 'Teste no ensaio antes da produção', alvo: 1, xp: 15, medir: s => (s.tipo === 'ensaio' ? 1 : 0) },
+  { id: 'disco1', emoji: '💽', titulo: 'Fale do disco cheio', alvo: 1, xp: 15, medir: s => (s.tipo === 'disco' ? 1 : 0) },
+  { id: 'pagina1', emoji: '📃', titulo: 'Explique a página com poucas linhas', alvo: 1, xp: 15, medir: s => (s.tipo === 'pagina' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1492,6 +1505,9 @@ export const BADGES = [
   { id: 'rebase', emoji: '🌿', nome: 'O rebase', desc: 'Diga que a branch está atrás e rebaseie em cima da main' },
   { id: 'consulta', emoji: '🐌', nome: 'A consulta', desc: 'Conte os quatro segundos e onde a consulta roda' },
   { id: 'replica', emoji: '🪞', nome: 'A réplica', desc: 'Diga o atraso da cópia e para onde vai a escrita' },
+  { id: 'ensaio', emoji: '🧪', nome: 'O ensaio', desc: 'Teste no ensaio e diga de quando é a cópia' },
+  { id: 'disco', emoji: '💽', nome: 'O disco', desc: 'Diga que o disco está cheio e o que pode sair' },
+  { id: 'pagina', emoji: '📃', nome: 'A página', desc: 'Mostre poucas linhas e onde a próxima começa' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
