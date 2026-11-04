@@ -886,6 +886,28 @@ export function textoDaExtensao(painel, diaIso) {
   return { dias, extensao, texto: `A extensão dos dias é de ${extensao} dias.` };
 }
 
+export function textoDoVao(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, vao: 0, texto: 'Ainda não há vão de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let primeira = '';
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    if (!primeira || data < primeira) primeira = data;
+  }
+  if (dias === 0) return { dias: 0, vao: 0, texto: 'O vão dos dias ainda é 0 dias.' };
+  const vao = diasEntreIso(primeira, fim) + 1 - dias;
+  if (vao === 0) return { dias, vao: 0, texto: 'O vão dos dias é de 0 dias.' };
+  if (vao === 1) return { dias, vao: 1, texto: 'O vão dos dias é de 1 dia.' };
+  return { dias, vao, texto: `O vão dos dias é de ${vao} dias.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

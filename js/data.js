@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.77';
+export const VERSAO_APP = '2.78';
 
 export const NOVIDADES = [
+  {
+    versao: '2.78',
+    titulo: 'A âncora',
+    itens: [
+      '⚓ Diga que a âncora guarda o estado antigo',
+      '🕸️ Avise que cada serviço fala só com o vizinho',
+      '🪓 Diga que o tráfego se divide em duas versões',
+      '📝 Veja no hub o vão dos dias de treino'
+    ]
+  },
   {
     versao: '2.77',
     titulo: 'A carona',
@@ -1764,6 +1774,9 @@ export const MISSOES = [
   { id: 'carona1', emoji: '🚕', titulo: 'Mande a confirmação no próximo pacote', alvo: 1, xp: 15, medir: s => (s.tipo === 'carona' ? 1 : 0) },
   { id: 'veneno1', emoji: '☠️', titulo: 'Tire a mensagem ruim da fila', alvo: 1, xp: 15, medir: s => (s.tipo === 'veneno' ? 1 : 0) },
   { id: 'farol1', emoji: '🗼', titulo: 'Mostre que o serviço ainda vive', alvo: 1, xp: 15, medir: s => (s.tipo === 'farol' ? 1 : 0) },
+  { id: 'ancora1', emoji: '⚓', titulo: 'Marque o estado antes da troca', alvo: 1, xp: 15, medir: s => (s.tipo === 'ancora' ? 1 : 0) },
+  { id: 'malha1', emoji: '🕸️', titulo: 'Fale só com o vizinho da rede', alvo: 1, xp: 15, medir: s => (s.tipo === 'malha' ? 1 : 0) },
+  { id: 'fenda1', emoji: '🪓', titulo: 'Divida o tráfego entre duas versões', alvo: 1, xp: 15, medir: s => (s.tipo === 'fenda' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2036,6 +2049,9 @@ export const BADGES = [
   { id: 'carona', emoji: '🚕', nome: 'A carona', desc: 'Diga que a confirmação viaja no próximo pacote' },
   { id: 'veneno', emoji: '☠️', nome: 'O veneno', desc: 'Avise que a mensagem ruim sai da fila' },
   { id: 'farol', emoji: '🗼', nome: 'O farol', desc: 'Diga que o farol mostra o serviço vivo' },
+  { id: 'ancora', emoji: '⚓', nome: 'A âncora', desc: 'Diga que a âncora guarda o estado antigo' },
+  { id: 'malha', emoji: '🕸️', nome: 'A malha', desc: 'Avise que cada serviço fala só com o vizinho' },
+  { id: 'fenda', emoji: '🪓', nome: 'A fenda', desc: 'Diga que o tráfego se divide em duas versões' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

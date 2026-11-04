@@ -651,6 +651,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-vao {
+  margin: 8px 0 12px;
+}
+
+.fala-vao .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -823,6 +831,7 @@ button.conta-entrar {
 }
 
 .unidade-cab {
+  min-height: 44px;
   display: flex;
   align-items: center;
   gap: 14px;
