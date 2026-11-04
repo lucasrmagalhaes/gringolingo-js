@@ -401,6 +401,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-pico {
+  margin: 8px 0 12px;
+}
+
+.fala-pico .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1680,8 +1688,10 @@ textarea.entrada {
 }
 
 .dic-som {
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   font-size: 16px;
   border-radius: 10px;
   flex: none;
@@ -2297,12 +2307,14 @@ textarea.entrada {
   filter: grayscale(1);
   opacity: 0.4;
   transition: filter 0.15s, opacity 0.15s, transform 0.12s;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .dic-fav::after {
   content: '';
   position: absolute;
-  inset: -9px;
+  inset: 0;
 }
 
 .dic-fav:hover {

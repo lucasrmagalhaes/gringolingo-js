@@ -168,6 +168,41 @@ export function textoDoAcerto(painel, diaIso) {
   };
 }
 
+const NOMES_DIA = ['segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado', 'domingo'];
+
+function minutosDoDia(linha) {
+  const segundos = Number(linha?.segundos);
+  if (!Number.isFinite(segundos) || segundos <= 0) return 0;
+  return Math.floor(segundos / 60);
+}
+
+export function textoDoPico(painel, diaIso) {
+  const dias = diasDaSemana(diaIso);
+  let melhor = null;
+  let empates = 0;
+  dias.forEach((data, i) => {
+    if (!data || data > diaIso) return;
+    const linha = painel && typeof painel === 'object' ? painel[data] : null;
+    const minutos = minutosDoDia(linha);
+    if (!melhor || minutos > melhor.minutos) {
+      melhor = { i, minutos };
+      empates = 1;
+    } else if (minutos === melhor.minutos) empates += 1;
+  });
+  if (!melhor || melhor.minutos <= 0) {
+    return { dia: '', minutos: 0, empate: false, texto: 'Ainda não há um dia mais forte nesta semana.' };
+  }
+  const dia = NOMES_DIA[melhor.i] || '';
+  const tempo = melhor.minutos === 1 ? '1 minuto' : `${melhor.minutos} minutos`;
+  const empate = empates > 1;
+  const titulo = dia ? dia.charAt(0).toUpperCase() + dia.slice(1) : '';
+  const acordo = dia === 'sábado' || dia === 'domingo' ? 'o' : 'a';
+  const texto = empate
+    ? `${titulo} lidera, empatad${acordo} com outro dia. ${tempo}.`
+    : `${titulo} foi o dia com mais fala. ${tempo}.`;
+  return { dia, minutos: melhor.minutos, empate, texto };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
