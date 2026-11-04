@@ -1313,6 +1313,28 @@ export function textoDaFaixa(painel, diaIso) {
   return { dias, semanas, texto: `A faixa cobre ${semanas} semanas.` };
 }
 
+export function textoDaAbertura(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, dia: null, texto: 'Ainda não há abertura de fala.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let primeira = '';
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    if (!primeira || data < primeira) primeira = data;
+  }
+  if (!primeira) return { dias: 0, dia: null, texto: 'A abertura ainda não tem dia.' };
+  const indice = diaDaSemanaLocal(primeira);
+  const dia = NOME_GETDAY[indice];
+  const artigo = ARTIGO_GETDAY[indice] === 'no' ? 'num' : 'numa';
+  return { dias, dia, texto: `A abertura cai ${artigo} ${dia}.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
