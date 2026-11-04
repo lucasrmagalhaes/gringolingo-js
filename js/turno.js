@@ -73,6 +73,7 @@ import { SEMAFOROS, BARREIRAS, TRINCOS } from './semaforo.js';
 import { RECUOS, VIGIAS, AMPULHETAS } from './recuo.js';
 import { CARONAS, VENENOS, FAROIS } from './carona.js';
 import { ANCORAS, MALHAS, FENDAS } from './ancora.js';
+import { COFRES, AUDIENCIAS, REVOGACOES } from './cofre.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -566,6 +567,9 @@ export function catalogoFaladas() {
     { origem: 'Âncora', itens: ANCORAS },
     { origem: 'Malha', itens: MALHAS },
     { origem: 'Fenda', itens: FENDAS },
+    { origem: 'Cofre', itens: COFRES },
+    { origem: 'Audiência', itens: AUDIENCIAS },
+    { origem: 'Revogação', itens: REVOGACOES },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

@@ -908,6 +908,26 @@ export function textoDoVao(painel, diaIso) {
   return { dias, vao, texto: `O vão dos dias é de ${vao} dias.` };
 }
 
+export function textoDaProporcao(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, proporcao: 0, texto: 'Ainda não há proporção de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let primeira = '';
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    if (!primeira || data < primeira) primeira = data;
+  }
+  if (dias === 0) return { dias: 0, proporcao: 0, texto: 'A proporção dos dias ainda é 0 em 0.' };
+  const proporcao = diasEntreIso(primeira, fim) + 1;
+  return { dias, proporcao, texto: `A proporção dos dias é de ${dias} em ${proporcao}.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

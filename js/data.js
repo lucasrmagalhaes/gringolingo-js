@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.78';
+export const VERSAO_APP = '2.79';
 
 export const NOVIDADES = [
+  {
+    versao: '2.79',
+    titulo: 'O cofre',
+    itens: [
+      '🏦 Diga que a chave mora fora do app',
+      '👂 Avise que o passe só vale para o serviço certo',
+      '🚫 Diga que o passe antigo deixa de valer',
+      '📝 Veja no hub a proporção dos dias de treino'
+    ]
+  },
   {
     versao: '2.78',
     titulo: 'A âncora',
@@ -1777,6 +1787,9 @@ export const MISSOES = [
   { id: 'ancora1', emoji: '⚓', titulo: 'Marque o estado antes da troca', alvo: 1, xp: 15, medir: s => (s.tipo === 'ancora' ? 1 : 0) },
   { id: 'malha1', emoji: '🕸️', titulo: 'Fale só com o vizinho da rede', alvo: 1, xp: 15, medir: s => (s.tipo === 'malha' ? 1 : 0) },
   { id: 'fenda1', emoji: '🪓', titulo: 'Divida o tráfego entre duas versões', alvo: 1, xp: 15, medir: s => (s.tipo === 'fenda' ? 1 : 0) },
+  { id: 'cofre1', emoji: '🏦', titulo: 'Guarde a chave fora do app', alvo: 1, xp: 15, medir: s => (s.tipo === 'cofre' ? 1 : 0) },
+  { id: 'audiencia1', emoji: '👂', titulo: 'Mostre o serviço certo do passe', alvo: 1, xp: 15, medir: s => (s.tipo === 'audiencia' ? 1 : 0) },
+  { id: 'revogacao1', emoji: '🚫', titulo: 'Corte o passe que já venceu', alvo: 1, xp: 15, medir: s => (s.tipo === 'revogacao' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2052,6 +2065,9 @@ export const BADGES = [
   { id: 'ancora', emoji: '⚓', nome: 'A âncora', desc: 'Diga que a âncora guarda o estado antigo' },
   { id: 'malha', emoji: '🕸️', nome: 'A malha', desc: 'Avise que cada serviço fala só com o vizinho' },
   { id: 'fenda', emoji: '🪓', nome: 'A fenda', desc: 'Diga que o tráfego se divide em duas versões' },
+  { id: 'cofre', emoji: '🏦', nome: 'O cofre', desc: 'Diga que a chave mora fora do app' },
+  { id: 'audiencia', emoji: '👂', nome: 'A audiência', desc: 'Avise que o passe só vale para o serviço certo' },
+  { id: 'revogacao', emoji: '🚫', nome: 'A revogação', desc: 'Diga que o passe antigo deixa de valer' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

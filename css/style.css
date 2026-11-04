@@ -659,6 +659,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-proporcao {
+  margin: 8px 0 12px;
+}
+
+.fala-proporcao .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -700,6 +708,7 @@ body.com-aviso-metricas {
 }
 
 .rotulo {
+  min-height: 44px;
   font-size: 12px;
   font-weight: 900;
   letter-spacing: 2px;
