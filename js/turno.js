@@ -68,6 +68,7 @@ import { DISJUNTORES, ALUGUEIS, PULSOS } from './disjuntor.js';
 import { PISCINAS, BALDES, CERCAS } from './piscina.js';
 import { TREMORES, PORTARIAS, COLAS } from './tremor.js';
 import { ANTEPAROS, DESCARTES, CRONOMETROS } from './anteparo.js';
+import { AMOSTRAS, NICHOS, LACRES } from './amostra.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -546,6 +547,9 @@ export function catalogoFaladas() {
     { origem: 'Anteparo', itens: ANTEPAROS },
     { origem: 'Descarte', itens: DESCARTES },
     { origem: 'Cronômetro', itens: CRONOMETROS },
+    { origem: 'Amostra', itens: AMOSTRAS },
+    { origem: 'Nicho', itens: NICHOS },
+    { origem: 'Lacre', itens: LACRES },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

@@ -787,6 +787,27 @@ export function textoDoMeio(painel, diaIso) {
   return { dias, meio, texto: `O meio dos dias é de ${meio} treinos.` };
 }
 
+export function textoDaVariedade(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, variedade: 0, texto: 'Ainda não há variedade de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  const valores = new Set();
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    valores.add(treinos);
+  }
+  const variedade = valores.size;
+  if (dias === 0) return { dias: 0, variedade: 0, texto: 'A variedade dos dias ainda é 0 valores.' };
+  if (variedade === 1) return { dias, variedade: 1, texto: 'A variedade dos dias é de 1 valor.' };
+  return { dias, variedade, texto: `A variedade dos dias é de ${variedade} valores.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
