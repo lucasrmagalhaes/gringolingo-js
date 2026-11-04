@@ -726,6 +726,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-grao {
+  margin: 8px 0 12px;
+}
+
+.fala-grao .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -759,6 +767,7 @@ body.com-aviso-metricas {
 }
 
 .card {
+  min-height: 44px;
   background: var(--superficie);
   border: 2px solid var(--borda-suave);
   border-radius: 18px;
