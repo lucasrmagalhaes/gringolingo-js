@@ -165,6 +165,7 @@ textarea {
   border: none;
   border-radius: 14px;
   padding: 13px 26px;
+  min-height: 44px;
   font-size: 16px;
   font-weight: 900;
   letter-spacing: 0.5px;
@@ -431,6 +432,14 @@ textarea {
 }
 
 .fala-dias .btn {
+  margin-top: 10px;
+}
+
+.fala-ritmo {
+  margin: 8px 0 12px;
+}
+
+.fala-ritmo .btn {
   margin-top: 10px;
 }
 

@@ -50,6 +50,7 @@ import { SONDAS, SEMENTES, REGISTROS } from './pulso.js';
 import { RASTROS, PARADAS, PODS } from './guarda.js';
 import { LINTS, ORIGENS, LINKS } from './cerca.js';
 import { CPUS, COPIAS, ESTOUROS } from './maquina.js';
+import { IMPASSES, DOMINIOS, MORTAS } from './impasse.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -488,6 +489,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Impasse', itens: IMPASSES },
+    { origem: 'Domínio', itens: DOMINIOS },
+    { origem: 'Carta morta', itens: MORTAS },
     { origem: 'Processador', itens: CPUS },
     { origem: 'Cópia', itens: COPIAS },
     { origem: 'Estouro', itens: ESTOUROS },
