@@ -539,6 +539,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-parte {
+  margin: 8px 0 12px;
+}
+
+.fala-parte .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -563,6 +571,7 @@ body.com-aviso-metricas {
 }
 
 .btn-perfil {
+  min-height: 44px;
   cursor: pointer;
 }
 

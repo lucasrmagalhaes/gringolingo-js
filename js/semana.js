@@ -553,6 +553,35 @@ export function textoDoPorDia(painel, diaIso) {
   return { dias, minutos, texto: `A média por dia é de ${minutos} minutos.` };
 }
 
+export function textoDaParte(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, minutos: 0, parte: 0, texto: 'Ainda não há parte desta semana.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  const naSemana = new Set(diasDaSemana(fim).filter(data => data && data <= fim));
+  let segundos = 0;
+  let segundosSemana = 0;
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    segundos += seg;
+    if (naSemana.has(data)) segundosSemana += seg;
+  }
+  if (dias === 0) return { dias: 0, minutos: 0, parte: 0, texto: 'A parte desta semana ainda é 0 minutos.' };
+  const total = Math.floor(segundos / 60);
+  const parte = Math.floor(segundosSemana / 60);
+  if (parte <= 0) return { dias, minutos: 0, parte: 0, texto: 'Nenhum minuto desta semana entra na soma.' };
+  if (parte === total) {
+    if (total === 1) return { dias, minutos: 1, parte: 1, texto: 'A parte desta semana é o minuto inteiro.' };
+    return { dias, minutos: parte, parte: total, texto: `A parte desta semana é a fala inteira, com ${total} minutos.` };
+  }
+  return { dias, minutos: parte, parte: total, texto: `Esta semana tem ${parte} dos ${total} minutos.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
