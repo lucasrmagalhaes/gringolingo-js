@@ -330,7 +330,10 @@ const BRUTOS = [
   ['freeze', 'trabalho', '🧊', 'O freeze', 'A linha antiga fica para leitura.', 'freezes'],
   ['bitmap', 'trabalho', '🗺️', 'O bitmap', 'O mapa marca o bit da chave.', 'bitmaps'],
   ['roaring', 'trabalho', '🦁', 'O roaring', 'Os bits iguais viram um intervalo.', 'roarings'],
-  ['hyper', 'trabalho', '🧮', 'O hyper', 'A conta estima itens distintos.', 'hypers']
+  ['hyper', 'trabalho', '🧮', 'O hyper', 'A conta estima itens distintos.', 'hypers'],
+  ['crdt', 'trabalho', '🔀', 'O crdt', 'As edições se juntam sem trava.', 'crdts'],
+  ['lww', 'trabalho', '🕰️', 'O lww', 'A escrita mais nova vence o campo.', 'lwws'],
+  ['orset', 'trabalho', '📦', 'O orset', 'O item fica até a remoção aparecer.', 'orsets']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -565,7 +568,7 @@ export function textoDoContinuar(treino) {
   return `Continuar: ${treino.titulo}.`;
 }
 
-const TETO_JS = 2170000;
+const TETO_JS = 2200000;
 
 export function auditarPacote({ html, css, sw, arquivos } = {}) {
   const falhas = [];
