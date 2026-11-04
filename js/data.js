@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.96';
+export const VERSAO_APP = '2.97';
 
 export const NOVIDADES = [
+  {
+    versao: '2.97',
+    titulo: 'O bloom',
+    itens: [
+      '🌸 Diga que o filtro pode dizer que a chave está lá',
+      '🪺 Avise que a chave muda de ninho quando o lugar enche',
+      '✏️ Diga que o desenho guarda uma conta pequena',
+      '📝 Veja no hub a estação em que a fala abriu'
+    ]
+  },
   {
     versao: '2.96',
     titulo: 'O snapshot',
@@ -2011,6 +2021,9 @@ export const MISSOES = [
   { id: 'snapshot1', emoji: '📷', titulo: 'Guarde o banco naquele instante', alvo: 1, xp: 15, medir: s => (s.tipo === 'snapshot' ? 1 : 0) },
   { id: 'restore1', emoji: '↩️', titulo: 'Devolva o banco ao instante salvo', alvo: 1, xp: 15, medir: s => (s.tipo === 'restore' ? 1 : 0) },
   { id: 'promote1', emoji: '🚀', titulo: 'Eleve a cópia a banco principal', alvo: 1, xp: 15, medir: s => (s.tipo === 'promote' ? 1 : 0) },
+  { id: 'bloom1', emoji: '🌸', titulo: 'Marque a chave no filtro', alvo: 1, xp: 15, medir: s => (s.tipo === 'bloom' ? 1 : 0) },
+  { id: 'cuco1', emoji: '🪺', titulo: 'Mude a chave para o outro ninho', alvo: 1, xp: 15, medir: s => (s.tipo === 'cuco' ? 1 : 0) },
+  { id: 'esboco1', emoji: '✏️', titulo: 'Guarde uma conta pequena no desenho', alvo: 1, xp: 15, medir: s => (s.tipo === 'esboco' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2340,6 +2353,9 @@ export const BADGES = [
   { id: 'snapshot', emoji: '📷', nome: 'O snapshot', desc: 'Diga que a foto guarda o banco naquele instante' },
   { id: 'restore', emoji: '↩️', nome: 'O restore', desc: 'Diga que a foto devolve o banco ao instante salvo' },
   { id: 'promote', emoji: '🚀', nome: 'O promote', desc: 'Diga que a cópia vira o banco principal' },
+  { id: 'bloom', emoji: '🌸', nome: 'O bloom', desc: 'Diga que o filtro pode dizer que a chave está lá' },
+  { id: 'cuco', emoji: '🪺', nome: 'O cuco', desc: 'Diga que a chave muda de ninho quando o lugar enche' },
+  { id: 'esboco', emoji: '✏️', nome: 'O esboço', desc: 'Diga que o desenho guarda uma conta pequena' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
