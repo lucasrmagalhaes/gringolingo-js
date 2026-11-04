@@ -156,7 +156,10 @@ const BRUTOS = [
   ['certificado', 'trabalho', '🔏', 'O certificado', 'O certificado vence na sexta e o aviso sai sete dias antes.', 'certificados', 'certificado tls sexta renovar'],
   ['rebase', 'trabalho', '🌿', 'O rebase', 'A branch está dois commits atrás e o rebase vai em cima da main.', 'rebases', 'rebase main conflito arquivo'],
   ['consulta', 'trabalho', '🐌', 'A consulta', 'A consulta leva quatro segundos e roda em cada página.', 'consultas', 'slow query quatro segundos join plano'],
-  ['replica', 'trabalho', '🪞', 'A réplica', 'A réplica está dois minutos atrás e a leitura pode usar a cópia.', 'replicas', 'replica lag primario leitura dois minutos']
+  ['replica', 'trabalho', '🪞', 'A réplica', 'A réplica está dois minutos atrás e a leitura pode usar a cópia.', 'replicas', 'replica lag primario leitura dois minutos'],
+  ['ensaio', 'trabalho', '🧪', 'O ensaio', 'O teste vai para o ensaio antes da produção, numa cópia de ontem.', 'ensaios', 'staging ensaio copia ontem build'],
+  ['disco', 'trabalho', '💽', 'O disco', 'O disco está noventa por cento cheio e o log velho pode sair.', 'discos', 'disco noventa por cento log gigabyte'],
+  ['pagina', 'trabalho', '📃', 'A página', 'A lista mostra vinte linhas e a próxima começa depois do último id.', 'paginas', 'pagina vinte linhas ultimo id']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -259,6 +262,50 @@ export function textoDaEstreia(treinos, stats) {
   const conta = faltam.length === 1 ? '1 treino ainda sem prática.' : `${faltam.length} treinos ainda sem prática.`;
   const nome = proximo ? ` O próximo é ${proximo.titulo}.` : '';
   return { faltam: faltam.length, treino: proximo, texto: conta + nome };
+}
+
+export function textoDoGrupo(treinos, stats) {
+  const lista = (Array.isArray(treinos) ? treinos : []).filter(t => t && t.stat && t.categoria);
+  const por = new Map();
+  for (const t of lista) {
+    const atual = por.get(t.categoria) || { n: 0, feitos: 0 };
+    atual.n += 1;
+    if ((Number(stats?.[t.stat]) || 0) > 0) atual.feitos += 1;
+    por.set(t.categoria, atual);
+  }
+  const grupos = CATEGORIAS
+    .map(c => ({ id: c.id, titulo: c.titulo, ...(por.get(c.id) || { n: 0, feitos: 0 }) }))
+    .filter(g => g.n > 0);
+  if (!grupos.length) {
+    return { id: '', titulo: '', feitos: 0, n: 0, texto: 'Nenhum grupo com treino contado.' };
+  }
+  const feitos = grupos.reduce((s, g) => s + g.feitos, 0);
+  if (!feitos) {
+    return { id: '', titulo: '', feitos: 0, n: 0, texto: 'Nenhum grupo tem prática ainda.' };
+  }
+  const ordenados = [...grupos].sort((a, b) => {
+    const ra = a.feitos / a.n;
+    const rb = b.feitos / b.n;
+    if (ra !== rb) return ra - rb;
+    return a.titulo.localeCompare(b.titulo, 'pt');
+  });
+  const pior = ordenados[0];
+  const igual = grupos.every(g => g.feitos * pior.n === pior.feitos * g.n);
+  if (igual) {
+    const texto = pior.feitos === pior.n
+      ? 'Todos os grupos já tiveram prática em cada treino.'
+      : 'Os grupos estão no mesmo ritmo.';
+    return { id: '', titulo: '', feitos: pior.feitos, n: pior.n, texto };
+  }
+  const parados = pior.n - pior.feitos;
+  const conta = parados === 1 ? '1 treino parado' : `${parados} treinos parados`;
+  return {
+    id: pior.id,
+    titulo: pior.titulo,
+    feitos: pior.feitos,
+    n: pior.n,
+    texto: `${pior.titulo} é o grupo com menos prática. ${conta}.`
+  };
 }
 
 export function treinoRecomendado(treinos, { nivel, stats, padroes, deslizes } = {}) {
