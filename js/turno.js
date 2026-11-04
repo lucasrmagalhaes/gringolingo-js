@@ -92,6 +92,7 @@ import { OUTBOXES, INBOXES, RELAYS } from './outbox.js';
 import { OFFSETS, LAGS, ACKS } from './offset.js';
 import { SNAPSHOTS, RESTORES, PROMOTES } from './snapshot.js';
 import { BLOOMS, CUCOS, ESBOCOS } from './bloom.js';
+import { MERKLES, RADIXES, TRIES } from './merkle.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -642,6 +643,9 @@ export function catalogoFaladas() {
     { origem: 'Bloom', itens: BLOOMS },
     { origem: 'Cuco', itens: CUCOS },
     { origem: 'Esboço', itens: ESBOCOS },
+    { origem: 'Merkle', itens: MERKLES },
+    { origem: 'Radix', itens: RADIXES },
+    { origem: 'Trie', itens: TRIES },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

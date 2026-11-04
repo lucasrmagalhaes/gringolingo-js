@@ -1372,6 +1372,28 @@ export function textoDaEstacao(painel, diaIso) {
   return { dias, estacao, texto: `A fala abriu ${artigo} ${estacao}.` };
 }
 
+export function textoDoFecho(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, dia: null, texto: 'Ainda não há fecho de fala.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let ultima = '';
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    if (!ultima || data > ultima) ultima = data;
+  }
+  if (!ultima) return { dias: 0, dia: null, texto: 'O fecho ainda não tem dia.' };
+  const indice = diaDaSemanaLocal(ultima);
+  const dia = NOME_GETDAY[indice];
+  const artigo = ARTIGO_GETDAY[indice] === 'no' ? 'num' : 'numa';
+  return { dias, dia, texto: `O fecho cai ${artigo} ${dia}.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
