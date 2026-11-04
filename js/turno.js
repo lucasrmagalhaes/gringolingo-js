@@ -85,6 +85,7 @@ import { SUJEIRAS, INSTANTANEOS, SERIAIS } from './sujeira.js';
 import { FOMES, INVERSOES, IDADES } from './fome.js';
 import { SIDECARS, EMBAIXADORES, ADAPTADORES } from './sidecar.js';
 import { BIZANTINOS, PARTICOES, GENERAIS } from './bizantino.js';
+import { WALS, LSNS, CHECKPOINTS } from './wal.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -614,6 +615,9 @@ export function catalogoFaladas() {
     { origem: 'Bizantino', itens: BIZANTINOS },
     { origem: 'Partição', itens: PARTICOES },
     { origem: 'General', itens: GENERAIS },
+    { origem: 'Wal', itens: WALS },
+    { origem: 'Lsn', itens: LSNS },
+    { origem: 'Checkpoint', itens: CHECKPOINTS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

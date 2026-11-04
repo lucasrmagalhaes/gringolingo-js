@@ -758,6 +758,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-mediana {
+  margin: 8px 0 12px;
+}
+
+.fala-mediana .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -2584,6 +2592,7 @@ textarea.entrada {
 }
 
 .verbos-atalho {
+  min-height: 44px;
   border-color: color-mix(in srgb, var(--roxo) 40%, var(--borda));
 }
 
