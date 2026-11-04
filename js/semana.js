@@ -630,6 +630,28 @@ export function textoDoTotal(painel, diaIso) {
   return { dias, total, texto: `O total de treinos é ${total}.` };
 }
 
+export function textoDoLote(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, lote: 0, texto: 'Ainda não há lote desta semana.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  const naSemana = new Set(diasDaSemana(fim).filter(data => data && data <= fim));
+  let dias = 0;
+  let lote = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    if (naSemana.has(data)) lote += treinos;
+  }
+  if (dias === 0) return { dias: 0, lote: 0, texto: 'O lote desta semana ainda é 0 treinos.' };
+  if (lote <= 0) return { dias, lote: 0, texto: 'Nenhum treino entrou nesta semana.' };
+  if (lote === 1) return { dias, lote: 1, texto: 'O lote desta semana é 1 treino.' };
+  return { dias, lote, texto: `O lote desta semana é ${lote} treinos.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

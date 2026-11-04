@@ -563,6 +563,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-lote {
+  margin: 8px 0 12px;
+}
+
+.fala-lote .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1150,6 +1158,7 @@ textarea.entrada {
 }
 
 .btn-nao-sei {
+  min-height: 44px;
   margin-right: auto;
 }
 

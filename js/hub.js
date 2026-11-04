@@ -98,14 +98,14 @@ const BRUTOS = [
   ['completa', 'entrevista', '🎓', 'Entrevista completa', 'Cinco treinos em sequência e uma nota no fim.', 'completas', 'simulado entrevista cinco treinos nota'],
   ['rodada', 'trabalho', '📝', 'A mesa da retro', 'Fato, ajuste e quem fica com a ação.', 'rodadas', 'retrospectiva fila dono acao'],
   ['migra', 'trabalho', '🚚', 'A migração', 'Banco ou biblioteca, e o risco da troca.', 'migras', 'migracao banco framework risco'],
-  ['estreia', 'cotidiano', '👋', 'Primeiro dia', 'Um oi informal no time novo.', 'estreias', 'primeiro dia time estrangeiro cozinha almoco'],
-  ['foco', 'entrevista', '🧩', 'Entrevista por foco', 'Escolha frontend, backend ou IA e veja as notas.', 'focos', 'entrevista foco frontend backend ia historico nota'],
+  ['estreia', 'cotidiano', '👋', 'Primeiro dia', 'Um oi informal no time novo.', 'estreias', 'estreia'],
+  ['foco', 'entrevista', '🧩', 'Entrevista por foco', 'Escolha frontend, backend ou IA e veja as notas.', 'focos', 'foco'],
   ['poker', 'trabalho', '🃏', 'A carta', 'Vote a estimativa e diga o motivo.', 'pokers', 'planning poker estimativa carta'],
   ['leigo', 'trabalho', '🧮', 'A conta da IA', 'Custo, busca nos docs e o que a pessoa ainda lê.', 'leigos', 'ia llm rag prompt custo leigo'],
   ['recruta', 'entrevista', '📞', 'A ligação', 'Pretensão, fuso e quando você pode começar.', 'recrutas', 'linkedin recrutador telefone pretensao fuso'],
   ['culpa', 'trabalho', '🙏', 'A desculpa', 'Assuma o erro e diga o próximo passo.', 'culpas', 'blameless desculpa responsabilidade erro'],
-  ['raio', 'trabalho', '🔦', 'O relâmpago', 'Cinco minutos sobre um projeto pessoal.', 'raios', 'palestra relampago projeto pessoal cinco minutos'],
-  ['oferta', 'entrevista', '💻', 'A oferta', 'Equipamento, verba de estudo e a data de início.', 'ofertas', 'oferta equipamento notebook verba data inicio'],
+  ['raio', 'trabalho', '🔦', 'O relâmpago', 'Cinco minutos sobre um projeto pessoal.', 'raios', 'raio'],
+  ['oferta', 'entrevista', '💻', 'A oferta', 'Equipamento, verba de estudo e a data de início.', 'ofertas', 'oferta'],
   ['sombra', 'revisao', '🗣️', 'Sombra', 'Ouça a voz do aparelho, repita e compare.', 'sombra', 'shadowing ouvir repetir comparar'],
   ['pedido', 'trabalho', '🙋', 'Não entendi', 'Peça o sotaque, a palavra que escapou e leia o requisito de volta.', 'pedidos', 'esclarecer sotaque palavra requisito'],
   ['cobertura', 'trabalho', '🧪', 'A cobertura', 'Diga como os testes e a cobertura protegem o merge.', 'coberturas', 'teste cobertura suite merge linhas'],
@@ -114,20 +114,20 @@ const BRUTOS = [
   ['grafico', 'trabalho', '📉', 'O gráfico', 'Alta, queda e a causa, em cima do gráfico.', 'graficos', 'grafico metrica alta queda causa'],
   ['handoff', 'trabalho', '🕒', 'O handoff', 'Peça o que ficou aberto e deixe o contexto para o outro fuso.', 'handoffs', 'handoff fuso contexto nota blocker'],
   ['elevador', 'entrevista', '🚪', 'O elevador', 'Trinta segundos para um diretor, do cargo ao pedido.', 'elevadores', 'elevador diretor trinta segundos apresentar'],
-  ['junta', 'revisao', '🗂️', 'A semana junta', 'Vocabulário, frases mais erradas e a meta de minutos.', 'juntas', 'semana vocabulario mais erradas minutos meta'],
+  ['junta', 'revisao', '🗂️', 'A semana junta', 'Vocabulário, frases mais erradas e a meta de minutos.', 'juntas', 'junta'],
   ['pista', 'trabalho', '🏁', 'O bug raro', 'Sintoma e prova de um bug que só aparece às vezes.', 'pistas', 'bug intermitente corrida log clique'],
   ['calma', 'trabalho', '🐢', 'Com calma', 'Explique um conceito devagar, um passo de cada vez.', 'calmas', 'mentoria junior conceito paciencia'],
   ['folga', 'cotidiano', '🏖️', 'A folga', 'Férias, horário e o limite da noite.', 'folgas', 'ferias limite noite duas semanas'],
-  ['abertas', 'entrevista', '💭', 'Perguntas abertas', 'Cinco perguntas abertas. Cada resposta conta palavras, tempo e preenchimento.', 'abertas', 'entrevista conversa livre palavras tempo um like basically'],
+  ['abertas', 'entrevista', '💭', 'Perguntas abertas', 'Cinco perguntas abertas. Cada resposta conta palavras, tempo e preenchimento.', 'abertas', 'abertas'],
   ['respeito', 'trabalho', '🏛️', 'Com respeito', 'Discorde de uma arquitetura e ofereça outro caminho.', 'respeitos', 'arquitetura discordo respeito risco servico'],
   ['debito', 'trabalho', '🧱', 'A dívida', 'Explique a dívida técnica e peça tempo para refatorar.', 'debitos', 'divida tecnica refactor sprint juros'],
   ['indicacao', 'entrevista', '✉️', 'A indicação', 'Peça a um ex-colega para ser a sua referência.', 'indicacoes', 'referencia indicacao ex colega nota'],
-  ['ux', 'trabalho', '🎨', 'O contraste', 'Explique contraste, foco e rótulo para quem desenha.', 'uxs', 'ux contraste foco rotulo acessibilidade designer'],
+  ['ux', 'trabalho', '🎨', 'O contraste', 'Explique contraste, foco e rótulo para quem desenha.', 'uxs', 'ux'],
   ['forum', 'trabalho', '📣', 'O fórum', 'Descreva o problema e o que você já tentou.', 'foruns', 'forum ajuda publica cache navegador clique'],
   ['visto', 'entrevista', '🛂', 'O visto', 'Fale de visto, mudança de país ou remoto internacional.', 'vistos', 'visto relocation remoto brasil rh'],
   ['mes', 'revisao', '📆', 'O mês', 'Notas, minutos e preenchimentos das últimas quatro semanas.', 'meses', 'mes notas minutos preenchimento semanas'],
   ['facil', 'trabalho', '🧭', 'O facilitador', 'Abra a reunião, olhe o relógio e feche com ações.', 'facils', 'facilitador reuniao pauta tempo acao'],
-  ['stack', 'trabalho', '🧰', 'A escolha', 'React ou Vue, SQL ou documento, TypeScript ou JavaScript.', 'stacks', 'react vue sql documento typescript javascript'],
+  ['stack', 'trabalho', '🧰', 'A escolha', 'React ou Vue, SQL ou documento, TypeScript ou JavaScript.', 'stacks', 'stack'],
   ['sabado', 'cotidiano', '🌦️', 'O sábado', 'Conte o sábado, o domingo e um plano curto.', 'sabados', 'sabado domingo filme trilha plano'],
   ['surpresa', 'revisao', '🎁', 'Treino surpresa', 'Um treino por dia, com uma sequência só deste modo.', 'surpresas', 'surpresa streak sequencia treino do dia'],
   ['brecha', 'trabalho', '🔓', 'A falha', 'Explique o furo no review e o conserto.', 'brechas', 'seguranca sql permissao segredo review'],
@@ -156,7 +156,7 @@ const BRUTOS = [
   ['certificado', 'trabalho', '🔏', 'O certificado', 'O certificado vence na sexta e o aviso sai sete dias antes.', 'certificados', 'certificado tls sexta renovar'],
   ['rebase', 'trabalho', '🌿', 'O rebase', 'A branch está dois commits atrás e o rebase vai em cima da main.', 'rebases', 'rebase main conflito arquivo'],
   ['consulta', 'trabalho', '🐌', 'A consulta', 'A consulta leva quatro segundos e roda em cada página.', 'consultas', 'slow query quatro segundos join plano'],
-  ['replica', 'trabalho', '🪞', 'A réplica', 'A réplica está dois minutos atrás e a leitura pode usar a cópia.', 'replicas', 'replica lag primario leitura dois minutos'],
+  ['replica', 'trabalho', '🪞', 'A réplica', 'A réplica está dois minutos atrás e a leitura pode usar a cópia.', 'replicas', 'lag'],
   ['ensaio', 'trabalho', '🧪', 'O ensaio', 'O teste vai para o ensaio antes da produção, numa cópia de ontem.', 'ensaios', 'staging ensaio copia ontem build'],
   ['disco', 'trabalho', '💽', 'O disco', 'O disco está noventa por cento cheio e o log velho pode sair.', 'discos', 'disco noventa por cento log gigabyte'],
   ['pagina', 'trabalho', '📃', 'A página', 'A lista mostra vinte linhas e a próxima começa depois do último id.', 'paginas', 'pagina vinte linhas ultimo id'],
@@ -225,7 +225,10 @@ const BRUTOS = [
   ['gasto', 'trabalho', '🪙', 'O gasto', 'Três dias de erro gastaram o mês inteiro permitido.', 'gastos', 'budget'],
   ['instavel', 'trabalho', '🎲', 'O instável', 'O teste passou na segunda tentativa e a primeira tinha falhado.', 'instaveis', 'flaky'],
   ['duplicado', 'trabalho', '📧', 'O duplicado', 'O e-mail já estava na tabela e a linha nova foi recusada.', 'duplicados', 'unique'],
-  ['apagao', 'trabalho', '🔌', 'O apagão', 'Desligamos uma máquina de propósito para ver o que quebrava.', 'apagoes', 'chaos']
+  ['apagao', 'trabalho', '🔌', 'O apagão', 'Desligamos uma máquina de propósito para ver o que quebrava.', 'apagoes', 'chaos'],
+  ['replay', 'trabalho', '⏪', 'O replay', 'Reexecutamos os dois últimos dias para preencher o buraco antigo.', 'replays', 'replay'],
+  ['eco', 'trabalho', '🔔', 'O eco', 'O mesmo evento chegou duas vezes e a conta dobrou.', 'ecos', 'dup'],
+  ['leque', 'trabalho', '🪭', 'O leque', 'Um evento acordou quatro trabalhadores ao mesmo tempo.', 'leques', 'fan']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -460,7 +463,7 @@ export function textoDoContinuar(treino) {
   return `Continuar: ${treino.titulo}.`;
 }
 
-const TETO_JS = 1660000;
+const TETO_JS = 1690000;
 
 export function auditarPacote({ html, css, sw, arquivos } = {}) {
   const falhas = [];
