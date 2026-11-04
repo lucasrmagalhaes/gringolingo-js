@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.68';
+export const VERSAO_APP = '2.69';
 
 export const NOVIDADES = [
+  {
+    versao: '2.69',
+    titulo: 'A espera',
+    itens: [
+      '⏲️ Diga que a chamada parou depois de três segundos',
+      '🔖 Avise que a página seguinte perdeu o lugar',
+      '📥 Diga que a fila passou de mil mensagens',
+      '📝 Veja no hub o passo de treinos por dia de fala'
+    ]
+  },
   {
     versao: '2.68',
     titulo: 'A saga',
@@ -1647,6 +1657,9 @@ export const MISSOES = [
   { id: 'saga1', emoji: '🧵', titulo: 'Feche a saga pela metade', alvo: 1, xp: 15, medir: s => (s.tipo === 'saga' ? 1 : 0) },
   { id: 'caixa1', emoji: '📦', titulo: 'Solte o evento da caixa', alvo: 1, xp: 15, medir: s => (s.tipo === 'caixa' ? 1 : 0) },
   { id: 'apagado1', emoji: '🗑️', titulo: 'Esconda a linha apagada', alvo: 1, xp: 15, medir: s => (s.tipo === 'apagado' ? 1 : 0) },
+  { id: 'espera1', emoji: '⏲️', titulo: 'Corte a espera longa', alvo: 1, xp: 15, medir: s => (s.tipo === 'espera' ? 1 : 0) },
+  { id: 'cursor1', emoji: '🔖', titulo: 'Marque o lugar da página', alvo: 1, xp: 15, medir: s => (s.tipo === 'cursor' ? 1 : 0) },
+  { id: 'fila1', emoji: '📥', titulo: 'Esvazie a fila parada', alvo: 1, xp: 15, medir: s => (s.tipo === 'fila' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1892,6 +1905,9 @@ export const BADGES = [
   { id: 'saga', emoji: '🧵', nome: 'A saga', desc: 'Diga que o terceiro passo nunca terminou' },
   { id: 'caixa', emoji: '📦', nome: 'A caixa', desc: 'Avise que o evento ficou na caixa de saída' },
   { id: 'apagado', emoji: '🗑️', nome: 'O apagado', desc: 'Diga que a linha ficou na tabela depois do apagar' },
+  { id: 'espera', emoji: '⏲️', nome: 'A espera', desc: 'Diga que a chamada parou depois de três segundos' },
+  { id: 'cursor', emoji: '🔖', nome: 'O cursor', desc: 'Avise que a página seguinte perdeu o lugar' },
+  { id: 'fila', emoji: '📥', nome: 'A fila', desc: 'Diga que a fila passou de mil mensagens' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

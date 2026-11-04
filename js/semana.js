@@ -674,6 +674,28 @@ export function textoDoSaldo(painel, diaIso) {
   return { dias, saldo, texto: `Antes desta semana há ${saldo} treinos.` };
 }
 
+export function textoDoPasso(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, passo: 0, texto: 'Ainda não há passo de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let dias = 0;
+  let total = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    total += treinos;
+  }
+  if (dias === 0) return { dias: 0, passo: 0, texto: 'O passo por dia ainda é 0 treinos.' };
+  const passo = Math.floor(total / dias);
+  if (passo <= 0) return { dias, passo: 0, texto: 'O passo por dia é de menos de 1 treino.' };
+  if (passo === 1) return { dias, passo: 1, texto: 'O passo por dia é de 1 treino.' };
+  return { dias, passo, texto: `O passo por dia é de ${passo} treinos.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

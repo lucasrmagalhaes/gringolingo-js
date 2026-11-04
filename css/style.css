@@ -579,6 +579,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-passo {
+  margin: 8px 0 12px;
+}
+
+.fala-passo .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1436,6 +1444,7 @@ textarea.entrada {
 }
 
 .meta-fala-acao {
+  min-height: 44px;
   margin-top: 8px;
   max-width: 100%;
 }
