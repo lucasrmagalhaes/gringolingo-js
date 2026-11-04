@@ -1746,6 +1746,45 @@ export function textoDaPergunta(item) {
   return { en, pt, texto: `A pergunta pede ${ponto(pt)} Diga ${ponto(en)}` };
 }
 
+function clipValido(item) {
+  if (!item || typeof item !== 'object') return false;
+  const id = typeof item.id === 'string' ? item.id.trim() : '';
+  const titulo = typeof item.titulo === 'string' ? item.titulo.trim() : '';
+  const pergunta = typeof item.pergunta === 'string' ? item.pergunta.trim() : '';
+  if (!/^[a-z0-9]+$/.test(id)) return false;
+  if (titulo.length < 2 || titulo.length > 80) return false;
+  if (pergunta.length < 2 || pergunta.length > 120) return false;
+  if (id === '__proto__' || titulo === '__proto__' || pergunta === '__proto__') return false;
+  if (titulo === 'constructor' || pergunta === 'constructor' || pergunta === 'prototype') return false;
+  return true;
+}
+
+function indiceDaEscuta(dia, total) {
+  let x = 2166136261;
+  const texto = `escuta:${String(dia)}`;
+  for (let i = 0; i < texto.length; i++) {
+    x ^= texto.charCodeAt(i);
+    x = Math.imul(x, 16777619);
+  }
+  x >>>= 0;
+  return total ? x % total : 0;
+}
+
+export function textoDaEscuta(clips, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { id: '', titulo: '', pergunta: '', texto: 'Ainda não há escuta para ouvir.' };
+  const lista = (Array.isArray(clips) ? clips : []).filter(clipValido);
+  if (!lista.length) return { id: '', titulo: '', pergunta: '', texto: 'A escuta ainda não tem cena.' };
+  const escolhido = lista[indiceDaEscuta(fim, lista.length)];
+  const ponto = texto => (/[.!?]$/.test(texto) ? texto : `${texto}.`);
+  return {
+    id: escolhido.id,
+    titulo: escolhido.titulo,
+    pergunta: escolhido.pergunta,
+    texto: `A escuta pede ${ponto(escolhido.pergunta)} Ouça ${ponto(escolhido.titulo)}`
+  };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
