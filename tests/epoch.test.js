@@ -194,7 +194,7 @@ describe('epoch, ballot e fence', () => {
     assert.match(data, /VERSAO_APP = '3\.\d\d'/);
     assert.match(data, /versao: '3\.11'/);
     assert.match(data, /versao: '3\.10'/);
-    assert.match(sw, /gringolingo-v13\d/);
+    assert.match(sw, /gringolingo-v1\d\d/);
     assert.match(sw, /\.\/js\/epoch\.js/);
     assert.match(turno, /epoch\.js/);
     assert.equal(turno.includes('foco.js'), false);

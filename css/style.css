@@ -1001,6 +1001,20 @@ textarea {
   overflow-wrap: anywhere;
 }
 
+.fala-reducao {
+  margin: 8px 0 12px;
+  max-width: 100%;
+}
+
+.fala-reducao .btn {
+  margin-top: 10px;
+  max-width: 100%;
+}
+
+.fala-reducao p {
+  overflow-wrap: anywhere;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1036,6 +1050,8 @@ body.com-aviso-metricas {
 
 .card {
   min-height: 44px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   background: var(--superficie);
   border: 2px solid var(--borda-suave);
   border-radius: 18px;
@@ -1299,6 +1315,7 @@ button.conta-entrar {
 .licao-topo {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 14px;
   padding: 18px 0;
   position: sticky;
@@ -1326,7 +1343,9 @@ button.conta-entrar {
 }
 
 .barra-licao {
-  flex: 1;
+  flex: 1 1 80px;
+  min-width: 0;
+  max-width: 100%;
   height: 12px;
 }
 
@@ -1335,6 +1354,8 @@ button.conta-entrar {
   color: var(--laranja-texto);
   font-size: 18px;
   min-width: 56px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   text-align: right;
 }
 
@@ -3818,7 +3839,9 @@ button.caixa-treinavel:hover {
   color: var(--vermelho-texto);
   font-size: var(--fonte-sm);
   font-weight: 900;
-  white-space: nowrap;
+  white-space: normal;
+  max-width: 100%;
+  text-align: center;
 }
 
 /* A cor no container não alcançava os filhos, que têm cor própria. */

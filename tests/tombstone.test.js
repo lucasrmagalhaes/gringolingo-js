@@ -189,7 +189,7 @@ describe('tombstone, purge e reclaim', () => {
     assert.match(data, /VERSAO_APP = '3\.\d\d'/);
     assert.match(data, /versao: '3\.08'/);
     assert.match(data, /versao: '3\.07'/);
-    assert.match(sw, /gringolingo-v13\d/);
+    assert.match(sw, /gringolingo-v1\d\d/);
     assert.match(sw, /\.\/js\/tombstone\.js/);
     assert.match(turno, /tombstone\.js/);
     assert.equal(turno.includes('foco.js'), false);

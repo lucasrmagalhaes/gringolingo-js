@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.12';
+export const VERSAO_APP = '3.13';
 
 export const NOVIDADES = [
+  {
+    versao: '3.13',
+    titulo: 'O manifest',
+    itens: [
+      '📜 Diga que o manifesto lista o arquivo',
+      '🐇 Avise que o hedge cobre a espera',
+      '⏲️ Diga que o debounce espera a pausa',
+      '⏩ Ouça no hub a redução do dia'
+    ]
+  },
   {
     versao: '3.12',
     titulo: 'O flush',
@@ -2219,6 +2229,9 @@ export const MISSOES = [
   { id: 'flush1', emoji: '🚰', titulo: 'Desça a memória no flush', alvo: 1, xp: 15, medir: s => (s.tipo === 'flush' ? 1 : 0) },
   { id: 'memtable1', emoji: '📥', titulo: 'Guarde a linha na memtable', alvo: 1, xp: 15, medir: s => (s.tipo === 'memtable' ? 1 : 0) },
   { id: 'extent1', emoji: '📚', titulo: 'Junte a página no extent', alvo: 1, xp: 15, medir: s => (s.tipo === 'extent' ? 1 : 0) },
+  { id: 'manifest1', emoji: '📜', titulo: 'Liste o arquivo no manifest', alvo: 1, xp: 15, medir: s => (s.tipo === 'manifest' ? 1 : 0) },
+  { id: 'hedge1', emoji: '🐇', titulo: 'Cubra a espera no hedge', alvo: 1, xp: 15, medir: s => (s.tipo === 'hedge' ? 1 : 0) },
+  { id: 'debounce1', emoji: '⏲️', titulo: 'Espere a pausa no debounce', alvo: 1, xp: 15, medir: s => (s.tipo === 'debounce' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2596,6 +2609,9 @@ export const BADGES = [
   { id: 'flush', emoji: '🚰', nome: 'O flush', desc: 'Diga que o flush desce a memória' },
   { id: 'memtable', emoji: '📥', nome: 'A memtable', desc: 'Diga que a memtable guarda a linha' },
   { id: 'extent', emoji: '📚', nome: 'O extent', desc: 'Diga que o extent junta as páginas' },
+  { id: 'manifest', emoji: '📜', nome: 'O manifest', desc: 'Diga que o manifesto lista o arquivo' },
+  { id: 'hedge', emoji: '🐇', nome: 'O hedge', desc: 'Diga que o hedge cobre a espera' },
+  { id: 'debounce', emoji: '⏲️', nome: 'O debounce', desc: 'Diga que o debounce espera a pausa' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

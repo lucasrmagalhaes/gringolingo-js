@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-754%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-758%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -533,6 +533,10 @@ navegador.
 - **A memtable**: a tabela guarda a linha.
 - **O extent**: o bloco junta as páginas.
 - **O número**: no hub, o valor do dia para ouvir e escolher.
+- **O manifest**: o manifesto lista o arquivo.
+- **O hedge**: a chamada extra cobre a espera.
+- **O debounce**: a pausa segura o envio.
+- **A redução**: no hub, a frase curta do dia para ouvir e expandir.
 
 ### Hábito e gamificação
 
@@ -717,6 +721,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/stripe.js` | Stripe que espalha o bloco, parity que recupera o dado e rebuild que refaz o disco. |
 | `js/epoch.js` | Epoch que abre o termo, ballot que conta o voto e fence que segura a escrita. |
 | `js/flush.js` | Flush que desce a memória, memtable que guarda a linha e extent que junta as páginas. |
+| `js/manifest.js` | Manifest que lista o arquivo, hedge que cobre a espera e debounce que espera a pausa. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -798,7 +803,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **754 testes em 167 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **758 testes em 168 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -944,6 +949,7 @@ O que a suíte cobre:
 - **`tests/stripe.test.js`**: stripe, parity, rebuild, o som do dia e a versão 3.10.
 - **`tests/epoch.test.js`**: epoch, ballot, fence, o verbo do dia e a versão 3.11.
 - **`tests/flush.test.js`**: flush, memtable, extent, o número do dia e a versão 3.12.
+- **`tests/manifest.test.js`**: manifest, hedge, debounce, a redução do dia e a versão 3.13.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

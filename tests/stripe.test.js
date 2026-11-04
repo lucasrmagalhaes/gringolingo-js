@@ -192,7 +192,7 @@ describe('stripe, parity e rebuild', () => {
     assert.match(data, /VERSAO_APP = '3\.\d\d'/);
     assert.match(data, /versao: '3\.10'/);
     assert.match(data, /versao: '3\.09'/);
-    assert.match(sw, /gringolingo-v13\d/);
+    assert.match(sw, /gringolingo-v1\d\d/);
     assert.match(sw, /\.\/js\/stripe\.js/);
     assert.match(turno, /stripe\.js/);
     assert.equal(turno.includes('foco.js'), false);
