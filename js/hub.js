@@ -192,7 +192,10 @@ const BRUTOS = [
   ['porta', 'trabalho', '🚪', 'A porta', 'Nenhum processo escuta nessa porta de rede e o cliente recebe recusa imediata.', 'portas', 'connection refused port listener'],
   ['inodo', 'trabalho', '📛', 'O inodo', 'Os nomes livres acabaram e o arquivo novo não aparece no volume.', 'inodos', 'inode file names disk volume'],
   ['saida', 'trabalho', '🛎️', 'A saída', 'O serviço recebeu o aviso de encerrar e espera as tarefas abertas.', 'saidas', 'graceful shutdown stop signal tasks'],
-  ['manada', 'trabalho', '🐑', 'A manada', 'O cache venceu de uma vez e a enxurrada caiu no armazenamento.', 'manadas', 'cache stampede expire database herd']
+  ['manada', 'trabalho', '🐑', 'A manada', 'O cache venceu de uma vez e a enxurrada caiu no armazenamento.', 'manadas', 'cache stampede expire database herd'],
+  ['gotejo', 'trabalho', '💧', 'O gotejo', 'A memória cresce sem parar e nada volta para o sistema.', 'gotejos', 'memory leak grow megabytes process'],
+  ['frio', 'trabalho', '🥶', 'O frio', 'A função dorme e a primeira chamada espera ela acordar.', 'frios', 'cold start function first call warm'],
+  ['cadeado', 'trabalho', '🔐', 'O cadeado', 'O processo tentou ler o arquivo e a permissão recusou a leitura.', 'cadeados', 'permission denied read file access']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -427,7 +430,7 @@ export function textoDoContinuar(treino) {
   return `Continuar: ${treino.titulo}.`;
 }
 
-const TETO_JS = 1500000;
+const TETO_JS = 1520000;
 
 export function auditarPacote({ html, css, sw, arquivos } = {}) {
   const falhas = [];

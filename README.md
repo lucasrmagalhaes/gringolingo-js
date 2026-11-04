@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-526%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-530%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -305,6 +305,10 @@ navegador.
 - **A saída**: o serviço recebeu o aviso de encerrar e espera as tarefas abertas.
 - **A manada**: o cache venceu de uma vez e a enxurrada caiu no armazenamento.
 - **A última**: no hub, há quantos dias foi a última fala, com atalho para a semana.
+- **O gotejo**: a memória cresce sem parar e nada volta para o sistema.
+- **O frio**: a função dorme e a primeira chamada espera ela acordar.
+- **O cadeado**: o processo tentou ler o arquivo e a permissão recusou a leitura.
+- **A primeira**: no hub, há quantos dias foi a primeira fala, com atalho para a semana.
 - **A duração**: no hub, quanto dura cada treino desta semana, com atalho para a semana.
 - **A meta**: no hub, os minutos que ainda faltam para a meta desta semana, com atalho para a semana.
 - **A lacuna**: no hub, os dias desta semana ainda sem fala, com atalho para a semana.
@@ -495,6 +499,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/pausa.js` | Pausa da coleta, configuração que deriva e descritor de arquivo. |
 | `js/reserva.js` | Reserva de memória, consulta por linha e porta que recusa. |
 | `js/inodo.js` | Nomes do disco, saída do serviço e cache que vence junto. |
+| `js/gotejo.js` | Memória que cresce, função que dorme e leitura recusada. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -576,7 +581,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **526 testes em 110 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **530 testes em 111 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -665,6 +670,7 @@ O que a suíte cobre:
 - **`tests/pausa.test.js`**: pausa, deriva, descritor, a meta da semana e a versão 2.53.
 - **`tests/reserva.test.js`**: reserva, varredura, porta, a duração de cada treino e a versão 2.54.
 - **`tests/inodo.test.js`**: inodo, saída, manada, a última fala e a versão 2.55.
+- **`tests/gotejo.test.js`**: gotejo, frio, cadeado, a primeira fala e a versão 2.56.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

@@ -55,6 +55,7 @@ import { PONTEIROS, ELEICOES, FREIOS } from './ponteiro.js';
 import { PAUSAS, DERIVAS, DESCRITORES } from './pausa.js';
 import { RESERVAS, VARREDURAS, PORTAS } from './reserva.js';
 import { INODOS, SAIDAS, MANADAS } from './inodo.js';
+import { GOTEJOS, FRIOS, CADEADOS } from './gotejo.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -493,6 +494,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Gotejo', itens: GOTEJOS },
+    { origem: 'Frio', itens: FRIOS },
+    { origem: 'Cadeado', itens: CADEADOS },
     { origem: 'Inodo', itens: INODOS },
     { origem: 'Saída', itens: SAIDAS },
     { origem: 'Manada', itens: MANADAS },

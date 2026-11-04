@@ -1,7 +1,7 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, registrarRequisito, registrarMetrica, registrarAprendizado, registrarPasseio, registrarFalha, registrarMentoria, registrarSocorro, registrarPalestra, registrarDuvida, registrarSinal, registrarSistema, registrarCodigo, registrarColega, registrarSimulado, registrarModelo, registrarFuro, registrarRotina, registrarPapo, registrarFuturo, registrarCultura, registrarAumento, registrarRota as registrarFalaRota, registrarVivo, registrarProduto, registrarFecho, registrarEspaco, registrarMapa, registrarDuro, registrarProposta, registrarNarrar, registrarBanco, registrarRecusa, registrarSprint, registrarSeguro, registrarMeetup, registrarCompleta, registrarRodada, registrarMigra, registrarEstreia, registrarFoco, registrarPoker, registrarLeigo, registrarRecruta, registrarCulpa, registrarRaio, registrarOferta, registrarPedido, registrarCobertura, registrarLoom, registrarCaderno, registrarGrafico, registrarHandoff, registrarElevador, registrarJunta, registrarPista, registrarCalma, registrarFolga, registrarAberta, registrarRespeito, registrarDebito, registrarIndicacao, registrarUx, registrarForum, registrarVisto, registrarMes, registrarFacil, registrarEscolhaStack, registrarSabado, armarSurpresa, resumoSurpresa, registrarBrecha, registrarMuda, registrarGaucho, registrarRadar, registrarAplauso, registrarGripe, registrarPm, registrarLaudo, registrarRumo, registrarAcesso, registrarLicenca, registrarJargao, registrarBandeira, registrarGelo, registrarLimite, registrarCanario, registrarDespedida, registrarRepeticao, registrarCarga, registrarBoletim, registrarDono, registrarManual, registrarVerde, registrarCertificado, registrarRebase, registrarConsulta, registrarReplica, registrarEnsaio, registrarDisco, registrarPagina, registrarSquash, registrarCircuito, registrarJob, registrarColheita, registrarSessao, registrarTanque, registrarSonda, registrarSemente, registrarRegistro, registrarRastro, registrarParada, registrarPod, registrarLint, registrarOrigem, registrarLink, registrarCpu, registrarCopia, registrarEstouro, registrarImpasse, registrarDominio, registrarMorta, registrarPonteiro, registrarEleicao, registrarFreio, registrarPausa, registrarDeriva, registrarDescritor, registrarReserva, registrarVarredura, registrarPorta, registrarInodo, registrarSaida, registrarManada, alternarEstrela, estrelaLigada, marcarTreinoAberto, definirOrdemHub, marcarEspaco, resumoDesafio, definirMetaFala, definirMetaMinutos, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, resumoBackup, textoResumoBackup, nomeArquivoBackup, LIMITE_BACKUP, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, palavrasDoPadrao, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, registrarRequisito, registrarMetrica, registrarAprendizado, registrarPasseio, registrarFalha, registrarMentoria, registrarSocorro, registrarPalestra, registrarDuvida, registrarSinal, registrarSistema, registrarCodigo, registrarColega, registrarSimulado, registrarModelo, registrarFuro, registrarRotina, registrarPapo, registrarFuturo, registrarCultura, registrarAumento, registrarRota as registrarFalaRota, registrarVivo, registrarProduto, registrarFecho, registrarEspaco, registrarMapa, registrarDuro, registrarProposta, registrarNarrar, registrarBanco, registrarRecusa, registrarSprint, registrarSeguro, registrarMeetup, registrarCompleta, registrarRodada, registrarMigra, registrarEstreia, registrarFoco, registrarPoker, registrarLeigo, registrarRecruta, registrarCulpa, registrarRaio, registrarOferta, registrarPedido, registrarCobertura, registrarLoom, registrarCaderno, registrarGrafico, registrarHandoff, registrarElevador, registrarJunta, registrarPista, registrarCalma, registrarFolga, registrarAberta, registrarRespeito, registrarDebito, registrarIndicacao, registrarUx, registrarForum, registrarVisto, registrarMes, registrarFacil, registrarEscolhaStack, registrarSabado, armarSurpresa, resumoSurpresa, registrarBrecha, registrarMuda, registrarGaucho, registrarRadar, registrarAplauso, registrarGripe, registrarPm, registrarLaudo, registrarRumo, registrarAcesso, registrarLicenca, registrarJargao, registrarBandeira, registrarGelo, registrarLimite, registrarCanario, registrarDespedida, registrarRepeticao, registrarCarga, registrarBoletim, registrarDono, registrarManual, registrarVerde, registrarCertificado, registrarRebase, registrarConsulta, registrarReplica, registrarEnsaio, registrarDisco, registrarPagina, registrarSquash, registrarCircuito, registrarJob, registrarColheita, registrarSessao, registrarTanque, registrarSonda, registrarSemente, registrarRegistro, registrarRastro, registrarParada, registrarPod, registrarLint, registrarOrigem, registrarLink, registrarCpu, registrarCopia, registrarEstouro, registrarImpasse, registrarDominio, registrarMorta, registrarPonteiro, registrarEleicao, registrarFreio, registrarPausa, registrarDeriva, registrarDescritor, registrarReserva, registrarVarredura, registrarPorta, registrarInodo, registrarSaida, registrarManada, registrarGotejo, registrarFrio, registrarCadeado, alternarEstrela, estrelaLigada, marcarTreinoAberto, definirOrdemHub, marcarEspaco, resumoDesafio, definirMetaFala, definirMetaMinutos, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, resumoBackup, textoResumoBackup, nomeArquivoBackup, LIMITE_BACKUP, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, palavrasDoPadrao, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES, falarComLocale, falarTrechos } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa } from './conversa.js';
@@ -62,7 +62,8 @@ import { PONTEIROS, ponteiroPorId, avaliarPonteiro, ELEICOES, eleicaoPorId, aval
 import { PAUSAS, pausaPorId, avaliarPausa, DERIVAS, derivaPorId, avaliarDeriva, DESCRITORES, descritorPorId, avaliarDescritor } from './pausa.js';
 import { RESERVAS, reservaPorId, avaliarReserva, VARREDURAS, varreduraPorId, avaliarVarredura, PORTAS, portaPorId, avaliarPorta } from './reserva.js';
 import { INODOS, inodoPorId, avaliarInodo, SAIDAS, saidaPorId, avaliarSaida, MANADAS, manadaPorId, avaliarManada } from './inodo.js';
-import { somarSemana, textoMinutos, textoGrupo, lembreteMinutos, balancoDaSemana, textoDeHoje, textoDaSequencia, textoDaComparacao, textoDoAcerto, textoDoPico, textoDoApoio, textoDaNota, textoDosDias, textoDoRitmo, textoDaLacuna, textoDaMeta, textoDaDuracao, textoDaUltima, METAS_MINUTOS } from './semana.js';
+import { GOTEJOS, gotejoPorId, avaliarGotejo, FRIOS, frioPorId, avaliarFrio, CADEADOS, cadeadoPorId, avaliarCadeado } from './gotejo.js';
+import { somarSemana, textoMinutos, textoGrupo, lembreteMinutos, balancoDaSemana, textoDeHoje, textoDaSequencia, textoDaComparacao, textoDoAcerto, textoDoPico, textoDoApoio, textoDaNota, textoDosDias, textoDoRitmo, textoDaLacuna, textoDaMeta, textoDaDuracao, textoDaUltima, textoDaPrimeira, METAS_MINUTOS } from './semana.js';
 import { filaEspacada, diasAoAcertar, textoVolta } from './espaco.js';
 import { CATEGORIAS as GRUPOS_HUB, TREINOS, filtrarTreinos, treinoRecomendado, ordenarTreinos, filtrarEstrelas, treinoContinuar, textoDoContinuar, textoDaEstreia, textoDoGrupo, textoDaEstrela } from './hub.js';
 import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS, rotuloGravacao } from './voz.js';
@@ -514,7 +515,7 @@ function botaoPontosFracos() {
   const sub = topo
     ? `${fracos.length} palavra${fracos.length > 1 ? 's' : ''} para reforçar. A que mais volta: ${topo.item.en}.`
     : 'Padrões de erro que mais voltam, cada um com um treino.';
-  return h('button', { class: 'card revisao pontos-fracos', onclick: telaPontosFracos },
+  return h('button', { class: 'card revisao pontos-fracos', type: 'button', onclick: telaPontosFracos },
     h('span', { class: 'revisao-emoji' }, '🧭'),
     h('div', { class: 'revisao-textos' },
       h('div', { class: 'revisao-titulo' }, 'Pontos fracos'),
@@ -573,7 +574,7 @@ function cartaoBoasVindas() {
 function botaoMinhaLista() {
   const favoritas = itensFavoritos();
   if (!favoritas.length) return '';
-  return h('button', { class: 'card revisao minha-lista', onclick: iniciarMinhaLista },
+  return h('button', { class: 'card revisao minha-lista', type: 'button', onclick: iniciarMinhaLista },
     h('span', { class: 'revisao-emoji' }, '⭐'),
     h('div', { class: 'revisao-textos' },
       h('div', { class: 'revisao-titulo' }, 'Minha Lista'),
@@ -670,7 +671,7 @@ function botaoEscuta() {
   const sub = temFala
     ? 'Ouça a frase e escreva, ou repita no microfone.'
     : 'Ouça a frase e escreva. Sem microfone neste navegador.';
-  return h('button', { class: 'card revisao escuta-atalho', onclick: iniciarEscuta },
+  return h('button', { class: 'card revisao escuta-atalho', type: 'button', onclick: iniciarEscuta },
     h('span', { class: 'revisao-emoji' }, '👂'),
     h('div', { class: 'revisao-textos' },
       h('div', { class: 'revisao-titulo' }, 'Escuta'),
@@ -717,7 +718,7 @@ function iniciarCaixa(indice) {
 function botaoRelampago() {
   if (itensAprendidos().length < 8) return '';
   const recorde = estado.stats.recordeRelampago ?? 0;
-  return h('button', { class: 'card revisao relampago-atalho', onclick: iniciarRelampago },
+  return h('button', { class: 'card revisao relampago-atalho', type: 'button', onclick: iniciarRelampago },
     h('span', { class: 'revisao-emoji' }, '⚡'),
     h('div', { class: 'revisao-textos' },
       h('div', { class: 'revisao-titulo' }, 'Relâmpago'),
@@ -731,7 +732,7 @@ function botaoRelampago() {
 
 function botaoVerbos() {
   if (!estado.licoes.b1) return '';
-  return h('button', { class: 'card revisao verbos-atalho', onclick: iniciarVerbos },
+  return h('button', { class: 'card revisao verbos-atalho', type: 'button', onclick: iniciarVerbos },
     h('span', { class: 'revisao-emoji' }, '🔤'),
     h('div', { class: 'revisao-textos' },
       h('div', { class: 'revisao-titulo' }, 'Oficina de Verbos'),
@@ -891,7 +892,7 @@ function finalizarRelampago() {
 function botaoVocabulario() {
   if (!estado.stats.licoes) return '';
   const feitas = Object.keys(estado.licoes).filter(k => k.startsWith('vocab:')).length;
-  return h('button', { class: 'card revisao vocab-atalho', onclick: () => telaVocabulario() },
+  return h('button', { class: 'card revisao vocab-atalho', type: 'button', onclick: () => telaVocabulario() },
     h('span', { class: 'revisao-emoji' }, '🚀'),
     h('div', { class: 'revisao-textos' },
       h('div', { class: 'revisao-titulo' }, 'Expansão de Vocabulário'),
@@ -5432,6 +5433,84 @@ function pintarManada() {
   });
 }
 
+function telaGotejos() {
+  listarCena(
+    'gotejo',
+    '💧 O gotejo',
+    'Duas falas: sobe e devolve. A frase modelo só aparece depois.',
+    GOTEJOS,
+    abrirGotejo,
+    valor => { gotejoSessao = valor; }
+  );
+}
+
+function abrirGotejo(id) {
+  abrirCenaLista(id, gotejoPorId, cena => { gotejoSessao = cena; }, pintarGotejo, telaGotejos);
+}
+
+function pintarGotejo() {
+  pintarCenaLista(gotejoSessao, {
+    rota: 'gotejo',
+    aoLista: telaGotejos,
+    repintar: pintarGotejo,
+    avaliar: avaliarGotejo,
+    registrar: registrarGotejo,
+    tituloFim: 'Memória quieta!'
+  });
+}
+
+function telaFrios() {
+  listarCena(
+    'frio',
+    '🥶 O frio',
+    'Duas falas: dorme e acorda. A frase modelo só aparece depois.',
+    FRIOS,
+    abrirFrio,
+    valor => { frioSessao = valor; }
+  );
+}
+
+function abrirFrio(id) {
+  abrirCenaLista(id, frioPorId, cena => { frioSessao = cena; }, pintarFrio, telaFrios);
+}
+
+function pintarFrio() {
+  pintarCenaLista(frioSessao, {
+    rota: 'frio',
+    aoLista: telaFrios,
+    repintar: pintarFrio,
+    avaliar: avaliarFrio,
+    registrar: registrarFrio,
+    tituloFim: 'Função quente!'
+  });
+}
+
+function telaCadeados() {
+  listarCena(
+    'cadeado',
+    '🔐 O cadeado',
+    'Duas falas: tenta e libera. A frase modelo só aparece depois.',
+    CADEADOS,
+    abrirCadeado,
+    valor => { cadeadoSessao = valor; }
+  );
+}
+
+function abrirCadeado(id) {
+  abrirCenaLista(id, cadeadoPorId, cena => { cadeadoSessao = cena; }, pintarCadeado, telaCadeados);
+}
+
+function pintarCadeado() {
+  pintarCenaLista(cadeadoSessao, {
+    rota: 'cadeado',
+    aoLista: telaCadeados,
+    repintar: pintarCadeado,
+    avaliar: avaliarCadeado,
+    registrar: registrarCadeado,
+    tituloFim: 'Leitura livre!'
+  });
+}
+
 function telaAbertas() {
   abertaSessao = null;
   pintarAberta();
@@ -5822,7 +5901,7 @@ function linhaSom() {
 function cartaoCompartilhar() {
   if (!estado.stats.licoes) return '';
   const msg = h('div', { class: 'revisao-sub', role: 'status' }, 'Gere um card com seu nível, XP e sequência');
-  const botao = h('button', { class: 'btn btn-azul' }, '📤 COMPARTILHAR');
+  const botao = h('button', { class: 'btn btn-azul', type: 'button' }, '📤 COMPARTILHAR');
   botao.addEventListener('click', async () => {
     botao.disabled = true;
     const nv = nivelInfo();
@@ -6049,7 +6128,7 @@ function agendarLembrete() {
 function cartaoConta() {
   if (!nuvemConfigurada) return '';
   if (!usuarioEmail) {
-    return h('button', { class: 'card conta-card conta-entrar', onclick: () => telaLogin() },
+    return h('button', { class: 'card conta-card conta-entrar', type: 'button', onclick: () => telaLogin() },
       h('span', {}, '🔑 Entrar para sincronizar seu progresso'),
       h('span', { class: 'revisao-seta' }, '☁️')
     );
@@ -6340,7 +6419,7 @@ function botaoConversa() {
     : (estado.nivelFala
       ? `Nível de fala ${estado.nivelFala}. Cenas, perguntas e o resumo da semana.`
       : 'Cenas com caminhos, pronúncia, escuta e um painel da sua fala.');
-  return h('button', { class: 'card revisao conversa-atalho', onclick: telaConversa },
+  return h('button', { class: 'card revisao conversa-atalho', type: 'button', onclick: telaConversa },
     h('span', { class: 'revisao-emoji' }, '💬'),
     h('div', { class: 'revisao-textos' },
       h('div', { class: 'revisao-titulo' }, 'Conversar'),
@@ -6352,7 +6431,7 @@ function botaoConversa() {
 
 function cartaoPronuncia() {
   const feitas = estado.stats.pronuncias ?? 0;
-  return h('button', { class: 'card revisao pronuncia-atalho', onclick: telaPronuncia },
+  return h('button', { class: 'card revisao pronuncia-atalho', type: 'button', onclick: telaPronuncia },
     h('span', { class: 'revisao-emoji' }, '👅'),
     h('div', { class: 'revisao-textos' },
       h('div', { class: 'revisao-titulo' }, 'Pronúncia'),
@@ -8117,6 +8196,9 @@ let portaSessao = null;
 let inodoSessao = null;
 let saidaSessao = null;
 let manadaSessao = null;
+let gotejoSessao = null;
+let frioSessao = null;
+let cadeadoSessao = null;
 let filtroHub = { categoria: 'todos', busca: '', estrela: false };
 let revisaoPrazo = 0;
 let gravacaoUrl = null;
@@ -8347,7 +8429,10 @@ function telasDoHub() {
     porta: telaPortas,
     inodo: telaInodos,
     saida: telaSaidas,
-    manada: telaManadas
+    manada: telaManadas,
+    gotejo: telaGotejos,
+    frio: telaFrios,
+    cadeado: telaCadeados
   };
 }
 
@@ -8898,6 +8983,24 @@ function cartaoUltima() {
   );
 }
 
+function cartaoPrimeira() {
+  const info = textoDaPrimeira(estado.painel, diaLocalAgora());
+  return h('div', {
+    id: 'fala-primeira',
+    class: 'card fala-primeira',
+    role: 'region',
+    'aria-label': info.texto
+  },
+    h('div', { class: 'nivel-titulo' }, 'A primeira'),
+    h('p', {}, info.texto),
+    typeof info.dias === 'number' ? h('button', {
+      class: 'btn btn-branco',
+      type: 'button',
+      onclick: () => abrirTreino('semana')
+    }, 'VER A SEMANA') : ''
+  );
+}
+
 function blocoFluencia() {
   const trilha = garantirTrilha();
   const rec = treinoRecomendado(TREINOS, {
@@ -8973,6 +9076,7 @@ function blocoFluencia() {
     cartaoFalta(),
     cartaoDuracao(),
     cartaoUltima(),
+    cartaoPrimeira(),
     recomendado,
     continuar,
     h('div', { class: 'hub-busca' },
@@ -9829,6 +9933,7 @@ function telaResumo() {
       h('p', {}, `Pausas ${estado.stats.pausas} · derivas ${estado.stats.derivas} · descritores ${estado.stats.descritores}.`),
       h('p', {}, `Reservas ${estado.stats.reservas} · varreduras ${estado.stats.varreduras} · portas ${estado.stats.portas}.`),
       h('p', {}, `Inodos ${estado.stats.inodos} · saídas ${estado.stats.saidas} · manadas ${estado.stats.manadas}.`),
+      h('p', {}, `Gotejos ${estado.stats.gotejos} · frios ${estado.stats.frios} · cadeados ${estado.stats.cadeados}.`),
       h('p', {}, lembreteMeta(contarFaladas(estado.painel, hojeIso), estado.metaFala, hojeIso))
     ),
     erros.length
@@ -13733,6 +13838,9 @@ async function iniciar() {
     inodo: () => (inodoSessao && !inodoSessao.concluido ? pintarInodo() : telaInodos()),
     saida: () => (saidaSessao && !saidaSessao.concluido ? pintarSaida() : telaSaidas()),
     manada: () => (manadaSessao && !manadaSessao.concluido ? pintarManada() : telaManadas()),
+    gotejo: () => (gotejoSessao && !gotejoSessao.concluido ? pintarGotejo() : telaGotejos()),
+    frio: () => (frioSessao && !frioSessao.concluido ? pintarFrio() : telaFrios()),
+    cadeado: () => (cadeadoSessao && !cadeadoSessao.concluido ? pintarCadeado() : telaCadeados()),
     fracos: telaPontosFracos,
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),

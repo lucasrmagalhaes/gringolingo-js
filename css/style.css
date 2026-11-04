@@ -475,6 +475,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-primeira {
+  margin: 8px 0 12px;
+}
+
+.fala-primeira .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -590,6 +598,11 @@ body.com-aviso-metricas {
 
 .revisao:hover {
   border-color: var(--azul);
+}
+
+button.revisao,
+button.conta-entrar {
+  min-height: 44px;
 }
 
 .revisao-vencida {
