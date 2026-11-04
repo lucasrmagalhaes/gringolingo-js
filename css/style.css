@@ -709,6 +709,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-sobra {
+  margin: 8px 0 12px;
+}
+
+.fala-sobra .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1763,6 +1771,7 @@ textarea.entrada {
 }
 
 .boas-vindas {
+  min-height: 44px;
   display: flex;
   align-items: center;
   gap: 14px;
