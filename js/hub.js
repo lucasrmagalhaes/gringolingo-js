@@ -186,7 +186,10 @@ const BRUTOS = [
   ['freio', 'trabalho', '🛞', 'O freio', 'A fila encheu e o produtor passa a enviar mais devagar.', 'freios', 'backpressure queue producer slow'],
   ['pausa', 'trabalho', '⌛', 'A pausa', 'A coleta parou o processo por dois segundos e as chamadas esperaram.', 'pausas', 'gc pause two seconds calls waited'],
   ['deriva', 'trabalho', '📄', 'A deriva', 'A configuração publicada difere do arquivo no repositório.', 'derivas', 'config drift repo file lines'],
-  ['descritor', 'trabalho', '📁', 'O descritor', 'O processo abriu arquivos demais e a próxima abertura falha.', 'descritores', 'file descriptor too many files limit']
+  ['descritor', 'trabalho', '📁', 'O descritor', 'O processo abriu arquivos demais e a próxima abertura falha.', 'descritores', 'file descriptor too many files limit'],
+  ['reserva', 'trabalho', '🪫', 'A reserva', 'O servidor passou a usar a reserva de memória e as respostas atrasaram muito.', 'reservas', 'swap memory server responses slow'],
+  ['varredura', 'trabalho', '🧵', 'A varredura', 'A tela dispara uma consulta nova para cada linha da lista enorme.', 'varreduras', 'n plus one query per row list'],
+  ['porta', 'trabalho', '🚪', 'A porta', 'Nenhum processo escuta nessa porta de rede e o cliente recebe recusa imediata.', 'portas', 'connection refused port listener']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

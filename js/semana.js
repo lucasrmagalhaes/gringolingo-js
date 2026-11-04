@@ -303,6 +303,26 @@ export function textoDaMeta(painel, diaIso, meta) {
   return { falta, minutos, meta: alvo, texto };
 }
 
+export function textoDaDuracao(painel, diaIso) {
+  let segundos = 0;
+  let n = 0;
+  for (const data of diasDaSemana(diaIso)) {
+    if (!data || data > diaIso) continue;
+    const linha = painel && typeof painel === 'object' ? painel[data] : null;
+    if (!linha) continue;
+    segundos += inteiroNaoNegativo(linha.segundos);
+    n += inteiroNaoNegativo(linha.n);
+  }
+  if (!n || !segundos) return { segundos: 0, n: 0, media: 0, texto: 'Ainda não há duração nesta semana.' };
+  const media = Math.floor(segundos / n);
+  const minutos = Math.floor(media / 60);
+  if (!minutos) {
+    return { segundos, n, media, texto: 'Cada treino desta semana durou menos de 1 minuto.' };
+  }
+  if (minutos === 1) return { segundos, n, media, texto: 'Cada treino desta semana durou 1 minuto.' };
+  return { segundos, n, media, texto: `Cada treino desta semana durou ${minutos} minutos.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
