@@ -949,6 +949,30 @@ export function textoDaCobertura(painel, diaIso) {
   return { dias, cobertura, texto: `A cobertura dos dias é de ${cobertura} por cento.` };
 }
 
+export function textoDoIntervalo(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, intervalo: 0, texto: 'Ainda não há intervalo de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  const datas = [];
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    datas.push(data);
+  }
+  const dias = datas.length;
+  if (dias === 0) return { dias: 0, intervalo: 0, texto: 'O intervalo dos dias ainda é 0 dias.' };
+  if (dias < 2) return { dias, intervalo: 0, texto: 'O intervalo dos dias é de 0 dias.' };
+  datas.sort();
+  let soma = 0;
+  for (let i = 1; i < datas.length; i++) soma += diasEntreIso(datas[i - 1], datas[i]);
+  const intervalo = Math.round(soma / (datas.length - 1));
+  if (intervalo === 1) return { dias, intervalo, texto: 'O intervalo dos dias é de 1 dia.' };
+  return { dias, intervalo, texto: `O intervalo dos dias é de ${intervalo} dias.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

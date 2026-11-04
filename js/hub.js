@@ -267,7 +267,10 @@ const BRUTOS = [
   ['revogacao', 'trabalho', '🚫', 'A revogação', 'O passe antigo deixa de valer na hora.', 'revogacoes', 'revoke'],
   ['quorum', 'trabalho', '🗳️', 'O quórum', 'A escrita só entra com a maioria dos nós.', 'quoruns', 'quorum'],
   ['maioria', 'trabalho', '✋', 'A maioria', 'Mais da metade dos nós precisa confirmar.', 'maiorias', 'majority'],
-  ['arbitro', 'trabalho', '⚖️', 'O árbitro', 'O nó extra desempata quando a rede parte.', 'arbitros', 'tie']
+  ['arbitro', 'trabalho', '⚖️', 'O árbitro', 'O nó extra desempata quando a rede parte.', 'arbitros', 'tie'],
+  ['lider', 'trabalho', '🧭', 'O líder', 'Um nó conduz o mandato e os outros seguem.', 'lideres', 'leader'],
+  ['mandato', 'trabalho', '📜', 'O mandato', 'Cada eleição sobe o número do período.', 'mandatos', 'term'],
+  ['seguidor', 'trabalho', '👣', 'O seguidor', 'O nó copia o registro e não escreve sozinho.', 'seguidores', 'follow']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
