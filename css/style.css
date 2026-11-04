@@ -161,6 +161,9 @@ textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
   gap: 8px;
   border: none;
   border-radius: 14px;
@@ -928,6 +931,20 @@ textarea {
   max-width: 100%;
 }
 
+.fala-pergunta {
+  margin: 8px 0 12px;
+  max-width: 100%;
+}
+
+.fala-pergunta .btn {
+  margin-top: 10px;
+  max-width: 100%;
+}
+
+.fala-pergunta p {
+  overflow-wrap: anywhere;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1347,6 +1364,8 @@ button.conta-entrar {
   border-bottom-width: 4px;
   border-radius: 14px;
   padding: 14px 16px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   min-height: 44px;
   font-size: var(--fonte-lg);
   font-weight: 800;
@@ -2329,6 +2348,8 @@ input.busca-dic::-webkit-search-cancel-button {
 .dic-item {
   display: flex;
   align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: 100%;
   gap: 12px;
   background: var(--superficie);
   border: 2px solid var(--borda-suave);
@@ -2355,6 +2376,7 @@ input.busca-dic::-webkit-search-cancel-button {
 .dic-en {
   font-size: var(--fonte-lg);
   font-weight: 900;
+  overflow-wrap: anywhere;
 }
 
 .dic-pt {
@@ -2362,6 +2384,7 @@ input.busca-dic::-webkit-search-cancel-button {
   color: var(--texto-suave);
   font-weight: 800;
   margin-top: 2px;
+  overflow-wrap: anywhere;
 }
 
 .dic-nota {
@@ -3604,6 +3627,8 @@ button.caixa-treinavel:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 100%;
   gap: 12px;
 }
 
@@ -4147,6 +4172,8 @@ button.caixa-treinavel:hover {
   display: block;
   font-weight: 900;
   font-size: var(--fonte-lg);
+  overflow-wrap: anywhere;
+  max-width: 100%;
 }
 
 .fala-pt {
@@ -4160,6 +4187,8 @@ button.caixa-treinavel:hover {
   font-size: var(--fonte-xl);
   font-weight: 900;
   line-height: 1.6;
+  overflow-wrap: anywhere;
+  max-width: 100%;
 }
 
 .sombra-ok {

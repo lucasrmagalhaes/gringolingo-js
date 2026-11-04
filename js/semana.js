@@ -1732,6 +1732,20 @@ export function textoDaSombraDia(frases, diaIso) {
   };
 }
 
+export function textoDaPergunta(item) {
+  const rodada = item && Array.isArray(item.rodadas) ? item.rodadas[0] : null;
+  const pt = typeof rodada?.npc?.pt === 'string' ? rodada.npc.pt.trim() : '';
+  const en = typeof rodada?.melhor === 'string' ? rodada.melhor.trim().replace(/\.$/, '') : '';
+  if (pt.length < 2 || pt.length > 120 || en.length < 8 || en.length > 160) {
+    return { en: '', pt: '', texto: 'Ainda não há pergunta para dizer.' };
+  }
+  if (pt === '__proto__' || en === '__proto__' || en === 'constructor' || en === 'prototype') {
+    return { en: '', pt: '', texto: 'Ainda não há pergunta para dizer.' };
+  }
+  const ponto = texto => (/[.!?]$/.test(texto) ? texto : `${texto}.`);
+  return { en, pt, texto: `A pergunta pede ${ponto(pt)} Diga ${ponto(en)}` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
