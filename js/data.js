@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.04';
+export const VERSAO_APP = '3.05';
 
 export const NOVIDADES = [
+  {
+    versao: '3.05',
+    titulo: 'O watermark',
+    itens: [
+      '🪧 Diga que a marca mostra até onde a leitura chegou',
+      '🚧 Avise que a barreira espera o lote inteiro',
+      '📐 Diga que as linhas ficam na mesma altura',
+      '📝 Diga no hub a palavra de vocabulário que já venceu'
+    ]
+  },
   {
     versao: '3.04',
     titulo: 'O shard',
@@ -2115,6 +2125,9 @@ export const MISSOES = [
   { id: 'shard1', emoji: '🧩', titulo: 'Guarde uma parte da chave no pedaço', alvo: 1, xp: 15, medir: s => (s.tipo === 'shard' ? 1 : 0) },
   { id: 'rebalance1', emoji: '⚖️', titulo: 'Mova a carga para outra parte', alvo: 1, xp: 15, medir: s => (s.tipo === 'rebalance' ? 1 : 0) },
   { id: 'split1', emoji: '🪓', titulo: 'Divida a parte cheia em duas', alvo: 1, xp: 15, medir: s => (s.tipo === 'split' ? 1 : 0) },
+  { id: 'watermark1', emoji: '🪧', titulo: 'Marque até onde a leitura chegou', alvo: 1, xp: 15, medir: s => (s.tipo === 'watermark' ? 1 : 0) },
+  { id: 'barrier1', emoji: '🚧', titulo: 'Espere o lote inteiro na barreira', alvo: 1, xp: 15, medir: s => (s.tipo === 'barrier' ? 1 : 0) },
+  { id: 'align1', emoji: '📐', titulo: 'Deixe as linhas na mesma altura', alvo: 1, xp: 15, medir: s => (s.tipo === 'align' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2468,6 +2481,9 @@ export const BADGES = [
   { id: 'shard', emoji: '🧩', nome: 'O shard', desc: 'Diga que o pedaço guarda uma parte da chave' },
   { id: 'rebalance', emoji: '⚖️', nome: 'O rebalance', desc: 'Diga que as partes trocam de lugar' },
   { id: 'split', emoji: '🪓', nome: 'O split', desc: 'Diga que a parte grande vira duas' },
+  { id: 'watermark', emoji: '🪧', nome: 'O watermark', desc: 'Diga que a marca mostra até onde a leitura chegou' },
+  { id: 'barrier', emoji: '🚧', nome: 'O barrier', desc: 'Diga que a barreira espera o lote inteiro' },
+  { id: 'align', emoji: '📐', nome: 'O align', desc: 'Diga que as linhas ficam na mesma altura' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

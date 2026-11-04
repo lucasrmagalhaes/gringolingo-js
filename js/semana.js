@@ -1623,6 +1623,39 @@ export function textoDoRetorno(agenda, diaIso, erros) {
   return { id: 'deslize', en: devidos[0].en, texto: `O retorno pede ${frase}.` };
 }
 
+function fichaValida(item) {
+  if (!item || typeof item !== 'object') return false;
+  const en = typeof item.en === 'string' ? item.en.trim() : '';
+  const pt = typeof item.pt === 'string' ? item.pt.trim() : '';
+  if (en.length < 2 || en.length > 40) return false;
+  if (pt.length < 2 || pt.length > 60) return false;
+  if (en === '__proto__' || en === 'constructor' || en === 'prototype') return false;
+  if (pt === '__proto__' || pt === 'constructor' || pt === 'prototype') return false;
+  return true;
+}
+
+export function textoDaFicha(itens, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { en: '', pt: '', texto: 'Ainda não há ficha de palavra.' };
+  const lista = (Array.isArray(itens) ? itens : []).filter(fichaValida).map(item => ({
+    en: item.en.trim(),
+    pt: item.pt.trim().replace(/\.$/, ''),
+    proxima: typeof item.proxima === 'string' ? item.proxima : '',
+    caixa: Number.isFinite(Number(item.caixa)) ? Number(item.caixa) : 0
+  }));
+  if (!lista.length) return { en: '', pt: '', texto: 'A ficha ainda não tem palavra.' };
+  const devidos = lista
+    .filter(item => !item.proxima || (dataValida(item.proxima) && item.proxima <= fim))
+    .sort((a, b) => {
+      const pa = a.proxima || '9999-12-31';
+      const pb = b.proxima || '9999-12-31';
+      return pa.localeCompare(pb) || a.caixa - b.caixa || a.en.localeCompare(b.en);
+    });
+  if (!devidos.length) return { en: '', pt: '', texto: 'A ficha espera a próxima palavra.' };
+  const escolhido = devidos[0];
+  return { en: escolhido.en, pt: escolhido.pt, texto: `A ficha pede ${escolhido.pt}. Diga ${escolhido.en}.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
