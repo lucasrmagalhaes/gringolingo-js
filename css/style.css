@@ -459,6 +459,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-duracao {
+  margin: 8px 0 12px;
+}
+
+.fala-duracao .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -890,6 +898,7 @@ body.com-aviso-metricas {
   border: 2px solid var(--borda);
   border-radius: 14px;
   padding: 16px;
+  min-height: 44px;
   font-size: 18px;
   font-family: inherit;
   font-weight: 800;
@@ -1700,8 +1709,8 @@ textarea.entrada {
 .busca-dic::-webkit-search-cancel-button {
   -webkit-appearance: none;
   appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: var(--trilho);
   cursor: pointer;
@@ -2675,6 +2684,7 @@ button.caixa-treinavel:hover {
   font-family: inherit;
   font-weight: 900;
   font-size: 14px;
+  min-height: 44px;
   cursor: pointer;
   box-shadow: 0 4px 0 var(--azul-esc), 0 8px 24px rgba(0, 0, 0, 0.18);
 }
