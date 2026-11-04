@@ -219,6 +219,7 @@ textarea {
 .topo {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
   padding: 18px 0;
   position: sticky;
@@ -874,9 +875,18 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-recado {
+  margin: 8px 0 12px;
+}
+
+.fala-recado .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
+  max-width: 100%;
 }
 
 body.com-aviso-metricas {

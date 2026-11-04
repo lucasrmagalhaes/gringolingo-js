@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.01';
+export const VERSAO_APP = '3.02';
 
 export const NOVIDADES = [
+  {
+    versao: '3.02',
+    titulo: 'O crdt',
+    itens: [
+      '🔀 Diga que as edições se juntam sem trava',
+      '🕰️ Avise que a escrita mais nova vence o campo',
+      '📦 Diga que o item fica até a remoção aparecer',
+      '📝 Veja no hub o treino do último grupo que a fala ainda não tocou'
+    ]
+  },
   {
     versao: '3.01',
     titulo: 'O bitmap',
@@ -2076,6 +2086,9 @@ export const MISSOES = [
   { id: 'bitmap1', emoji: '🗺️', titulo: 'Marque o bit da chave', alvo: 1, xp: 15, medir: s => (s.tipo === 'bitmap' ? 1 : 0) },
   { id: 'roaring1', emoji: '🦁', titulo: 'Junte os bits iguais num intervalo', alvo: 1, xp: 15, medir: s => (s.tipo === 'roaring' ? 1 : 0) },
   { id: 'hyper1', emoji: '🧮', titulo: 'Estime os itens distintos', alvo: 1, xp: 15, medir: s => (s.tipo === 'hyper' ? 1 : 0) },
+  { id: 'crdt1', emoji: '🔀', titulo: 'Junte as edições sem trava', alvo: 1, xp: 15, medir: s => (s.tipo === 'crdt' ? 1 : 0) },
+  { id: 'lww1', emoji: '🕰️', titulo: 'Deixe a escrita mais nova vencer o campo', alvo: 1, xp: 15, medir: s => (s.tipo === 'lww' ? 1 : 0) },
+  { id: 'orset1', emoji: '📦', titulo: 'Segure o item até a remoção aparecer', alvo: 1, xp: 15, medir: s => (s.tipo === 'orset' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2420,6 +2433,9 @@ export const BADGES = [
   { id: 'bitmap', emoji: '🗺️', nome: 'O bitmap', desc: 'Diga que o mapa marca o bit da chave' },
   { id: 'roaring', emoji: '🦁', nome: 'O roaring', desc: 'Diga que os bits iguais viram um intervalo' },
   { id: 'hyper', emoji: '🧮', nome: 'O hyper', desc: 'Diga que a conta estima itens distintos' },
+  { id: 'crdt', emoji: '🔀', nome: 'O crdt', desc: 'Diga que as edições se juntam sem trava' },
+  { id: 'lww', emoji: '🕰️', nome: 'O lww', desc: 'Diga que a escrita mais nova vence o campo' },
+  { id: 'orset', emoji: '📦', nome: 'O orset', desc: 'Diga que o item fica até a remoção aparecer' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

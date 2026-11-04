@@ -1531,6 +1531,46 @@ export function textoDoReforco(painel, diaIso, treinos, stats) {
   };
 }
 
+export function textoDoRecado(painel, diaIso, treinos, stats) {
+  const fim = String(diaIso || '');
+  const lista = (Array.isArray(treinos) ? treinos : []).filter(t => t && t.id && t.stat && t.titulo);
+  const livre = t => (Number(stats?.[t.stat]) || 0) <= 0;
+  if (!dataValida(fim)) return { dias: null, id: '', titulo: '', texto: 'Ainda não há recado de fala.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  const vistos = new Set();
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const n = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (n <= 0 && seg <= 0) continue;
+    dias += 1;
+    const grupos = linha?.grupos && typeof linha.grupos === 'object' ? linha.grupos : {};
+    for (const id of GRUPOS) {
+      if (inteiroNaoNegativo(grupos[id]) > 0) vistos.add(id);
+    }
+  }
+  if (!dias) return { dias: 0, id: '', titulo: '', texto: 'O recado ainda não tem fala.' };
+  const faltam = GRUPOS.filter(id => !vistos.has(id));
+  let escolhido = null;
+  for (let i = faltam.length - 1; i >= 0; i -= 1) {
+    const achado = lista.find(t => t.categoria === faltam[i] && livre(t));
+    if (achado) {
+      escolhido = achado;
+      break;
+    }
+  }
+  if (!escolhido) return { dias, id: '', titulo: '', texto: 'O recado já passou pelos grupos.' };
+  const subtitulo = String(escolhido.sub || '').replace(/\.$/, '');
+  return {
+    dias,
+    id: escolhido.id,
+    titulo: escolhido.titulo,
+    texto: `O recado pede ${escolhido.titulo}. ${subtitulo}.`
+  };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
