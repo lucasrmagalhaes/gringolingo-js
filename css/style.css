@@ -894,6 +894,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-retorno {
+  margin: 8px 0 12px;
+}
+
+.fala-retorno .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1821,6 +1829,8 @@ textarea.entrada {
 
 .metas {
   display: inline-flex;
+  flex-wrap: wrap;
+  max-width: 100%;
   gap: 2px;
   flex: none;
   background: var(--trilho);
@@ -1842,6 +1852,7 @@ textarea.entrada {
   transition: color 0.12s, background 0.12s;
   min-width: 44px;
   min-height: 44px;
+  max-width: 100%;
 }
 
 .meta-opcao::after {
