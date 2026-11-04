@@ -261,7 +261,10 @@ const BRUTOS = [
   ['farol', 'trabalho', '🗼', 'O farol', 'O sinal curto mostra que o serviço ainda vive.', 'farois'],
   ['ancora', 'trabalho', '⚓', 'A âncora', 'Um ponto fixo guarda o estado antes da troca.', 'ancoras', 'anchor'],
   ['malha', 'trabalho', '🕸️', 'A malha', 'Cada serviço fala só com o vizinho da rede.', 'malhas', 'mesh'],
-  ['fenda', 'trabalho', '🪓', 'A fenda', 'O tráfego se divide entre duas versões vivas.', 'fendas', 'split']
+  ['fenda', 'trabalho', '🪓', 'A fenda', 'O tráfego se divide entre duas versões vivas.', 'fendas', 'split'],
+  ['cofre', 'trabalho', '🏦', 'O cofre', 'A chave mora num serviço separado do app.', 'cofres', 'vault'],
+  ['audiencia', 'trabalho', '👂', 'A audiência', 'O passe só vale para o serviço certo.', 'audiencias', 'audience'],
+  ['revogacao', 'trabalho', '🚫', 'A revogação', 'O passe antigo deixa de valer na hora.', 'revogacoes', 'revoke']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -496,7 +499,7 @@ export function textoDoContinuar(treino) {
   return `Continuar: ${treino.titulo}.`;
 }
 
-const TETO_JS = 1840000;
+const TETO_JS = 1870000;
 
 export function auditarPacote({ html, css, sw, arquivos } = {}) {
   const falhas = [];
