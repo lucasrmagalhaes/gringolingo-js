@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.51';
+export const VERSAO_APP = '2.52';
 
 export const NOVIDADES = [
+  {
+    versao: '2.52',
+    titulo: 'Os ponteiros',
+    itens: [
+      '🕰️ Diga que os relógios diferem em dois segundos',
+      '🗳️ Peça dois votos de três para eleger o líder',
+      '🛞 Avise que a fila encheu e o produtor vai devagar',
+      '📝 Veja no hub os dias em branco desta semana'
+    ]
+  },
   {
     versao: '2.51',
     titulo: 'O impasse',
@@ -1426,6 +1436,9 @@ export const MISSOES = [
   { id: 'impasse1', emoji: '🪢', titulo: 'Solte o trabalho mais antigo', alvo: 1, xp: 15, medir: s => (s.tipo === 'impasse' ? 1 : 0) },
   { id: 'dominio1', emoji: '🏷️', titulo: 'Aponte o nome que não resolve', alvo: 1, xp: 15, medir: s => (s.tipo === 'dominio' ? 1 : 0) },
   { id: 'morta1', emoji: '📮', titulo: 'Leia a mensagem da fila ao lado', alvo: 1, xp: 15, medir: s => (s.tipo === 'morta' ? 1 : 0) },
+  { id: 'ponteiro1', emoji: '🕰️', titulo: 'Alinhe os relógios dos servidores', alvo: 1, xp: 15, medir: s => (s.tipo === 'ponteiro' ? 1 : 0) },
+  { id: 'eleicao1', emoji: '🗳️', titulo: 'Eleja o líder com dois votos', alvo: 1, xp: 15, medir: s => (s.tipo === 'eleicao' ? 1 : 0) },
+  { id: 'freio1', emoji: '🛞', titulo: 'Freie o produtor da fila cheia', alvo: 1, xp: 15, medir: s => (s.tipo === 'freio' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1620,6 +1633,9 @@ export const BADGES = [
   { id: 'impasse', emoji: '🪢', nome: 'O impasse', desc: 'Solte o trabalho mais antigo que ainda espera' },
   { id: 'dominio', emoji: '🏷️', nome: 'O domínio', desc: 'Aponte o nome do site para o endereço novo' },
   { id: 'morta', emoji: '📮', nome: 'A carta morta', desc: 'Mande a mensagem ruim para a fila ao lado' },
+  { id: 'ponteiro', emoji: '🕰️', nome: 'Os ponteiros', desc: 'Alinhe os relógios que diferem em dois segundos' },
+  { id: 'eleicao', emoji: '🗳️', nome: 'A eleição', desc: 'Peça dois votos de três para o líder novo' },
+  { id: 'freio', emoji: '🛞', nome: 'O freio', desc: 'Diminua o ritmo quando a fila encher' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

@@ -180,7 +180,10 @@ const BRUTOS = [
   ['estouro', 'trabalho', '💥', 'O estouro', 'O processo estourou a memória e a gente sobe o limite.', 'estouros', 'out of memory limit process'],
   ['impasse', 'trabalho', '🪢', 'O impasse', 'Os dois trabalhos esperam um pelo outro e a gente solta o mais antigo.', 'impasses', 'deadlock two jobs older lock'],
   ['dominio', 'trabalho', '🏷️', 'O domínio', 'O nome do site não resolve e a gente aponta o endereço novo.', 'dominios', 'dns name resolve address'],
-  ['morta', 'trabalho', '📮', 'A carta morta', 'A mensagem ruim vai para a fila ao lado e a gente lê o motivo.', 'mortas', 'dead letter side queue payload']
+  ['morta', 'trabalho', '📮', 'A carta morta', 'A mensagem ruim vai para a fila ao lado e a gente lê o motivo.', 'mortas', 'dead letter side queue payload'],
+  ['ponteiro', 'trabalho', '🕰️', 'Os ponteiros', 'Os relógios dos servidores diferem em dois segundos e a assinatura falha.', 'ponteiros', 'clock skew two seconds signature'],
+  ['eleicao', 'trabalho', '🗳️', 'A eleição', 'O líder antigo saiu e dois de três precisam concordar.', 'eleicoes', 'quorum leader two of three votes'],
+  ['freio', 'trabalho', '🛞', 'O freio', 'A fila encheu e o produtor passa a enviar mais devagar.', 'freios', 'backpressure queue producer slow']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

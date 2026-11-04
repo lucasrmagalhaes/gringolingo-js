@@ -270,6 +270,23 @@ export function textoDoRitmo(painel, diaIso) {
   return { dias, ritmo, texto };
 }
 
+export function textoDaLacuna(painel, diaIso) {
+  let n = 0;
+  let vistos = 0;
+  for (const data of diasDaSemana(diaIso)) {
+    if (!data || data > diaIso) continue;
+    vistos += 1;
+    const linha = painel && typeof painel === 'object' ? painel[data] : null;
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const segundos = inteiroNaoNegativo(linha?.segundos);
+    if (treinos > 0 || segundos > 0) continue;
+    n += 1;
+  }
+  if (!vistos || !n) return { n: 0, texto: 'Nenhum dia em branco nesta semana.' };
+  if (n === 1) return { n: 1, texto: '1 dia em branco nesta semana.' };
+  return { n, texto: `${n} dias em branco nesta semana.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
