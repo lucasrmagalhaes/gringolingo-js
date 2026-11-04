@@ -393,6 +393,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-acerto {
+  margin: 8px 0 12px;
+}
+
+.fala-acerto .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1305,12 +1313,14 @@ textarea.entrada {
   border-radius: 999px;
   cursor: pointer;
   transition: color 0.12s, background 0.12s;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .meta-opcao::after {
   content: '';
   position: absolute;
-  inset: -8px -1px;
+  inset: 0;
 }
 
 .meta-opcao:hover:not(.ativa) {
@@ -1789,12 +1799,14 @@ textarea.entrada {
   border-radius: 999px;
   cursor: pointer;
   transition: border-color 0.12s, background 0.12s, color 0.12s;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .voz-chip::after {
   content: '';
   position: absolute;
-  inset: -6px -3px;
+  inset: 0;
 }
 
 .voz-chip:hover:not(.ativa) {

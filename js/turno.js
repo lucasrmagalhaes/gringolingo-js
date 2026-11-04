@@ -45,6 +45,7 @@ import { MANUAIS, VERDES, CERTIFICADOS } from './manual.js';
 import { REBASES, CONSULTAS, REPLICAS } from './atraso.js';
 import { ENSAIOS, DISCOS, PAGINAS } from './lote.js';
 import { SQUASHES, CIRCUITOS, JOBS } from './corte.js';
+import { COLHEITAS, SESSOES, TANQUES } from './folha.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -483,6 +484,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Colheita', itens: COLHEITAS },
+    { origem: 'Sessão', itens: SESSOES },
+    { origem: 'Tanque', itens: TANQUES },
     { origem: 'Squash', itens: SQUASHES },
     { origem: 'Circuito', itens: CIRCUITOS },
     { origem: 'Job', itens: JOBS },

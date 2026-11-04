@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-486%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-490%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -274,6 +274,10 @@ navegador.
 - **O squash**: três commits viram um só antes do merge.
 - **O circuito**: o circuito abre depois de cinco erros e a chamada falha na hora.
 - **O job**: o job roda às três da manhã e falhou quatro noites.
+- **A colheita**: um commit sobe sozinho e os outros ficam para trás.
+- **A sessão**: a sessão acaba depois de oito horas e pode ir até doze.
+- **O tanque**: o tanque enche com vinte conexões e as ociosas podem fechar.
+- **O acerto**: no hub, a taxa de acerto desta semana, com atalho para o histórico.
 - **A estrela**: no hub, o favorito que ainda não teve prática, com atalho para a lista.
 - **A palavra**: no hub, a palavra que mais volta nas falas, com atalho para repetir.
 - **Semana anterior**: no hub, os minutos até o mesmo ponto da semana anterior.
@@ -445,6 +449,7 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/atraso.js` | Rebase da branch, consulta lenta e réplica atrasada. |
 | `js/lote.js` | Ensaio antes da produção, disco cheio e página com poucas linhas. |
 | `js/corte.js` | Squash antes do merge, circuito que abre e job da madrugada. |
+| `js/folha.js` | Cherry-pick de um commit, fim da sessão e tanque de conexões. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -527,7 +532,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **486 testes em 100 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **490 testes em 101 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -606,6 +611,7 @@ O que a suíte cobre:
 - **`tests/atraso.test.js`**: rebase, consulta lenta, réplica, a palavra que mais volta e a versão 2.43.
 - **`tests/lote.test.js`**: ensaio, disco cheio, página, o grupo com menos prática e a versão 2.44.
 - **`tests/corte.test.js`**: squash, circuito, job, o favorito sem prática e a versão 2.45.
+- **`tests/folha.test.js`**: colheita, sessão, tanque, o acerto da semana e a versão 2.46.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
