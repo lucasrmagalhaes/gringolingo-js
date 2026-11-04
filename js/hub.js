@@ -162,7 +162,10 @@ const BRUTOS = [
   ['pagina', 'trabalho', '📃', 'A página', 'A lista mostra vinte linhas e a próxima começa depois do último id.', 'paginas', 'pagina vinte linhas ultimo id'],
   ['squash', 'trabalho', '✂️', 'O squash', 'Três commits viram um só antes do merge.', 'squashes', 'squash tres commits historico merge'],
   ['circuito', 'trabalho', '🛑', 'O circuito', 'O circuito abre depois de cinco erros e a chamada falha na hora.', 'circuitos', 'circuit breaker cinco erros um minuto'],
-  ['job', 'trabalho', '🌙', 'O job', 'O job roda às três da manhã e falhou quatro noites.', 'jobs', 'cron job tres manha quatro noites']
+  ['job', 'trabalho', '🌙', 'O job', 'O job roda às três da manhã e falhou quatro noites.', 'jobs', 'cron job tres manha quatro noites'],
+  ['colheita', 'trabalho', '🍒', 'A colheita', 'Um commit sobe sozinho e os outros ficam para trás.', 'colheitas', 'cherry pick commit sozinho release'],
+  ['sessao', 'trabalho', '⏳', 'A sessão', 'A sessão acaba depois de oito horas e pode ir até doze.', 'sessoes', 'sessao oito horas doze login'],
+  ['tanque', 'trabalho', '🪣', 'O tanque', 'O tanque enche com vinte conexões e as ociosas podem fechar.', 'tanques', 'pool vinte conexoes ociosas']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

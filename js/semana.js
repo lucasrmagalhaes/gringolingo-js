@@ -139,6 +139,35 @@ export function textoDaComparacao(painel, diaIso) {
   };
 }
 
+function inteiroNaoNegativo(n) {
+  const v = Number(n);
+  if (!Number.isFinite(v) || v <= 0) return 0;
+  return Math.floor(v);
+}
+
+export function textoDoAcerto(painel, diaIso) {
+  let acertos = 0;
+  let respostas = 0;
+  for (const data of diasDaSemana(diaIso)) {
+    if (!data || data > diaIso) continue;
+    const linha = painel && typeof painel === 'object' ? painel[data] : null;
+    if (!linha) continue;
+    acertos += inteiroNaoNegativo(linha.acertos);
+    respostas += inteiroNaoNegativo(linha.respostas);
+  }
+  if (!respostas) {
+    return { acertos: 0, respostas: 0, pct: 0, texto: 'Ainda não há respostas nesta semana.' };
+  }
+  const certos = Math.min(acertos, respostas);
+  const pct = Math.round((certos / respostas) * 100);
+  return {
+    acertos: certos,
+    respostas,
+    pct,
+    texto: `${pct}% de acerto nesta semana. ${certos} de ${respostas}.`
+  };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

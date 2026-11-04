@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.45';
+export const VERSAO_APP = '2.46';
 
 export const NOVIDADES = [
+  {
+    versao: '2.46',
+    titulo: 'A colheita',
+    itens: [
+      '🍒 Suba um commit sozinho e deixe os outros para trás',
+      '⏳ Diga que a sessão acaba depois de oito horas',
+      '🪣 Avise que o tanque de conexões está cheio',
+      '🎯 Veja no hub o acerto desta semana'
+    ]
+  },
   {
     versao: '2.45',
     titulo: 'O squash',
@@ -1348,6 +1358,9 @@ export const MISSOES = [
   { id: 'squash1', emoji: '✂️', titulo: 'Junte os commits antes do merge', alvo: 1, xp: 15, medir: s => (s.tipo === 'squash' ? 1 : 0) },
   { id: 'circuito1', emoji: '🛑', titulo: 'Explique o circuito que abre', alvo: 1, xp: 15, medir: s => (s.tipo === 'circuito' ? 1 : 0) },
   { id: 'job1', emoji: '🌙', titulo: 'Fale do job da madrugada', alvo: 1, xp: 15, medir: s => (s.tipo === 'job' ? 1 : 0) },
+  { id: 'colheita1', emoji: '🍒', titulo: 'Suba um commit sozinho', alvo: 1, xp: 15, medir: s => (s.tipo === 'colheita' ? 1 : 0) },
+  { id: 'sessao1', emoji: '⏳', titulo: 'Fale do fim da sessão', alvo: 1, xp: 15, medir: s => (s.tipo === 'sessao' ? 1 : 0) },
+  { id: 'tanque1', emoji: '🪣', titulo: 'Avise que o tanque está cheio', alvo: 1, xp: 15, medir: s => (s.tipo === 'tanque' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1524,6 +1537,9 @@ export const BADGES = [
   { id: 'squash', emoji: '✂️', nome: 'O squash', desc: 'Junte os commits e diga como fica o histórico' },
   { id: 'circuito', emoji: '🛑', nome: 'O circuito', desc: 'Diga quando o circuito abre e quando fecha' },
   { id: 'job', emoji: '🌙', nome: 'O job', desc: 'Diga o horário do job e quantas noites ele falhou' },
+  { id: 'colheita', emoji: '🍒', nome: 'A colheita', desc: 'Suba um commit sozinho e deixe os outros para trás' },
+  { id: 'sessao', emoji: '⏳', nome: 'A sessão', desc: 'Diga quando a sessão acaba e até quando ela estende' },
+  { id: 'tanque', emoji: '🪣', nome: 'O tanque', desc: 'Avise que o tanque está cheio e feche as ociosas' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
