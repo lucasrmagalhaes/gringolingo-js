@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-634%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-638%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -200,7 +200,7 @@ navegador.
 - **Banco ou cache**: explique sessões, cache ou busca numa entrevista de sistema.
 - **O não educado**: recuse um pedido e ofereça outro caminho.
 - **Meta de minutos**: escolha 10, 20, 30 ou 45. O lembrete fica na tela e não pede aviso do celular.
-- **Demo da sprint**: mostre o que saiu e responda uma pergunta fora do roteiro.
+- **Demo da sprint**: mostre o que saiu e responda uma pergunta.
 - **A decisão segura**: fale de um furo, de um patch ou de apagar um dado.
 - **No meetup**: puxe assunto num evento de tecnologia.
 - **Entrevista completa**: cinco treinos em sequência e a mesma nota do simulado.
@@ -216,7 +216,7 @@ navegador.
 - **O relâmpago**: cinco minutos sobre um projeto pessoal.
 - **A oferta**: notebook, verba de estudo e a data de início.
 - **Sombra**: o mesmo dia repete a ordem. A voz do aparelho lê a frase, e a nota diz qual palavra faltou.
-- **Não entendi**: peça o sotaque, a palavra que escapou e leia o requisito de volta.
+- **Não entendi**: peça o sotaque e a palavra que escapou.
 - **A cobertura**: diga que os testes rodam em todo push, o que a cobertura mostra e que a suíte fica sem rede.
 - **O vídeo**: um check-in de dois minutos, com o link na thread e sem reunião.
 - **Meu vocabulário**: as palavras que escaparam nas falas ficam neste aparelho para revisar numa frase.
@@ -263,16 +263,16 @@ navegador.
 - **Quem aprova**: a pasta tem dois donos e o merge espera um deles.
 - **O manual**: o manual manda ler o alerta primeiro e fica no wiki do time.
 - **O lado verde**: o tráfego vai para o lado verde e a volta leva um minuto.
-- **O certificado**: o certificado vence na sexta e o aviso sai sete dias antes.
-- **O rebase**: a branch está dois commits atrás e o rebase vai em cima da main.
+- **O certificado**: o certificado vence na sexta e o aviso sai antes.
+- **O rebase**: a branch está atrás e o rebase vai em cima da main.
 - **A consulta**: a consulta leva quatro segundos e roda em cada carga de página.
 - **A réplica**: a réplica está atrás e a leitura pode usar a cópia.
-- **O ensaio**: o teste vai para o ensaio antes da produção, numa cópia de ontem.
+- **O ensaio**: o teste vai para o ensaio antes da produção.
 - **O disco**: o disco está noventa por cento cheio e o log velho pode sair.
-- **A página**: a lista mostra vinte linhas e a próxima começa depois do último id.
+- **A página**: a lista mostra vinte linhas e a próxima começa depois.
 - **O grupo**: no hub, o grupo com menos prática, com atalho para filtrar.
 - **O squash**: três commits viram um só antes do merge.
-- **O circuito**: o circuito abre depois de cinco erros e a chamada falha na hora.
+- **O circuito**: o circuito abre depois de cinco erros e a chamada falha.
 - **O job**: o job roda às três da manhã e falhou quatro noites.
 - **A colheita**: um commit sobe sozinho e os outros ficam para trás.
 - **A sessão**: a sessão acaba depois de oito horas e pode ir até doze.
@@ -286,12 +286,12 @@ navegador.
 - **O lint**: o lint falhou em dois arquivos e o aviso fica no diff.
 - **A origem**: o navegador bloqueia a outra origem até liberar o site.
 - **O link**: o link assinado vale uma hora e depois expira.
-- **O processador**: o processador fica perto de noventa por cento e a gente olha o pico.
+- **O processador**: o processador fica perto de noventa por cento.
 - **A cópia**: a cópia da noite começa às duas e fica pronta de manhã.
 - **O estouro**: o processo estourou a memória e a gente sobe o limite.
 - **O impasse**: dois trabalhos esperam um pelo outro e soltam o antigo.
 - **O domínio**: o nome do site não resolve e aponta o endereço novo.
-- **A carta morta**: a mensagem ruim vai para a fila ao lado e a gente lê o motivo.
+- **A carta morta**: a carta morta guarda o motivo da recusa.
 - **Os ponteiros**: os relógios diferem e a assinatura falha.
 - **A eleição**: o líder antigo saiu e dois de três precisam concordar.
 - **O freio**: a fila encheu e o produtor passa a enviar mais devagar.
@@ -413,6 +413,10 @@ navegador.
 - **A coreografia**: o vizinho escolhe a etapa seguinte.
 - **A compensação**: a falha desfaz a etapa anterior.
 - **A cadência**: no hub, os dias de fala por semana do intervalo, com atalho para a semana.
+- **O primário**: só um nó aceita a escrita nova.
+- **O espelho**: a cópia acompanha sem aceitar escrita.
+- **A ascensão**: a cópia vira dona quando o primário cai.
+- **A densidade**: no hub, os minutos de fala por semana do intervalo, com atalho para a semana.
 
 ### Hábito e gamificação
 
@@ -567,6 +571,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/quorum.js` | Quórum que exige a maioria, maioria que confirma a escrita e árbitro que desempata a rede. |
 | `js/lider.js` | Líder que conduz o mandato, mandato que sobe na eleição e seguidor que copia o registro. |
 | `js/orquestra.js` | Orquestrador que dispara a sequência, vizinho que escolhe a etapa e falha que desfaz a anterior. |
+| `js/primario.js` | Primário que aceita a escrita, espelho que só copia e ascensão que vira dona. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -648,7 +653,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **634 testes em 137 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **638 testes em 138 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -764,6 +769,7 @@ O que a suíte cobre:
 - **`tests/quorum.test.js`**: quórum, maioria, árbitro, a cobertura dos dias de treino e a versão 2.80.
 - **`tests/lider.test.js`**: líder, mandato, seguidor, o intervalo entre os dias de treino e a versão 2.81.
 - **`tests/orquestra.test.js`**: orquestrador, coreografia, compensação, a cadência dos dias de treino e a versão 2.82.
+- **`tests/primario.test.js`**: primário, espelho, ascensão, a densidade dos minutos de fala e a versão 2.83.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

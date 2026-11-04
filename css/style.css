@@ -693,6 +693,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-densidade {
+  margin: 8px 0 12px;
+}
+
+.fala-densidade .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1529,6 +1537,7 @@ textarea.entrada {
 }
 
 .meta-card {
+  min-height: 44px;
   display: flex;
   align-items: center;
   gap: 14px;

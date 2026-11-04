@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.82';
+export const VERSAO_APP = '2.83';
 
 export const NOVIDADES = [
+  {
+    versao: '2.83',
+    titulo: 'O primário',
+    itens: [
+      '🥇 Diga que só um nó aceita a escrita',
+      '🪟 Avise que a cópia não aceita escrita',
+      '📈 Diga que a cópia vira dona',
+      '📝 Veja no hub a densidade dos minutos de fala'
+    ]
+  },
   {
     versao: '2.82',
     titulo: 'O orquestrador',
@@ -1829,6 +1839,9 @@ export const MISSOES = [
   { id: 'orquestrador1', emoji: '🎼', titulo: 'Dispare a sequência pelo coordenador', alvo: 1, xp: 15, medir: s => (s.tipo === 'orquestrador' ? 1 : 0) },
   { id: 'coreografia1', emoji: '💃', titulo: 'Deixe o vizinho escolher a etapa', alvo: 1, xp: 15, medir: s => (s.tipo === 'coreografia' ? 1 : 0) },
   { id: 'compensacao1', emoji: '↩️', titulo: 'Desfaça a etapa que falhou', alvo: 1, xp: 15, medir: s => (s.tipo === 'compensacao' ? 1 : 0) },
+  { id: 'primario1', emoji: '🥇', titulo: 'Deixe só um nó aceitar a escrita', alvo: 1, xp: 15, medir: s => (s.tipo === 'primario' ? 1 : 0) },
+  { id: 'espelho1', emoji: '🪟', titulo: 'Acompanhe sem aceitar escrita', alvo: 1, xp: 15, medir: s => (s.tipo === 'espelho' ? 1 : 0) },
+  { id: 'ascensao1', emoji: '📈', titulo: 'Vire dono quando o primário cai', alvo: 1, xp: 15, medir: s => (s.tipo === 'ascensao' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2116,6 +2129,9 @@ export const BADGES = [
   { id: 'orquestrador', emoji: '🎼', nome: 'O orquestrador', desc: 'Diga que o coordenador dispara a sequência' },
   { id: 'coreografia', emoji: '💃', nome: 'A coreografia', desc: 'Diga que o vizinho escolhe a etapa' },
   { id: 'compensacao', emoji: '↩️', nome: 'A compensação', desc: 'Diga que a falha desfaz a etapa anterior' },
+  { id: 'primario', emoji: '🥇', nome: 'O primário', desc: 'Diga que só um nó aceita a escrita' },
+  { id: 'espelho', emoji: '🪟', nome: 'O espelho', desc: 'Diga que a cópia não aceita escrita' },
+  { id: 'ascensao', emoji: '📈', nome: 'A ascensão', desc: 'Diga que a cópia vira dona' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

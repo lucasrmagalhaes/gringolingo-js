@@ -77,6 +77,7 @@ import { COFRES, AUDIENCIAS, REVOGACOES } from './cofre.js';
 import { QUORUMS, MAIORIAS, ARBITROS } from './quorum.js';
 import { LIDERES, MANDATOS, SEGUIDORES } from './lider.js';
 import { ORQUESTRADORES, COREOGRAFIAS, COMPENSACOES } from './orquestra.js';
+import { PRIMARIOS, ESPELHOS, ASCENSOES } from './primario.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -582,6 +583,9 @@ export function catalogoFaladas() {
     { origem: 'Orquestrador', itens: ORQUESTRADORES },
     { origem: 'Coreografia', itens: COREOGRAFIAS },
     { origem: 'Compensação', itens: COMPENSACOES },
+    { origem: 'Primário', itens: PRIMARIOS },
+    { origem: 'Espelho', itens: ESPELHOS },
+    { origem: 'Ascensão', itens: ASCENSOES },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },
