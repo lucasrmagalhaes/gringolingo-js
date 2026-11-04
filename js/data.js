@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.08';
+export const VERSAO_APP = '3.09';
 
 export const NOVIDADES = [
+  {
+    versao: '3.09',
+    titulo: 'O journal',
+    itens: [
+      '📓 Diga que o journal anota a mudança',
+      '🗂️ Avise que o segment fecha o arquivo',
+      '💧 Diga que o spill manda o excesso ao disco',
+      '👂 Ouça no hub a cena do dia e responda'
+    ]
+  },
   {
     versao: '3.08',
     titulo: 'O tombstone',
@@ -2167,6 +2177,9 @@ export const MISSOES = [
   { id: 'tombstone1', emoji: '🪦', titulo: 'Marque a chave apagada na lápide', alvo: 1, xp: 15, medir: s => (s.tipo === 'tombstone' ? 1 : 0) },
   { id: 'purge1', emoji: '🗑️', titulo: 'Tire a chave morta na limpeza', alvo: 1, xp: 15, medir: s => (s.tipo === 'purge' ? 1 : 0) },
   { id: 'reclaim1', emoji: '♻️', titulo: 'Devolva o espaço para a lista livre', alvo: 1, xp: 15, medir: s => (s.tipo === 'reclaim' ? 1 : 0) },
+  { id: 'journal1', emoji: '📓', titulo: 'Anote a mudança no journal', alvo: 1, xp: 15, medir: s => (s.tipo === 'journal' ? 1 : 0) },
+  { id: 'segment1', emoji: '🗂️', titulo: 'Feche o arquivo no segment', alvo: 1, xp: 15, medir: s => (s.tipo === 'segment' ? 1 : 0) },
+  { id: 'spill1', emoji: '💧', titulo: 'Mande o excesso ao disco no spill', alvo: 1, xp: 15, medir: s => (s.tipo === 'spill' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2532,6 +2545,9 @@ export const BADGES = [
   { id: 'tombstone', emoji: '🪦', nome: 'O tombstone', desc: 'Diga que a lápide marca a chave apagada' },
   { id: 'purge', emoji: '🗑️', nome: 'O purge', desc: 'Diga que a limpeza tira a chave morta' },
   { id: 'reclaim', emoji: '♻️', nome: 'O reclaim', desc: 'Diga que o espaço volta para a lista livre' },
+  { id: 'journal', emoji: '📓', nome: 'O journal', desc: 'Diga que o journal anota a mudança' },
+  { id: 'segment', emoji: '🗂️', nome: 'O segment', desc: 'Diga que o segment fecha o arquivo' },
+  { id: 'spill', emoji: '💧', nome: 'O spill', desc: 'Diga que o spill manda o excesso ao disco' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

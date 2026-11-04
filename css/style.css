@@ -945,6 +945,20 @@ textarea {
   overflow-wrap: anywhere;
 }
 
+.fala-escuta {
+  margin: 8px 0 12px;
+  max-width: 100%;
+}
+
+.fala-escuta .btn {
+  margin-top: 10px;
+  max-width: 100%;
+}
+
+.fala-escuta p {
+  overflow-wrap: anywhere;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1060,8 +1074,10 @@ body.com-aviso-metricas {
 .revisao {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 14px;
   width: 100%;
+  max-width: 100%;
   cursor: pointer;
   text-align: left;
   border-bottom-width: 4px;
@@ -1098,12 +1114,16 @@ button.conta-entrar {
 .revisao-titulo {
   font-size: 18px;
   font-weight: 900;
+  overflow-wrap: anywhere;
+  max-width: 100%;
 }
 
 .revisao-sub {
   font-size: var(--fonte-sm);
   color: var(--texto-suave);
   line-height: 1.45;
+  overflow-wrap: anywhere;
+  max-width: 100%;
 }
 
 .revisao-seta {
@@ -4211,6 +4231,8 @@ button.caixa-treinavel:hover {
 .ia-aviso {
   font-weight: 800;
   color: var(--texto-suave);
+  overflow-wrap: anywhere;
+  max-width: 100%;
 }
 
 .fila-botoes {
