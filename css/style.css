@@ -918,6 +918,16 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-sombra {
+  margin: 8px 0 12px;
+  max-width: 100%;
+}
+
+.fala-sombra .btn {
+  margin-top: 10px;
+  max-width: 100%;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1775,7 +1785,10 @@ textarea.entrada {
 .banner-streak {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   background: color-mix(in srgb, var(--laranja) 18%, var(--superficie));
   border: 2px solid var(--laranja);
   border-radius: 14px;
@@ -1976,7 +1989,9 @@ textarea.entrada {
   min-height: 44px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
+  max-width: 100%;
 }
 
 .missao.concluida .missao-nome {
@@ -1990,12 +2005,15 @@ textarea.entrada {
 
 .missao-corpo {
   flex: 1;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .missao-nome {
   font-size: var(--fonte-sm);
   font-weight: 800;
   margin-bottom: 4px;
+  overflow-wrap: anywhere;
 }
 
 .missao-prog {
@@ -2006,6 +2024,9 @@ textarea.entrada {
   font-size: 12px;
   font-weight: 900;
   color: var(--laranja-texto);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .boas-vindas {

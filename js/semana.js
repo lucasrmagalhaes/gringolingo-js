@@ -1692,6 +1692,46 @@ export function textoDoBaralho(frases, agenda, diaIso) {
   return { en: escolhido.en, pt: escolhido.pt, texto: frase(escolhido.pt, escolhido.en) };
 }
 
+function sombraValida(item) {
+  if (!item || typeof item !== 'object') return false;
+  const en = typeof item.en === 'string' ? item.en.trim() : '';
+  const pt = typeof item.pt === 'string' ? item.pt.trim() : '';
+  if (en.length < 8 || en.length > 80) return false;
+  if (pt.length < 2 || pt.length > 80) return false;
+  if (en.split(/\s+/).length < 2) return false;
+  if (en === '__proto__' || en === 'constructor' || en === 'prototype') return false;
+  if (pt === '__proto__' || pt === 'constructor' || pt === 'prototype') return false;
+  return true;
+}
+
+function indiceDaSombra(dia, total) {
+  let x = 2166136261;
+  const texto = String(dia);
+  for (let i = 0; i < texto.length; i++) {
+    x ^= texto.charCodeAt(i);
+    x = Math.imul(x, 16777619);
+  }
+  x >>>= 0;
+  return total ? x % total : 0;
+}
+
+export function textoDaSombraDia(frases, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { en: '', pt: '', texto: 'Ainda não há sombra para ouvir.' };
+  const lista = (Array.isArray(frases) ? frases : []).filter(sombraValida).map(item => ({
+    en: item.en.trim().replace(/\.$/, ''),
+    pt: item.pt.trim().replace(/\.$/, '')
+  }));
+  if (!lista.length) return { en: '', pt: '', texto: 'A sombra ainda não tem frase.' };
+  const escolhido = lista[indiceDaSombra(fim, lista.length)];
+  const ponto = texto => (/[.!?]$/.test(texto) ? texto : `${texto}.`);
+  return {
+    en: escolhido.en,
+    pt: escolhido.pt,
+    texto: `A sombra pede ${ponto(escolhido.pt)} Ouça e diga ${ponto(escolhido.en)}`
+  };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
