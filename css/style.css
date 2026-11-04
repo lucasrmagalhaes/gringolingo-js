@@ -385,6 +385,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-estrela {
+  margin: 8px 0 12px;
+}
+
+.fala-estrela .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1816,6 +1824,8 @@ textarea.entrada {
   width: auto;
   padding: 8px 10px;
   font-size: var(--fonte-md);
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .debug-item {
