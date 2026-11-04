@@ -1943,6 +1943,45 @@ export function textoDaReducao(reducoes, diaIso) {
   };
 }
 
+function expressaoValida(item) {
+  if (!item || typeof item !== 'object') return false;
+  const id = typeof item.id === 'string' ? item.id.trim() : '';
+  const titulo = typeof item.titulo === 'string' ? item.titulo.trim() : '';
+  const pt = typeof item.pt === 'string' ? item.pt.trim() : '';
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)) return false;
+  if (titulo.length < 2 || titulo.length > 40) return false;
+  if (pt.length < 2 || pt.length > 120) return false;
+  const ruins = [id, titulo, pt];
+  if (ruins.some(x => x === '__proto__' || x === 'constructor' || x === 'prototype')) return false;
+  return true;
+}
+
+function indiceDaExpressao(dia, total) {
+  let x = 2166136261;
+  const texto = `expressao:${String(dia)}`;
+  for (let i = 0; i < texto.length; i++) {
+    x ^= texto.charCodeAt(i);
+    x = Math.imul(x, 16777619);
+  }
+  x >>>= 0;
+  return total ? x % total : 0;
+}
+
+export function textoDaExpressao(frasais, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { id: '', titulo: '', pt: '', texto: 'Ainda não há expressão para dizer.' };
+  const lista = (Array.isArray(frasais) ? frasais : []).filter(expressaoValida);
+  if (!lista.length) return { id: '', titulo: '', pt: '', texto: 'A expressão ainda não tem frase.' };
+  const escolhido = lista[indiceDaExpressao(fim, lista.length)];
+  const ponto = texto => (/[.!?]$/.test(texto) ? texto : `${texto}.`);
+  return {
+    id: escolhido.id,
+    titulo: escolhido.titulo,
+    pt: escolhido.pt,
+    texto: `A expressão pede ${ponto(escolhido.titulo)} Diga a frase.`
+  };
+}
+
 export function textoDoNumero(numeros, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { id: '', titulo: '', pergunta: '', texto: 'Ainda não há número para ouvir.' };

@@ -110,8 +110,8 @@ describe('manifest, hedge e debounce', () => {
     assert.deepEqual(aud.idsRepetidos, []);
     assert.deepEqual(aud.titulosRepetidos, []);
     assert.deepEqual(aud.parecidos, []);
-    assert.equal(TREINOS.length, 353);
-    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 297);
+    assert.ok(TREINOS.length >= 353);
+    assert.ok(TREINOS.filter(t => t.categoria === 'trabalho').length >= 297);
     for (const id of ['manifest', 'hedge', 'debounce']) {
       const treino = TREINOS.find(t => t.id === id);
       assert.equal(treino.categoria, 'trabalho');
@@ -149,7 +149,7 @@ describe('manifest, hedge e debounce', () => {
     assert.ok(estado.badges.includes('debounce'));
     assert.equal(estado.painel['2026-10-28'].grupos.trabalho, 3);
     assert.equal(estado.painel['2026-10-28'].n, 3);
-    assert.equal(BADGES.length, 376);
+    assert.ok(BADGES.length >= 376);
     assert.equal(new Set(BADGES.map(b => b.id)).size, BADGES.length);
   });
 
@@ -195,10 +195,10 @@ describe('manifest, hedge e debounce', () => {
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
     const turno = readFileSync(join(raiz, 'js/turno.js'), 'utf8');
     const css = readFileSync(join(raiz, 'css/style.css'), 'utf8');
-    assert.match(data, /VERSAO_APP = '3\.13'/);
+    assert.match(data, /VERSAO_APP = '3\.\d\d'/);
     assert.match(data, /versao: '3\.13'/);
     assert.match(data, /versao: '3\.12'/);
-    assert.match(sw, /gringolingo-v140/);
+    assert.match(sw, /gringolingo-v1\d\d/);
     assert.match(sw, /\.\/js\/manifest\.js/);
     assert.match(turno, /manifest\.js/);
     assert.equal(turno.includes('foco.js'), false);

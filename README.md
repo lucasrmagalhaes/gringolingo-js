@@ -537,6 +537,10 @@ navegador.
 - **O hedge**: a chamada extra cobre a espera.
 - **O debounce**: a pausa segura o envio.
 - **A redução**: no hub, a frase curta do dia para ouvir e expandir.
+- **O sstable**: a tabela ordena a chave.
+- **O latch**: a trava curta segura a leitura.
+- **O throttle**: o ritmo limita a chamada.
+- **A expressão**: no hub, a frase do dia para dizer em inglês.
 
 ### Hábito e gamificação
 
@@ -950,6 +954,7 @@ O que a suíte cobre:
 - **`tests/epoch.test.js`**: epoch, ballot, fence, o verbo do dia e a versão 3.11.
 - **`tests/flush.test.js`**: flush, memtable, extent, o número do dia e a versão 3.12.
 - **`tests/manifest.test.js`**: manifest, hedge, debounce, a redução do dia e a versão 3.13.
+- **`tests/sstable.test.js`**: sstable, latch, throttle, a expressão do dia e a versão 3.14.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
