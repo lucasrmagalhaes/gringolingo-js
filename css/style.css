@@ -290,16 +290,19 @@ textarea {
 .hub-busca-linha {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
 .hub-busca-linha .entrada {
-  flex: 1;
-  min-width: 0;
+  flex: 1 1 220px;
+  min-width: min(100%, 220px);
+  max-width: 100%;
 }
 
 .busca-limpar {
   min-height: 44px;
+  max-width: 100%;
   padding: 0 14px;
   border-radius: 14px;
   border: 2px solid var(--borda);
@@ -880,6 +883,14 @@ textarea {
 }
 
 .fala-recado .btn {
+  margin-top: 10px;
+}
+
+.fala-vez {
+  margin: 8px 0 12px;
+}
+
+.fala-vez .btn {
   margin-top: 10px;
 }
 
