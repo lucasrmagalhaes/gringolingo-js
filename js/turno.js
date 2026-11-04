@@ -79,6 +79,7 @@ import { LIDERES, MANDATOS, SEGUIDORES } from './lider.js';
 import { ORQUESTRADORES, COREOGRAFIAS, COMPENSACOES } from './orquestra.js';
 import { PRIMARIOS, ESPELHOS, ASCENSOES } from './primario.js';
 import { TRAVESSIAS, RETAGUARDAS, CONTORNOS } from './travessia.js';
+import { RUMORES, REPAROS, DEIXAS } from './rumor.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -590,6 +591,9 @@ export function catalogoFaladas() {
     { origem: 'Travessia', itens: TRAVESSIAS },
     { origem: 'Retaguarda', itens: RETAGUARDAS },
     { origem: 'Contorno', itens: CONTORNOS },
+    { origem: 'Rumor', itens: RUMORES },
+    { origem: 'Reparo', itens: REPAROS },
+    { origem: 'Deixa', itens: DEIXAS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-642%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-646%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -313,27 +313,27 @@ navegador.
 - **O ciclo**: o serviço cai e volta sozinho sem ficar estável.
 - **O zumbi**: o filho terminou e o pai nunca colheu o fim.
 - **O hiato**: no hub, o maior vão entre dois dias com fala, com atalho para a semana.
-- **A cisão**: dois nós acham que mandam ao mesmo tempo e a escrita divide.
-- **A rajada**: os clientes tentam de novo juntos e multiplicam a carga.
-- **A brasa**: uma chave recebe quase todas as escritas do mapa.
+- **A cisão**: dois nós mandam juntos e a escrita divide.
+- **A rajada**: os clientes tentam juntos e a carga cresce.
+- **A brasa**: uma chave recebe quase todas as escritas.
 - **O costume**: no hub, o dia da semana em que a fala mais aparece, com atalho para a semana.
 - **O datagrama**: dois datagramas sumiram antes de chegar.
 - **O passe**: o passe curto venceu e a próxima chamada pede outro.
 - **O carimbo**: o carimbo da linha mudou e a gravação foi recusada.
 - **A marca**: no hub, a maior sequência seguida de fala, com atalho para a semana.
-- **A pilha**: a pilha de chamadas cresceu sem fundo e o programa parou.
-- **O cano**: a outra ponta fechou o cano no meio da resposta.
-- **O giro**: o navegador girou entre dois endereços e desistiu.
+- **A pilha**: a pilha de chamadas cresceu sem fundo.
+- **O cano**: a outra ponta fechou o cano.
+- **O giro**: o navegador girou entre dois endereços.
 - **O auge**: no hub, o dia com mais segundos de fala, com atalho para a semana.
 - **A compactação**: o armazenamento reescreveu seis arquivos velhos.
-- **O diário**: o diário ocupou quatro gigabytes e a escrita espera.
-- **O vagão**: o leitor ficou mil mensagens atrás do fim publicado.
+- **O diário**: o diário ocupou quatro gigabytes.
+- **O vagão**: o leitor ficou mil mensagens atrás.
 - **O sete**: no hub, quantos dos últimos 7 dias tiveram fala, com atalho para a semana.
-- **A corrida**: dois pedidos gravaram o mesmo saldo ao mesmo tempo.
-- **O índice**: a busca leu cada linha porque o índice da coluna faltou.
-- **O percentil**: noventa e nove por cento cabe em duzentos milissegundos.
+- **A corrida**: dois pedidos gravaram o mesmo saldo.
+- **O índice**: a busca leu cada linha sem índice.
+- **O percentil**: noventa e nove por cento cabe no prazo.
 - **A soma**: no hub, a soma dos minutos de fala até hoje, com atalho para a semana.
-- **O segredo**: a chave secreta apareceu no log e qualquer pessoa leu.
+- **O segredo**: a chave secreta apareceu no log.
 - **O fantasma**: a segunda leitura viu uma linha nova.
 - **O inteiro**: o contador passou do limite e voltou para zero.
 - **Por dia**: no hub, a média de minutos por dia com fala, com atalho para a semana.
@@ -343,7 +343,7 @@ navegador.
 - **A parte**: no hub, quantos minutos desta semana entram na soma de fala, com atalho para a semana.
 - **O órfão**: a linha filha apontou para um pai que não existe mais.
 - **O aceno**: o segundo sítio nunca confirmou.
-- **O gasto**: três dias de erro gastaram o mês inteiro permitido.
+- **O gasto**: três dias de erro gastaram o mês.
 - **O fora**: no hub, os minutos de fala que ficaram fora desta semana, com atalho para a semana.
 - **A duração**: no hub, quanto dura cada treino desta semana, com atalho para a semana.
 - **A meta**: no hub, os minutos que ainda faltam para a meta desta semana, com atalho para a semana.
@@ -421,6 +421,10 @@ navegador.
 - **A retaguarda**: a página suja espera no cache antes do disco.
 - **O contorno**: a escrita grande segue direto ao armazenamento.
 - **O peso**: no hub, a parte do dia mais longo no total de fala, com atalho para a semana.
+- **O rumor**: os nós espalham o estado de boca em boca.
+- **O reparo**: a leitura conserta a cópia que ficou atrás.
+- **A deixa**: o vizinho guarda a escrita até o dono voltar.
+- **A sobra**: no hub, os minutos de fala fora do dia mais longo, com atalho para a semana.
 
 ### Hábito e gamificação
 
@@ -577,6 +581,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/orquestra.js` | Orquestrador que dispara a sequência, vizinho que escolhe a etapa e falha que desfaz a anterior. |
 | `js/primario.js` | Primário que aceita a escrita, espelho que só copia e ascensão que vira dona. |
 | `js/travessia.js` | Travessia que confirma no disco, retaguarda que espera no cache e contorno que pula o cache. |
+| `js/rumor.js` | Rumor que espalha o estado, reparo que conserta na leitura e deixa que guarda a escrita. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -658,7 +663,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **642 testes em 139 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **646 testes em 140 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -776,6 +781,7 @@ O que a suíte cobre:
 - **`tests/orquestra.test.js`**: orquestrador, coreografia, compensação, a cadência dos dias de treino e a versão 2.82.
 - **`tests/primario.test.js`**: primário, espelho, ascensão, a densidade dos minutos de fala e a versão 2.83.
 - **`tests/travessia.test.js`**: travessia, retaguarda, contorno, o peso do dia mais longo e a versão 2.84.
+- **`tests/rumor.test.js`**: rumor, reparo, deixa, a sobra fora do dia mais longo e a versão 2.85.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
