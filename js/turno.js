@@ -62,6 +62,7 @@ import { FILTROS, ORDENS, PROVAS } from './filtro.js';
 import { ORFAOS, ACENOS, GASTOS } from './orfao.js';
 import { INSTAVEIS, DUPLICADOS, APAGOES } from './instavel.js';
 import { REPLAYS, ECOS, LEQUES } from './replay.js';
+import { SAGAS, CAIXAS, APAGADOS } from './saga.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -522,6 +523,9 @@ export function catalogoFaladas() {
     { origem: 'Replay', itens: REPLAYS },
     { origem: 'Eco', itens: ECOS },
     { origem: 'Leque', itens: LEQUES },
+    { origem: 'Saga', itens: SAGAS },
+    { origem: 'Caixa', itens: CAIXAS },
+    { origem: 'Apagado', itens: APAGADOS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

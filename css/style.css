@@ -571,6 +571,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-saldo {
+  margin: 8px 0 12px;
+}
+
+.fala-saldo .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1789,6 +1797,7 @@ textarea.entrada {
 }
 
 .dicionario-atalho {
+  min-height: 44px;
   display: flex;
   align-items: center;
   gap: 14px;

@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.67';
+export const VERSAO_APP = '2.68';
 
 export const NOVIDADES = [
+  {
+    versao: '2.68',
+    titulo: 'A saga',
+    itens: [
+      '🧵 Diga que o terceiro passo nunca terminou',
+      '📦 Avise que o evento ficou na caixa de saída',
+      '🗑️ Diga que a linha ficou na tabela depois do apagar',
+      '📝 Veja no hub os treinos de antes desta semana'
+    ]
+  },
   {
     versao: '2.67',
     titulo: 'O replay',
@@ -1634,6 +1644,9 @@ export const MISSOES = [
   { id: 'replay1', emoji: '⏪', titulo: 'Preencha o buraco antigo', alvo: 1, xp: 15, medir: s => (s.tipo === 'replay' ? 1 : 0) },
   { id: 'eco1', emoji: '🔔', titulo: 'Ignore o evento repetido', alvo: 1, xp: 15, medir: s => (s.tipo === 'eco' ? 1 : 0) },
   { id: 'leque1', emoji: '🪭', titulo: 'Junte o leque de trabalhadores', alvo: 1, xp: 15, medir: s => (s.tipo === 'leque' ? 1 : 0) },
+  { id: 'saga1', emoji: '🧵', titulo: 'Feche a saga pela metade', alvo: 1, xp: 15, medir: s => (s.tipo === 'saga' ? 1 : 0) },
+  { id: 'caixa1', emoji: '📦', titulo: 'Solte o evento da caixa', alvo: 1, xp: 15, medir: s => (s.tipo === 'caixa' ? 1 : 0) },
+  { id: 'apagado1', emoji: '🗑️', titulo: 'Esconda a linha apagada', alvo: 1, xp: 15, medir: s => (s.tipo === 'apagado' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1876,6 +1889,9 @@ export const BADGES = [
   { id: 'replay', emoji: '⏪', nome: 'O replay', desc: 'Diga que reexecutamos os dois últimos dias' },
   { id: 'eco', emoji: '🔔', nome: 'O eco', desc: 'Avise que o mesmo evento chegou duas vezes' },
   { id: 'leque', emoji: '🪭', nome: 'O leque', desc: 'Diga que um evento acordou quatro trabalhadores' },
+  { id: 'saga', emoji: '🧵', nome: 'A saga', desc: 'Diga que o terceiro passo nunca terminou' },
+  { id: 'caixa', emoji: '📦', nome: 'A caixa', desc: 'Avise que o evento ficou na caixa de saída' },
+  { id: 'apagado', emoji: '🗑️', nome: 'O apagado', desc: 'Diga que a linha ficou na tabela depois do apagar' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
