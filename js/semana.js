@@ -865,6 +865,27 @@ export function textoDaRepeticao(painel, diaIso) {
   return { dias, repeticao: vezes, texto: `A repetição dos dias é de ${vezes} dias.` };
 }
 
+export function textoDaExtensao(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, extensao: 0, texto: 'Ainda não há extensão de treinos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let primeira = '';
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    if (!primeira || data < primeira) primeira = data;
+  }
+  if (dias === 0) return { dias: 0, extensao: 0, texto: 'A extensão dos dias ainda é 0 dias.' };
+  const extensao = diasEntreIso(primeira, fim) + 1;
+  if (extensao === 1) return { dias, extensao: 1, texto: 'A extensão dos dias é de 1 dia.' };
+  return { dias, extensao, texto: `A extensão dos dias é de ${extensao} dias.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

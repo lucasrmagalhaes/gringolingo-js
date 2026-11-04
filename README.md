@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-610%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-614%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -556,6 +556,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/amostra.js` | Amostra de uma em dez, nicho da chave e lacre que muda no pacote. |
 | `js/semaforo.js` | Semáforo de duas vagas, barreira dos quatro e trinco que zera a conta. |
 | `js/recuo.js` | Recuo que dobra a espera, vigia que encerra a tarefa e ampulheta do passe. |
+| `js/carona.js` | Carona que viaja com o pacote, veneno que sai da fila e farol que mostra vida. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -637,7 +638,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **610 testes em 131 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **614 testes em 132 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -747,6 +748,7 @@ O que a suíte cobre:
 - **`tests/amostra.test.js`**: amostra, nicho, lacre, a variedade dos dias de treino e a versão 2.74.
 - **`tests/semaforo.test.js`**: semáforo, barreira, trinco, a moda dos dias de treino e a versão 2.75.
 - **`tests/recuo.test.js`**: recuo, vigia, ampulheta, a repetição dos dias de treino e a versão 2.76.
+- **`tests/carona.test.js`**: carona, veneno, farol, a extensão dos dias de treino e a versão 2.77.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.76';
+export const VERSAO_APP = '2.77';
 
 export const NOVIDADES = [
+  {
+    versao: '2.77',
+    titulo: 'A carona',
+    itens: [
+      '🚕 Diga que a confirmação viaja no próximo pacote',
+      '☠️ Avise que a mensagem ruim sai da fila',
+      '🗼 Diga que o farol mostra o serviço vivo',
+      '📝 Veja no hub a extensão dos dias de treino'
+    ]
+  },
   {
     versao: '2.76',
     titulo: 'O recuo',
@@ -1751,6 +1761,9 @@ export const MISSOES = [
   { id: 'recuo1', emoji: '⏬', titulo: 'Dobre o intervalo da tentativa', alvo: 1, xp: 15, medir: s => (s.tipo === 'recuo' ? 1 : 0) },
   { id: 'vigia1', emoji: '🐕', titulo: 'Encerre a tarefa atrasada', alvo: 1, xp: 15, medir: s => (s.tipo === 'vigia' ? 1 : 0) },
   { id: 'ampulheta1', emoji: '🏺', titulo: 'Troque o passe vencido', alvo: 1, xp: 15, medir: s => (s.tipo === 'ampulheta' ? 1 : 0) },
+  { id: 'carona1', emoji: '🚕', titulo: 'Mande a confirmação no próximo pacote', alvo: 1, xp: 15, medir: s => (s.tipo === 'carona' ? 1 : 0) },
+  { id: 'veneno1', emoji: '☠️', titulo: 'Tire a mensagem ruim da fila', alvo: 1, xp: 15, medir: s => (s.tipo === 'veneno' ? 1 : 0) },
+  { id: 'farol1', emoji: '🗼', titulo: 'Mostre que o serviço ainda vive', alvo: 1, xp: 15, medir: s => (s.tipo === 'farol' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2020,6 +2033,9 @@ export const BADGES = [
   { id: 'recuo', emoji: '⏬', nome: 'O recuo', desc: 'Diga que cada falha dobra a espera' },
   { id: 'vigia', emoji: '🐕', nome: 'O vigia', desc: 'Avise que o vigia encerra a tarefa atrasada' },
   { id: 'ampulheta', emoji: '🏺', nome: 'A ampulheta', desc: 'Diga que o passe vence em quinze minutos' },
+  { id: 'carona', emoji: '🚕', nome: 'A carona', desc: 'Diga que a confirmação viaja no próximo pacote' },
+  { id: 'veneno', emoji: '☠️', nome: 'O veneno', desc: 'Avise que a mensagem ruim sai da fila' },
+  { id: 'farol', emoji: '🗼', nome: 'O farol', desc: 'Diga que o farol mostra o serviço vivo' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
