@@ -177,7 +177,10 @@ const BRUTOS = [
   ['link', 'trabalho', '🔗', 'O link', 'O link assinado vale uma hora e depois expira.', 'links', 'signed url one hour expires'],
   ['cpu', 'trabalho', '🧮', 'O processador', 'O processador fica perto de noventa por cento e a gente olha o pico.', 'cpus', 'cpu ninety percent peak'],
   ['copia', 'trabalho', '💾', 'A cópia', 'A cópia da noite começa às duas e fica pronta de manhã.', 'copias', 'backup nightly two morning'],
-  ['estouro', 'trabalho', '💥', 'O estouro', 'O processo estourou a memória e a gente sobe o limite.', 'estouros', 'out of memory limit process']
+  ['estouro', 'trabalho', '💥', 'O estouro', 'O processo estourou a memória e a gente sobe o limite.', 'estouros', 'out of memory limit process'],
+  ['impasse', 'trabalho', '🪢', 'O impasse', 'Os dois trabalhos esperam um pelo outro e a gente solta o mais antigo.', 'impasses', 'deadlock two jobs older lock'],
+  ['dominio', 'trabalho', '🏷️', 'O domínio', 'O nome do site não resolve e a gente aponta o endereço novo.', 'dominios', 'dns name resolve address'],
+  ['morta', 'trabalho', '📮', 'A carta morta', 'A mensagem ruim vai para a fila ao lado e a gente lê o motivo.', 'mortas', 'dead letter side queue payload']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

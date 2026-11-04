@@ -246,6 +246,30 @@ export function textoDosDias(painel, diaIso) {
   return { n, texto: `${n} dias com fala nesta semana.` };
 }
 
+export function textoDoRitmo(painel, diaIso) {
+  let dias = 0;
+  let segundos = 0;
+  for (const data of diasDaSemana(diaIso)) {
+    if (!data || data > diaIso) continue;
+    const linha = painel && typeof painel === 'object' ? painel[data] : null;
+    if (!linha) continue;
+    const treinos = inteiroNaoNegativo(linha.n);
+    const seg = inteiroNaoNegativo(linha.segundos);
+    if (treinos > 0 || seg > 0) {
+      dias += 1;
+      segundos += seg;
+    }
+  }
+  if (!dias) return { dias: 0, ritmo: 0, texto: 'Ainda não há ritmo nesta semana.' };
+  const minutos = Math.floor(segundos / 60);
+  if (!minutos) return { dias, ritmo: 0, texto: 'Menos de 1 minuto por dia com fala.' };
+  const ritmo = Math.max(1, Math.round(minutos / dias));
+  const texto = ritmo === 1
+    ? '1 minuto por dia com fala.'
+    : `${ritmo} minutos por dia com fala.`;
+  return { dias, ritmo, texto };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

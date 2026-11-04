@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-506%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-510%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -289,6 +289,10 @@ navegador.
 - **O processador**: o processador fica perto de noventa por cento e a gente olha o pico.
 - **A cópia**: a cópia da noite começa às duas e fica pronta de manhã.
 - **O estouro**: o processo estourou a memória e a gente sobe o limite.
+- **O impasse**: os dois trabalhos esperam um pelo outro e a gente solta o mais antigo.
+- **O domínio**: o nome do site não resolve e a gente aponta o endereço novo.
+- **A carta morta**: a mensagem ruim vai para a fila ao lado e a gente lê o motivo.
+- **O ritmo**: no hub, os minutos por dia com fala nesta semana, com atalho para a semana.
 - **Os dias**: no hub, quantos dias desta semana tiveram fala, com atalho para a semana.
 - **A nota**: no hub, a nota média desta semana, com atalho para o mês.
 - **O apoio**: no hub, quantos preenchimentos esta semana teve, com atalho para o mês.
@@ -470,6 +474,7 @@ redesenha esse nó. O helper `h()` — 30 linhas em `js/util.js` — faz as veze
 | `js/guarda.js` | Id da chamada, janela da meia-noite e reinício de um pod. |
 | `js/cerca.js` | Lint do diff, origem bloqueada e link assinado. |
 | `js/maquina.js` | Processador no pico, cópia da noite e processo sem memória. |
+| `js/impasse.js` | Impasse entre dois trabalhos, nome que não resolve e carta morta. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -552,7 +557,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **506 testes em 105 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **510 testes em 106 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -636,6 +641,7 @@ O que a suíte cobre:
 - **`tests/guarda.test.js`**: rastro, parada, pod, os preenchimentos da semana e a versão 2.48.
 - **`tests/cerca.test.js`**: lint, origem, link assinado, a nota da semana e a versão 2.49.
 - **`tests/maquina.test.js`**: processador, cópia da noite, estouro de memória, os dias com fala e a versão 2.50.
+- **`tests/impasse.test.js`**: impasse, domínio, carta morta, o ritmo da semana e a versão 2.51.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
