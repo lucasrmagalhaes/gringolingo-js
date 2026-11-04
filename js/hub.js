@@ -159,7 +159,10 @@ const BRUTOS = [
   ['replica', 'trabalho', '🪞', 'A réplica', 'A réplica está dois minutos atrás e a leitura pode usar a cópia.', 'replicas', 'replica lag primario leitura dois minutos'],
   ['ensaio', 'trabalho', '🧪', 'O ensaio', 'O teste vai para o ensaio antes da produção, numa cópia de ontem.', 'ensaios', 'staging ensaio copia ontem build'],
   ['disco', 'trabalho', '💽', 'O disco', 'O disco está noventa por cento cheio e o log velho pode sair.', 'discos', 'disco noventa por cento log gigabyte'],
-  ['pagina', 'trabalho', '📃', 'A página', 'A lista mostra vinte linhas e a próxima começa depois do último id.', 'paginas', 'pagina vinte linhas ultimo id']
+  ['pagina', 'trabalho', '📃', 'A página', 'A lista mostra vinte linhas e a próxima começa depois do último id.', 'paginas', 'pagina vinte linhas ultimo id'],
+  ['squash', 'trabalho', '✂️', 'O squash', 'Três commits viram um só antes do merge.', 'squashes', 'squash tres commits historico merge'],
+  ['circuito', 'trabalho', '🛑', 'O circuito', 'O circuito abre depois de cinco erros e a chamada falha na hora.', 'circuitos', 'circuit breaker cinco erros um minuto'],
+  ['job', 'trabalho', '🌙', 'O job', 'O job roda às três da manhã e falhou quatro noites.', 'jobs', 'cron job tres manha quatro noites']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -305,6 +308,28 @@ export function textoDoGrupo(treinos, stats) {
     feitos: pior.feitos,
     n: pior.n,
     texto: `${pior.titulo} é o grupo com menos prática. ${conta}.`
+  };
+}
+
+export function textoDaEstrela(treinos, estrelas, stats) {
+  const ids = (Array.isArray(estrelas) ? estrelas : []).filter(id => typeof id === 'string');
+  const porId = new Map((Array.isArray(treinos) ? treinos : []).filter(t => t && t.id).map(t => [t.id, t]));
+  const lista = ids.map(id => porId.get(id)).filter(Boolean);
+  if (!lista.length) {
+    return { n: 0, faltam: 0, treino: null, texto: 'Nenhum favorito marcado ainda.' };
+  }
+  const parados = lista.filter(t => t.stat && (Number(stats?.[t.stat]) || 0) <= 0);
+  if (!parados.length) {
+    return { n: lista.length, faltam: 0, treino: null, texto: 'Todos os favoritos já tiveram prática.' };
+  }
+  const conta = parados.length === 1
+    ? '1 favorito ainda sem prática.'
+    : `${parados.length} favoritos ainda sem prática.`;
+  return {
+    n: lista.length,
+    faltam: parados.length,
+    treino: parados[0],
+    texto: `${conta} O próximo é ${parados[0].titulo}.`
   };
 }
 

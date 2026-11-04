@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.44';
+export const VERSAO_APP = '2.45';
 
 export const NOVIDADES = [
+  {
+    versao: '2.45',
+    titulo: 'O squash',
+    itens: [
+      '✂️ Junte três commits em um só antes do merge',
+      '🛑 Diga que o circuito abre depois de cinco erros',
+      '🌙 Conte que o job roda às três da manhã',
+      '⭐ Veja no hub o favorito que ainda não teve prática'
+    ]
+  },
   {
     versao: '2.44',
     titulo: 'O ensaio',
@@ -1335,6 +1345,9 @@ export const MISSOES = [
   { id: 'ensaio1', emoji: '🧪', titulo: 'Teste no ensaio antes da produção', alvo: 1, xp: 15, medir: s => (s.tipo === 'ensaio' ? 1 : 0) },
   { id: 'disco1', emoji: '💽', titulo: 'Fale do disco cheio', alvo: 1, xp: 15, medir: s => (s.tipo === 'disco' ? 1 : 0) },
   { id: 'pagina1', emoji: '📃', titulo: 'Explique a página com poucas linhas', alvo: 1, xp: 15, medir: s => (s.tipo === 'pagina' ? 1 : 0) },
+  { id: 'squash1', emoji: '✂️', titulo: 'Junte os commits antes do merge', alvo: 1, xp: 15, medir: s => (s.tipo === 'squash' ? 1 : 0) },
+  { id: 'circuito1', emoji: '🛑', titulo: 'Explique o circuito que abre', alvo: 1, xp: 15, medir: s => (s.tipo === 'circuito' ? 1 : 0) },
+  { id: 'job1', emoji: '🌙', titulo: 'Fale do job da madrugada', alvo: 1, xp: 15, medir: s => (s.tipo === 'job' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1508,6 +1521,9 @@ export const BADGES = [
   { id: 'ensaio', emoji: '🧪', nome: 'O ensaio', desc: 'Teste no ensaio e diga de quando é a cópia' },
   { id: 'disco', emoji: '💽', nome: 'O disco', desc: 'Diga que o disco está cheio e o que pode sair' },
   { id: 'pagina', emoji: '📃', nome: 'A página', desc: 'Mostre poucas linhas e onde a próxima começa' },
+  { id: 'squash', emoji: '✂️', nome: 'O squash', desc: 'Junte os commits e diga como fica o histórico' },
+  { id: 'circuito', emoji: '🛑', nome: 'O circuito', desc: 'Diga quando o circuito abre e quando fecha' },
+  { id: 'job', emoji: '🌙', nome: 'O job', desc: 'Diga o horário do job e quantas noites ele falhou' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
