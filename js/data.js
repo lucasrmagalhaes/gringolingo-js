@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.56';
+export const VERSAO_APP = '2.57';
 
 export const NOVIDADES = [
+  {
+    versao: '2.57',
+    titulo: 'A cota',
+    itens: [
+      '📏 Diga que o usuário passou da cota do disco',
+      '🔁 Avise que o processo continua reiniciando',
+      '🧟 Diga que o filho terminou e o pai não esperou',
+      '📝 Veja no hub o maior hiato entre falas'
+    ]
+  },
   {
     versao: '2.56',
     titulo: 'O gotejo',
@@ -1491,6 +1501,9 @@ export const MISSOES = [
   { id: 'gotejo1', emoji: '💧', titulo: 'Fale da memória que não devolve', alvo: 1, xp: 15, medir: s => (s.tipo === 'gotejo' ? 1 : 0) },
   { id: 'frio1', emoji: '🥶', titulo: 'Aqueça a função que dormiu', alvo: 1, xp: 15, medir: s => (s.tipo === 'frio' ? 1 : 0) },
   { id: 'cadeado1', emoji: '🔐', titulo: 'Libere a leitura do arquivo', alvo: 1, xp: 15, medir: s => (s.tipo === 'cadeado' ? 1 : 0) },
+  { id: 'cota1', emoji: '📏', titulo: 'Abra a cota que fechou', alvo: 1, xp: 15, medir: s => (s.tipo === 'cota' ? 1 : 0) },
+  { id: 'ciclo1', emoji: '🔁', titulo: 'Pare o ciclo de queda', alvo: 1, xp: 15, medir: s => (s.tipo === 'ciclo' ? 1 : 0) },
+  { id: 'zumbi1', emoji: '🧟', titulo: 'Espere o processo zumbi', alvo: 1, xp: 15, medir: s => (s.tipo === 'zumbi' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1700,6 +1713,9 @@ export const BADGES = [
   { id: 'gotejo', emoji: '💧', nome: 'O gotejo', desc: 'Diga que a memória cresce e nada volta' },
   { id: 'frio', emoji: '🥶', nome: 'O frio', desc: 'Avise que a função acordou de uma partida fria' },
   { id: 'cadeado', emoji: '🔐', nome: 'O cadeado', desc: 'Diga que a permissão recusou a leitura' },
+  { id: 'cota', emoji: '📏', nome: 'A cota', desc: 'Diga que o usuário passou da cota do disco' },
+  { id: 'ciclo', emoji: '🔁', nome: 'O ciclo', desc: 'Avise que o processo continua reiniciando' },
+  { id: 'zumbi', emoji: '🧟', nome: 'O zumbi', desc: 'Diga que o filho terminou e o pai não esperou' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

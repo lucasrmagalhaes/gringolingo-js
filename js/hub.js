@@ -195,7 +195,10 @@ const BRUTOS = [
   ['manada', 'trabalho', '🐑', 'A manada', 'O cache venceu de uma vez e a enxurrada caiu no armazenamento.', 'manadas', 'cache stampede expire database herd'],
   ['gotejo', 'trabalho', '💧', 'O gotejo', 'A memória cresce sem parar e nada volta para o sistema.', 'gotejos', 'memory leak grow megabytes process'],
   ['frio', 'trabalho', '🥶', 'O frio', 'A função dorme e a primeira chamada espera ela acordar.', 'frios', 'cold start function first call warm'],
-  ['cadeado', 'trabalho', '🔐', 'O cadeado', 'O processo tentou ler o arquivo e a permissão recusou a leitura.', 'cadeados', 'permission denied read file access']
+  ['cadeado', 'trabalho', '🔐', 'O cadeado', 'O processo tentou ler o arquivo e a permissão recusou a leitura.', 'cadeados', 'permission denied read file access'],
+  ['cota', 'trabalho', '📏', 'A cota', 'A cota do usuário fechou e o arquivo novo não grava.', 'cotas', 'disk quota gigabytes user file'],
+  ['ciclo', 'trabalho', '🔁', 'O ciclo', 'O serviço cai e volta sozinho sem ficar estável.', 'ciclos', 'crash loop restart process stable'],
+  ['zumbi', 'trabalho', '🧟', 'O zumbi', 'O filho terminou e o pai nunca colheu o fim.', 'zumbis', 'zombie process child parent wait']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
