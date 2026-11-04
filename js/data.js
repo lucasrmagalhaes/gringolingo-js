@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.94';
+export const VERSAO_APP = '2.95';
 
 export const NOVIDADES = [
+  {
+    versao: '2.95',
+    titulo: 'O offset',
+    itens: [
+      '📏 Diga que o leitor marca até onde já leu',
+      '🐢 Avise que o leitor fica atrás do escritor',
+      '✅ Diga que o leitor confirma o trecho lido',
+      '📝 Veja no hub a faixa das semanas com fala'
+    ]
+  },
   {
     versao: '2.94',
     titulo: 'O outbox',
@@ -1985,6 +1995,9 @@ export const MISSOES = [
   { id: 'outbox1', emoji: '📤', titulo: 'Deixe a mensagem esperar fora antes de sair', alvo: 1, xp: 15, medir: s => (s.tipo === 'outbox' ? 1 : 0) },
   { id: 'inbox1', emoji: '📥', titulo: 'Deixe a mensagem entrar e esperar a vez', alvo: 1, xp: 15, medir: s => (s.tipo === 'inbox' ? 1 : 0) },
   { id: 'relay1', emoji: '📮', titulo: 'Repasse a mensagem no posto', alvo: 1, xp: 15, medir: s => (s.tipo === 'relay' ? 1 : 0) },
+  { id: 'offset1', emoji: '📏', titulo: 'Marque até onde o leitor já leu', alvo: 1, xp: 15, medir: s => (s.tipo === 'offset' ? 1 : 0) },
+  { id: 'lag1', emoji: '🐢', titulo: 'Deixe o leitor atrás do escritor', alvo: 1, xp: 15, medir: s => (s.tipo === 'lag' ? 1 : 0) },
+  { id: 'ack1', emoji: '✅', titulo: 'Confirme o trecho que o leitor leu', alvo: 1, xp: 15, medir: s => (s.tipo === 'ack' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2308,6 +2321,9 @@ export const BADGES = [
   { id: 'outbox', emoji: '📤', nome: 'O outbox', desc: 'Diga que a mensagem espera fora antes de sair' },
   { id: 'inbox', emoji: '📥', nome: 'O inbox', desc: 'Diga que a mensagem entra e espera a vez' },
   { id: 'relay', emoji: '📮', nome: 'O relay', desc: 'Diga que o posto repassa a mensagem adiante' },
+  { id: 'offset', emoji: '📏', nome: 'O offset', desc: 'Diga que o leitor marca até onde já leu' },
+  { id: 'lag', emoji: '🐢', nome: 'O lag', desc: 'Diga que o leitor fica atrás do escritor' },
+  { id: 'ack', emoji: '✅', nome: 'O ack', desc: 'Diga que o leitor confirma o trecho lido' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

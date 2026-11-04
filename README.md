@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-682%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-686%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -461,6 +461,10 @@ navegador.
 - **O inbox**: a mensagem entra e espera a sua vez.
 - **O relay**: o posto repassa a mensagem adiante.
 - **A virada**: no hub, quantos meses já tiveram fala, com atalho para a semana.
+- **O offset**: o leitor marca até onde já leu.
+- **O lag**: o leitor fica atrás do escritor.
+- **O ack**: o leitor confirma o trecho lido.
+- **A faixa**: no hub, quantas semanas já tiveram fala, com atalho para a semana.
 
 ### Hábito e gamificação
 
@@ -627,6 +631,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/nonce.js` | Nonce que entra uma vez, hmac que sela a mensagem e envelope que leva a chave. |
 | `js/lease.js` | Lease que aluga a trava, renovação que ganha tempo e vencimento que solta. |
 | `js/outbox.js` | Outbox que espera fora, inbox que recebe a vez e relay que repassa. |
+| `js/offset.js` | Offset que marca a leitura, lag que fica atrás e ack que confirma o trecho. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -708,7 +713,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **682 testes em 149 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **686 testes em 150 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -836,6 +841,7 @@ O que a suíte cobre:
 - **`tests/nonce.test.js`**: nonce, hmac, envelope, o mosaico dos grupos e a versão 2.92.
 - **`tests/lease.test.js`**: lease, renovação, vencimento, o turno dos dias úteis e a versão 2.93.
 - **`tests/outbox.test.js`**: outbox, inbox, relay, a virada dos meses e a versão 2.94.
+- **`tests/offset.test.js`**: offset, lag, ack, a faixa das semanas e a versão 2.95.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

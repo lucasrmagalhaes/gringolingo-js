@@ -818,6 +818,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-faixa {
+  margin: 8px 0 12px;
+}
+
+.fala-faixa .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -2104,6 +2112,34 @@ input.busca-dic::-webkit-search-cancel-button {
   min-height: 44px;
   opacity: 1;
   pointer-events: auto;
+  display: none;
+}
+
+.dic-limpar {
+  min-height: 44px;
+  min-width: 44px;
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 2px solid var(--borda);
+  background: var(--superficie);
+  color: var(--azul);
+  font-family: inherit;
+  font-weight: 900;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.dic-limpar.oculta {
+  display: none;
+}
+
+.campo-busca.com-limpar .busca-dic {
+  padding-right: 96px;
 }
 
 .busca-dic::-webkit-search-cancel-button {
