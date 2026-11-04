@@ -582,6 +582,33 @@ export function textoDaParte(painel, diaIso) {
   return { dias, minutos: parte, parte: total, texto: `Esta semana tem ${parte} dos ${total} minutos.` };
 }
 
+export function textoDoFora(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, minutos: 0, texto: 'Ainda não há conta fora desta semana.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  const naSemana = new Set(diasDaSemana(fim).filter(data => data && data <= fim));
+  let segundosFora = 0;
+  let dias = 0;
+  let diasFora = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    if (naSemana.has(data)) continue;
+    diasFora += 1;
+    segundosFora += seg;
+  }
+  if (dias === 0) return { dias: 0, minutos: 0, texto: 'Fora desta semana ainda há 0 minutos.' };
+  if (diasFora === 0) return { dias, minutos: 0, texto: 'Nada ficou fora desta semana.' };
+  const minutos = Math.floor(segundosFora / 60);
+  if (minutos <= 0) return { dias, minutos: 0, texto: 'Fora desta semana há menos de 1 minuto.' };
+  if (minutos === 1) return { dias, minutos: 1, texto: 'Fora desta semana há 1 minuto.' };
+  return { dias, minutos, texto: `Fora desta semana há ${minutos} minutos.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

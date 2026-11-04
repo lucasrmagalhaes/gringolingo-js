@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.64';
+export const VERSAO_APP = '2.65';
 
 export const NOVIDADES = [
+  {
+    versao: '2.65',
+    titulo: 'O órfão',
+    itens: [
+      '🪆 Diga que a linha filha apontou para um pai que não existe',
+      '🫡 Avise que o segundo sítio nunca confirmou',
+      '🪙 Diga que três dias de erro gastaram o mês inteiro',
+      '📝 Veja no hub os minutos de fala que ficaram fora desta semana'
+    ]
+  },
   {
     versao: '2.64',
     titulo: 'O filtro',
@@ -1595,6 +1605,9 @@ export const MISSOES = [
   { id: 'filtro1', emoji: '🧲', titulo: 'Confira o sim falso do filtro', alvo: 1, xp: 15, medir: s => (s.tipo === 'filtro' ? 1 : 0) },
   { id: 'ordem1', emoji: '🔀', titulo: 'Coloque as mensagens na ordem', alvo: 1, xp: 15, medir: s => (s.tipo === 'ordem' ? 1 : 0) },
   { id: 'prova1', emoji: '🧬', titulo: 'Confira a prova dos bytes', alvo: 1, xp: 15, medir: s => (s.tipo === 'prova' ? 1 : 0) },
+  { id: 'orfao1', emoji: '🪆', titulo: 'Ligue a filha ao pai', alvo: 1, xp: 15, medir: s => (s.tipo === 'orfao' ? 1 : 0) },
+  { id: 'aceno1', emoji: '🫡', titulo: 'Feche o aceno dos dois sítios', alvo: 1, xp: 15, medir: s => (s.tipo === 'aceno' ? 1 : 0) },
+  { id: 'gasto1', emoji: '🪙', titulo: 'Segure o gasto do mês', alvo: 1, xp: 15, medir: s => (s.tipo === 'gasto' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1828,6 +1841,9 @@ export const BADGES = [
   { id: 'filtro', emoji: '🧲', nome: 'O filtro', desc: 'Diga que o filtro deu um sim falso' },
   { id: 'ordem', emoji: '🔀', nome: 'A ordem', desc: 'Avise que a mensagem quatro chegou antes da três' },
   { id: 'prova', emoji: '🧬', nome: 'A prova', desc: 'Diga que a prova dos bytes não bateu com o arquivo' },
+  { id: 'orfao', emoji: '🪆', nome: 'O órfão', desc: 'Diga que a linha filha apontou para um pai que não existe' },
+  { id: 'aceno', emoji: '🫡', nome: 'O aceno', desc: 'Avise que o segundo sítio nunca confirmou' },
+  { id: 'gasto', emoji: '🪙', nome: 'O gasto', desc: 'Diga que três dias de erro gastaram o mês inteiro' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

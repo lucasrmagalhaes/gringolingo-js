@@ -59,6 +59,7 @@ import { GOTEJOS, FRIOS, CADEADOS } from './gotejo.js';
 import { COTAS, CICLOS, ZUMBIS } from './cota.js';
 import { SEGREDOS, FANTASMAS, INTEIROS } from './segredo.js';
 import { FILTROS, ORDENS, PROVAS } from './filtro.js';
+import { ORFAOS, ACENOS, GASTOS } from './orfao.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -510,6 +511,9 @@ export function catalogoFaladas() {
     { origem: 'Filtro', itens: FILTROS },
     { origem: 'Ordem', itens: ORDENS },
     { origem: 'Prova', itens: PROVAS },
+    { origem: 'Órfão', itens: ORFAOS },
+    { origem: 'Aceno', itens: ACENOS },
+    { origem: 'Gasto', itens: GASTOS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },
