@@ -104,6 +104,7 @@ import { WITNESSES, VOTERS, LEARNERS } from './witness.js';
 import { CHECKSUMS, BULKHEADS, FALLBACKS } from './checksum.js';
 import { TOMBSTONES, PURGES, RECLAIMS } from './tombstone.js';
 import { JOURNALS, SEGMENTS, SPILLS } from './journal.js';
+import { STRIPES, PARITIES, REBUILDS } from './stripe.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -690,6 +691,9 @@ export function catalogoFaladas() {
     { origem: 'Journal', itens: JOURNALS },
     { origem: 'Segment', itens: SEGMENTS },
     { origem: 'Spill', itens: SPILLS },
+    { origem: 'Stripe', itens: STRIPES },
+    { origem: 'Parity', itens: PARITIES },
+    { origem: 'Rebuild', itens: REBUILDS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

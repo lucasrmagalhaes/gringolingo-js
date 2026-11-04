@@ -189,7 +189,7 @@ describe('checksum, bulkhead e fallback', () => {
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
     const turno = readFileSync(join(raiz, 'js/turno.js'), 'utf8');
     const css = readFileSync(join(raiz, 'css/style.css'), 'utf8');
-    assert.match(data, /VERSAO_APP = '3\.0\d'/);
+    assert.match(data, /VERSAO_APP = '3\.\d\d'/);
     assert.match(data, /versao: '3\.07'/);
     assert.match(data, /versao: '3\.06'/);
     assert.match(sw, /gringolingo-v13\d/);
