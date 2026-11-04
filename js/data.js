@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.07';
+export const VERSAO_APP = '3.08';
 
 export const NOVIDADES = [
+  {
+    versao: '3.08',
+    titulo: 'O tombstone',
+    itens: [
+      '🪦 Diga que a lápide marca a chave apagada',
+      '🗑️ Avise que a limpeza tira a chave morta',
+      '♻️ Diga que o espaço volta para a lista livre',
+      '❓ Diga no hub a pergunta de trabalho do dia'
+    ]
+  },
   {
     versao: '3.07',
     titulo: 'O checksum',
@@ -2154,6 +2164,9 @@ export const MISSOES = [
   { id: 'checksum1', emoji: '🧾', titulo: 'Confira o bloco inteiro na soma', alvo: 1, xp: 15, medir: s => (s.tipo === 'checksum' ? 1 : 0) },
   { id: 'bulkhead1', emoji: '🛡️', titulo: 'Isole o excesso com a parede', alvo: 1, xp: 15, medir: s => (s.tipo === 'bulkhead' ? 1 : 0) },
   { id: 'fallback1', emoji: '🛟', titulo: 'Deixe o plano reserva entrar no lugar', alvo: 1, xp: 15, medir: s => (s.tipo === 'fallback' ? 1 : 0) },
+  { id: 'tombstone1', emoji: '🪦', titulo: 'Marque a chave apagada na lápide', alvo: 1, xp: 15, medir: s => (s.tipo === 'tombstone' ? 1 : 0) },
+  { id: 'purge1', emoji: '🗑️', titulo: 'Tire a chave morta na limpeza', alvo: 1, xp: 15, medir: s => (s.tipo === 'purge' ? 1 : 0) },
+  { id: 'reclaim1', emoji: '♻️', titulo: 'Devolva o espaço para a lista livre', alvo: 1, xp: 15, medir: s => (s.tipo === 'reclaim' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2516,6 +2529,9 @@ export const BADGES = [
   { id: 'checksum', emoji: '🧾', nome: 'O checksum', desc: 'Diga que a soma confere o bloco inteiro' },
   { id: 'bulkhead', emoji: '🛡️', nome: 'O bulkhead', desc: 'Diga que a parede isola o excesso' },
   { id: 'fallback', emoji: '🛟', nome: 'O fallback', desc: 'Diga que o plano reserva entra no lugar' },
+  { id: 'tombstone', emoji: '🪦', nome: 'O tombstone', desc: 'Diga que a lápide marca a chave apagada' },
+  { id: 'purge', emoji: '🗑️', nome: 'O purge', desc: 'Diga que a limpeza tira a chave morta' },
+  { id: 'reclaim', emoji: '♻️', nome: 'O reclaim', desc: 'Diga que o espaço volta para a lista livre' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
