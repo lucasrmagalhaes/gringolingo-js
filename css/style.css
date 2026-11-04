@@ -287,6 +287,7 @@ textarea {
 }
 
 .hub-item {
+  min-height: 44px;
   display: flex;
   align-items: stretch;
   gap: 8px;
@@ -714,6 +715,14 @@ textarea {
 }
 
 .fala-sobra .btn {
+  margin-top: 10px;
+}
+
+.fala-resto {
+  margin: 8px 0 12px;
+}
+
+.fala-resto .btn {
   margin-top: 10px;
 }
 

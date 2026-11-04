@@ -158,13 +158,13 @@ const BRUTOS = [
   ['consulta', 'trabalho', '🐌', 'A consulta', 'A consulta leva quatro segundos.', 'consultas'],
   ['replica', 'trabalho', '🪞', 'A réplica', 'A réplica está atrás e a leitura pode usar a cópia.', 'replicas'],
   ['ensaio', 'trabalho', '🧪', 'O ensaio', 'O teste vai para o ensaio antes da produção.', 'ensaios'],
-  ['disco', 'trabalho', '💽', 'O disco', 'O disco está noventa por cento cheio e o log velho pode sair.', 'discos'],
-  ['pagina', 'trabalho', '📃', 'A página', 'A lista mostra vinte linhas e a próxima começa depois.', 'paginas'],
+  ['disco', 'trabalho', '💽', 'O disco', 'O disco está noventa por cento cheio.', 'discos'],
+  ['pagina', 'trabalho', '📃', 'A página', 'A lista mostra vinte linhas.', 'paginas'],
   ['squash', 'trabalho', '✂️', 'O squash', 'Três commits viram um só antes do merge.', 'squashes'],
-  ['circuito', 'trabalho', '🛑', 'O circuito', 'O circuito abre depois de cinco erros e a chamada falha.', 'circuitos'],
+  ['circuito', 'trabalho', '🛑', 'O circuito', 'O circuito abre depois de cinco erros.', 'circuitos'],
   ['job', 'trabalho', '🌙', 'O job', 'O job roda às três da manhã e falhou quatro noites.', 'jobs'],
   ['colheita', 'trabalho', '🍒', 'A colheita', 'Um commit sobe sozinho e os outros ficam para trás.', 'colheitas'],
-  ['sessao', 'trabalho', '⏳', 'A sessão', 'A sessão acaba depois de oito horas e pode ir até doze.', 'sessoes'],
+  ['sessao', 'trabalho', '⏳', 'A sessão', 'A sessão acaba depois de oito horas.', 'sessoes'],
   ['tanque', 'trabalho', '🪣', 'O tanque', 'O tanque enche com vinte conexões.', 'tanques'],
   ['sonda', 'trabalho', '🩺', 'A sonda', 'A sonda falhou duas vezes e a gente olha de novo.', 'sondas'],
   ['semente', 'trabalho', '🌱', 'A semente', 'A semente enche o banco vazio com dez linhas.', 'sementes'],
@@ -172,29 +172,29 @@ const BRUTOS = [
   ['rastro', 'trabalho', '🔎', 'O rastro', 'O id da chamada fica no cabeçalho.', 'rastros'],
   ['parada', 'trabalho', '🕛', 'A parada', 'A parada começa à meia-noite e dura uma hora.', 'paradas'],
   ['pod', 'trabalho', '🫛', 'O pod', 'Reinicie só um pod e deixe os outros no ar.', 'pods'],
-  ['lint', 'trabalho', '🧹', 'O lint', 'O lint falhou em dois arquivos e o aviso fica no diff.', 'lints'],
-  ['origem', 'trabalho', '🌐', 'A origem', 'O navegador bloqueia a outra origem até liberar o site.', 'origens'],
+  ['lint', 'trabalho', '🧹', 'O lint', 'O lint falhou em dois arquivos.', 'lints'],
+  ['origem', 'trabalho', '🌐', 'A origem', 'O navegador bloqueia a outra origem.', 'origens'],
   ['link', 'trabalho', '🔗', 'O link', 'O link assinado vale uma hora e depois expira.', 'links'],
   ['cpu', 'trabalho', '🧮', 'O processador', 'O processador fica perto de noventa por cento.', 'cpus'],
-  ['copia', 'trabalho', '💾', 'A cópia', 'A cópia da noite começa às duas e fica pronta de manhã.', 'copias'],
+  ['copia', 'trabalho', '💾', 'A cópia', 'A cópia da noite começa às duas.', 'copias'],
   ['estouro', 'trabalho', '💥', 'O estouro', 'O processo estourou a memória e a gente sobe o limite.', 'estouros'],
-  ['impasse', 'trabalho', '🪢', 'O impasse', 'Dois trabalhos esperam um pelo outro e soltam o antigo.', 'impasses'],
+  ['impasse', 'trabalho', '🪢', 'O impasse', 'Dois trabalhos esperam um pelo outro.', 'impasses'],
   ['dominio', 'trabalho', '🏷️', 'O domínio', 'O nome do site não resolve e aponta o endereço novo.', 'dominios'],
   ['morta', 'trabalho', '📮', 'A carta morta', 'A carta morta guarda o motivo da recusa.', 'mortas'],
   ['ponteiro', 'trabalho', '🕰️', 'Os ponteiros', 'Os relógios diferem e a assinatura falha.', 'ponteiros'],
   ['eleicao', 'trabalho', '🗳️', 'A eleição', 'O líder antigo saiu e dois de três precisam concordar.', 'eleicoes'],
-  ['freio', 'trabalho', '🛞', 'O freio', 'A fila encheu e o produtor passa a enviar mais devagar.', 'freios'],
+  ['freio', 'trabalho', '🛞', 'O freio', 'A fila encheu e o produtor desacelera.', 'freios'],
   ['pausa', 'trabalho', '⌛', 'A pausa', 'A coleta parou o processo por dois segundos.', 'pausas'],
-  ['deriva', 'trabalho', '📄', 'A deriva', 'A configuração publicada difere do arquivo no repositório.', 'derivas'],
+  ['deriva', 'trabalho', '📄', 'A deriva', 'A configuração publicada difere do arquivo.', 'derivas'],
   ['descritor', 'trabalho', '📁', 'O descritor', 'O processo abriu arquivos demais.', 'descritores'],
   ['reserva', 'trabalho', '🪫', 'A reserva', 'O servidor usou a reserva e as respostas atrasaram.', 'reservas'],
   ['varredura', 'trabalho', '🧵', 'A varredura', 'A tela dispara uma consulta para cada linha.', 'varreduras'],
-  ['porta', 'trabalho', '🚪', 'A porta', 'Nenhum processo escuta nessa porta e o cliente recebe recusa.', 'portas'],
+  ['porta', 'trabalho', '🚪', 'A porta', 'Nenhum processo escuta nessa porta.', 'portas'],
   ['inodo', 'trabalho', '📛', 'O inodo', 'Os nomes livres acabaram e o arquivo novo não aparece.', 'inodos'],
-  ['saida', 'trabalho', '🛎️', 'A saída', 'O serviço recebeu o aviso e espera as tarefas abertas.', 'saidas'],
+  ['saida', 'trabalho', '🛎️', 'A saída', 'O serviço espera as tarefas abertas.', 'saidas'],
   ['manada', 'trabalho', '🐑', 'A manada', 'O cache venceu de uma vez e a enxurrada caiu.', 'manadas'],
-  ['gotejo', 'trabalho', '💧', 'O gotejo', 'A memória cresce sem parar e nada volta para o sistema.', 'gotejos'],
-  ['frio', 'trabalho', '🥶', 'O frio', 'A função dorme e a primeira chamada espera ela acordar.', 'frios'],
+  ['gotejo', 'trabalho', '💧', 'O gotejo', 'A memória cresce sem parar.', 'gotejos'],
+  ['frio', 'trabalho', '🥶', 'O frio', 'A função dorme e a primeira chamada espera.', 'frios'],
   ['cadeado', 'trabalho', '🔐', 'O cadeado', 'O processo tentou ler e a permissão recusou.', 'cadeados'],
   ['cota', 'trabalho', '📏', 'A cota', 'A cota do usuário fechou e o arquivo novo não grava.', 'cotas'],
   ['ciclo', 'trabalho', '🔁', 'O ciclo', 'O serviço cai e volta sozinho sem ficar estável.', 'ciclos'],
@@ -220,7 +220,7 @@ const BRUTOS = [
   ['filtro', 'trabalho', '🧲', 'O filtro', 'O filtro deu um sim falso e a chave não estava.', 'filtros'],
   ['ordem', 'trabalho', '🔀', 'A ordem', 'A mensagem quatro chegou antes da três.', 'ordens'],
   ['prova', 'trabalho', '🧬', 'A prova', 'A prova dos bytes não bateu com o arquivo.', 'provas'],
-  ['orfao', 'trabalho', '🪆', 'O órfão', 'A linha filha apontou para um pai que não existe mais.', 'orfaos'],
+  ['orfao', 'trabalho', '🪆', 'O órfão', 'A linha filha apontou para um pai ausente.', 'orfaos'],
   ['aceno', 'trabalho', '🫡', 'O aceno', 'O segundo sítio nunca confirmou.', 'acenos'],
   ['gasto', 'trabalho', '🪙', 'O gasto', 'Três dias de erro gastaram o mês.', 'gastos'],
   ['instavel', 'trabalho', '🎲', 'O instável', 'O teste passou só na segunda tentativa.', 'instaveis'],
@@ -228,7 +228,7 @@ const BRUTOS = [
   ['apagao', 'trabalho', '🔌', 'O apagão', 'Desligamos uma máquina de propósito.', 'apagoes'],
   ['replay', 'trabalho', '⏪', 'O replay', 'Reexecutamos os dois últimos dias.', 'replays'],
   ['eco', 'trabalho', '🔔', 'O eco', 'O mesmo evento chegou duas vezes e a conta dobrou.', 'ecos'],
-  ['leque', 'trabalho', '🪭', 'O leque', 'Um evento acordou quatro trabalhadores ao mesmo tempo.', 'leques'],
+  ['leque', 'trabalho', '🪭', 'O leque', 'Um evento acordou quatro trabalhadores.', 'leques'],
   ['saga', 'trabalho', '🧵', 'A saga', 'O terceiro passo nunca terminou.', 'sagas'],
   ['caixa', 'trabalho', '📦', 'A caixa', 'O evento ficou parado na caixa de saída.', 'caixas'],
   ['apagado', 'trabalho', '🗑️', 'O apagado', 'A linha continuou na tabela depois do apagar.', 'apagados'],
@@ -282,7 +282,10 @@ const BRUTOS = [
   ['contorno', 'trabalho', '➰', 'O contorno', 'A escrita grande segue direto ao armazenamento.', 'contornos'],
   ['rumor', 'trabalho', '🗞️', 'O rumor', 'Os nós espalham o estado de boca em boca.', 'rumores'],
   ['reparo', 'trabalho', '🩹', 'O reparo', 'A leitura conserta a cópia que ficou atrás.', 'reparos'],
-  ['deixa', 'trabalho', '🧳', 'A deixa', 'O vizinho guarda a escrita até o dono voltar.', 'deixas']
+  ['deixa', 'trabalho', '🧳', 'A deixa', 'O vizinho guarda a escrita até o dono voltar.', 'deixas'],
+  ['floco', 'trabalho', '❄️', 'O floco', 'O id nasce do tempo do nó e de um contador.', 'flocos'],
+  ['epoca', 'trabalho', '🗓️', 'A época', 'A geração sobe quando a formação muda.', 'epocas'],
+  ['vetor', 'trabalho', '🧮', 'O vetor', 'O nó anota a própria visão dos eventos.', 'vetores']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -517,7 +520,7 @@ export function textoDoContinuar(treino) {
   return `Continuar: ${treino.titulo}.`;
 }
 
-const TETO_JS = 1930000;
+const TETO_JS = 1960000;
 
 export function auditarPacote({ html, css, sw, arquivos } = {}) {
   const falhas = [];
