@@ -168,7 +168,10 @@ const BRUTOS = [
   ['tanque', 'trabalho', '🪣', 'O tanque', 'O tanque enche com vinte conexões e as ociosas podem fechar.', 'tanques', 'pool vinte conexoes ociosas'],
   ['sonda', 'trabalho', '🩺', 'A sonda', 'A sonda falhou duas vezes e a gente olha de novo.', 'sondas', 'health check duas vezes'],
   ['semente', 'trabalho', '🌱', 'A semente', 'A semente enche o banco vazio com dez linhas.', 'sementes', 'seed banco vazio dez linhas'],
-  ['registro', 'trabalho', '📋', 'O registro', 'Suba o registro para debug quando o erro voltar.', 'registros', 'log level debug info erro']
+  ['registro', 'trabalho', '📋', 'O registro', 'Suba o registro para debug quando o erro voltar.', 'registros', 'log level debug info erro'],
+  ['rastro', 'trabalho', '🔎', 'O rastro', 'O id da chamada fica no cabeçalho.', 'rastros', 'request id header ticket'],
+  ['parada', 'trabalho', '🕛', 'A parada', 'A parada começa à meia-noite e dura uma hora.', 'paradas', 'maintenance window midnight hour'],
+  ['pod', 'trabalho', '🫛', 'O pod', 'Reinicie só um pod e deixe os outros no ar.', 'pods', 'restart one pod traffic']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

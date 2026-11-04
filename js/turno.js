@@ -47,6 +47,7 @@ import { ENSAIOS, DISCOS, PAGINAS } from './lote.js';
 import { SQUASHES, CIRCUITOS, JOBS } from './corte.js';
 import { COLHEITAS, SESSOES, TANQUES } from './folha.js';
 import { SONDAS, SEMENTES, REGISTROS } from './pulso.js';
+import { RASTROS, PARADAS, PODS } from './guarda.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -485,6 +486,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Rastro', itens: RASTROS },
+    { origem: 'Parada', itens: PARADAS },
+    { origem: 'Pod', itens: PODS },
     { origem: 'Sonda', itens: SONDAS },
     { origem: 'Semente', itens: SEMENTES },
     { origem: 'Registro', itens: REGISTROS },

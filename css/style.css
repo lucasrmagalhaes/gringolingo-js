@@ -409,6 +409,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-apoio {
+  margin: 8px 0 12px;
+}
+
+.fala-apoio .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -2398,6 +2406,7 @@ button.caixa-treinavel {
   width: 100%;
   margin: 0 0 5px;
   padding: 6px 8px;
+  min-height: 44px;
   background: none;
   border: 2px solid transparent;
   border-radius: 12px;

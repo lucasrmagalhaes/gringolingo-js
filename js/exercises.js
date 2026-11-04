@@ -310,6 +310,7 @@ export function gerarExercicios(itens, pool, qtd = 8, novosEn = null) {
 function botaoSom(texto, extra = '') {
   return h('button', {
     class: 'btn-som' + (extra ? ' ' + extra : ''),
+    type: 'button',
     'aria-label': 'Ouvir em inglês',
     title: 'Ouvir de novo (tecla S)',
     onclick(e) {
@@ -322,6 +323,7 @@ function botaoSom(texto, extra = '') {
 function botaoLento(texto) {
   return h('button', {
     class: 'btn-som btn-lento',
+    type: 'button',
     'aria-label': 'Ouvir devagar',
     onclick(e) {
       e.stopPropagation();
@@ -443,7 +445,7 @@ function montarFalar(ex, cb) {
   let trancado = false;
   const status = h('div', { class: 'fala-status' }, 'Toque no microfone e fale a frase');
   const eco = h('div', { class: 'fala-eco' });
-  const botao = h('button', { class: 'btn-mic', 'aria-label': 'Falar' }, '🎤');
+  const botao = h('button', { class: 'btn-mic', type: 'button', 'aria-label': 'Falar' }, '🎤');
   const escrita = h('input', {
     class: 'entrada entrada-fala',
     type: 'text',
@@ -466,7 +468,7 @@ function montarFalar(ex, cb) {
     escrita.removeAttribute('hidden');
     escrita.focus();
   };
-  const pular = h('button', { class: 'btn btn-branco', onclick: () => cb.aoPular() }, 'PULAR');
+  const pular = h('button', { class: 'btn btn-branco', type: 'button', onclick: () => cb.aoPular() }, 'PULAR');
   botao.addEventListener('click', () => {
     if (trancado) return;
     const Reconhecedor = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -702,7 +704,7 @@ const NOMES_CLASSE = { verbo: 'verbo', subst: 'substantivo', adj: 'adjetivo', ad
 
 function montarApresentacao(ex, cb) {
   const traducoes = ex.item.traducoes ?? [ex.item.pt];
-  const btn = h('button', { class: 'btn btn-verde apresentacao-continuar', onclick: () => cb.aoContinuar() }, 'ENTENDI');
+  const btn = h('button', { class: 'btn btn-verde apresentacao-continuar', type: 'button', onclick: () => cb.aoContinuar() }, 'ENTENDI');
   setTimeout(() => falar(ex.item.en), 350);
   return {
     el: h('div', { class: 'apresentacao' },
