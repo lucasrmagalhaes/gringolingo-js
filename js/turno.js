@@ -57,6 +57,7 @@ import { RESERVAS, VARREDURAS, PORTAS } from './reserva.js';
 import { INODOS, SAIDAS, MANADAS } from './inodo.js';
 import { GOTEJOS, FRIOS, CADEADOS } from './gotejo.js';
 import { COTAS, CICLOS, ZUMBIS } from './cota.js';
+import { PILHAS, CANOS, GIROS } from './pilha.js';
 import { DATAGRAMAS, PASSES, CARIMBOS } from './datagrama.js';
 import { CISOES, RAJADAS, BRASAS } from './cisao.js';
 
@@ -497,6 +498,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Pilha', itens: PILHAS },
+    { origem: 'Cano', itens: CANOS },
+    { origem: 'Giro', itens: GIROS },
     { origem: 'Datagrama', itens: DATAGRAMAS },
     { origem: 'Passe', itens: PASSES },
     { origem: 'Carimbo', itens: CARIMBOS },
