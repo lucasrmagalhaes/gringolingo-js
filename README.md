@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-638%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-642%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -276,7 +276,7 @@ navegador.
 - **O job**: o job roda às três da manhã e falhou quatro noites.
 - **A colheita**: um commit sobe sozinho e os outros ficam para trás.
 - **A sessão**: a sessão acaba depois de oito horas e pode ir até doze.
-- **O tanque**: o tanque enche com vinte conexões e as ociosas podem fechar.
+- **O tanque**: o tanque enche com vinte conexões.
 - **A sonda**: a sonda falhou duas vezes e a gente olha de novo.
 - **A semente**: a semente enche o banco vazio com dez linhas.
 - **O registro**: suba o registro para debug quando o erro voltar.
@@ -295,15 +295,15 @@ navegador.
 - **Os ponteiros**: os relógios diferem e a assinatura falha.
 - **A eleição**: o líder antigo saiu e dois de três precisam concordar.
 - **O freio**: a fila encheu e o produtor passa a enviar mais devagar.
-- **A pausa**: a coleta parou o processo por dois segundos e as chamadas esperaram.
+- **A pausa**: a coleta parou o processo por dois segundos.
 - **A deriva**: a configuração publicada difere do arquivo no repositório.
-- **O descritor**: o processo abriu arquivos demais e a abertura falha.
+- **O descritor**: o processo abriu arquivos demais.
 - **A reserva**: o servidor usou a reserva e as respostas atrasaram.
-- **A varredura**: a tela dispara uma consulta para cada linha da lista.
+- **A varredura**: a tela dispara uma consulta para cada linha.
 - **A porta**: nenhum processo escuta nessa porta e o cliente recebe recusa.
-- **O inodo**: os nomes livres acabaram e o arquivo novo não aparece no volume.
+- **O inodo**: os nomes livres acabaram e o arquivo novo não aparece.
 - **A saída**: o serviço recebeu o aviso e espera as tarefas abertas.
-- **A manada**: o cache venceu de uma vez e a enxurrada caiu no armazenamento.
+- **A manada**: o cache venceu de uma vez e a enxurrada caiu.
 - **A última**: no hub, há quantos dias foi a última fala, com atalho para a semana.
 - **O gotejo**: a memória cresce sem parar e nada volta para o sistema.
 - **O frio**: a função dorme e a primeira chamada espera ela acordar.
@@ -317,7 +317,7 @@ navegador.
 - **A rajada**: os clientes tentam de novo juntos e multiplicam a carga.
 - **A brasa**: uma chave recebe quase todas as escritas do mapa.
 - **O costume**: no hub, o dia da semana em que a fala mais aparece, com atalho para a semana.
-- **O datagrama**: dois datagramas sumiram antes de chegar ao destino.
+- **O datagrama**: dois datagramas sumiram antes de chegar.
 - **O passe**: o passe curto venceu e a próxima chamada pede outro.
 - **O carimbo**: o carimbo da linha mudou e a gravação foi recusada.
 - **A marca**: no hub, a maior sequência seguida de fala, com atalho para a semana.
@@ -334,15 +334,15 @@ navegador.
 - **O percentil**: noventa e nove por cento cabe em duzentos milissegundos.
 - **A soma**: no hub, a soma dos minutos de fala até hoje, com atalho para a semana.
 - **O segredo**: a chave secreta apareceu no log e qualquer pessoa leu.
-- **O fantasma**: a segunda leitura viu uma linha que a primeira não tinha.
+- **O fantasma**: a segunda leitura viu uma linha nova.
 - **O inteiro**: o contador passou do limite e voltou para zero.
 - **Por dia**: no hub, a média de minutos por dia com fala, com atalho para a semana.
 - **O filtro**: o filtro deu um sim falso e a chave não estava.
-- **A ordem**: a mensagem quatro chegou antes da três e a conta saiu invertida.
-- **A prova**: a prova dos bytes não bateu com o arquivo que chegou pela rede.
+- **A ordem**: a mensagem quatro chegou antes da três.
+- **A prova**: a prova dos bytes não bateu com o arquivo.
 - **A parte**: no hub, quantos minutos desta semana entram na soma de fala, com atalho para a semana.
 - **O órfão**: a linha filha apontou para um pai que não existe mais.
-- **O aceno**: o segundo sítio nunca confirmou e a transação ficou pela metade.
+- **O aceno**: o segundo sítio nunca confirmou.
 - **O gasto**: três dias de erro gastaram o mês inteiro permitido.
 - **O fora**: no hub, os minutos de fala que ficaram fora desta semana, com atalho para a semana.
 - **A duração**: no hub, quanto dura cada treino desta semana, com atalho para a semana.
@@ -417,6 +417,10 @@ navegador.
 - **O espelho**: a cópia acompanha sem aceitar escrita.
 - **A ascensão**: a cópia vira dona quando o primário cai.
 - **A densidade**: no hub, os minutos de fala por semana do intervalo, com atalho para a semana.
+- **A travessia**: o cache confirma a escrita no disco na hora.
+- **A retaguarda**: a página suja espera no cache antes do disco.
+- **O contorno**: a escrita grande segue direto ao armazenamento.
+- **O peso**: no hub, a parte do dia mais longo no total de fala, com atalho para a semana.
 
 ### Hábito e gamificação
 
@@ -572,6 +576,7 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/lider.js` | Líder que conduz o mandato, mandato que sobe na eleição e seguidor que copia o registro. |
 | `js/orquestra.js` | Orquestrador que dispara a sequência, vizinho que escolhe a etapa e falha que desfaz a anterior. |
 | `js/primario.js` | Primário que aceita a escrita, espelho que só copia e ascensão que vira dona. |
+| `js/travessia.js` | Travessia que confirma no disco, retaguarda que espera no cache e contorno que pula o cache. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -653,7 +658,7 @@ Abra <http://localhost:8123>. Qualquer servidor estático também serve (`python
 
 ### Testes
 
-A suíte roda no runner nativo do Node: **638 testes em 138 suítes**, sem instalar nada
+A suíte roda no runner nativo do Node: **642 testes em 139 suítes**, sem instalar nada
 (o `package.json` da raiz é só metadado: `"type": "module"`, zero dependências, zero lockfile).
 De dentro da pasta do projeto:
 
@@ -770,6 +775,7 @@ O que a suíte cobre:
 - **`tests/lider.test.js`**: líder, mandato, seguidor, o intervalo entre os dias de treino e a versão 2.81.
 - **`tests/orquestra.test.js`**: orquestrador, coreografia, compensação, a cadência dos dias de treino e a versão 2.82.
 - **`tests/primario.test.js`**: primário, espelho, ascensão, a densidade dos minutos de fala e a versão 2.83.
+- **`tests/travessia.test.js`**: travessia, retaguarda, contorno, o peso do dia mais longo e a versão 2.84.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a

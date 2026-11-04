@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.83';
+export const VERSAO_APP = '2.84';
 
 export const NOVIDADES = [
+  {
+    versao: '2.84',
+    titulo: 'A travessia',
+    itens: [
+      '🌉 Diga que a escrita chega ao disco na hora',
+      '🗄️ Avise que a página suja espera no cache',
+      '➰ Diga que a escrita grande pula o cache',
+      '📝 Veja no hub o peso do dia mais longo'
+    ]
+  },
   {
     versao: '2.83',
     titulo: 'O primário',
@@ -1842,6 +1852,9 @@ export const MISSOES = [
   { id: 'primario1', emoji: '🥇', titulo: 'Deixe só um nó aceitar a escrita', alvo: 1, xp: 15, medir: s => (s.tipo === 'primario' ? 1 : 0) },
   { id: 'espelho1', emoji: '🪟', titulo: 'Acompanhe sem aceitar escrita', alvo: 1, xp: 15, medir: s => (s.tipo === 'espelho' ? 1 : 0) },
   { id: 'ascensao1', emoji: '📈', titulo: 'Vire dono quando o primário cai', alvo: 1, xp: 15, medir: s => (s.tipo === 'ascensao' ? 1 : 0) },
+  { id: 'travessia1', emoji: '🌉', titulo: 'Confirme a escrita no disco na hora', alvo: 1, xp: 15, medir: s => (s.tipo === 'travessia' ? 1 : 0) },
+  { id: 'retaguarda1', emoji: '🗄️', titulo: 'Deixe a página suja esperar no cache', alvo: 1, xp: 15, medir: s => (s.tipo === 'retaguarda' ? 1 : 0) },
+  { id: 'contorno1', emoji: '➰', titulo: 'Mande a escrita grande direto ao disco', alvo: 1, xp: 15, medir: s => (s.tipo === 'contorno' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2132,6 +2145,9 @@ export const BADGES = [
   { id: 'primario', emoji: '🥇', nome: 'O primário', desc: 'Diga que só um nó aceita a escrita' },
   { id: 'espelho', emoji: '🪟', nome: 'O espelho', desc: 'Diga que a cópia não aceita escrita' },
   { id: 'ascensao', emoji: '📈', nome: 'A ascensão', desc: 'Diga que a cópia vira dona' },
+  { id: 'travessia', emoji: '🌉', nome: 'A travessia', desc: 'Diga que a escrita chega ao disco na hora' },
+  { id: 'retaguarda', emoji: '🗄️', nome: 'A retaguarda', desc: 'Diga que a página suja espera no cache' },
+  { id: 'contorno', emoji: '➰', nome: 'O contorno', desc: 'Diga que a escrita grande pula o cache' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
