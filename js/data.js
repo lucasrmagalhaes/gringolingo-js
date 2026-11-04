@@ -21,7 +21,7 @@ export const UNIDADES = [
       },
       {
         id: 'b2', titulo: 'Quem é você?', emoji: '🙋',
-        dica: { titulo: 'Ser e estar viram to be', corpo: 'Em inglês não existe a dupla ser/estar: os dois viram to be. E ele muda com a pessoa — I am, you are, he/she/it is, we/they are. Por isso "eu estou bem" é I am fine.' },
+        dica: { titulo: 'Ser e estar viram to be', corpo: 'Em inglês não existe a dupla ser/estar: os dois viram to be. E ele muda com a pessoa. I am, you are, he/she/it is, we/they are. Por isso "eu estou bem" é I am fine.' },
         itens: [
           { en: 'what is your name?', pt: 'qual é o seu nome?', nota: 'Em pergunta o verbo vem antes do sujeito: what IS your name?' },
           { en: 'my name is Ana', pt: 'meu nome é Ana' },
@@ -53,7 +53,7 @@ export const UNIDADES = [
         itens: [
           { en: 'excuse me', pt: 'com licença', nota: 'Excuse me vem ANTES: para chamar atenção ou pedir passagem; desculpa por um erro é sorry.' },
           { en: 'sorry', pt: 'desculpa', nota: 'Sorry vem DEPOIS do erro, para se desculpar; para interromper ou pedir passagem, use excuse me.' },
-          { en: "I don't understand", pt: 'eu não entendo', nota: 'Negativa no presente pede o do: I do not understand — nunca "I not understand".' },
+          { en: "I don't understand", pt: 'eu não entendo', nota: 'Negativa no presente pede o do: I do not understand. Nunca "I not understand".' },
           { en: 'can you help me?', pt: 'você pode me ajudar?', nota: 'Depois de can o verbo vem puro, sem to: can you HELP (não can you to help).' },
           { en: 'speak slowly, please', pt: 'fale devagar, por favor' },
           { en: 'no problem', pt: 'sem problema' }
@@ -72,7 +72,7 @@ export const UNIDADES = [
         itens: [
           { en: 'water', pt: 'água' },
           { en: 'coffee', pt: 'café' },
-          { en: 'bread', pt: 'pão', nota: 'Pão é incontável em inglês: some bread — nunca "a bread" nem "breads".' },
+          { en: 'bread', pt: 'pão', nota: 'Pão é incontável em inglês: some bread. Nunca "a bread" nem "breads".' },
           { en: 'cheese', pt: 'queijo' },
           { en: 'chicken', pt: 'frango', nota: 'Cuidado com a troca: chicken é o frango, kitchen é a cozinha.' },
           { en: 'rice', pt: 'arroz' },
@@ -86,7 +86,7 @@ export const UNIDADES = [
         itens: [
           { en: 'menu', pt: 'cardápio' },
           { en: 'breakfast', pt: 'café da manhã' },
-          { en: 'lunch', pt: 'almoço', nota: 'Lunch é o almoço; launch (com a) é lançamento — cuidado ao digitar.' },
+          { en: 'lunch', pt: 'almoço', nota: 'Lunch é o almoço; launch (com a) é lançamento. Cuidado ao digitar.' },
           { en: 'dinner', pt: 'jantar' },
           { en: 'the bill, please', pt: 'a conta, por favor', alt: ['the check, please'] },
           { en: 'I want a coffee', pt: 'eu quero um café', nota: 'O artigo a/an é obrigatório com contável no singular: a coffee.' },
@@ -131,7 +131,7 @@ export const UNIDADES = [
           { en: 'airplane', pt: 'avião', alt: ['plane'] },
           { en: 'ticket', pt: 'passagem' },
           { en: 'passport', pt: 'passaporte' },
-          { en: 'luggage', pt: 'bagagem', alt: ['baggage'], nota: 'Luggage é incontável: nada de "luggages" — para contar, diga two bags.' },
+          { en: 'luggage', pt: 'bagagem', alt: ['baggage'], nota: 'Luggage é incontável: nada de "luggages". Para contar, diga two bags.' },
           { en: 'trip', pt: 'viagem', nota: 'A viagem que você faz é a trip; travel é mais o verbo viajar.' },
           { en: 'hotel', pt: 'hotel' }
         ]
@@ -142,7 +142,7 @@ export const UNIDADES = [
           { en: 'where is the bathroom?', pt: 'onde fica o banheiro?', alt: ['where is the restroom?', 'where is the toilet?'] },
           { en: 'how much is it?', pt: 'quanto custa?', nota: 'Preço se pergunta com how much + is: how much IS it?' },
           { en: 'I am lost', pt: 'eu estou perdido', nota: 'Estados de pessoa usam to be: I AM lost (não "I have lost").' },
-          { en: 'turn left', pt: 'vire à esquerda', nota: 'Vire à esquerda é só turn left — o "à" não vira to.' },
+          { en: 'turn left', pt: 'vire à esquerda', nota: 'Vire à esquerda é só turn left. O "à" não vira to.' },
           { en: 'turn right', pt: 'vire à direita' },
           { en: 'it is near', pt: 'é perto' },
           { en: 'it is far', pt: 'é longe' }
@@ -188,7 +188,7 @@ export const UNIDADES = [
           { en: 'job', pt: 'emprego', nota: 'Job é contável: a job, two jobs; work (trabalho em geral) fica sem o a.' },
           { en: 'salary', pt: 'salário' },
           { en: 'deadline', pt: 'prazo' },
-          { en: 'office', pt: 'escritório', nota: 'Falso amigo: office é escritório — oficina de carro é garage.' }
+          { en: 'office', pt: 'escritório', nota: 'Falso amigo: office é escritório. Oficina de carro é garage.' }
         ]
       },
       {
@@ -243,7 +243,7 @@ export const UNIDADES = [
           { en: 'sister', pt: 'irmã' },
           { en: 'son', pt: 'filho' },
           { en: 'daughter', pt: 'filha' },
-          { en: 'parents', pt: 'pais', nota: 'Falso amigo: parents são só pai e mãe — parentes em geral é relatives.' }
+          { en: 'parents', pt: 'pais', nota: 'Falso amigo: parents são só pai e mãe. Parentes em geral é relatives.' }
         ]
       },
       {
@@ -253,7 +253,7 @@ export const UNIDADES = [
           { en: 'grandfather', pt: 'avô', alt: ['grandpa'] },
           { en: 'uncle', pt: 'tio' },
           { en: 'aunt', pt: 'tia' },
-          { en: 'cousin', pt: 'primo', nota: 'Cousin vale para primo e prima — o inglês não marca o gênero aqui.' },
+          { en: 'cousin', pt: 'primo', nota: 'Cousin vale para primo e prima. O inglês não marca o gênero aqui.' },
           { en: 'baby', pt: 'bebê' }
         ]
       },
@@ -270,7 +270,7 @@ export const UNIDADES = [
       },
       {
         id: 'f4', titulo: 'Papo de família', emoji: '💬',
-        dica: { titulo: 'My dispensa o artigo', corpo: 'Meu e minha viram uma palavra só: my — my mother, my family. E o artigo some: she is my sister, nunca "the my sister". Para ele use his, para ela use her.' },
+        dica: { titulo: 'My dispensa o artigo', corpo: 'Meu e minha viram uma palavra só: my. My mother, my family. E o artigo some: she is my sister, nunca "the my sister". Para ele use his, para ela use her.' },
         itens: [
           { en: 'this is my mother', pt: 'esta é minha mãe' },
           { en: 'I have two brothers', pt: 'eu tenho dois irmãos', nota: 'Não engula o s do plural: two brotherS.' },
@@ -347,7 +347,7 @@ export const UNIDADES = [
         itens: [
           { en: 'head', pt: 'cabeça' },
           { en: 'hand', pt: 'mão' },
-          { en: 'foot', pt: 'pé', nota: 'Plural irregular: one foot, two FEET — nada de foots.' },
+          { en: 'foot', pt: 'pé', nota: 'Plural irregular: one foot, two FEET. Nada de foots.' },
           { en: 'arm', pt: 'braço' },
           { en: 'leg', pt: 'perna' },
           { en: 'eye', pt: 'olho' },
@@ -361,7 +361,7 @@ export const UNIDADES = [
           { en: 'ear', pt: 'orelha' },
           { en: 'hair', pt: 'cabelo', nota: 'Hair é singular em inglês: my hair IS (não "my hairs are").' },
           { en: 'finger', pt: 'dedo' },
-          { en: 'tooth', pt: 'dente', nota: 'Plural irregular: one tooth, two TEETH — por isso é brush my teeth.' },
+          { en: 'tooth', pt: 'dente', nota: 'Plural irregular: one tooth, two TEETH. Por isso é brush my teeth.' },
           { en: 'back', pt: 'costas', nota: 'Costas é plural no português, mas em inglês é singular: my back hurts.' },
           { en: 'shoulder', pt: 'ombro' },
           { en: 'knee', pt: 'joelho' }
@@ -381,7 +381,7 @@ export const UNIDADES = [
       },
       {
         id: 's4', titulo: 'Tô passando mal', emoji: '🤒',
-        dica: { titulo: 'Sintoma usa have, estado usa be', corpo: 'Dor, febre e sintoma se TÊM: I have a headache, I have a fever. Já como você está vai com to be: I am better, I am sick. E o "estou com" do português não vira "I am with" — cai todo mundo nessa.' },
+        dica: { titulo: 'Sintoma usa have, estado usa be', corpo: 'Dor, febre e sintoma se TÊM: I have a headache, I have a fever. Já como você está vai com to be: I am better, I am sick. E o "estou com" do português não vira "I am with". Cai todo mundo nessa.' },
         itens: [
           { en: 'I have a headache', pt: 'eu estou com dor de cabeça', nota: 'Dor e sintoma usam have: I HAVE a headache (não "I am with pain").' },
           { en: 'I feel sick', pt: 'eu me sinto doente' },
@@ -401,7 +401,7 @@ export const UNIDADES = [
     licoes: [
       {
         id: 'r1', titulo: 'Verbos na veia', emoji: '⚡',
-        dica: { titulo: 'O -s da terceira pessoa', corpo: 'No presente, he, she e it ganham -s no verbo: I eat, mas she eatS. Vale para todo verbo comum — he workS, it hurtS. Com I, you, we e they o verbo fica igualzinho.' },
+        dica: { titulo: 'O -s da terceira pessoa', corpo: 'No presente, he, she e it ganham -s no verbo: I eat, mas she eatS. Vale para todo verbo comum. He workS, it hurtS. Com I, you, we e they o verbo fica igualzinho.' },
         itens: [
           { en: 'eat', pt: 'comer' },
           { en: 'drink', pt: 'beber' },
@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.49';
+export const VERSAO_APP = '2.50';
 
 export const NOVIDADES = [
+  {
+    versao: '2.50',
+    titulo: 'O processador',
+    itens: [
+      '🧮 Diga que o processador fica perto de noventa por cento',
+      '💾 A cópia da noite começa às duas e fica pronta de manhã',
+      '💥 O processo ficou sem memória e o limite sobe',
+      '📝 Veja no hub quantos dias desta semana tiveram fala'
+    ]
+  },
   {
     versao: '2.49',
     titulo: 'O lint',
@@ -1058,7 +1068,7 @@ export const NOVIDADES = [
       '🚀 Expansão de Vocabulário: as 2.700+ palavras mais usadas do inglês em lições de 7, organizadas em quatro trilhas',
       '✨ Palavra nova é apresentada antes de ser cobrada: grafia, pronúncia, classe e traduções',
       '🧠 As palavras da Expansão entram na mesma agenda de revisão espaçada do curso',
-      '🦜 O Louro comemora com você na tela de resultado — de coroa quando você gabarita'
+      '🦜 O Louro comemora com você na tela de resultado. De coroa quando você gabarita'
     ]
   },
   {
@@ -1066,10 +1076,10 @@ export const NOVIDADES = [
     titulo: 'Correção mais justa e app mais firme',
     itens: [
       '◀️ O botão Voltar do celular agora funciona dentro do app, tela por tela',
-      '🚪 Sair no meio da lição agora pede confirmação — nada de perder progresso sem querer',
+      '🚪 Sair no meio da lição agora pede confirmação. Nada de perder progresso sem querer',
       '⚖️ Correção mais justa: typo que forma outra palavra de verdade não passa, e o NÃO SEI não zera mais a memória da palavra',
       '🔤 Oficina de Verbos consertada',
-      '🕛 Streak e missões não viram mais às 21h — o dia agora acaba à meia-noite',
+      '🕛 Streak e missões não viram mais às 21h. O dia agora acaba à meia-noite',
       '🔁 Sincronização entre aparelhos sem perder progresso',
       '🎨 Botões com contraste melhor e inglês lido direito pelos leitores de tela'
     ]
@@ -1400,6 +1410,9 @@ export const MISSOES = [
   { id: 'lint1', emoji: '🧹', titulo: 'Fale do lint que falhou', alvo: 1, xp: 15, medir: s => (s.tipo === 'lint' ? 1 : 0) },
   { id: 'origem1', emoji: '🌐', titulo: 'Libere a outra origem', alvo: 1, xp: 15, medir: s => (s.tipo === 'origem' ? 1 : 0) },
   { id: 'link1', emoji: '🔗', titulo: 'Mande um link assinado', alvo: 1, xp: 15, medir: s => (s.tipo === 'link' ? 1 : 0) },
+  { id: 'cpu1', emoji: '🧮', titulo: 'Fale do processador no pico', alvo: 1, xp: 15, medir: s => (s.tipo === 'cpu' ? 1 : 0) },
+  { id: 'copia1', emoji: '💾', titulo: 'Marque a cópia da noite', alvo: 1, xp: 15, medir: s => (s.tipo === 'copia' ? 1 : 0) },
+  { id: 'estouro1', emoji: '💥', titulo: 'Suba o limite de memória', alvo: 1, xp: 15, medir: s => (s.tipo === 'estouro' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -1588,6 +1601,9 @@ export const BADGES = [
   { id: 'lint', emoji: '🧹', nome: 'O lint', desc: 'Diga que o lint falhou e olhe o aviso no diff' },
   { id: 'origem', emoji: '🌐', nome: 'A origem', desc: 'Diga que o navegador bloqueia e libere o site' },
   { id: 'link', emoji: '🔗', nome: 'O link', desc: 'Mande um link assinado que vale uma hora' },
+  { id: 'cpu', emoji: '🧮', nome: 'O processador', desc: 'Diga que o processador fica perto de noventa por cento' },
+  { id: 'copia', emoji: '💾', nome: 'A cópia', desc: 'A cópia da noite começa às duas e fica pronta de manhã' },
+  { id: 'estouro', emoji: '💥', nome: 'O estouro', desc: 'O processo ficou sem memória e o limite sobe' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

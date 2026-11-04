@@ -49,7 +49,7 @@ describe('traduzirErro', () => {
 
   test('mantem as traducoes de login que ja existiam', () => {
     assert.equal(traduzirErro('Invalid login credentials'), 'E-mail ou senha incorretos 🙈');
-    assert.equal(traduzirErro('User already registered'), 'Esse e-mail já tem conta — tenta entrar!');
+    assert.equal(traduzirErro('User already registered'), 'Esse e-mail já tem conta. Tenta entrar!');
     assert.equal(traduzirErro('Failed to fetch'), 'Sem conexão com a nuvem 📡');
   });
 

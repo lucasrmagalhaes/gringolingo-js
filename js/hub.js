@@ -174,7 +174,10 @@ const BRUTOS = [
   ['pod', 'trabalho', '🫛', 'O pod', 'Reinicie só um pod e deixe os outros no ar.', 'pods', 'restart one pod traffic'],
   ['lint', 'trabalho', '🧹', 'O lint', 'O lint falhou em dois arquivos e o aviso fica no diff.', 'lints', 'linter dois arquivos warning diff'],
   ['origem', 'trabalho', '🌐', 'A origem', 'O navegador bloqueia a outra origem até liberar o site.', 'origens', 'cors origin browser allow'],
-  ['link', 'trabalho', '🔗', 'O link', 'O link assinado vale uma hora e depois expira.', 'links', 'signed url one hour expires']
+  ['link', 'trabalho', '🔗', 'O link', 'O link assinado vale uma hora e depois expira.', 'links', 'signed url one hour expires'],
+  ['cpu', 'trabalho', '🧮', 'O processador', 'O processador fica perto de noventa por cento e a gente olha o pico.', 'cpus', 'cpu ninety percent peak'],
+  ['copia', 'trabalho', '💾', 'A cópia', 'A cópia da noite começa às duas e fica pronta de manhã.', 'copias', 'backup nightly two morning'],
+  ['estouro', 'trabalho', '💥', 'O estouro', 'O processo estourou a memória e a gente sobe o limite.', 'estouros', 'out of memory limit process']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({

@@ -426,6 +426,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-dias {
+  margin: 8px 0 12px;
+}
+
+.fala-dias .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -634,6 +642,7 @@ body.com-aviso-metricas {
   border-bottom-width: 4px;
   border-radius: 16px;
   padding: 14px 10px;
+  min-height: 44px;
   text-align: center;
   cursor: pointer;
   transition: transform 0.12s, border-color 0.12s;

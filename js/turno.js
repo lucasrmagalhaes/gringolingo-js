@@ -49,6 +49,7 @@ import { COLHEITAS, SESSOES, TANQUES } from './folha.js';
 import { SONDAS, SEMENTES, REGISTROS } from './pulso.js';
 import { RASTROS, PARADAS, PODS } from './guarda.js';
 import { LINTS, ORIGENS, LINKS } from './cerca.js';
+import { CPUS, COPIAS, ESTOUROS } from './maquina.js';
 
 export const MINUTOS_REVISAO = 3;
 export const SEGUNDOS_REVISAO = MINUTOS_REVISAO * 60;
@@ -487,6 +488,9 @@ let cacheFaladas = null;
 export function catalogoFaladas() {
   if (cacheFaladas) return cacheFaladas;
   cacheFaladas = coletarFaladas([
+    { origem: 'Processador', itens: CPUS },
+    { origem: 'Cópia', itens: COPIAS },
+    { origem: 'Estouro', itens: ESTOUROS },
     { origem: 'Lint', itens: LINTS },
     { origem: 'Origem', itens: ORIGENS },
     { origem: 'Link', itens: LINKS },
