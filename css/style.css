@@ -130,6 +130,7 @@ body {
   height: auto;
   margin: 0;
   padding: 14px 16px;
+  min-height: 44px;
   overflow: visible;
   clip: auto;
   border-radius: 0;
@@ -414,6 +415,14 @@ textarea {
 }
 
 .fala-apoio .btn {
+  margin-top: 10px;
+}
+
+.fala-nota {
+  margin: 8px 0 12px;
+}
+
+.fala-nota .btn {
   margin-top: 10px;
 }
 
@@ -3276,6 +3285,7 @@ button.caixa-treinavel:hover {
 .btn-compacto {
   padding: 9px 18px;
   font-size: 14px;
+  min-height: 44px;
 }
 
 .conta-apagar .conta-titulo {
