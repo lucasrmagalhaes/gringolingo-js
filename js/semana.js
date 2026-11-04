@@ -1199,6 +1199,31 @@ export function textoDaMediana(painel, diaIso) {
   return { dias, mediana, texto: `A mediana dos dias é de ${mediana} segundos.` };
 }
 
+export function textoDoMosaico(painel, diaIso) {
+  const fim = String(diaIso || '');
+  const total = GRUPOS.length;
+  if (!dataValida(fim)) return { dias: null, grupos: 0, total, texto: 'Ainda não há mosaico de grupos.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  const vistos = new Set();
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    const grupos = linha?.grupos && typeof linha.grupos === 'object' ? linha.grupos : {};
+    for (const id of GRUPOS) {
+      if (inteiroNaoNegativo(grupos[id]) > 0) vistos.add(id);
+    }
+  }
+  const grupos = vistos.size;
+  if (dias === 0) return { dias: 0, grupos: 0, total, texto: `O mosaico ainda cobre 0 de ${total} grupos.` };
+  if (grupos === total) return { dias, grupos, total, texto: `O mosaico cobre os ${total} grupos.` };
+  return { dias, grupos, total, texto: `O mosaico cobre ${grupos} de ${total} grupos.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

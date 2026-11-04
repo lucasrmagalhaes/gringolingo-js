@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '2.91';
+export const VERSAO_APP = '2.92';
 
 export const NOVIDADES = [
+  {
+    versao: '2.92',
+    titulo: 'O nonce',
+    itens: [
+      '🎲 Diga que o número entra uma vez e não volta',
+      '🏷️ Avise que o selo confere a mensagem e a chave',
+      '✉️ Diga que a chave viaja dentro de outra chave',
+      '📝 Veja no hub o mosaico dos grupos praticados'
+    ]
+  },
   {
     versao: '2.91',
     titulo: 'O wal',
@@ -1946,6 +1956,9 @@ export const MISSOES = [
   { id: 'wal1', emoji: '🪵', titulo: 'Grave a escrita no log antes da tabela', alvo: 1, xp: 15, medir: s => (s.tipo === 'wal' ? 1 : 0) },
   { id: 'lsn1', emoji: '🧷', titulo: 'Deixe o número do registro só avançar', alvo: 1, xp: 15, medir: s => (s.tipo === 'lsn' ? 1 : 0) },
   { id: 'checkpoint1', emoji: '📍', titulo: 'Grave um ponto seguro no marco', alvo: 1, xp: 15, medir: s => (s.tipo === 'checkpoint' ? 1 : 0) },
+  { id: 'nonce1', emoji: '🎲', titulo: 'Use o número uma vez e não deixe voltar', alvo: 1, xp: 15, medir: s => (s.tipo === 'nonce' ? 1 : 0) },
+  { id: 'hmac1', emoji: '🏷️', titulo: 'Confira a mensagem com o selo e a chave', alvo: 1, xp: 15, medir: s => (s.tipo === 'hmac' ? 1 : 0) },
+  { id: 'envelope1', emoji: '✉️', titulo: 'Leve a chave dentro de outra chave', alvo: 1, xp: 15, medir: s => (s.tipo === 'envelope' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2260,6 +2273,9 @@ export const BADGES = [
   { id: 'wal', emoji: '🪵', nome: 'O wal', desc: 'Diga que a escrita entra no log antes da tabela' },
   { id: 'lsn', emoji: '🧷', nome: 'O lsn', desc: 'Diga que o número do registro só avança' },
   { id: 'checkpoint', emoji: '📍', nome: 'O checkpoint', desc: 'Diga que o marco grava um ponto seguro' },
+  { id: 'nonce', emoji: '🎲', nome: 'O nonce', desc: 'Diga que o número entra uma vez e não volta' },
+  { id: 'hmac', emoji: '🏷️', nome: 'O hmac', desc: 'Diga que o selo confere a mensagem e a chave' },
+  { id: 'envelope', emoji: '✉️', nome: 'O envelope', desc: 'Diga que a chave viaja dentro de outra chave' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
