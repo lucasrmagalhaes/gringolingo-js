@@ -547,6 +547,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-fora {
+  margin: 8px 0 12px;
+}
+
+.fala-fora .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1690,6 +1698,7 @@ textarea.entrada {
 }
 
 .btn-lento {
+  min-height: 44px;
   background: var(--superficie);
   color: var(--texto);
   border: 2px solid var(--borda);

@@ -219,7 +219,10 @@ const BRUTOS = [
   ['inteiro', 'trabalho', '🔣', 'O inteiro', 'O contador passou do limite e voltou para zero.', 'inteiros', 'integer overflow counter wraps zero'],
   ['filtro', 'trabalho', '🧲', 'O filtro', 'O filtro de presença deu um sim falso e a chave não estava no conjunto.', 'filtros', 'bloom filter false positive key set'],
   ['ordem', 'trabalho', '🔀', 'A ordem', 'A mensagem quatro chegou antes da três e a conta saiu invertida.', 'ordens', 'out of order message four before three'],
-  ['prova', 'trabalho', '🧬', 'A prova', 'A prova dos bytes não bateu com o arquivo que chegou pela rede.', 'provas', 'checksum mismatch bytes file']
+  ['prova', 'trabalho', '🧬', 'A prova', 'A prova dos bytes não bateu com o arquivo que chegou pela rede.', 'provas', 'checksum mismatch bytes file'],
+  ['orfao', 'trabalho', '🪆', 'O órfão', 'A linha filha apontou para um pai que não existe mais.', 'orfaos', 'foreign key child missing parent'],
+  ['aceno', 'trabalho', '🫡', 'O aceno', 'O segundo sítio nunca confirmou e a transação ficou pela metade.', 'acenos', 'two phase commit second site never confirmed'],
+  ['gasto', 'trabalho', '🪙', 'O gasto', 'Três dias de erro gastaram o mês inteiro permitido.', 'gastos', 'error budget three days whole month']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
