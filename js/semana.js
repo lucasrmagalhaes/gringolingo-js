@@ -1335,6 +1335,43 @@ export function textoDaAbertura(painel, diaIso) {
   return { dias, dia, texto: `A abertura cai ${artigo} ${dia}.` };
 }
 
+const ESTACAO_POR_MES = {
+  1: ['verão', 'no'],
+  2: ['verão', 'no'],
+  3: ['outono', 'no'],
+  4: ['outono', 'no'],
+  5: ['outono', 'no'],
+  6: ['inverno', 'no'],
+  7: ['inverno', 'no'],
+  8: ['inverno', 'no'],
+  9: ['primavera', 'na'],
+  10: ['primavera', 'na'],
+  11: ['primavera', 'na'],
+  12: ['verão', 'no']
+};
+
+export function textoDaEstacao(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, estacao: null, texto: 'Ainda não há estação de fala.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  let primeira = '';
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    if (!primeira || data < primeira) primeira = data;
+  }
+  if (!primeira) return { dias: 0, estacao: null, texto: 'A estação ainda não tem dia.' };
+  const par = ESTACAO_POR_MES[Number(primeira.slice(5, 7))];
+  const estacao = par[0];
+  const artigo = par[1];
+  return { dias, estacao, texto: `A fala abriu ${artigo} ${estacao}.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

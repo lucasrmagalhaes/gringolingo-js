@@ -834,6 +834,14 @@ textarea {
   margin-top: 10px;
 }
 
+.fala-estacao {
+  margin: 8px 0 12px;
+}
+
+.fala-estacao .btn {
+  margin-top: 10px;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -1794,12 +1802,14 @@ textarea.entrada {
 .semana {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 6px;
   margin-bottom: 12px;
 }
 
 .semana-dia {
-  flex: 1;
+  flex: 1 1 44px;
+  min-width: 44px;
   background: var(--superficie);
   border: 2px solid var(--borda-suave);
   border-radius: 12px;
