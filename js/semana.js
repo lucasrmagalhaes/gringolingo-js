@@ -1260,6 +1260,27 @@ export function textoDoTurno(painel, diaIso) {
   return { dias, uteis, folgas, texto: `O turno cobre ${textoUtil} e ${textoFolga}.` };
 }
 
+export function textoDaVirada(painel, diaIso) {
+  const fim = String(diaIso || '');
+  if (!dataValida(fim)) return { dias: null, meses: 0, texto: 'Ainda não há virada de meses.' };
+  const fonte = painel && typeof painel === 'object' ? painel : {};
+  const vistos = new Set();
+  let dias = 0;
+  for (const data of Object.keys(fonte)) {
+    if (!dataValida(data) || data > fim) continue;
+    const linha = fonte[data];
+    const treinos = inteiroNaoNegativo(linha?.n);
+    const seg = inteiroNaoNegativo(linha?.segundos);
+    if (treinos <= 0 && seg <= 0) continue;
+    dias += 1;
+    vistos.add(data.slice(0, 7));
+  }
+  const meses = vistos.size;
+  if (dias === 0) return { dias: 0, meses: 0, texto: 'A virada ainda cobre 0 meses.' };
+  if (meses === 1) return { dias, meses, texto: 'A virada cobre 1 mês.' };
+  return { dias, meses, texto: `A virada cobre ${meses} meses.` };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
