@@ -97,6 +97,7 @@ import { GOSSIPS, PHIS, ACCRUALS } from './gossip.js';
 import { HINTS, VACUUMS, FREEZES } from './hint.js';
 import { BITMAPS, ROARINGS, HYPERS } from './bitmap.js';
 import { CRDTS, LWWS, ORSETS } from './crdt.js';
+import { VECTORS, DOTS, CAUSALS } from './vector.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -662,6 +663,9 @@ export function catalogoFaladas() {
     { origem: 'Crdt', itens: CRDTS },
     { origem: 'Lww', itens: LWWS },
     { origem: 'Orset', itens: ORSETS },
+    { origem: 'Vector', itens: VECTORS },
+    { origem: 'Dot', itens: DOTS },
+    { origem: 'Causal', itens: CAUSALS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

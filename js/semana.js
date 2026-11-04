@@ -1571,6 +1571,28 @@ export function textoDoRecado(painel, diaIso, treinos, stats) {
   };
 }
 
+export function textoDaVez(treinos, estrelas, stats) {
+  const lista = (Array.isArray(treinos) ? treinos : []).filter(t => t && t.id && t.stat && t.titulo);
+  const porId = new Map(lista.map(t => [t.id, t]));
+  const ids = [];
+  const vistos = new Set();
+  for (const item of (Array.isArray(estrelas) ? estrelas : [])) {
+    const id = typeof item === 'string' ? item : '';
+    if (!id || vistos.has(id) || !porId.has(id)) continue;
+    vistos.add(id);
+    ids.push(id);
+  }
+  if (!ids.length) return { id: '', titulo: '', texto: 'A vez ainda não tem favorito.' };
+  const livre = t => (Number(stats?.[t.stat]) || 0) <= 0;
+  const escolhido = ids.map(id => porId.get(id)).find(livre);
+  if (!escolhido) return { id: '', titulo: '', texto: 'A vez já passou pelos favoritos.' };
+  const subtitulo = String(escolhido.sub || '').replace(/\.$/, '');
+  const texto = subtitulo
+    ? `A vez pede ${escolhido.titulo}. ${subtitulo}.`
+    : `A vez pede ${escolhido.titulo}.`;
+  return { id: escolhido.id, titulo: escolhido.titulo, texto };
+}
+
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);

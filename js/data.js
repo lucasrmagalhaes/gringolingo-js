@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.02';
+export const VERSAO_APP = '3.03';
 
 export const NOVIDADES = [
+  {
+    versao: '3.03',
+    titulo: 'O vector',
+    itens: [
+      '🧭 Diga que cada nó guarda o próprio relógio',
+      '⚫ Avise que o ponto nomeia uma escrita',
+      '🔗 Diga que a causa chega antes do efeito',
+      '📝 Comece no hub o favorito que ainda não teve fala'
+    ]
+  },
   {
     versao: '3.02',
     titulo: 'O crdt',
@@ -2089,6 +2099,9 @@ export const MISSOES = [
   { id: 'crdt1', emoji: '🔀', titulo: 'Junte as edições sem trava', alvo: 1, xp: 15, medir: s => (s.tipo === 'crdt' ? 1 : 0) },
   { id: 'lww1', emoji: '🕰️', titulo: 'Deixe a escrita mais nova vencer o campo', alvo: 1, xp: 15, medir: s => (s.tipo === 'lww' ? 1 : 0) },
   { id: 'orset1', emoji: '📦', titulo: 'Segure o item até a remoção aparecer', alvo: 1, xp: 15, medir: s => (s.tipo === 'orset' ? 1 : 0) },
+  { id: 'vector1', emoji: '🧭', titulo: 'Marque os fatos no relógio do vector', alvo: 1, xp: 15, medir: s => (s.tipo === 'vector' ? 1 : 0) },
+  { id: 'dot1', emoji: '⚫', titulo: 'Nomeie a escrita com um ponto', alvo: 1, xp: 15, medir: s => (s.tipo === 'dot' ? 1 : 0) },
+  { id: 'causal1', emoji: '🔗', titulo: 'Deixe a causa chegar antes do efeito', alvo: 1, xp: 15, medir: s => (s.tipo === 'causal' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2436,6 +2449,9 @@ export const BADGES = [
   { id: 'crdt', emoji: '🔀', nome: 'O crdt', desc: 'Diga que as edições se juntam sem trava' },
   { id: 'lww', emoji: '🕰️', nome: 'O lww', desc: 'Diga que a escrita mais nova vence o campo' },
   { id: 'orset', emoji: '📦', nome: 'O orset', desc: 'Diga que o item fica até a remoção aparecer' },
+  { id: 'vector', emoji: '🧭', nome: 'O vector', desc: 'Diga que cada nó guarda o próprio relógio' },
+  { id: 'dot', emoji: '⚫', nome: 'O dot', desc: 'Diga que o ponto nomeia uma escrita' },
+  { id: 'causal', emoji: '🔗', nome: 'O causal', desc: 'Diga que a causa chega antes do efeito' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
