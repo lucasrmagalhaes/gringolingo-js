@@ -1771,7 +1771,8 @@ textarea.entrada {
   max-width: 680px;
   margin: 0 auto;
   display: flex;
-  justify-content: flex-end;
+  justify-content: stretch;
+  align-items: flex-start;
   flex-wrap: wrap;
   gap: 12px;
 }
@@ -1783,7 +1784,8 @@ textarea.entrada {
 
 .btn-nao-sei {
   min-height: 44px;
-  margin-right: auto;
+  flex: 0 0 auto;
+  min-width: 120px;
 }
 
 .feedback {
@@ -2439,12 +2441,6 @@ textarea.entrada {
 
 .fala-errada {
   color: var(--vermelho-esc);
-}
-
-.fala-pular {
-  display: flex;
-  justify-content: center;
-  margin-top: 16px;
 }
 
 .dicionario-atalho {
@@ -5532,6 +5528,20 @@ button.revisao:active,
   background-image: none;
 }
 
+.prompt-card:not(.apresentacao-card) {
+  padding: 18px 22px;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 0 var(--borda);
+  color: var(--texto);
+}
+
+.prompt-card:not(.apresentacao-card) > span {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .area-exercicio.palco-nova .apresentacao-card {
   border-color: #FFC800;
 }
@@ -5573,6 +5583,75 @@ button.revisao:active,
 .rodape-conteudo > .btn-verde,
 .feedback .btn {
   min-height: 52px;
+}
+
+.rodape .rodape-conteudo {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: stretch;
+  justify-content: stretch;
+  column-gap: 12px;
+  row-gap: 8px;
+}
+
+.rodape .btn-nao-sei {
+  grid-column: 1;
+  grid-row: 1;
+  min-height: 52px;
+}
+
+.rodape .btn-verde {
+  grid-column: 2;
+  grid-row: 1;
+  width: 100%;
+  min-height: 52px;
+  border: 3px solid #58CC02;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 0.1s, filter 0.15s;
+}
+
+.rodape .btn-verde:disabled {
+  background: var(--superficie);
+  background-image: none;
+  border-color: var(--borda);
+  color: var(--texto-suave);
+  box-shadow: 0 5px 0 var(--borda);
+  opacity: 1;
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+}
+
+.rodape .btn-verde:disabled:active {
+  transform: none;
+  box-shadow: 0 5px 0 var(--borda);
+}
+
+.rodape .btn:focus-visible {
+  outline: 4px solid var(--verde);
+  outline-offset: 2px;
+}
+
+.rodape .btn-branco:focus-visible {
+  outline-color: var(--azul);
+}
+
+.rodape .btn-verde:disabled:focus-visible {
+  outline-color: var(--borda);
+}
+
+.rodape-dica {
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--texto-suave);
+}
+
+.rodape-dica[hidden] {
+  display: none;
 }
 
 .feedback {
@@ -5687,6 +5766,10 @@ button.revisao:active,
   .trilha-no,
   .agora-card {
     transition: none;
+  }
+
+  .rodape .btn:active {
+    transform: none;
   }
 }
 

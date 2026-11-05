@@ -1564,9 +1564,14 @@ function telaExercicio() {
   const comboEl = sessao.chefao
     ? h('div', { class: 'combo vidas', title: 'Vidas restantes' }, '❤️'.repeat(Math.max(sessao.vidas, 0)))
     : h('div', { class: 'combo' + (sessao.combo >= 2 ? ' pop' : '') }, sessao.combo >= 2 ? `⚡x${sessao.combo}` : '');
-  const btnVerificar = h('button', { class: 'btn btn-verde', type: 'button' }, 'VERIFICAR');
+  const btnVerificar = h('button', { class: 'btn btn-verde', type: 'button', 'aria-disabled': 'true' }, 'VERIFICAR');
   btnVerificar.disabled = true;
-  const btnNaoSei = h('button', { class: 'btn btn-branco btn-nao-sei', type: 'button', title: 'Ver a resposta. Conta como erro e volta depois' }, 'NÃO SEI');
+  const ehFalar = ex.tipo === 'falar';
+  const btnNaoSei = h('button', {
+    class: 'btn btn-branco btn-nao-sei',
+    type: 'button',
+    title: ehFalar ? 'Pular esta frase' : 'Ver a resposta. Conta como erro e volta depois'
+  }, ehFalar ? 'PULAR' : 'NÃO SEI');
   const btnDica = h('button', {
     class: 'btn-dica',
     type: 'button',
@@ -1575,7 +1580,11 @@ function telaExercicio() {
     'aria-keyshortcuts': 'D',
     title: 'Dica (tecla D)'
   }, '💡');
-  const rodape = h('div', { class: 'rodape' }, h('div', { class: 'rodape-conteudo' }, btnNaoSei, btnVerificar));
+  const dicaFala = ehFalar
+    ? h('p', { class: 'rodape-dica', id: 'rodape-dica-fala' }, 'Fale ou escreva pra liberar')
+    : null;
+  if (dicaFala) btnVerificar.setAttribute('aria-describedby', 'rodape-dica-fala');
+  const rodape = h('div', { class: 'rodape' }, h('div', { class: 'rodape-conteudo' }, btnNaoSei, btnVerificar, dicaFala));
   const feedback = h('div', { class: 'feedback', role: 'status', 'aria-live': 'polite' });
   const areaEx = h('div', { class: 'area-exercicio ' + classeDoPalco(ex) });
   areaEx.append(palcoDoExercicio(ex));
@@ -1624,24 +1633,32 @@ function telaExercicio() {
     painel.querySelector('.fechar').focus();
   };
   btnDica.addEventListener('click', alternarDica);
+  const sincronizarVerificar = ligado => {
+    btnVerificar.disabled = !ligado;
+    btnVerificar.setAttribute('aria-disabled', ligado ? 'false' : 'true');
+    if (!dicaFala) return;
+    dicaFala.hidden = ligado;
+    if (ligado) btnVerificar.removeAttribute('aria-describedby');
+    else btnVerificar.setAttribute('aria-describedby', 'rodape-dica-fala');
+  };
+  const pularExercicio = () => {
+    sessao.fila.splice(sessao.idx, 1);
+    sessao.planejados = Math.max(1, sessao.planejados - 1);
+    if (sessao.idx >= sessao.fila.length) finalizar();
+    else telaExercicio();
+  };
   const ctrl = montarExercicio(ex, {
-    aoMudar: v => { btnVerificar.disabled = !v; },
+    aoMudar: sincronizarVerificar,
     aoAuto: res => processar(ex, res, feedback, btnVerificar),
     aoEnter: () => { if (!btnVerificar.disabled) btnVerificar.click(); },
     aoContinuar: () => continuar(),
-    aoPular: () => {
-      sessao.fila.splice(sessao.idx, 1);
-      sessao.planejados = Math.max(1, sessao.planejados - 1);
-      if (sessao.idx >= sessao.fila.length) finalizar();
-      else telaExercicio();
-    }
+    aoPular: pularExercicio
   });
   if (sessao.tipo === 'escuta' && !temFala) {
     areaEx.append(h('p', { class: 'aviso-fala' }, 'Sem microfone neste navegador. Ouça e escreva a frase.'));
   }
   areaEx.append(ctrl.el);
   if (!ctrl.temVerificar) rodape.style.display = 'none';
-  if (ex.tipo === 'falar') btnNaoSei.style.display = 'none';
   ligarAtalhos(areaEx, btnVerificar, feedback, alternarDica, () => {
     if (ex.item?.en) falar(ex.item.en);
   });
@@ -1652,6 +1669,8 @@ function telaExercicio() {
     if (btnVerificar.disabled || corrigido) return;
     corrigido = true;
     btnNaoSei.disabled = true;
+    btnVerificar.setAttribute('aria-disabled', 'true');
+    if (dicaFala) dicaFala.hidden = true;
     const res = ctrl.corrigir();
     processar(ex, res, feedback, btnVerificar);
   });
@@ -1659,6 +1678,10 @@ function telaExercicio() {
     if (corrigido) return;
     corrigido = true;
     btnNaoSei.disabled = true;
+    if (ehFalar) {
+      pularExercicio();
+      return;
+    }
     const res = ctrl.corrigir();
     processar(ex, { ...res, correto: false, quase: false, naoSei: true }, feedback, btnVerificar);
   });
