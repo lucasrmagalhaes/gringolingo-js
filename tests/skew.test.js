@@ -96,8 +96,8 @@ describe('skew, hotspot e tail', () => {
     assert.deepEqual(aud.idsRepetidos, []);
     assert.deepEqual(aud.titulosRepetidos, []);
     assert.deepEqual(aud.parecidos, []);
-    assert.equal(TREINOS.length, 371);
-    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 315);
+    assert.equal(TREINOS.length, 374);
+    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 318);
     for (const id of ['skew', 'hotspot', 'tail']) {
       const treino = TREINOS.find(t => t.id === id);
       assert.equal(treino.categoria, 'trabalho');
@@ -132,7 +132,7 @@ describe('skew, hotspot e tail', () => {
     assert.equal(estado.stats.skews, 1);
     assert.ok(estado.badges.includes('tail'));
     assert.equal(estado.painel['2026-10-28'].grupos.trabalho, 3);
-    assert.equal(BADGES.length, 394);
+    assert.equal(BADGES.length, 397);
     assert.equal(new Set(BADGES.map(b => b.id)).size, BADGES.length);
   });
 
@@ -141,10 +141,10 @@ describe('skew, hotspot e tail', () => {
     const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
     const css = semTravessao('../css/style.css');
-    assert.match(data, /VERSAO_APP = '3\.20'/);
+    assert.match(data, /VERSAO_APP = '3\.21'/);
     assert.match(data, /versao: '3\.18'/);
     assert.match(data, /versao: '3\.17'/);
-    assert.match(sw, /gringolingo-v153/);
+    assert.match(sw, /gringolingo-v154/);
     assert.match(sw, /\.\/js\/skew\.js/);
     for (const nome of ['pintarSkew', 'pintarHotspot', 'pintarTail']) {
       assert.ok(app.indexOf(`function ${nome}`) > app.indexOf('function pintarThrottle'), nome);

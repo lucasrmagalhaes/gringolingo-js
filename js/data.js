@@ -528,9 +528,18 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.20';
+export const VERSAO_APP = '3.21';
 
 export const NOVIDADES = [
+  {
+    versao: '3.21',
+    titulo: 'O webhook',
+    itens: [
+      '🪝 Diga que o webhook avisa o sistema',
+      '🔀 Avise que o fanout espalha a chamada',
+      '📬 Diga que o ingest recebe o evento'
+    ]
+  },
   {
     versao: '3.20',
     titulo: 'O trace',
@@ -2320,6 +2329,9 @@ export const MISSOES = [
   { id: 'trace1', emoji: '🧵', titulo: 'Siga a chamada no trace', alvo: 1, xp: 15, medir: s => (s.tipo === 'trace' ? 1 : 0) },
   { id: 'scrape1', emoji: '🧹', titulo: 'Leia a métrica no scrape', alvo: 1, xp: 15, medir: s => (s.tipo === 'scrape' ? 1 : 0) },
   { id: 'rollup1', emoji: '🧮', titulo: 'Some a hora no rollup', alvo: 1, xp: 15, medir: s => (s.tipo === 'rollup' ? 1 : 0) },
+  { id: 'webhook1', emoji: '🪝', titulo: 'Avise o sistema no webhook', alvo: 1, xp: 15, medir: s => (s.tipo === 'webhook' ? 1 : 0) },
+  { id: 'fanout1', emoji: '🔀', titulo: 'Espalhe a chamada no fanout', alvo: 1, xp: 15, medir: s => (s.tipo === 'fanout' ? 1 : 0) },
+  { id: 'ingest1', emoji: '📬', titulo: 'Receba o evento no ingest', alvo: 1, xp: 15, medir: s => (s.tipo === 'ingest' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2718,6 +2730,9 @@ export const BADGES = [
   { id: 'trace', emoji: '🧵', nome: 'O trace', desc: 'Diga que o trace segue a chamada' },
   { id: 'scrape', emoji: '🧹', nome: 'O scrape', desc: 'Diga que o scrape lê a métrica' },
   { id: 'rollup', emoji: '🧮', nome: 'O rollup', desc: 'Diga que o rollup soma a hora' },
+  { id: 'webhook', emoji: '🪝', nome: 'O webhook', desc: 'Diga que o webhook avisa o sistema' },
+  { id: 'fanout', emoji: '🔀', nome: 'O fanout', desc: 'Diga que o fanout espalha a chamada' },
+  { id: 'ingest', emoji: '📬', nome: 'O ingest', desc: 'Diga que o ingest recebe o evento' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
