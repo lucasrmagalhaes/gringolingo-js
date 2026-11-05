@@ -6235,7 +6235,9 @@ button.revisao:active,
   height: 88px;
   min-width: 88px;
   min-height: 88px;
-  background: var(--superficie);
+  background-color: var(--superficie);
+  background-image: none;
+  color: var(--texto);
   border: 6px solid #1CB0F6;
   box-shadow: 0 8px 0 #1899D6;
 }
@@ -6255,7 +6257,7 @@ button.revisao:active,
 
 .no-tooltip {
   width: 176px;
-  margin-top: 4px;
+  margin-top: 14px;
   padding: 10px;
   border-radius: 18px;
   background: #58CC02;
@@ -6393,11 +6395,20 @@ button.revisao:active,
   box-shadow: 0 4px 0 var(--borda);
 }
 
-.licao-topo .progresso.barra-licao,
+.licao-topo .progresso.barra-licao {
+  height: 14px;
+  min-height: 14px;
+  max-height: 14px;
+  background: var(--trilho);
+}
+
 .licao-topo .progresso.barra-licao > div {
   height: 14px;
   min-height: 14px;
   max-height: 14px;
+  min-width: 12%;
+  background-color: #58CC02;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 46%);
 }
 
 [data-tema="escuro"] .trilha-viva .trilha-no[data-estado="bloqueado"] {

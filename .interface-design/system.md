@@ -66,7 +66,7 @@ Barra de cima, compacta, sem card branco: logo, pilula de XP, streak so se for m
 
 Banner da unidade, full-bleed na coluna, cerca de 112px no celular. Fundo solido da categoria. Kicker `UNIDADE N` e titulo 22 a 28px, peso 900. Botao Guia e botao Trocar unidade. Sombra `0 6px 0` num tom mais escuro da mesma cor. A busca e um icone no canto do banner, nao uma fileira de chips.
 
-O caminho e um zigue-zague com offset de 48px: esquerda, centro, direita. O trilho tem 8px. O trecho verde `#58CC02` vai ate o no atual. O resto usa `var(--trilho)`.
+O caminho e um zigue-zague com offset de 48px: esquerda, centro, direita. De cima para baixo: feitos, o no atual, depois bloqueados, bau e trofeu. O trilho tem 8px. O trecho verde `#58CC02` vai ate o no atual. O resto usa `var(--trilho)`. O no atual usa fill de superficie, anel azul de 6px e sombra `0 8px 0 #1899D6`. O verde do convite fica so no balao, com o botao branco `COMEÇAR +XP`.
 
 Nos:
 

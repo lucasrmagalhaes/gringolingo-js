@@ -1548,7 +1548,8 @@ function telaExercicio() {
   telaAtiva = 'licao';
   registrarRota('licao');
   const ex = sessao.fila[sessao.idx];
-  const pct = Math.round(sessao.idx / sessao.fila.length * 100);
+  const totalFila = Math.max(sessao.fila.length, 1);
+  const pct = Math.min(100, Math.max(12, Math.round((sessao.idx + 1) / totalFila * 100)));
   const barra = h('div', {
     class: 'progresso barra-licao',
     role: 'progressbar',
@@ -2477,15 +2478,6 @@ function telaPerfil() {
         ev.currentTarget.textContent = escondido ? 'VER MENOS' : 'VER MAIS';
       }
     }, 'VER MAIS'),
-    cartaoJornada(),
-    h('div', { id: 'stats-mais', class: 'stats-grid', hidden: true },
-      statPilula('📚', licoesConcluidas(), 'lições concluídas'),
-      statPilula('🗣️', palavras, 'palavras aprendidas'),
-      statPilula('⚡', 'x' + estado.stats.comboMax, 'combo máximo'),
-      statPilula('🧠', estado.stats.revisoes, 'revisões turbo'),
-      statPilula('📅', itensVencidos().length, 'vencendo hoje'),
-      statPilula('🧊', estado.protetores, 'protetores de streak')
-    ),
     h('div', { class: 'secao-titulo' }, '🏅 Conquistas'),
     h('div', { class: 'badges-grid badges-fila' },
       BADGES.map(b => {
@@ -2496,6 +2488,15 @@ function telaPerfil() {
           h('div', { class: 'badge-desc' }, b.desc)
         );
       })
+    ),
+    cartaoJornada(),
+    h('div', { id: 'stats-mais', class: 'stats-grid', hidden: true },
+      statPilula('📚', licoesConcluidas(), 'lições concluídas'),
+      statPilula('🗣️', palavras, 'palavras aprendidas'),
+      statPilula('⚡', 'x' + estado.stats.comboMax, 'combo máximo'),
+      statPilula('🧠', estado.stats.revisoes, 'revisões turbo'),
+      statPilula('📅', itensVencidos().length, 'vencendo hoje'),
+      statPilula('🧊', estado.protetores, 'protetores de streak')
     ),
     cartaoTropecos(),
     cartaoVoz(),
@@ -13118,7 +13119,7 @@ let pagerSessao = null;
 let evictSessao = null;
 let filtroHub = { categoria: 'todos', busca: '', estrela: false };
 let uniHub = -1;
-const CORU = { trabalho: ['#1CB0F6', '#1899D6'], entrevista: ['#7B61FF', '#5A45D6'], cotidiano: ['#58CC02', '#3D9B00'], pronuncia: ['#FF9600', '#D97E00'], revisao: ['#FFC800', '#D4A600'] };
+const CORU = { trabalho: ['#1CB0F6', '#1899D6', 'Para o trampo'], entrevista: ['#7B61FF', '#5A45D6', 'Na mesa'], cotidiano: ['#58CC02', '#3D9B00', 'No corre'], pronuncia: ['#FF9600', '#D97E00', 'Na lingua'], revisao: ['#FFC800', '#D4A600', 'De novo'] };
 let revisaoPrazo = 0;
 let gravacaoUrl = null;
 let gravadorAtivo = null;
@@ -13657,6 +13658,7 @@ function pintarListaHub(focoId) {
     filtroHub.busca,
     filtroHub.estrela ? '1' : '0',
     String(uniHub),
+    treinoDoAgora()?.id || '',
     estado.ordemHub,
     (estado.estrelas || []).join(','),
     visiveis.map(t => t.id).join(',')
@@ -13669,16 +13671,14 @@ function pintarListaHub(focoId) {
   } else if (!filtroHub.busca && !filtroHub.estrela) {
     const u = unidadeAtual();
     const atualId = treinoDoAgora()?.id || '';
-    const itens = [];
-    let bau = false;
-    u.ts.forEach((t, i) => {
-      itens.push(cartaoDoTreino(t, atualId));
-      if ((i + 1) % 4 === 0 && i + 1 < u.ts.length) { itens.push(marcoVivo(1)); bau = true; }
-    });
-    if (!bau) itens.splice(Math.min(itens.length, 3), 0, marcoVivo(1));
+    const peso = t => estadoDoNo(t, atualId, estado.stats) === 'feito' ? 0 : t.id === atualId ? 1 : 2;
+    const ordem = [...u.ts].sort((a, b) => peso(a) - peso(b));
+    const itens = ordem.map(t => cartaoDoTreino(t, atualId));
+    const iAt = itens.findIndex(el => el.classList.contains('passo-atual'));
+    itens.splice(Math.min(itens.length, (iAt < 0 ? itens.length : iAt + 1) + 1), 0, marcoVivo(1));
     itens.push(marcoVivo(0));
-    let ate = u.ts.every(t => estadoDoNo(t, atualId, estado.stats) === 'feito') ? 100 : 0;
-    itens.forEach((el, i) => { if (el.classList.contains('passo-atual')) ate = Math.round((i + 0.45) / itens.length * 100); });
+    let ate = ordem.every(t => peso(t) === 0) ? 100 : 0;
+    itens.forEach((el, i) => { if (el.classList.contains('passo-atual')) ate = Math.round(i / itens.length * 100); });
     nos.push(h('div', { class: 'trilha-linha trilha-viva', role: 'list', 'aria-label': u.c.titulo, style: '--ate:' + ate + '%' }, itens));
   } else {
     const cats = filtroHub.categoria === 'todos'
@@ -15429,7 +15429,7 @@ function bannerUnidade() {
   const cor = CORU[u.c.id];
   return h('section', { id: 'banner-unidade', class: 'banner-unidade', style: '--bf:' + cor[0] + ';--bs:' + cor[1] },
     h('p', { class: 'banner-kicker' }, 'UNIDADE ' + u.n),
-    h('h2', { class: 'banner-titulo' }, u.c.titulo),
+    h('h2', { class: 'banner-titulo' }, cor[2]),
     h('div', { class: 'banner-acoes' },
       h('button', { type: 'button', class: 'btn btn-branco', onclick: abrirGuia }, 'Guia'),
       h('button', { type: 'button', class: 'btn btn-branco', onclick: abrirUnidades }, 'Trocar unidade')
@@ -15657,7 +15657,7 @@ function abrirUnidades() {
           const i0 = b.indexOf(ev.currentTarget);
           b[(i0 + (ev.key === 'ArrowRight' ? 1 : -1) + b.length) % b.length].focus();
         }
-      }, 'UNIDADE ' + u.n + ' ' + u.c.titulo))),
+      }, 'UNIDADE ' + u.n + ' ' + CORU[u.c.id][2]))),
       h('button', {
         type: 'button',
         class: 'btn btn-branco',

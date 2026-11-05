@@ -202,7 +202,7 @@ describe('iterator, pager e evict', () => {
     assert.match(data, /VERSAO_APP = '3\.16'/);
     assert.match(data, /versao: '3\.16'/);
     assert.match(data, /versao: '3\.15'/);
-    assert.match(sw, /gringolingo-v148/);
+    assert.match(sw, /gringolingo-v149/);
     assert.match(sw, /\.\/js\/iterator\.js/);
     assert.match(turno, /iterator\.js/);
     assert.equal(turno.includes('foco.js'), false);
