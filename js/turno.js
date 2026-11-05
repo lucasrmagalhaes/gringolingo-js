@@ -112,6 +112,7 @@ import { SSTABLES, LATCHES, THROTTLES } from './sstable.js';
 import { ITERATORS, PAGERS, EVICTS } from './iterator.js';
 import { HISTOGRAMS, GAUGES, BACKFILLS } from './histogram.js';
 import { SKEWS, HOTSPOTS, TAILS } from './skew.js';
+import { SLOS, SLIS, PROBES } from './slo.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -722,6 +723,9 @@ export function catalogoFaladas() {
     { origem: 'Skew', itens: SKEWS },
     { origem: 'Hotspot', itens: HOTSPOTS },
     { origem: 'Tail', itens: TAILS },
+    { origem: 'Slo', itens: SLOS },
+    { origem: 'Sli', itens: SLIS },
+    { origem: 'Probe', itens: PROBES },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },
