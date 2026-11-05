@@ -123,7 +123,7 @@ import { MANIFESTS, manifestPorId, avaliarManifest, HEDGES, hedgePorId, avaliarH
 import { SSTABLES, sstablePorId, avaliarSstable, LATCHES, latchPorId, avaliarLatch, THROTTLES, throttlePorId, avaliarThrottle } from './sstable.js';
 import { somarSemana, textoMinutos, textoGrupo, lembreteMinutos, balancoDaSemana, textoDeHoje, textoDaSequencia, textoDaComparacao, textoDoAcerto, textoDoPico, textoDoApoio, textoDaNota, textoDosDias, textoDoRitmo, textoDaLacuna, textoDaMeta, textoDaDuracao, textoDaUltima, textoDaPrimeira, textoDoHiato, textoDoCostume, textoDaMarca, textoDoAuge, textoDoSete, textoDaSoma, textoDoPorDia, textoDaParte, textoDoFora, textoDoTotal, textoDoLote, textoDoSaldo, textoDoPasso, textoDoMaior, textoDoMenor, textoDaDiferenca, textoDoMeio, textoDaVariedade, textoDaModa, textoDaRepeticao, textoDaExtensao, textoDoVao, textoDaProporcao, textoDaCobertura, textoDoIntervalo, textoDaCadencia, textoDaDensidade, textoDoPeso, textoDaSobra, textoDoResto, textoDoGrao, textoDoCurto, textoDoLongo, textoDoSalto, textoDaMediana, textoDoMosaico, textoDoTurno, textoDaVirada, textoDaFaixa, textoDaAbertura, textoDaEstacao, textoDoFecho, textoDaAusencia, textoDaPratica, textoDoReforco, textoDoRecado, textoDaVez, textoDoRetorno, textoDaFicha, textoDoBaralho, textoDaSombraDia, textoDaPergunta, textoDaEscuta, textoDoSom, textoDoVerbo, textoDoNumero, textoDaReducao, textoDaExpressao, METAS_MINUTOS } from './semana.js';
 import { filaEspacada, diasAoAcertar, textoVolta } from './espaco.js';
-import { CATEGORIAS as GRUPOS_HUB, TREINOS, filtrarTreinos, treinoRecomendado, ordenarTreinos, filtrarEstrelas, treinoContinuar, textoDoContinuar, textoDaEstreia, textoDoGrupo, textoDaEstrela } from './hub.js';
+import { CATEGORIAS as GRUPOS_HUB, TREINOS, filtrarTreinos, treinoRecomendado, ordenarTreinos, filtrarEstrelas, treinoContinuar, textoDoContinuar, textoDaEstreia, textoDoGrupo, textoDaEstrela, estadoDoNo, estrelaVisivelNoNo } from './hub.js';
 import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS, rotuloGravacao } from './voz.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala, ordenarSombra, textoDaSombra } from './frases.js';
 import { dicaDoDia, dicaContextual, rotuloChave, textoDoPadrao, ROTULOS } from './dicas.js';
@@ -13553,11 +13553,23 @@ function treinosVisiveis() {
 
 function cartaoDoTreino(treino, atualId) {
   const ligado = estrelaLigada(treino.id);
-  const feito = (Number(estado.stats[treino.stat]) || 0) > 0;
-  const estadoNo = feito ? 'feito' : (treino.id === atualId ? 'atual' : 'bloqueado');
+  const estadoNo = estadoDoNo(treino, atualId, estado.stats);
   const miolo = estadoNo === 'feito'
     ? h('span', { class: 'no-check', 'aria-hidden': 'true' }, '✓')
     : h('span', { class: 'no-emoji', 'aria-hidden': 'true' }, treino.emoji);
+  const estrela = estrelaVisivelNoNo(estadoNo, ligado)
+    ? h('button', {
+      type: 'button',
+      class: 'estrela-treino',
+      'data-estrela': treino.id,
+      'aria-pressed': ligado ? 'true' : 'false',
+      'aria-label': ligado ? `Tirar ${treino.titulo} dos favoritos` : `Favoritar ${treino.titulo}`,
+      onclick() {
+        alternarEstrela(treino.id);
+        pintarListaHub(treino.id);
+      }
+    }, h('span', { 'aria-hidden': 'true' }, ligado ? '★' : '☆'))
+    : '';
   return h('div', { class: 'hub-item trilha-item', role: 'listitem' },
     h('div', { class: 'trilha-marco' },
       h('button', {
@@ -13568,17 +13580,7 @@ function cartaoDoTreino(treino, atualId) {
         'aria-label': `${treino.titulo}. ${subDoTreino(treino)}`,
         onclick: () => abrirTreino(treino.id)
       }, miolo),
-      h('button', {
-        type: 'button',
-        class: 'estrela-treino',
-        'data-estrela': treino.id,
-        'aria-pressed': ligado ? 'true' : 'false',
-        'aria-label': ligado ? `Tirar ${treino.titulo} dos favoritos` : `Favoritar ${treino.titulo}`,
-        onclick() {
-          alternarEstrela(treino.id);
-          pintarListaHub(treino.id);
-        }
-      }, h('span', { 'aria-hidden': 'true' }, ligado ? '★' : '☆'))
+      estrela
     ),
     estadoNo === 'atual' ? h('div', { class: 'trilha-nome' }, treino.titulo) : ''
   );

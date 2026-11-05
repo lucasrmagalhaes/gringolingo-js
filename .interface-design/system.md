@@ -67,7 +67,7 @@ Hero compacto: papagaio num chip laranja, saudacao, XP e nivel. Streak so aparec
 
 Bloco Agora, acima da trilha: um card grande e o botao `COMEÇAR` verde, largura cheia, sombra `0 5px 0 #3D9B00`. No `:active` o botao afunda 5px e a sombra some.
 
-Trilha por categoria, em coluna unica. Titulo e um caminho vertical de nos. Cada no e um circulo de 56px com emoji. O trilho tem 6px e usa `var(--trilho)`. Estados: bloqueado, atual (anel azul de 4px) e feito (check verde). O nome do treino aparece so ao lado do no atual. A estrela fica dentro do no, no canto superior direito. A busca e um icone que abre o campo. Os filtros sao so as cinco categorias e Favoritos. Os 356 treinos continuam acessiveis pelo no.
+Trilha por categoria, em coluna unica. Titulo e um caminho vertical de nos. Cada no e um circulo de 56px com emoji. O trilho tem 6px e usa `var(--trilho)`. Estados: bloqueado, atual (anel azul de 4px) e feito (check verde). O nome do treino aparece so ao lado do no atual. A estrela fica dentro do no, no canto superior direito, so no no atual e nos feitos. No bloqueado ela some, salvo se o treino ja estiver nos favoritos: ai a estrela continua visivel e o filtro Favoritos segue achando o treino. A busca e um icone que abre o campo. Os filtros sao so as cinco categorias e Favoritos. Os 356 treinos continuam acessiveis pelo no.
 
 ## Licao, o palco
 
