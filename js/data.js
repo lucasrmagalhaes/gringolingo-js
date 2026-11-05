@@ -528,9 +528,20 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.14';
+export const VERSAO_APP = '3.15';
 
 export const NOVIDADES = [
+  {
+    versao: '3.15',
+    titulo: 'Visual novo',
+    itens: [
+      '🎨 Paleta chapada, Nunito 700 a 900 e botão que afunda',
+      '🌙 Modo escuro com a mesma cara, sem vidro',
+      '🛤️ Hub em trilha: Agora, nós e favorito no card',
+      '🎭 Lição em palco, com o Louro e a folha de feedback',
+      '🏆 Perfil em vitrine: nível, três números e conquistas'
+    ]
+  },
   {
     versao: '3.14',
     titulo: 'O sstable',

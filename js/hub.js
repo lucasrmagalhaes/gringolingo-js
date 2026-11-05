@@ -594,6 +594,15 @@ export function filtrarEstrelas(treinos, estrelas, ativo) {
   return lista.filter(t => t && marcas.has(t.id));
 }
 
+export function estadoDoNo(treino, atualId, stats) {
+  if ((Number(stats?.[treino?.stat]) || 0) > 0) return 'feito';
+  return treino?.id && treino.id === atualId ? 'atual' : 'bloqueado';
+}
+
+export function estrelaVisivelNoNo(estadoNo, favorito) {
+  return estadoNo === 'atual' || estadoNo === 'feito' || !!favorito;
+}
+
 export function treinoContinuar(treinos, id) {
   if (!id) return null;
   return (Array.isArray(treinos) ? treinos : []).find(t => t.id === id) || null;

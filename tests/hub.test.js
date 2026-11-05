@@ -9,7 +9,7 @@ import { limparArmazenamento } from './ambiente.js';
 const t0 = performance.now();
 const {
   CATEGORIAS, TREINOS, filtrarTreinos, treinoRecomendado, auditarPacote,
-  normalizarBusca, auditarCatalogo
+  normalizarBusca, auditarCatalogo, estadoDoNo, estrelaVisivelNoNo, filtrarEstrelas
 } = await import('../js/hub.js');
 const cargaHub = performance.now() - t0;
 
@@ -416,5 +416,34 @@ describe('hub de fluência e carreira', () => {
     assert.ok(aud.bytes > 100000);
     assert.ok(statSync(join(raiz, 'js/hub.js')).size < 40000);
     assert.ok(statSync(join(raiz, 'js/futuro.js')).size < 40000);
+  });
+
+  test('a estrela some no no bloqueado e o feito leva o check verde', () => {
+    const atual = estadoDoNo({ id: 'modelo', stat: 'modelos' }, 'modelo', { modelos: 0, furos: 2 });
+    const feito = estadoDoNo({ id: 'furo', stat: 'furos' }, 'modelo', { modelos: 0, furos: 2 });
+    const bloqueado = estadoDoNo({ id: 'colega', stat: 'colegas' }, 'modelo', { modelos: 0, furos: 2 });
+    assert.equal(atual, 'atual');
+    assert.equal(feito, 'feito');
+    assert.equal(bloqueado, 'bloqueado');
+    assert.equal(estrelaVisivelNoNo(atual, false), true);
+    assert.equal(estrelaVisivelNoNo(feito, false), true);
+    assert.equal(estrelaVisivelNoNo(bloqueado, false), false);
+    assert.equal(estrelaVisivelNoNo(bloqueado, true), true);
+    const guardados = filtrarEstrelas(
+      [{ id: 'colega', stat: 'colegas' }, { id: 'furo', stat: 'furos' }],
+      ['colega'],
+      true
+    );
+    assert.deepEqual(guardados.map(t => t.id), ['colega']);
+    assert.equal(estrelaVisivelNoNo(estadoDoNo(guardados[0], 'modelo', {}), true), true);
+    const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
+    const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
+    const card = app.slice(app.indexOf('function cartaoDoTreino'), app.indexOf('function vazioDoHub'));
+    assert.match(card, /estadoDoNo/);
+    assert.match(card, /estrelaVisivelNoNo/);
+    assert.match(card, /no-check/);
+    assert.match(card, /data-estrela/);
+    assert.match(card, /aria-pressed/);
+    assert.match(card, /aria-label/);
   });
 });
