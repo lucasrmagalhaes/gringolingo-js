@@ -114,6 +114,7 @@ import { HISTOGRAMS, GAUGES, BACKFILLS } from './histogram.js';
 import { SKEWS, HOTSPOTS, TAILS } from './skew.js';
 import { SLOS, SLIS, PROBES } from './slo.js';
 import { TRACES, SCRAPES, ROLLUPS } from './trace.js';
+import { WEBHOOKS, FANOUTS, INGESTS } from './webhook.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -730,6 +731,9 @@ export function catalogoFaladas() {
     { origem: 'Trace', itens: TRACES },
     { origem: 'Scrape', itens: SCRAPES },
     { origem: 'Rollup', itens: ROLLUPS },
+    { origem: 'Webhook', itens: WEBHOOKS },
+    { origem: 'Fanout', itens: FANOUTS },
+    { origem: 'Ingest', itens: INGESTS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

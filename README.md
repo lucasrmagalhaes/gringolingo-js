@@ -562,7 +562,10 @@ navegador.
 - **O scrape**: a métrica é lida.
 - **O rollup**: a hora é somada.
 - **Fila offline**: o progresso feito sem rede fica no aparelho e sobe sozinho ao voltar a conexão, ao abrir o app e ao voltar o foco. O conflito entre aparelhos fica com o mais recente e não perde XP nem streak.
-- Cache `gringolingo-v153`.
+- **O webhook**: o sistema é avisado.
+- **O fanout**: a chamada se espalha.
+- **O ingest**: o evento é recebido.
+- Cache `gringolingo-v154`.
 
 ### Hábito e gamificação
 
