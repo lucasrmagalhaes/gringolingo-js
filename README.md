@@ -558,7 +558,11 @@ navegador.
 - **O slo**: a meta fica marcada.
 - **O sli**: a meta é medida.
 - **O probe**: a porta é testada.
-- Cache `gringolingo-v152`.
+- **O trace**: a chamada é seguida.
+- **O scrape**: a métrica é lida.
+- **O rollup**: a hora é somada.
+- **Fila offline**: o progresso feito sem rede fica no aparelho e sobe sozinho ao voltar a conexão, ao abrir o app e ao voltar o foco. O conflito entre aparelhos fica com o mais recente e não perde XP nem streak.
+- Cache `gringolingo-v153`.
 
 ### Hábito e gamificação
 

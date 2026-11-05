@@ -54,6 +54,7 @@ const padrao = () => ({
   xp: 0,
   streak: 0,
   ultimoDia: null,
+  atualizadoEm: 0,
   licoes: {},
   itens: {},
   erros: [],
@@ -91,7 +92,7 @@ const padrao = () => ({
   estrelas: [],
   treinoAberto: '',
   ordemHub: 'catalogo',
-  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0, mapas: 0, duros: 0, propostas: 0, narras: 0, bancos: 0, recusas: 0, sprints: 0, seguros: 0, meetups: 0, completas: 0, rodadas: 0, migras: 0, estreias: 0, focos: 0, pokers: 0, leigos: 0, recrutas: 0, culpas: 0, raios: 0, ofertas: 0, pedidos: 0, coberturas: 0, looms: 0, cadernos: 0, graficos: 0, handoffs: 0, elevadores: 0, juntas: 0, pistas: 0, calmas: 0, folgas: 0, abertas: 0, respeitos: 0, debitos: 0, indicacoes: 0, uxs: 0, foruns: 0, vistos: 0, meses: 0, facils: 0, stacks: 0, sabados: 0, surpresas: 0, brechas: 0, mudas: 0, gauchos: 0, radares: 0, aplausos: 0, gripes: 0, pms: 0, laudos: 0, rumos: 0, acessos: 0, licencas: 0, jargoes: 0, bandeiras: 0, gelos: 0, limites: 0, canarios: 0, despedidas: 0, repeticoes: 0, cargas: 0, boletins: 0, donos: 0, manuais: 0, verdes: 0, certificados: 0, rebases: 0, consultas: 0, replicas: 0, ensaios: 0, discos: 0, paginas: 0, squashes: 0, circuitos: 0, jobs: 0, colheitas: 0, sessoes: 0, tanques: 0, sondas: 0, sementes: 0, registros: 0, rastros: 0, paradas: 0, pods: 0, lints: 0, origens: 0, links: 0, cpus: 0, copias: 0, estouros: 0, impasses: 0, dominios: 0, mortas: 0, ponteiros: 0, eleicoes: 0, freios: 0, pausas: 0, derivas: 0, descritores: 0, reservas: 0, varreduras: 0, portas: 0, inodos: 0, saidas: 0, manadas: 0, gotejos: 0, frios: 0, cadeados: 0, cotas: 0, ciclos: 0, zumbis: 0, cisoes: 0, rajadas: 0, brasas: 0, datagramas: 0, passes: 0, carimbos: 0, pilhas: 0, canos: 0, giros: 0, compactas: 0, diarios: 0, vagoes: 0, corridas: 0, indices: 0, percentis: 0, segredos: 0, fantasmas: 0, inteiros: 0, filtros: 0, ordens: 0, provas: 0, orfaos: 0, acenos: 0, gastos: 0, instaveis: 0, duplicados: 0, apagoes: 0, replays: 0, ecos: 0, leques: 0, sagas: 0, caixas: 0, apagados: 0, esperas: 0, cursores: 0, filas: 0, disjuntores: 0, alugueis: 0, pulsos: 0, piscinas: 0, baldes: 0, cercas: 0, tremores: 0, portarias: 0, colas: 0, anteparos: 0, descartes: 0, cronometros: 0, amostras: 0, nichos: 0, lacres: 0, semaforos: 0, barreiras: 0, trincos: 0, recuos: 0, vigias: 0, ampulhetas: 0, caronas: 0, venenos: 0, farois: 0, ancoras: 0, malhas: 0, fendas: 0, cofres: 0, audiencias: 0, revogacoes: 0, quoruns: 0, maiorias: 0, arbitros: 0, lideres: 0, mandatos: 0, seguidores: 0, orquestradores: 0, coreografias: 0, compensacoes: 0, primarios: 0, espelhos: 0, ascensoes: 0, travessias: 0, retaguardas: 0, contornos: 0, rumores: 0, reparos: 0, deixas: 0, flocos: 0, epocas: 0, vetores: 0, sujeiras: 0, instantaneos: 0, seriais: 0, fomes: 0, inversoes: 0, idades: 0, sidecars: 0, embaixadores: 0, adaptadores: 0, bizantinos: 0, particoes: 0, generais: 0, wals: 0, lsns: 0, checkpoints: 0, nonces: 0, hmacs: 0, envelopes: 0, leases: 0, renovacoes: 0, vencimentos: 0, outboxes: 0, inboxes: 0, relays: 0, offsets: 0, lags: 0, acks: 0, snapshots: 0, restores: 0, promotes: 0, blooms: 0, cucos: 0, esbocos: 0, merkles: 0, radixes: 0, tries: 0, gossips: 0, phis: 0, accruals: 0, hints: 0, vacuums: 0, freezes: 0, bitmaps: 0, roarings: 0, hypers: 0, crdts: 0, lwws: 0, orsets: 0, vectors: 0, dots: 0, causals: 0, shards: 0, rebalances: 0, splits: 0, watermarks: 0, barriers: 0, aligns: 0, witnesses: 0, voters: 0, learners: 0, checksums: 0, bulkheads: 0, fallbacks: 0, tombstones: 0, purges: 0, reclaims: 0, journals: 0, segments: 0, spills: 0, stripes: 0, parities: 0, rebuilds: 0, epochs: 0, ballots: 0, fences: 0, flushes: 0, memtables: 0, extents: 0, manifests: 0, hedges: 0, debounces: 0, sstables: 0, latches: 0, throttles: 0, iterators: 0, pagers: 0, evicts: 0, histograms: 0, gauges: 0, backfills: 0, skews: 0, hotspots: 0, tails: 0, slos: 0, slis: 0, probes: 0 }
+  stats: { licoes: 0, acertos: 0, respostas: 0, comboMax: 0, revisoes: 0, perfeitas: 0, recordeRelampago: 0, metasBatidas: 0, escutas: 0, recordeEscuta: 0, dialogos: 0, sombra: 0, recordeSombra: 0, falas: 0, ramos: 0, pronuncias: 0, ouvidos: 0, perguntas: 0, reduzidas: 0, verbosFala: 0, livres: 0, tecnicos: 0, idiomas: 0, diasPergunta: 0, revisoesFala: 0, entrevistas: 0, contos: 0, numeros: 0, opinioes: 0, cenasFala: 0, rapidos: 0, metasFala: 0, relatos: 0, cortesias: 0, aquecimentos: 0, esclarecimentos: 0, demos: 0, negociacoes: 0, stars: 0, enfases: 0, decisoes: 0, pares: 0, incidentes: 0, retros: 0, chegadas: 0, ligacoes: 0, estimativas: 0, consensos: 0, atendimentos: 0, gestores: 0, finais: 0, viagens: 0, misturas: 0, linhas: 0, slacks: 0, sociais: 0, termos: 0, salarios: 0, projetos: 0, sotaques: 0, desafios: 0, requisitos: 0, metricas: 0, aprendizados: 0, passeios: 0, falhas: 0, mentorias: 0, socorros: 0, palestras: 0, duvidas: 0, sinais: 0, sistemas: 0, codigos: 0, colegas: 0, simulados: 0, modelos: 0, furos: 0, rotinas: 0, papos: 0, futuros: 0, culturas: 0, aumentos: 0, rotas: 0, vivos: 0, produtos: 0, fechos: 0, espacos: 0, mapas: 0, duros: 0, propostas: 0, narras: 0, bancos: 0, recusas: 0, sprints: 0, seguros: 0, meetups: 0, completas: 0, rodadas: 0, migras: 0, estreias: 0, focos: 0, pokers: 0, leigos: 0, recrutas: 0, culpas: 0, raios: 0, ofertas: 0, pedidos: 0, coberturas: 0, looms: 0, cadernos: 0, graficos: 0, handoffs: 0, elevadores: 0, juntas: 0, pistas: 0, calmas: 0, folgas: 0, abertas: 0, respeitos: 0, debitos: 0, indicacoes: 0, uxs: 0, foruns: 0, vistos: 0, meses: 0, facils: 0, stacks: 0, sabados: 0, surpresas: 0, brechas: 0, mudas: 0, gauchos: 0, radares: 0, aplausos: 0, gripes: 0, pms: 0, laudos: 0, rumos: 0, acessos: 0, licencas: 0, jargoes: 0, bandeiras: 0, gelos: 0, limites: 0, canarios: 0, despedidas: 0, repeticoes: 0, cargas: 0, boletins: 0, donos: 0, manuais: 0, verdes: 0, certificados: 0, rebases: 0, consultas: 0, replicas: 0, ensaios: 0, discos: 0, paginas: 0, squashes: 0, circuitos: 0, jobs: 0, colheitas: 0, sessoes: 0, tanques: 0, sondas: 0, sementes: 0, registros: 0, rastros: 0, paradas: 0, pods: 0, lints: 0, origens: 0, links: 0, cpus: 0, copias: 0, estouros: 0, impasses: 0, dominios: 0, mortas: 0, ponteiros: 0, eleicoes: 0, freios: 0, pausas: 0, derivas: 0, descritores: 0, reservas: 0, varreduras: 0, portas: 0, inodos: 0, saidas: 0, manadas: 0, gotejos: 0, frios: 0, cadeados: 0, cotas: 0, ciclos: 0, zumbis: 0, cisoes: 0, rajadas: 0, brasas: 0, datagramas: 0, passes: 0, carimbos: 0, pilhas: 0, canos: 0, giros: 0, compactas: 0, diarios: 0, vagoes: 0, corridas: 0, indices: 0, percentis: 0, segredos: 0, fantasmas: 0, inteiros: 0, filtros: 0, ordens: 0, provas: 0, orfaos: 0, acenos: 0, gastos: 0, instaveis: 0, duplicados: 0, apagoes: 0, replays: 0, ecos: 0, leques: 0, sagas: 0, caixas: 0, apagados: 0, esperas: 0, cursores: 0, filas: 0, disjuntores: 0, alugueis: 0, pulsos: 0, piscinas: 0, baldes: 0, cercas: 0, tremores: 0, portarias: 0, colas: 0, anteparos: 0, descartes: 0, cronometros: 0, amostras: 0, nichos: 0, lacres: 0, semaforos: 0, barreiras: 0, trincos: 0, recuos: 0, vigias: 0, ampulhetas: 0, caronas: 0, venenos: 0, farois: 0, ancoras: 0, malhas: 0, fendas: 0, cofres: 0, audiencias: 0, revogacoes: 0, quoruns: 0, maiorias: 0, arbitros: 0, lideres: 0, mandatos: 0, seguidores: 0, orquestradores: 0, coreografias: 0, compensacoes: 0, primarios: 0, espelhos: 0, ascensoes: 0, travessias: 0, retaguardas: 0, contornos: 0, rumores: 0, reparos: 0, deixas: 0, flocos: 0, epocas: 0, vetores: 0, sujeiras: 0, instantaneos: 0, seriais: 0, fomes: 0, inversoes: 0, idades: 0, sidecars: 0, embaixadores: 0, adaptadores: 0, bizantinos: 0, particoes: 0, generais: 0, wals: 0, lsns: 0, checkpoints: 0, nonces: 0, hmacs: 0, envelopes: 0, leases: 0, renovacoes: 0, vencimentos: 0, outboxes: 0, inboxes: 0, relays: 0, offsets: 0, lags: 0, acks: 0, snapshots: 0, restores: 0, promotes: 0, blooms: 0, cucos: 0, esbocos: 0, merkles: 0, radixes: 0, tries: 0, gossips: 0, phis: 0, accruals: 0, hints: 0, vacuums: 0, freezes: 0, bitmaps: 0, roarings: 0, hypers: 0, crdts: 0, lwws: 0, orsets: 0, vectors: 0, dots: 0, causals: 0, shards: 0, rebalances: 0, splits: 0, watermarks: 0, barriers: 0, aligns: 0, witnesses: 0, voters: 0, learners: 0, checksums: 0, bulkheads: 0, fallbacks: 0, tombstones: 0, purges: 0, reclaims: 0, journals: 0, segments: 0, spills: 0, stripes: 0, parities: 0, rebuilds: 0, epochs: 0, ballots: 0, fences: 0, flushes: 0, memtables: 0, extents: 0, manifests: 0, hedges: 0, debounces: 0, sstables: 0, latches: 0, throttles: 0, iterators: 0, pagers: 0, evicts: 0, histograms: 0, gauges: 0, backfills: 0, skews: 0, hotspots: 0, tails: 0, slos: 0, slis: 0, probes: 0, traces: 0, scrapes: 0, rollups: 0 }
 });
 
 export const METAS = [50, 100, 200, 350];
@@ -374,6 +375,7 @@ function sanitizar(salvo) {
   const base = padrao();
   const s = { ...base, ...salvo };
   s.xp = num(s.xp);
+  s.atualizadoEm = Math.max(0, Math.floor(num(s.atualizadoEm)));
   s.streak = num(s.streak);
   s.ultimoDia = typeof s.ultimoDia === 'string' ? s.ultimoDia : null;
   s.licoes = s.licoes && typeof s.licoes === 'object' && !Array.isArray(s.licoes) ? { ...s.licoes } : {};
@@ -434,12 +436,22 @@ function carregar() {
 export const estado = carregar();
 
 const CHAVE_PENDENTE = 'gringolingo:pendente';
+const CHAVE_FILA = 'gringolingo:fila';
+const TETO_FILA = 40;
 let enviando = false;
 let reenviar = false;
 let aoMudarPendencia = null;
 let falhasSeguidas = 0;
 let proximaTentativa = 0;
 let timerEnvio = null;
+let transporte = { enviar: enviarProgresso, baixar: baixarProgresso };
+
+export function definirTransporteSync(parcial) {
+  transporte = {
+    enviar: parcial?.enviar || enviarProgresso,
+    baixar: parcial?.baixar || baixarProgresso
+  };
+}
 
 export function observarPendencia(cb) {
   aoMudarPendencia = cb;
@@ -462,6 +474,76 @@ function marcarPendencia(valor) {
   aoMudarPendencia?.(!!valor);
 }
 
+function lerFila() {
+  try {
+    const bruto = JSON.parse(localStorage.getItem(CHAVE_FILA) || 'null');
+    if (!Array.isArray(bruto)) return [];
+    return bruto.filter(item => item && typeof item === 'object' && Number.isFinite(num(item.em)));
+  } catch {
+    return [];
+  }
+}
+
+function gravarFila(fila) {
+  try {
+    if (!fila.length) localStorage.removeItem(CHAVE_FILA);
+    else localStorage.setItem(CHAVE_FILA, JSON.stringify(fila.slice(-TETO_FILA)));
+  } catch {}
+}
+
+function limparFila() {
+  gravarFila([]);
+}
+
+export function filaPendente() {
+  return lerFila().map(item => ({ ...item }));
+}
+
+function pisoDaFila() {
+  let xp = 0;
+  let streak = 0;
+  let ultimoDia = '';
+  for (const item of lerFila()) {
+    xp = Math.max(xp, num(item.xp));
+    const diaItem = typeof item.ultimoDia === 'string' ? item.ultimoDia : '';
+    if (diaItem > ultimoDia) {
+      ultimoDia = diaItem;
+      streak = num(item.streak);
+    } else if (diaItem && diaItem === ultimoDia) {
+      streak = Math.max(streak, num(item.streak));
+    }
+  }
+  return { xp, streak, ultimoDia };
+}
+
+export function enfileirarMudanca() {
+  const fila = lerFila();
+  const item = {
+    em: num(estado.atualizadoEm) || agoraFn().getTime(),
+    xp: num(estado.xp),
+    streak: num(estado.streak),
+    ultimoDia: estado.ultimoDia || ''
+  };
+  const ultimo = fila[fila.length - 1];
+  if (!ultimo || ultimo.em !== item.em || ultimo.xp !== item.xp || ultimo.streak !== item.streak || ultimo.ultimoDia !== item.ultimoDia) {
+    fila.push(item);
+    gravarFila(fila);
+  }
+  const motivo = motivoPendencia();
+  if (motivo !== 'versao' && motivo !== 'grande') marcarPendencia('1');
+  return filaPendente();
+}
+
+export function statusDaSync({ online = true } = {}) {
+  if (!online) return 'offline';
+  if (lerFila().length || motivoPendencia()) return 'pendente';
+  return 'sincronizado';
+}
+
+function redeLigada() {
+  return typeof navigator === 'undefined' || navigator.onLine !== false;
+}
+
 // O que sobe para a nuvem: o estado com o histórico podado (o merge por dia
 // preserva o resto em cada aparelho) e a etiqueta de versão do formato.
 function payloadNuvem() {
@@ -474,20 +556,25 @@ function payloadNuvem() {
 }
 
 async function subirEstado() {
+  if (!syncAtivo) return;
   if (enviando) {
     reenviar = true;
+    return;
+  }
+  if (!redeLigada()) {
+    enfileirarMudanca();
     return;
   }
   if (Date.now() < proximaTentativa) return;
   enviando = true;
   try {
     const motivo = motivoPendencia();
-    if (motivo === '1' || motivo === 'versao') {
+    if (motivo === '1' || motivo === 'versao' || lerFila().length) {
       // Havia pendência: outro aparelho pode ter subido progresso nesse meio
       // tempo. Mesclar antes de enviar, senão o reenvio apaga o que ele fez.
       let confirmado = false;
       try {
-        const remoto = await baixarProgresso();
+        const remoto = await transporte.baixar();
         if (remoto && typeof remoto === 'object' && !Array.isArray(remoto)) {
           if (num(remoto.versaoDados) > VERSAO_DADOS) {
             marcarPendencia('versao');
@@ -504,9 +591,10 @@ async function subirEstado() {
       // nenhum envio acontece. Subir aqui apagaria os dados do app mais novo.
       if (motivo === 'versao' && !confirmado) return;
     }
-    await enviarProgresso(payloadNuvem());
+    await transporte.enviar(payloadNuvem());
     falhasSeguidas = 0;
     proximaTentativa = 0;
+    limparFila();
     marcarPendencia(false);
   } catch (e) {
     if (e?.permanente) {
@@ -526,14 +614,22 @@ async function subirEstado() {
 }
 
 export function tentarReenviar() {
-  if (syncAtivo && motivoPendencia() === '1') subirEstado();
+  if (!syncAtivo) return;
+  if (motivoPendencia() === 'versao' || motivoPendencia() === 'grande') return;
+  if (!redeLigada()) {
+    enfileirarMudanca();
+    return;
+  }
+  if (motivoPendencia() === '1' || lerFila().length) return subirEstado();
 }
 
 export function salvar() {
+  estado.atualizadoEm = Math.max(num(estado.atualizadoEm), agoraFn().getTime());
   try {
     localStorage.setItem(CHAVE, JSON.stringify(estado));
   } catch {}
   if (syncAtivo) {
+    enfileirarMudanca();
     clearTimeout(timerEnvio);
     timerEnvio = setTimeout(subirEstado, 1500);
   }
@@ -541,7 +637,16 @@ export function salvar() {
 
 export function ativarSync(valor) {
   syncAtivo = valor;
-  if (valor) tentarReenviar();
+  if (!valor) {
+    clearTimeout(timerEnvio);
+    timerEnvio = null;
+    return;
+  }
+  return tentarReenviar();
+}
+
+export function syncLigado() {
+  return syncAtivo;
 }
 
 export function limparEstadoMemoria() {
@@ -556,6 +661,8 @@ export function limparEstadoMemoria() {
 export function resetarEstado() {
   localStorage.removeItem(CHAVE);
   localStorage.removeItem(CHAVE_CONTA);
+  localStorage.removeItem(CHAVE_PENDENTE);
+  localStorage.removeItem(CHAVE_FILA);
   apagarPapo();
   limparEstadoMemoria();
 }
@@ -572,8 +679,8 @@ export function definirContaLocal(id) {
 export async function enviarAgora() {
   // Mesmo caminho protegido do subirEstado: com pendência, baixa e mescla
   // antes (e recusa subir por cima de uma versão mais nova da nuvem).
-  if (motivoPendencia()) {
-    const remoto = await baixarProgresso();
+  if (motivoPendencia() || lerFila().length) {
+    const remoto = await transporte.baixar();
     if (remoto && typeof remoto === 'object' && !Array.isArray(remoto)) {
       if (num(remoto.versaoDados) > VERSAO_DADOS) {
         throw new Error('Esse progresso na nuvem é de uma versão mais nova do app');
@@ -584,7 +691,8 @@ export async function enviarAgora() {
       } catch {}
     }
   }
-  await enviarProgresso(payloadNuvem());
+  await transporte.enviar(payloadNuvem());
+  limparFila();
   marcarPendencia(false);
 }
 
@@ -827,6 +935,11 @@ function mesclar(remoto) {
     if (!estado.treinoAberto && typeof remoto.treinoAberto === 'string' && TREINOS.some(t => t.id === remoto.treinoAberto)) {
       estado.treinoAberto = remoto.treinoAberto;
     }
+    const remotoEm = num(remoto.atualizadoEm);
+    const filaMaisNova = lerFila().some(item => num(item.em) > remotoEm);
+    if (remotoEm > num(estado.atualizadoEm) && !filaMaisNova && typeof remoto.treinoAberto === 'string' && TREINOS.some(t => t.id === remoto.treinoAberto)) {
+      estado.treinoAberto = remoto.treinoAberto;
+    }
     estado.painel = limparPainel(estado.painel);
     for (const [dia, v] of Object.entries(limparPainel(remoto.painel))) {
       estado.painel[dia] = unirDiaPainel(estado.painel[dia], v);
@@ -857,6 +970,14 @@ function mesclar(remoto) {
         melhor: Math.max(num(local.melhor), v.melhor)
       };
     }
+    const localEm = num(estado.atualizadoEm);
+    const piso = pisoDaFila();
+    estado.xp = Math.max(num(estado.xp), piso.xp);
+    if (piso.ultimoDia && piso.ultimoDia >= (estado.ultimoDia || '')) {
+      estado.streak = Math.max(num(estado.streak), piso.streak);
+      estado.ultimoDia = piso.ultimoDia;
+    }
+    estado.atualizadoEm = Math.max(localEm, num(remoto.atualizadoEm));
   }
 }
 
@@ -1529,6 +1650,9 @@ function checarBadges() {
     slo: estado.stats.slos >= 1,
     sli: estado.stats.slis >= 1,
     probe: estado.stats.probes >= 1,
+    trace: estado.stats.traces >= 1,
+    scrape: estado.stats.scrapes >= 1,
+    rollup: estado.stats.rollups >= 1,
     estrela: Array.isArray(estado.estrelas) && estado.estrelas.length >= 1,
     minutos: somarSemana(estado.painel, hoje()).minutos >= num(estado.metaMinutos),
     tudo: UNIDADES.every(unidadeCompleta)
@@ -3312,6 +3436,18 @@ export function registrarSli(d) {
 
 export function registrarProbe(d) {
   return registrarTipo('probes', 'probe', d);
+}
+
+export function registrarTrace(d) {
+  return registrarTipo('traces', 'trace', d);
+}
+
+export function registrarScrape(d) {
+  return registrarTipo('scrapes', 'scrape', d);
+}
+
+export function registrarRollup(d) {
+  return registrarTipo('rollups', 'rollup', d);
 }
 
 export function estrelaLigada(id) {
