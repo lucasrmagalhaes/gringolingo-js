@@ -568,7 +568,10 @@ navegador.
 - **O otel**: o sinal é exportado.
 - **O sampler**: o rastro é escolhido.
 - **O exemplar**: o pico é marcado.
-- Cache `gringolingo-v155`.
+- **O egress**: o pacote é solto.
+- **O gateway**: a rota é aberta.
+- **O failover**: o nó é trocado.
+- Cache `gringolingo-v156`.
 
 ### Hábito e gamificação
 

@@ -95,8 +95,8 @@ describe('slo, sli e probe', () => {
     assert.deepEqual(aud.idsRepetidos, []);
     assert.deepEqual(aud.titulosRepetidos, []);
     assert.deepEqual(aud.parecidos, []);
-    assert.equal(TREINOS.length, 377);
-    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 321);
+    assert.equal(TREINOS.length, 380);
+    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 324);
     for (const id of ['slo', 'sli', 'probe']) {
       const treino = TREINOS.find(t => t.id === id);
       assert.equal(treino.categoria, 'trabalho');
@@ -128,7 +128,7 @@ describe('slo, sli e probe', () => {
     assert.equal(estado.stats.probes, 1);
     assert.ok(estado.badges.includes('probe'));
     assert.equal(estado.painel['2026-10-28'].grupos.trabalho, 3);
-    assert.equal(BADGES.length, 400);
+    assert.equal(BADGES.length, 403);
     assert.equal(new Set(BADGES.map(b => b.id)).size, BADGES.length);
   });
 
@@ -137,10 +137,10 @@ describe('slo, sli e probe', () => {
     const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
     const turno = readFileSync(join(raiz, 'js/turno.js'), 'utf8');
-    assert.match(data, /VERSAO_APP = '3\.22'/);
+    assert.match(data, /VERSAO_APP = '3\.23'/);
     assert.match(data, /versao: '3\.19'/);
     assert.match(data, /versao: '3\.18'/);
-    assert.match(sw, /gringolingo-v155/);
+    assert.match(sw, /gringolingo-v156/);
     assert.match(sw, /\.\/js\/slo\.js/);
     assert.match(turno, /slo\.js/);
     for (const nome of ['pintarSlo', 'pintarSli', 'pintarProbe']) {

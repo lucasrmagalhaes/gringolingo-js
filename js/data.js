@@ -528,9 +528,18 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.22';
+export const VERSAO_APP = '3.23';
 
 export const NOVIDADES = [
+  {
+    versao: '3.23',
+    titulo: 'O egress',
+    itens: [
+      '📦 Diga que o egress solta o pacote',
+      '🚪 Avise que o gateway abre a rota',
+      '🔄 Diga que o failover troca o nó'
+    ]
+  },
   {
     versao: '3.22',
     titulo: 'O otel',
@@ -2344,6 +2353,9 @@ export const MISSOES = [
   { id: 'otel1', emoji: '📤', titulo: 'Exporte o sinal no otel', alvo: 1, xp: 15, medir: s => (s.tipo === 'otel' ? 1 : 0) },
   { id: 'sampler1', emoji: '🎚️', titulo: 'Escolha o rastro no sampler', alvo: 1, xp: 15, medir: s => (s.tipo === 'sampler' ? 1 : 0) },
   { id: 'exemplar1', emoji: '📌', titulo: 'Marque o pico no exemplar', alvo: 1, xp: 15, medir: s => (s.tipo === 'exemplar' ? 1 : 0) },
+  { id: 'egress1', emoji: '📦', titulo: 'Solte o pacote no egress', alvo: 1, xp: 15, medir: s => (s.tipo === 'egress' ? 1 : 0) },
+  { id: 'gateway1', emoji: '🚪', titulo: 'Abra a rota no gateway', alvo: 1, xp: 15, medir: s => (s.tipo === 'gateway' ? 1 : 0) },
+  { id: 'failover1', emoji: '🔄', titulo: 'Troque o nó no failover', alvo: 1, xp: 15, medir: s => (s.tipo === 'failover' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2748,6 +2760,9 @@ export const BADGES = [
   { id: 'otel', emoji: '📤', nome: 'O otel', desc: 'Diga que o otel exporta o sinal' },
   { id: 'sampler', emoji: '🎚️', nome: 'O sampler', desc: 'Diga que o sampler escolhe o rastro' },
   { id: 'exemplar', emoji: '📌', nome: 'O exemplar', desc: 'Diga que o exemplar marca o pico' },
+  { id: 'egress', emoji: '📦', nome: 'O egress', desc: 'Diga que o egress solta o pacote' },
+  { id: 'gateway', emoji: '🚪', nome: 'O gateway', desc: 'Diga que o gateway abre a rota' },
+  { id: 'failover', emoji: '🔄', nome: 'O failover', desc: 'Diga que o failover troca o nó' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
