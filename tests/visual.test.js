@@ -18,10 +18,10 @@ describe('sistema visual 3.15', () => {
     const css = semTravessao('../css/style.css');
     const data = readFileSync(join(raiz, 'js/data.js'), 'utf8');
     const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
-    assert.match(data, /VERSAO_APP = '3\.15'/);
+    assert.match(data, /VERSAO_APP = '3\.16'/);
+    assert.match(data, /versao: '3\.16'/);
     assert.match(data, /versao: '3\.15'/);
-    assert.match(data, /versao: '3\.14'/);
-    assert.match(sw, /gringolingo-v146/);
+    assert.match(sw, /gringolingo-v149/);
     assert.match(sw, /nunito-latin\.woff2/);
     assert.match(css, /font-family: 'Nunito'/);
     assert.match(css, /--fundo: #FFF8EF/);

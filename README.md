@@ -542,6 +542,12 @@ navegador.
 - **O throttle**: o ritmo limita a chamada.
 - **A expressão**: no hub, a frase do dia para dizer em inglês.
 - **Visual 3.15**: visual chunky, trilha de nos no hub, palco na lição, vitrine no perfil e Nunito offline. Cache `gringolingo-v146`.
+- **O iterator**: o cursor anda a chave.
+- **O pager**: a página entra na memória.
+- **O evict**: a página fria sai.
+- **O idiom**: no estudo, o idiom de reunião do dia, com atalho para dizer. Não é um card da trilha.
+- **Trilha Viva**: banner de unidade, caminho em zigue-zague, baú, troféu e papagaio no nó atual.
+- Cache `gringolingo-v149`.
 
 ### Hábito e gamificação
 
@@ -727,6 +733,8 @@ redesenha esse nó. O helper `h()`. 30 linhas em `js/util.js`. Faz as vezes de J
 | `js/epoch.js` | Epoch que abre o termo, ballot que conta o voto e fence que segura a escrita. |
 | `js/flush.js` | Flush que desce a memória, memtable que guarda a linha e extent que junta as páginas. |
 | `js/manifest.js` | Manifest que lista o arquivo, hedge que cobre a espera e debounce que espera a pausa. |
+| `js/sstable.js` | Sstable que ordena a chave, latch que segura a leitura e throttle que limita a chamada. |
+| `js/iterator.js` | Iterator que anda a chave, pager que carrega a página e evict que solta a página fria. |
 | `js/voz.js` | Gravação local para comparar com a voz do aparelho. O áudio não entra no progresso. |
 | `js/frases.js` | Baralho de frases de sobrevivência, a fila da sombra e o plano do desafio de 5 minutos. |
 | `js/exercises.js` | Sorteia, monta e corrige os 10 tipos de exercício e o modo Escuta, incluindo o diff palavra a palavra e os distratores que nunca entregam a resposta. |
@@ -957,6 +965,7 @@ O que a suíte cobre:
 - **`tests/manifest.test.js`**: manifest, hedge, debounce, a redução do dia e a versão 3.13.
 - **`tests/sstable.test.js`**: sstable, latch, throttle, a expressão do dia e a versão 3.14.
 - **`tests/visual.test.js`**: tokens, modo escuro, foco, movimento reduzido e a versão 3.15.
+- **`tests/iterator.test.js`**: iterator, pager, evict, o idiom do dia e a versão 3.16.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
