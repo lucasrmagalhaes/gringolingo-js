@@ -6459,12 +6459,12 @@ button.revisao:active,
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: 28px;
-  margin: 0 0 8px;
-  padding: 0 2px;
+  margin: 0;
+  padding: 0;
   color: var(--texto-suave);
   font-size: 12px;
   font-weight: 800;
+  line-height: 1;
   flex: none;
 }
 
@@ -6481,5 +6481,20 @@ button.revisao:active,
 }
 
 .status-sync.offline .status-ponto {
-  background: #AFAFAF;
+  background: #6B7C85;
+}
+
+.topo > .btn-perfil,
+.topo-vivo > .xp-pill,
+.topo-vivo > .streak-pill,
+.topo-vivo > .status-sync {
+  flex: none;
+}
+
+@media (max-width: 420px) {
+  .topo:not(.topo-vivo) > .status-sync.pendente,
+  .topo:not(.topo-vivo) > .status-sync.offline {
+    flex-basis: 100%;
+    justify-content: flex-end;
+  }
 }

@@ -645,6 +645,10 @@ export function ativarSync(valor) {
   return tentarReenviar();
 }
 
+export function syncLigado() {
+  return syncAtivo;
+}
+
 export function limparEstadoMemoria() {
   const novo = padrao();
   Object.keys(estado).forEach(k => delete estado[k]);
