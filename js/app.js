@@ -137,6 +137,7 @@ import { registrar, logSalvo, limparLog, modoDebug, contextoDoLog } from './erro
 import { buscar, carregarBanco, bancoCarregado, statusDoItem, totalDoCurso } from './dicionario.js';
 import { ehFavorita, alternarFavorita, itensFavoritos } from './game.js';
 import { compartilharCard } from './compartilhar.js';
+
 const app = document.getElementById('app');
 let sessao = null;
 let usuarioEmail = null;
@@ -165,13 +166,17 @@ let saindoDaLicao = false;
 let voltandoTela = false;
 let profundidade = 0;
 let suprimirPop = false;
+
 const CHAVE_DESAFIO = 'gringolingo:desafio';
+
 function timerDeTela(fn, ms) {
   const id = setTimeout(fn, ms);
   timersDeTela.push(id);
   return id;
 }
+
 let recAtivo = null;
+
 function pararReconhecimento() {
   const rec = recAtivo;
   recAtivo = null;
@@ -185,6 +190,7 @@ function pararReconhecimento() {
     try { rec.stop(); } catch {}
   }
 }
+
 function limparTela() {
   pararReconhecimento();
   if (atalhosAtivos) {
@@ -210,7 +216,9 @@ function limparTela() {
   voltandoTela = false;
   avancando = false;
 }
+
 const TELAS_POR_NOME = {};
+
 function registrarRota(nome) {
   const atual = history.state?.tela;
   if (atual === nome) return;
@@ -221,6 +229,7 @@ function registrarRota(nome) {
     history.pushState({ tela: nome, prof: profundidade }, '');
   }
 }
+
 function normalizarHistorico() {
   if (profundidade > 0) {
     suprimirPop = true;
@@ -231,6 +240,7 @@ function normalizarHistorico() {
     history.replaceState({ tela: 'inicial', prof: 0 }, '');
   }
 }
+
 function voltarTela(fallback) {
   if (voltandoTela) return;
   if (profundidade > 0) {
@@ -240,9 +250,11 @@ function voltarTela(fallback) {
     (fallback ?? telaInicial)();
   }
 }
+
 function sessaoTemProgresso() {
   return !!sessao && (sessao.respostas > 0 || sessao.idxFala > 0);
 }
+
 function pedirSaidaDaLicao(sair) {
   if (saindoDaLicao) return;
   if (!sessaoTemProgresso() || Date.now() - saidaPedidaEm < 4000) {
@@ -264,6 +276,7 @@ function pedirSaidaDaLicao(sair) {
     }, 4000);
   }
 }
+
 function aoVoltarDoNavegador(e) {
   voltandoTela = false;
   if (suprimirPop) {
@@ -281,23 +294,30 @@ function aoVoltarDoNavegador(e) {
   const render = TELAS_POR_NOME[e.state?.tela] ?? telaInicial;
   render();
 }
+
 const SVG_GOOGLE = '<svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>';
+
 function iconeGoogle() {
   const s = h('span', { class: 'icone-google' });
   s.innerHTML = SVG_GOOGLE;
   return s;
 }
+
 document.addEventListener('pointerdown', destravarAudio, { once: true });
+
 function licaoFeita(l) {
   return !!estado.licoes[l.id];
 }
+
 function unidadeDesbloqueada(u) {
   const i = UNIDADES.indexOf(u);
   return i === 0 || UNIDADES[i - 1].licoes.every(licaoFeita);
 }
+
 function licaoDesbloqueada(u, idx) {
   return idx === 0 || licaoFeita(u.licoes[idx - 1]);
 }
+
 function telaInicial() {
   limparTela();
   descartarVoz();
@@ -380,9 +400,11 @@ function telaInicial() {
   );
   focarTela();
 }
+
 function botaoPerfil() {
   return h('button', { class: 'pilula btn-perfil', type: 'button', 'aria-label': 'Seu perfil', title: 'Seu perfil', onclick: telaPerfil }, '👤');
 }
+
 function pilulasDeConta() {
   if (!nuvemConfigurada) return [botaoPerfil()];
   if (authCarregando) return [h('div', { class: 'pilula estado-carregando', title: 'Conectando na nuvem…', role: 'status' }, h('span', { class: 'carregando-anel', 'aria-hidden': 'true' }), 'Conectando'), botaoPerfil()];
@@ -404,6 +426,7 @@ function pilulasDeConta() {
     h('span', { class: 'pilula-nome' }, apelido)
   )];
 }
+
 function bannerStreak() {
   if (!streakEmRisco()) return '';
   return h('div', { class: 'banner-streak' },
@@ -411,6 +434,7 @@ function bannerStreak() {
     h('span', {}, `Sua sequência de ${streakAtual()} dia${streakAtual() > 1 ? 's' : ''} vence hoje! Uma lição salva ela.`)
   );
 }
+
 function cartaoMeta() {
   const feito = xpDoDia();
   const pct = Math.min(100, Math.round(feito / estado.meta * 100));
@@ -444,6 +468,7 @@ function cartaoMeta() {
   );
   return card;
 }
+
 function cartaoMetaFala() {
   const hojeIso = diaLocalAgora();
   const n = contarFaladas(estado.painel, hojeIso);
@@ -472,6 +497,7 @@ function cartaoMetaFala() {
   );
   return card;
 }
+
 function cartaoMinutos() {
   const hojeIso = diaLocalAgora();
   const soma = somarSemana(estado.painel, hojeIso);
@@ -486,6 +512,7 @@ function cartaoMinutos() {
     )
   );
 }
+
 function faixaSemana() {
   if (!estado.stats.licoes) return '';
   const dias = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'];
@@ -502,10 +529,12 @@ function faixaSemana() {
     ))
   );
 }
+
 function diaLocalAgora() {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
+
 function cartaoDicaDoDia() {
   const dia = diaLocalAgora();
   if (localStorage.getItem('gringolingo:dica-dia') === dia) return '';
@@ -528,6 +557,7 @@ function cartaoDicaDoDia() {
   );
   return card;
 }
+
 function botaoPontosFracos() {
   const fracos = palavrasFracas(itensAprendidos());
   const padroes = resumoPadroes(1);
@@ -545,6 +575,7 @@ function botaoPontosFracos() {
     h('span', { class: 'revisao-seta' }, '›')
   );
 }
+
 function iniciarPontosFracos() {
   const aprendidos = itensAprendidos();
   const fracos = palavrasFracas(aprendidos);
@@ -558,6 +589,7 @@ function iniciarPontosFracos() {
   };
   telaExercicio();
 }
+
 function cartaoMissoes() {
   if (!estado.stats.licoes) return '';
   const missoes = missoesDeHoje();
@@ -573,6 +605,7 @@ function cartaoMissoes() {
     ))
   );
 }
+
 function cartaoBoasVindas() {
   if (estado.xp > 0 || estado.stats.licoes || estado.nivelFala) return '';
   return h('div', { class: 'card boas-vindas' },
@@ -588,6 +621,7 @@ function cartaoBoasVindas() {
     )
   );
 }
+
 function botaoMinhaLista() {
   const favoritas = itensFavoritos();
   if (!favoritas.length) return '';
@@ -600,6 +634,7 @@ function botaoMinhaLista() {
     h('span', { class: 'revisao-seta' }, '⚡')
   );
 }
+
 function iniciarMinhaLista() {
   const favoritas = itensFavoritos();
   if (!favoritas.length) return;
@@ -617,17 +652,21 @@ function iniciarMinhaLista() {
   };
   telaExercicio();
 }
+
 function jaInstalado() {
   return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 }
+
 function pareceIOS() {
   const ua = navigator.userAgent || '';
   return /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 }
+
 function faixaOffline() {
   if (!semRede) return '';
   return h('div', { class: 'faixa-offline', role: 'status' }, 'Sem internet agora. As lições e o seu progresso continuam neste aparelho.');
 }
+
 function cartaoInstalar() {
   if (jaInstalado() || localStorage.getItem('gringolingo:ocultar-instalar') === '1') return '';
   if (pedidoInstalar) {
@@ -670,6 +709,7 @@ function cartaoInstalar() {
     }, 'ENTENDI')
   );
 }
+
 function botaoEscuta() {
   if (itensAprendidos().length < 4) return '';
   if (!temTts) {
@@ -694,6 +734,7 @@ function botaoEscuta() {
     h('span', { class: 'revisao-seta' }, '🔊')
   );
 }
+
 function iniciarEscuta() {
   if (!temTts) return;
   const aprendidos = itensAprendidos();
@@ -714,6 +755,7 @@ function iniciarEscuta() {
   };
   telaExercicio();
 }
+
 function iniciarCaixa(indice) {
   const itens = itensNaCaixa(indice).slice(0, 8);
   if (!itens.length) return;
@@ -726,6 +768,7 @@ function iniciarCaixa(indice) {
   };
   telaExercicio();
 }
+
 function botaoRelampago() {
   if (itensAprendidos().length < 8) return '';
   const recorde = estado.stats.recordeRelampago ?? 0;
@@ -740,6 +783,7 @@ function botaoRelampago() {
     h('span', { class: 'revisao-seta' }, '⏱️')
   );
 }
+
 function botaoVerbos() {
   if (!estado.licoes.b1) return '';
   return h('button', { class: 'card revisao verbos-atalho', type: 'button', onclick: iniciarVerbos },
@@ -751,6 +795,7 @@ function botaoVerbos() {
     h('span', { class: 'revisao-seta' }, '⚡')
   );
 }
+
 function iniciarVerbos() {
   const fila = gerarVerbos(VERBOS, SUJEITOS, 10);
   sessao = {
@@ -760,6 +805,7 @@ function iniciarVerbos() {
   };
   telaExercicio();
 }
+
 function iniciarRelampago() {
   const aprendidos = itensAprendidos();
   sessao = {
@@ -770,6 +816,7 @@ function iniciarRelampago() {
   };
   telaRelampago();
 }
+
 function telaRelampago() {
   limparTela();
   window.scrollTo(0, 0);
@@ -848,6 +895,7 @@ function telaRelampago() {
     }
   }, 100);
 }
+
 function finalizarRelampago() {
   const s = sessao;
   limparTela();
@@ -894,6 +942,7 @@ function finalizarRelampago() {
   if (evento.subiuNivel) timerDeTela(() => overlayNivel(evento.subiuNivel), 900);
   focarTela();
 }
+
 function botaoVocabulario() {
   if (!estado.stats.licoes) return '';
   const feitas = Object.keys(estado.licoes).filter(k => k.startsWith('vocab:')).length;
@@ -908,6 +957,7 @@ function botaoVocabulario() {
     h('span', { class: 'revisao-seta' }, '📚')
   );
 }
+
 async function telaVocabulario() {
   limparTela();
   window.scrollTo(0, 0);
@@ -971,6 +1021,7 @@ async function telaVocabulario() {
     ));
   });
 }
+
 function iniciarLicaoVocab(licao, poolTrilha) {
   const pool = [...licao.itens, ...amostra(poolTrilha, 30)];
   const fila = gerarExercicios(licao.itens, pool, Math.max(8, Math.ceil(licao.itens.length * 1.2)), palavrasNovas(licao.itens));
@@ -981,6 +1032,7 @@ function iniciarLicaoVocab(licao, poolTrilha) {
   };
   telaExercicio();
 }
+
 function atualizarItensExtras() {
   if (!temLicaoVocab(estado.licoes)) {
     definirItensExtras([]);
@@ -988,6 +1040,7 @@ function atualizarItensExtras() {
   }
   carregarBanco().then(banco => definirItensExtras(palavrasVocabAprendidas(banco, estado.licoes)));
 }
+
 function botaoDicionario() {
   const extra = bancoCarregado()?.length;
   return h('button', { class: 'card dicionario-atalho', type: 'button', onclick: () => telaDicionario() },
@@ -1001,6 +1054,7 @@ function botaoDicionario() {
     h('span', { class: 'revisao-seta' }, '🔎')
   );
 }
+
 function telaDicionario() {
   limparTela();
   window.scrollTo(0, 0);
@@ -1113,6 +1167,7 @@ function telaDicionario() {
   }
   busca.focus({ preventScroll: true });
 }
+
 function esqueleto() {
   return h('div', { class: 'dic-item esqueleto', 'aria-hidden': 'true' },
     h('div', { class: 'esq-bloco esq-som' }),
@@ -1123,12 +1178,14 @@ function esqueleto() {
     h('div', { class: 'esq-bloco esq-tag' })
   );
 }
+
 const VAZIOS = {
   aprendidas: { emoji: '🌱', titulo: 'Nenhuma palavra aprendida ainda', sub: 'Complete uma lição e elas aparecem aqui com o status da sua memória.' },
   revisar: { emoji: '🎉', titulo: 'Nada para revisar!', sub: 'Sua memória está em dia. Volte amanhã ou avance na trilha.' },
   curso: { emoji: '🔎', titulo: 'Nada no curso com esse termo', sub: 'Tente o filtro "Todas" para procurar no dicionário completo.' },
   todas: { emoji: '🤔', titulo: 'Nada encontrado', sub: 'Confira a grafia ou tente outra palavra. A busca aceita português e inglês.' }
 };
+
 function vazio(termo, filtro, aoLimpar) {
   const conf = termo ? (filtro === 'curso' ? VAZIOS.curso : VAZIOS.todas) : VAZIOS[filtro] ?? VAZIOS.todas;
   return h('div', { class: 'estado-vazio' },
@@ -1139,7 +1196,9 @@ function vazio(termo, filtro, aoLimpar) {
     termo ? h('button', { class: 'btn btn-branco', type: 'button', onclick: aoLimpar }, 'LIMPAR BUSCA') : ''
   );
 }
+
 const CLASSES = { verbo: 'verbo', subst: 'substantivo', adj: 'adjetivo', adv: 'advérbio', prep: 'preposição', pron: 'pronome', conj: 'conjunção', num: 'número', interj: 'interjeição' };
+
 function verbete(v) {
   const st = v.doCurso || estado.itens[v.en] ? statusDoItem(v.en) : null;
   const fav = h('button', {
@@ -1176,6 +1235,7 @@ function verbete(v) {
     fav
   );
 }
+
 function botaoRevisao() {
   if (itensAprendidos().length === 0) return '';
   const vencidas = itensVencidos().length;
@@ -1190,6 +1250,7 @@ function botaoRevisao() {
     h('span', { class: 'revisao-seta' }, vencidas ? '⚡' : '✨')
   );
 }
+
 function cartaoUnidade(u) {
   const aberta = unidadeDesbloqueada(u);
   const feitas = u.licoes.filter(licaoFeita).length;
@@ -1225,6 +1286,7 @@ function cartaoUnidade(u) {
     )
   );
 }
+
 function nodoHistoria(u, aberta) {
   const historia = HISTORIAS.find(h2 => h2.unidade === u.id);
   if (!historia) return '';
@@ -1244,6 +1306,7 @@ function nodoHistoria(u, aberta) {
   else b.disabled = true;
   return b;
 }
+
 function iniciarHistoria(u, historia) {
   const falasDoJogador = historia.falas.filter(f => f.de === 'voce');
   const pool = UNIDADES.slice(0, UNIDADES.indexOf(u) + 1).flatMap(x => x.licoes.flatMap(l => l.itens));
@@ -1256,6 +1319,7 @@ function iniciarHistoria(u, historia) {
   };
   telaHistoria();
 }
+
 function telaHistoria() {
   limparTela();
   window.scrollTo(0, 0);
@@ -1281,6 +1345,7 @@ function telaHistoria() {
   historia.falas.slice(0, s.idxFala).forEach(f => chat.append(bolha(f, true)));
   avancarHistoria(chat, area);
 }
+
 function bolha(fala, revelada) {
   const doLouro = fala.de === 'louro';
   const caixa = h('div', { class: 'bolha' + (doLouro ? ' do-louro' : ' do-voce') });
@@ -1299,6 +1364,7 @@ function bolha(fala, revelada) {
   }
   return caixa;
 }
+
 function avancarHistoria(chat, area) {
   const s = sessao;
   area.innerHTML = '';
@@ -1356,6 +1422,7 @@ function avancarHistoria(chat, area) {
   });
   area.append(ctrl.el, feedback, h('div', { class: 'chat-acao' }, btn));
 }
+
 function nodoChefao(u, aberta) {
   const completa = u.licoes.every(licaoFeita);
   const vencido = !!estado.licoes['chefao:' + u.id];
@@ -1373,6 +1440,7 @@ function nodoChefao(u, aberta) {
   else b.disabled = true;
   return b;
 }
+
 function iniciarChefao(u) {
   const itens = u.licoes.flatMap(l => l.itens);
   const fila = gerarDificeis(itens, itens, 12);
@@ -1384,6 +1452,8 @@ function iniciarChefao(u) {
   };
   telaExercicio();
 }
+
+
 function iniciarLicao(u, l) {
   if (l.dica && !estado.licoes[l.id]) {
     telaDica(u, l);
@@ -1391,6 +1461,7 @@ function iniciarLicao(u, l) {
   }
   comecarLicao(u, l);
 }
+
 function telaDica(u, l) {
   limparTela();
   window.scrollTo(0, 0);
@@ -1408,12 +1479,15 @@ function telaDica(u, l) {
   );
   botao.focus({ preventScroll: true });
 }
+
 function palavrasNovas(itens) {
   return new Set(itens.filter(i => !estado.itens[i.en]).map(i => i.en));
 }
+
 function semApresentacoes(fila) {
   return fila.filter(e => e.tipo !== 'apresentacao').length;
 }
+
 function comecarLicao(u, l) {
   const pool = u.licoes.flatMap(x => x.itens);
   const fila = gerarExercicios(l.itens, pool, Math.max(8, Math.ceil(l.itens.length * 1.2)), palavrasNovas(l.itens));
@@ -1424,6 +1498,7 @@ function comecarLicao(u, l) {
   };
   telaExercicio();
 }
+
 function iniciarRevisao() {
   const aprendidos = itensAprendidos();
   const saldo = new Map(palavrasFracas(aprendidos).map(f => [f.item.en, f.saldo]));
@@ -1447,6 +1522,7 @@ function iniciarRevisao() {
   };
   telaExercicio();
 }
+
 function palcoDoExercicio(ex) {
   const escuta = ex?.tipo === 'ouvir' || ex?.tipo === 'ouvirPt' || ex?.tipo === 'falar';
   const nova = ex?.tipo === 'apresentacao';
@@ -1461,11 +1537,13 @@ function palcoDoExercicio(ex) {
     ) : ''
   );
 }
+
 function classeDoPalco(ex) {
   if (ex?.tipo === 'apresentacao') return 'palco-nova';
   if (ex?.tipo === 'ouvir' || ex?.tipo === 'ouvirPt' || ex?.tipo === 'falar') return 'palco-escuta';
   return 'palco-pratica';
 }
+
 function telaExercicio() {
   limparTela();
   window.scrollTo(0, 0);
@@ -1584,6 +1662,7 @@ function telaExercicio() {
     processar(ex, { ...res, correto: false, quase: false, naoSei: true }, feedback, btnVerificar);
   });
 }
+
 function ligarAtalhos(areaEx, btnVerificar, feedback, aoDica, aoOuvir) {
   if (atalhosAtivos) document.removeEventListener('keydown', atalhosAtivos);
   atalhosAtivos = e => {
@@ -1628,6 +1707,7 @@ function ligarAtalhos(areaEx, btnVerificar, feedback, aoDica, aoOuvir) {
   };
   document.addEventListener('keydown', atalhosAtivos);
 }
+
 function anotarDeslize(alvoSessao, item, res) {
   if (!item || res.naoSei || !res.tutor) return;
   if (res.correto && !res.quase) return;
@@ -1639,6 +1719,7 @@ function anotarDeslize(alvoSessao, item, res) {
     pt: item.pt ?? ''
   });
 }
+
 function marcasDoTutor(lista, letras) {
   return lista.map(p => {
     const classe = p.marca === 'ok' ? ''
@@ -1649,6 +1730,7 @@ function marcasDoTutor(lista, letras) {
     return h('span', { class: classe }, texto);
   });
 }
+
 function blocoTutor(tutor) {
   const partes = [];
   if (tutor.letras) {
@@ -1678,6 +1760,7 @@ function blocoTutor(tutor) {
   if (tutor.dica) partes.push(h('div', { class: 'feedback-nota' }, '💡 ' + tutor.dica));
   return partes;
 }
+
 function processar(ex, res, feedback, btnVerificar) {
   btnVerificar.disabled = true;
   sessao.respostas++;
@@ -1763,6 +1846,7 @@ function processar(ex, res, feedback, btnVerificar) {
   requestAnimationFrame(() => feedback.classList.add('aberta'));
   btnContinuar.focus({ preventScroll: true });
 }
+
 function linhaDiff(diff) {
   const temSobra = diff.dada.some(p => p.sobra);
   return h('div', { class: 'feedback-diff' },
@@ -1776,7 +1860,9 @@ function linhaDiff(diff) {
     ) : ''
   );
 }
+
 let avancando = false;
+
 function continuar() {
   if (avancando) return;
   avancando = true;
@@ -1788,6 +1874,7 @@ function continuar() {
   if (sessao.idx >= sessao.fila.length) finalizar();
   else transicao(telaExercicio, 'avancar');
 }
+
 function finalizar(derrotado) {
   const s = sessao;
   if (s.chefao && derrotado) {
@@ -1835,6 +1922,7 @@ function finalizar(derrotado) {
   registrarEvento('licao');
   telaResultado(estrelas, precisao, evento);
 }
+
 function telaResultado(estrelas, precisao, evento) {
   limparTela();
   window.scrollTo(0, 0);
@@ -1893,6 +1981,7 @@ function telaResultado(estrelas, precisao, evento) {
   );
   coreografiaResultado(estrelas, evento);
 }
+
 function coreografiaResultado(estrelas, evento) {
   if (reduzirMovimento()) {
     sons.fanfarra();
@@ -1906,6 +1995,7 @@ function coreografiaResultado(estrelas, evento) {
   if (evento.subiuNivel) passos.push({ ms: 300 + estrelas * 260 + 900, fn: () => overlayNivel(evento.subiuNivel) });
   passos.forEach(p => timerDeTela(p.fn, p.ms));
 }
+
 function cartaoPadroesSessao(deslizes) {
   const erros = (deslizes ?? []).filter(d => d && !d.ok);
   if (!erros.length) return '';
@@ -1922,6 +2012,7 @@ function cartaoPadroesSessao(deslizes) {
     h('p', { class: 'dica-dia-corpo' }, `O padrão mais comum nesta rodada foi ${nome} (${top.n}). A revisão vai cobrar isso de novo.`)
   );
 }
+
 function botaoDesafiar(s, estrelas) {
   const botao = h('button', { class: 'btn btn-branco', type: 'button' }, '🎯 DESAFIAR');
   const avisar = texto => {
@@ -1945,6 +2036,7 @@ function botaoDesafiar(s, estrelas) {
   });
   return botao;
 }
+
 function telaChefaoPerdido(s) {
   limparTela();
   window.scrollTo(0, 0);
@@ -1968,6 +2060,7 @@ function telaChefaoPerdido(s) {
     )
   );
 }
+
 function contarAte(el, alvo, formato) {
   if (reduzirMovimento() || alvo <= 0) {
     el.textContent = formato(alvo);
@@ -1981,6 +2074,7 @@ function contarAte(el, alvo, formato) {
   };
   requestAnimationFrame(passo);
 }
+
 function overlayNivel(nv) {
   const focoAnterior = document.activeElement;
   const fechar = () => {
@@ -2011,6 +2105,7 @@ function overlayNivel(nv) {
   botao.focus();
   sons.nivel();
 }
+
 function telaLogin(aviso) {
   limparTela();
   window.scrollTo(0, 0);
@@ -2088,6 +2183,7 @@ function telaLogin(aviso) {
     msg.classList.add('erro');
   }
 }
+
 function montarBotaoGoogle(msg) {
   const btnGoogle = h('button', { class: 'btn btn-google', type: 'button' }, iconeGoogle(), h('span', {}, 'ENTRAR COM GOOGLE'));
   btnGoogle.addEventListener('click', async () => {
@@ -2104,12 +2200,14 @@ function montarBotaoGoogle(msg) {
   });
   return [btnGoogle, h('div', { class: 'login-ou' }, h('span', {}, 'ou com e-mail'))];
 }
+
 function decodificarDesafio(d) {
   const unidade = UNIDADES.find(u => u.id === d?.u);
   const licao = unidade?.licoes.find(l => l.id === d?.l);
   if (!licao || typeof d.a !== 'number' || typeof d.t !== 'number') return null;
   return { unidade, licao, acertos: Math.max(0, Math.min(d.a, 99)), total: Math.max(1, Math.min(d.t, 99)) };
 }
+
 function lerDesafio() {
   const p = new URLSearchParams(location.search);
   const bruto = p.get('desafio');
@@ -2127,16 +2225,19 @@ function lerDesafio() {
     return null;
   }
 }
+
 function esquecerDesafio() {
   desafioAtivo = null;
   localStorage.removeItem(CHAVE_DESAFIO);
 }
+
 function linkDoDesafio(s, estrelas) {
   const dados = { u: s.unidade.id, l: s.licao.id, a: s.acertos, t: s.planejados };
   const json = JSON.stringify(dados);
   const b64 = btoa(unescape(encodeURIComponent(json))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   return `${location.origin}${location.pathname}?desafio=${b64}`;
 }
+
 function bannerDesafio() {
   if (!desafioAtivo) return '';
   const d = desafioAtivo;
@@ -2167,6 +2268,7 @@ function bannerDesafio() {
   );
   return banner;
 }
+
 function erroNaUrl() {
   const hash = location.hash.slice(1);
   if (!hash.includes('error')) return null;
@@ -2179,9 +2281,11 @@ function erroNaUrl() {
   if (p.get('error') === 'access_denied' && !codigo) return 'Entrada com Google cancelada. Tenta de novo quando quiser 🙂';
   return 'Não deu pra entrar: ' + traduzirErro(descricao);
 }
+
 function reduzirMovimento() {
   return matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
+
 function transicao(render, direcao = 'padrao') {
   if (reduzirMovimento() || !document.startViewTransition) {
     render();
@@ -2199,20 +2303,24 @@ function transicao(render, direcao = 'padrao') {
     render();
   }
 }
+
 function pintarBarraDoSistema() {
   const meta = document.querySelector('meta[name="theme-color"]');
   if (!meta) return;
   meta.setAttribute('content', temaAtual() === 'escuro' ? '#131F24' : '#58CC02');
 }
+
 function focarTela() {
   const alvo = app.querySelector('[data-foco]') || app.querySelector('h1, .enunciado, .logo, .nivel-titulo');
   if (!alvo) return;
   alvo.setAttribute('tabindex', '-1');
   alvo.focus({ preventScroll: true });
 }
+
 function temaAtual() {
   return document.documentElement.dataset.tema === 'escuro' ? 'escuro' : 'claro';
 }
+
 function alternarTema() {
   const novo = temaAtual() === 'escuro' ? 'claro' : 'escuro';
   const trocar = () => {
@@ -2223,6 +2331,7 @@ function alternarTema() {
   };
   transicao(trocar, 'tema');
 }
+
 function botaoTema() {
   const escuro = temaAtual() === 'escuro';
   return h('button', {
@@ -2234,6 +2343,7 @@ function botaoTema() {
     onclick: alternarTema
   }, escuro ? '☀️' : '🌙');
 }
+
 function checarGoogle() {
   if (!nuvemConfigurada || temGoogle) return;
   googleAtivo().then(ativo => {
@@ -2248,6 +2358,7 @@ function checarGoogle() {
     }
   });
 }
+
 async function aposLogin(interativo) {
   const g = ++geracaoAuth;
   authCarregando = !interativo;
@@ -2282,6 +2393,7 @@ async function aposLogin(interativo) {
   }
   finalizarAuth(interativo);
 }
+
 function finalizarAuth(interativo) {
   if (avisoPendente) {
     const a = avisoPendente;
@@ -2297,11 +2409,13 @@ function finalizarAuth(interativo) {
   if (interativo) telaInicial();
   else repintarTelaAtual();
 }
+
 function repintarTelaAtual() {
   if (telaAtiva === 'inicial') telaInicial();
   else if (telaAtiva === 'perfil') telaPerfil();
   else if (telaAtiva === 'login' && usuarioEmail && !document.querySelector('.login .entrada')?.value) telaInicial();
 }
+
 function telaPerfil() {
   limparTela();
   window.scrollTo(0, 0);
@@ -2398,6 +2512,7 @@ function telaPerfil() {
   );
   focarTela();
 }
+
 function cartaoTropecos() {
   const padroes = resumoPadroes(3);
   const fracos = palavrasFracas(itensAprendidos()).slice(0, 5);
@@ -2427,6 +2542,7 @@ function cartaoTropecos() {
     )
   );
 }
+
 function telaPontosFracos() {
   calar();
   limparTela();
@@ -2474,6 +2590,7 @@ function telaPontosFracos() {
   );
   focarTela();
 }
+
 function treinarPadrao(chave) {
   const aprendidos = itensAprendidos();
   const fracos = palavrasDoPadrao(chave, aprendidos);
@@ -2488,6 +2605,7 @@ function treinarPadrao(chave) {
   };
   telaExercicio();
 }
+
 function telaPapo() {
   calar();
   limparTela();
@@ -2507,6 +2625,7 @@ function telaPapo() {
   );
   focarTela();
 }
+
 function abrirPapo() {
   const cena = montarPapo(diaLocalAgora());
   if (!cena) return telaPapo();
@@ -2514,6 +2633,7 @@ function abrirPapo() {
   papoSessao = novaCena(cena);
   pintarPapo();
 }
+
 function pintarPapo() {
   pintarCenaLista(papoSessao, {
     rota: 'papo',
@@ -2524,6 +2644,7 @@ function pintarPapo() {
     tituloFim: 'Papo feito!'
   });
 }
+
 function telaSimulado() {
   calar();
   limparTela();
@@ -2543,6 +2664,7 @@ function telaSimulado() {
   );
   focarTela();
 }
+
 function abrirSimulado() {
   const cena = montarSimulado(diaLocalAgora());
   if (!cena) return telaSimulado();
@@ -2550,6 +2672,7 @@ function abrirSimulado() {
   simuladoSessao = novaCena(cena);
   pintarSimulado();
 }
+
 function pintarSimulado() {
   pintarCenaLista(simuladoSessao, {
     rota: 'simulado',
@@ -2561,6 +2684,7 @@ function pintarSimulado() {
     sub: nota => faixaDoSimulado(nota)
   });
 }
+
 function telaSprints() {
   listarCena(
     'sprint',
@@ -2571,9 +2695,11 @@ function telaSprints() {
     valor => { sprintSessao = valor; }
   );
 }
+
 function abrirSprint(id) {
   abrirCenaLista(id, sprintPorId, cena => { sprintSessao = cena; }, pintarSprint, telaSprints);
 }
+
 function pintarSprint() {
   pintarCenaLista(sprintSessao, {
     rota: 'sprint',
@@ -2584,6 +2710,7 @@ function pintarSprint() {
     tituloFim: 'Sprint dita!'
   });
 }
+
 function telaSeguros() {
   listarCena(
     'seguro',
@@ -2594,9 +2721,11 @@ function telaSeguros() {
     valor => { seguroSessao = valor; }
   );
 }
+
 function abrirSeguro(id) {
   abrirCenaLista(id, seguroPorId, cena => { seguroSessao = cena; }, pintarSeguro, telaSeguros);
 }
+
 function pintarSeguro() {
   pintarCenaLista(seguroSessao, {
     rota: 'seguro',
@@ -2607,6 +2736,7 @@ function pintarSeguro() {
     tituloFim: 'Decisão dita!'
   });
 }
+
 function telaMeetups() {
   listarCena(
     'meetup',
@@ -2617,9 +2747,11 @@ function telaMeetups() {
     valor => { meetupSessao = valor; }
   );
 }
+
 function abrirMeetup(id) {
   abrirCenaLista(id, meetupPorId, cena => { meetupSessao = cena; }, pintarMeetup, telaMeetups);
 }
+
 function pintarMeetup() {
   pintarCenaLista(meetupSessao, {
     rota: 'meetup',
@@ -2630,6 +2762,7 @@ function pintarMeetup() {
     tituloFim: 'Contato feito!'
   });
 }
+
 function telaCompleta() {
   calar();
   limparTela();
@@ -2652,6 +2785,7 @@ function telaCompleta() {
   );
   focarTela();
 }
+
 function abrirCompleta() {
   const cena = montarCompleta(diaLocalAgora());
   if (!cena) return telaCompleta();
@@ -2659,6 +2793,7 @@ function abrirCompleta() {
   completaSessao = novaCena(cena);
   pintarCompleta();
 }
+
 function pintarCompleta() {
   pintarCenaLista(completaSessao, {
     rota: 'completa',
@@ -2671,6 +2806,7 @@ function pintarCompleta() {
     rotulo: s => `Treino ${s.i + 1} de ${s.cena.rodadas.length} · ${s.cena.rodadas[s.i].etapa}`
   });
 }
+
 function telaRodadas() {
   listarCena(
     'rodada',
@@ -2681,9 +2817,11 @@ function telaRodadas() {
     valor => { rodadaSessao = valor; }
   );
 }
+
 function abrirRodada(id) {
   abrirCenaLista(id, mesaPorId, cena => { rodadaSessao = cena; }, pintarRodada, telaRodadas);
 }
+
 function pintarRodada() {
   pintarCenaLista(rodadaSessao, {
     rota: 'rodada',
@@ -2694,6 +2832,7 @@ function pintarRodada() {
     tituloFim: 'Mesa feita!'
   });
 }
+
 function telaMigras() {
   listarCena(
     'migra',
@@ -2704,9 +2843,11 @@ function telaMigras() {
     valor => { migraSessao = valor; }
   );
 }
+
 function abrirMigra(id) {
   abrirCenaLista(id, migraPorId, cena => { migraSessao = cena; }, pintarMigra, telaMigras);
 }
+
 function pintarMigra() {
   pintarCenaLista(migraSessao, {
     rota: 'migra',
@@ -2717,6 +2858,7 @@ function pintarMigra() {
     tituloFim: 'Risco dito!'
   });
 }
+
 function telaEstreias() {
   listarCena(
     'estreia',
@@ -2727,9 +2869,11 @@ function telaEstreias() {
     valor => { estreiaSessao = valor; }
   );
 }
+
 function abrirEstreia(id) {
   abrirCenaLista(id, estreiaPorId, cena => { estreiaSessao = cena; }, pintarEstreia, telaEstreias);
 }
+
 function pintarEstreia() {
   pintarCenaLista(estreiaSessao, {
     rota: 'estreia',
@@ -2740,10 +2884,12 @@ function pintarEstreia() {
     tituloFim: 'Oi feito!'
   });
 }
+
 function textoNotaFoco(nota) {
   const nome = FOCOS.find(f => f.id === nota.foco)?.nome || nota.foco;
   return `${nota.dia} · ${nome} · ${nota.nota} · ${faixaDoFoco(nota.nota)}`;
 }
+
 function telaFoco() {
   calar();
   limparTela();
@@ -2786,6 +2932,7 @@ function telaFoco() {
   );
   focarTela();
 }
+
 function abrirFoco() {
   const cena = montarFoco(diaLocalAgora(), focoEscolhido);
   if (!cena) return telaFoco();
@@ -2793,6 +2940,7 @@ function abrirFoco() {
   focoSessao = novaCena(cena);
   pintarFoco();
 }
+
 function pintarFoco() {
   pintarCenaLista(focoSessao, {
     rota: 'foco',
@@ -2805,6 +2953,7 @@ function pintarFoco() {
     rotulo: s => `Treino ${s.i + 1} de ${s.cena.rodadas.length} · ${s.cena.rodadas[s.i].etapa}`
   });
 }
+
 function telaPokers() {
   listarCena(
     'poker',
@@ -2815,9 +2964,11 @@ function telaPokers() {
     valor => { pokerSessao = valor; }
   );
 }
+
 function abrirPoker(id) {
   abrirCenaLista(id, pokerPorId, cena => { pokerSessao = cena; }, pintarPoker, telaPokers);
 }
+
 function pintarPoker() {
   pintarCenaLista(pokerSessao, {
     rota: 'poker',
@@ -2828,6 +2979,7 @@ function pintarPoker() {
     tituloFim: 'Carta dita!'
   });
 }
+
 function telaLeigos() {
   listarCena(
     'leigo',
@@ -2838,9 +2990,11 @@ function telaLeigos() {
     valor => { leigoSessao = valor; }
   );
 }
+
 function abrirLeigo(id) {
   abrirCenaLista(id, leigoPorId, cena => { leigoSessao = cena; }, pintarLeigo, telaLeigos);
 }
+
 function pintarLeigo() {
   pintarCenaLista(leigoSessao, {
     rota: 'leigo',
@@ -2851,6 +3005,7 @@ function pintarLeigo() {
     tituloFim: 'Conta dita!'
   });
 }
+
 function telaRecrutas() {
   listarCena(
     'recruta',
@@ -2861,9 +3016,11 @@ function telaRecrutas() {
     valor => { recrutaSessao = valor; }
   );
 }
+
 function abrirRecruta(id) {
   abrirCenaLista(id, recrutaPorId, cena => { recrutaSessao = cena; }, pintarRecruta, telaRecrutas);
 }
+
 function pintarRecruta() {
   pintarCenaLista(recrutaSessao, {
     rota: 'recruta',
@@ -2874,6 +3031,7 @@ function pintarRecruta() {
     tituloFim: 'Ligação feita!'
   });
 }
+
 function telaCulpas() {
   listarCena(
     'culpa',
@@ -2884,9 +3042,11 @@ function telaCulpas() {
     valor => { culpaSessao = valor; }
   );
 }
+
 function abrirCulpa(id) {
   abrirCenaLista(id, culpaPorId, cena => { culpaSessao = cena; }, pintarCulpa, telaCulpas);
 }
+
 function pintarCulpa() {
   pintarCenaLista(culpaSessao, {
     rota: 'culpa',
@@ -2897,6 +3057,7 @@ function pintarCulpa() {
     tituloFim: 'Erro assumido!'
   });
 }
+
 function telaRaios() {
   listarCena(
     'raio',
@@ -2907,9 +3068,11 @@ function telaRaios() {
     valor => { raioSessao = valor; }
   );
 }
+
 function abrirRaio(id) {
   abrirCenaLista(id, raioPorId, cena => { raioSessao = cena; }, pintarRaio, telaRaios);
 }
+
 function pintarRaio() {
   pintarCenaLista(raioSessao, {
     rota: 'raio',
@@ -2920,6 +3083,7 @@ function pintarRaio() {
     tituloFim: 'Relâmpago feito!'
   });
 }
+
 function telaOfertas() {
   listarCena(
     'oferta',
@@ -2930,9 +3094,11 @@ function telaOfertas() {
     valor => { ofertaSessao = valor; }
   );
 }
+
 function abrirOferta(id) {
   abrirCenaLista(id, ofertaPorId, cena => { ofertaSessao = cena; }, pintarOferta, telaOfertas);
 }
+
 function pintarOferta() {
   pintarCenaLista(ofertaSessao, {
     rota: 'oferta',
@@ -2943,9 +3109,11 @@ function pintarOferta() {
     tituloFim: 'Oferta falada!'
   });
 }
+
 function telaSombra() {
   abrirSombra();
 }
+
 function telaPedidos() {
   listarCena(
     'pedido',
@@ -2956,9 +3124,11 @@ function telaPedidos() {
     valor => { pedidoSessao = valor; }
   );
 }
+
 function abrirPedido(id) {
   abrirCenaLista(id, pedidoPorId, cena => { pedidoSessao = cena; }, pintarPedido, telaPedidos);
 }
+
 function pintarPedido() {
   pintarCenaLista(pedidoSessao, {
     rota: 'pedido',
@@ -2969,6 +3139,7 @@ function pintarPedido() {
     tituloFim: 'Esclareceu!'
   });
 }
+
 function telaCoberturas() {
   listarCena(
     'cobertura',
@@ -2979,9 +3150,11 @@ function telaCoberturas() {
     valor => { coberturaSessao = valor; }
   );
 }
+
 function abrirCobertura(id) {
   abrirCenaLista(id, coberturaPorId, cena => { coberturaSessao = cena; }, pintarCobertura, telaCoberturas);
 }
+
 function pintarCobertura() {
   pintarCenaLista(coberturaSessao, {
     rota: 'cobertura',
@@ -2992,6 +3165,7 @@ function pintarCobertura() {
     tituloFim: 'Cobertura falada!'
   });
 }
+
 function telaLooms() {
   listarCena(
     'loom',
@@ -3002,9 +3176,11 @@ function telaLooms() {
     valor => { loomSessao = valor; }
   );
 }
+
 function abrirLoom(id) {
   abrirCenaLista(id, loomPorId, cena => { loomSessao = cena; }, pintarLoom, telaLooms);
 }
+
 function pintarLoom() {
   pintarCenaLista(loomSessao, {
     rota: 'loom',
@@ -3015,17 +3191,20 @@ function pintarLoom() {
     tituloFim: 'Vídeo deixado!'
   });
 }
+
 function telaCaderno() {
   cadernoPalavra = '';
   cadernoFeedback = null;
   pintarCaderno();
 }
+
 function abrirPalavra(en) {
   if (!termosDaFala(estado.errosFala).some(item => item.en === en)) return telaCaderno();
   cadernoPalavra = en;
   cadernoFeedback = null;
   pintarCaderno();
 }
+
 function pintarCaderno() {
   calar();
   limparTela();
@@ -3123,6 +3302,7 @@ function pintarCaderno() {
   focarTela();
   if (!cadernoFeedback) campo.entrada.focus();
 }
+
 function telaGraficos() {
   listarCena(
     'grafico',
@@ -3133,9 +3313,11 @@ function telaGraficos() {
     valor => { graficoSessao = valor; }
   );
 }
+
 function abrirGrafico(id) {
   abrirCenaLista(id, graficoPorId, cena => { graficoSessao = cena; }, pintarGrafico, telaGraficos);
 }
+
 function pintarGrafico() {
   pintarCenaLista(graficoSessao, {
     rota: 'grafico',
@@ -3146,6 +3328,7 @@ function pintarGrafico() {
     tituloFim: 'Gráfico falado!'
   });
 }
+
 function telaHandoffs() {
   listarCena(
     'handoff',
@@ -3156,9 +3339,11 @@ function telaHandoffs() {
     valor => { handoffSessao = valor; }
   );
 }
+
 function abrirHandoff(id) {
   abrirCenaLista(id, handoffPorId, cena => { handoffSessao = cena; }, pintarHandoff, telaHandoffs);
 }
+
 function pintarHandoff() {
   pintarCenaLista(handoffSessao, {
     rota: 'handoff',
@@ -3169,6 +3354,7 @@ function pintarHandoff() {
     tituloFim: 'Handoff passado!'
   });
 }
+
 function telaElevadores() {
   listarCena(
     'elevador',
@@ -3179,9 +3365,11 @@ function telaElevadores() {
     valor => { elevadorSessao = valor; }
   );
 }
+
 function abrirElevador(id) {
   abrirCenaLista(id, elevadorPorId, cena => { elevadorSessao = cena; }, pintarElevador, telaElevadores);
 }
+
 function pintarElevador() {
   pintarCenaLista(elevadorSessao, {
     rota: 'elevador',
@@ -3192,6 +3380,7 @@ function pintarElevador() {
     tituloFim: 'Elevador feito!'
   });
 }
+
 function planoDaJunta() {
   const soma = somarSemana(estado.painel, diaLocalAgora());
   return montarJunta({
@@ -3202,10 +3391,12 @@ function planoDaJunta() {
     meta: estado.metaMinutos
   });
 }
+
 function telaJunta() {
   juntaSessao = null;
   pintarJunta();
 }
+
 function abrirJunta() {
   const plano = planoDaJunta();
   for (const passo of plano.passos) {
@@ -3223,6 +3414,7 @@ function abrirJunta() {
   };
   pintarJunta();
 }
+
 function concluirJunta() {
   if (!juntaSessao || juntaSessao.concluido) return;
   const nota = fecharNota(juntaSessao.notas);
@@ -3248,6 +3440,7 @@ function concluirJunta() {
     resumo: true
   });
 }
+
 function pintarJunta() {
   calar();
   limparTela();
@@ -3335,6 +3528,7 @@ function pintarJunta() {
   focarTela();
   if (!juntaSessao.feedback) campo.entrada.focus();
 }
+
 function telaPistas() {
   listarCena(
     'pista',
@@ -3345,9 +3539,11 @@ function telaPistas() {
     valor => { pistaSessao = valor; }
   );
 }
+
 function abrirPista(id) {
   abrirCenaLista(id, pistaPorId, cena => { pistaSessao = cena; }, pintarPista, telaPistas);
 }
+
 function pintarPista() {
   pintarCenaLista(pistaSessao, {
     rota: 'pista',
@@ -3358,6 +3554,7 @@ function pintarPista() {
     tituloFim: 'Bug contado!'
   });
 }
+
 function telaCalmas() {
   listarCena(
     'calma',
@@ -3368,9 +3565,11 @@ function telaCalmas() {
     valor => { calmaSessao = valor; }
   );
 }
+
 function abrirCalma(id) {
   abrirCenaLista(id, calmaPorId, cena => { calmaSessao = cena; }, pintarCalma, telaCalmas);
 }
+
 function pintarCalma() {
   pintarCenaLista(calmaSessao, {
     rota: 'calma',
@@ -3381,6 +3580,7 @@ function pintarCalma() {
     tituloFim: 'Conceito explicado!'
   });
 }
+
 function telaFolgas() {
   listarCena(
     'folga',
@@ -3391,9 +3591,11 @@ function telaFolgas() {
     valor => { folgaSessao = valor; }
   );
 }
+
 function abrirFolga(id) {
   abrirCenaLista(id, folgaPorId, cena => { folgaSessao = cena; }, pintarFolga, telaFolgas);
 }
+
 function pintarFolga() {
   pintarCenaLista(folgaSessao, {
     rota: 'folga',
@@ -3404,6 +3606,7 @@ function pintarFolga() {
     tituloFim: 'Limite dito!'
   });
 }
+
 function telaRespeitos() {
   listarCena(
     'respeito',
@@ -3414,9 +3617,11 @@ function telaRespeitos() {
     valor => { respeitoSessao = valor; }
   );
 }
+
 function abrirRespeito(id) {
   abrirCenaLista(id, respeitoPorId, cena => { respeitoSessao = cena; }, pintarRespeito, telaRespeitos);
 }
+
 function pintarRespeito() {
   pintarCenaLista(respeitoSessao, {
     rota: 'respeito',
@@ -3427,6 +3632,7 @@ function pintarRespeito() {
     tituloFim: 'Ponto dito!'
   });
 }
+
 function telaDebitos() {
   listarCena(
     'debito',
@@ -3437,9 +3643,11 @@ function telaDebitos() {
     valor => { debitoSessao = valor; }
   );
 }
+
 function abrirDebito(id) {
   abrirCenaLista(id, debitoPorId, cena => { debitoSessao = cena; }, pintarDebito, telaDebitos);
 }
+
 function pintarDebito() {
   pintarCenaLista(debitoSessao, {
     rota: 'debito',
@@ -3450,6 +3658,7 @@ function pintarDebito() {
     tituloFim: 'Tempo pedido!'
   });
 }
+
 function telaIndicacoes() {
   listarCena(
     'indicacao',
@@ -3460,9 +3669,11 @@ function telaIndicacoes() {
     valor => { indicacaoSessao = valor; }
   );
 }
+
 function abrirIndicacao(id) {
   abrirCenaLista(id, indicacaoPorId, cena => { indicacaoSessao = cena; }, pintarIndicacao, telaIndicacoes);
 }
+
 function pintarIndicacao() {
   pintarCenaLista(indicacaoSessao, {
     rota: 'indicacao',
@@ -3473,6 +3684,7 @@ function pintarIndicacao() {
     tituloFim: 'Referência pedida!'
   });
 }
+
 function telaUx() {
   listarCena(
     'ux',
@@ -3483,9 +3695,11 @@ function telaUx() {
     valor => { uxSessao = valor; }
   );
 }
+
 function abrirUx(id) {
   abrirCenaLista(id, uxPorId, cena => { uxSessao = cena; }, pintarUx, telaUx);
 }
+
 function pintarUx() {
   pintarCenaLista(uxSessao, {
     rota: 'ux',
@@ -3496,6 +3710,7 @@ function pintarUx() {
     tituloFim: 'Decisão dita!'
   });
 }
+
 function telaForum() {
   listarCena(
     'forum',
@@ -3506,9 +3721,11 @@ function telaForum() {
     valor => { forumSessao = valor; }
   );
 }
+
 function abrirForum(id) {
   abrirCenaLista(id, forumPorId, cena => { forumSessao = cena; }, pintarForum, telaForum);
 }
+
 function pintarForum() {
   pintarCenaLista(forumSessao, {
     rota: 'forum',
@@ -3519,6 +3736,7 @@ function pintarForum() {
     tituloFim: 'Ajuda pedida!'
   });
 }
+
 function telaVisto() {
   listarCena(
     'visto',
@@ -3529,9 +3747,11 @@ function telaVisto() {
     valor => { vistoSessao = valor; }
   );
 }
+
 function abrirVisto(id) {
   abrirCenaLista(id, vistoPorId, cena => { vistoSessao = cena; }, pintarVisto, telaVisto);
 }
+
 function pintarVisto() {
   pintarCenaLista(vistoSessao, {
     rota: 'visto',
@@ -3542,6 +3762,7 @@ function pintarVisto() {
     tituloFim: 'Conversa feita!'
   });
 }
+
 function telaMes() {
   if (!estado.stats.meses) {
     registrarMes({
@@ -3556,6 +3777,7 @@ function telaMes() {
   }
   pintarMes();
 }
+
 function pintarMes() {
   calar();
   limparTela();
@@ -3575,6 +3797,7 @@ function pintarMes() {
   );
   focarTela();
 }
+
 function telaFacils() {
   listarCena(
     'facil',
@@ -3585,9 +3808,11 @@ function telaFacils() {
     valor => { facilSessao = valor; }
   );
 }
+
 function abrirFacil(id) {
   abrirCenaLista(id, facilPorId, cena => { facilSessao = cena; }, pintarFacil, telaFacils);
 }
+
 function pintarFacil() {
   pintarCenaLista(facilSessao, {
     rota: 'facil',
@@ -3598,6 +3823,7 @@ function pintarFacil() {
     tituloFim: 'Reunião conduzida!'
   });
 }
+
 function telaStacks() {
   listarCena(
     'stack',
@@ -3608,9 +3834,11 @@ function telaStacks() {
     valor => { stackSessao = valor; }
   );
 }
+
 function abrirStack(id) {
   abrirCenaLista(id, escolhaPorId, cena => { stackSessao = cena; }, pintarStack, telaStacks);
 }
+
 function pintarStack() {
   pintarCenaLista(stackSessao, {
     rota: 'stack',
@@ -3621,6 +3849,7 @@ function pintarStack() {
     tituloFim: 'Escolha dita!'
   });
 }
+
 function telaSabados() {
   listarCena(
     'sabado',
@@ -3631,9 +3860,11 @@ function telaSabados() {
     valor => { sabadoSessao = valor; }
   );
 }
+
 function abrirSabado(id) {
   abrirCenaLista(id, sabadoPorId, cena => { sabadoSessao = cena; }, pintarSabado, telaSabados);
 }
+
 function pintarSabado() {
   pintarCenaLista(sabadoSessao, {
     rota: 'sabado',
@@ -3644,6 +3875,7 @@ function pintarSabado() {
     tituloFim: 'Plano contado!'
   });
 }
+
 function telaSurpresa() {
   calar();
   limparTela();
@@ -3671,6 +3903,7 @@ function telaSurpresa() {
   app.append(h('div', {}, miolo));
   focarTela();
 }
+
 function telaBrechas() {
   listarCena(
     'brecha',
@@ -3681,9 +3914,11 @@ function telaBrechas() {
     valor => { brechaSessao = valor; }
   );
 }
+
 function abrirBrecha(id) {
   abrirCenaLista(id, brechaPorId, cena => { brechaSessao = cena; }, pintarBrecha, telaBrechas);
 }
+
 function pintarBrecha() {
   pintarCenaLista(brechaSessao, {
     rota: 'brecha',
@@ -3694,6 +3929,7 @@ function pintarBrecha() {
     tituloFim: 'Falha explicada!'
   });
 }
+
 function telaMudas() {
   listarCena(
     'muda',
@@ -3704,9 +3940,11 @@ function telaMudas() {
     valor => { mudaSessao = valor; }
   );
 }
+
 function abrirMuda(id) {
   abrirCenaLista(id, mudaPorId, cena => { mudaSessao = cena; }, pintarMuda, telaMudas);
 }
+
 function pintarMuda() {
   pintarCenaLista(mudaSessao, {
     rota: 'muda',
@@ -3717,6 +3955,7 @@ function pintarMuda() {
     tituloFim: 'Mudança negociada!'
   });
 }
+
 function telaGauchos() {
   listarCena(
     'gaucho',
@@ -3727,9 +3966,11 @@ function telaGauchos() {
     valor => { gauchoSessao = valor; }
   );
 }
+
 function abrirGaucho(id) {
   abrirCenaLista(id, gauchoPorId, cena => { gauchoSessao = cena; }, pintarGaucho, telaGauchos);
 }
+
 function pintarGaucho() {
   pintarCenaLista(gauchoSessao, {
     rota: 'gaucho',
@@ -3740,6 +3981,7 @@ function pintarGaucho() {
     tituloFim: 'Sul contado!'
   });
 }
+
 function telaRadares() {
   listarCena(
     'radar',
@@ -3750,9 +3992,11 @@ function telaRadares() {
     valor => { radarSessao = valor; }
   );
 }
+
 function abrirRadar(id) {
   abrirCenaLista(id, radarPorId, cena => { radarSessao = cena; }, pintarRadar, telaRadares);
 }
+
 function pintarRadar() {
   pintarCenaLista(radarSessao, {
     rota: 'radar',
@@ -3763,6 +4007,7 @@ function pintarRadar() {
     tituloFim: 'Radar lido!'
   });
 }
+
 function telaAplausos() {
   listarCena(
     'aplauso',
@@ -3773,9 +4018,11 @@ function telaAplausos() {
     valor => { aplausoSessao = valor; }
   );
 }
+
 function abrirAplauso(id) {
   abrirCenaLista(id, aplausoPorId, cena => { aplausoSessao = cena; }, pintarAplauso, telaAplausos);
 }
+
 function pintarAplauso() {
   pintarCenaLista(aplausoSessao, {
     rota: 'aplauso',
@@ -3786,6 +4033,7 @@ function pintarAplauso() {
     tituloFim: 'Time agradecido!'
   });
 }
+
 function telaGripes() {
   listarCena(
     'gripe',
@@ -3796,9 +4044,11 @@ function telaGripes() {
     valor => { gripeSessao = valor; }
   );
 }
+
 function abrirGripe(id) {
   abrirCenaLista(id, gripePorId, cena => { gripeSessao = cena; }, pintarGripe, telaGripes);
 }
+
 function pintarGripe() {
   pintarCenaLista(gripeSessao, {
     rota: 'gripe',
@@ -3809,6 +4059,7 @@ function pintarGripe() {
     tituloFim: 'Folga avisada!'
   });
 }
+
 function telaPms() {
   listarCena(
     'pm',
@@ -3819,9 +4070,11 @@ function telaPms() {
     valor => { pmSessao = valor; }
   );
 }
+
 function abrirPm(id) {
   abrirCenaLista(id, pmPorId, cena => { pmSessao = cena; }, pintarPm, telaPms);
 }
+
 function pintarPm() {
   pintarCenaLista(pmSessao, {
     rota: 'pm',
@@ -3832,6 +4085,7 @@ function pintarPm() {
     tituloFim: 'Data combinada!'
   });
 }
+
 function telaLaudos() {
   listarCena(
     'laudo',
@@ -3842,9 +4096,11 @@ function telaLaudos() {
     valor => { laudoSessao = valor; }
   );
 }
+
 function abrirLaudo(id) {
   abrirCenaLista(id, laudoPorId, cena => { laudoSessao = cena; }, pintarLaudo, telaLaudos);
 }
+
 function pintarLaudo() {
   pintarCenaLista(laudoSessao, {
     rota: 'laudo',
@@ -3855,6 +4111,7 @@ function pintarLaudo() {
     tituloFim: 'Laudo fechado!'
   });
 }
+
 function telaRumos() {
   listarCena(
     'rumo',
@@ -3865,9 +4122,11 @@ function telaRumos() {
     valor => { rumoSessao = valor; }
   );
 }
+
 function abrirRumo(id) {
   abrirCenaLista(id, rumoPorId, cena => { rumoSessao = cena; }, pintarRumo, telaRumos);
 }
+
 function pintarRumo() {
   pintarCenaLista(rumoSessao, {
     rota: 'rumo',
@@ -3878,6 +4137,7 @@ function pintarRumo() {
     tituloFim: 'Rumo pedido!'
   });
 }
+
 function telaAcessos() {
   listarCena(
     'acesso',
@@ -3888,9 +4148,11 @@ function telaAcessos() {
     valor => { acessoSessao = valor; }
   );
 }
+
 function abrirAcesso(id) {
   abrirCenaLista(id, acessoPorId, cena => { acessoSessao = cena; }, pintarAcesso, telaAcessos);
 }
+
 function pintarAcesso() {
   pintarCenaLista(acessoSessao, {
     rota: 'acesso',
@@ -3901,6 +4163,7 @@ function pintarAcesso() {
     tituloFim: 'Acesso combinado!'
   });
 }
+
 function telaLicencas() {
   listarCena(
     'licenca',
@@ -3911,9 +4174,11 @@ function telaLicencas() {
     valor => { licencaSessao = valor; }
   );
 }
+
 function abrirLicenca(id) {
   abrirCenaLista(id, licencaPorId, cena => { licencaSessao = cena; }, pintarLicenca, telaLicencas);
 }
+
 function pintarLicenca() {
   pintarCenaLista(licencaSessao, {
     rota: 'licenca',
@@ -3924,6 +4189,7 @@ function pintarLicenca() {
     tituloFim: 'Licença pedida!'
   });
 }
+
 function telaJargoes() {
   listarCena(
     'jargao',
@@ -3934,9 +4200,11 @@ function telaJargoes() {
     valor => { jargaoSessao = valor; }
   );
 }
+
 function abrirJargao(id) {
   abrirCenaLista(id, jargaoPorId, cena => { jargaoSessao = cena; }, pintarJargao, telaJargoes);
 }
+
 function pintarJargao() {
   pintarCenaLista(jargaoSessao, {
     rota: 'jargao',
@@ -3947,6 +4215,7 @@ function pintarJargao() {
     tituloFim: 'Nota simples!'
   });
 }
+
 function telaBandeiras() {
   listarCena(
     'bandeira',
@@ -3957,9 +4226,11 @@ function telaBandeiras() {
     valor => { bandeiraSessao = valor; }
   );
 }
+
 function abrirBandeira(id) {
   abrirCenaLista(id, bandeiraPorId, cena => { bandeiraSessao = cena; }, pintarBandeira, telaBandeiras);
 }
+
 function pintarBandeira() {
   pintarCenaLista(bandeiraSessao, {
     rota: 'bandeira',
@@ -3970,6 +4241,7 @@ function pintarBandeira() {
     tituloFim: 'Bandeira combinada!'
   });
 }
+
 function telaGelos() {
   listarCena(
     'gelo',
@@ -3980,9 +4252,11 @@ function telaGelos() {
     valor => { geloSessao = valor; }
   );
 }
+
 function abrirGelo(id) {
   abrirCenaLista(id, geloPorId, cena => { geloSessao = cena; }, pintarGelo, telaGelos);
 }
+
 function pintarGelo() {
   pintarCenaLista(geloSessao, {
     rota: 'gelo',
@@ -3993,6 +4267,7 @@ function pintarGelo() {
     tituloFim: 'Gelo marcado!'
   });
 }
+
 function telaLimites() {
   listarCena(
     'limite',
@@ -4003,9 +4278,11 @@ function telaLimites() {
     valor => { limiteSessao = valor; }
   );
 }
+
 function abrirLimite(id) {
   abrirCenaLista(id, limitePorId, cena => { limiteSessao = cena; }, pintarLimite, telaLimites);
 }
+
 function pintarLimite() {
   pintarCenaLista(limiteSessao, {
     rota: 'limite',
@@ -4016,6 +4293,7 @@ function pintarLimite() {
     tituloFim: 'Limite dito!'
   });
 }
+
 function telaCanarios() {
   listarCena(
     'canario',
@@ -4026,9 +4304,11 @@ function telaCanarios() {
     valor => { canarioSessao = valor; }
   );
 }
+
 function abrirCanario(id) {
   abrirCenaLista(id, canarioPorId, cena => { canarioSessao = cena; }, pintarCanario, telaCanarios);
 }
+
 function pintarCanario() {
   pintarCenaLista(canarioSessao, {
     rota: 'canario',
@@ -4039,6 +4319,7 @@ function pintarCanario() {
     tituloFim: 'Canário observado!'
   });
 }
+
 function telaDespedidas() {
   listarCena(
     'despedida',
@@ -4049,9 +4330,11 @@ function telaDespedidas() {
     valor => { despedidaSessao = valor; }
   );
 }
+
 function abrirDespedida(id) {
   abrirCenaLista(id, despedidaPorId, cena => { despedidaSessao = cena; }, pintarDespedida, telaDespedidas);
 }
+
 function pintarDespedida() {
   pintarCenaLista(despedidaSessao, {
     rota: 'despedida',
@@ -4062,6 +4345,7 @@ function pintarDespedida() {
     tituloFim: 'Despedida dita!'
   });
 }
+
 function telaRepeticoes() {
   listarCena(
     'repeticao',
@@ -4072,9 +4356,11 @@ function telaRepeticoes() {
     valor => { repeticaoSessao = valor; }
   );
 }
+
 function abrirRepeticao(id) {
   abrirCenaLista(id, repeticaoPorId, cena => { repeticaoSessao = cena; }, pintarRepeticao, telaRepeticoes);
 }
+
 function pintarRepeticao() {
   pintarCenaLista(repeticaoSessao, {
     rota: 'repeticao',
@@ -4085,6 +4371,7 @@ function pintarRepeticao() {
     tituloFim: 'Repetição explicada!'
   });
 }
+
 function telaCargas() {
   listarCena(
     'carga',
@@ -4095,9 +4382,11 @@ function telaCargas() {
     valor => { cargaSessao = valor; }
   );
 }
+
 function abrirCarga(id) {
   abrirCenaLista(id, cargaPorId, cena => { cargaSessao = cena; }, pintarCarga, telaCargas);
 }
+
 function pintarCarga() {
   pintarCenaLista(cargaSessao, {
     rota: 'carga',
@@ -4108,6 +4397,7 @@ function pintarCarga() {
     tituloFim: 'Carga contada!'
   });
 }
+
 function telaBoletins() {
   listarCena(
     'boletim',
@@ -4118,9 +4408,11 @@ function telaBoletins() {
     valor => { boletimSessao = valor; }
   );
 }
+
 function abrirBoletim(id) {
   abrirCenaLista(id, boletimPorId, cena => { boletimSessao = cena; }, pintarBoletim, telaBoletins);
 }
+
 function pintarBoletim() {
   pintarCenaLista(boletimSessao, {
     rota: 'boletim',
@@ -4131,6 +4423,7 @@ function pintarBoletim() {
     tituloFim: 'Boletim lido!'
   });
 }
+
 function telaDonos() {
   listarCena(
     'dono',
@@ -4141,9 +4434,11 @@ function telaDonos() {
     valor => { donoSessao = valor; }
   );
 }
+
 function abrirDono(id) {
   abrirCenaLista(id, donoPorId, cena => { donoSessao = cena; }, pintarDono, telaDonos);
 }
+
 function pintarDono() {
   pintarCenaLista(donoSessao, {
     rota: 'dono',
@@ -4154,6 +4449,7 @@ function pintarDono() {
     tituloFim: 'Dono combinado!'
   });
 }
+
 function telaManuais() {
   listarCena(
     'manual',
@@ -4164,9 +4460,11 @@ function telaManuais() {
     valor => { manualSessao = valor; }
   );
 }
+
 function abrirManual(id) {
   abrirCenaLista(id, manualPorId, cena => { manualSessao = cena; }, pintarManual, telaManuais);
 }
+
 function pintarManual() {
   pintarCenaLista(manualSessao, {
     rota: 'manual',
@@ -4177,6 +4475,7 @@ function pintarManual() {
     tituloFim: 'Manual seguido!'
   });
 }
+
 function telaVerdes() {
   listarCena(
     'verde',
@@ -4187,9 +4486,11 @@ function telaVerdes() {
     valor => { verdeSessao = valor; }
   );
 }
+
 function abrirVerde(id) {
   abrirCenaLista(id, verdePorId, cena => { verdeSessao = cena; }, pintarVerde, telaVerdes);
 }
+
 function pintarVerde() {
   pintarCenaLista(verdeSessao, {
     rota: 'verde',
@@ -4200,6 +4501,7 @@ function pintarVerde() {
     tituloFim: 'Lado trocado!'
   });
 }
+
 function telaCertificados() {
   listarCena(
     'certificado',
@@ -4210,9 +4512,11 @@ function telaCertificados() {
     valor => { certificadoSessao = valor; }
   );
 }
+
 function abrirCertificado(id) {
   abrirCenaLista(id, certificadoPorId, cena => { certificadoSessao = cena; }, pintarCertificado, telaCertificados);
 }
+
 function pintarCertificado() {
   pintarCenaLista(certificadoSessao, {
     rota: 'certificado',
@@ -4223,6 +4527,7 @@ function pintarCertificado() {
     tituloFim: 'Certificado combinado!'
   });
 }
+
 function telaRebases() {
   listarCena(
     'rebase',
@@ -4233,9 +4538,11 @@ function telaRebases() {
     valor => { rebaseSessao = valor; }
   );
 }
+
 function abrirRebase(id) {
   abrirCenaLista(id, rebasePorId, cena => { rebaseSessao = cena; }, pintarRebase, telaRebases);
 }
+
 function pintarRebase() {
   pintarCenaLista(rebaseSessao, {
     rota: 'rebase',
@@ -4246,6 +4553,7 @@ function pintarRebase() {
     tituloFim: 'Rebase combinado!'
   });
 }
+
 function telaConsultas() {
   listarCena(
     'consulta',
@@ -4256,9 +4564,11 @@ function telaConsultas() {
     valor => { consultaSessao = valor; }
   );
 }
+
 function abrirConsulta(id) {
   abrirCenaLista(id, consultaPorId, cena => { consultaSessao = cena; }, pintarConsulta, telaConsultas);
 }
+
 function pintarConsulta() {
   pintarCenaLista(consultaSessao, {
     rota: 'consulta',
@@ -4269,6 +4579,7 @@ function pintarConsulta() {
     tituloFim: 'Consulta lida!'
   });
 }
+
 function telaReplicas() {
   listarCena(
     'replica',
@@ -4279,9 +4590,11 @@ function telaReplicas() {
     valor => { replicaSessao = valor; }
   );
 }
+
 function abrirReplica(id) {
   abrirCenaLista(id, replicaPorId, cena => { replicaSessao = cena; }, pintarReplica, telaReplicas);
 }
+
 function pintarReplica() {
   pintarCenaLista(replicaSessao, {
     rota: 'replica',
@@ -4292,6 +4605,7 @@ function pintarReplica() {
     tituloFim: 'Réplica explicada!'
   });
 }
+
 function telaEnsaios() {
   listarCena(
     'ensaio',
@@ -4302,9 +4616,11 @@ function telaEnsaios() {
     valor => { ensaioSessao = valor; }
   );
 }
+
 function abrirEnsaio(id) {
   abrirCenaLista(id, ensaioPorId, cena => { ensaioSessao = cena; }, pintarEnsaio, telaEnsaios);
 }
+
 function pintarEnsaio() {
   pintarCenaLista(ensaioSessao, {
     rota: 'ensaio',
@@ -4315,6 +4631,7 @@ function pintarEnsaio() {
     tituloFim: 'Ensaio combinado!'
   });
 }
+
 function telaDiscos() {
   listarCena(
     'disco',
@@ -4325,9 +4642,11 @@ function telaDiscos() {
     valor => { discoSessao = valor; }
   );
 }
+
 function abrirDisco(id) {
   abrirCenaLista(id, discoPorId, cena => { discoSessao = cena; }, pintarDisco, telaDiscos);
 }
+
 function pintarDisco() {
   pintarCenaLista(discoSessao, {
     rota: 'disco',
@@ -4338,6 +4657,7 @@ function pintarDisco() {
     tituloFim: 'Disco explicado!'
   });
 }
+
 function telaPaginas() {
   listarCena(
     'pagina',
@@ -4348,9 +4668,11 @@ function telaPaginas() {
     valor => { paginaSessao = valor; }
   );
 }
+
 function abrirPagina(id) {
   abrirCenaLista(id, paginaPorId, cena => { paginaSessao = cena; }, pintarPagina, telaPaginas);
 }
+
 function pintarPagina() {
   pintarCenaLista(paginaSessao, {
     rota: 'pagina',
@@ -4361,6 +4683,7 @@ function pintarPagina() {
     tituloFim: 'Página explicada!'
   });
 }
+
 function telaSquashes() {
   listarCena(
     'squash',
@@ -4371,9 +4694,11 @@ function telaSquashes() {
     valor => { squashSessao = valor; }
   );
 }
+
 function abrirSquash(id) {
   abrirCenaLista(id, squashPorId, cena => { squashSessao = cena; }, pintarSquash, telaSquashes);
 }
+
 function pintarSquash() {
   pintarCenaLista(squashSessao, {
     rota: 'squash',
@@ -4384,6 +4709,7 @@ function pintarSquash() {
     tituloFim: 'Squash combinado!'
   });
 }
+
 function telaCircuitos() {
   listarCena(
     'circuito',
@@ -4394,9 +4720,11 @@ function telaCircuitos() {
     valor => { circuitoSessao = valor; }
   );
 }
+
 function abrirCircuito(id) {
   abrirCenaLista(id, circuitoPorId, cena => { circuitoSessao = cena; }, pintarCircuito, telaCircuitos);
 }
+
 function pintarCircuito() {
   pintarCenaLista(circuitoSessao, {
     rota: 'circuito',
@@ -4407,6 +4735,7 @@ function pintarCircuito() {
     tituloFim: 'Circuito explicado!'
   });
 }
+
 function telaJobs() {
   listarCena(
     'job',
@@ -4417,9 +4746,11 @@ function telaJobs() {
     valor => { jobSessao = valor; }
   );
 }
+
 function abrirJob(id) {
   abrirCenaLista(id, jobPorId, cena => { jobSessao = cena; }, pintarJob, telaJobs);
 }
+
 function pintarJob() {
   pintarCenaLista(jobSessao, {
     rota: 'job',
@@ -4430,6 +4761,7 @@ function pintarJob() {
     tituloFim: 'Job explicado!'
   });
 }
+
 function telaColheitas() {
   listarCena(
     'colheita',
@@ -4440,9 +4772,11 @@ function telaColheitas() {
     valor => { colheitaSessao = valor; }
   );
 }
+
 function abrirColheita(id) {
   abrirCenaLista(id, colheitaPorId, cena => { colheitaSessao = cena; }, pintarColheita, telaColheitas);
 }
+
 function pintarColheita() {
   pintarCenaLista(colheitaSessao, {
     rota: 'colheita',
@@ -4453,6 +4787,7 @@ function pintarColheita() {
     tituloFim: 'Colheita feita!'
   });
 }
+
 function telaSessoes() {
   listarCena(
     'sessao',
@@ -4463,9 +4798,11 @@ function telaSessoes() {
     valor => { sessaoFala = valor; }
   );
 }
+
 function abrirSessao(id) {
   abrirCenaLista(id, sessaoPorId, cena => { sessaoFala = cena; }, pintarSessao, telaSessoes);
 }
+
 function pintarSessao() {
   pintarCenaLista(sessaoFala, {
     rota: 'sessao',
@@ -4476,6 +4813,7 @@ function pintarSessao() {
     tituloFim: 'Sessão explicada!'
   });
 }
+
 function telaTanques() {
   listarCena(
     'tanque',
@@ -4486,9 +4824,11 @@ function telaTanques() {
     valor => { tanqueSessao = valor; }
   );
 }
+
 function abrirTanque(id) {
   abrirCenaLista(id, tanquePorId, cena => { tanqueSessao = cena; }, pintarTanque, telaTanques);
 }
+
 function pintarTanque() {
   pintarCenaLista(tanqueSessao, {
     rota: 'tanque',
@@ -4499,6 +4839,7 @@ function pintarTanque() {
     tituloFim: 'Tanque explicado!'
   });
 }
+
 function telaSondas() {
   listarCena(
     'sonda',
@@ -4509,9 +4850,11 @@ function telaSondas() {
     valor => { sondaSessao = valor; }
   );
 }
+
 function abrirSonda(id) {
   abrirCenaLista(id, sondaPorId, cena => { sondaSessao = cena; }, pintarSonda, telaSondas);
 }
+
 function pintarSonda() {
   pintarCenaLista(sondaSessao, {
     rota: 'sonda',
@@ -4522,6 +4865,7 @@ function pintarSonda() {
     tituloFim: 'Sonda explicada!'
   });
 }
+
 function telaSementes() {
   listarCena(
     'semente',
@@ -4532,9 +4876,11 @@ function telaSementes() {
     valor => { sementeSessao = valor; }
   );
 }
+
 function abrirSemente(id) {
   abrirCenaLista(id, sementePorId, cena => { sementeSessao = cena; }, pintarSemente, telaSementes);
 }
+
 function pintarSemente() {
   pintarCenaLista(sementeSessao, {
     rota: 'semente',
@@ -4545,6 +4891,7 @@ function pintarSemente() {
     tituloFim: 'Semente plantada!'
   });
 }
+
 function telaRegistros() {
   listarCena(
     'registro',
@@ -4555,9 +4902,11 @@ function telaRegistros() {
     valor => { registroSessao = valor; }
   );
 }
+
 function abrirRegistro(id) {
   abrirCenaLista(id, registroPorId, cena => { registroSessao = cena; }, pintarRegistro, telaRegistros);
 }
+
 function pintarRegistro() {
   pintarCenaLista(registroSessao, {
     rota: 'registro',
@@ -4568,6 +4917,7 @@ function pintarRegistro() {
     tituloFim: 'Registro ajustado!'
   });
 }
+
 function telaRastros() {
   listarCena(
     'rastro',
@@ -4578,9 +4928,11 @@ function telaRastros() {
     valor => { rastroSessao = valor; }
   );
 }
+
 function abrirRastro(id) {
   abrirCenaLista(id, rastroPorId, cena => { rastroSessao = cena; }, pintarRastro, telaRastros);
 }
+
 function pintarRastro() {
   pintarCenaLista(rastroSessao, {
     rota: 'rastro',
@@ -4591,6 +4943,7 @@ function pintarRastro() {
     tituloFim: 'Rastro copiado!'
   });
 }
+
 function telaParadas() {
   listarCena(
     'parada',
@@ -4601,9 +4954,11 @@ function telaParadas() {
     valor => { paradaSessao = valor; }
   );
 }
+
 function abrirParada(id) {
   abrirCenaLista(id, paradaPorId, cena => { paradaSessao = cena; }, pintarParada, telaParadas);
 }
+
 function pintarParada() {
   pintarCenaLista(paradaSessao, {
     rota: 'parada',
@@ -4614,6 +4969,7 @@ function pintarParada() {
     tituloFim: 'Parada marcada!'
   });
 }
+
 function telaPods() {
   listarCena(
     'pod',
@@ -4624,9 +4980,11 @@ function telaPods() {
     valor => { podSessao = valor; }
   );
 }
+
 function abrirPod(id) {
   abrirCenaLista(id, podPorId, cena => { podSessao = cena; }, pintarPod, telaPods);
 }
+
 function pintarPod() {
   pintarCenaLista(podSessao, {
     rota: 'pod',
@@ -4637,6 +4995,7 @@ function pintarPod() {
     tituloFim: 'Pod no ar!'
   });
 }
+
 function telaLints() {
   listarCena(
     'lint',
@@ -4647,9 +5006,11 @@ function telaLints() {
     valor => { lintSessao = valor; }
   );
 }
+
 function abrirLint(id) {
   abrirCenaLista(id, lintPorId, cena => { lintSessao = cena; }, pintarLint, telaLints);
 }
+
 function pintarLint() {
   pintarCenaLista(lintSessao, {
     rota: 'lint',
@@ -4660,6 +5021,7 @@ function pintarLint() {
     tituloFim: 'Lint limpo!'
   });
 }
+
 function telaOrigens() {
   listarCena(
     'origem',
@@ -4670,9 +5032,11 @@ function telaOrigens() {
     valor => { origemSessao = valor; }
   );
 }
+
 function abrirOrigem(id) {
   abrirCenaLista(id, origemPorId, cena => { origemSessao = cena; }, pintarOrigem, telaOrigens);
 }
+
 function pintarOrigem() {
   pintarCenaLista(origemSessao, {
     rota: 'origem',
@@ -4683,6 +5047,7 @@ function pintarOrigem() {
     tituloFim: 'Origem liberada!'
   });
 }
+
 function telaLinks() {
   listarCena(
     'link',
@@ -4693,9 +5058,11 @@ function telaLinks() {
     valor => { linkSessao = valor; }
   );
 }
+
 function abrirLink(id) {
   abrirCenaLista(id, linkPorId, cena => { linkSessao = cena; }, pintarLink, telaLinks);
 }
+
 function pintarLink() {
   pintarCenaLista(linkSessao, {
     rota: 'link',
@@ -4706,6 +5073,7 @@ function pintarLink() {
     tituloFim: 'Link enviado!'
   });
 }
+
 function telaCpus() {
   listarCena(
     'cpu',
@@ -4716,9 +5084,11 @@ function telaCpus() {
     valor => { cpuSessao = valor; }
   );
 }
+
 function abrirCpu(id) {
   abrirCenaLista(id, cpuPorId, cena => { cpuSessao = cena; }, pintarCpu, telaCpus);
 }
+
 function pintarCpu() {
   pintarCenaLista(cpuSessao, {
     rota: 'cpu',
@@ -4729,6 +5099,7 @@ function pintarCpu() {
     tituloFim: 'Processador calmo!'
   });
 }
+
 function telaCopias() {
   listarCena(
     'copia',
@@ -4739,9 +5110,11 @@ function telaCopias() {
     valor => { copiaSessao = valor; }
   );
 }
+
 function abrirCopia(id) {
   abrirCenaLista(id, copiaPorId, cena => { copiaSessao = cena; }, pintarCopia, telaCopias);
 }
+
 function pintarCopia() {
   pintarCenaLista(copiaSessao, {
     rota: 'copia',
@@ -4752,6 +5125,7 @@ function pintarCopia() {
     tituloFim: 'Cópia pronta!'
   });
 }
+
 function telaEstouros() {
   listarCena(
     'estouro',
@@ -4762,9 +5136,11 @@ function telaEstouros() {
     valor => { estouroSessao = valor; }
   );
 }
+
 function abrirEstouro(id) {
   abrirCenaLista(id, estouroPorId, cena => { estouroSessao = cena; }, pintarEstouro, telaEstouros);
 }
+
 function pintarEstouro() {
   pintarCenaLista(estouroSessao, {
     rota: 'estouro',
@@ -4775,6 +5151,7 @@ function pintarEstouro() {
     tituloFim: 'Memória livre!'
   });
 }
+
 function telaImpasses() {
   listarCena(
     'impasse',
@@ -4785,9 +5162,11 @@ function telaImpasses() {
     valor => { impasseSessao = valor; }
   );
 }
+
 function abrirImpasse(id) {
   abrirCenaLista(id, impassePorId, cena => { impasseSessao = cena; }, pintarImpasse, telaImpasses);
 }
+
 function pintarImpasse() {
   pintarCenaLista(impasseSessao, {
     rota: 'impasse',
@@ -4798,6 +5177,7 @@ function pintarImpasse() {
     tituloFim: 'Impasse solto!'
   });
 }
+
 function telaDominios() {
   listarCena(
     'dominio',
@@ -4808,9 +5188,11 @@ function telaDominios() {
     valor => { dominioSessao = valor; }
   );
 }
+
 function abrirDominio(id) {
   abrirCenaLista(id, dominioPorId, cena => { dominioSessao = cena; }, pintarDominio, telaDominios);
 }
+
 function pintarDominio() {
   pintarCenaLista(dominioSessao, {
     rota: 'dominio',
@@ -4821,6 +5203,7 @@ function pintarDominio() {
     tituloFim: 'Nome no ar!'
   });
 }
+
 function telaMortas() {
   listarCena(
     'morta',
@@ -4831,9 +5214,11 @@ function telaMortas() {
     valor => { mortaSessao = valor; }
   );
 }
+
 function abrirMorta(id) {
   abrirCenaLista(id, mortaPorId, cena => { mortaSessao = cena; }, pintarMorta, telaMortas);
 }
+
 function pintarMorta() {
   pintarCenaLista(mortaSessao, {
     rota: 'morta',
@@ -4844,6 +5229,7 @@ function pintarMorta() {
     tituloFim: 'Motivo lido!'
   });
 }
+
 function telaPonteiros() {
   listarCena(
     'ponteiro',
@@ -4854,9 +5240,11 @@ function telaPonteiros() {
     valor => { ponteiroSessao = valor; }
   );
 }
+
 function abrirPonteiro(id) {
   abrirCenaLista(id, ponteiroPorId, cena => { ponteiroSessao = cena; }, pintarPonteiro, telaPonteiros);
 }
+
 function pintarPonteiro() {
   pintarCenaLista(ponteiroSessao, {
     rota: 'ponteiro',
@@ -4867,6 +5255,7 @@ function pintarPonteiro() {
     tituloFim: 'Relógios alinhados!'
   });
 }
+
 function telaEleicoes() {
   listarCena(
     'eleicao',
@@ -4877,9 +5266,11 @@ function telaEleicoes() {
     valor => { eleicaoSessao = valor; }
   );
 }
+
 function abrirEleicao(id) {
   abrirCenaLista(id, eleicaoPorId, cena => { eleicaoSessao = cena; }, pintarEleicao, telaEleicoes);
 }
+
 function pintarEleicao() {
   pintarCenaLista(eleicaoSessao, {
     rota: 'eleicao',
@@ -4890,6 +5281,7 @@ function pintarEleicao() {
     tituloFim: 'Líder eleito!'
   });
 }
+
 function telaFreios() {
   listarCena(
     'freio',
@@ -4900,9 +5292,11 @@ function telaFreios() {
     valor => { freioSessao = valor; }
   );
 }
+
 function abrirFreio(id) {
   abrirCenaLista(id, freioPorId, cena => { freioSessao = cena; }, pintarFreio, telaFreios);
 }
+
 function pintarFreio() {
   pintarCenaLista(freioSessao, {
     rota: 'freio',
@@ -4913,6 +5307,7 @@ function pintarFreio() {
     tituloFim: 'Ritmo menor!'
   });
 }
+
 function telaPausas() {
   listarCena(
     'pausa',
@@ -4923,9 +5318,11 @@ function telaPausas() {
     valor => { pausaSessao = valor; }
   );
 }
+
 function abrirPausa(id) {
   abrirCenaLista(id, pausaPorId, cena => { pausaSessao = cena; }, pintarPausa, telaPausas);
 }
+
 function pintarPausa() {
   pintarCenaLista(pausaSessao, {
     rota: 'pausa',
@@ -4936,6 +5333,7 @@ function pintarPausa() {
     tituloFim: 'Pausa vista!'
   });
 }
+
 function telaDerivas() {
   listarCena(
     'deriva',
@@ -4946,9 +5344,11 @@ function telaDerivas() {
     valor => { derivaSessao = valor; }
   );
 }
+
 function abrirDeriva(id) {
   abrirCenaLista(id, derivaPorId, cena => { derivaSessao = cena; }, pintarDeriva, telaDerivas);
 }
+
 function pintarDeriva() {
   pintarCenaLista(derivaSessao, {
     rota: 'deriva',
@@ -4959,6 +5359,7 @@ function pintarDeriva() {
     tituloFim: 'Configuração igual!'
   });
 }
+
 function telaDescritores() {
   listarCena(
     'descritor',
@@ -4969,9 +5370,11 @@ function telaDescritores() {
     valor => { descritorSessao = valor; }
   );
 }
+
 function abrirDescritor(id) {
   abrirCenaLista(id, descritorPorId, cena => { descritorSessao = cena; }, pintarDescritor, telaDescritores);
 }
+
 function pintarDescritor() {
   pintarCenaLista(descritorSessao, {
     rota: 'descritor',
@@ -4982,6 +5385,7 @@ function pintarDescritor() {
     tituloFim: 'Arquivo livre!'
   });
 }
+
 function telaReservas() {
   listarCena(
     'reserva',
@@ -4992,9 +5396,11 @@ function telaReservas() {
     valor => { reservaSessao = valor; }
   );
 }
+
 function abrirReserva(id) {
   abrirCenaLista(id, reservaPorId, cena => { reservaSessao = cena; }, pintarReserva, telaReservas);
 }
+
 function pintarReserva() {
   pintarCenaLista(reservaSessao, {
     rota: 'reserva',
@@ -5005,6 +5411,7 @@ function pintarReserva() {
     tituloFim: 'Reserva livre!'
   });
 }
+
 function telaVarreduras() {
   listarCena(
     'varredura',
@@ -5015,9 +5422,11 @@ function telaVarreduras() {
     valor => { varreduraSessao = valor; }
   );
 }
+
 function abrirVarredura(id) {
   abrirCenaLista(id, varreduraPorId, cena => { varreduraSessao = cena; }, pintarVarredura, telaVarreduras);
 }
+
 function pintarVarredura() {
   pintarCenaLista(varreduraSessao, {
     rota: 'varredura',
@@ -5028,6 +5437,7 @@ function pintarVarredura() {
     tituloFim: 'Consulta junta!'
   });
 }
+
 function telaPortas() {
   listarCena(
     'porta',
@@ -5038,9 +5448,11 @@ function telaPortas() {
     valor => { portaSessao = valor; }
   );
 }
+
 function abrirPorta(id) {
   abrirCenaLista(id, portaPorId, cena => { portaSessao = cena; }, pintarPorta, telaPortas);
 }
+
 function pintarPorta() {
   pintarCenaLista(portaSessao, {
     rota: 'porta',
@@ -5051,6 +5463,7 @@ function pintarPorta() {
     tituloFim: 'Porta aberta!'
   });
 }
+
 function telaInodos() {
   listarCena(
     'inodo',
@@ -5061,9 +5474,11 @@ function telaInodos() {
     valor => { inodoSessao = valor; }
   );
 }
+
 function abrirInodo(id) {
   abrirCenaLista(id, inodoPorId, cena => { inodoSessao = cena; }, pintarInodo, telaInodos);
 }
+
 function pintarInodo() {
   pintarCenaLista(inodoSessao, {
     rota: 'inodo',
@@ -5074,6 +5489,7 @@ function pintarInodo() {
     tituloFim: 'Nome livre!'
   });
 }
+
 function telaSaidas() {
   listarCena(
     'saida',
@@ -5084,9 +5500,11 @@ function telaSaidas() {
     valor => { saidaSessao = valor; }
   );
 }
+
 function abrirSaida(id) {
   abrirCenaLista(id, saidaPorId, cena => { saidaSessao = cena; }, pintarSaida, telaSaidas);
 }
+
 function pintarSaida() {
   pintarCenaLista(saidaSessao, {
     rota: 'saida',
@@ -5097,6 +5515,7 @@ function pintarSaida() {
     tituloFim: 'Serviço quieto!'
   });
 }
+
 function telaManadas() {
   listarCena(
     'manada',
@@ -5107,9 +5526,11 @@ function telaManadas() {
     valor => { manadaSessao = valor; }
   );
 }
+
 function abrirManada(id) {
   abrirCenaLista(id, manadaPorId, cena => { manadaSessao = cena; }, pintarManada, telaManadas);
 }
+
 function pintarManada() {
   pintarCenaLista(manadaSessao, {
     rota: 'manada',
@@ -5120,6 +5541,7 @@ function pintarManada() {
     tituloFim: 'Cache calmo!'
   });
 }
+
 function telaGotejos() {
   listarCena(
     'gotejo',
@@ -5130,9 +5552,11 @@ function telaGotejos() {
     valor => { gotejoSessao = valor; }
   );
 }
+
 function abrirGotejo(id) {
   abrirCenaLista(id, gotejoPorId, cena => { gotejoSessao = cena; }, pintarGotejo, telaGotejos);
 }
+
 function pintarGotejo() {
   pintarCenaLista(gotejoSessao, {
     rota: 'gotejo',
@@ -5143,6 +5567,7 @@ function pintarGotejo() {
     tituloFim: 'Memória quieta!'
   });
 }
+
 function telaFrios() {
   listarCena(
     'frio',
@@ -5153,9 +5578,11 @@ function telaFrios() {
     valor => { frioSessao = valor; }
   );
 }
+
 function abrirFrio(id) {
   abrirCenaLista(id, frioPorId, cena => { frioSessao = cena; }, pintarFrio, telaFrios);
 }
+
 function pintarFrio() {
   pintarCenaLista(frioSessao, {
     rota: 'frio',
@@ -5166,6 +5593,7 @@ function pintarFrio() {
     tituloFim: 'Função quente!'
   });
 }
+
 function telaCadeados() {
   listarCena(
     'cadeado',
@@ -5176,9 +5604,11 @@ function telaCadeados() {
     valor => { cadeadoSessao = valor; }
   );
 }
+
 function abrirCadeado(id) {
   abrirCenaLista(id, cadeadoPorId, cena => { cadeadoSessao = cena; }, pintarCadeado, telaCadeados);
 }
+
 function pintarCadeado() {
   pintarCenaLista(cadeadoSessao, {
     rota: 'cadeado',
@@ -5189,6 +5619,7 @@ function pintarCadeado() {
     tituloFim: 'Leitura livre!'
   });
 }
+
 function telaCotas() {
   listarCena(
     'cota',
@@ -5199,9 +5630,11 @@ function telaCotas() {
     valor => { cotaSessao = valor; }
   );
 }
+
 function abrirCota(id) {
   abrirCenaLista(id, cotaPorId, cena => { cotaSessao = cena; }, pintarCota, telaCotas);
 }
+
 function pintarCota() {
   pintarCenaLista(cotaSessao, {
     rota: 'cota',
@@ -5212,6 +5645,7 @@ function pintarCota() {
     tituloFim: 'Cota aberta!'
   });
 }
+
 function telaCiclos() {
   listarCena(
     'ciclo',
@@ -5222,9 +5656,11 @@ function telaCiclos() {
     valor => { cicloSessao = valor; }
   );
 }
+
 function abrirCiclo(id) {
   abrirCenaLista(id, cicloPorId, cena => { cicloSessao = cena; }, pintarCiclo, telaCiclos);
 }
+
 function pintarCiclo() {
   pintarCenaLista(cicloSessao, {
     rota: 'ciclo',
@@ -5235,6 +5671,7 @@ function pintarCiclo() {
     tituloFim: 'Ciclo firme!'
   });
 }
+
 function telaZumbis() {
   listarCena(
     'zumbi',
@@ -5245,9 +5682,11 @@ function telaZumbis() {
     valor => { zumbiSessao = valor; }
   );
 }
+
 function abrirZumbi(id) {
   abrirCenaLista(id, zumbiPorId, cena => { zumbiSessao = cena; }, pintarZumbi, telaZumbis);
 }
+
 function pintarZumbi() {
   pintarCenaLista(zumbiSessao, {
     rota: 'zumbi',
@@ -5258,6 +5697,7 @@ function pintarZumbi() {
     tituloFim: 'Zumbi saiu!'
   });
 }
+
 function telaCisoes() {
   listarCena(
     'cisao',
@@ -5268,9 +5708,11 @@ function telaCisoes() {
     valor => { cisaoSessao = valor; }
   );
 }
+
 function abrirCisao(id) {
   abrirCenaLista(id, cisaoPorId, cena => { cisaoSessao = cena; }, pintarCisao, telaCisoes);
 }
+
 function pintarCisao() {
   pintarCenaLista(cisaoSessao, {
     rota: 'cisao',
@@ -5281,6 +5723,7 @@ function pintarCisao() {
     tituloFim: 'Cisão resolvida!'
   });
 }
+
 function telaRajadas() {
   listarCena(
     'rajada',
@@ -5291,9 +5734,11 @@ function telaRajadas() {
     valor => { rajadaSessao = valor; }
   );
 }
+
 function abrirRajada(id) {
   abrirCenaLista(id, rajadaPorId, cena => { rajadaSessao = cena; }, pintarRajada, telaRajadas);
 }
+
 function pintarRajada() {
   pintarCenaLista(rajadaSessao, {
     rota: 'rajada',
@@ -5304,6 +5749,7 @@ function pintarRajada() {
     tituloFim: 'Rajada calma!'
   });
 }
+
 function telaBrasas() {
   listarCena(
     'brasa',
@@ -5314,9 +5760,11 @@ function telaBrasas() {
     valor => { brasaSessao = valor; }
   );
 }
+
 function abrirBrasa(id) {
   abrirCenaLista(id, brasaPorId, cena => { brasaSessao = cena; }, pintarBrasa, telaBrasas);
 }
+
 function pintarBrasa() {
   pintarCenaLista(brasaSessao, {
     rota: 'brasa',
@@ -5327,6 +5775,7 @@ function pintarBrasa() {
     tituloFim: 'Chave espalhada!'
   });
 }
+
 function telaDatagramas() {
   listarCena(
     'datagrama',
@@ -5337,9 +5786,11 @@ function telaDatagramas() {
     valor => { datagramaSessao = valor; }
   );
 }
+
 function abrirDatagrama(id) {
   abrirCenaLista(id, datagramaPorId, cena => { datagramaSessao = cena; }, pintarDatagrama, telaDatagramas);
 }
+
 function pintarDatagrama() {
   pintarCenaLista(datagramaSessao, {
     rota: 'datagrama',
@@ -5350,6 +5801,7 @@ function pintarDatagrama() {
     tituloFim: 'Datagrama no destino!'
   });
 }
+
 function telaPasses() {
   listarCena(
     'passe',
@@ -5360,9 +5812,11 @@ function telaPasses() {
     valor => { passeSessao = valor; }
   );
 }
+
 function abrirPasse(id) {
   abrirCenaLista(id, passePorId, cena => { passeSessao = cena; }, pintarPasse, telaPasses);
 }
+
 function pintarPasse() {
   pintarCenaLista(passeSessao, {
     rota: 'passe',
@@ -5373,6 +5827,7 @@ function pintarPasse() {
     tituloFim: 'Passe novo!'
   });
 }
+
 function telaCarimbos() {
   listarCena(
     'carimbo',
@@ -5383,9 +5838,11 @@ function telaCarimbos() {
     valor => { carimboSessao = valor; }
   );
 }
+
 function abrirCarimbo(id) {
   abrirCenaLista(id, carimboPorId, cena => { carimboSessao = cena; }, pintarCarimbo, telaCarimbos);
 }
+
 function pintarCarimbo() {
   pintarCenaLista(carimboSessao, {
     rota: 'carimbo',
@@ -5396,6 +5853,7 @@ function pintarCarimbo() {
     tituloFim: 'Carimbo novo!'
   });
 }
+
 function telaPilhas() {
   listarCena(
     'pilha',
@@ -5406,9 +5864,11 @@ function telaPilhas() {
     valor => { pilhaSessao = valor; }
   );
 }
+
 function abrirPilha(id) {
   abrirCenaLista(id, pilhaPorId, cena => { pilhaSessao = cena; }, pintarPilha, telaPilhas);
 }
+
 function pintarPilha() {
   pintarCenaLista(pilhaSessao, {
     rota: 'pilha',
@@ -5419,6 +5879,7 @@ function pintarPilha() {
     tituloFim: 'Pilha quieta!'
   });
 }
+
 function telaCanos() {
   listarCena(
     'cano',
@@ -5429,9 +5890,11 @@ function telaCanos() {
     valor => { canoSessao = valor; }
   );
 }
+
 function abrirCano(id) {
   abrirCenaLista(id, canoPorId, cena => { canoSessao = cena; }, pintarCano, telaCanos);
 }
+
 function pintarCano() {
   pintarCenaLista(canoSessao, {
     rota: 'cano',
@@ -5442,6 +5905,7 @@ function pintarCano() {
     tituloFim: 'Cano livre!'
   });
 }
+
 function telaGiros() {
   listarCena(
     'giro',
@@ -5452,9 +5916,11 @@ function telaGiros() {
     valor => { giroSessao = valor; }
   );
 }
+
 function abrirGiro(id) {
   abrirCenaLista(id, giroPorId, cena => { giroSessao = cena; }, pintarGiro, telaGiros);
 }
+
 function pintarGiro() {
   pintarCenaLista(giroSessao, {
     rota: 'giro',
@@ -5465,6 +5931,7 @@ function pintarGiro() {
     tituloFim: 'Giro parado!'
   });
 }
+
 function telaCompactas() {
   listarCena(
     'compacta',
@@ -5475,9 +5942,11 @@ function telaCompactas() {
     valor => { compactaSessao = valor; }
   );
 }
+
 function abrirCompacta(id) {
   abrirCenaLista(id, compactaPorId, cena => { compactaSessao = cena; }, pintarCompacta, telaCompactas);
 }
+
 function pintarCompacta() {
   pintarCenaLista(compactaSessao, {
     rota: 'compacta',
@@ -5488,6 +5957,7 @@ function pintarCompacta() {
     tituloFim: 'Compactação quieta!'
   });
 }
+
 function telaDiarios() {
   listarCena(
     'diario',
@@ -5498,9 +5968,11 @@ function telaDiarios() {
     valor => { diarioSessao = valor; }
   );
 }
+
 function abrirDiario(id) {
   abrirCenaLista(id, diarioPorId, cena => { diarioSessao = cena; }, pintarDiario, telaDiarios);
 }
+
 function pintarDiario() {
   pintarCenaLista(diarioSessao, {
     rota: 'diario',
@@ -5511,6 +5983,7 @@ function pintarDiario() {
     tituloFim: 'Diário livre!'
   });
 }
+
 function telaVagoes() {
   listarCena(
     'vagao',
@@ -5521,9 +5994,11 @@ function telaVagoes() {
     valor => { vagaoSessao = valor; }
   );
 }
+
 function abrirVagao(id) {
   abrirCenaLista(id, vagaoPorId, cena => { vagaoSessao = cena; }, pintarVagao, telaVagoes);
 }
+
 function pintarVagao() {
   pintarCenaLista(vagaoSessao, {
     rota: 'vagao',
@@ -5534,6 +6009,7 @@ function pintarVagao() {
     tituloFim: 'Leitor junto!'
   });
 }
+
 function telaCorridas() {
   listarCena(
     'corrida',
@@ -5544,9 +6020,11 @@ function telaCorridas() {
     valor => { corridaSessao = valor; }
   );
 }
+
 function abrirCorrida(id) {
   abrirCenaLista(id, corridaPorId, cena => { corridaSessao = cena; }, pintarCorrida, telaCorridas);
 }
+
 function pintarCorrida() {
   pintarCenaLista(corridaSessao, {
     rota: 'corrida',
@@ -5557,6 +6035,7 @@ function pintarCorrida() {
     tituloFim: 'Corrida quieta!'
   });
 }
+
 function telaIndices() {
   listarCena(
     'indice',
@@ -5567,9 +6046,11 @@ function telaIndices() {
     valor => { indiceSessao = valor; }
   );
 }
+
 function abrirIndice(id) {
   abrirCenaLista(id, indicePorId, cena => { indiceSessao = cena; }, pintarIndice, telaIndices);
 }
+
 function pintarIndice() {
   pintarCenaLista(indiceSessao, {
     rota: 'indice',
@@ -5580,6 +6061,7 @@ function pintarIndice() {
     tituloFim: 'Índice pronto!'
   });
 }
+
 function telaPercentis() {
   listarCena(
     'percentil',
@@ -5590,9 +6072,11 @@ function telaPercentis() {
     valor => { percentilSessao = valor; }
   );
 }
+
 function abrirPercentil(id) {
   abrirCenaLista(id, percentilPorId, cena => { percentilSessao = cena; }, pintarPercentil, telaPercentis);
 }
+
 function pintarPercentil() {
   pintarCenaLista(percentilSessao, {
     rota: 'percentil',
@@ -5603,6 +6087,7 @@ function pintarPercentil() {
     tituloFim: 'Percentil no alvo!'
   });
 }
+
 function telaSegredos() {
   listarCena(
     'segredo',
@@ -5613,9 +6098,11 @@ function telaSegredos() {
     valor => { segredoSessao = valor; }
   );
 }
+
 function abrirSegredo(id) {
   abrirCenaLista(id, segredoPorId, cena => { segredoSessao = cena; }, pintarSegredo, telaSegredos);
 }
+
 function pintarSegredo() {
   pintarCenaLista(segredoSessao, {
     rota: 'segredo',
@@ -5626,6 +6113,7 @@ function pintarSegredo() {
     tituloFim: 'Segredo quieto!'
   });
 }
+
 function telaFantasmas() {
   listarCena(
     'fantasma',
@@ -5636,9 +6124,11 @@ function telaFantasmas() {
     valor => { fantasmaSessao = valor; }
   );
 }
+
 function abrirFantasma(id) {
   abrirCenaLista(id, fantasmaPorId, cena => { fantasmaSessao = cena; }, pintarFantasma, telaFantasmas);
 }
+
 function pintarFantasma() {
   pintarCenaLista(fantasmaSessao, {
     rota: 'fantasma',
@@ -5649,6 +6139,7 @@ function pintarFantasma() {
     tituloFim: 'Leitura estável!'
   });
 }
+
 function telaInteiros() {
   listarCena(
     'inteiro',
@@ -5659,9 +6150,11 @@ function telaInteiros() {
     valor => { inteiroSessao = valor; }
   );
 }
+
 function abrirInteiro(id) {
   abrirCenaLista(id, inteiroPorId, cena => { inteiroSessao = cena; }, pintarInteiro, telaInteiros);
 }
+
 function pintarInteiro() {
   pintarCenaLista(inteiroSessao, {
     rota: 'inteiro',
@@ -5672,6 +6165,7 @@ function pintarInteiro() {
     tituloFim: 'Contador firme!'
   });
 }
+
 function telaFiltros() {
   listarCena(
     'filtro',
@@ -5682,9 +6176,11 @@ function telaFiltros() {
     valor => { filtroSessao = valor; }
   );
 }
+
 function abrirFiltro(id) {
   abrirCenaLista(id, filtroPorId, cena => { filtroSessao = cena; }, pintarFiltro, telaFiltros);
 }
+
 function pintarFiltro() {
   pintarCenaLista(filtroSessao, {
     rota: 'filtro',
@@ -5695,6 +6191,7 @@ function pintarFiltro() {
     tituloFim: 'Filtro honesto!'
   });
 }
+
 function telaOrdens() {
   listarCena(
     'ordem',
@@ -5705,9 +6202,11 @@ function telaOrdens() {
     valor => { ordemSessao = valor; }
   );
 }
+
 function abrirOrdem(id) {
   abrirCenaLista(id, ordemPorId, cena => { ordemSessao = cena; }, pintarOrdem, telaOrdens);
 }
+
 function pintarOrdem() {
   pintarCenaLista(ordemSessao, {
     rota: 'ordem',
@@ -5718,6 +6217,7 @@ function pintarOrdem() {
     tituloFim: 'Ordem certa!'
   });
 }
+
 function telaProvas() {
   listarCena(
     'prova',
@@ -5728,9 +6228,11 @@ function telaProvas() {
     valor => { provaSessao = valor; }
   );
 }
+
 function abrirProva(id) {
   abrirCenaLista(id, provaPorId, cena => { provaSessao = cena; }, pintarProva, telaProvas);
 }
+
 function pintarProva() {
   pintarCenaLista(provaSessao, {
     rota: 'prova',
@@ -5741,6 +6243,7 @@ function pintarProva() {
     tituloFim: 'Prova bateu!'
   });
 }
+
 function telaOrfaos() {
   listarCena(
     'orfao',
@@ -5751,9 +6254,11 @@ function telaOrfaos() {
     valor => { orfaoSessao = valor; }
   );
 }
+
 function abrirOrfao(id) {
   abrirCenaLista(id, orfaoPorId, cena => { orfaoSessao = cena; }, pintarOrfao, telaOrfaos);
 }
+
 function pintarOrfao() {
   pintarCenaLista(orfaoSessao, {
     rota: 'orfao',
@@ -5764,6 +6269,7 @@ function pintarOrfao() {
     tituloFim: 'Pai presente!'
   });
 }
+
 function telaAcenos() {
   listarCena(
     'aceno',
@@ -5774,9 +6280,11 @@ function telaAcenos() {
     valor => { acenoSessao = valor; }
   );
 }
+
 function abrirAceno(id) {
   abrirCenaLista(id, acenoPorId, cena => { acenoSessao = cena; }, pintarAceno, telaAcenos);
 }
+
 function pintarAceno() {
   pintarCenaLista(acenoSessao, {
     rota: 'aceno',
@@ -5787,6 +6295,7 @@ function pintarAceno() {
     tituloFim: 'Aceno completo!'
   });
 }
+
 function telaGastos() {
   listarCena(
     'gasto',
@@ -5797,9 +6306,11 @@ function telaGastos() {
     valor => { gastoSessao = valor; }
   );
 }
+
 function abrirGasto(id) {
   abrirCenaLista(id, gastoPorId, cena => { gastoSessao = cena; }, pintarGasto, telaGastos);
 }
+
 function pintarGasto() {
   pintarCenaLista(gastoSessao, {
     rota: 'gasto',
@@ -5810,6 +6321,7 @@ function pintarGasto() {
     tituloFim: 'Gasto no alvo!'
   });
 }
+
 function telaInstaveis() {
   listarCena(
     'instavel',
@@ -5820,9 +6332,11 @@ function telaInstaveis() {
     valor => { instavelSessao = valor; }
   );
 }
+
 function abrirInstavel(id) {
   abrirCenaLista(id, instavelPorId, cena => { instavelSessao = cena; }, pintarInstavel, telaInstaveis);
 }
+
 function pintarInstavel() {
   pintarCenaLista(instavelSessao, {
     rota: 'instavel',
@@ -5833,6 +6347,7 @@ function pintarInstavel() {
     tituloFim: 'Teste firme!'
   });
 }
+
 function telaDuplicados() {
   listarCena(
     'duplicado',
@@ -5843,9 +6358,11 @@ function telaDuplicados() {
     valor => { duplicadoSessao = valor; }
   );
 }
+
 function abrirDuplicado(id) {
   abrirCenaLista(id, duplicadoPorId, cena => { duplicadoSessao = cena; }, pintarDuplicado, telaDuplicados);
 }
+
 function pintarDuplicado() {
   pintarCenaLista(duplicadoSessao, {
     rota: 'duplicado',
@@ -5856,6 +6373,7 @@ function pintarDuplicado() {
     tituloFim: 'E-mail único!'
   });
 }
+
 function telaApagoes() {
   listarCena(
     'apagao',
@@ -5866,9 +6384,11 @@ function telaApagoes() {
     valor => { apagaoSessao = valor; }
   );
 }
+
 function abrirApagao(id) {
   abrirCenaLista(id, apagaoPorId, cena => { apagaoSessao = cena; }, pintarApagao, telaApagoes);
 }
+
 function pintarApagao() {
   pintarCenaLista(apagaoSessao, {
     rota: 'apagao',
@@ -5879,6 +6399,7 @@ function pintarApagao() {
     tituloFim: 'Queda medida!'
   });
 }
+
 function telaReplays() {
   listarCena(
     'replay',
@@ -5889,9 +6410,11 @@ function telaReplays() {
     valor => { replaySessao = valor; }
   );
 }
+
 function abrirReplay(id) {
   abrirCenaLista(id, replayPorId, cena => { replaySessao = cena; }, pintarReplay, telaReplays);
 }
+
 function pintarReplay() {
   pintarCenaLista(replaySessao, {
     rota: 'replay',
@@ -5902,6 +6425,7 @@ function pintarReplay() {
     tituloFim: 'Buraco preenchido!'
   });
 }
+
 function telaEcos() {
   listarCena(
     'eco',
@@ -5912,9 +6436,11 @@ function telaEcos() {
     valor => { ecoSessao = valor; }
   );
 }
+
 function abrirEco(id) {
   abrirCenaLista(id, ecoPorId, cena => { ecoSessao = cena; }, pintarEco, telaEcos);
 }
+
 function pintarEco() {
   pintarCenaLista(ecoSessao, {
     rota: 'eco',
@@ -5925,6 +6451,7 @@ function pintarEco() {
     tituloFim: 'Evento único!'
   });
 }
+
 function telaLeques() {
   listarCena(
     'leque',
@@ -5935,9 +6462,11 @@ function telaLeques() {
     valor => { lequeSessao = valor; }
   );
 }
+
 function abrirLeque(id) {
   abrirCenaLista(id, lequePorId, cena => { lequeSessao = cena; }, pintarLeque, telaLeques);
 }
+
 function pintarLeque() {
   pintarCenaLista(lequeSessao, {
     rota: 'leque',
@@ -5948,6 +6477,7 @@ function pintarLeque() {
     tituloFim: 'Leque no alvo!'
   });
 }
+
 function telaSagas() {
   listarCena(
     'saga',
@@ -5958,9 +6488,11 @@ function telaSagas() {
     valor => { sagaSessao = valor; }
   );
 }
+
 function abrirSaga(id) {
   abrirCenaLista(id, sagaPorId, cena => { sagaSessao = cena; }, pintarSaga, telaSagas);
 }
+
 function pintarSaga() {
   pintarCenaLista(sagaSessao, {
     rota: 'saga',
@@ -5971,6 +6503,7 @@ function pintarSaga() {
     tituloFim: 'Saga fechada!'
   });
 }
+
 function telaCaixas() {
   listarCena(
     'caixa',
@@ -5981,9 +6514,11 @@ function telaCaixas() {
     valor => { caixaSessao = valor; }
   );
 }
+
 function abrirCaixa(id) {
   abrirCenaLista(id, caixaPorId, cena => { caixaSessao = cena; }, pintarCaixa, telaCaixas);
 }
+
 function pintarCaixa() {
   pintarCenaLista(caixaSessao, {
     rota: 'caixa',
@@ -5994,6 +6529,7 @@ function pintarCaixa() {
     tituloFim: 'Caixa vazia!'
   });
 }
+
 function telaApagados() {
   listarCena(
     'apagado',
@@ -6004,9 +6540,11 @@ function telaApagados() {
     valor => { apagadoSessao = valor; }
   );
 }
+
 function abrirApagado(id) {
   abrirCenaLista(id, apagadoPorId, cena => { apagadoSessao = cena; }, pintarApagado, telaApagados);
 }
+
 function pintarApagado() {
   pintarCenaLista(apagadoSessao, {
     rota: 'apagado',
@@ -6017,6 +6555,7 @@ function pintarApagado() {
     tituloFim: 'Linha sumida!'
   });
 }
+
 function telaEsperas() {
   listarCena(
     'espera',
@@ -6027,9 +6566,11 @@ function telaEsperas() {
     valor => { esperaSessao = valor; }
   );
 }
+
 function abrirEspera(id) {
   abrirCenaLista(id, esperaPorId, cena => { esperaSessao = cena; }, pintarEspera, telaEsperas);
 }
+
 function pintarEspera() {
   pintarCenaLista(esperaSessao, {
     rota: 'espera',
@@ -6040,6 +6581,7 @@ function pintarEspera() {
     tituloFim: 'Espera no alvo!'
   });
 }
+
 function telaCursores() {
   listarCena(
     'cursor',
@@ -6050,9 +6592,11 @@ function telaCursores() {
     valor => { cursorSessao = valor; }
   );
 }
+
 function abrirCursor(id) {
   abrirCenaLista(id, cursorPorId, cena => { cursorSessao = cena; }, pintarCursor, telaCursores);
 }
+
 function pintarCursor() {
   pintarCenaLista(cursorSessao, {
     rota: 'cursor',
@@ -6063,6 +6607,7 @@ function pintarCursor() {
     tituloFim: 'Lugar firme!'
   });
 }
+
 function telaFilas() {
   listarCena(
     'fila',
@@ -6073,9 +6618,11 @@ function telaFilas() {
     valor => { filaSessao = valor; }
   );
 }
+
 function abrirFila(id) {
   abrirCenaLista(id, filaPorId, cena => { filaSessao = cena; }, pintarFila, telaFilas);
 }
+
 function pintarFila() {
   pintarCenaLista(filaSessao, {
     rota: 'fila',
@@ -6086,6 +6633,7 @@ function pintarFila() {
     tituloFim: 'Fila no alvo!'
   });
 }
+
 function telaDisjuntores() {
   listarCena(
     'disjuntor',
@@ -6096,9 +6644,11 @@ function telaDisjuntores() {
     valor => { disjuntorSessao = valor; }
   );
 }
+
 function abrirDisjuntor(id) {
   abrirCenaLista(id, disjuntorPorId, cena => { disjuntorSessao = cena; }, pintarDisjuntor, telaDisjuntores);
 }
+
 function pintarDisjuntor() {
   pintarCenaLista(disjuntorSessao, {
     rota: 'disjuntor',
@@ -6109,6 +6659,7 @@ function pintarDisjuntor() {
     tituloFim: 'Disjuntor fechado!'
   });
 }
+
 function telaAlugueis() {
   listarCena(
     'aluguel',
@@ -6119,9 +6670,11 @@ function telaAlugueis() {
     valor => { aluguelSessao = valor; }
   );
 }
+
 function abrirAluguel(id) {
   abrirCenaLista(id, aluguelPorId, cena => { aluguelSessao = cena; }, pintarAluguel, telaAlugueis);
 }
+
 function pintarAluguel() {
   pintarCenaLista(aluguelSessao, {
     rota: 'aluguel',
@@ -6132,6 +6685,7 @@ function pintarAluguel() {
     tituloFim: 'Aluguel renovado!'
   });
 }
+
 function telaPulsos() {
   listarCena(
     'pulso',
@@ -6142,9 +6696,11 @@ function telaPulsos() {
     valor => { pulsoSessao = valor; }
   );
 }
+
 function abrirPulso(id) {
   abrirCenaLista(id, pulsoPorId, cena => { pulsoSessao = cena; }, pintarPulso, telaPulsos);
 }
+
 function pintarPulso() {
   pintarCenaLista(pulsoSessao, {
     rota: 'pulso',
@@ -6155,6 +6711,7 @@ function pintarPulso() {
     tituloFim: 'Pulso no alvo!'
   });
 }
+
 function telaPiscinas() {
   listarCena(
     'piscina',
@@ -6165,9 +6722,11 @@ function telaPiscinas() {
     valor => { piscinaSessao = valor; }
   );
 }
+
 function abrirPiscina(id) {
   abrirCenaLista(id, piscinaPorId, cena => { piscinaSessao = cena; }, pintarPiscina, telaPiscinas);
 }
+
 function pintarPiscina() {
   pintarCenaLista(piscinaSessao, {
     rota: 'piscina',
@@ -6178,6 +6737,7 @@ function pintarPiscina() {
     tituloFim: 'Piscina com vaga!'
   });
 }
+
 function telaBaldes() {
   listarCena(
     'balde',
@@ -6188,9 +6748,11 @@ function telaBaldes() {
     valor => { baldeSessao = valor; }
   );
 }
+
 function abrirBalde(id) {
   abrirCenaLista(id, baldePorId, cena => { baldeSessao = cena; }, pintarBalde, telaBaldes);
 }
+
 function pintarBalde() {
   pintarCenaLista(baldeSessao, {
     rota: 'balde',
@@ -6201,6 +6763,7 @@ function pintarBalde() {
     tituloFim: 'Balde cheio!'
   });
 }
+
 function telaCercas() {
   listarCena(
     'cerca',
@@ -6211,9 +6774,11 @@ function telaCercas() {
     valor => { cercaSessao = valor; }
   );
 }
+
 function abrirCerca(id) {
   abrirCenaLista(id, cercaPorId, cena => { cercaSessao = cena; }, pintarCerca, telaCercas);
 }
+
 function pintarCerca() {
   pintarCenaLista(cercaSessao, {
     rota: 'cerca',
@@ -6224,6 +6789,7 @@ function pintarCerca() {
     tituloFim: 'Cerca no alvo!'
   });
 }
+
 function telaTremores() {
   listarCena(
     'tremor',
@@ -6234,9 +6800,11 @@ function telaTremores() {
     valor => { tremorSessao = valor; }
   );
 }
+
 function abrirTremor(id) {
   abrirCenaLista(id, tremorPorId, cena => { tremorSessao = cena; }, pintarTremor, telaTremores);
 }
+
 function pintarTremor() {
   pintarCenaLista(tremorSessao, {
     rota: 'tremor',
@@ -6247,6 +6815,7 @@ function pintarTremor() {
     tituloFim: 'Tremor no alvo!'
   });
 }
+
 function telaPortarias() {
   listarCena(
     'portaria',
@@ -6257,9 +6826,11 @@ function telaPortarias() {
     valor => { portariaSessao = valor; }
   );
 }
+
 function abrirPortaria(id) {
   abrirCenaLista(id, portariaPorId, cena => { portariaSessao = cena; }, pintarPortaria, telaPortarias);
 }
+
 function pintarPortaria() {
   pintarCenaLista(portariaSessao, {
     rota: 'portaria',
@@ -6270,6 +6841,7 @@ function pintarPortaria() {
     tituloFim: 'Portaria aberta!'
   });
 }
+
 function telaColas() {
   listarCena(
     'cola',
@@ -6280,9 +6852,11 @@ function telaColas() {
     valor => { colaSessao = valor; }
   );
 }
+
 function abrirCola(id) {
   abrirCenaLista(id, colaPorId, cena => { colaSessao = cena; }, pintarCola, telaColas);
 }
+
 function pintarCola() {
   pintarCenaLista(colaSessao, {
     rota: 'cola',
@@ -6293,6 +6867,7 @@ function pintarCola() {
     tituloFim: 'Cola firme!'
   });
 }
+
 function telaAnteparos() {
   listarCena(
     'anteparo',
@@ -6303,9 +6878,11 @@ function telaAnteparos() {
     valor => { anteparoSessao = valor; }
   );
 }
+
 function abrirAnteparo(id) {
   abrirCenaLista(id, anteparoPorId, cena => { anteparoSessao = cena; }, pintarAnteparo, telaAnteparos);
 }
+
 function pintarAnteparo() {
   pintarCenaLista(anteparoSessao, {
     rota: 'anteparo',
@@ -6316,6 +6893,7 @@ function pintarAnteparo() {
     tituloFim: 'Anteparo no alvo!'
   });
 }
+
 function telaDescartes() {
   listarCena(
     'descarte',
@@ -6326,9 +6904,11 @@ function telaDescartes() {
     valor => { descarteSessao = valor; }
   );
 }
+
 function abrirDescarte(id) {
   abrirCenaLista(id, descartePorId, cena => { descarteSessao = cena; }, pintarDescarte, telaDescartes);
 }
+
 function pintarDescarte() {
   pintarCenaLista(descarteSessao, {
     rota: 'descarte',
@@ -6339,6 +6919,7 @@ function pintarDescarte() {
     tituloFim: 'Descarte no alvo!'
   });
 }
+
 function telaCronometros() {
   listarCena(
     'cronometro',
@@ -6349,9 +6930,11 @@ function telaCronometros() {
     valor => { cronometroSessao = valor; }
   );
 }
+
 function abrirCronometro(id) {
   abrirCenaLista(id, cronometroPorId, cena => { cronometroSessao = cena; }, pintarCronometro, telaCronometros);
 }
+
 function pintarCronometro() {
   pintarCenaLista(cronometroSessao, {
     rota: 'cronometro',
@@ -6362,6 +6945,7 @@ function pintarCronometro() {
     tituloFim: 'Cronômetro no alvo!'
   });
 }
+
 function telaAmostras() {
   listarCena(
     'amostra',
@@ -6372,9 +6956,11 @@ function telaAmostras() {
     valor => { amostraSessao = valor; }
   );
 }
+
 function abrirAmostra(id) {
   abrirCenaLista(id, amostraPorId, cena => { amostraSessao = cena; }, pintarAmostra, telaAmostras);
 }
+
 function pintarAmostra() {
   pintarCenaLista(amostraSessao, {
     rota: 'amostra',
@@ -6385,6 +6971,7 @@ function pintarAmostra() {
     tituloFim: 'Amostra no alvo!'
   });
 }
+
 function telaNichos() {
   listarCena(
     'nicho',
@@ -6395,9 +6982,11 @@ function telaNichos() {
     valor => { nichoSessao = valor; }
   );
 }
+
 function abrirNicho(id) {
   abrirCenaLista(id, nichoPorId, cena => { nichoSessao = cena; }, pintarNicho, telaNichos);
 }
+
 function pintarNicho() {
   pintarCenaLista(nichoSessao, {
     rota: 'nicho',
@@ -6408,6 +6997,7 @@ function pintarNicho() {
     tituloFim: 'Nicho no alvo!'
   });
 }
+
 function telaLacres() {
   listarCena(
     'lacre',
@@ -6418,9 +7008,11 @@ function telaLacres() {
     valor => { lacreSessao = valor; }
   );
 }
+
 function abrirLacre(id) {
   abrirCenaLista(id, lacrePorId, cena => { lacreSessao = cena; }, pintarLacre, telaLacres);
 }
+
 function pintarLacre() {
   pintarCenaLista(lacreSessao, {
     rota: 'lacre',
@@ -6431,6 +7023,7 @@ function pintarLacre() {
     tituloFim: 'Lacre no alvo!'
   });
 }
+
 function telaSemaforos() {
   listarCena(
     'semaforo',
@@ -6441,9 +7034,11 @@ function telaSemaforos() {
     valor => { semaforoSessao = valor; }
   );
 }
+
 function abrirSemaforo(id) {
   abrirCenaLista(id, semaforoPorId, cena => { semaforoSessao = cena; }, pintarSemaforo, telaSemaforos);
 }
+
 function pintarSemaforo() {
   pintarCenaLista(semaforoSessao, {
     rota: 'semaforo',
@@ -6454,6 +7049,7 @@ function pintarSemaforo() {
     tituloFim: 'Semáforo no alvo!'
   });
 }
+
 function telaBarreiras() {
   listarCena(
     'barreira',
@@ -6464,9 +7060,11 @@ function telaBarreiras() {
     valor => { barreiraSessao = valor; }
   );
 }
+
 function abrirBarreira(id) {
   abrirCenaLista(id, barreiraPorId, cena => { barreiraSessao = cena; }, pintarBarreira, telaBarreiras);
 }
+
 function pintarBarreira() {
   pintarCenaLista(barreiraSessao, {
     rota: 'barreira',
@@ -6477,6 +7075,7 @@ function pintarBarreira() {
     tituloFim: 'Barreira no alvo!'
   });
 }
+
 function telaTrincos() {
   listarCena(
     'trinco',
@@ -6487,9 +7086,11 @@ function telaTrincos() {
     valor => { trincoSessao = valor; }
   );
 }
+
 function abrirTrinco(id) {
   abrirCenaLista(id, trincoPorId, cena => { trincoSessao = cena; }, pintarTrinco, telaTrincos);
 }
+
 function pintarTrinco() {
   pintarCenaLista(trincoSessao, {
     rota: 'trinco',
@@ -6500,6 +7101,7 @@ function pintarTrinco() {
     tituloFim: 'Trinco no alvo!'
   });
 }
+
 function telaRecuos() {
   listarCena(
     'recuo',
@@ -6510,9 +7112,11 @@ function telaRecuos() {
     valor => { recuoSessao = valor; }
   );
 }
+
 function abrirRecuo(id) {
   abrirCenaLista(id, recuoPorId, cena => { recuoSessao = cena; }, pintarRecuo, telaRecuos);
 }
+
 function pintarRecuo() {
   pintarCenaLista(recuoSessao, {
     rota: 'recuo',
@@ -6523,6 +7127,7 @@ function pintarRecuo() {
     tituloFim: 'Recuo no alvo!'
   });
 }
+
 function telaVigias() {
   listarCena(
     'vigia',
@@ -6533,9 +7138,11 @@ function telaVigias() {
     valor => { vigiaSessao = valor; }
   );
 }
+
 function abrirVigia(id) {
   abrirCenaLista(id, vigiaPorId, cena => { vigiaSessao = cena; }, pintarVigia, telaVigias);
 }
+
 function pintarVigia() {
   pintarCenaLista(vigiaSessao, {
     rota: 'vigia',
@@ -6546,6 +7153,7 @@ function pintarVigia() {
     tituloFim: 'Vigia no alvo!'
   });
 }
+
 function telaAmpulhetas() {
   listarCena(
     'ampulheta',
@@ -6556,9 +7164,11 @@ function telaAmpulhetas() {
     valor => { ampulhetaSessao = valor; }
   );
 }
+
 function abrirAmpulheta(id) {
   abrirCenaLista(id, ampulhetaPorId, cena => { ampulhetaSessao = cena; }, pintarAmpulheta, telaAmpulhetas);
 }
+
 function pintarAmpulheta() {
   pintarCenaLista(ampulhetaSessao, {
     rota: 'ampulheta',
@@ -6569,6 +7179,7 @@ function pintarAmpulheta() {
     tituloFim: 'Ampulheta no alvo!'
   });
 }
+
 function telaCaronas() {
   listarCena(
     'carona',
@@ -6579,9 +7190,11 @@ function telaCaronas() {
     valor => { caronaSessao = valor; }
   );
 }
+
 function abrirCarona(id) {
   abrirCenaLista(id, caronaPorId, cena => { caronaSessao = cena; }, pintarCarona, telaCaronas);
 }
+
 function pintarCarona() {
   pintarCenaLista(caronaSessao, {
     rota: 'carona',
@@ -6592,6 +7205,7 @@ function pintarCarona() {
     tituloFim: 'Carona no alvo!'
   });
 }
+
 function telaVenenos() {
   listarCena(
     'veneno',
@@ -6602,9 +7216,11 @@ function telaVenenos() {
     valor => { venenoSessao = valor; }
   );
 }
+
 function abrirVeneno(id) {
   abrirCenaLista(id, venenoPorId, cena => { venenoSessao = cena; }, pintarVeneno, telaVenenos);
 }
+
 function pintarVeneno() {
   pintarCenaLista(venenoSessao, {
     rota: 'veneno',
@@ -6615,6 +7231,7 @@ function pintarVeneno() {
     tituloFim: 'Veneno no alvo!'
   });
 }
+
 function telaFarois() {
   listarCena(
     'farol',
@@ -6625,9 +7242,11 @@ function telaFarois() {
     valor => { farolSessao = valor; }
   );
 }
+
 function abrirFarol(id) {
   abrirCenaLista(id, farolPorId, cena => { farolSessao = cena; }, pintarFarol, telaFarois);
 }
+
 function pintarFarol() {
   pintarCenaLista(farolSessao, {
     rota: 'farol',
@@ -6638,6 +7257,7 @@ function pintarFarol() {
     tituloFim: 'Farol no alvo!'
   });
 }
+
 function telaAncoras() {
   listarCena(
     'ancora',
@@ -6648,9 +7268,11 @@ function telaAncoras() {
     valor => { ancoraSessao = valor; }
   );
 }
+
 function abrirAncora(id) {
   abrirCenaLista(id, ancoraPorId, cena => { ancoraSessao = cena; }, pintarAncora, telaAncoras);
 }
+
 function pintarAncora() {
   pintarCenaLista(ancoraSessao, {
     rota: 'ancora',
@@ -6661,6 +7283,7 @@ function pintarAncora() {
     tituloFim: 'Âncora no alvo!'
   });
 }
+
 function telaMalhas() {
   listarCena(
     'malha',
@@ -6671,9 +7294,11 @@ function telaMalhas() {
     valor => { malhaSessao = valor; }
   );
 }
+
 function abrirMalha(id) {
   abrirCenaLista(id, malhaPorId, cena => { malhaSessao = cena; }, pintarMalha, telaMalhas);
 }
+
 function pintarMalha() {
   pintarCenaLista(malhaSessao, {
     rota: 'malha',
@@ -6684,6 +7309,7 @@ function pintarMalha() {
     tituloFim: 'Malha no alvo!'
   });
 }
+
 function telaFendas() {
   listarCena(
     'fenda',
@@ -6694,9 +7320,11 @@ function telaFendas() {
     valor => { fendaSessao = valor; }
   );
 }
+
 function abrirFenda(id) {
   abrirCenaLista(id, fendaPorId, cena => { fendaSessao = cena; }, pintarFenda, telaFendas);
 }
+
 function pintarFenda() {
   pintarCenaLista(fendaSessao, {
     rota: 'fenda',
@@ -6707,6 +7335,7 @@ function pintarFenda() {
     tituloFim: 'Fenda no alvo!'
   });
 }
+
 function telaCofres() {
   listarCena(
     'cofre',
@@ -6717,9 +7346,11 @@ function telaCofres() {
     valor => { cofreSessao = valor; }
   );
 }
+
 function abrirCofre(id) {
   abrirCenaLista(id, cofrePorId, cena => { cofreSessao = cena; }, pintarCofre, telaCofres);
 }
+
 function pintarCofre() {
   pintarCenaLista(cofreSessao, {
     rota: 'cofre',
@@ -6730,6 +7361,7 @@ function pintarCofre() {
     tituloFim: 'Cofre no alvo!'
   });
 }
+
 function telaAudiencias() {
   listarCena(
     'audiencia',
@@ -6740,9 +7372,11 @@ function telaAudiencias() {
     valor => { audienciaSessao = valor; }
   );
 }
+
 function abrirAudiencia(id) {
   abrirCenaLista(id, audienciaPorId, cena => { audienciaSessao = cena; }, pintarAudiencia, telaAudiencias);
 }
+
 function pintarAudiencia() {
   pintarCenaLista(audienciaSessao, {
     rota: 'audiencia',
@@ -6753,6 +7387,7 @@ function pintarAudiencia() {
     tituloFim: 'Audiência no alvo!'
   });
 }
+
 function telaRevogacoes() {
   listarCena(
     'revogacao',
@@ -6763,9 +7398,11 @@ function telaRevogacoes() {
     valor => { revogacaoSessao = valor; }
   );
 }
+
 function abrirRevogacao(id) {
   abrirCenaLista(id, revogacaoPorId, cena => { revogacaoSessao = cena; }, pintarRevogacao, telaRevogacoes);
 }
+
 function pintarRevogacao() {
   pintarCenaLista(revogacaoSessao, {
     rota: 'revogacao',
@@ -6776,6 +7413,7 @@ function pintarRevogacao() {
     tituloFim: 'Revogação no alvo!'
   });
 }
+
 function telaQuoruns() {
   listarCena(
     'quorum',
@@ -6786,9 +7424,11 @@ function telaQuoruns() {
     valor => { quorumSessao = valor; }
   );
 }
+
 function abrirQuorum(id) {
   abrirCenaLista(id, quorumPorId, cena => { quorumSessao = cena; }, pintarQuorum, telaQuoruns);
 }
+
 function pintarQuorum() {
   pintarCenaLista(quorumSessao, {
     rota: 'quorum',
@@ -6799,6 +7439,7 @@ function pintarQuorum() {
     tituloFim: 'Quórum no alvo!'
   });
 }
+
 function telaMaiorias() {
   listarCena(
     'maioria',
@@ -6809,9 +7450,11 @@ function telaMaiorias() {
     valor => { maioriaSessao = valor; }
   );
 }
+
 function abrirMaioria(id) {
   abrirCenaLista(id, maioriaPorId, cena => { maioriaSessao = cena; }, pintarMaioria, telaMaiorias);
 }
+
 function pintarMaioria() {
   pintarCenaLista(maioriaSessao, {
     rota: 'maioria',
@@ -6822,6 +7465,7 @@ function pintarMaioria() {
     tituloFim: 'Maioria no alvo!'
   });
 }
+
 function telaArbitros() {
   listarCena(
     'arbitro',
@@ -6832,9 +7476,11 @@ function telaArbitros() {
     valor => { arbitroSessao = valor; }
   );
 }
+
 function abrirArbitro(id) {
   abrirCenaLista(id, arbitroPorId, cena => { arbitroSessao = cena; }, pintarArbitro, telaArbitros);
 }
+
 function pintarArbitro() {
   pintarCenaLista(arbitroSessao, {
     rota: 'arbitro',
@@ -6845,6 +7491,7 @@ function pintarArbitro() {
     tituloFim: 'Árbitro no alvo!'
   });
 }
+
 function telaLideres() {
   listarCena(
     'lider',
@@ -6855,9 +7502,11 @@ function telaLideres() {
     valor => { liderSessao = valor; }
   );
 }
+
 function abrirLider(id) {
   abrirCenaLista(id, liderPorId, cena => { liderSessao = cena; }, pintarLider, telaLideres);
 }
+
 function pintarLider() {
   pintarCenaLista(liderSessao, {
     rota: 'lider',
@@ -6868,6 +7517,7 @@ function pintarLider() {
     tituloFim: 'Líder no alvo!'
   });
 }
+
 function telaMandatos() {
   listarCena(
     'mandato',
@@ -6878,9 +7528,11 @@ function telaMandatos() {
     valor => { mandatoSessao = valor; }
   );
 }
+
 function abrirMandato(id) {
   abrirCenaLista(id, mandatoPorId, cena => { mandatoSessao = cena; }, pintarMandato, telaMandatos);
 }
+
 function pintarMandato() {
   pintarCenaLista(mandatoSessao, {
     rota: 'mandato',
@@ -6891,6 +7543,7 @@ function pintarMandato() {
     tituloFim: 'Mandato no alvo!'
   });
 }
+
 function telaSeguidores() {
   listarCena(
     'seguidor',
@@ -6901,9 +7554,11 @@ function telaSeguidores() {
     valor => { seguidorSessao = valor; }
   );
 }
+
 function abrirSeguidor(id) {
   abrirCenaLista(id, seguidorPorId, cena => { seguidorSessao = cena; }, pintarSeguidor, telaSeguidores);
 }
+
 function pintarSeguidor() {
   pintarCenaLista(seguidorSessao, {
     rota: 'seguidor',
@@ -6914,6 +7569,7 @@ function pintarSeguidor() {
     tituloFim: 'Seguidor no alvo!'
   });
 }
+
 function telaOrquestradores() {
   listarCena(
     'orquestrador',
@@ -6924,9 +7580,11 @@ function telaOrquestradores() {
     valor => { orquestradorSessao = valor; }
   );
 }
+
 function abrirOrquestrador(id) {
   abrirCenaLista(id, orquestradorPorId, cena => { orquestradorSessao = cena; }, pintarOrquestrador, telaOrquestradores);
 }
+
 function pintarOrquestrador() {
   pintarCenaLista(orquestradorSessao, {
     rota: 'orquestrador',
@@ -6937,6 +7595,7 @@ function pintarOrquestrador() {
     tituloFim: 'Orquestrador no alvo!'
   });
 }
+
 function telaCoreografias() {
   listarCena(
     'coreografia',
@@ -6947,9 +7606,11 @@ function telaCoreografias() {
     valor => { coreografiaSessao = valor; }
   );
 }
+
 function abrirCoreografia(id) {
   abrirCenaLista(id, coreografiaPorId, cena => { coreografiaSessao = cena; }, pintarCoreografia, telaCoreografias);
 }
+
 function pintarCoreografia() {
   pintarCenaLista(coreografiaSessao, {
     rota: 'coreografia',
@@ -6960,6 +7621,7 @@ function pintarCoreografia() {
     tituloFim: 'Coreografia no alvo!'
   });
 }
+
 function telaCompensacoes() {
   listarCena(
     'compensacao',
@@ -6970,9 +7632,11 @@ function telaCompensacoes() {
     valor => { compensacaoSessao = valor; }
   );
 }
+
 function abrirCompensacao(id) {
   abrirCenaLista(id, compensacaoPorId, cena => { compensacaoSessao = cena; }, pintarCompensacao, telaCompensacoes);
 }
+
 function pintarCompensacao() {
   pintarCenaLista(compensacaoSessao, {
     rota: 'compensacao',
@@ -6983,6 +7647,7 @@ function pintarCompensacao() {
     tituloFim: 'Compensação no alvo!'
   });
 }
+
 function telaPrimarios() {
   listarCena(
     'primario',
@@ -6993,9 +7658,11 @@ function telaPrimarios() {
     valor => { primarioSessao = valor; }
   );
 }
+
 function abrirPrimario(id) {
   abrirCenaLista(id, primarioPorId, cena => { primarioSessao = cena; }, pintarPrimario, telaPrimarios);
 }
+
 function pintarPrimario() {
   pintarCenaLista(primarioSessao, {
     rota: 'primario',
@@ -7006,6 +7673,7 @@ function pintarPrimario() {
     tituloFim: 'Primário no alvo!'
   });
 }
+
 function telaEspelhos() {
   listarCena(
     'espelho',
@@ -7016,9 +7684,11 @@ function telaEspelhos() {
     valor => { espelhoSessao = valor; }
   );
 }
+
 function abrirEspelho(id) {
   abrirCenaLista(id, espelhoPorId, cena => { espelhoSessao = cena; }, pintarEspelho, telaEspelhos);
 }
+
 function pintarEspelho() {
   pintarCenaLista(espelhoSessao, {
     rota: 'espelho',
@@ -7029,6 +7699,7 @@ function pintarEspelho() {
     tituloFim: 'Espelho no alvo!'
   });
 }
+
 function telaAscensoes() {
   listarCena(
     'ascensao',
@@ -7039,9 +7710,11 @@ function telaAscensoes() {
     valor => { ascensaoSessao = valor; }
   );
 }
+
 function abrirAscensao(id) {
   abrirCenaLista(id, ascensaoPorId, cena => { ascensaoSessao = cena; }, pintarAscensao, telaAscensoes);
 }
+
 function pintarAscensao() {
   pintarCenaLista(ascensaoSessao, {
     rota: 'ascensao',
@@ -7052,6 +7725,7 @@ function pintarAscensao() {
     tituloFim: 'Ascensão no alvo!'
   });
 }
+
 function telaTravessias() {
   listarCena(
     'travessia',
@@ -7062,9 +7736,11 @@ function telaTravessias() {
     valor => { travessiaSessao = valor; }
   );
 }
+
 function abrirTravessia(id) {
   abrirCenaLista(id, travessiaPorId, cena => { travessiaSessao = cena; }, pintarTravessia, telaTravessias);
 }
+
 function pintarTravessia() {
   pintarCenaLista(travessiaSessao, {
     rota: 'travessia',
@@ -7075,6 +7751,7 @@ function pintarTravessia() {
     tituloFim: 'Travessia no alvo!'
   });
 }
+
 function telaRetaguardas() {
   listarCena(
     'retaguarda',
@@ -7085,9 +7762,11 @@ function telaRetaguardas() {
     valor => { retaguardaSessao = valor; }
   );
 }
+
 function abrirRetaguarda(id) {
   abrirCenaLista(id, retaguardaPorId, cena => { retaguardaSessao = cena; }, pintarRetaguarda, telaRetaguardas);
 }
+
 function pintarRetaguarda() {
   pintarCenaLista(retaguardaSessao, {
     rota: 'retaguarda',
@@ -7098,6 +7777,7 @@ function pintarRetaguarda() {
     tituloFim: 'Retaguarda no alvo!'
   });
 }
+
 function telaContornos() {
   listarCena(
     'contorno',
@@ -7108,9 +7788,11 @@ function telaContornos() {
     valor => { contornoSessao = valor; }
   );
 }
+
 function abrirContorno(id) {
   abrirCenaLista(id, contornoPorId, cena => { contornoSessao = cena; }, pintarContorno, telaContornos);
 }
+
 function pintarContorno() {
   pintarCenaLista(contornoSessao, {
     rota: 'contorno',
@@ -7121,6 +7803,7 @@ function pintarContorno() {
     tituloFim: 'Contorno no alvo!'
   });
 }
+
 function telaRumores() {
   listarCena(
     'rumor',
@@ -7131,9 +7814,11 @@ function telaRumores() {
     valor => { rumorSessao = valor; }
   );
 }
+
 function abrirRumor(id) {
   abrirCenaLista(id, rumorPorId, cena => { rumorSessao = cena; }, pintarRumor, telaRumores);
 }
+
 function pintarRumor() {
   pintarCenaLista(rumorSessao, {
     rota: 'rumor',
@@ -7144,6 +7829,7 @@ function pintarRumor() {
     tituloFim: 'Rumor no alvo!'
   });
 }
+
 function telaReparos() {
   listarCena(
     'reparo',
@@ -7154,9 +7840,11 @@ function telaReparos() {
     valor => { reparoSessao = valor; }
   );
 }
+
 function abrirReparo(id) {
   abrirCenaLista(id, reparoPorId, cena => { reparoSessao = cena; }, pintarReparo, telaReparos);
 }
+
 function pintarReparo() {
   pintarCenaLista(reparoSessao, {
     rota: 'reparo',
@@ -7167,6 +7855,7 @@ function pintarReparo() {
     tituloFim: 'Reparo no alvo!'
   });
 }
+
 function telaDeixas() {
   listarCena(
     'deixa',
@@ -7177,9 +7866,11 @@ function telaDeixas() {
     valor => { deixaSessao = valor; }
   );
 }
+
 function abrirDeixa(id) {
   abrirCenaLista(id, deixaPorId, cena => { deixaSessao = cena; }, pintarDeixa, telaDeixas);
 }
+
 function pintarDeixa() {
   pintarCenaLista(deixaSessao, {
     rota: 'deixa',
@@ -7190,6 +7881,7 @@ function pintarDeixa() {
     tituloFim: 'Deixa no alvo!'
   });
 }
+
 function telaFlocos() {
   listarCena(
     'floco',
@@ -7200,9 +7892,11 @@ function telaFlocos() {
     valor => { flocoSessao = valor; }
   );
 }
+
 function abrirFloco(id) {
   abrirCenaLista(id, flocoPorId, cena => { flocoSessao = cena; }, pintarFloco, telaFlocos);
 }
+
 function pintarFloco() {
   pintarCenaLista(flocoSessao, {
     rota: 'floco',
@@ -7213,6 +7907,7 @@ function pintarFloco() {
     tituloFim: 'Floco no alvo!'
   });
 }
+
 function telaEpocas() {
   listarCena(
     'epoca',
@@ -7223,9 +7918,11 @@ function telaEpocas() {
     valor => { epocaSessao = valor; }
   );
 }
+
 function abrirEpoca(id) {
   abrirCenaLista(id, epocaPorId, cena => { epocaSessao = cena; }, pintarEpoca, telaEpocas);
 }
+
 function pintarEpoca() {
   pintarCenaLista(epocaSessao, {
     rota: 'epoca',
@@ -7236,6 +7933,7 @@ function pintarEpoca() {
     tituloFim: 'Época no alvo!'
   });
 }
+
 function telaVetores() {
   listarCena(
     'vetor',
@@ -7246,9 +7944,11 @@ function telaVetores() {
     valor => { vetorSessao = valor; }
   );
 }
+
 function abrirVetor(id) {
   abrirCenaLista(id, vetorPorId, cena => { vetorSessao = cena; }, pintarVetor, telaVetores);
 }
+
 function pintarVetor() {
   pintarCenaLista(vetorSessao, {
     rota: 'vetor',
@@ -7259,6 +7959,7 @@ function pintarVetor() {
     tituloFim: 'Vetor no alvo!'
   });
 }
+
 function telaSujeiras() {
   listarCena(
     'sujeira',
@@ -7269,9 +7970,11 @@ function telaSujeiras() {
     valor => { sujeiraSessao = valor; }
   );
 }
+
 function abrirSujeira(id) {
   abrirCenaLista(id, sujeiraPorId, cena => { sujeiraSessao = cena; }, pintarSujeira, telaSujeiras);
 }
+
 function pintarSujeira() {
   pintarCenaLista(sujeiraSessao, {
     rota: 'sujeira',
@@ -7282,6 +7985,7 @@ function pintarSujeira() {
     tituloFim: 'Sujeira no alvo!'
   });
 }
+
 function telaInstantaneos() {
   listarCena(
     'instantaneo',
@@ -7292,9 +7996,11 @@ function telaInstantaneos() {
     valor => { instantaneoSessao = valor; }
   );
 }
+
 function abrirInstantaneo(id) {
   abrirCenaLista(id, instantaneoPorId, cena => { instantaneoSessao = cena; }, pintarInstantaneo, telaInstantaneos);
 }
+
 function pintarInstantaneo() {
   pintarCenaLista(instantaneoSessao, {
     rota: 'instantaneo',
@@ -7305,6 +8011,7 @@ function pintarInstantaneo() {
     tituloFim: 'Instantâneo no alvo!'
   });
 }
+
 function telaSeriais() {
   listarCena(
     'serial',
@@ -7315,9 +8022,11 @@ function telaSeriais() {
     valor => { serialSessao = valor; }
   );
 }
+
 function abrirSerial(id) {
   abrirCenaLista(id, serialPorId, cena => { serialSessao = cena; }, pintarSerial, telaSeriais);
 }
+
 function pintarSerial() {
   pintarCenaLista(serialSessao, {
     rota: 'serial',
@@ -7328,6 +8037,7 @@ function pintarSerial() {
     tituloFim: 'Serial no alvo!'
   });
 }
+
 function telaFomes() {
   listarCena(
     'fome',
@@ -7338,9 +8048,11 @@ function telaFomes() {
     valor => { fomeSessao = valor; }
   );
 }
+
 function abrirFome(id) {
   abrirCenaLista(id, fomePorId, cena => { fomeSessao = cena; }, pintarFome, telaFomes);
 }
+
 function pintarFome() {
   pintarCenaLista(fomeSessao, {
     rota: 'fome',
@@ -7351,6 +8063,7 @@ function pintarFome() {
     tituloFim: 'Fome no alvo!'
   });
 }
+
 function telaInversoes() {
   listarCena(
     'inversao',
@@ -7361,9 +8074,11 @@ function telaInversoes() {
     valor => { inversaoSessao = valor; }
   );
 }
+
 function abrirInversao(id) {
   abrirCenaLista(id, inversaoPorId, cena => { inversaoSessao = cena; }, pintarInversao, telaInversoes);
 }
+
 function pintarInversao() {
   pintarCenaLista(inversaoSessao, {
     rota: 'inversao',
@@ -7374,6 +8089,7 @@ function pintarInversao() {
     tituloFim: 'Inversão no alvo!'
   });
 }
+
 function telaIdades() {
   listarCena(
     'idade',
@@ -7384,9 +8100,11 @@ function telaIdades() {
     valor => { idadeSessao = valor; }
   );
 }
+
 function abrirIdade(id) {
   abrirCenaLista(id, idadePorId, cena => { idadeSessao = cena; }, pintarIdade, telaIdades);
 }
+
 function pintarIdade() {
   pintarCenaLista(idadeSessao, {
     rota: 'idade',
@@ -7397,6 +8115,7 @@ function pintarIdade() {
     tituloFim: 'Idade no alvo!'
   });
 }
+
 function telaSidecars() {
   listarCena(
     'sidecar',
@@ -7407,9 +8126,11 @@ function telaSidecars() {
     valor => { sidecarSessao = valor; }
   );
 }
+
 function abrirSidecar(id) {
   abrirCenaLista(id, sidecarPorId, cena => { sidecarSessao = cena; }, pintarSidecar, telaSidecars);
 }
+
 function pintarSidecar() {
   pintarCenaLista(sidecarSessao, {
     rota: 'sidecar',
@@ -7420,6 +8141,7 @@ function pintarSidecar() {
     tituloFim: 'Sidecar no alvo!'
   });
 }
+
 function telaEmbaixadores() {
   listarCena(
     'embaixador',
@@ -7430,9 +8152,11 @@ function telaEmbaixadores() {
     valor => { embaixadorSessao = valor; }
   );
 }
+
 function abrirEmbaixador(id) {
   abrirCenaLista(id, embaixadorPorId, cena => { embaixadorSessao = cena; }, pintarEmbaixador, telaEmbaixadores);
 }
+
 function pintarEmbaixador() {
   pintarCenaLista(embaixadorSessao, {
     rota: 'embaixador',
@@ -7443,6 +8167,7 @@ function pintarEmbaixador() {
     tituloFim: 'Embaixador no alvo!'
   });
 }
+
 function telaAdaptadores() {
   listarCena(
     'adaptador',
@@ -7453,9 +8178,11 @@ function telaAdaptadores() {
     valor => { adaptadorSessao = valor; }
   );
 }
+
 function abrirAdaptador(id) {
   abrirCenaLista(id, adaptadorPorId, cena => { adaptadorSessao = cena; }, pintarAdaptador, telaAdaptadores);
 }
+
 function pintarAdaptador() {
   pintarCenaLista(adaptadorSessao, {
     rota: 'adaptador',
@@ -7466,6 +8193,8 @@ function pintarAdaptador() {
     tituloFim: 'Adaptador no alvo!'
   });
 }
+
+
 function telaBizantinos() {
   listarCena(
     'bizantino',
@@ -7476,9 +8205,11 @@ function telaBizantinos() {
     valor => { bizantinoSessao = valor; }
   );
 }
+
 function abrirBizantino(id) {
   abrirCenaLista(id, bizantinoPorId, cena => { bizantinoSessao = cena; }, pintarBizantino, telaBizantinos);
 }
+
 function pintarBizantino() {
   pintarCenaLista(bizantinoSessao, {
     rota: 'bizantino',
@@ -7489,6 +8220,7 @@ function pintarBizantino() {
     tituloFim: 'Bizantino no alvo!'
   });
 }
+
 function telaParticoes() {
   listarCena(
     'particao',
@@ -7499,9 +8231,11 @@ function telaParticoes() {
     valor => { particaoSessao = valor; }
   );
 }
+
 function abrirParticao(id) {
   abrirCenaLista(id, particaoPorId, cena => { particaoSessao = cena; }, pintarParticao, telaParticoes);
 }
+
 function pintarParticao() {
   pintarCenaLista(particaoSessao, {
     rota: 'particao',
@@ -7512,6 +8246,7 @@ function pintarParticao() {
     tituloFim: 'Partição no alvo!'
   });
 }
+
 function telaGenerais() {
   listarCena(
     'general',
@@ -7522,9 +8257,11 @@ function telaGenerais() {
     valor => { generalSessao = valor; }
   );
 }
+
 function abrirGeneral(id) {
   abrirCenaLista(id, generalPorId, cena => { generalSessao = cena; }, pintarGeneral, telaGenerais);
 }
+
 function pintarGeneral() {
   pintarCenaLista(generalSessao, {
     rota: 'general',
@@ -7535,6 +8272,8 @@ function pintarGeneral() {
     tituloFim: 'General no alvo!'
   });
 }
+
+
 function telaWals() {
   listarCena(
     'wal',
@@ -7545,9 +8284,11 @@ function telaWals() {
     valor => { walSessao = valor; }
   );
 }
+
 function abrirWal(id) {
   abrirCenaLista(id, walPorId, cena => { walSessao = cena; }, pintarWal, telaWals);
 }
+
 function pintarWal() {
   pintarCenaLista(walSessao, {
     rota: 'wal',
@@ -7558,6 +8299,7 @@ function pintarWal() {
     tituloFim: 'Wal no alvo!'
   });
 }
+
 function telaLsns() {
   listarCena(
     'lsn',
@@ -7568,9 +8310,11 @@ function telaLsns() {
     valor => { lsnSessao = valor; }
   );
 }
+
 function abrirLsn(id) {
   abrirCenaLista(id, lsnPorId, cena => { lsnSessao = cena; }, pintarLsn, telaLsns);
 }
+
 function pintarLsn() {
   pintarCenaLista(lsnSessao, {
     rota: 'lsn',
@@ -7581,6 +8325,7 @@ function pintarLsn() {
     tituloFim: 'Lsn no alvo!'
   });
 }
+
 function telaCheckpoints() {
   listarCena(
     'checkpoint',
@@ -7591,9 +8336,11 @@ function telaCheckpoints() {
     valor => { checkpointSessao = valor; }
   );
 }
+
 function abrirCheckpoint(id) {
   abrirCenaLista(id, checkpointPorId, cena => { checkpointSessao = cena; }, pintarCheckpoint, telaCheckpoints);
 }
+
 function pintarCheckpoint() {
   pintarCenaLista(checkpointSessao, {
     rota: 'checkpoint',
@@ -7604,6 +8351,8 @@ function pintarCheckpoint() {
     tituloFim: 'Checkpoint no alvo!'
   });
 }
+
+
 function telaNonces() {
   listarCena(
     'nonce',
@@ -7614,9 +8363,11 @@ function telaNonces() {
     valor => { nonceSessao = valor; }
   );
 }
+
 function abrirNonce(id) {
   abrirCenaLista(id, noncePorId, cena => { nonceSessao = cena; }, pintarNonce, telaNonces);
 }
+
 function pintarNonce() {
   pintarCenaLista(nonceSessao, {
     rota: 'nonce',
@@ -7627,6 +8378,7 @@ function pintarNonce() {
     tituloFim: 'Nonce no alvo!'
   });
 }
+
 function telaHmacs() {
   listarCena(
     'hmac',
@@ -7637,9 +8389,11 @@ function telaHmacs() {
     valor => { hmacSessao = valor; }
   );
 }
+
 function abrirHmac(id) {
   abrirCenaLista(id, hmacPorId, cena => { hmacSessao = cena; }, pintarHmac, telaHmacs);
 }
+
 function pintarHmac() {
   pintarCenaLista(hmacSessao, {
     rota: 'hmac',
@@ -7650,6 +8404,7 @@ function pintarHmac() {
     tituloFim: 'Hmac no alvo!'
   });
 }
+
 function telaEnvelopes() {
   listarCena(
     'envelope',
@@ -7660,9 +8415,11 @@ function telaEnvelopes() {
     valor => { envelopeSessao = valor; }
   );
 }
+
 function abrirEnvelope(id) {
   abrirCenaLista(id, envelopePorId, cena => { envelopeSessao = cena; }, pintarEnvelope, telaEnvelopes);
 }
+
 function pintarEnvelope() {
   pintarCenaLista(envelopeSessao, {
     rota: 'envelope',
@@ -7673,6 +8430,8 @@ function pintarEnvelope() {
     tituloFim: 'Envelope no alvo!'
   });
 }
+
+
 function telaLeases() {
   listarCena(
     'lease',
@@ -7683,9 +8442,11 @@ function telaLeases() {
     valor => { leaseSessao = valor; }
   );
 }
+
 function abrirLease(id) {
   abrirCenaLista(id, leasePorId, cena => { leaseSessao = cena; }, pintarLease, telaLeases);
 }
+
 function pintarLease() {
   pintarCenaLista(leaseSessao, {
     rota: 'lease',
@@ -7696,6 +8457,7 @@ function pintarLease() {
     tituloFim: 'Lease no alvo!'
   });
 }
+
 function telaRenovacoes() {
   listarCena(
     'renovacao',
@@ -7706,9 +8468,11 @@ function telaRenovacoes() {
     valor => { renovacaoSessao = valor; }
   );
 }
+
 function abrirRenovacao(id) {
   abrirCenaLista(id, renovacaoPorId, cena => { renovacaoSessao = cena; }, pintarRenovacao, telaRenovacoes);
 }
+
 function pintarRenovacao() {
   pintarCenaLista(renovacaoSessao, {
     rota: 'renovacao',
@@ -7719,6 +8483,7 @@ function pintarRenovacao() {
     tituloFim: 'Renovação no alvo!'
   });
 }
+
 function telaVencimentos() {
   listarCena(
     'vencimento',
@@ -7729,9 +8494,11 @@ function telaVencimentos() {
     valor => { vencimentoSessao = valor; }
   );
 }
+
 function abrirVencimento(id) {
   abrirCenaLista(id, vencimentoPorId, cena => { vencimentoSessao = cena; }, pintarVencimento, telaVencimentos);
 }
+
 function pintarVencimento() {
   pintarCenaLista(vencimentoSessao, {
     rota: 'vencimento',
@@ -7742,6 +8509,8 @@ function pintarVencimento() {
     tituloFim: 'Vencimento no alvo!'
   });
 }
+
+
 function telaOutboxes() {
   listarCena(
     'outbox',
@@ -7752,9 +8521,11 @@ function telaOutboxes() {
     valor => { outboxSessao = valor; }
   );
 }
+
 function abrirOutbox(id) {
   abrirCenaLista(id, outboxPorId, cena => { outboxSessao = cena; }, pintarOutbox, telaOutboxes);
 }
+
 function pintarOutbox() {
   pintarCenaLista(outboxSessao, {
     rota: 'outbox',
@@ -7765,6 +8536,7 @@ function pintarOutbox() {
     tituloFim: 'Outbox no alvo!'
   });
 }
+
 function telaInboxes() {
   listarCena(
     'inbox',
@@ -7775,9 +8547,11 @@ function telaInboxes() {
     valor => { inboxSessao = valor; }
   );
 }
+
 function abrirInbox(id) {
   abrirCenaLista(id, inboxPorId, cena => { inboxSessao = cena; }, pintarInbox, telaInboxes);
 }
+
 function pintarInbox() {
   pintarCenaLista(inboxSessao, {
     rota: 'inbox',
@@ -7788,6 +8562,7 @@ function pintarInbox() {
     tituloFim: 'Inbox no alvo!'
   });
 }
+
 function telaRelays() {
   listarCena(
     'relay',
@@ -7798,9 +8573,11 @@ function telaRelays() {
     valor => { relaySessao = valor; }
   );
 }
+
 function abrirRelay(id) {
   abrirCenaLista(id, relayPorId, cena => { relaySessao = cena; }, pintarRelay, telaRelays);
 }
+
 function pintarRelay() {
   pintarCenaLista(relaySessao, {
     rota: 'relay',
@@ -7811,6 +8588,7 @@ function pintarRelay() {
     tituloFim: 'Relay no alvo!'
   });
 }
+
 function telaOffsets() {
   listarCena(
     'offset',
@@ -7821,9 +8599,11 @@ function telaOffsets() {
     valor => { offsetSessao = valor; }
   );
 }
+
 function abrirOffset(id) {
   abrirCenaLista(id, offsetPorId, cena => { offsetSessao = cena; }, pintarOffset, telaOffsets);
 }
+
 function pintarOffset() {
   pintarCenaLista(offsetSessao, {
     rota: 'offset',
@@ -7834,6 +8614,7 @@ function pintarOffset() {
     tituloFim: 'Offset no alvo!'
   });
 }
+
 function telaLags() {
   listarCena(
     'lag',
@@ -7844,9 +8625,11 @@ function telaLags() {
     valor => { lagSessao = valor; }
   );
 }
+
 function abrirLag(id) {
   abrirCenaLista(id, lagPorId, cena => { lagSessao = cena; }, pintarLag, telaLags);
 }
+
 function pintarLag() {
   pintarCenaLista(lagSessao, {
     rota: 'lag',
@@ -7857,6 +8640,7 @@ function pintarLag() {
     tituloFim: 'Lag no alvo!'
   });
 }
+
 function telaAcks() {
   listarCena(
     'ack',
@@ -7867,9 +8651,11 @@ function telaAcks() {
     valor => { ackSessao = valor; }
   );
 }
+
 function abrirAck(id) {
   abrirCenaLista(id, ackPorId, cena => { ackSessao = cena; }, pintarAck, telaAcks);
 }
+
 function pintarAck() {
   pintarCenaLista(ackSessao, {
     rota: 'ack',
@@ -7880,6 +8666,7 @@ function pintarAck() {
     tituloFim: 'Ack no alvo!'
   });
 }
+
 function telaSnapshots() {
   listarCena(
     'snapshot',
@@ -7890,9 +8677,11 @@ function telaSnapshots() {
     valor => { snapshotSessao = valor; }
   );
 }
+
 function abrirSnapshot(id) {
   abrirCenaLista(id, snapshotPorId, cena => { snapshotSessao = cena; }, pintarSnapshot, telaSnapshots);
 }
+
 function pintarSnapshot() {
   pintarCenaLista(snapshotSessao, {
     rota: 'snapshot',
@@ -7903,6 +8692,7 @@ function pintarSnapshot() {
     tituloFim: 'Snapshot no alvo!'
   });
 }
+
 function telaRestores() {
   listarCena(
     'restore',
@@ -7913,9 +8703,11 @@ function telaRestores() {
     valor => { restoreSessao = valor; }
   );
 }
+
 function abrirRestore(id) {
   abrirCenaLista(id, restorePorId, cena => { restoreSessao = cena; }, pintarRestore, telaRestores);
 }
+
 function pintarRestore() {
   pintarCenaLista(restoreSessao, {
     rota: 'restore',
@@ -7926,6 +8718,7 @@ function pintarRestore() {
     tituloFim: 'Restore no alvo!'
   });
 }
+
 function telaPromotes() {
   listarCena(
     'promote',
@@ -7936,9 +8729,11 @@ function telaPromotes() {
     valor => { promoteSessao = valor; }
   );
 }
+
 function abrirPromote(id) {
   abrirCenaLista(id, promotePorId, cena => { promoteSessao = cena; }, pintarPromote, telaPromotes);
 }
+
 function pintarPromote() {
   pintarCenaLista(promoteSessao, {
     rota: 'promote',
@@ -7949,6 +8744,7 @@ function pintarPromote() {
     tituloFim: 'Promote no alvo!'
   });
 }
+
 function telaBlooms() {
   listarCena(
     'bloom',
@@ -7959,9 +8755,11 @@ function telaBlooms() {
     valor => { bloomSessao = valor; }
   );
 }
+
 function abrirBloom(id) {
   abrirCenaLista(id, bloomPorId, cena => { bloomSessao = cena; }, pintarBloom, telaBlooms);
 }
+
 function pintarBloom() {
   pintarCenaLista(bloomSessao, {
     rota: 'bloom',
@@ -7972,6 +8770,7 @@ function pintarBloom() {
     tituloFim: 'Bloom no alvo!'
   });
 }
+
 function telaCucos() {
   listarCena(
     'cuco',
@@ -7982,9 +8781,11 @@ function telaCucos() {
     valor => { cucoSessao = valor; }
   );
 }
+
 function abrirCuco(id) {
   abrirCenaLista(id, cucoPorId, cena => { cucoSessao = cena; }, pintarCuco, telaCucos);
 }
+
 function pintarCuco() {
   pintarCenaLista(cucoSessao, {
     rota: 'cuco',
@@ -7995,6 +8796,7 @@ function pintarCuco() {
     tituloFim: 'Cuco no alvo!'
   });
 }
+
 function telaEsbocos() {
   listarCena(
     'esboco',
@@ -8005,9 +8807,11 @@ function telaEsbocos() {
     valor => { esbocoSessao = valor; }
   );
 }
+
 function abrirEsboco(id) {
   abrirCenaLista(id, esbocoPorId, cena => { esbocoSessao = cena; }, pintarEsboco, telaEsbocos);
 }
+
 function pintarEsboco() {
   pintarCenaLista(esbocoSessao, {
     rota: 'esboco',
@@ -8018,6 +8822,7 @@ function pintarEsboco() {
     tituloFim: 'Esboço no alvo!'
   });
 }
+
 function telaMerkles() {
   listarCena(
     'merkle',
@@ -8028,9 +8833,11 @@ function telaMerkles() {
     valor => { merkleSessao = valor; }
   );
 }
+
 function abrirMerkle(id) {
   abrirCenaLista(id, merklePorId, cena => { merkleSessao = cena; }, pintarMerkle, telaMerkles);
 }
+
 function pintarMerkle() {
   pintarCenaLista(merkleSessao, {
     rota: 'merkle',
@@ -8041,6 +8848,7 @@ function pintarMerkle() {
     tituloFim: 'Merkle no alvo!'
   });
 }
+
 function telaRadixes() {
   listarCena(
     'radix',
@@ -8051,9 +8859,11 @@ function telaRadixes() {
     valor => { radixSessao = valor; }
   );
 }
+
 function abrirRadix(id) {
   abrirCenaLista(id, radixPorId, cena => { radixSessao = cena; }, pintarRadix, telaRadixes);
 }
+
 function pintarRadix() {
   pintarCenaLista(radixSessao, {
     rota: 'radix',
@@ -8064,6 +8874,7 @@ function pintarRadix() {
     tituloFim: 'Radix no alvo!'
   });
 }
+
 function telaTries() {
   listarCena(
     'trie',
@@ -8074,9 +8885,11 @@ function telaTries() {
     valor => { trieSessao = valor; }
   );
 }
+
 function abrirTrie(id) {
   abrirCenaLista(id, triePorId, cena => { trieSessao = cena; }, pintarTrie, telaTries);
 }
+
 function pintarTrie() {
   pintarCenaLista(trieSessao, {
     rota: 'trie',
@@ -8087,6 +8900,7 @@ function pintarTrie() {
     tituloFim: 'Trie no alvo!'
   });
 }
+
 function telaGossips() {
   listarCena(
     'gossip',
@@ -8097,9 +8911,11 @@ function telaGossips() {
     valor => { gossipSessao = valor; }
   );
 }
+
 function abrirGossip(id) {
   abrirCenaLista(id, gossipPorId, cena => { gossipSessao = cena; }, pintarGossip, telaGossips);
 }
+
 function pintarGossip() {
   pintarCenaLista(gossipSessao, {
     rota: 'gossip',
@@ -8110,6 +8926,7 @@ function pintarGossip() {
     tituloFim: 'Gossip no alvo!'
   });
 }
+
 function telaPhis() {
   listarCena(
     'phi',
@@ -8120,9 +8937,11 @@ function telaPhis() {
     valor => { phiSessao = valor; }
   );
 }
+
 function abrirPhi(id) {
   abrirCenaLista(id, phiPorId, cena => { phiSessao = cena; }, pintarPhi, telaPhis);
 }
+
 function pintarPhi() {
   pintarCenaLista(phiSessao, {
     rota: 'phi',
@@ -8133,6 +8952,7 @@ function pintarPhi() {
     tituloFim: 'Phi no alvo!'
   });
 }
+
 function telaAccruals() {
   listarCena(
     'accrual',
@@ -8143,9 +8963,11 @@ function telaAccruals() {
     valor => { accrualSessao = valor; }
   );
 }
+
 function abrirAccrual(id) {
   abrirCenaLista(id, accrualPorId, cena => { accrualSessao = cena; }, pintarAccrual, telaAccruals);
 }
+
 function pintarAccrual() {
   pintarCenaLista(accrualSessao, {
     rota: 'accrual',
@@ -8156,6 +8978,8 @@ function pintarAccrual() {
     tituloFim: 'Accrual no alvo!'
   });
 }
+
+
 function telaHints() {
   listarCena(
     'hint',
@@ -8166,9 +8990,11 @@ function telaHints() {
     valor => { hintSessao = valor; }
   );
 }
+
 function abrirHint(id) {
   abrirCenaLista(id, hintPorId, cena => { hintSessao = cena; }, pintarHint, telaHints);
 }
+
 function pintarHint() {
   pintarCenaLista(hintSessao, {
     rota: 'hint',
@@ -8179,6 +9005,7 @@ function pintarHint() {
     tituloFim: 'Hint no alvo!'
   });
 }
+
 function telaVacuums() {
   listarCena(
     'vacuum',
@@ -8189,9 +9016,11 @@ function telaVacuums() {
     valor => { vacuumSessao = valor; }
   );
 }
+
 function abrirVacuum(id) {
   abrirCenaLista(id, vacuumPorId, cena => { vacuumSessao = cena; }, pintarVacuum, telaVacuums);
 }
+
 function pintarVacuum() {
   pintarCenaLista(vacuumSessao, {
     rota: 'vacuum',
@@ -8202,6 +9031,7 @@ function pintarVacuum() {
     tituloFim: 'Vacuum no alvo!'
   });
 }
+
 function telaFreezes() {
   listarCena(
     'freeze',
@@ -8212,9 +9042,11 @@ function telaFreezes() {
     valor => { freezeSessao = valor; }
   );
 }
+
 function abrirFreeze(id) {
   abrirCenaLista(id, freezePorId, cena => { freezeSessao = cena; }, pintarFreeze, telaFreezes);
 }
+
 function pintarFreeze() {
   pintarCenaLista(freezeSessao, {
     rota: 'freeze',
@@ -8225,6 +9057,8 @@ function pintarFreeze() {
     tituloFim: 'Freeze no alvo!'
   });
 }
+
+
 function telaBitmaps() {
   listarCena(
     'bitmap',
@@ -8235,9 +9069,11 @@ function telaBitmaps() {
     valor => { bitmapSessao = valor; }
   );
 }
+
 function abrirBitmap(id) {
   abrirCenaLista(id, bitmapPorId, cena => { bitmapSessao = cena; }, pintarBitmap, telaBitmaps);
 }
+
 function pintarBitmap() {
   pintarCenaLista(bitmapSessao, {
     rota: 'bitmap',
@@ -8248,6 +9084,7 @@ function pintarBitmap() {
     tituloFim: 'Bitmap no alvo!'
   });
 }
+
 function telaRoarings() {
   listarCena(
     'roaring',
@@ -8258,9 +9095,11 @@ function telaRoarings() {
     valor => { roaringSessao = valor; }
   );
 }
+
 function abrirRoaring(id) {
   abrirCenaLista(id, roaringPorId, cena => { roaringSessao = cena; }, pintarRoaring, telaRoarings);
 }
+
 function pintarRoaring() {
   pintarCenaLista(roaringSessao, {
     rota: 'roaring',
@@ -8271,6 +9110,7 @@ function pintarRoaring() {
     tituloFim: 'Roaring no alvo!'
   });
 }
+
 function telaHypers() {
   listarCena(
     'hyper',
@@ -8281,9 +9121,11 @@ function telaHypers() {
     valor => { hyperSessao = valor; }
   );
 }
+
 function abrirHyper(id) {
   abrirCenaLista(id, hyperPorId, cena => { hyperSessao = cena; }, pintarHyper, telaHypers);
 }
+
 function pintarHyper() {
   pintarCenaLista(hyperSessao, {
     rota: 'hyper',
@@ -8294,6 +9136,8 @@ function pintarHyper() {
     tituloFim: 'Hyper no alvo!'
   });
 }
+
+
 function telaCrdts() {
   listarCena(
     'crdt',
@@ -8304,9 +9148,11 @@ function telaCrdts() {
     valor => { crdtSessao = valor; }
   );
 }
+
 function abrirCrdt(id) {
   abrirCenaLista(id, crdtPorId, cena => { crdtSessao = cena; }, pintarCrdt, telaCrdts);
 }
+
 function pintarCrdt() {
   pintarCenaLista(crdtSessao, {
     rota: 'crdt',
@@ -8317,6 +9163,7 @@ function pintarCrdt() {
     tituloFim: 'Crdt no alvo!'
   });
 }
+
 function telaLwws() {
   listarCena(
     'lww',
@@ -8327,9 +9174,11 @@ function telaLwws() {
     valor => { lwwSessao = valor; }
   );
 }
+
 function abrirLww(id) {
   abrirCenaLista(id, lwwPorId, cena => { lwwSessao = cena; }, pintarLww, telaLwws);
 }
+
 function pintarLww() {
   pintarCenaLista(lwwSessao, {
     rota: 'lww',
@@ -8340,6 +9189,7 @@ function pintarLww() {
     tituloFim: 'Lww no alvo!'
   });
 }
+
 function telaOrsets() {
   listarCena(
     'orset',
@@ -8350,9 +9200,11 @@ function telaOrsets() {
     valor => { orsetSessao = valor; }
   );
 }
+
 function abrirOrset(id) {
   abrirCenaLista(id, orsetPorId, cena => { orsetSessao = cena; }, pintarOrset, telaOrsets);
 }
+
 function pintarOrset() {
   pintarCenaLista(orsetSessao, {
     rota: 'orset',
@@ -8363,6 +9215,7 @@ function pintarOrset() {
     tituloFim: 'Orset no alvo!'
   });
 }
+
 function telaVectors() {
   listarCena(
     'vector',
@@ -8373,9 +9226,11 @@ function telaVectors() {
     valor => { vectorSessao = valor; }
   );
 }
+
 function abrirVector(id) {
   abrirCenaLista(id, vectorPorId, cena => { vectorSessao = cena; }, pintarVector, telaVectors);
 }
+
 function pintarVector() {
   pintarCenaLista(vectorSessao, {
     rota: 'vector',
@@ -8386,6 +9241,7 @@ function pintarVector() {
     tituloFim: 'Vector no alvo!'
   });
 }
+
 function telaDots() {
   listarCena(
     'dot',
@@ -8396,9 +9252,11 @@ function telaDots() {
     valor => { dotSessao = valor; }
   );
 }
+
 function abrirDot(id) {
   abrirCenaLista(id, dotPorId, cena => { dotSessao = cena; }, pintarDot, telaDots);
 }
+
 function pintarDot() {
   pintarCenaLista(dotSessao, {
     rota: 'dot',
@@ -8409,6 +9267,7 @@ function pintarDot() {
     tituloFim: 'Dot no alvo!'
   });
 }
+
 function telaCausals() {
   listarCena(
     'causal',
@@ -8419,9 +9278,11 @@ function telaCausals() {
     valor => { causalSessao = valor; }
   );
 }
+
 function abrirCausal(id) {
   abrirCenaLista(id, causalPorId, cena => { causalSessao = cena; }, pintarCausal, telaCausals);
 }
+
 function pintarCausal() {
   pintarCenaLista(causalSessao, {
     rota: 'causal',
@@ -8432,6 +9293,7 @@ function pintarCausal() {
     tituloFim: 'Causal no alvo!'
   });
 }
+
 function telaShards() {
   listarCena(
     'shard',
@@ -8442,9 +9304,11 @@ function telaShards() {
     valor => { shardSessao = valor; }
   );
 }
+
 function abrirShard(id) {
   abrirCenaLista(id, shardPorId, cena => { shardSessao = cena; }, pintarShard, telaShards);
 }
+
 function pintarShard() {
   pintarCenaLista(shardSessao, {
     rota: 'shard',
@@ -8455,6 +9319,7 @@ function pintarShard() {
     tituloFim: 'Shard no alvo!'
   });
 }
+
 function telaRebalances() {
   listarCena(
     'rebalance',
@@ -8465,9 +9330,11 @@ function telaRebalances() {
     valor => { rebalanceSessao = valor; }
   );
 }
+
 function abrirRebalance(id) {
   abrirCenaLista(id, rebalancePorId, cena => { rebalanceSessao = cena; }, pintarRebalance, telaRebalances);
 }
+
 function pintarRebalance() {
   pintarCenaLista(rebalanceSessao, {
     rota: 'rebalance',
@@ -8478,6 +9345,7 @@ function pintarRebalance() {
     tituloFim: 'Rebalance no alvo!'
   });
 }
+
 function telaSplits() {
   listarCena(
     'split',
@@ -8488,9 +9356,11 @@ function telaSplits() {
     valor => { splitSessao = valor; }
   );
 }
+
 function abrirSplit(id) {
   abrirCenaLista(id, splitPorId, cena => { splitSessao = cena; }, pintarSplit, telaSplits);
 }
+
 function pintarSplit() {
   pintarCenaLista(splitSessao, {
     rota: 'split',
@@ -8501,6 +9371,7 @@ function pintarSplit() {
     tituloFim: 'Split no alvo!'
   });
 }
+
 function telaWatermarks() {
   listarCena(
     'watermark',
@@ -8511,9 +9382,11 @@ function telaWatermarks() {
     valor => { watermarkSessao = valor; }
   );
 }
+
 function abrirWatermark(id) {
   abrirCenaLista(id, watermarkPorId, cena => { watermarkSessao = cena; }, pintarWatermark, telaWatermarks);
 }
+
 function pintarWatermark() {
   pintarCenaLista(watermarkSessao, {
     rota: 'watermark',
@@ -8524,6 +9397,7 @@ function pintarWatermark() {
     tituloFim: 'Watermark no alvo!'
   });
 }
+
 function telaBarriers() {
   listarCena(
     'barrier',
@@ -8534,9 +9408,11 @@ function telaBarriers() {
     valor => { barrierSessao = valor; }
   );
 }
+
 function abrirBarrier(id) {
   abrirCenaLista(id, barrierPorId, cena => { barrierSessao = cena; }, pintarBarrier, telaBarriers);
 }
+
 function pintarBarrier() {
   pintarCenaLista(barrierSessao, {
     rota: 'barrier',
@@ -8547,6 +9423,7 @@ function pintarBarrier() {
     tituloFim: 'Barrier no alvo!'
   });
 }
+
 function telaAligns() {
   listarCena(
     'align',
@@ -8557,9 +9434,11 @@ function telaAligns() {
     valor => { alignSessao = valor; }
   );
 }
+
 function abrirAlign(id) {
   abrirCenaLista(id, alignPorId, cena => { alignSessao = cena; }, pintarAlign, telaAligns);
 }
+
 function pintarAlign() {
   pintarCenaLista(alignSessao, {
     rota: 'align',
@@ -8570,6 +9449,7 @@ function pintarAlign() {
     tituloFim: 'Align no alvo!'
   });
 }
+
 function telaWitnesses() {
   listarCena(
     'witness',
@@ -8580,9 +9460,11 @@ function telaWitnesses() {
     valor => { witnessSessao = valor; }
   );
 }
+
 function abrirWitness(id) {
   abrirCenaLista(id, witnessPorId, cena => { witnessSessao = cena; }, pintarWitness, telaWitnesses);
 }
+
 function pintarWitness() {
   pintarCenaLista(witnessSessao, {
     rota: 'witness',
@@ -8593,6 +9475,7 @@ function pintarWitness() {
     tituloFim: 'Witness no alvo!'
   });
 }
+
 function telaVoters() {
   listarCena(
     'voter',
@@ -8603,9 +9486,11 @@ function telaVoters() {
     valor => { voterSessao = valor; }
   );
 }
+
 function abrirVoter(id) {
   abrirCenaLista(id, voterPorId, cena => { voterSessao = cena; }, pintarVoter, telaVoters);
 }
+
 function pintarVoter() {
   pintarCenaLista(voterSessao, {
     rota: 'voter',
@@ -8616,6 +9501,7 @@ function pintarVoter() {
     tituloFim: 'Voter no alvo!'
   });
 }
+
 function telaLearners() {
   listarCena(
     'learner',
@@ -8626,9 +9512,11 @@ function telaLearners() {
     valor => { learnerSessao = valor; }
   );
 }
+
 function abrirLearner(id) {
   abrirCenaLista(id, learnerPorId, cena => { learnerSessao = cena; }, pintarLearner, telaLearners);
 }
+
 function pintarLearner() {
   pintarCenaLista(learnerSessao, {
     rota: 'learner',
@@ -8639,6 +9527,7 @@ function pintarLearner() {
     tituloFim: 'Learner no alvo!'
   });
 }
+
 function telaChecksums() {
   listarCena(
     'checksum',
@@ -8649,9 +9538,11 @@ function telaChecksums() {
     valor => { checksumSessao = valor; }
   );
 }
+
 function abrirChecksum(id) {
   abrirCenaLista(id, checksumPorId, cena => { checksumSessao = cena; }, pintarChecksum, telaChecksums);
 }
+
 function pintarChecksum() {
   pintarCenaLista(checksumSessao, {
     rota: 'checksum',
@@ -8662,6 +9553,7 @@ function pintarChecksum() {
     tituloFim: 'Checksum no alvo!'
   });
 }
+
 function telaBulkheads() {
   listarCena(
     'bulkhead',
@@ -8672,9 +9564,11 @@ function telaBulkheads() {
     valor => { bulkheadSessao = valor; }
   );
 }
+
 function abrirBulkhead(id) {
   abrirCenaLista(id, bulkheadPorId, cena => { bulkheadSessao = cena; }, pintarBulkhead, telaBulkheads);
 }
+
 function pintarBulkhead() {
   pintarCenaLista(bulkheadSessao, {
     rota: 'bulkhead',
@@ -8685,6 +9579,7 @@ function pintarBulkhead() {
     tituloFim: 'Bulkhead no alvo!'
   });
 }
+
 function telaFallbacks() {
   listarCena(
     'fallback',
@@ -8695,9 +9590,11 @@ function telaFallbacks() {
     valor => { fallbackSessao = valor; }
   );
 }
+
 function abrirFallback(id) {
   abrirCenaLista(id, fallbackPorId, cena => { fallbackSessao = cena; }, pintarFallback, telaFallbacks);
 }
+
 function pintarFallback() {
   pintarCenaLista(fallbackSessao, {
     rota: 'fallback',
@@ -8708,6 +9605,7 @@ function pintarFallback() {
     tituloFim: 'Fallback no alvo!'
   });
 }
+
 function telaTombstones() {
   listarCena(
     'tombstone',
@@ -8718,9 +9616,11 @@ function telaTombstones() {
     valor => { tombstoneSessao = valor; }
   );
 }
+
 function abrirTombstone(id) {
   abrirCenaLista(id, tombstonePorId, cena => { tombstoneSessao = cena; }, pintarTombstone, telaTombstones);
 }
+
 function pintarTombstone() {
   pintarCenaLista(tombstoneSessao, {
     rota: 'tombstone',
@@ -8731,6 +9631,7 @@ function pintarTombstone() {
     tituloFim: 'Tombstone no alvo!'
   });
 }
+
 function telaPurges() {
   listarCena(
     'purge',
@@ -8741,9 +9642,11 @@ function telaPurges() {
     valor => { purgeSessao = valor; }
   );
 }
+
 function abrirPurge(id) {
   abrirCenaLista(id, purgePorId, cena => { purgeSessao = cena; }, pintarPurge, telaPurges);
 }
+
 function pintarPurge() {
   pintarCenaLista(purgeSessao, {
     rota: 'purge',
@@ -8754,6 +9657,7 @@ function pintarPurge() {
     tituloFim: 'Purge no alvo!'
   });
 }
+
 function telaReclaims() {
   listarCena(
     'reclaim',
@@ -8764,9 +9668,11 @@ function telaReclaims() {
     valor => { reclaimSessao = valor; }
   );
 }
+
 function abrirReclaim(id) {
   abrirCenaLista(id, reclaimPorId, cena => { reclaimSessao = cena; }, pintarReclaim, telaReclaims);
 }
+
 function pintarReclaim() {
   pintarCenaLista(reclaimSessao, {
     rota: 'reclaim',
@@ -8777,6 +9683,7 @@ function pintarReclaim() {
     tituloFim: 'Reclaim no alvo!'
   });
 }
+
 function telaJournals() {
   listarCena(
     'journal',
@@ -8787,9 +9694,11 @@ function telaJournals() {
     valor => { journalSessao = valor; }
   );
 }
+
 function abrirJournal(id) {
   abrirCenaLista(id, journalPorId, cena => { journalSessao = cena; }, pintarJournal, telaJournals);
 }
+
 function pintarJournal() {
   pintarCenaLista(journalSessao, {
     rota: 'journal',
@@ -8800,6 +9709,7 @@ function pintarJournal() {
     tituloFim: 'Journal no alvo!'
   });
 }
+
 function telaSegments() {
   listarCena(
     'segment',
@@ -8810,9 +9720,11 @@ function telaSegments() {
     valor => { segmentSessao = valor; }
   );
 }
+
 function abrirSegment(id) {
   abrirCenaLista(id, segmentPorId, cena => { segmentSessao = cena; }, pintarSegment, telaSegments);
 }
+
 function pintarSegment() {
   pintarCenaLista(segmentSessao, {
     rota: 'segment',
@@ -8823,6 +9735,7 @@ function pintarSegment() {
     tituloFim: 'Segment no alvo!'
   });
 }
+
 function telaSpills() {
   listarCena(
     'spill',
@@ -8833,9 +9746,11 @@ function telaSpills() {
     valor => { spillSessao = valor; }
   );
 }
+
 function abrirSpill(id) {
   abrirCenaLista(id, spillPorId, cena => { spillSessao = cena; }, pintarSpill, telaSpills);
 }
+
 function pintarSpill() {
   pintarCenaLista(spillSessao, {
     rota: 'spill',
@@ -8846,6 +9761,7 @@ function pintarSpill() {
     tituloFim: 'Spill no alvo!'
   });
 }
+
 function telaStripes() {
   listarCena(
     'stripe',
@@ -8856,9 +9772,11 @@ function telaStripes() {
     valor => { stripeSessao = valor; }
   );
 }
+
 function abrirStripe(id) {
   abrirCenaLista(id, stripePorId, cena => { stripeSessao = cena; }, pintarStripe, telaStripes);
 }
+
 function pintarStripe() {
   pintarCenaLista(stripeSessao, {
     rota: 'stripe',
@@ -8869,6 +9787,7 @@ function pintarStripe() {
     tituloFim: 'Stripe no alvo!'
   });
 }
+
 function telaParities() {
   listarCena(
     'parity',
@@ -8879,9 +9798,11 @@ function telaParities() {
     valor => { paritySessao = valor; }
   );
 }
+
 function abrirParity(id) {
   abrirCenaLista(id, parityPorId, cena => { paritySessao = cena; }, pintarParity, telaParities);
 }
+
 function pintarParity() {
   pintarCenaLista(paritySessao, {
     rota: 'parity',
@@ -8892,6 +9813,7 @@ function pintarParity() {
     tituloFim: 'Parity no alvo!'
   });
 }
+
 function telaRebuilds() {
   listarCena(
     'rebuild',
@@ -8902,9 +9824,11 @@ function telaRebuilds() {
     valor => { rebuildSessao = valor; }
   );
 }
+
 function abrirRebuild(id) {
   abrirCenaLista(id, rebuildPorId, cena => { rebuildSessao = cena; }, pintarRebuild, telaRebuilds);
 }
+
 function pintarRebuild() {
   pintarCenaLista(rebuildSessao, {
     rota: 'rebuild',
@@ -8915,6 +9839,7 @@ function pintarRebuild() {
     tituloFim: 'Rebuild no alvo!'
   });
 }
+
 function telaEpochs() {
   listarCena(
     'epoch',
@@ -8925,9 +9850,11 @@ function telaEpochs() {
     valor => { epochSessao = valor; }
   );
 }
+
 function abrirEpoch(id) {
   abrirCenaLista(id, epochPorId, cena => { epochSessao = cena; }, pintarEpoch, telaEpochs);
 }
+
 function pintarEpoch() {
   pintarCenaLista(epochSessao, {
     rota: 'epoch',
@@ -8938,6 +9865,7 @@ function pintarEpoch() {
     tituloFim: 'Epoch no alvo!'
   });
 }
+
 function telaBallots() {
   listarCena(
     'ballot',
@@ -8948,9 +9876,11 @@ function telaBallots() {
     valor => { ballotSessao = valor; }
   );
 }
+
 function abrirBallot(id) {
   abrirCenaLista(id, ballotPorId, cena => { ballotSessao = cena; }, pintarBallot, telaBallots);
 }
+
 function pintarBallot() {
   pintarCenaLista(ballotSessao, {
     rota: 'ballot',
@@ -8961,6 +9891,7 @@ function pintarBallot() {
     tituloFim: 'Ballot no alvo!'
   });
 }
+
 function telaFences() {
   listarCena(
     'fence',
@@ -8971,9 +9902,11 @@ function telaFences() {
     valor => { fenceSessao = valor; }
   );
 }
+
 function abrirFence(id) {
   abrirCenaLista(id, fencePorId, cena => { fenceSessao = cena; }, pintarFence, telaFences);
 }
+
 function pintarFence() {
   pintarCenaLista(fenceSessao, {
     rota: 'fence',
@@ -8984,6 +9917,7 @@ function pintarFence() {
     tituloFim: 'Fence no alvo!'
   });
 }
+
 function telaFlushes() {
   listarCena(
     'flush',
@@ -8994,9 +9928,11 @@ function telaFlushes() {
     valor => { flushSessao = valor; }
   );
 }
+
 function abrirFlush(id) {
   abrirCenaLista(id, flushPorId, cena => { flushSessao = cena; }, pintarFlush, telaFlushes);
 }
+
 function pintarFlush() {
   pintarCenaLista(flushSessao, {
     rota: 'flush',
@@ -9007,6 +9943,7 @@ function pintarFlush() {
     tituloFim: 'Flush no alvo!'
   });
 }
+
 function telaMemtables() {
   listarCena(
     'memtable',
@@ -9017,9 +9954,11 @@ function telaMemtables() {
     valor => { memtableSessao = valor; }
   );
 }
+
 function abrirMemtable(id) {
   abrirCenaLista(id, memtablePorId, cena => { memtableSessao = cena; }, pintarMemtable, telaMemtables);
 }
+
 function pintarMemtable() {
   pintarCenaLista(memtableSessao, {
     rota: 'memtable',
@@ -9030,6 +9969,7 @@ function pintarMemtable() {
     tituloFim: 'Memtable no alvo!'
   });
 }
+
 function telaExtents() {
   listarCena(
     'extent',
@@ -9040,9 +9980,11 @@ function telaExtents() {
     valor => { extentSessao = valor; }
   );
 }
+
 function abrirExtent(id) {
   abrirCenaLista(id, extentPorId, cena => { extentSessao = cena; }, pintarExtent, telaExtents);
 }
+
 function pintarExtent() {
   pintarCenaLista(extentSessao, {
     rota: 'extent',
@@ -9053,6 +9995,7 @@ function pintarExtent() {
     tituloFim: 'Extent no alvo!'
   });
 }
+
 function telaManifests() {
   listarCena(
     'manifest',
@@ -9063,9 +10006,11 @@ function telaManifests() {
     valor => { manifestSessao = valor; }
   );
 }
+
 function abrirManifest(id) {
   abrirCenaLista(id, manifestPorId, cena => { manifestSessao = cena; }, pintarManifest, telaManifests);
 }
+
 function pintarManifest() {
   pintarCenaLista(manifestSessao, {
     rota: 'manifest',
@@ -9076,6 +10021,7 @@ function pintarManifest() {
     tituloFim: 'Manifest no alvo!'
   });
 }
+
 function telaHedges() {
   listarCena(
     'hedge',
@@ -9086,9 +10032,11 @@ function telaHedges() {
     valor => { hedgeSessao = valor; }
   );
 }
+
 function abrirHedge(id) {
   abrirCenaLista(id, hedgePorId, cena => { hedgeSessao = cena; }, pintarHedge, telaHedges);
 }
+
 function pintarHedge() {
   pintarCenaLista(hedgeSessao, {
     rota: 'hedge',
@@ -9099,6 +10047,7 @@ function pintarHedge() {
     tituloFim: 'Hedge no alvo!'
   });
 }
+
 function telaDebounces() {
   listarCena(
     'debounce',
@@ -9109,9 +10058,11 @@ function telaDebounces() {
     valor => { debounceSessao = valor; }
   );
 }
+
 function abrirDebounce(id) {
   abrirCenaLista(id, debouncePorId, cena => { debounceSessao = cena; }, pintarDebounce, telaDebounces);
 }
+
 function pintarDebounce() {
   pintarCenaLista(debounceSessao, {
     rota: 'debounce',
@@ -9122,6 +10073,7 @@ function pintarDebounce() {
     tituloFim: 'Debounce no alvo!'
   });
 }
+
 function telaSstables() {
   listarCena(
     'sstable',
@@ -9132,9 +10084,11 @@ function telaSstables() {
     valor => { sstableSessao = valor; }
   );
 }
+
 function abrirSstable(id) {
   abrirCenaLista(id, sstablePorId, cena => { sstableSessao = cena; }, pintarSstable, telaSstables);
 }
+
 function pintarSstable() {
   pintarCenaLista(sstableSessao, {
     rota: 'sstable',
@@ -9145,6 +10099,7 @@ function pintarSstable() {
     tituloFim: 'Sstable no alvo!'
   });
 }
+
 function telaLatches() {
   listarCena(
     'latch',
@@ -9155,9 +10110,11 @@ function telaLatches() {
     valor => { latchSessao = valor; }
   );
 }
+
 function abrirLatch(id) {
   abrirCenaLista(id, latchPorId, cena => { latchSessao = cena; }, pintarLatch, telaLatches);
 }
+
 function pintarLatch() {
   pintarCenaLista(latchSessao, {
     rota: 'latch',
@@ -9168,6 +10125,7 @@ function pintarLatch() {
     tituloFim: 'Latch no alvo!'
   });
 }
+
 function telaThrottles() {
   listarCena(
     'throttle',
@@ -9178,9 +10136,11 @@ function telaThrottles() {
     valor => { throttleSessao = valor; }
   );
 }
+
 function abrirThrottle(id) {
   abrirCenaLista(id, throttlePorId, cena => { throttleSessao = cena; }, pintarThrottle, telaThrottles);
 }
+
 function pintarThrottle() {
   pintarCenaLista(throttleSessao, {
     rota: 'throttle',
@@ -9191,6 +10151,7 @@ function pintarThrottle() {
     tituloFim: 'Throttle no alvo!'
   });
 }
+
 function telaIterators() {
   listarCena(
     'iterator',
@@ -9201,9 +10162,11 @@ function telaIterators() {
     valor => { iteratorSessao = valor; }
   );
 }
+
 function abrirIterator(id) {
   abrirCenaLista(id, iteratorPorId, cena => { iteratorSessao = cena; }, pintarIterator, telaIterators);
 }
+
 function pintarIterator() {
   pintarCenaLista(iteratorSessao, {
     rota: 'iterator',
@@ -9214,6 +10177,7 @@ function pintarIterator() {
     tituloFim: 'Iterator no alvo!'
   });
 }
+
 function telaPagers() {
   listarCena(
     'pager',
@@ -9224,9 +10188,11 @@ function telaPagers() {
     valor => { pagerSessao = valor; }
   );
 }
+
 function abrirPager(id) {
   abrirCenaLista(id, pagerPorId, cena => { pagerSessao = cena; }, pintarPager, telaPagers);
 }
+
 function pintarPager() {
   pintarCenaLista(pagerSessao, {
     rota: 'pager',
@@ -9237,6 +10203,7 @@ function pintarPager() {
     tituloFim: 'Pager no alvo!'
   });
 }
+
 function telaEvicts() {
   listarCena(
     'evict',
@@ -9247,9 +10214,11 @@ function telaEvicts() {
     valor => { evictSessao = valor; }
   );
 }
+
 function abrirEvict(id) {
   abrirCenaLista(id, evictPorId, cena => { evictSessao = cena; }, pintarEvict, telaEvicts);
 }
+
 function pintarEvict() {
   pintarCenaLista(evictSessao, {
     rota: 'evict',
@@ -9260,82 +10229,102 @@ function pintarEvict() {
     tituloFim: 'Evict no alvo!'
   });
 }
+
 function telaHistograms() {
   listarCena('histogram', '📊 O histogram', subCena('conta e segue'), HISTOGRAMS, abrirHistogram, valor => { histogramSessao = valor; });
 }
+
 function abrirHistogram(id) {
   abrirCenaLista(id, histogramPorId, cena => { histogramSessao = cena; }, pintarHistogram, telaHistograms);
 }
+
 function pintarHistogram() {
   pintarCenaLista(histogramSessao, {
     rota: 'histogram', aoLista: telaHistograms, repintar: pintarHistogram,
     avaliar: avaliarHistogram, registrar: registrarHistogram, tituloFim: 'Histogram no alvo!'
   });
 }
+
 function telaGauges() {
   listarCena('gauge', '🌡️ O gauge', subCena('mostra e segue'), GAUGES, abrirGauge, valor => { gaugeSessao = valor; });
 }
+
 function abrirGauge(id) {
   abrirCenaLista(id, gaugePorId, cena => { gaugeSessao = cena; }, pintarGauge, telaGauges);
 }
+
 function pintarGauge() {
   pintarCenaLista(gaugeSessao, {
     rota: 'gauge', aoLista: telaGauges, repintar: pintarGauge,
     avaliar: avaliarGauge, registrar: registrarGauge, tituloFim: 'Gauge no alvo!'
   });
 }
+
 function telaBackfills() {
   listarCena('backfill', '🪣 O backfill', subCena('enche e segue'), BACKFILLS, abrirBackfill, valor => { backfillSessao = valor; });
 }
+
 function abrirBackfill(id) {
   abrirCenaLista(id, backfillPorId, cena => { backfillSessao = cena; }, pintarBackfill, telaBackfills);
 }
+
 function pintarBackfill() {
   pintarCenaLista(backfillSessao, {
     rota: 'backfill', aoLista: telaBackfills, repintar: pintarBackfill,
     avaliar: avaliarBackfill, registrar: registrarBackfill,     tituloFim: 'Backfill no alvo!'
   });
 }
+
 function telaSkews() {
   listarCena('skew', '📏 O skew', subCena('entorta e segue'), SKEWS, abrirSkew, valor => { skewSessao = valor; });
 }
+
 function abrirSkew(id) {
   abrirCenaLista(id, skewPorId, cena => { skewSessao = cena; }, pintarSkew, telaSkews);
 }
+
 function pintarSkew() {
   pintarCenaLista(skewSessao, {
     rota: 'skew', aoLista: telaSkews, repintar: pintarSkew,
     avaliar: avaliarSkew, registrar: registrarSkew, tituloFim: 'Skew no alvo!'
   });
 }
+
 function telaHotspots() {
   listarCena('hotspot', '🌶️ O hotspot', subCena('esquenta e segue'), HOTSPOTS, abrirHotspot, valor => { hotspotSessao = valor; });
 }
+
 function abrirHotspot(id) {
   abrirCenaLista(id, hotspotPorId, cena => { hotspotSessao = cena; }, pintarHotspot, telaHotspots);
 }
+
 function pintarHotspot() {
   pintarCenaLista(hotspotSessao, {
     rota: 'hotspot', aoLista: telaHotspots, repintar: pintarHotspot,
     avaliar: avaliarHotspot, registrar: registrarHotspot, tituloFim: 'Hotspot no alvo!'
   });
 }
+
 function telaTails() {
   listarCena('tail', '🐌 O tail', subCena('atrasa e segue'), TAILS, abrirTail, valor => { tailSessao = valor; });
 }
+
 function abrirTail(id) {
   abrirCenaLista(id, tailPorId, cena => { tailSessao = cena; }, pintarTail, telaTails);
 }
+
 function pintarTail() {
   pintarCenaLista(tailSessao, {
     rota: 'tail', aoLista: telaTails, repintar: pintarTail,
     avaliar: avaliarTail, registrar: registrarTail, tituloFim: 'Tail no alvo!'
   });
 }
+
 function telaAbertas() {
   abertaSessao = null;
   pintarAberta();
 }
+
 function abrirAberta() {
   const perguntas = montarAbertas(diaLocalAgora());
   descartarVoz();
@@ -9351,6 +10340,7 @@ function abrirAberta() {
   };
   pintarAberta();
 }
+
 function concluirAberta() {
   if (!abertaSessao || abertaSessao.concluido) return;
   const nota = fecharNota(abertaSessao.notas);
@@ -9377,12 +10367,14 @@ function concluirAberta() {
     resumo: true
   });
 }
+
 function pulsarAberta() {
   if (!abertaSessao || abertaSessao.feedback || abertaSessao.concluido) return;
   const el = document.querySelector('[data-cronometro-aberta]');
   if (el) el.textContent = relogioLivre(Math.max(0, Math.round((Date.now() - abertaSessao.inicio) / 1000)));
   timerDeTela(pulsarAberta, 1000);
 }
+
 function pintarAberta() {
   calar();
   limparTela();
@@ -9490,6 +10482,7 @@ function pintarAberta() {
     pulsarAberta();
   }
 }
+
 function cartaoSobre() {
   const novo = localStorage.getItem('gringolingo:versao-vista') !== VERSAO_APP;
   return h('div', { class: 'card sobre-card' },
@@ -9508,6 +10501,7 @@ function cartaoSobre() {
     )
   );
 }
+
 function cartaoMetricas() {
   const ligadas = metricasLigadas();
   const botao = h('button', { class: 'btn ' + (ligadas ? 'btn-branco' : 'btn-azul'), type: 'button' }, ligadas ? 'DESLIGAR' : 'LIGAR');
@@ -9525,6 +10519,7 @@ function cartaoMetricas() {
     botao
   );
 }
+
 function telaPrivacidade() {
   limparTela();
   window.scrollTo(0, 0);
@@ -9567,6 +10562,7 @@ function telaPrivacidade() {
   );
   focarTela();
 }
+
 function telaNovidades() {
   limparTela();
   window.scrollTo(0, 0);
@@ -9590,6 +10586,7 @@ function telaNovidades() {
   );
   focarTela();
 }
+
 const SOTAQUES = {
   'en-US': 'EUA',
   'en-GB': 'Reino Unido',
@@ -9604,9 +10601,11 @@ const SOTAQUES = {
   'en-NG': 'Nigéria',
   'en-KE': 'Quênia'
 };
+
 function rotuloSotaque(lang) {
   return SOTAQUES[lang] ?? '🌎 ' + lang.toUpperCase();
 }
+
 function nomeCurto(nome) {
   return nome
     .replace(/^(Microsoft|Google|Apple)\s+/i, '')
@@ -9616,9 +10615,11 @@ function nomeCurto(nome) {
     .replace(/\s+/g, ' ')
     .trim() || nome;
 }
+
 function repintarCartaoVoz() {
   document.querySelector('.voz-card')?.replaceWith(cartaoVoz());
 }
+
 function cartaoVoz() {
   if (!temTts) return '';
   const lista = vozesDisponiveis();
@@ -9690,6 +10691,7 @@ function cartaoVoz() {
     linhaSom()
   );
 }
+
 function linhaSom() {
   const botao = h('button', { class: 'voz-chip' + (mudo() ? '' : ' ativa'), type: 'button', 'aria-pressed': mudo() ? 'false' : 'true' }, mudo() ? '🔇 Sons desligados' : '🔊 Sons ligados');
   botao.addEventListener('click', () => {
@@ -9702,6 +10704,7 @@ function linhaSom() {
     h('div', { class: 'voz-chips' }, botao)
   );
 }
+
 function cartaoCompartilhar() {
   if (!estado.stats.licoes) return '';
   const msg = h('div', { class: 'revisao-sub', role: 'status' }, 'Gere um card com seu nível, XP e sequência');
@@ -9734,6 +10737,7 @@ function cartaoCompartilhar() {
     botao
   );
 }
+
 function jornadaVazia() {
   return h('div', { class: 'card estado-vazio jornada-vazia' },
     h('div', { class: 'jornada-vazia-arte', 'aria-hidden': 'true' },
@@ -9745,6 +10749,7 @@ function jornadaVazia() {
     h('button', { class: 'btn btn-verde', type: 'button', onclick: () => telaInicial() }, 'COMEÇAR')
   );
 }
+
 function cartaoJornada() {
   if (!estado.xp || !estado.stats.licoes) return jornadaVazia();
   const dias = historicoRecente(30);
@@ -9787,6 +10792,7 @@ function cartaoJornada() {
     ) : ''
   );
 }
+
 function cartaoBackup() {
   const msg = h('div', { class: 'revisao-sub', role: 'status' }, 'Baixe uma cópia do seu progresso ou traga de outro aparelho');
   const escolha = h('div', { class: 'backup-botoes' });
@@ -9880,6 +10886,7 @@ function cartaoBackup() {
     )
   );
 }
+
 function cartaoLembrete() {
   if (!('Notification' in window)) return '';
   const ativo = !!estado.lembrete;
@@ -9917,6 +10924,7 @@ function cartaoLembrete() {
     botao
   );
 }
+
 function agendarLembrete() {
   clearTimeout(timerLembrete);
   if (!estado.lembrete || !('Notification' in window) || Notification.permission !== 'granted') return;
@@ -9935,6 +10943,7 @@ function agendarLembrete() {
     agendarLembrete();
   }, alvo - agora);
 }
+
 function cartaoConta() {
   if (!nuvemConfigurada) return '';
   if (!usuarioEmail) {
@@ -9987,6 +10996,7 @@ function cartaoConta() {
     linhaApagarConta()
   );
 }
+
 function linhaApagarConta() {
   const msg = h('div', { class: 'login-msg', role: 'alert' });
   const botao = h('button', { class: 'btn btn-branco btn-compacto perigo', type: 'button' }, 'APAGAR');
@@ -10033,6 +11043,7 @@ function linhaApagarConta() {
     botao
   );
 }
+
 function linhaGoogle() {
   const vinculado = provedores.includes('google');
   const msg = h('div', { class: 'login-msg', role: 'alert' });
@@ -10069,6 +11080,7 @@ function linhaGoogle() {
     btn
   );
 }
+
 function statPilula(emoji, valor, rotulo) {
   return h('div', { class: 'stat' },
     h('div', { class: 'stat-emoji' }, emoji),
@@ -10078,6 +11090,7 @@ function statPilula(emoji, valor, rotulo) {
     )
   );
 }
+
 function confete() {
   if (reduzirMovimento()) return;
   const cv = document.getElementById('confetti');
@@ -10114,6 +11127,7 @@ function confete() {
   }
   requestAnimationFrame(tick);
 }
+
 function avisarAtualizacao(registro) {
   if (document.querySelector('.aviso-versao')) return;
   const btn = h('button', {
@@ -10128,6 +11142,7 @@ function avisarAtualizacao(registro) {
   }, '✨ Nova versão disponível. Tocar para atualizar');
   document.body.append(btn);
 }
+
 function registrarServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
   let recarregou = false;
@@ -10152,6 +11167,7 @@ function registrarServiceWorker() {
     });
   }).catch(() => {});
 }
+
 function telaDebug() {
   limparTela();
   window.scrollTo(0, 0);
@@ -10179,6 +11195,7 @@ function telaDebug() {
     )
   );
 }
+
 function avisarMetricas() {
   if (!metricasLigadas() || localStorage.getItem('gringolingo:aviso-metricas')) return;
   try {
@@ -10201,11 +11218,14 @@ function avisarMetricas() {
     document.body.classList.remove('com-aviso-metricas');
   }, 12000);
 }
+
 let dialogo = null;
 let sombraSessao = null;
+
 function calar() {
   if (temTts) speechSynthesis.cancel();
 }
+
 function botaoConversa() {
   const feitas = CENARIOS.filter(c => (estado.conversas?.[c.id]?.vezes ?? 0) > 0).length;
   const nivel = estado.nivelFala ? ` Nível de fala ${estado.nivelFala}.` : '';
@@ -10223,6 +11243,7 @@ function botaoConversa() {
     h('span', { class: 'revisao-seta' }, '🗣️')
   );
 }
+
 function cartaoPronuncia() {
   const feitas = estado.stats.pronuncias ?? 0;
   return h('button', { class: 'card revisao pronuncia-atalho', type: 'button', onclick: telaPronuncia },
@@ -10236,6 +11257,7 @@ function cartaoPronuncia() {
     h('span', { class: 'revisao-seta' }, '🎯')
   );
 }
+
 function reconhecerFala(status, entrada) {
   const Reconhecedor = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!Reconhecedor) {
@@ -10282,6 +11304,7 @@ function reconhecerFala(status, entrada) {
     entrada.focus();
   }
 }
+
 function formularioIa(aoSalvar) {
   const atual = lerIa();
   const status = h('div', { class: 'ia-aviso', role: 'status' }, atual.ligada
@@ -10346,6 +11369,7 @@ function formularioIa(aoSalvar) {
     )
   );
 }
+
 function cartaoIa() {
   return h('div', { class: 'card' },
     h('div', { class: 'nivel-titulo' }, '🤖 Parceiro de conversa'),
@@ -10355,6 +11379,7 @@ function cartaoIa() {
     })
   );
 }
+
 function topoVoltar(titulo, aoVoltar) {
   return h('div', { class: 'topo' },
     h('button', { class: 'pilula btn-perfil', type: 'button', 'aria-label': 'Voltar', onclick: aoVoltar }, '← Voltar'),
@@ -10362,6 +11387,7 @@ function topoVoltar(titulo, aoVoltar) {
     h('div', { class: 'logo logo-tela', role: 'heading', 'aria-level': '1' }, titulo)
   );
 }
+
 function telaConversa() {
   calar();
   limparTela();
@@ -10450,6 +11476,7 @@ function telaConversa() {
   pintarListaHub();
   focarTela();
 }
+
 function campoResposta(placeholder) {
   const entrada = h('input', {
     class: 'entrada',
@@ -10469,6 +11496,7 @@ function campoResposta(placeholder) {
     : '';
   return { entrada, status, mic };
 }
+
 function cartaoTutor(aval) {
   const partes = [];
   if (aval.ok && !aval.quase) {
@@ -10485,6 +11513,7 @@ function cartaoTutor(aval) {
   }
   return h('div', { class: 'card', role: 'status', 'data-foco': '1' }, partes);
 }
+
 function abrirDialogo(id) {
   const cenario = cenarioPorId(id);
   if (!cenario) return telaConversa();
@@ -10519,6 +11548,7 @@ function abrirDialogo(id) {
   };
   pintarDialogo();
 }
+
 function pintarDialogo() {
   if (!dialogo) return telaConversa();
   if (dialogo.ramo) return pintarRamo();
@@ -10589,6 +11619,7 @@ function pintarDialogo() {
   focarTela();
   if (!dialogo.feedback) campo.entrada.focus();
 }
+
 function concluirDialogo() {
   if (!dialogo || dialogo.concluido) return pintarFim(dialogo?.fim);
   const total = dialogo.ramo ? dialogo.notas.length : dialogo.rodadas.length;
@@ -10617,6 +11648,7 @@ function concluirDialogo() {
   };
   pintarFim(dialogo.fim);
 }
+
 function pintarRamo() {
   if (!dialogo?.ramo) return dialogo ? pintarDialogo() : telaConversa();
   if (dialogo.concluido) return pintarFim(dialogo.fim);
@@ -10707,6 +11739,7 @@ function pintarRamo() {
   app.append(h('div', {}, miolo));
   focarTela();
 }
+
 function abrirSombra(origem) {
   const base = origem === 'baralho'
     ? escolherSombra({ soBaralho: true, vencidas: frasesVencidas(), qtd: 8 })
@@ -10715,6 +11748,7 @@ function abrirSombra(origem) {
   sombraSessao = { frases, i: 0, notas: [], erros: [], feedback: null, revelado: false, concluido: false, fim: null, origem: origem || '' };
   pintarSombra();
 }
+
 function pintarSombra() {
   if (!sombraSessao) return telaConversa();
   if (sombraSessao.concluido) return pintarFim(sombraSessao.fim);
@@ -10810,6 +11844,7 @@ function pintarSombra() {
   focarTela();
   if (!sombraSessao.feedback) campo.entrada.focus();
 }
+
 function concluirSombra() {
   if (!sombraSessao || sombraSessao.concluido) return pintarFim(sombraSessao?.fim);
   const notas = sombraSessao.notas;
@@ -10841,6 +11876,7 @@ function concluirSombra() {
   };
   pintarFim(sombraSessao.fim);
 }
+
 function pintarFim(fim) {
   if (!fim) return telaConversa();
   resultadoAtual = fim;
@@ -10879,6 +11915,7 @@ function pintarFim(fim) {
   ));
   focarTela();
 }
+
 function telaParceiro() {
   calar();
   limparTela();
@@ -10982,10 +12019,12 @@ function telaParceiro() {
   );
   focarTela();
 }
+
 let resultadoAtual = null;
 let categoriaAtual = null;
 let pratica = null;
 let falaSessao = null;
+
 function cartaoFala() {
   const feito = estado.falaDia === diaLocalAgora();
   return h('button', { class: 'card revisao fala-atalho', type: 'button', onclick: abrirFala },
@@ -10999,6 +12038,7 @@ function cartaoFala() {
     h('span', { class: 'revisao-seta' }, feito ? '✓' : '🗣️')
   );
 }
+
 function rotuloAgenda(en) {
   const agenda = estado.itens[en];
   if (!agenda) return 'Nova';
@@ -11006,6 +12046,7 @@ function rotuloAgenda(en) {
   const dias = INTERVALOS[Math.max(0, Math.min(agenda.caixa ?? 0, INTERVALOS.length - 1))] ?? 1;
   return `Caixa de ${dias} dia${dias > 1 ? 's' : ''}`;
 }
+
 function telaFrases() {
   calar();
   limparTela();
@@ -11045,6 +12086,7 @@ function telaFrases() {
   );
   focarTela();
 }
+
 function telaCategoria(id) {
   const cat = CATEGORIAS.find(c => c.id === id);
   if (!cat) return telaFrases();
@@ -11070,11 +12112,13 @@ function telaCategoria(id) {
   );
   focarTela();
 }
+
 function estudarNovas() {
   const novas = embaralhar(FRASES.filter(f => !estado.itens[f.en])).slice(0, 5);
   if (!novas.length) return telaFrases();
   abrirPratica(novas, 'frases');
 }
+
 function iniciarRevisaoFrases() {
   const itens = frasesVencidas().slice(0, 8);
   if (!itens.length) return telaFrases();
@@ -11087,10 +12131,12 @@ function iniciarRevisaoFrases() {
   };
   telaExercicio();
 }
+
 function abrirPratica(fila, voltar) {
   pratica = { fila, i: 0, feedback: null, concluido: false, voltar: voltar || 'frases' };
   pintarPratica();
 }
+
 function pintarPratica() {
   if (!pratica) return telaFrases();
   calar();
@@ -11178,6 +12224,7 @@ function pintarPratica() {
   app.append(h('div', {}, miolo));
   focarTela();
 }
+
 function abrirFala() {
   const plano = montarDesafioFala(diaLocalAgora());
   falaSessao = {
@@ -11194,6 +12241,7 @@ function abrirFala() {
   };
   pintarFala();
 }
+
 function ligarRelogio(el) {
   const tick = () => {
     if (!falaSessao || falaSessao.concluido) return;
@@ -11205,6 +12253,7 @@ function ligarRelogio(el) {
   tick();
   intervaloFala = setInterval(tick, 250);
 }
+
 function seguirFala() {
   if (!falaSessao || falaSessao.concluido) return;
   if (falaSessao.i + 1 >= falaSessao.passos.length) finalizarFala(false);
@@ -11215,6 +12264,7 @@ function seguirFala() {
     pintarFala();
   }
 }
+
 function anotarFala(ok, nota, aval) {
   if (!falaSessao || falaSessao.feedback || falaSessao.concluido) return;
   const passo = falaSessao.passos[falaSessao.i];
@@ -11229,6 +12279,7 @@ function anotarFala(ok, nota, aval) {
   else sons.erro();
   pintarFala();
 }
+
 function finalizarFala(estourou) {
   if (!falaSessao || falaSessao.concluido) return;
   falaSessao.concluido = true;
@@ -11268,6 +12319,7 @@ function finalizarFala(estourou) {
   };
   pintarFim(falaSessao.fim);
 }
+
 function pintarFala() {
   if (!falaSessao || falaSessao.concluido) return falaSessao?.fim ? pintarFim(falaSessao.fim) : telaInicial();
   calar();
@@ -11373,15 +12425,19 @@ function pintarFala() {
   focarTela();
   campo.entrada.focus();
 }
+
 let papoEsperando = false;
 let pronunciaSessao = null;
 let ouvidoSessao = null;
+
 const LETRAS_SEMANA = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 const NOMES_SEMANA = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+
 function diaDaSemana(iso) {
   const [ano, mes, dia] = iso.split('-').map(Number);
   return new Date(ano, mes - 1, dia).getDay();
 }
+
 function telaPronuncia() {
   calar();
   limparTela();
@@ -11407,6 +12463,7 @@ function telaPronuncia() {
   );
   focarTela();
 }
+
 function abrirPronuncia(id) {
   const som = somPorId(id);
   if (!som) return telaPronuncia();
@@ -11424,6 +12481,7 @@ function abrirPronuncia(id) {
   };
   pintarPronuncia();
 }
+
 function pintarPronuncia() {
   if (!pronunciaSessao) return telaPronuncia();
   if (pronunciaSessao.concluido) return pintarFim(pronunciaSessao.fim);
@@ -11494,6 +12552,7 @@ function pintarPronuncia() {
   ligarTeclasDaFala();
   focarTela();
 }
+
 function concluirPronuncia() {
   if (!pronunciaSessao || pronunciaSessao.concluido) return pintarFim(pronunciaSessao?.fim);
   const total = pronunciaSessao.fila.length;
@@ -11520,6 +12579,7 @@ function concluirPronuncia() {
   };
   pintarFim(pronunciaSessao.fim);
 }
+
 function telaOuvido() {
   calar();
   limparTela();
@@ -11546,6 +12606,7 @@ function telaOuvido() {
   );
   focarTela();
 }
+
 function abrirOuvido(ids) {
   const escolhidos = (ids ?? []).map(clipPorId).filter(Boolean);
   const resto = embaralhar(CLIPS.filter(c => !escolhidos.includes(c)));
@@ -11564,6 +12625,7 @@ function abrirOuvido(ids) {
   };
   pintarOuvido();
 }
+
 function pintarOuvido() {
   if (!ouvidoSessao) return telaOuvido();
   if (ouvidoSessao.concluido) return pintarFim(ouvidoSessao.fim);
@@ -11650,6 +12712,7 @@ function pintarOuvido() {
   ligarTeclasDaFala();
   focarTela();
 }
+
 function concluirOuvido() {
   if (!ouvidoSessao || ouvidoSessao.concluido) return pintarFim(ouvidoSessao?.fim);
   const total = ouvidoSessao.fila.length;
@@ -11676,6 +12739,7 @@ function concluirOuvido() {
   };
   pintarFim(ouvidoSessao.fim);
 }
+
 function cartaoSemana() {
   const hojeIso = diaLocalAgora();
   const soma = somarSemana(estado.painel, hojeIso);
@@ -11722,6 +12786,7 @@ function cartaoSemana() {
   );
   return card;
 }
+
 function telaPainel() {
   calar();
   limparTela();
@@ -11785,6 +12850,8 @@ function telaPainel() {
   );
   focarTela();
 }
+
+
 let nivelSessao = null;
 let perguntaSessao = null;
 let reducaoSessao = null;
@@ -12156,6 +13223,7 @@ let gravacaoUrl = null;
 let gravadorAtivo = null;
 let vozTimer = null;
 let vozGeracao = 0;
+
 function cartaoNivel() {
   if (estado.nivelFala) return '';
   return h('button', { class: 'card revisao nivel-atalho', type: 'button', onclick: telaNivel },
@@ -12167,6 +13235,7 @@ function cartaoNivel() {
     h('span', { class: 'revisao-seta' }, '›')
   );
 }
+
 function botaoFluencia(emoji, titulo, sub, onclick) {
   return h('button', { class: 'card revisao', type: 'button', onclick },
     h('span', { class: 'revisao-emoji' }, emoji),
@@ -12177,6 +13246,7 @@ function botaoFluencia(emoji, titulo, sub, onclick) {
     h('span', { class: 'revisao-seta' }, '›')
   );
 }
+
 function textoContagem(n, categoria) {
   if (!n) return 'Nenhum treino com esse filtro.';
   const nome = n === 1 ? '1 treino' : `${n} treinos`;
@@ -12184,6 +13254,7 @@ function textoContagem(n, categoria) {
   const titulo = GRUPOS_HUB.find(c => c.id === categoria)?.titulo;
   return titulo ? `${nome} em ${titulo}` : nome;
 }
+
 function telasDoHub() {
   return {
     modelo: telaModelos,
@@ -12553,6 +13624,7 @@ function telasDoHub() {
     tail: telaTails
   };
 }
+
 function subDoTreino(treino) {
   if (treino.id === 'deslize') {
     const n = deslizesVencidos().length;
@@ -12596,14 +13668,17 @@ function subDoTreino(treino) {
   }
   return treino.sub;
 }
+
 function abrirTreino(id) {
   marcarTreinoAberto(id);
   const fn = telasDoHub()[id];
   if (typeof fn === 'function') fn();
 }
+
 function treinosVisiveis() {
   return filtrarEstrelas(filtrarTreinos(TREINOS, filtroHub), estado.estrelas, filtroHub.estrela);
 }
+
 function cartaoDoTreino(treino, atualId) {
   const ligado = estrelaLigada(treino.id);
   const estadoNo = estadoDoNo(treino, atualId, estado.stats);
@@ -12647,6 +13722,7 @@ function cartaoDoTreino(treino, atualId) {
     ) : ''
   );
 }
+
 function vazioDoHub(favorito) {
   return h('div', { class: 'estado-vazio hub-vazio' },
     h('div', { class: 'vazio-emoji', 'aria-hidden': 'true' }, mascote(favorito ? 'dormindo' : 'pensando', 96)),
@@ -12658,6 +13734,7 @@ function vazioDoHub(favorito) {
       : 'Troque a categoria ou limpe a busca para ver a lista.')
   );
 }
+
 function pintarListaHub(focoId) {
   const lista = document.getElementById('lista-hub');
   const status = document.getElementById('hub-status');
@@ -12735,6 +13812,7 @@ function pintarListaHub(focoId) {
   if (alvo) alvo.focus();
   else if (status) status.focus();
 }
+
 function garantirTrilha() {
   const hoje = diaLocalAgora();
   if (!estado.trilhaInicio) {
@@ -12743,11 +13821,13 @@ function garantirTrilha() {
   }
   return diaDaTrilha(estado.trilhaInicio, hoje);
 }
+
 function recomecarTrilha() {
   estado.trilhaInicio = diaLocalAgora();
   salvar();
   telaConversa();
 }
+
 function cartaoTrilha(info) {
   const frase = `${textoDoDia(info)} O treino de hoje é o recomendado.`;
   return h('div', {
@@ -12763,6 +13843,7 @@ function cartaoTrilha(info) {
       : ''
   );
 }
+
 function cartaoBalanco() {
   const b = balancoDaSemana(estado.painel, diaLocalAgora(), estado.metaMinutos);
   return h('div', {
@@ -12785,6 +13866,7 @@ function cartaoBalanco() {
     h('button', { class: 'btn btn-branco', type: 'button', onclick: () => abrirTreino('semana') }, 'VER A SEMANA')
   );
 }
+
 function cartaoFila() {
   const fila = resumoDaFila(estado.agendaFala, diaLocalAgora());
   const rotulo = fila.dica ? `${fila.texto} ${fila.dica}` : fila.texto;
@@ -12807,6 +13889,7 @@ function cartaoFila() {
     'aria-label': rotulo
   }, ...miolo);
 }
+
 function cartaoHoje() {
   const hoje = textoDeHoje(estado.painel, diaLocalAgora());
   const vazio = hoje.treinos === 0 && hoje.minutos === 0;
@@ -12833,6 +13916,7 @@ function cartaoHoje() {
     }, 'FALAR AGORA') : ''
   );
 }
+
 function cartaoEstreia() {
   const info = textoDaEstreia(TREINOS, estado.stats);
   return h('div', {
@@ -12850,6 +13934,7 @@ function cartaoEstreia() {
     }, 'ESTREAR') : ''
   );
 }
+
 function cartaoSequencia() {
   const info = textoDaSequencia(estado.painel, diaLocalAgora());
   return h('div', {
@@ -12875,6 +13960,7 @@ function cartaoSequencia() {
     }, 'FALAR HOJE') : ''
   );
 }
+
 function cartaoComparacao() {
   const info = textoDaComparacao(estado.painel, diaLocalAgora());
   return h('div', {
@@ -12900,6 +13986,7 @@ function cartaoComparacao() {
     }, 'FALAR MAIS') : ''
   );
 }
+
 function cartaoPalavra() {
   const info = textoDaPalavra(estado.errosFala);
   return h('div', {
@@ -12917,6 +14004,7 @@ function cartaoPalavra() {
     }, 'REPETIR') : ''
   );
 }
+
 function cartaoGrupo() {
   const info = textoDoGrupo(TREINOS, estado.stats);
   return h('div', {
@@ -12938,6 +14026,7 @@ function cartaoGrupo() {
     }, 'VER O GRUPO') : ''
   );
 }
+
 function cartaoEstrela() {
   const info = textoDaEstrela(TREINOS, estado.estrelas, estado.stats);
   return h('div', {
@@ -12959,6 +14048,7 @@ function cartaoEstrela() {
     }, 'VER FAVORITOS') : ''
   );
 }
+
 function cartaoAcerto() {
   const info = textoDoAcerto(estado.painel, diaLocalAgora());
   return h('div', {
@@ -12976,6 +14066,7 @@ function cartaoAcerto() {
     }, 'VER O HISTÓRICO') : ''
   );
 }
+
 function cartaoPico() {
   const info = textoDoPico(estado.painel, diaLocalAgora());
   return h('div', {
@@ -12993,6 +14084,7 @@ function cartaoPico() {
     }, 'VER OS DIAS') : ''
   );
 }
+
 function cartaoApoio() {
   const info = textoDoApoio(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13010,6 +14102,7 @@ function cartaoApoio() {
     }, 'VER O MÊS') : ''
   );
 }
+
 function cartaoNota() {
   const info = textoDaNota(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13027,6 +14120,7 @@ function cartaoNota() {
     }, 'VER O MÊS') : ''
   );
 }
+
 function cartaoDias() {
   const info = textoDosDias(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13044,6 +14138,7 @@ function cartaoDias() {
     }, 'VER OS DIAS') : ''
   );
 }
+
 function cartaoRitmo() {
   const info = textoDoRitmo(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13061,6 +14156,7 @@ function cartaoRitmo() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoLacuna() {
   const info = textoDaLacuna(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13078,6 +14174,7 @@ function cartaoLacuna() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoFalta() {
   const info = textoDaMeta(estado.painel, diaLocalAgora(), estado.metaMinutos);
   return h('div', {
@@ -13095,6 +14192,7 @@ function cartaoFalta() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoDuracao() {
   const info = textoDaDuracao(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13112,6 +14210,7 @@ function cartaoDuracao() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoUltima() {
   const info = textoDaUltima(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13129,6 +14228,7 @@ function cartaoUltima() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoPrimeira() {
   const info = textoDaPrimeira(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13146,6 +14246,7 @@ function cartaoPrimeira() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoHiato() {
   const info = textoDoHiato(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13163,6 +14264,7 @@ function cartaoHiato() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoCostume() {
   const info = textoDoCostume(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13180,6 +14282,7 @@ function cartaoCostume() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoMarca() {
   const info = textoDaMarca(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13197,6 +14300,7 @@ function cartaoMarca() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoAuge() {
   const info = textoDoAuge(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13214,6 +14318,7 @@ function cartaoAuge() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoSete() {
   const info = textoDoSete(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13231,6 +14336,7 @@ function cartaoSete() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoSoma() {
   const info = textoDaSoma(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13248,6 +14354,7 @@ function cartaoSoma() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoPorDia() {
   const info = textoDoPorDia(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13265,6 +14372,7 @@ function cartaoPorDia() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoParte() {
   const info = textoDaParte(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13282,6 +14390,7 @@ function cartaoParte() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoFora() {
   const info = textoDoFora(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13299,6 +14408,7 @@ function cartaoFora() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoTotal() {
   const info = textoDoTotal(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13316,6 +14426,7 @@ function cartaoTotal() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoLote() {
   const info = textoDoLote(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13333,6 +14444,7 @@ function cartaoLote() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoSaldo() {
   const info = textoDoSaldo(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13350,6 +14462,7 @@ function cartaoSaldo() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoPasso() {
   const info = textoDoPasso(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13367,6 +14480,7 @@ function cartaoPasso() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoMaior() {
   const info = textoDoMaior(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13384,6 +14498,7 @@ function cartaoMaior() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoMenor() {
   const info = textoDoMenor(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13401,6 +14516,7 @@ function cartaoMenor() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoDiferenca() {
   const info = textoDaDiferenca(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13418,6 +14534,7 @@ function cartaoDiferenca() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoMeio() {
   const info = textoDoMeio(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13435,6 +14552,7 @@ function cartaoMeio() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoVariedade() {
   const info = textoDaVariedade(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13452,6 +14570,7 @@ function cartaoVariedade() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoModa() {
   const info = textoDaModa(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13469,6 +14588,7 @@ function cartaoModa() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoRepeticao() {
   const info = textoDaRepeticao(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13486,6 +14606,7 @@ function cartaoRepeticao() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoExtensao() {
   const info = textoDaExtensao(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13503,6 +14624,7 @@ function cartaoExtensao() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoVao() {
   const info = textoDoVao(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13520,6 +14642,7 @@ function cartaoVao() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoProporcao() {
   const info = textoDaProporcao(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13537,6 +14660,7 @@ function cartaoProporcao() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoCobertura() {
   const info = textoDaCobertura(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13554,6 +14678,7 @@ function cartaoCobertura() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoIntervalo() {
   const info = textoDoIntervalo(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13571,6 +14696,7 @@ function cartaoIntervalo() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoCadencia() {
   const info = textoDaCadencia(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13588,6 +14714,7 @@ function cartaoCadencia() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoDensidade() {
   const info = textoDaDensidade(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13605,6 +14732,7 @@ function cartaoDensidade() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoPeso() {
   const info = textoDoPeso(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13622,6 +14750,7 @@ function cartaoPeso() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoSobra() {
   const info = textoDaSobra(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13639,6 +14768,7 @@ function cartaoSobra() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoResto() {
   const info = textoDoResto(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13656,6 +14786,7 @@ function cartaoResto() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoGrao() {
   const info = textoDoGrao(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13673,6 +14804,7 @@ function cartaoGrao() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoCurto() {
   const info = textoDoCurto(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13690,6 +14822,7 @@ function cartaoCurto() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoLongo() {
   const info = textoDoLongo(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13707,6 +14840,7 @@ function cartaoLongo() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoSalto() {
   const info = textoDoSalto(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13724,6 +14858,7 @@ function cartaoSalto() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoMediana() {
   const info = textoDaMediana(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13741,6 +14876,7 @@ function cartaoMediana() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoMosaico() {
   const info = textoDoMosaico(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13758,6 +14894,8 @@ function cartaoMosaico() {
     }, 'VER A SEMANA') : ''
   );
 }
+
+
 function cartaoTurno() {
   const info = textoDoTurno(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13775,6 +14913,8 @@ function cartaoTurno() {
     }, 'VER A SEMANA') : ''
   );
 }
+
+
 function cartaoVirada() {
   const info = textoDaVirada(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13792,6 +14932,8 @@ function cartaoVirada() {
     }, 'VER A SEMANA') : ''
   );
 }
+
+
 function cartaoFaixa() {
   const info = textoDaFaixa(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13809,6 +14951,8 @@ function cartaoFaixa() {
     }, 'VER A SEMANA') : ''
   );
 }
+
+
 function cartaoAbertura() {
   const info = textoDaAbertura(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13826,6 +14970,7 @@ function cartaoAbertura() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoEstacao() {
   const info = textoDaEstacao(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13843,6 +14988,7 @@ function cartaoEstacao() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoFecho() {
   const info = textoDoFecho(estado.painel, diaLocalAgora());
   return h('div', {
@@ -13860,6 +15006,7 @@ function cartaoFecho() {
     }, 'VER A SEMANA') : ''
   );
 }
+
 function cartaoAusencia() {
   const info = textoDaAusencia(estado.painel, diaLocalAgora());
   const verGrupo = info.id ? h('button', {
@@ -13888,6 +15035,8 @@ function cartaoAusencia() {
     verSemana
   );
 }
+
+
 function cartaoPratica() {
   const info = textoDaPratica(estado.painel, diaLocalAgora(), TREINOS, estado.stats);
   const comecar = info.id ? h('button', {
@@ -13912,6 +15061,8 @@ function cartaoPratica() {
     verSemana
   );
 }
+
+
 function cartaoReforco() {
   const info = textoDoReforco(estado.painel, diaLocalAgora(), TREINOS, estado.stats);
   const comecar = info.id ? h('button', {
@@ -13936,6 +15087,8 @@ function cartaoReforco() {
     verSemana
   );
 }
+
+
 function cartaoRecado() {
   const info = textoDoRecado(estado.painel, diaLocalAgora(), TREINOS, estado.stats);
   const comecar = info.id ? h('button', {
@@ -13960,6 +15113,8 @@ function cartaoRecado() {
     verSemana
   );
 }
+
+
 function cartaoVez() {
   const info = textoDaVez(TREINOS, estado.estrelas, estado.stats);
   const comecar = info.id ? h('button', {
@@ -13978,6 +15133,8 @@ function cartaoVez() {
     comecar
   );
 }
+
+
 function cartaoRetorno() {
   const info = textoDoRetorno(estado.agendaFala, diaLocalAgora(), estado.errosFala);
   const comecar = info.id ? h('button', {
@@ -13996,6 +15153,7 @@ function cartaoRetorno() {
     comecar
   );
 }
+
 function cartaoFicha() {
   const info = textoDaFicha(fichasDaMemoria(), diaLocalAgora());
   const comecar = info.en ? h('button', {
@@ -14014,6 +15172,7 @@ function cartaoFicha() {
     comecar
   );
 }
+
 function fichasDaMemoria() {
   return itensAprendidos().map(item => {
     const agenda = item && estado.itens[item.en];
@@ -14025,6 +15184,7 @@ function fichasDaMemoria() {
     };
   });
 }
+
 function cartaoBaralho() {
   const info = textoDoBaralho(FRASES, estado.itens, diaLocalAgora());
   const comecar = info.en ? h('button', {
@@ -14047,6 +15207,7 @@ function cartaoBaralho() {
     comecar
   );
 }
+
 function cartaoSombra() {
   const info = textoDaSombraDia(FRASES_SOMBRA, diaLocalAgora());
   const ouvir = info.en ? h('button', {
@@ -14078,6 +15239,7 @@ function cartaoSombra() {
     ouvir
   );
 }
+
 function cartaoPergunta() {
   const info = textoDaPergunta(perguntaDoDia(diaLocalAgora()));
   const responder = info.en ? h('button', {
@@ -14096,6 +15258,7 @@ function cartaoPergunta() {
     responder
   );
 }
+
 function cartaoEscuta() {
   const info = textoDaEscuta(CLIPS, diaLocalAgora());
   const ouvir = info.id ? h('button', {
@@ -14114,6 +15277,7 @@ function cartaoEscuta() {
     ouvir
   );
 }
+
 function cartaoSom() {
   const info = textoDoSom(SONS, diaLocalAgora());
   const treinar = info.id ? h('button', {
@@ -14132,6 +15296,7 @@ function cartaoSom() {
     treinar
   );
 }
+
 function cartaoVerbo() {
   const info = textoDoVerbo(VERBOS, SUJEITOS, diaLocalAgora());
   const conjugar = info.en ? h('button', {
@@ -14150,6 +15315,7 @@ function cartaoVerbo() {
     conjugar
   );
 }
+
 function cartaoNumero() {
   const info = textoDoNumero(NUMEROS, diaLocalAgora());
   const escolher = info.id ? h('button', {
@@ -14168,6 +15334,7 @@ function cartaoNumero() {
     escolher
   );
 }
+
 function cartaoReducao() {
   const info = textoDaReducao(REDUCOES, diaLocalAgora());
   const expandir = info.id ? h('button', {
@@ -14186,6 +15353,7 @@ function cartaoReducao() {
     expandir
   );
 }
+
 function cartaoExpressao() {
   const info = textoDaExpressao(FRASAIS, diaLocalAgora());
   const dizer = info.id ? h('button', {
@@ -14204,6 +15372,7 @@ function cartaoExpressao() {
     dizer
   );
 }
+
 function cartaoIdioma() {
   const info = textoDoIdioma(IDIOMAS, diaLocalAgora());
   const dizer = info.id ? h('button', {
@@ -14223,6 +15392,7 @@ function cartaoIdioma() {
     dizer
   );
 }
+
 function anelXp(pct, rotulo) {
   const valor = Math.max(0, Math.min(100, Math.round(pct)));
   const raio = 26;
@@ -14253,12 +15423,14 @@ function anelXp(pct, rotulo) {
   svg.append(fundo, arco, numero);
   return svg;
 }
+
 function saudacaoDaHora() {
   const hora = new Date().getHours();
   if (hora < 12) return 'Bom dia';
   if (hora < 18) return 'Boa tarde';
   return 'Boa noite';
 }
+
 function treinoDoAgora() {
   const aberto = treinoContinuar(TREINOS, estado.treinoAberto);
   if (aberto) return aberto;
@@ -14270,6 +15442,7 @@ function treinoDoAgora() {
   });
   return rec?.treino || null;
 }
+
 function blocoAgora(alvo) {
   if (!alvo) return '';
   return h('section', { class: 'agora', 'aria-label': 'Agora' },
@@ -14293,6 +15466,7 @@ function blocoAgora(alvo) {
     }, 'COMEÇAR')
   );
 }
+
 function heroDoHub(alvo) {
   const nv = nivelInfo();
   const streak = streakAtual();
@@ -14330,6 +15504,7 @@ function heroDoHub(alvo) {
     )
   );
 }
+
 function unidadesHub() {
   const out = [];
   for (const c of GRUPOS_HUB) {
@@ -14338,6 +15513,7 @@ function unidadesHub() {
   }
   return out;
 }
+
 function unidadeAtual() {
   const us = unidadesHub();
   const cat = filtroHub.categoria;
@@ -14346,10 +15522,12 @@ function unidadeAtual() {
   return us.find(u => (cat === 'todos' || u.c.id === cat) && u.ts.some(t => t.id === id))
     || us.find(u => cat === 'todos' || u.c.id === cat) || us[0];
 }
+
 function marcoVivo(bau) {
   return h('div', { class: 'hub-item trilha-item passo-vivo', role: 'listitem' },
     h('div', { class: bau ? 'bau-no' : 'trofeu-no', role: 'img', 'aria-label': bau ? 'Baú' : 'Troféu' }, bau ? '🎁' : '🏆'));
 }
+
 function bannerUnidade() {
   const u = unidadeAtual();
   const cor = CORU[u.c.id];
@@ -14376,6 +15554,7 @@ function bannerUnidade() {
     )
   );
 }
+
 function blocoFluencia() {
   const trilha = garantirTrilha();
   const rec = treinoRecomendado(TREINOS, {
@@ -14558,6 +15737,7 @@ function blocoFluencia() {
     )
   ];
 }
+
 function abrirGuia() {
   const u = unidadeAtual();
   const folha = h('div', { class: 'sheet-fundo', onclick(ev) { if (ev.target === folha) folha.remove(); } },
@@ -14569,6 +15749,7 @@ function abrirGuia() {
   );
   document.body.append(folha);
 }
+
 function abrirUnidades() {
   const us = unidadesHub();
   const atual = unidadeAtual();
@@ -14612,6 +15793,7 @@ function abrirUnidades() {
   );
   document.body.append(folha);
 }
+
 function cartaoComNivel(item, sub, onclick) {
   return h('button', { class: 'card revisao', type: 'button', onclick },
     h('span', { class: 'revisao-emoji' }, item.emoji || '💬'),
@@ -14622,6 +15804,7 @@ function cartaoComNivel(item, sub, onclick) {
     h('span', { class: 'pilula' }, item.nivel)
   );
 }
+
 function filaAdaptada(lista, id, porId) {
   const ordenada = montarSessao(lista, estado.nivelFala, lista.length);
   if (!id) return ordenada.slice(0, 4);
@@ -14629,9 +15812,11 @@ function filaAdaptada(lista, id, porId) {
   if (!escolhido) return ordenada.slice(0, 4);
   return [escolhido, ...ordenada.filter(item => item.id !== escolhido.id)].slice(0, 4);
 }
+
 function fecharNota(notas) {
   return notas.length ? Math.round(notas.reduce((s, n) => s + n, 0) / notas.length) : 0;
 }
+
 function telaNivel() {
   calar();
   limparTela();
@@ -14658,10 +15843,12 @@ function telaNivel() {
   );
   focarTela();
 }
+
 function abrirNivel() {
   nivelSessao = { i: 0, respostas: [], feedback: null, concluido: false, fim: null };
   pintarNivel();
 }
+
 function pintarNivel() {
   if (!nivelSessao || nivelSessao.concluido) return telaNivel();
   calar();
@@ -14714,6 +15901,7 @@ function pintarNivel() {
   ligarTeclasDaFala();
   focarTela();
 }
+
 function concluirNivel() {
   if (!nivelSessao || nivelSessao.concluido) return pintarFim(nivelSessao?.fim);
   const acertos = contarAcertos(nivelSessao.respostas);
@@ -14745,6 +15933,7 @@ function concluirNivel() {
   };
   pintarFim(nivelSessao.fim);
 }
+
 function telaPerguntas() {
   calar();
   limparTela();
@@ -14761,6 +15950,7 @@ function telaPerguntas() {
   );
   focarTela();
 }
+
 function abrirPergunta(id) {
   const cena = perguntaPorId(id);
   if (!cena) return telaPerguntas();
@@ -14776,6 +15966,7 @@ function abrirPergunta(id) {
   };
   pintarPergunta();
 }
+
 function pintarPergunta() {
   if (!perguntaSessao || perguntaSessao.concluido) return telaPerguntas();
   calar();
@@ -14842,6 +16033,7 @@ function pintarPergunta() {
   focarTela();
   if (!perguntaSessao.feedback) campo.entrada.focus();
 }
+
 function concluirPergunta() {
   if (!perguntaSessao || perguntaSessao.concluido) return pintarFim(perguntaSessao?.fim);
   const total = perguntaSessao.cena.rodadas.length;
@@ -14869,6 +16061,7 @@ function concluirPergunta() {
   };
   pintarFim(perguntaSessao.fim);
 }
+
 function telaReducoes() {
   calar();
   limparTela();
@@ -14888,6 +16081,7 @@ function telaReducoes() {
   );
   focarTela();
 }
+
 function abrirReducao(id) {
   const fila = filaAdaptada(REDUCOES, id, reducaoPorId);
   if (!fila.length) return telaReducoes();
@@ -14904,6 +16098,7 @@ function abrirReducao(id) {
   };
   pintarReducao();
 }
+
 function pintarReducao() {
   if (!reducaoSessao || reducaoSessao.concluido) return telaReducoes();
   calar();
@@ -14990,6 +16185,7 @@ function pintarReducao() {
   ligarTeclasDaFala();
   focarTela();
 }
+
 function concluirReducao() {
   if (!reducaoSessao || reducaoSessao.concluido) return pintarFim(reducaoSessao?.fim);
   const total = reducaoSessao.fila.length;
@@ -15017,6 +16213,7 @@ function concluirReducao() {
   };
   pintarFim(reducaoSessao.fim);
 }
+
 function telaFrasais() {
   calar();
   limparTela();
@@ -15034,6 +16231,7 @@ function telaFrasais() {
   );
   focarTela();
 }
+
 function abrirFrasal(id) {
   const fila = filaAdaptada(FRASAIS, id, frasalPorId);
   if (!fila.length) return telaFrasais();
@@ -15049,6 +16247,7 @@ function abrirFrasal(id) {
   };
   pintarFrasal();
 }
+
 function pintarFrasal() {
   if (!frasalSessao || frasalSessao.concluido) return telaFrasais();
   calar();
@@ -15109,6 +16308,7 @@ function pintarFrasal() {
   focarTela();
   if (!frasalSessao.feedback) campo.entrada.focus();
 }
+
 function concluirFrasal() {
   if (!frasalSessao || frasalSessao.concluido) return pintarFim(frasalSessao?.fim);
   const total = frasalSessao.fila.length;
@@ -15136,6 +16336,7 @@ function concluirFrasal() {
   };
   pintarFim(frasalSessao.fim);
 }
+
 function telaLivres() {
   calar();
   limparTela();
@@ -15152,6 +16353,7 @@ function telaLivres() {
   );
   focarTela();
 }
+
 function abrirLivre(id) {
   const tema = temaPorId(id);
   if (!tema) return telaLivres();
@@ -15165,12 +16367,14 @@ function abrirLivre(id) {
   };
   pintarLivre();
 }
+
 function relogioLivre(segundos) {
   const s = Math.max(0, Number(segundos) || 0);
   const m = Math.floor(s / 60);
   const r = s % 60;
   return `${m}:${String(r).padStart(2, '0')}`;
 }
+
 function ligarCronometroLivre() {
   clearInterval(intervaloLivre);
   intervaloLivre = setInterval(() => {
@@ -15189,6 +16393,7 @@ function ligarCronometroLivre() {
     }
   }, 1000);
 }
+
 function enviarLivre() {
   if (!livreSessao || livreSessao.feedback) return;
   clearInterval(intervaloLivre);
@@ -15224,6 +16429,7 @@ function enviarLivre() {
   };
   pintarLivre();
 }
+
 function pintarLivre() {
   if (!livreSessao) return telaLivres();
   if (livreSessao.concluido) return pintarFim(livreSessao.fim);
@@ -15295,6 +16501,7 @@ function pintarLivre() {
   focarTela();
   if (!livreSessao.feedback) ligarCronometroLivre();
 }
+
 function barrasDaSemana(dias) {
   return h('div', { class: 'semana-fala', role: 'img', 'aria-label': 'Nota média desta semana, de segunda a domingo' },
     dias.map(d => {
@@ -15312,6 +16519,7 @@ function barrasDaSemana(dias) {
     })
   );
 }
+
 function telaResumo() {
   calar();
   limparTela();
@@ -15476,6 +16684,7 @@ function telaResumo() {
   );
   focarTela();
 }
+
 function aplicarFonte(valor) {
   const grande = valor === 'grande';
   if (grande) document.documentElement.dataset.fonte = 'grande';
@@ -15485,6 +16694,7 @@ function aplicarFonte(valor) {
     else localStorage.removeItem('gringolingo:fonte');
   } catch {}
 }
+
 function cartaoFonte() {
   const grande = document.documentElement.dataset.fonte === 'grande';
   return h('div', { class: 'card' },
@@ -15511,6 +16721,7 @@ function cartaoFonte() {
     h('p', { class: 'ia-aviso' }, 'Nas escolhas, as teclas 1, 2 e 3 marcam a opção. Enter segue em frente.')
   );
 }
+
 function ligarTeclasDaFala() {
   if (atalhosAtivos) document.removeEventListener('keydown', atalhosAtivos);
   atalhosAtivos = e => {
@@ -15545,6 +16756,7 @@ function ligarTeclasDaFala() {
   };
   document.addEventListener('keydown', atalhosAtivos);
 }
+
 function descartarVoz() {
   vozGeracao++;
   if (vozTimer) {
@@ -15559,6 +16771,7 @@ function descartarVoz() {
   }
   gravacaoUrl = soltarUrl(gravacaoUrl);
 }
+
 function finalizarGravacao() {
   const rec = gravadorAtivo;
   if (!rec || rec.state === 'inactive') return Promise.resolve();
@@ -15567,6 +16780,7 @@ function finalizarGravacao() {
     try { rec.stop(); } catch { resolve(); }
   });
 }
+
 function tocarGravacao(status) {
   if (!gravacaoUrl) {
     status.textContent = 'Grave uma tentativa para ouvir a sua voz.';
@@ -15577,6 +16791,7 @@ function tocarGravacao(status) {
     status.textContent = 'Não consegui tocar a gravação.';
   });
 }
+
 function pintarBotaoGravacao(botao, gravando) {
   const rotulo = gravando ? rotuloGravacao(true) : rotuloGravacao(false);
   botao.textContent = rotulo.texto;
@@ -15584,6 +16799,7 @@ function pintarBotaoGravacao(botao, gravando) {
   botao.setAttribute('aria-label', rotulo.rotulo);
   return rotulo;
 }
+
 async function comecarGravacao(botao, status) {
   if (gravadorAtivo && gravadorAtivo.state === 'recording') {
     await finalizarGravacao();
@@ -15647,6 +16863,7 @@ async function comecarGravacao(botao, status) {
     if (gravadorAtivo === rec && rec.state === 'recording') rec.stop();
   }, LIMITE_GRAVACAO_MS);
 }
+
 function barraGravar(status) {
   if (!podeGravar()) {
     return h('p', { class: 'ia-aviso' }, 'Este navegador não grava áudio. Dá para escrever e ouvir o modelo depois.');
@@ -15663,6 +16880,7 @@ function barraGravar(status) {
     botao
   );
 }
+
 function barraModelo(frase, status) {
   return h('div', { class: 'fila-botoes' },
     h('button', {
@@ -15674,6 +16892,7 @@ function barraModelo(frase, status) {
     h('button', { class: 'btn btn-branco', type: 'button', onclick: () => falar(frase) }, 'MODELO')
   );
 }
+
 function novaCena(cena) {
   return {
     cena,
@@ -15686,6 +16905,7 @@ function novaCena(cena) {
     fim: null
   };
 }
+
 function concluirCena(sessao, registrar, cfg) {
   if (!sessao || sessao.concluido) return pintarFim(sessao?.fim);
   const total = sessao.cena.rodadas.length;
@@ -15714,6 +16934,7 @@ function concluirCena(sessao, registrar, cfg) {
   descartarVoz();
   pintarFim(sessao.fim);
 }
+
 function pintarCenaFala(sessao, cfg) {
   if (!sessao || sessao.concluido) return cfg.aoLista();
   calar();
@@ -15797,13 +17018,16 @@ function pintarCenaFala(sessao, cfg) {
   if (!sessao.feedback) campo.entrada.focus();
   if (!sessao.feedback && rodada.segundos) ligarCronometroDemo(rodada.segundos);
 }
+
 function subCena(miolo) {
   return `Duas falas: ${miolo}. A frase modelo só aparece depois.`;
 }
+
 function listarCena(rota, titulo, aviso, lista, abrir, zerar) {
   zerar(null);
   telaListaFala(rota, titulo, aviso, preferirNivel(lista, estado.nivelFala), abrir);
 }
+
 function abrirCenaLista(id, porId, guardar, pintar, aoLista) {
   const cena = porId(id);
   if (!cena) return aoLista();
@@ -15811,6 +17035,7 @@ function abrirCenaLista(id, porId, guardar, pintar, aoLista) {
   guardar(novaCena(cena));
   pintar();
 }
+
 function pintarCenaLista(sessao, cfg) {
   pintarCenaFala(sessao, {
     rota: cfg.rota,
@@ -15827,6 +17052,7 @@ function pintarCenaLista(sessao, cfg) {
     })
   });
 }
+
 function telaTecnicos() {
   calar();
   limparTela();
@@ -15844,6 +17070,7 @@ function telaTecnicos() {
   );
   focarTela();
 }
+
 function abrirTecnico(id) {
   const cena = cenaTecnicaPorId(id);
   if (!cena) return telaTecnicos();
@@ -15851,6 +17078,7 @@ function abrirTecnico(id) {
   tecnicoSessao = novaCena(cena);
   pintarTecnico();
 }
+
 function pintarTecnico() {
   pintarCenaFala(tecnicoSessao, {
     rota: 'tecnico',
@@ -15866,6 +17094,7 @@ function pintarTecnico() {
     })
   });
 }
+
 function telaIdiomas() {
   calar();
   limparTela();
@@ -15884,6 +17113,7 @@ function telaIdiomas() {
   );
   focarTela();
 }
+
 function abrirIdioma(id) {
   const fila = filaAdaptada(IDIOMAS, id, idiomaPorId);
   if (!fila.length) return telaIdiomas();
@@ -15900,6 +17130,7 @@ function abrirIdioma(id) {
   };
   pintarIdioma();
 }
+
 function pintarIdioma() {
   if (!idiomaSessao || idiomaSessao.concluido) return telaIdiomas();
   calar();
@@ -15967,6 +17198,7 @@ function pintarIdioma() {
   focarTela();
   if (!idiomaSessao.feedback) campo.entrada.focus();
 }
+
 function concluirIdioma() {
   if (!idiomaSessao || idiomaSessao.concluido) return pintarFim(idiomaSessao?.fim);
   const total = idiomaSessao.fila.length;
@@ -15995,6 +17227,7 @@ function concluirIdioma() {
   descartarVoz();
   pintarFim(idiomaSessao.fim);
 }
+
 function cartaoPerguntaDia() {
   const feito = estado.perguntaDia === diaLocalAgora();
   return h('button', { class: 'card revisao dia-atalho', type: 'button', onclick: telaPerguntaDia },
@@ -16008,11 +17241,13 @@ function cartaoPerguntaDia() {
     h('span', { class: 'revisao-seta' }, feito ? '✓' : '›')
   );
 }
+
 function telaPerguntaDia() {
   descartarVoz();
   diaSessao = novaCena(perguntaDoDia(diaLocalAgora()));
   pintarPerguntaDia();
 }
+
 function pintarPerguntaDia() {
   pintarCenaFala(diaSessao, {
     rota: 'dia',
@@ -16031,6 +17266,7 @@ function pintarPerguntaDia() {
     })
   });
 }
+
 function cartaoDeslizes() {
   const n = deslizesVencidos().length;
   if (!n) return '';
@@ -16043,6 +17279,7 @@ function cartaoDeslizes() {
     h('span', { class: 'revisao-seta' }, '›')
   );
 }
+
 function telaDeslizes() {
   calar();
   limparTela();
@@ -16073,6 +17310,7 @@ function telaDeslizes() {
   );
   focarTela();
 }
+
 function abrirDeslizes() {
   const fila = deslizesVencidos().slice(0, 6);
   if (!fila.length) return telaDeslizes();
@@ -16089,6 +17327,7 @@ function abrirDeslizes() {
   };
   pintarDeslize();
 }
+
 function pintarDeslize() {
   if (!deslizeSessao || deslizeSessao.concluido) return telaDeslizes();
   calar();
@@ -16153,6 +17392,7 @@ function pintarDeslize() {
   focarTela();
   if (!deslizeSessao.feedback) campo.entrada.focus();
 }
+
 function concluirDeslize() {
   if (!deslizeSessao || deslizeSessao.concluido) return pintarFim(deslizeSessao?.fim);
   const total = deslizeSessao.fila.length;
@@ -16181,6 +17421,7 @@ function concluirDeslize() {
   descartarVoz();
   pintarFim(deslizeSessao.fim);
 }
+
 function infoEspaco() {
   return filaEspacada({
     erros: estado.errosFala,
@@ -16188,6 +17429,7 @@ function infoEspaco() {
     hoje: diaLocalAgora()
   });
 }
+
 function telaEspacos() {
   calar();
   limparTela();
@@ -16217,6 +17459,7 @@ function telaEspacos() {
   );
   focarTela();
 }
+
 function abrirEspaco() {
   const fila = infoEspaco().fila.slice(0, 6);
   if (!fila.length) return telaEspacos();
@@ -16235,6 +17478,7 @@ function abrirEspaco() {
   };
   pintarEspaco();
 }
+
 function pintarEspaco() {
   if (!espacoSessao || espacoSessao.concluido) return telaEspacos();
   calar();
@@ -16303,6 +17547,7 @@ function pintarEspaco() {
   focarTela();
   if (!espacoSessao.feedback) campo.entrada.focus();
 }
+
 function concluirEspaco() {
   if (!espacoSessao || espacoSessao.concluido) return pintarFim(espacoSessao?.fim);
   const total = espacoSessao.fila.length;
@@ -16331,6 +17576,7 @@ function concluirEspaco() {
   descartarVoz();
   pintarFim(espacoSessao.fim);
 }
+
 function telaRemoto() {
   calar();
   limparTela();
@@ -16351,11 +17597,13 @@ function telaRemoto() {
   );
   focarTela();
 }
+
 function abrirRemoto() {
   descartarVoz();
   remotoSessao = novaCena(ENTREVISTA);
   pintarRemoto();
 }
+
 function pintarRemoto() {
   pintarCenaFala(remotoSessao, {
     rota: 'remoto',
@@ -16371,6 +17619,7 @@ function pintarRemoto() {
     })
   });
 }
+
 function telaContos() {
   calar();
   limparTela();
@@ -16388,6 +17637,7 @@ function telaContos() {
   );
   focarTela();
 }
+
 function abrirConto(id) {
   const cena = contoPorId(id);
   if (!cena) return telaContos();
@@ -16395,6 +17645,7 @@ function abrirConto(id) {
   contoSessao = novaCena(cena);
   pintarConto();
 }
+
 function pintarConto() {
   pintarCenaFala(contoSessao, {
     rota: 'conto',
@@ -16410,6 +17661,7 @@ function pintarConto() {
     })
   });
 }
+
 function telaNumeros() {
   calar();
   limparTela();
@@ -16428,6 +17680,7 @@ function telaNumeros() {
   );
   focarTela();
 }
+
 function abrirNumero(id) {
   const fila = filaAdaptada(NUMEROS, id, numeroPorId);
   if (!fila.length) return telaNumeros();
@@ -16444,6 +17697,7 @@ function abrirNumero(id) {
   };
   pintarNumero();
 }
+
 function pintarNumero() {
   if (!numeroSessao || numeroSessao.concluido) return telaNumeros();
   calar();
@@ -16527,6 +17781,7 @@ function pintarNumero() {
   ligarTeclasDaFala();
   focarTela();
 }
+
 function concluirNumero() {
   if (!numeroSessao || numeroSessao.concluido) return pintarFim(numeroSessao?.fim);
   const total = numeroSessao.fila.length;
@@ -16554,11 +17809,13 @@ function concluirNumero() {
   };
   pintarFim(numeroSessao.fim);
 }
+
 function rotuloCall(s) {
   const etapa = s.cena.rodadas[s.i].etapa;
   const fala = `Fala ${s.i + 1} de ${s.cena.rodadas.length}`;
   return etapa ? `${etapa} · ${fala} · ${s.cena.nivel}` : `${fala} · ${s.cena.nivel}`;
 }
+
 function telaRelatos() {
   calar();
   limparTela();
@@ -16576,9 +17833,11 @@ function telaRelatos() {
   );
   focarTela();
 }
+
 function abrirRelato(id) {
   abrirCenaLista(id, relatoPorId, cena => { relatoSessao = cena; }, pintarRelato, telaRelatos);
 }
+
 function pintarRelato() {
   pintarCenaLista(relatoSessao, {
     rota: 'relato',
@@ -16589,6 +17848,7 @@ function pintarRelato() {
     tituloFim: 'Bug relatado!'
   });
 }
+
 function telaCortesias() {
   calar();
   limparTela();
@@ -16606,9 +17866,11 @@ function telaCortesias() {
   );
   focarTela();
 }
+
 function abrirCortesia(id) {
   abrirCenaLista(id, cortesiaPorId, cena => { cortesiaSessao = cena; }, pintarCortesia, telaCortesias);
 }
+
 function pintarCortesia() {
   pintarCenaLista(cortesiaSessao, {
     rota: 'cortesia',
@@ -16619,6 +17881,7 @@ function pintarCortesia() {
     tituloFim: 'Review educado!'
   });
 }
+
 function telaAquecer() {
   calar();
   limparTela();
@@ -16636,9 +17899,11 @@ function telaAquecer() {
   );
   focarTela();
 }
+
 function abrirAquecer(id) {
   abrirCenaLista(id, aquecerPorId, cena => { aquecerSessao = cena; }, pintarAquecer, telaAquecer);
 }
+
 function pintarAquecer() {
   pintarCenaLista(aquecerSessao, {
     rota: 'aquecer',
@@ -16649,6 +17914,7 @@ function pintarAquecer() {
     tituloFim: 'Papo feito!'
   });
 }
+
 function telaClaros() {
   calar();
   limparTela();
@@ -16667,6 +17933,7 @@ function telaClaros() {
   );
   focarTela();
 }
+
 function abrirClaro(id) {
   const fila = filaAdaptada(CLAROS, id, claroPorId);
   if (!fila.length) return telaClaros();
@@ -16683,6 +17950,7 @@ function abrirClaro(id) {
   };
   pintarClaro();
 }
+
 function pintarClaro() {
   if (!claroSessao || claroSessao.concluido) return telaClaros();
   calar();
@@ -16751,6 +18019,7 @@ function pintarClaro() {
   focarTela();
   if (!claroSessao.feedback) campo.entrada.focus();
 }
+
 function concluirClaro() {
   if (!claroSessao || claroSessao.concluido) return pintarFim(claroSessao?.fim);
   const total = claroSessao.fila.length;
@@ -16779,6 +18048,7 @@ function concluirClaro() {
   descartarVoz();
   pintarFim(claroSessao.fim);
 }
+
 function fraseComFoco(item) {
   const foco = String(item.foco || '').toLowerCase();
   return h('p', { class: 'sombra-frase', lang: 'en' }, String(item.melhor || '').split(/(\s+)/).map(p => {
@@ -16786,6 +18056,7 @@ function fraseComFoco(item) {
     return limpo && limpo === foco ? h('strong', {}, p) : p;
   }));
 }
+
 function telaListaFala(rota, titulo, aviso, lista, abrir) {
   calar();
   limparTela();
@@ -16801,6 +18072,7 @@ function telaListaFala(rota, titulo, aviso, lista, abrir) {
   );
   focarTela();
 }
+
 function cartaoPlano() {
   const plano = planoDaSemana({
     deslizes: deslizesVencidos().length,
@@ -16821,6 +18093,7 @@ function cartaoPlano() {
     ))
   );
 }
+
 function abrirPlano(id) {
   const destinos = {
     deslize: telaDeslizes,
@@ -16832,6 +18105,7 @@ function abrirPlano(id) {
   };
   (destinos[id] || telaConversa)();
 }
+
 function telaDecisoes() {
   listarCena(
     'decisao',
@@ -16842,9 +18116,11 @@ function telaDecisoes() {
     valor => { decisaoSessao = valor; }
   );
 }
+
 function abrirDecisao(id) {
   abrirCenaLista(id, decisaoPorId, cena => { decisaoSessao = cena; }, pintarDecisao, telaDecisoes);
 }
+
 function pintarDecisao() {
   pintarCenaLista(decisaoSessao, {
     rota: 'decisao',
@@ -16855,6 +18131,7 @@ function pintarDecisao() {
     tituloFim: 'Decisão explicada!'
   });
 }
+
 function telaPares() {
   listarCena(
     'par',
@@ -16865,9 +18142,11 @@ function telaPares() {
     valor => { parSessao = valor; }
   );
 }
+
 function abrirPar(id) {
   abrirCenaLista(id, parPorId, cena => { parSessao = cena; }, pintarPar, telaPares);
 }
+
 function pintarPar() {
   pintarCenaLista(parSessao, {
     rota: 'par',
@@ -16878,6 +18157,7 @@ function pintarPar() {
     tituloFim: 'Ajuda pedida!'
   });
 }
+
 function telaPlantoes() {
   listarCena(
     'plantao',
@@ -16888,9 +18168,11 @@ function telaPlantoes() {
     valor => { plantaoSessao = valor; }
   );
 }
+
 function abrirPlantao(id) {
   abrirCenaLista(id, incidentePorId, cena => { plantaoSessao = cena; }, pintarPlantao, telaPlantoes);
 }
+
 function pintarPlantao() {
   pintarCenaLista(plantaoSessao, {
     rota: 'plantao',
@@ -16901,6 +18183,7 @@ function pintarPlantao() {
     tituloFim: 'Plantão encerrado!'
   });
 }
+
 function cartaoHistorico(dias) {
   const maxTreinos = Math.max(1, ...dias.map(d => d.treinos));
   return h('div', { class: 'card' },
@@ -16925,6 +18208,7 @@ function cartaoHistorico(dias) {
     )
   );
 }
+
 function telaEstimativas() {
   listarCena(
     'estimativa',
@@ -16935,9 +18219,11 @@ function telaEstimativas() {
     valor => { estimativaSessao = valor; }
   );
 }
+
 function abrirEstimativa(id) {
   abrirCenaLista(id, estimativaPorId, cena => { estimativaSessao = cena; }, pintarEstimativa, telaEstimativas);
 }
+
 function pintarEstimativa() {
   pintarCenaLista(estimativaSessao, {
     rota: 'estimativa',
@@ -16948,6 +18234,7 @@ function pintarEstimativa() {
     tituloFim: 'Prazo dito!'
   });
 }
+
 function telaConsensos() {
   listarCena(
     'consenso',
@@ -16958,9 +18245,11 @@ function telaConsensos() {
     valor => { consensoSessao = valor; }
   );
 }
+
 function abrirConsenso(id) {
   abrirCenaLista(id, consensoPorId, cena => { consensoSessao = cena; }, pintarConsenso, telaConsensos);
 }
+
 function pintarConsenso() {
   pintarCenaLista(consensoSessao, {
     rota: 'consenso',
@@ -16971,6 +18260,7 @@ function pintarConsenso() {
     tituloFim: 'Meio-termo feito!'
   });
 }
+
 function telaAtendimentos() {
   listarCena(
     'atendimento',
@@ -16981,9 +18271,11 @@ function telaAtendimentos() {
     valor => { atendimentoSessao = valor; }
   );
 }
+
 function abrirAtendimento(id) {
   abrirCenaLista(id, atendimentoPorId, cena => { atendimentoSessao = cena; }, pintarAtendimento, telaAtendimentos);
 }
+
 function pintarAtendimento() {
   pintarCenaLista(atendimentoSessao, {
     rota: 'atendimento',
@@ -16994,6 +18286,7 @@ function pintarAtendimento() {
     tituloFim: 'Ligação feita!'
   });
 }
+
 function telaRequisitos() {
   listarCena(
     'requisito',
@@ -17004,9 +18297,11 @@ function telaRequisitos() {
     valor => { requisitoSessao = valor; }
   );
 }
+
 function abrirRequisito(id) {
   abrirCenaLista(id, requisitoPorId, cena => { requisitoSessao = cena; }, pintarRequisito, telaRequisitos);
 }
+
 function pintarRequisito() {
   pintarCenaLista(requisitoSessao, {
     rota: 'requisito',
@@ -17017,6 +18312,7 @@ function pintarRequisito() {
     tituloFim: 'Requisito dito!'
   });
 }
+
 function telaMetricas() {
   listarCena(
     'metrica',
@@ -17027,9 +18323,11 @@ function telaMetricas() {
     valor => { metricaSessao = valor; }
   );
 }
+
 function abrirMetrica(id) {
   abrirCenaLista(id, metricaPorId, cena => { metricaSessao = cena; }, pintarMetrica, telaMetricas);
 }
+
 function pintarMetrica() {
   pintarCenaLista(metricaSessao, {
     rota: 'metrica',
@@ -17040,6 +18338,7 @@ function pintarMetrica() {
     tituloFim: 'Métrica dita!'
   });
 }
+
 function telaAprendizados() {
   listarCena(
     'aprendizado',
@@ -17050,9 +18349,11 @@ function telaAprendizados() {
     valor => { aprendizadoSessao = valor; }
   );
 }
+
 function abrirAprendizado(id) {
   abrirCenaLista(id, aprendizadoPorId, cena => { aprendizadoSessao = cena; }, pintarAprendizado, telaAprendizados);
 }
+
 function pintarAprendizado() {
   pintarCenaLista(aprendizadoSessao, {
     rota: 'aprendizado',
@@ -17063,6 +18364,7 @@ function pintarAprendizado() {
     tituloFim: 'Lição contada!'
   });
 }
+
 function telaPasseio() {
   passeioSessao = null;
   calar();
@@ -17086,6 +18388,7 @@ function telaPasseio() {
   );
   focarTela();
 }
+
 function abrirPasseio() {
   const cena = montarPasseio(diaLocalAgora());
   if (!cena) return telaPasseio();
@@ -17106,6 +18409,7 @@ function abrirPasseio() {
   };
   pintarPasseio();
 }
+
 function telaCulturas() {
   listarCena(
     'cultura',
@@ -17116,9 +18420,11 @@ function telaCulturas() {
     valor => { culturaSessao = valor; }
   );
 }
+
 function abrirCultura(id) {
   abrirCenaLista(id, culturaPorId, cena => { culturaSessao = cena; }, pintarCultura, telaCulturas);
 }
+
 function pintarCultura() {
   pintarCenaLista(culturaSessao, {
     rota: 'cultura',
@@ -17129,6 +18435,7 @@ function pintarCultura() {
     tituloFim: 'Papo feito!'
   });
 }
+
 function telaAumentos() {
   listarCena(
     'aumento',
@@ -17139,9 +18446,11 @@ function telaAumentos() {
     valor => { aumentoSessao = valor; }
   );
 }
+
 function abrirAumento(id) {
   abrirCenaLista(id, aumentoPorId, cena => { aumentoSessao = cena; }, pintarAumento, telaAumentos);
 }
+
 function pintarAumento() {
   pintarCenaLista(aumentoSessao, {
     rota: 'aumento',
@@ -17152,6 +18461,7 @@ function pintarAumento() {
     tituloFim: 'Pedido feito!'
   });
 }
+
 function telaRotas() {
   listarCena(
     'rota',
@@ -17162,9 +18472,11 @@ function telaRotas() {
     valor => { rotaSessao = valor; }
   );
 }
+
 function abrirRota(id) {
   abrirCenaLista(id, rotaPorId, cena => { rotaSessao = cena; }, pintarRota, telaRotas);
 }
+
 function pintarRota() {
   pintarCenaLista(rotaSessao, {
     rota: 'rota',
@@ -17175,6 +18487,7 @@ function pintarRota() {
     tituloFim: 'Rota explicada!'
   });
 }
+
 function telaVivos() {
   listarCena(
     'vivo',
@@ -17185,9 +18498,11 @@ function telaVivos() {
     valor => { vivoSessao = valor; }
   );
 }
+
 function abrirVivo(id) {
   abrirCenaLista(id, vivoPorId, cena => { vivoSessao = cena; }, pintarVivo, telaVivos);
 }
+
 function pintarVivo() {
   pintarCenaLista(vivoSessao, {
     rota: 'vivo',
@@ -17198,6 +18513,7 @@ function pintarVivo() {
     tituloFim: 'Status dado!'
   });
 }
+
 function telaProdutos() {
   listarCena(
     'produto',
@@ -17208,9 +18524,11 @@ function telaProdutos() {
     valor => { produtoSessao = valor; }
   );
 }
+
 function abrirProduto(id) {
   abrirCenaLista(id, produtoPorId, cena => { produtoSessao = cena; }, pintarProduto, telaProdutos);
 }
+
 function pintarProduto() {
   pintarCenaLista(produtoSessao, {
     rota: 'produto',
@@ -17221,6 +18539,7 @@ function pintarProduto() {
     tituloFim: 'Combinado!'
   });
 }
+
 function telaFechos() {
   listarCena(
     'fecho',
@@ -17231,9 +18550,11 @@ function telaFechos() {
     valor => { fechoSessao = valor; }
   );
 }
+
 function abrirFecho(id) {
   abrirCenaLista(id, fechoPorId, cena => { fechoSessao = cena; }, pintarFecho, telaFechos);
 }
+
 function pintarFecho() {
   pintarCenaLista(fechoSessao, {
     rota: 'fecho',
@@ -17244,6 +18565,7 @@ function pintarFecho() {
     tituloFim: 'Pergunta feita!'
   });
 }
+
 function telaNarras() {
   listarCena(
     'narrar',
@@ -17254,9 +18576,11 @@ function telaNarras() {
     valor => { narraSessao = valor; }
   );
 }
+
 function abrirNarra(id) {
   abrirCenaLista(id, narraPorId, cena => { narraSessao = cena; }, pintarNarra, telaNarras);
 }
+
 function pintarNarra() {
   pintarCenaLista(narraSessao, {
     rota: 'narrar',
@@ -17267,6 +18591,7 @@ function pintarNarra() {
     tituloFim: 'Linha dita!'
   });
 }
+
 function telaBancos() {
   listarCena(
     'banco',
@@ -17277,9 +18602,11 @@ function telaBancos() {
     valor => { bancoSessao = valor; }
   );
 }
+
 function abrirBanco(id) {
   abrirCenaLista(id, bancoPorId, cena => { bancoSessao = cena; }, pintarBanco, telaBancos);
 }
+
 function pintarBanco() {
   pintarCenaLista(bancoSessao, {
     rota: 'banco',
@@ -17290,6 +18617,7 @@ function pintarBanco() {
     tituloFim: 'Escolha dita!'
   });
 }
+
 function telaRecusas() {
   listarCena(
     'recusa',
@@ -17300,9 +18628,11 @@ function telaRecusas() {
     valor => { recusaSessao = valor; }
   );
 }
+
 function abrirRecusa(id) {
   abrirCenaLista(id, recusaPorId, cena => { recusaSessao = cena; }, pintarRecusa, telaRecusas);
 }
+
 function pintarRecusa() {
   pintarCenaLista(recusaSessao, {
     rota: 'recusa',
@@ -17313,6 +18643,7 @@ function pintarRecusa() {
     tituloFim: 'Caminho dito!'
   });
 }
+
 function telaMapas() {
   listarCena(
     'mapa',
@@ -17323,9 +18654,11 @@ function telaMapas() {
     valor => { mapaSessao = valor; }
   );
 }
+
 function abrirMapa(id) {
   abrirCenaLista(id, mapaPorId, cena => { mapaSessao = cena; }, pintarMapa, telaMapas);
 }
+
 function pintarMapa() {
   pintarCenaLista(mapaSessao, {
     rota: 'mapa',
@@ -17336,6 +18669,7 @@ function pintarMapa() {
     tituloFim: 'Mapa dito!'
   });
 }
+
 function telaDuros() {
   listarCena(
     'duro',
@@ -17346,9 +18680,11 @@ function telaDuros() {
     valor => { duroSessao = valor; }
   );
 }
+
 function abrirDuro(id) {
   abrirCenaLista(id, duroPorId, cena => { duroSessao = cena; }, pintarDuro, telaDuros);
 }
+
 function pintarDuro() {
   pintarCenaLista(duroSessao, {
     rota: 'duro',
@@ -17359,6 +18695,7 @@ function pintarDuro() {
     tituloFim: 'Ponto dito!'
   });
 }
+
 function telaPropostas() {
   listarCena(
     'proposta',
@@ -17369,9 +18706,11 @@ function telaPropostas() {
     valor => { propostaSessao = valor; }
   );
 }
+
 function abrirProposta(id) {
   abrirCenaLista(id, propostaPorId, cena => { propostaSessao = cena; }, pintarProposta, telaPropostas);
 }
+
 function pintarProposta() {
   pintarCenaLista(propostaSessao, {
     rota: 'proposta',
@@ -17382,6 +18721,7 @@ function pintarProposta() {
     tituloFim: 'Proposta dita!'
   });
 }
+
 function telaFuturos() {
   listarCena(
     'futuro',
@@ -17392,9 +18732,11 @@ function telaFuturos() {
     valor => { futuroSessao = valor; }
   );
 }
+
 function abrirFuturo(id) {
   abrirCenaLista(id, futuroPorId, cena => { futuroSessao = cena; }, pintarFuturo, telaFuturos);
 }
+
 function pintarFuturo() {
   pintarCenaLista(futuroSessao, {
     rota: 'futuro',
@@ -17405,6 +18747,7 @@ function pintarFuturo() {
     tituloFim: 'Plano dito!'
   });
 }
+
 function textoPasseio(sessao) {
   if (sessao.fase === 'lendo') return 'Lendo a pergunta.';
   if (sessao.fase === 'esperando') return 'Sua vez. Pode falar.';
@@ -17412,6 +18755,7 @@ function textoPasseio(sessao) {
   if (sessao.feedback?.ok && !sessao.feedback.quase) return 'Boa.';
   return 'Ouça de novo.';
 }
+
 function sairPasseio() {
   passeioGeracao += 1;
   passeioSessao = null;
@@ -17419,6 +18763,7 @@ function sairPasseio() {
   pararReconhecimento();
   voltarTela(telaConversa);
 }
+
 function entregarPasseio(geracao, texto) {
   if (geracao !== passeioGeracao || telaAtiva !== 'passeio') return;
   const sessao = passeioSessao;
@@ -17439,6 +18784,7 @@ function entregarPasseio(geracao, texto) {
   sessao.fase = 'feedback';
   pintarPasseio();
 }
+
 function avancarPasseio(geracao) {
   if (geracao !== passeioGeracao || telaAtiva !== 'passeio') return;
   const sessao = passeioSessao;
@@ -17453,6 +18799,7 @@ function avancarPasseio(geracao) {
   sessao.pulou = false;
   pintarPasseio();
 }
+
 function fecharPasseio() {
   if (!passeioSessao || passeioSessao.concluido) return;
   const respostas = passeioSessao.notas.length;
@@ -17498,6 +18845,7 @@ function fecharPasseio() {
   descartarVoz();
   pintarFim(passeioSessao.fim);
 }
+
 function escutarPasseio(geracao, entrada) {
   if (geracao !== passeioGeracao || telaAtiva !== 'passeio') return;
   if (!passeioSessao || passeioSessao.fase !== 'esperando') return;
@@ -17541,6 +18889,7 @@ function escutarPasseio(geracao, entrada) {
     entregarPasseio(geracao, entrada.value.trim());
   }, ESPERA_RESPOSTA_MS);
 }
+
 function lerPergunta(geracao, rodada) {
   const seguir = () => {
     timerDeTela(() => {
@@ -17558,6 +18907,7 @@ function lerPergunta(geracao, rodada) {
     pintarPasseio();
   }, falou ? 4000 : 0);
 }
+
 function pintarPasseio() {
   const sessao = passeioSessao;
   if (!sessao || sessao.concluido) return telaPasseio();
@@ -17614,6 +18964,7 @@ function pintarPasseio() {
   ligarTeclasDaFala();
   focarTela();
 }
+
 function telaSistemas() {
   listarCena(
     'sistema',
@@ -17624,9 +18975,11 @@ function telaSistemas() {
     valor => { sistemaSessao = valor; }
   );
 }
+
 function abrirSistema(id) {
   abrirCenaLista(id, sistemaPorId, cena => { sistemaSessao = cena; }, pintarSistema, telaSistemas);
 }
+
 function pintarSistema() {
   pintarCenaLista(sistemaSessao, {
     rota: 'sistema',
@@ -17637,6 +18990,7 @@ function pintarSistema() {
     tituloFim: 'Sistema desenhado!'
   });
 }
+
 function telaCodigos() {
   listarCena(
     'codigo',
@@ -17647,9 +19001,11 @@ function telaCodigos() {
     valor => { codigoSessao = valor; }
   );
 }
+
 function abrirCodigo(id) {
   abrirCenaLista(id, codigoPorId, cena => { codigoSessao = cena; }, pintarCodigo, telaCodigos);
 }
+
 function pintarCodigo() {
   pintarCenaLista(codigoSessao, {
     rota: 'codigo',
@@ -17660,6 +19016,7 @@ function pintarCodigo() {
     tituloFim: 'Código falado!'
   });
 }
+
 function telaColegas() {
   listarCena(
     'colega',
@@ -17670,9 +19027,11 @@ function telaColegas() {
     valor => { colegaSessao = valor; }
   );
 }
+
 function abrirColega(id) {
   abrirCenaLista(id, colegaPorId, cena => { colegaSessao = cena; }, pintarColega, telaColegas);
 }
+
 function pintarColega() {
   pintarCenaLista(colegaSessao, {
     rota: 'colega',
@@ -17683,6 +19042,7 @@ function pintarColega() {
     tituloFim: 'Ajuda combinada!'
   });
 }
+
 function telaModelos() {
   listarCena(
     'modelo',
@@ -17693,9 +19053,11 @@ function telaModelos() {
     valor => { modeloSessao = valor; }
   );
 }
+
 function abrirModelo(id) {
   abrirCenaLista(id, modeloPorId, cena => { modeloSessao = cena; }, pintarModelo, telaModelos);
 }
+
 function pintarModelo() {
   pintarCenaLista(modeloSessao, {
     rota: 'modelo',
@@ -17706,6 +19068,7 @@ function pintarModelo() {
     tituloFim: 'Ideia explicada!'
   });
 }
+
 function telaFuros() {
   listarCena(
     'furo',
@@ -17716,9 +19079,11 @@ function telaFuros() {
     valor => { furoSessao = valor; }
   );
 }
+
 function abrirFuro(id) {
   abrirCenaLista(id, furoPorId, cena => { furoSessao = cena; }, pintarFuro, telaFuros);
 }
+
 function pintarFuro() {
   pintarCenaLista(furoSessao, {
     rota: 'furo',
@@ -17729,6 +19094,7 @@ function pintarFuro() {
     tituloFim: 'Furo fechado!'
   });
 }
+
 function telaRotinas() {
   listarCena(
     'rotina',
@@ -17739,9 +19105,11 @@ function telaRotinas() {
     valor => { rotinaSessao = valor; }
   );
 }
+
 function abrirRotina(id) {
   abrirCenaLista(id, rotinaPorId, cena => { rotinaSessao = cena; }, pintarRotina, telaRotinas);
 }
+
 function pintarRotina() {
   pintarCenaLista(rotinaSessao, {
     rota: 'rotina',
@@ -17752,6 +19120,7 @@ function pintarRotina() {
     tituloFim: 'Casa contada!'
   });
 }
+
 function telaPalestras() {
   listarCena(
     'palestra',
@@ -17762,9 +19131,11 @@ function telaPalestras() {
     valor => { palestraSessao = valor; }
   );
 }
+
 function abrirPalestra(id) {
   abrirCenaLista(id, palestraPorId, cena => { palestraSessao = cena; }, pintarPalestra, telaPalestras);
 }
+
 function pintarPalestra() {
   pintarCenaLista(palestraSessao, {
     rota: 'palestra',
@@ -17775,6 +19146,7 @@ function pintarPalestra() {
     tituloFim: 'Palestra feita!'
   });
 }
+
 function telaDuvidas() {
   listarCena(
     'duvida',
@@ -17785,9 +19157,11 @@ function telaDuvidas() {
     valor => { duvidaSessao = valor; }
   );
 }
+
 function abrirDuvida(id) {
   abrirCenaLista(id, duvidaPorId, cena => { duvidaSessao = cena; }, pintarDuvida, telaDuvidas);
 }
+
 function pintarDuvida() {
   pintarCenaLista(duvidaSessao, {
     rota: 'duvida',
@@ -17798,6 +19172,7 @@ function pintarDuvida() {
     tituloFim: 'Resposta adiada!'
   });
 }
+
 function telaSinais() {
   listarCena(
     'sinal',
@@ -17808,9 +19183,11 @@ function telaSinais() {
     valor => { sinalSessao = valor; }
   );
 }
+
 function abrirSinal(id) {
   abrirCenaLista(id, sinalPorId, cena => { sinalSessao = cena; }, pintarSinal, telaSinais);
 }
+
 function pintarSinal() {
   pintarCenaLista(sinalSessao, {
     rota: 'sinal',
@@ -17821,6 +19198,7 @@ function pintarSinal() {
     tituloFim: 'Chamada salva!'
   });
 }
+
 function telaFalhas() {
   listarCena(
     'falha',
@@ -17831,9 +19209,11 @@ function telaFalhas() {
     valor => { falhaSessao = valor; }
   );
 }
+
 function abrirFalha(id) {
   abrirCenaLista(id, falhaPorId, cena => { falhaSessao = cena; }, pintarFalha, telaFalhas);
 }
+
 function pintarFalha() {
   pintarCenaLista(falhaSessao, {
     rota: 'falha',
@@ -17844,6 +19224,7 @@ function pintarFalha() {
     tituloFim: 'Causa dita!'
   });
 }
+
 function telaMentorias() {
   listarCena(
     'mentoria',
@@ -17854,9 +19235,11 @@ function telaMentorias() {
     valor => { mentoriaSessao = valor; }
   );
 }
+
 function abrirMentoria(id) {
   abrirCenaLista(id, mentoriaPorId, cena => { mentoriaSessao = cena; }, pintarMentoria, telaMentorias);
 }
+
 function pintarMentoria() {
   pintarCenaLista(mentoriaSessao, {
     rota: 'mentoria',
@@ -17867,6 +19250,7 @@ function pintarMentoria() {
     tituloFim: 'Dica dada!'
   });
 }
+
 function telaSocorros() {
   listarCena(
     'socorro',
@@ -17877,9 +19261,11 @@ function telaSocorros() {
     valor => { socorroSessao = valor; }
   );
 }
+
 function abrirSocorro(id) {
   abrirCenaLista(id, socorroPorId, cena => { socorroSessao = cena; }, pintarSocorro, telaSocorros);
 }
+
 function pintarSocorro() {
   pintarCenaLista(socorroSessao, {
     rota: 'socorro',
@@ -17890,6 +19276,7 @@ function pintarSocorro() {
     tituloFim: 'Socorro dito!'
   });
 }
+
 function telaSalarios() {
   listarCena(
     'salario',
@@ -17900,9 +19287,11 @@ function telaSalarios() {
     valor => { salarioSessao = valor; }
   );
 }
+
 function abrirSalario(id) {
   abrirCenaLista(id, salarioPorId, cena => { salarioSessao = cena; }, pintarSalario, telaSalarios);
 }
+
 function pintarSalario() {
   pintarCenaLista(salarioSessao, {
     rota: 'salario',
@@ -17913,6 +19302,7 @@ function pintarSalario() {
     tituloFim: 'Oferta falada!'
   });
 }
+
 function telaProjetos() {
   listarCena(
     'projeto',
@@ -17923,9 +19313,11 @@ function telaProjetos() {
     valor => { projetoSessao = valor; }
   );
 }
+
 function abrirProjeto(id) {
   abrirCenaLista(id, projetoPorId, cena => { projetoSessao = cena; }, pintarProjeto, telaProjetos);
 }
+
 function pintarProjeto() {
   pintarCenaLista(projetoSessao, {
     rota: 'projeto',
@@ -17936,6 +19328,7 @@ function pintarProjeto() {
     tituloFim: 'Projeto contado!'
   });
 }
+
 function telaSotaques() {
   listarCena(
     'sotaque',
@@ -17946,6 +19339,7 @@ function telaSotaques() {
     valor => { sotaqueSessao = valor; }
   );
 }
+
 function abrirSotaque(id) {
   const cena = sotaquePorId(id);
   if (!cena) return telaSotaques();
@@ -17953,6 +19347,7 @@ function abrirSotaque(id) {
   sotaqueSessao = novaCena(cena);
   pintarSotaque();
 }
+
 function pintarSotaque() {
   const sessao = sotaqueSessao;
   if (!sessao || sessao.concluido) return telaSotaques();
@@ -18034,6 +19429,7 @@ function pintarSotaque() {
   focarTela();
   if (!sessao.feedback) campo.entrada.focus();
 }
+
 function telaDesafio() {
   desafioSessao = null;
   calar();
@@ -18051,6 +19447,7 @@ function telaDesafio() {
   );
   focarTela();
 }
+
 function abrirDesafio() {
   const resumo = resumoDesafio(diaLocalAgora());
   const cena = montarDesafio(diaLocalAgora(), resumo.entrando);
@@ -18059,6 +19456,7 @@ function abrirDesafio() {
   desafioSessao = novaCena(cena);
   pintarDesafio();
 }
+
 function pintarDesafio() {
   pintarCenaFala(desafioSessao, {
     rota: 'desafio',
@@ -18074,6 +19472,7 @@ function pintarDesafio() {
     })
   });
 }
+
 function telaLinhas() {
   listarCena(
     'linha',
@@ -18084,9 +19483,11 @@ function telaLinhas() {
     valor => { linhaSessao = valor; }
   );
 }
+
 function abrirLinha(id) {
   abrirCenaLista(id, linhaPorId, cena => { linhaSessao = cena; }, pintarLinha, telaLinhas);
 }
+
 function pintarLinha() {
   pintarCenaLista(linhaSessao, {
     rota: 'linha',
@@ -18097,6 +19498,7 @@ function pintarLinha() {
     tituloFim: 'Linha dita!'
   });
 }
+
 function telaSlacks() {
   listarCena(
     'slack',
@@ -18107,9 +19509,11 @@ function telaSlacks() {
     valor => { slackSessao = valor; }
   );
 }
+
 function abrirSlack(id) {
   abrirCenaLista(id, slackPorId, cena => { slackSessao = cena; }, pintarSlack, telaSlacks);
 }
+
 function pintarSlack() {
   pintarCenaLista(slackSessao, {
     rota: 'slack',
@@ -18120,6 +19524,7 @@ function pintarSlack() {
     tituloFim: 'Recado enviado!'
   });
 }
+
 function telaSociais() {
   listarCena(
     'social',
@@ -18130,9 +19535,11 @@ function telaSociais() {
     valor => { socialSessao = valor; }
   );
 }
+
 function abrirSocial(id) {
   abrirCenaLista(id, socialPorId, cena => { socialSessao = cena; }, pintarSocial, telaSociais);
 }
+
 function pintarSocial() {
   pintarCenaLista(socialSessao, {
     rota: 'social',
@@ -18143,6 +19550,7 @@ function pintarSocial() {
     tituloFim: 'Papo feito!'
   });
 }
+
 function telaTermos() {
   listarCena(
     'termo',
@@ -18153,9 +19561,11 @@ function telaTermos() {
     valor => { termoSessao = valor; }
   );
 }
+
 function abrirTermo(id) {
   abrirCenaLista(id, termoPorId, cena => { termoSessao = cena; }, pintarTermo, telaTermos);
 }
+
 function pintarTermo() {
   pintarCenaLista(termoSessao, {
     rota: 'termo',
@@ -18166,6 +19576,7 @@ function pintarTermo() {
     tituloFim: 'Som dito!'
   });
 }
+
 function telaGestores() {
   listarCena(
     'gestor',
@@ -18176,9 +19587,11 @@ function telaGestores() {
     valor => { gestorSessao = valor; }
   );
 }
+
 function abrirGestor(id) {
   abrirCenaLista(id, gestorPorId, cena => { gestorSessao = cena; }, pintarGestor, telaGestores);
 }
+
 function pintarGestor() {
   pintarCenaLista(gestorSessao, {
     rota: 'gestor',
@@ -18189,6 +19602,7 @@ function pintarGestor() {
     tituloFim: 'Feedback feito!'
   });
 }
+
 function telaFinais() {
   listarCena(
     'final',
@@ -18199,9 +19613,11 @@ function telaFinais() {
     valor => { finalSessao = valor; }
   );
 }
+
 function abrirFinal(id) {
   abrirCenaLista(id, finalPorId, cena => { finalSessao = cena; }, pintarFinal, telaFinais);
 }
+
 function pintarFinal() {
   pintarCenaLista(finalSessao, {
     rota: 'final',
@@ -18212,6 +19628,7 @@ function pintarFinal() {
     tituloFim: 'Pergunta feita!'
   });
 }
+
 function telaViagens() {
   listarCena(
     'viagem',
@@ -18222,9 +19639,11 @@ function telaViagens() {
     valor => { viagemSessao = valor; }
   );
 }
+
 function abrirViagem(id) {
   abrirCenaLista(id, viagemPorId, cena => { viagemSessao = cena; }, pintarViagem, telaViagens);
 }
+
 function pintarViagem() {
   pintarCenaLista(viagemSessao, {
     rota: 'viagem',
@@ -18235,6 +19654,7 @@ function pintarViagem() {
     tituloFim: 'Viagem feita!'
   });
 }
+
 function telaMisturas() {
   misturaSessao = null;
   revisaoPrazo = 0;
@@ -18253,6 +19673,7 @@ function telaMisturas() {
   );
   focarTela();
 }
+
 function abrirMistura() {
   const passos = montarRevisao(catalogoFaladas(), diaLocalAgora(), 8);
   if (!passos.length) return telaMisturas();
@@ -18268,6 +19689,7 @@ function abrirMistura() {
   revisaoPrazo = Date.now() + SEGUNDOS_REVISAO * 1000;
   pintarMistura();
 }
+
 function fecharRevisao() {
   if (!misturaSessao || misturaSessao.concluido) return;
   clearInterval(intervaloRevisao);
@@ -18315,6 +19737,7 @@ function fecharRevisao() {
   descartarVoz();
   pintarFim(misturaSessao.fim);
 }
+
 function ligarCronometroRevisao() {
   clearInterval(intervaloRevisao);
   intervaloRevisao = null;
@@ -18340,6 +19763,7 @@ function ligarCronometroRevisao() {
     fecharRevisao();
   }, 1000);
 }
+
 function pintarMistura() {
   pintarCenaFala(misturaSessao, {
     rota: 'mistura',
@@ -18366,6 +19790,7 @@ function pintarMistura() {
   }
   ligarCronometroRevisao();
 }
+
 function telaRetros() {
   listarCena(
     'retro',
@@ -18376,9 +19801,11 @@ function telaRetros() {
     valor => { retroSessao = valor; }
   );
 }
+
 function abrirRetro(id) {
   abrirCenaLista(id, retroPorId, cena => { retroSessao = cena; }, pintarRetro, telaRetros);
 }
+
 function pintarRetro() {
   pintarCenaLista(retroSessao, {
     rota: 'retro',
@@ -18389,6 +19816,7 @@ function pintarRetro() {
     tituloFim: 'Retro fechada!'
   });
 }
+
 function telaChegadas() {
   listarCena(
     'chegada',
@@ -18399,9 +19827,11 @@ function telaChegadas() {
     valor => { chegadaSessao = valor; }
   );
 }
+
 function abrirChegada(id) {
   abrirCenaLista(id, chegadaPorId, cena => { chegadaSessao = cena; }, pintarChegada, telaChegadas);
 }
+
 function pintarChegada() {
   pintarCenaLista(chegadaSessao, {
     rota: 'chegada',
@@ -18412,6 +19842,7 @@ function pintarChegada() {
     tituloFim: 'Boas-vindas feitas!'
   });
 }
+
 function telaLigacoes() {
   listarCena(
     'ligacao',
@@ -18422,9 +19853,11 @@ function telaLigacoes() {
     valor => { ligacaoSessao = valor; }
   );
 }
+
 function abrirLigacao(id) {
   abrirCenaLista(id, ligacaoPorId, cena => { ligacaoSessao = cena; }, pintarLigacao, telaLigacoes);
 }
+
 function pintarLigacao() {
   pintarCenaLista(ligacaoSessao, {
     rota: 'ligacao',
@@ -18435,6 +19868,7 @@ function pintarLigacao() {
     tituloFim: 'Ideias ligadas!'
   });
 }
+
 function telaDemos() {
   listarCena(
     'demo',
@@ -18445,9 +19879,11 @@ function telaDemos() {
     valor => { demoSessao = valor; }
   );
 }
+
 function abrirDemo(id) {
   abrirCenaLista(id, demoPorId, cena => { demoSessao = cena; }, pintarDemo, telaDemos);
 }
+
 function pintarDemo() {
   pintarCenaLista(demoSessao, {
     rota: 'demo',
@@ -18458,6 +19894,7 @@ function pintarDemo() {
     tituloFim: 'Demo feita!'
   });
 }
+
 function telaPrazos() {
   prazoSessao = null;
   telaListaFala(
@@ -18468,9 +19905,11 @@ function telaPrazos() {
     abrirPrazo
   );
 }
+
 function abrirPrazo(id) {
   abrirCenaLista(id, prazoPorId, cena => { prazoSessao = cena; }, pintarPrazo, telaPrazos);
 }
+
 function pintarPrazo() {
   pintarCenaLista(prazoSessao, {
     rota: 'prazo',
@@ -18481,6 +19920,7 @@ function pintarPrazo() {
     tituloFim: 'Prazo combinado!'
   });
 }
+
 function telaStars() {
   listarCena(
     'star',
@@ -18491,9 +19931,11 @@ function telaStars() {
     valor => { starSessao = valor; }
   );
 }
+
 function abrirStar(id) {
   abrirCenaLista(id, starPorId, cena => { starSessao = cena; }, pintarStar, telaStars);
 }
+
 function pintarStar() {
   pintarCenaLista(starSessao, {
     rota: 'star',
@@ -18504,6 +19946,7 @@ function pintarStar() {
     tituloFim: 'Caso contado!'
   });
 }
+
 function telaEnfases() {
   calar();
   limparTela();
@@ -18522,6 +19965,7 @@ function telaEnfases() {
   );
   focarTela();
 }
+
 function abrirEnfase(id) {
   const fila = filaAdaptada(ENFASES, id, enfasePorId);
   if (!fila.length) return telaEnfases();
@@ -18540,6 +19984,7 @@ function abrirEnfase(id) {
   };
   pintarEnfase();
 }
+
 function pintarEnfase() {
   if (!enfaseSessao || enfaseSessao.concluido) return telaEnfases();
   calar();
@@ -18626,6 +20071,7 @@ function pintarEnfase() {
   focarTela();
   if (!enfaseSessao.feedback && enfaseSessao.escolha) campo.entrada.focus();
 }
+
 function concluirEnfase() {
   if (!enfaseSessao || enfaseSessao.concluido) return pintarFim(enfaseSessao?.fim);
   const total = enfaseSessao.fila.length;
@@ -18654,6 +20100,7 @@ function concluirEnfase() {
   descartarVoz();
   pintarFim(enfaseSessao.fim);
 }
+
 function telaOpinioes() {
   calar();
   limparTela();
@@ -18671,6 +20118,7 @@ function telaOpinioes() {
   );
   focarTela();
 }
+
 function abrirOpiniao(id) {
   const cena = opiniaoPorId(id);
   if (!cena) return telaOpinioes();
@@ -18678,6 +20126,7 @@ function abrirOpiniao(id) {
   opiniaoSessao = novaCena(cena);
   pintarOpiniao();
 }
+
 function pintarOpiniao() {
   pintarCenaFala(opiniaoSessao, {
     rota: 'opiniao',
@@ -18693,6 +20142,7 @@ function pintarOpiniao() {
     })
   });
 }
+
 function telaDescricoes() {
   calar();
   limparTela();
@@ -18710,6 +20160,7 @@ function telaDescricoes() {
   );
   focarTela();
 }
+
 function abrirDescrever(id) {
   const cena = cenaPorId(id);
   if (!cena) return telaDescricoes();
@@ -18717,6 +20168,7 @@ function abrirDescrever(id) {
   descreverSessao = novaCena(cena);
   pintarDescrever();
 }
+
 function pintarDescrever() {
   pintarCenaFala(descreverSessao, {
     rota: 'descrever',
@@ -18732,6 +20184,7 @@ function pintarDescrever() {
     })
   });
 }
+
 function telaRapidos() {
   calar();
   limparTela();
@@ -18750,6 +20203,7 @@ function telaRapidos() {
   );
   focarTela();
 }
+
 function abrirRapido(id) {
   const fila = filaAdaptada(RAPIDOS, id, rapidoPorId);
   if (!fila.length) return telaRapidos();
@@ -18766,10 +20220,12 @@ function abrirRapido(id) {
   };
   pintarRapido();
 }
+
 function formatarMinuto(total) {
   const n = Math.max(0, Number(total) || 0);
   return `${Math.floor(n / 60)}:${String(n % 60).padStart(2, '0')}`;
 }
+
 function ligarCronometroDemo(segundos) {
   clearInterval(intervaloDemo);
   let resta = Math.max(0, Number(segundos) || 0);
@@ -18790,6 +20246,7 @@ function ligarCronometroDemo(segundos) {
     pintar();
   }, 1000);
 }
+
 function ligarCronometroRapido(aoZero) {
   clearInterval(intervaloRapido);
   let resta = SEGUNDOS_RAPIDO;
@@ -18811,6 +20268,7 @@ function ligarCronometroRapido(aoZero) {
     pintar();
   }, 1000);
 }
+
 function pintarRapido() {
   if (!rapidoSessao || rapidoSessao.concluido) return telaRapidos();
   calar();
@@ -18903,6 +20361,7 @@ function pintarRapido() {
     ligarCronometroRapido(aoEstourar);
   }
 }
+
 function concluirRapido() {
   if (!rapidoSessao || rapidoSessao.concluido) return pintarFim(rapidoSessao?.fim);
   const total = rapidoSessao.fila.length;
@@ -18931,6 +20390,7 @@ function concluirRapido() {
   descartarVoz();
   pintarFim(rapidoSessao.fim);
 }
+
 async function iniciar() {
   aplicarFonte(localStorage.getItem('gringolingo:fonte'));
   contextoDoLog(() => telaAtiva);
@@ -19404,4 +20864,5 @@ async function iniciar() {
   authCarregando = false;
   finalizarAuth(false);
 }
+
 iniciar();

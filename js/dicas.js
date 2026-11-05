@@ -1,3 +1,6 @@
+// Tutor offline: compara a resposta com o gabarito, explica o porquê em
+// português e devolve uma dica curta. Nada de rede. O conjunto de falsos
+// amigos e as regras cobrem erros típicos de quem fala português.
 
 const CONTRACOES = new Map([
   ["i'm", 'i am'],
@@ -75,6 +78,7 @@ const VERBOS = new Set([
 
 const TERCEIRA = new Set(['he', 'she', 'it', 'this', 'that']);
 
+// errado = o que o brasileiro tende a escrever; certos = o que a frase pedia.
 const COGNATOS = [
   { errado: 'actual', certos: ['current', 'present'], dica: 'Actual significa real, de verdade. Atual (de agora) é current ou present.' },
   { errado: 'actually', certos: ['currently', 'now'], dica: 'Actually significa na verdade. Atualmente é currently ou nowadays.' },
@@ -187,6 +191,8 @@ function tokens(s) {
   });
 }
 
+// O que a pessoa realmente escreveu, com maiúscula e contração intactas.
+// A comparação usa tokens() (expande don't). A tela usa isto.
 function superficie(s) {
   const limpo = String(s ?? '')
     .replace(/[’]/g, "'")

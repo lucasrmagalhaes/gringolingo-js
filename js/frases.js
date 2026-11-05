@@ -1,3 +1,5 @@
+// Baralho de frases de sobrevivência e o desafio diário de fala.
+// Tudo offline: a agenda Leitner mora no progresso, sem rede e sem chave.
 
 import { CENARIOS, rodadasDo, FRASES_SOMBRA, normalizarFala, pontuarSombra, filaSombra } from './conversa.js';
 
@@ -228,6 +230,8 @@ function adicionarFrase(saida, vistas, en, pt) {
   return true;
 }
 
+// A sombra do dia a dia reserva as primeiras vagas para frases do baralho
+// (as que vencem hoje na frente). O botão do baralho usa só o baralho.
 export function escolherSombra({ aprendidas = [], frases = FRASES, vencidas = [], qtd = 5, soBaralho = false } = {}) {
   const saida = [];
   const vistas = new Set();
@@ -328,6 +332,8 @@ export function montarDesafioFala(dia) {
   return { minutos: MINUTOS_FALA, duracaoMs: DURACAO_FALA_MS, passos };
 }
 
+// Completar os passos conta. Se o relógio estourar, ainda conta quando
+// o mix (diálogo, sombra e frase) já aconteceu.
 export function falaConta(respostas, total, estourou) {
   if (!Array.isArray(respostas) || !respostas.length) return false;
   if (total > 0 && respostas.length >= total) return true;

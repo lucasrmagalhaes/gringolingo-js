@@ -3,6 +3,7 @@ import { temTts, falar, sons } from './audio.js';
 import { bancoCarregado } from './dicionario.js';
 import { diagnosticar } from './dicas.js';
 import { h, embaralhar, amostra, aleatorio } from './util.js';
+
 const CONTRACOES = new Map([
   ["i'm", 'i am'],
   ["it's", 'it is'],
@@ -28,17 +29,25 @@ const CONTRACOES = new Map([
   ["we're", 'we are'],
   ["they're", 'they are']
 ]);
+
 function normalizarBase(s) {
   return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9\s']/g, '').replace(/\s+/g, ' ').trim();
 }
+
+// Contrações expandem token a token: "don't" vira "do not", mas o 's de um
+// possessivo ("Ana's") fica intacto.
 function normalizar(s) {
   return normalizarBase(s)
     .split(' ')
     .map(p => CONTRACOES.get(p) ?? p)
     .join(' ');
 }
+
+// Palavras reais do curso (e do dicionário, quando já carregado): a tolerância
+// de digitação não pode aceitar "house" como acerto de "mouse".
 let palavrasDoCurso = null;
 let palavrasDoBanco = null;
+
 function ehPalavraConhecida(p) {
   if (!palavrasDoCurso) {
     palavrasDoCurso = new Set();
@@ -53,6 +62,7 @@ function ehPalavraConhecida(p) {
   }
   return !!palavrasDoBanco?.has(p);
 }
+
 function tutorDaResposta(texto, item, extra = {}) {
   return diagnosticar({
     dada: texto,
@@ -64,6 +74,7 @@ function tutorDaResposta(texto, item, extra = {}) {
     contexto: extra.contexto ?? item?.en
   });
 }
+
 export function diffPalavras(dadaTexto, certaTexto) {
   const dada = dadaTexto.trim().split(/\s+/).filter(Boolean);
   const certa = certaTexto.trim().split(/\s+/).filter(Boolean);
@@ -96,16 +107,20 @@ export function diffPalavras(dadaTexto, certaTexto) {
     dada: dada.map((palavra, idx) => ({ palavra, sobra: !casadasDada.has(idx) }))
   };
 }
+
 function ehFrase(item) {
   return item.en.includes(' ');
 }
+
 function distratores(item, pool, n, campo) {
   const alvoEn = normalizar(item.en);
   const alvoCampo = normalizar(String(item[campo]));
   const altsAlvo = (item.alt ?? []).map(normalizar);
   const outros = pool.filter(o => {
     if (o.en === item.en || o[campo] === item[campo]) return false;
+    // Sinônimos declarados no conteúdo (hello/hi) nunca viram alternativa errada.
     if (item.evitar?.includes(o.en) || o.evitar?.includes(item.en)) return false;
+    // Nem palavras com a mesma tradução: as duas opções estariam certas.
     if (normalizar(String(o.pt ?? '')) === normalizar(String(item.pt ?? ''))) return false;
     const outroEn = normalizar(o.en);
     if (outroEn.includes(alvoEn) || alvoEn.includes(outroEn)) return false;
@@ -116,6 +131,7 @@ function distratores(item, pool, n, campo) {
   });
   return [...new Set(amostra(outros, n).map(o => o[campo]))];
 }
+
 function montarDados(tipo, item, pool) {
   if (tipo === 'escolhaEnPt') return { tipo, item, opcoes: embaralhar([item.pt, ...distratores(item, pool, 3, 'pt')]) };
   if (tipo === 'escolhaPtEn') return { tipo, item, opcoes: embaralhar([item.en, ...distratores(item, pool, 3, 'en')]) };
@@ -135,7 +151,9 @@ function montarDados(tipo, item, pool) {
   const extras = amostra(POOL_TILES.filter(t => !baixas.includes(t.toLowerCase())), 3);
   return { tipo: tipo === 'ditado' ? 'ditado' : 'montar', item, tiles: embaralhar([...palavras, ...extras]) };
 }
+
 export const temFala = typeof window !== 'undefined' && !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+
 function criar(item, pool) {
   const tipos = [];
   if (ehFrase(item)) {
@@ -148,6 +166,7 @@ function criar(item, pool) {
   if (temFala) tipos.push('falar');
   return montarDados(tipos[Math.floor(Math.random() * tipos.length)], item, pool);
 }
+
 export function gerarVerbos(verbos, sujeitos, qtd = 10) {
   const itens = [];
   const usados = new Set();
@@ -161,6 +180,8 @@ export function gerarVerbos(verbos, sujeitos, qtd = 10) {
     usados.add(chave);
     const forma = s.terceira ? v.en3 : v.en;
     const ptForma = s.terceira ? v.pt3 : conjugarPt(v, s);
+    // sujeito e forma viajam como campos próprios: reparsear a frase com
+    // split(' ') quebrava com sujeitos de duas palavras ("my mother opens").
     itens.push({
       en: `${s.en} ${forma}`,
       pt: `${s.pt} ${ptForma}`,
@@ -175,6 +196,7 @@ export function gerarVerbos(verbos, sujeitos, qtd = 10) {
     return { tipo: 'verbo', item, opcoes: embaralhar([v.en, v.en3]) };
   });
 }
+
 function conjugarPt(v, s) {
   const irregulares = {
     ir: { eu: 'vou', você: 'vai', nós: 'vamos', eles: 'vão' },
@@ -191,11 +213,16 @@ function conjugarPt(v, s) {
   if (especial) return especial;
   const raiz = v.pt.slice(0, -2);
   const term = v.pt.slice(-2);
+  // 1ª pessoa regular é sempre raiz + "o"; as irregulares moram na tabela acima
+  // Verbo novo que não siga isso (servir, seguir) precisa entrar lá.
   if (s.pt === 'eu') return raiz + 'o';
   if (s.pt === 'nós') return raiz + (term === 'ar' ? 'amos' : term === 'er' ? 'emos' : 'imos');
   if (s.pt === 'eles') return raiz + (term === 'ar' ? 'am' : 'em');
   return v.pt3;
 }
+
+// Sessão de ouvido: escreve o que ouviu. A cada três rodadas, se o navegador
+// tiver reconhecimento de voz, a rodada vira fala. Sem microfone, tudo é escrito.
 export function gerarEscuta(itens, qtd = 6) {
   if (!itens?.length) return [];
   const fila = embaralhar(itens);
@@ -209,6 +236,7 @@ export function gerarEscuta(itens, qtd = 6) {
   }
   return exs;
 }
+
 export function gerarDificeis(itens, pool, qtd = 12) {
   if (!itens?.length) return [];
   const fila = embaralhar(itens);
@@ -222,11 +250,16 @@ export function gerarDificeis(itens, pool, qtd = 12) {
   }
   return exs;
 }
+
 export function exercicioFacil(item, pool) {
   const ex = montarDados(Math.random() < 0.5 ? 'escolhaEnPt' : 'escolhaPtEn', item, pool);
+  // Pool pequeno demais para 3 alternativas viraria botão único de XP grátis.
   if ((ex.opcoes?.length ?? 0) < 3) return montarDados('digitar', item, pool);
   return ex;
 }
+
+// Pares só funcionam com traduções distintas: dois cartões "descobrir" viram
+// moeda ao ligar. Sorteia até 4 itens com pt único.
 function paresJogaveis(itens) {
   const escolhidos = [];
   const traducoes = new Set();
@@ -239,12 +272,15 @@ function paresJogaveis(itens) {
   }
   return null;
 }
+
 export function gerarExercicios(itens, pool, qtd = 8, novosEn = null) {
   if (!itens?.length) return [];
   const pares = itens.length >= 4 && qtd >= 4 ? paresJogaveis(itens) : null;
   const temPares = !!pares;
   const fila = embaralhar(itens);
   const exs = [];
+  // Os pares são INSERIDOS na fila (não sobrescrevem um exercício sorteado,
+  // que apagaria a única aparição de um item da lição).
   for (let i = 0; exs.length < qtd - (temPares ? 1 : 0); i++) {
     exs.push(criar(fila[i % fila.length], pool));
   }
@@ -252,6 +288,9 @@ export function gerarExercicios(itens, pool, qtd = 8, novosEn = null) {
     exs.splice(Math.min(3, exs.length), 0, { tipo: 'pares', pares });
   }
   if (!novosEn?.size) return exs;
+  // Palavra que a pessoa nunca viu é APRESENTADA (grafia, som, tradução)
+  // antes da primeira vez em que é cobrada. Em vez de cair de paraquedas
+  // numa pergunta que ela não tem como responder.
   const porEn = new Map(itens.map(i => [i.en, i]));
   const apresentadas = new Set();
   const comApresentacao = [];
@@ -267,6 +306,7 @@ export function gerarExercicios(itens, pool, qtd = 8, novosEn = null) {
   }
   return comApresentacao;
 }
+
 function botaoSom(texto, extra = '') {
   return h('button', {
     class: 'btn-som' + (extra ? ' ' + extra : ''),
@@ -279,6 +319,7 @@ function botaoSom(texto, extra = '') {
     }
   }, '🔊');
 }
+
 function botaoLento(texto) {
   return h('button', {
     class: 'btn-som btn-lento',
@@ -290,9 +331,12 @@ function botaoLento(texto) {
     }
   }, '🐢');
 }
+
 function montarEscolha(ex, cb) {
   let sel = null;
   let trancado = false;
+  // Opções em inglês são marcadas com lang="en" para o leitor de tela não as
+  // pronunciar com fonética portuguesa.
   const opcoesEmIngles = ex.tipo === 'escolhaPtEn' || ex.tipo === 'ouvir' || ex.tipo === 'lacuna';
   const botoes = ex.opcoes.map(op => {
     const b = h('button', { class: 'opcao', type: 'button', 'aria-pressed': 'false', ...(opcoesEmIngles ? { lang: 'en' } : {}) }, op);
@@ -350,6 +394,7 @@ function montarEscolha(ex, cb) {
     }
   };
 }
+
 function montarDigitar(ex, cb) {
   const input = h('input', {
     class: 'entrada',
@@ -394,6 +439,7 @@ function montarDigitar(ex, cb) {
     }
   };
 }
+
 function montarFalar(ex, cb) {
   let ouvido = '';
   let trancado = false;
@@ -486,6 +532,7 @@ function montarFalar(ex, cb) {
     }
   };
 }
+
 function montarFrase(ex, cb) {
   let trancado = false;
   const area = h('div', { class: 'resposta-area', lang: 'en' });
@@ -533,12 +580,15 @@ function montarFrase(ex, cb) {
     }
   };
 }
+
 function montarPares(ex, cb) {
   let selE = null;
   let selD = null;
   let feitos = 0;
   let erros = 0;
   let trava = false;
+  // Quem errou é registrado por par: um clique errado não pode rebaixar a
+  // caixa de Leitner dos quatro itens do exercício.
   const errados = new Set();
   function clicar(b, lado) {
     if (trava || b.classList.contains('ok')) return;
@@ -601,6 +651,7 @@ function montarPares(ex, cb) {
     }
   };
 }
+
 function montarVerbo(ex, cb) {
   let sel = null;
   let trancado = false;
@@ -648,7 +699,9 @@ function montarVerbo(ex, cb) {
     }
   };
 }
+
 const NOMES_CLASSE = { verbo: 'verbo', subst: 'substantivo', adj: 'adjetivo', adv: 'advérbio', prep: 'preposição', pron: 'pronome', conj: 'conjunção', num: 'número', interj: 'interjeição' };
+
 function montarApresentacao(ex, cb) {
   const traducoes = ex.item.traducoes ?? [ex.item.pt];
   const btn = h('button', { class: 'btn btn-verde apresentacao-continuar', type: 'button', onclick: () => cb.aoContinuar() }, 'ENTENDI');
@@ -676,6 +729,7 @@ function montarApresentacao(ex, cb) {
     }
   };
 }
+
 export function montarExercicio(ex, cb) {
   if (ex.tipo === 'apresentacao') return montarApresentacao(ex, cb);
   if (ex.tipo === 'verbo') return montarVerbo(ex, cb);
