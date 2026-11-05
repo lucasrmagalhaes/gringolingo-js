@@ -835,7 +835,8 @@ function telaRelampago() {
   const ex = exercicioFacil(item, s.pool);
   const barra = h('div', { class: 'progresso barra-licao barra-tempo' }, h('div', { style: 'width:100%' }));
   const placar = h('div', { class: 'combo' }, '⚡ ' + s.acertos);
-  const areaEx = h('div', { class: 'area-exercicio' });
+  const areaEx = h('div', { class: 'area-exercicio ' + classeDoPalco(ex) });
+  areaEx.append(palcoDoExercicio(ex));
   app.innerHTML = '';
   app.append(
     h('div', { class: 'licao-topo' },
@@ -1537,6 +1538,21 @@ function iniciarRevisao() {
   telaExercicio();
 }
 
+function palcoDoExercicio(ex) {
+  const escuta = ex?.tipo === 'ouvir' || ex?.tipo === 'ouvirPt' || ex?.tipo === 'falar';
+  const nova = ex?.tipo === 'apresentacao';
+  return h('div', { class: 'palco' },
+    h('div', { class: 'palco-mascote', 'aria-hidden': 'true' }, mascote(nova ? 'fala' : 'neutro', 64)),
+    h('span', { class: 'palco-pill' }, nova ? 'Nova' : (escuta ? 'Escuta' : 'Pratica'))
+  );
+}
+
+function classeDoPalco(ex) {
+  if (ex?.tipo === 'apresentacao') return 'palco-nova';
+  if (ex?.tipo === 'ouvir' || ex?.tipo === 'ouvirPt' || ex?.tipo === 'falar') return 'palco-escuta';
+  return 'palco-pratica';
+}
+
 function telaExercicio() {
   limparTela();
   window.scrollTo(0, 0);
@@ -1568,7 +1584,8 @@ function telaExercicio() {
   }, '💡');
   const rodape = h('div', { class: 'rodape' }, h('div', { class: 'rodape-conteudo' }, btnNaoSei, btnVerificar));
   const feedback = h('div', { class: 'feedback', role: 'status', 'aria-live': 'polite' });
-  const areaEx = h('div', { class: 'area-exercicio' });
+  const areaEx = h('div', { class: 'area-exercicio ' + classeDoPalco(ex) });
+  areaEx.append(palcoDoExercicio(ex));
   app.innerHTML = '';
   app.append(
     h('div', { class: 'licao-topo' },
@@ -1814,6 +1831,13 @@ function processar(ex, res, feedback, btnVerificar) {
   const tom = res.correto ? (res.quase ? 'quase' : 'certo') : 'errado';
   feedback.className = 'feedback ' + tom;
   feedback.innerHTML = '';
+  const palco = document.querySelector('.area-exercicio');
+  if (palco) {
+    palco.classList.toggle('palco-acerto', !!res.correto);
+    palco.querySelector('.palco-mascote')?.replaceChildren(mascote(res.correto ? 'acerto' : 'erro', 64));
+    const pill = palco.querySelector('.palco-pill');
+    if (pill) pill.textContent = res.correto ? 'Acerto' : 'De novo';
+  }
   const btnContinuar = h('button', { class: 'btn ' + (res.correto ? 'btn-verde' : 'btn-vermelho'), type: 'button', onclick: continuar }, 'CONTINUAR');
   const titulo = res.naoSei
     ? 'Fica a dica! 📝'
@@ -1822,7 +1846,7 @@ function processar(ex, res, feedback, btnVerificar) {
       : (res.tutor?.titulo ?? 'Ops!');
   feedback.append(
     h('div', { class: 'feedback-conteudo' },
-      h('div', { class: 'feedback-mascote', 'aria-hidden': 'true' }, mascote(res.correto ? 'feliz' : 'pensando', 84)),
+      h('div', { class: 'feedback-mascote', 'aria-hidden': 'true' }, mascote(res.correto ? 'acerto' : 'erro', 64)),
       h('div', { class: 'feedback-textos' },
         h('div', { class: 'feedback-titulo' }, titulo),
         linhas
@@ -2458,27 +2482,48 @@ function telaPerfil() {
         h('div', { class: 'nivel-xp' }, nv.prox ? `${estado.xp} / ${nv.prox.xp} XP` : 'Nível máximo! 👑')
       )
     ),
-    h('div', { class: 'stats-grid' },
-      statPilula('🔥', streakAtual(), 'dias seguidos'),
+    h('div', { class: 'vitrine-herois' },
+      streakAtual() > 0
+        ? statPilula('🔥', streakAtual(), 'dias seguidos')
+        : h('button', {
+          class: 'card stat stat-cta',
+          type: 'button',
+          onclick: () => telaInicial()
+        },
+          h('div', { class: 'stat-emoji', 'aria-hidden': 'true' }, '🌱'),
+          h('div', {},
+            h('div', { class: 'stat-valor' }, 'Comece hoje'),
+            h('div', { class: 'stat-rotulo' }, 'Uma lição curta')
+          )
+        ),
+      statPilula('🎯', precisao + '%', 'precisão média'),
+      statPilula('🌱', memorizadas(), 'na memória longa')
+    ),
+    h('button', {
+      class: 'btn btn-branco',
+      type: 'button',
+      'aria-expanded': 'false',
+      'aria-controls': 'stats-mais',
+      onclick(ev) {
+        const mais = document.getElementById('stats-mais');
+        if (!mais) return;
+        const escondido = mais.hasAttribute('hidden');
+        if (escondido) mais.removeAttribute('hidden');
+        else mais.setAttribute('hidden', '');
+        ev.currentTarget.setAttribute('aria-expanded', escondido ? 'true' : 'false');
+        ev.currentTarget.textContent = escondido ? 'VER MENOS' : 'VER MAIS';
+      }
+    }, 'VER MAIS'),
+    h('div', { id: 'stats-mais', class: 'stats-grid', hidden: true },
       statPilula('📚', licoesConcluidas(), 'lições concluídas'),
       statPilula('🗣️', palavras, 'palavras aprendidas'),
-      statPilula('🎯', precisao + '%', 'precisão média'),
       statPilula('⚡', 'x' + estado.stats.comboMax, 'combo máximo'),
       statPilula('🧠', estado.stats.revisoes, 'revisões turbo'),
-      statPilula('🌱', memorizadas(), 'na memória longa'),
       statPilula('📅', itensVencidos().length, 'vencendo hoje'),
       statPilula('🧊', estado.protetores, 'protetores de streak')
     ),
-    cartaoJornada(),
-    cartaoTropecos(),
-    cartaoVoz(),
-    cartaoFonte(),
-    cartaoIa(),
-    cartaoLembrete(),
-    cartaoBackup(),
-    cartaoCompartilhar(),
     h('div', { class: 'secao-titulo' }, '🏅 Conquistas'),
-    h('div', { class: 'badges-grid' },
+    h('div', { class: 'badges-grid badges-fila' },
       BADGES.map(b => {
         const tem = estado.badges.includes(b.id);
         return h('div', { class: 'badge-card' + (tem ? '' : ' trancada') },
@@ -2488,6 +2533,14 @@ function telaPerfil() {
         );
       })
     ),
+    cartaoJornada(),
+    cartaoTropecos(),
+    cartaoVoz(),
+    cartaoFonte(),
+    cartaoIa(),
+    cartaoLembrete(),
+    cartaoBackup(),
+    cartaoCompartilhar(),
     cartaoConta(),
     cartaoSobre()
   );
@@ -10554,7 +10607,13 @@ function cartaoCompartilhar() {
 }
 
 function cartaoJornada() {
-  if (!estado.stats.licoes) return '';
+  if (!estado.xp || !estado.stats.licoes) {
+    return h('div', { class: 'card estado-vazio jornada-vazia' },
+      h('div', { class: 'vazio-emoji', 'aria-hidden': 'true' }, mascote('vazio', 84)),
+      h('p', { class: 'vazio-titulo' }, 'Sua jornada começa aqui'),
+      h('p', { class: 'vazio-sub' }, 'Comece hoje. O primeiro XP desenha o gráfico.')
+    );
+  }
   const dias = historicoRecente(30);
   const maximo = Math.max(...dias.map(d => d.xp), estado.meta);
   const total = dias.reduce((s, d) => s + d.xp, 0);
@@ -11206,8 +11265,13 @@ function telaConversa() {
   const recorde = estado.stats.recordeSombra ?? 0;
   app.innerHTML = '';
   app.append(
-    topoVoltar('💬 Conversar', () => voltarTela()),
-    h('p', { class: 'ia-aviso' }, 'A trilha marca o dia. O recomendado escolhe o treino. A busca continua abaixo.'),
+    h('div', { class: 'topo topo-hub' },
+      h('button', { class: 'pilula btn-perfil', type: 'button', 'aria-label': 'Voltar', onclick: () => voltarTela() }, '←'),
+      h('div', { class: 'logo', role: 'heading', 'aria-level': '1' }, 'GringoLingo'),
+      h('div', { class: 'espaco' }),
+      h('div', { class: 'topo-conversar' }, 'Conversar'),
+      botaoPerfil()
+    ),
     ...blocoFluencia(),
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'DIÁLOGOS'),
     ...CENARIOS.map(c => {
@@ -13474,15 +13538,23 @@ function treinosVisiveis() {
   return filtrarEstrelas(filtrarTreinos(TREINOS, filtroHub), estado.estrelas, filtroHub.estrela);
 }
 
-function cartaoDoTreino(treino, destaque) {
+function cartaoDoTreino(treino, atualId) {
   const ligado = estrelaLigada(treino.id);
-  const botao = botaoFluencia(treino.emoji, treino.titulo, subDoTreino(treino), () => abrirTreino(treino.id));
-  botao.classList.add('hub-card');
-  if (destaque) botao.classList.add('hub-destaque');
-  botao.dataset.cat = treino.categoria;
-  botao.append(h('span', { class: 'hub-ilustra', 'aria-hidden': 'true' }, treino.emoji));
-  return h('div', { class: 'hub-item', role: 'listitem' },
-    botao,
+  const feito = (Number(estado.stats[treino.stat]) || 0) > 0;
+  const estadoNo = feito ? 'feito' : (treino.id === atualId ? 'atual' : 'bloqueado');
+  return h('div', { class: 'hub-item trilha-item', role: 'listitem' },
+    h('button', {
+      type: 'button',
+      class: 'trilha-no',
+      'data-cat': treino.categoria,
+      'data-estado': estadoNo,
+      'aria-label': `${treino.titulo}. ${subDoTreino(treino)}`,
+      onclick: () => abrirTreino(treino.id)
+    }, h('span', { class: 'no-emoji', 'aria-hidden': 'true' }, treino.emoji)),
+    h('div', { class: 'trilha-texto' },
+      h('div', { class: 'revisao-titulo' }, treino.titulo),
+      h('div', { class: 'revisao-sub' }, subDoTreino(treino))
+    ),
     h('button', {
       type: 'button',
       class: 'estrela-treino',
@@ -13553,14 +13625,15 @@ function pintarListaHub(focoId) {
         stats: estado.stats
       });
       if (!grupo.length) continue;
-      nos.push(h('section', { 'aria-labelledby': `hub-cat-${cat.id}` },
+      const atualId = treinoDoAgora()?.id || '';
+      nos.push(h('section', { class: 'trilha-cat', 'data-cat': cat.id, 'aria-labelledby': `hub-cat-${cat.id}` },
         h('div', {
           id: `hub-cat-${cat.id}`,
-          class: 'rotulo',
+          class: 'rotulo trilha-rotulo',
           role: 'heading',
           'aria-level': '3'
         }, cat.titulo),
-        h('div', { class: 'hub-bento', role: 'list' }, ...grupo.map((treino, i) => cartaoDoTreino(treino, i === 0)))
+        h('div', { class: 'trilha-linha', role: 'list' }, ...grupo.map(treino => cartaoDoTreino(treino, atualId)))
       ));
     }
   }
@@ -15169,45 +15242,84 @@ function saudacaoDaHora() {
   return 'Boa noite';
 }
 
-function heroDoHub() {
+function treinoDoAgora() {
+  const aberto = treinoContinuar(TREINOS, estado.treinoAberto);
+  if (aberto) return aberto;
+  const rec = treinoRecomendado(TREINOS, {
+    nivel: estado.nivelFala,
+    stats: estado.stats,
+    padroes: resumoPadroes(8),
+    deslizes: deslizesVencidos().length
+  });
+  return rec?.treino || null;
+}
+
+function blocoAgora(alvo) {
+  if (!alvo) return '';
+  return h('section', { class: 'agora', 'aria-label': 'Agora' },
+    h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'Agora'),
+    h('button', {
+      class: 'card agora-card',
+      type: 'button',
+      'data-cat': alvo.categoria,
+      onclick: () => abrirTreino(alvo.id)
+    },
+      h('span', { class: 'agora-emoji', 'aria-hidden': 'true' }, alvo.emoji),
+      h('div', { class: 'revisao-textos' },
+        h('div', { class: 'revisao-titulo' }, alvo.titulo),
+        h('div', { class: 'revisao-sub' }, subDoTreino(alvo))
+      )
+    ),
+    h('button', {
+      class: 'btn btn-verde agora-comecar',
+      type: 'button',
+      onclick: () => abrirTreino(alvo.id)
+    }, 'COMEÇAR')
+  );
+}
+
+function heroDoHub(alvo) {
   const nv = nivelInfo();
   const streak = streakAtual();
   const pct = Math.round((nv.progresso || 0) * 100);
   const dia = streak === 1 ? 'dia' : 'dias';
+  const proximo = alvo || treinoDoAgora();
+  const selo = streak > 0
+    ? h('span', {
+      class: 'streak-selo',
+      role: 'img',
+      'aria-label': `${streak} ${dia} seguidos`
+    },
+      h('span', { 'aria-hidden': 'true' }, '🔥'),
+      h('strong', {}, String(streak)),
+      h('span', {}, dia)
+    )
+    : h('span', { class: 'comece-hoje' }, 'Comece hoje');
   return h('section', { class: 'hub-hero', 'aria-label': 'Sua fala de hoje' },
-    h('div', { class: 'hub-hero-arte', 'aria-hidden': 'true' },
-      mascote('feliz', 140)
-    ),
+    h('div', { class: 'hub-hero-chip', 'aria-hidden': 'true' }, mascote('feliz', 56)),
     h('div', { class: 'hub-hero-corpo' },
-      h('p', { class: 'hub-hero-ola' }, saudacaoDaHora()),
-      h('p', { class: 'hub-hero-titulo' }, 'Bora falar hoje?'),
-      h('p', { class: 'hub-hero-sub' }, 'Escolha um treino e diga a frase em voz alta.'),
-      h('div', { class: 'hub-hero-jogo' },
-        h('div', {
-          class: 'streak-selo',
-          role: 'img',
-          'aria-label': `${streak} ${dia} seguidos`
-        },
-          h('span', { 'aria-hidden': 'true' }, '🔥'),
-          h('strong', {}, String(streak)),
-          h('span', {}, dia)
-        ),
-        anelXp(pct, 'Progresso do nível'),
-        h('div', { class: 'xp-destaque' },
-          h('div', { class: 'xp-destaque-topo' },
-            h('span', {}, `Nível ${nv.numero}`),
-            h('strong', {}, `${estado.xp} XP`)
-          ),
-          h('div', {
-            class: 'progresso xp-trilha',
-            role: 'progressbar',
-            'aria-valuemin': '0',
-            'aria-valuemax': '100',
-            'aria-valuenow': String(pct),
-            'aria-label': 'Progresso do nível'
-          }, h('div', { style: `width:${pct}%` }))
-        )
-      )
+      h('p', { class: 'hub-hero-ola' }, 'Bora falar hoje?'),
+      h('p', { class: 'hub-hero-titulo' }, saudacaoDaHora()),
+      h('button', {
+        class: 'btn btn-verde hub-hero-cta',
+        type: 'button',
+        'data-continuar': '1',
+        'aria-label': proximo ? `Continuar: ${proximo.titulo}` : 'Continuar de onde parei',
+        onclick: () => { if (proximo) abrirTreino(proximo.id); }
+      }, proximo ? `Continuar: ${proximo.titulo}` : 'Continuar'),
+      h('div', { class: 'hub-hero-meta' },
+        selo,
+        h('span', {}, `Nível ${nv.numero}`),
+        h('strong', {}, `${estado.xp} XP`)
+      ),
+      h('div', {
+        class: 'progresso xp-trilha',
+        role: 'progressbar',
+        'aria-valuemin': '0',
+        'aria-valuemax': '100',
+        'aria-valuenow': String(pct),
+        'aria-label': 'Progresso do nível'
+      }, h('div', { style: `width:${pct}%` }))
     )
   );
 }
@@ -15236,14 +15348,14 @@ function blocoFluencia() {
     ),
     h('span', { class: 'revisao-seta' }, '›')
   ) : '';
-  const chips = [{ id: 'todos', titulo: 'Todos' }, ...GRUPOS_HUB].map(cat => h('button', {
+  const chips = GRUPOS_HUB.map(cat => h('button', {
     type: 'button',
     class: 'pilula',
     'data-categoria-hub': cat.id,
     'aria-pressed': filtroHub.categoria === cat.id ? 'true' : 'false',
     'aria-controls': 'lista-hub',
     onclick: () => {
-      filtroHub = { ...filtroHub, categoria: cat.id };
+      filtroHub = { ...filtroHub, categoria: filtroHub.categoria === cat.id ? 'todos' : cat.id };
       pintarListaHub();
     },
     onkeydown: ev => {
@@ -15265,7 +15377,7 @@ function blocoFluencia() {
     ),
     h('span', { class: 'revisao-seta' }, '›')
   ) : '';
-  return [
+  const pecas = [
     h('div', { class: 'rotulo', role: 'heading', 'aria-level': '2' }, 'FLUÊNCIA'),
     cartaoTrilha(trilha),
     cartaoBalanco(),
@@ -15347,10 +15459,28 @@ function blocoFluencia() {
     cartaoReducao(),
     cartaoExpressao(),
     recomendado,
-    continuar,
-    heroDoHub(),
-    h('div', { class: 'hub-busca' },
-      h('label', { class: 'revisao-sub', for: 'busca-hub' }, 'Buscar treino'),
+    continuar
+  ];
+  const alvo = treinoDoAgora();
+  return [
+    heroDoHub(alvo),
+    blocoAgora(alvo),
+    h('div', { class: 'hub-busca' + (filtroHub.busca ? ' aberta' : '') },
+      h('button', {
+        type: 'button',
+        class: 'pilula busca-icone',
+        'aria-label': 'Buscar treino',
+        'aria-expanded': filtroHub.busca ? 'true' : 'false',
+        'aria-controls': 'busca-hub',
+        onclick(ev) {
+          const caixa = ev.currentTarget.parentElement;
+          const aberta = !caixa.classList.contains('aberta');
+          caixa.classList.toggle('aberta', aberta);
+          ev.currentTarget.setAttribute('aria-expanded', aberta ? 'true' : 'false');
+          if (aberta) document.getElementById('busca-hub')?.focus();
+        }
+      }, '🔎'),
+      h('label', { class: 'so-leitor', for: 'busca-hub' }, 'Buscar treino'),
       h('div', { class: 'hub-busca-linha' },
         h('input', {
           id: 'busca-hub',
@@ -15382,8 +15512,8 @@ function blocoFluencia() {
         }, 'Limpar')
       )
     ),
-    h('div', { class: 'fila-botoes', role: 'group', 'aria-label': 'Categorias dos treinos' }, ...chips),
-    h('div', { class: 'fila-botoes', role: 'group', 'aria-label': 'Descoberta dos treinos' },
+    h('div', { class: 'fila-botoes', role: 'group', 'aria-label': 'Categorias dos treinos' },
+      ...chips,
       h('button', {
         type: 'button',
         class: 'pilula',
@@ -15394,21 +15524,15 @@ function blocoFluencia() {
           filtroHub = { ...filtroHub, estrela: !filtroHub.estrela };
           pintarListaHub();
         }
-      }, 'Favoritos'),
-      h('button', {
-        type: 'button',
-        class: 'pilula',
-        'data-ordem-hub': 'menos',
-        'aria-pressed': estado.ordemHub === 'menos' ? 'true' : 'false',
-        'aria-controls': 'lista-hub',
-        onclick: () => {
-          definirOrdemHub(estado.ordemHub === 'menos' ? 'catalogo' : 'menos');
-          pintarListaHub();
-        }
-      }, 'Menos praticados')
+      }, 'Favoritos')
     ),
+    // Filtro retirado da barra: Menos praticados
     h('p', { id: 'hub-status', class: 'revisao-sub', role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true', tabindex: '-1' }, textoContagem(total, filtroHub.categoria)),
-    h('div', { id: 'lista-hub', 'aria-labelledby': 'hub-status' })
+    h('div', { id: 'lista-hub', 'aria-labelledby': 'hub-status' }),
+    h('details', { class: 'hub-mais' },
+      h('summary', { class: 'hub-mais-sum' }, 'Ver mais'),
+      ...pecas
+    )
   ];
 }
 

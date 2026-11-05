@@ -535,13 +535,11 @@ export const NOVIDADES = [
     versao: '3.15',
     titulo: 'Visual novo',
     itens: [
-      '🎨 Cores, tipo e sombras no mesmo sistema',
-      '🌙 Modo escuro com contraste mais calmo',
-      '🃏 Cartões do hub com ícone e relevo',
-      '✨ Progresso, XP e a palavra nova com mais cara',
-      '🦜 Hero do hub, cartões coloridos e streak em destaque',
-      '🪟 Vidro, cantos largos e estados vazios mais caprichados',
-      '🦜 Louro em SVG, grelha bento e anel de XP'
+      '🎨 Paleta chapada, Nunito 700 a 900 e botão que afunda',
+      '🌙 Modo escuro com a mesma cara, sem vidro',
+      '🛤️ Hub em trilha: Agora, nós e favorito no card',
+      '🎭 Lição em palco, com o Louro e a folha de feedback',
+      '🏆 Perfil em vitrine: nível, três números e conquistas'
     ]
   },
   {

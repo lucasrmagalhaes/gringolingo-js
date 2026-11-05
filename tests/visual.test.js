@@ -22,11 +22,13 @@ describe('sistema visual 3.15', () => {
     assert.match(data, /versao: '3\.15'/);
     assert.match(data, /versao: '3\.14'/);
     assert.match(sw, /gringolingo-v144/);
-    assert.match(sw, /lilita-latin\.woff2/);
-    assert.match(css, /font-family: 'Lilita One'/);
+    assert.match(sw, /nunito-latin\.woff2/);
+    assert.match(css, /font-family: 'Nunito'/);
+    assert.match(css, /--fundo: #FFF8EF/);
+    assert.match(css, /--fundo: #0F1A1E/);
     assert.match(css, /\.anel-xp \{/);
-    assert.match(css, /\.hub-bento \{/);
-    assert.match(css, /\.hub-destaque \{/);
+    assert.match(css, /\.trilha-no \{/);
+    assert.match(css, /\.agora-card \{/);
     for (const token of ['--raio-md', '--sombra-card', '--xp-texto', '--icone-fundo', '--foco', '--espaco-4']) {
       assert.equal(css.includes(token), true, token);
     }
@@ -50,15 +52,20 @@ describe('sistema visual 3.15', () => {
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
     assert.match(app, /mascote\('feliz'/);
     assert.match(app, /function anelXp/);
-    assert.match(app, /class: 'hub-bento'/);
+    assert.match(app, /class: 'trilha-linha'/);
     assert.match(app, /function heroDoHub/);
     assert.match(app, /class: 'hub-hero'/);
     assert.match(app, /Bora falar hoje\?/);
+    assert.match(app, /Comece hoje/);
+    assert.match(app, /COMEÇAR/);
     assert.match(css, /\.hub-hero \{/);
     assert.match(css, /\.streak-selo \{/);
     assert.match(css, /data-cat="trabalho"/);
     assert.match(css, /--vidro:/);
-    assert.match(css, /backdrop-filter: blur\(18px\)/);
+    assert.equal(css.includes('backdrop-filter'), false);
+    assert.equal(css.includes('blur('), false);
+    assert.equal(css.includes('border-radius: 32px'), false);
+    assert.equal(css.includes('--raio-lg: 32px'), false);
     assert.match(css, /\.estado-vazio \{/);
     assert.match(css, /\.icone-chip \{/);
     assert.match(css, /\.carregando-anel \{/);

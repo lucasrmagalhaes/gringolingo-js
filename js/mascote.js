@@ -5,7 +5,11 @@ const POSES = {
   feliz: { asa: 'M62 58 q-22 -6 -18 16 q14 14 24 -6 z', olho: 5.2, boca: 'M72 56 q8 12 16 0', topete: -14 },
   pensando: { asa: 'M62 64 q-14 16 2 26 q12 4 18 -10 z', olho: 3.4, boca: 'M74 60 q6 -3 12 1', topete: 2 },
   dormindo: { asa: 'M60 66 q-12 14 4 24 q12 2 18 -10 z', olho: 0, boca: 'M74 60 q6 2 12 0', topete: 8 },
-  coroa: { asa: 'M62 58 q-22 -6 -18 16 q14 14 24 -6 z', olho: 5.2, boca: 'M72 56 q8 12 16 0', topete: -14 }
+  coroa: { asa: 'M62 58 q-22 -6 -18 16 q14 14 24 -6 z', olho: 5.2, boca: 'M72 56 q8 12 16 0', topete: -14 },
+  fala: { asa: 'M62 56 q-24 -10 -16 18 q16 12 26 -8 z', olho: 5.4, boca: 'M70 54 q10 16 20 0', topete: -16 },
+  acerto: { asa: 'M62 58 q-22 -6 -18 16 q14 14 24 -6 z', olho: 5.2, boca: 'M72 56 q8 12 16 0', topete: -14 },
+  erro: { asa: 'M62 66 q-12 18 4 24 q12 2 16 -12 z', olho: 3.2, boca: 'M74 62 q6 -6 12 0', topete: 4 },
+  vazio: { asa: 'M60 66 q-12 14 4 24 q12 2 18 -10 z', olho: 0, boca: 'M74 60 q6 2 12 0', topete: 8 }
 };
 
 function el(nome, atributos) {
@@ -55,7 +59,7 @@ export function mascote(pose = 'neutro', tamanho = 96) {
   if (pose === 'coroa') {
     svg.append(el('path', { d: 'M56 18 l6 12 l8 -14 l8 14 l6 -12 l2 18 h-32 z', class: 'm-coroa' }));
   }
-  if (pose === 'dormindo') {
+  if (pose === 'dormindo' || pose === 'vazio') {
     const z = el('text', { x: 104, y: 30, class: 'm-z' });
     z.textContent = 'z';
     svg.append(z);
