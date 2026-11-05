@@ -117,6 +117,7 @@ import { TRACES, SCRAPES, ROLLUPS } from './trace.js';
 import { WEBHOOKS, FANOUTS, INGESTS } from './webhook.js';
 import { OTELS, SAMPLERS, EXEMPLARS } from './otel.js';
 import { EGRESSES, GATEWAYS, FAILOVERS } from './egress.js';
+import { ONCALLS, SEVERITIES, INCIDENTS } from './oncall.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -742,6 +743,9 @@ export function catalogoFaladas() {
     { origem: 'Egress', itens: EGRESSES },
     { origem: 'Gateway', itens: GATEWAYS },
     { origem: 'Failover', itens: FAILOVERS },
+    { origem: 'Oncall', itens: ONCALLS },
+    { origem: 'Severity', itens: SEVERITIES },
+    { origem: 'Incident', itens: INCIDENTS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

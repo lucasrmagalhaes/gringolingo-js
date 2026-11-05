@@ -95,8 +95,8 @@ describe('egress, gateway e failover', () => {
     assert.deepEqual(aud.idsRepetidos, []);
     assert.deepEqual(aud.titulosRepetidos, []);
     assert.deepEqual(aud.parecidos, []);
-    assert.equal(TREINOS.length, 380);
-    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 324);
+    assert.equal(TREINOS.length, 383);
+    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 327);
     for (const id of ['egress', 'gateway', 'failover']) {
       const treino = TREINOS.find(t => t.id === id);
       assert.equal(treino.categoria, 'trabalho');
@@ -126,7 +126,7 @@ describe('egress, gateway e failover', () => {
     assert.equal(failover.bonusMissoes, 15);
     assert.equal(estado.stats.failovers, 1);
     assert.ok(estado.badges.includes('failover'));
-    assert.equal(BADGES.length, 403);
+    assert.equal(BADGES.length, 406);
     assert.equal(new Set(BADGES.map(b => b.id)).size, BADGES.length);
   });
 
@@ -135,10 +135,10 @@ describe('egress, gateway e failover', () => {
     const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
     const turno = readFileSync(join(raiz, 'js/turno.js'), 'utf8');
-    assert.match(data, /VERSAO_APP = '3\.23'/);
+    assert.match(data, /VERSAO_APP = '3\.24'/);
     assert.match(data, /versao: '3\.23'/);
     assert.match(data, /versao: '3\.22'/);
-    assert.match(sw, /gringolingo-v156/);
+    assert.match(sw, /gringolingo-v157/);
     assert.match(sw, /\.\/js\/egress\.js/);
     assert.match(turno, /egress\.js/);
     for (const nome of ['pintarEgress', 'pintarGateway', 'pintarFailover']) {

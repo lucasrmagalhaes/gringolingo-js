@@ -571,7 +571,10 @@ navegador.
 - **O egress**: o pacote é solto.
 - **O gateway**: a rota é aberta.
 - **O failover**: o nó é trocado.
-- Cache `gringolingo-v156`.
+- **O oncall**: o plantão é coberto.
+- **O severity**: o grau é marcado.
+- **O incident**: o caso é aberto.
+- Cache `gringolingo-v157`.
 
 ### Hábito e gamificação
 
