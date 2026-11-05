@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.lucasrmagalhaes.gringolingo",
+    "sha256_cert_fingerprints": [
+      "ceb6905f627a19253e0447183c582d9f7c4dc8bc383127794f7154926a67f011"
+    ]
+  }
+}]
