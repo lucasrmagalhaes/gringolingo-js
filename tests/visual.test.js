@@ -49,6 +49,15 @@ describe('sistema visual 3.15', () => {
     assert.match(css, /\.hub-hero \{/);
     assert.match(css, /\.streak-selo \{/);
     assert.match(css, /data-cat="trabalho"/);
+    assert.match(css, /--vidro:/);
+    assert.match(css, /backdrop-filter: blur\(18px\)/);
+    assert.match(css, /\.estado-vazio \{/);
+    assert.match(css, /\.icone-chip \{/);
+    assert.match(css, /\.carregando-anel \{/);
+    assert.match(css, /@keyframes girar-anel/);
+    assert.match(app, /function vazioDoHub/);
+    assert.match(app, /estado-carregando/);
+    assert.match(app, /Carregando o banco de palavras/);
     assert.equal(css.includes('\u2014'), false);
     assert.equal(css.includes('\u2013'), false);
   });

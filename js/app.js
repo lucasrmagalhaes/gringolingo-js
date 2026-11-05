@@ -414,7 +414,7 @@ function botaoPerfil() {
 
 function pilulasDeConta() {
   if (!nuvemConfigurada) return [botaoPerfil()];
-  if (authCarregando) return [h('div', { class: 'pilula', title: 'Conectando na nuvem…' }, '☁️ …'), botaoPerfil()];
+  if (authCarregando) return [h('div', { class: 'pilula estado-carregando', title: 'Conectando na nuvem…', role: 'status' }, h('span', { class: 'carregando-anel', 'aria-hidden': 'true' }), 'Conectando'), botaoPerfil()];
   if (!usuarioEmail) {
     return [
       h('button', { class: 'pilula btn-perfil', type: 'button', 'aria-label': 'Entrar', onclick: () => telaLogin() }, '🔑 Entrar'),
@@ -1116,6 +1116,7 @@ function telaDicionario() {
   function desenhar() {
     const achados = buscar(busca.value, filtro);
     lista.innerHTML = '';
+    contador.classList.remove('estado-carregando');
     contador.textContent = achados.length
       ? `${achados.length}${achados.length === 60 ? '+' : ''} resultado${achados.length > 1 ? 's' : ''}`
       : '';
@@ -1159,7 +1160,11 @@ function telaDicionario() {
     lista
   );
   if (!bancoCarregado()) {
-    contador.textContent = 'Carregando o banco de palavras…';
+    contador.classList.add('estado-carregando');
+    contador.replaceChildren(
+      h('span', { class: 'carregando-anel', 'aria-hidden': 'true' }),
+      h('span', {}, 'Carregando o banco de palavras…')
+    );
     lista.append(...Array.from({ length: 6 }, () => esqueleto()));
     carregarBanco().then(() => {
       if (telaAtiva === 'dicionario') desenhar();
@@ -13488,6 +13493,18 @@ function cartaoDoTreino(treino) {
   );
 }
 
+function vazioDoHub(favorito) {
+  return h('div', { class: 'estado-vazio hub-vazio' },
+    h('div', { class: 'icone-chip icone-chip-grande', 'aria-hidden': 'true' }, favorito ? '☆' : '🔎'),
+    h('p', { class: 'vazio-titulo' }, favorito
+      ? 'Nenhum favorito ainda. A estrela marca o treino.'
+      : 'Nenhum treino com esse filtro.'),
+    h('p', { class: 'vazio-sub' }, favorito
+      ? 'Toque a estrela ao lado de um treino para guardar ele aqui.'
+      : 'Troque a categoria ou limpe a busca para ver a lista.')
+  );
+}
+
 function pintarListaHub(focoId) {
   const lista = document.getElementById('lista-hub');
   const status = document.getElementById('hub-status');
@@ -13495,7 +13512,10 @@ function pintarListaHub(focoId) {
   const vazio = filtroHub.estrela
     ? 'Nenhum favorito ainda. A estrela marca o treino.'
     : 'Nenhum treino com esse filtro.';
-  if (status) status.textContent = visiveis.length ? textoContagem(visiveis.length, filtroHub.categoria) : vazio;
+  if (status) {
+    status.textContent = visiveis.length ? textoContagem(visiveis.length, filtroHub.categoria) : vazio;
+    status.classList.toggle('so-leitor', !visiveis.length);
+  }
   document.querySelectorAll('[data-categoria-hub]').forEach(chip => {
     chip.setAttribute('aria-pressed', chip.getAttribute('data-categoria-hub') === filtroHub.categoria ? 'true' : 'false');
   });
@@ -13518,7 +13538,7 @@ function pintarListaHub(focoId) {
   lista.dataset.chave = chave;
   const nos = [];
   if (!visiveis.length) {
-    nos.push(h('p', { class: 'revisao-sub' }, vazio));
+    nos.push(vazioDoHub(filtroHub.estrela));
   } else {
     const cats = filtroHub.categoria === 'todos'
       ? GRUPOS_HUB

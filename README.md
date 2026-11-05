@@ -541,7 +541,7 @@ navegador.
 - **O latch**: a trava curta segura a leitura.
 - **O throttle**: o ritmo limita a chamada.
 - **A expressão**: no hub, a frase do dia para dizer em inglês.
-- **Visual 3.15**: paleta forte, hero do hub, cartões por categoria, XP e streak em destaque. Cache `gringolingo-v143`.
+- **Visual 3.15**: paleta forte, hero do hub, cartões por categoria, XP e streak em destaque, vidro sutil e estados vazios caprichados. Cache `gringolingo-v143`.
 
 ### Hábito e gamificação
 
