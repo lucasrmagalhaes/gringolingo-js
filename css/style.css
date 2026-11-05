@@ -12,20 +12,20 @@
 
 :root {
   color-scheme: light;
-  --verde: #58CC02;
-  --verde-esc: #46A302;
+  --verde: #46D000;
+  --verde-esc: #1B7A00;
   --verde-claro: #D7FFB8;
   --azul: #1CB0F6;
   --azul-esc: #1899D6;
   --azul-claro: #DDF4FF;
-  --laranja: #FF9600;
+  --laranja: #FF5C00;
   --vermelho: #FF4B4B;
   --vermelho-esc: #CC3B3B;
   --verm-claro: #FFDFE0;
   --amarelo: #FFC800;
-  --roxo: #6C5CE7;
-  --texto: #3C3C3C;
-  --texto-suave: #6B6B6B;
+  --roxo: #6A28FF;
+  --texto: #1C1433;
+  --texto-suave: #4E4570;
   --laranja-texto: #8F5500;
   --verde-texto: #3B7A00;
   --azul-texto: #1272A8;
@@ -46,7 +46,7 @@
   --fonte-lg: 17px;
   --fonte-xl: 20px;
   --fonte-2xl: clamp(19px, 5.5vw, 24px);
-  --fundo: #FCF9F4;
+  --fundo: #F4F1FF;
   --superficie: #fff;
   --trilho: #EDEDED;
   --estrela-vazia: #ddd;
@@ -76,10 +76,10 @@
   --verde-claro: #1a3a10;
   --azul-claro: #0d3a52;
   --verm-claro: #46161c;
-  --texto: #F1F7FB;
-  --texto-suave: #B3C4CD;
-  --laranja-texto: #FFB144;
-  --verde-texto: #8EE05A;
+  --texto: #F6F3FF;
+  --texto-suave: #C9C2E8;
+  --laranja-texto: #FFB088;
+  --verde-texto: #B6FF6A;
   --azul-texto: #62C5F8;
   --vermelho-texto: #FF9BA0;
   --verde-vivo: #8EE05A;
@@ -88,8 +88,8 @@
   --sobre-cor: #241C00;
   --borda: #37464F;
   --borda-suave: color-mix(in srgb, #37464F 65%, transparent);
-  --fundo: #131F24;
-  --superficie: #202F36;
+  --fundo: #0B1020;
+  --superficie: #16142A;
   --trilho: #37464F;
   --estrela-vazia: #37464F;
   --btn-off-fundo: #2b3a42;
@@ -215,9 +215,9 @@ textarea {
 
 .btn-verde {
   background: var(--verde);
-  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.24), transparent 58%);
+  background-image: linear-gradient(180deg, #8DFF4A, var(--verde) 46%, #2F9E00);
   color: var(--sobre-verde);
-  box-shadow: 0 4px 0 var(--verde-esc);
+  box-shadow: 0 6px 0 #146000, 0 14px 28px rgba(20, 120, 0, 0.35);
 }
 
 .btn-azul {
@@ -269,10 +269,11 @@ textarea {
 }
 
 .logo {
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 900;
-  letter-spacing: -0.03em;
-  color: var(--verde-texto);
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+  color: #0A5C32;
 }
 
 .logo-tela {
@@ -317,8 +318,10 @@ textarea {
 }
 
 .pilula-fogo {
-  border-color: color-mix(in srgb, var(--laranja) 55%, var(--borda));
-  color: var(--laranja-texto);
+  border-color: #8A2808;
+  background: #C2410C;
+  color: #fff;
+  box-shadow: 0 4px 0 #8A2808;
 }
 
 .hub-busca {
@@ -4086,9 +4089,10 @@ button.caixa-treinavel:hover {
 }
 
 .apresentacao-en {
-  font-size: clamp(32px, 6vw, 44px);
+  font-size: clamp(40px, 8vw, 64px);
   font-weight: 900;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
 }
 
 .apresentacao-pt {
@@ -4524,5 +4528,258 @@ button.revisao:active,
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+.hub-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: center;
+  margin: 8px 0 16px;
+  padding: 18px 16px;
+  min-height: 44px;
+  max-width: 100%;
+  overflow: hidden;
+  color: #F7FFF4;
+  background: linear-gradient(135deg, #062616 0%, #0A5C32 72%);
+  border-radius: 28px;
+  box-shadow: 0 10px 0 #04180F, 0 22px 40px rgba(6, 38, 22, 0.28);
+}
+
+.hub-hero-arte {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 28px;
+  background: radial-gradient(circle at 30% 30%, #FFE566, #FF8A00 55%, #E23D00);
+  box-shadow: 0 8px 0 #8A2808;
+}
+
+.hub-hero-sol {
+  font-size: 52px;
+  line-height: 1;
+  animation: boiar 2.4s ease-in-out infinite;
+}
+
+.hub-hero-brilho {
+  position: absolute;
+  top: -6px;
+  right: -4px;
+  font-size: 22px;
+}
+
+.hub-hero-corpo {
+  min-width: 0;
+}
+
+.hub-hero-ola {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #D8FFE4;
+}
+
+.hub-hero-titulo {
+  margin: 2px 0 4px;
+  font-size: clamp(32px, 7vw, 48px);
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+  color: #F7FFF4;
+}
+
+.hub-hero-sub {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #D8FFE4;
+}
+
+.hub-hero-jogo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.streak-selo {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #C2410C;
+  color: #fff;
+  box-shadow: 0 4px 0 #8A2808;
+  animation: pulso-streak 1.6s ease-in-out infinite;
+}
+
+.streak-selo strong {
+  font-size: 22px;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.xp-destaque {
+  flex: 1 1 140px;
+  min-width: min(100%, 140px);
+}
+
+.xp-destaque-topo {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 900;
+  color: #F7FFF4;
+  margin-bottom: 4px;
+}
+
+.xp-trilha {
+  height: 18px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.nivel-card {
+  background: linear-gradient(135deg, #062616, #0A5C32 78%);
+  color: #F7FFF4;
+  border-color: transparent;
+  box-shadow: 0 10px 0 #04180F, 0 22px 36px rgba(6, 38, 22, 0.28);
+}
+
+.nivel-card .nivel-titulo {
+  color: #F7FFF4;
+  font-size: clamp(26px, 5vw, 36px);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.nivel-card .progresso {
+  height: 18px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.hub-card {
+  position: relative;
+  overflow: hidden;
+  border-width: 2px;
+  border-bottom-width: 6px;
+}
+
+.hub-card .revisao-titulo {
+  font-size: clamp(18px, 4.2vw, 23px);
+  letter-spacing: -0.03em;
+}
+
+.hub-ilustra {
+  position: absolute;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-54%);
+  font-size: 64px;
+  line-height: 1;
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.hub-card[data-cat="trabalho"] {
+  background-image: linear-gradient(180deg, #E9FFE4, #fff 55%);
+  border-color: #1B7A00;
+}
+
+.hub-card[data-cat="entrevista"] {
+  background-image: linear-gradient(180deg, #F3EAFF, #fff 55%);
+  border-color: #6A28FF;
+}
+
+.hub-card[data-cat="cotidiano"] {
+  background-image: linear-gradient(180deg, #FFF1E6, #fff 55%);
+  border-color: #E23D00;
+}
+
+.hub-card[data-cat="pronuncia"] {
+  background-image: linear-gradient(180deg, #E5F6FF, #fff 55%);
+  border-color: #0878C2;
+}
+
+.hub-card[data-cat="revisao"] {
+  background-image: linear-gradient(180deg, #FFF6D8, #fff 55%);
+  border-color: #C2410C;
+}
+
+.stat:nth-child(3n + 1) { border-color: #1B7A00; }
+.stat:nth-child(3n + 2) { border-color: #6A28FF; }
+.stat:nth-child(3n + 3) { border-color: #E23D00; }
+
+[data-tema="escuro"] .logo {
+  color: #B6FF6A;
+}
+
+[data-tema="escuro"] .hub-hero,
+[data-tema="escuro"] .nivel-card {
+  background: linear-gradient(135deg, #04140E, #0A5C32 55%, #3A1260);
+  box-shadow: 0 10px 0 #020806, 0 24px 40px rgba(0, 0, 0, 0.45);
+}
+
+[data-tema="escuro"] .hub-card[data-cat="trabalho"] {
+  background-image: linear-gradient(180deg, #12321C, #16142A 60%);
+  border-color: #46D000;
+}
+
+[data-tema="escuro"] .hub-card[data-cat="entrevista"] {
+  background-image: linear-gradient(180deg, #2A1848, #16142A 60%);
+  border-color: #B08CFF;
+}
+
+[data-tema="escuro"] .hub-card[data-cat="cotidiano"] {
+  background-image: linear-gradient(180deg, #3A2014, #16142A 60%);
+  border-color: #FF8A4A;
+}
+
+[data-tema="escuro"] .hub-card[data-cat="pronuncia"] {
+  background-image: linear-gradient(180deg, #102838, #16142A 60%);
+  border-color: #7AD4FF;
+}
+
+[data-tema="escuro"] .hub-card[data-cat="revisao"] {
+  background-image: linear-gradient(180deg, #3A2410, #16142A 60%);
+  border-color: #FFB088;
+}
+
+[data-tema="escuro"] .hub-ilustra {
+  opacity: 0.28;
+}
+
+@keyframes boiar {
+  0%, 100% { transform: translateY(0) rotate(-8deg); }
+  50% { transform: translateY(-8px) rotate(6deg); }
+}
+
+@keyframes pulso-streak {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@media (max-width: 520px) {
+  .hub-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hub-hero-arte {
+    width: 64px;
+    height: 64px;
+  }
+
+  .hub-hero-sol {
+    font-size: 40px;
   }
 }

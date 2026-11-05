@@ -13468,8 +13468,12 @@ function treinosVisiveis() {
 
 function cartaoDoTreino(treino) {
   const ligado = estrelaLigada(treino.id);
+  const botao = botaoFluencia(treino.emoji, treino.titulo, subDoTreino(treino), () => abrirTreino(treino.id));
+  botao.classList.add('hub-card');
+  botao.dataset.cat = treino.categoria;
+  botao.append(h('span', { class: 'hub-ilustra', 'aria-hidden': 'true' }, treino.emoji));
   return h('div', { class: 'hub-item', role: 'listitem' },
-    botaoFluencia(treino.emoji, treino.titulo, subDoTreino(treino), () => abrirTreino(treino.id)),
+    botao,
     h('button', {
       type: 'button',
       class: 'estrela-treino',
@@ -15103,6 +15107,56 @@ function cartaoExpressao() {
   );
 }
 
+function saudacaoDaHora() {
+  const hora = new Date().getHours();
+  if (hora < 12) return 'Bom dia';
+  if (hora < 18) return 'Boa tarde';
+  return 'Boa noite';
+}
+
+function heroDoHub() {
+  const nv = nivelInfo();
+  const streak = streakAtual();
+  const pct = Math.round((nv.progresso || 0) * 100);
+  const dia = streak === 1 ? 'dia' : 'dias';
+  return h('section', { class: 'hub-hero', 'aria-label': 'Sua fala de hoje' },
+    h('div', { class: 'hub-hero-arte', 'aria-hidden': 'true' },
+      h('span', { class: 'hub-hero-sol' }, '🦜'),
+      h('span', { class: 'hub-hero-brilho' }, '✨')
+    ),
+    h('div', { class: 'hub-hero-corpo' },
+      h('p', { class: 'hub-hero-ola' }, saudacaoDaHora()),
+      h('p', { class: 'hub-hero-titulo' }, 'Bora falar hoje?'),
+      h('p', { class: 'hub-hero-sub' }, 'Escolha um treino e diga a frase em voz alta.'),
+      h('div', { class: 'hub-hero-jogo' },
+        h('div', {
+          class: 'streak-selo',
+          role: 'img',
+          'aria-label': `${streak} ${dia} seguidos`
+        },
+          h('span', { 'aria-hidden': 'true' }, '🔥'),
+          h('strong', {}, String(streak)),
+          h('span', {}, dia)
+        ),
+        h('div', { class: 'xp-destaque' },
+          h('div', { class: 'xp-destaque-topo' },
+            h('span', {}, `Nível ${nv.numero}`),
+            h('strong', {}, `${estado.xp} XP`)
+          ),
+          h('div', {
+            class: 'progresso xp-trilha',
+            role: 'progressbar',
+            'aria-valuemin': '0',
+            'aria-valuemax': '100',
+            'aria-valuenow': String(pct),
+            'aria-label': 'Progresso do nível'
+          }, h('div', { style: `width:${pct}%` }))
+        )
+      )
+    )
+  );
+}
+
 function blocoFluencia() {
   const trilha = garantirTrilha();
   const rec = treinoRecomendado(TREINOS, {
@@ -15239,6 +15293,7 @@ function blocoFluencia() {
     cartaoExpressao(),
     recomendado,
     continuar,
+    heroDoHub(),
     h('div', { class: 'hub-busca' },
       h('label', { class: 'revisao-sub', for: 'busca-hub' }, 'Buscar treino'),
       h('div', { class: 'hub-busca-linha' },

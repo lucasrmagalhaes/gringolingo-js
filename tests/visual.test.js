@@ -21,7 +21,7 @@ describe('sistema visual 3.15', () => {
     assert.match(data, /VERSAO_APP = '3\.15'/);
     assert.match(data, /versao: '3\.15'/);
     assert.match(data, /versao: '3\.14'/);
-    assert.match(sw, /gringolingo-v142/);
+    assert.match(sw, /gringolingo-v143/);
     for (const token of ['--raio-md', '--sombra-card', '--xp-texto', '--icone-fundo', '--foco', '--espaco-4']) {
       assert.equal(css.includes(token), true, token);
     }
@@ -42,6 +42,13 @@ describe('sistema visual 3.15', () => {
     assert.match(card, /overflow-wrap: anywhere/);
     assert.match(card, /max-width: 100%/);
     assert.match(card, /box-shadow: var\(--sombra-suave\)/);
+    const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
+    assert.match(app, /function heroDoHub/);
+    assert.match(app, /class: 'hub-hero'/);
+    assert.match(app, /Bora falar hoje\?/);
+    assert.match(css, /\.hub-hero \{/);
+    assert.match(css, /\.streak-selo \{/);
+    assert.match(css, /data-cat="trabalho"/);
     assert.equal(css.includes('\u2014'), false);
     assert.equal(css.includes('\u2013'), false);
   });

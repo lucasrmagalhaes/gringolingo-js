@@ -538,7 +538,8 @@ export const NOVIDADES = [
       '🎨 Cores, tipo e sombras no mesmo sistema',
       '🌙 Modo escuro com contraste mais calmo',
       '🃏 Cartões do hub com ícone e relevo',
-      '✨ Progresso, XP e a palavra nova com mais cara'
+      '✨ Progresso, XP e a palavra nova com mais cara',
+      '🦜 Hero do hub, cartões coloridos e streak em destaque'
     ]
   },
   {
