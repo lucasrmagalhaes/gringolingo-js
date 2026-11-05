@@ -568,8 +568,8 @@ export function estadoDoNo(treino, atualId, stats) {
   return treino?.id && treino.id === atualId ? 'atual' : 'bloqueado';
 }
 
-export function estrelaVisivelNoNo(estadoNo, favorito) {
-  return estadoNo === 'atual' || estadoNo === 'feito' || !!favorito;
+export function estrelaVisivelNoNo(estadoNo) {
+  return estadoNo === 'atual' || estadoNo === 'feito';
 }
 
 export function treinoContinuar(treinos, id) {

@@ -429,14 +429,14 @@ describe('hub de fluência e carreira', () => {
     assert.equal(estrelaVisivelNoNo(atual, false), true);
     assert.equal(estrelaVisivelNoNo(feito, false), true);
     assert.equal(estrelaVisivelNoNo(bloqueado, false), false);
-    assert.equal(estrelaVisivelNoNo(bloqueado, true), true);
+    assert.equal(estrelaVisivelNoNo(bloqueado, true), false);
     const guardados = filtrarEstrelas(
       [{ id: 'colega', stat: 'colegas' }, { id: 'furo', stat: 'furos' }],
       ['colega'],
       true
     );
     assert.deepEqual(guardados.map(t => t.id), ['colega']);
-    assert.equal(estrelaVisivelNoNo(estadoDoNo(guardados[0], 'modelo', {}), true), true);
+    assert.equal(estrelaVisivelNoNo(estadoDoNo(guardados[0], 'modelo', {}), true), false);
     const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
     const card = app.slice(app.indexOf('function cartaoDoTreino'), app.indexOf('function vazioDoHub'));

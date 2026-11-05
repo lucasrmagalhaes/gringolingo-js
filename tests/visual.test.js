@@ -21,7 +21,7 @@ describe('sistema visual 3.15', () => {
     assert.match(data, /VERSAO_APP = '3\.16'/);
     assert.match(data, /versao: '3\.16'/);
     assert.match(data, /versao: '3\.15'/);
-    assert.match(sw, /gringolingo-v147/);
+    assert.match(sw, /gringolingo-v148/);
     assert.match(sw, /nunito-latin\.woff2/);
     assert.match(css, /font-family: 'Nunito'/);
     assert.match(css, /--fundo: #FFF8EF/);

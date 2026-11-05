@@ -167,8 +167,6 @@ let suprimirPop = false;
 
 const CHAVE_DESAFIO = 'gringolingo:desafio';
 
-// Timer que morre junto com a tela: coreografias e redirects agendados nunca
-// disparam por cima de outra tela.
 function timerDeTela(fn, ms) {
   const id = setTimeout(fn, ms);
   timersDeTela.push(id);
@@ -191,9 +189,6 @@ function pararReconhecimento() {
   }
 }
 
-// Chamada no topo de toda função tela*: remove o listener de atalhos e mata
-// timers da tela anterior. Sem isso o Enter/Escape órfão clicava em nós
-// desconectados e o cronômetro do Relâmpago sobrevivia à saída.
 function limparTela() {
   pararReconhecimento();
   if (atalhosAtivos) {
@@ -220,8 +215,6 @@ function limparTela() {
   avancando = false;
 }
 
-// Histórico raso: a home é o estado base e cada tela interna empilha uma
-// entrada. O Voltar físico do Android deixa de fechar o app.
 const TELAS_POR_NOME = {};
 
 function registrarRota(nome) {
@@ -247,8 +240,6 @@ function normalizarHistorico() {
 }
 
 function voltarTela(fallback) {
-  // Guarda de reentrância: toque duplo rápido no Voltar não pode disparar
-  // dois history.back() e pular uma tela a mais.
   if (voltandoTela) return;
   if (profundidade > 0) {
     voltandoTela = true;
@@ -262,8 +253,6 @@ function sessaoTemProgresso() {
   return !!sessao && (sessao.respostas > 0 || sessao.idxFala > 0);
 }
 
-// Sair de uma lição em andamento pede um segundo toque (✖, Escape ou o Voltar
-// físico): um toque acidental não descarta mais a sessão inteira.
 function pedirSaidaDaLicao(sair) {
   if (saindoDaLicao) return;
   if (!sessaoTemProgresso() || Date.now() - saidaPedidaEm < 4000) {
@@ -887,7 +876,6 @@ function telaRelampago() {
   areaEx.querySelectorAll('.opcao').forEach(botao => {
     botao.addEventListener('click', () => responder(botao), { once: true });
   });
-  // Exercício de digitar (repescagem de pool pequeno): corrige no Enter.
   const entrada = areaEx.querySelector('.entrada');
   if (entrada) {
     entrada.addEventListener('keydown', e => {
@@ -1319,8 +1307,6 @@ function nodoHistoria(u, aberta) {
 
 function iniciarHistoria(u, historia) {
   const falasDoJogador = historia.falas.filter(f => f.de === 'voce');
-  // O pool inclui as unidades anteriores: histórias reaproveitam falas já
-  // aprendidas ("thank you" na viagem) sem cair no item improvisado.
   const pool = UNIDADES.slice(0, UNIDADES.indexOf(u) + 1).flatMap(x => x.licoes.flatMap(l => l.itens));
   sessao = {
     tipo: 'licao', historia, unidade: u,
@@ -1492,8 +1478,6 @@ function telaDica(u, l) {
   botao.focus({ preventScroll: true });
 }
 
-// Palavras que a pessoa nunca praticou ganham um cartão de apresentação
-// antes de serem cobradas. Vale para o curso, a Minha Lista e a Expansão.
 function palavrasNovas(itens) {
   return new Set(itens.filter(i => !estado.itens[i.en]).map(i => i.en));
 }
@@ -1504,8 +1488,6 @@ function semApresentacoes(fila) {
 
 function comecarLicao(u, l) {
   const pool = u.licoes.flatMap(x => x.itens);
-  // Fila proporcional ao tamanho da lição: 8 exercícios fixos deixavam ~2
-  // itens das lições grandes sem nenhuma aparição.
   const fila = gerarExercicios(l.itens, pool, Math.max(8, Math.ceil(l.itens.length * 1.2)), palavrasNovas(l.itens));
   sessao = {
     tipo: 'licao', unidade: u, licao: l, pool, fila, itens: l.itens,
@@ -1780,7 +1762,6 @@ function processar(ex, res, feedback, btnVerificar) {
   btnVerificar.disabled = true;
   sessao.respostas++;
   const alvos = ex.tipo === 'pares' ? ex.pares : ex.item ? [ex.item] : [];
-  // Nos pares o erro é por par: um clique errado não rebaixa os 4 itens.
   const paresErrados = ex.tipo === 'pares' ? new Set(res.paresErrados ?? []) : null;
   alvos.forEach(it => {
     const acertouEste = paresErrados ? !paresErrados.has(it.en) : res.correto;
@@ -1790,8 +1771,6 @@ function processar(ex, res, feedback, btnVerificar) {
   });
   if (res.correto) {
     if (ex.repescagem) {
-      // Acertar a repescagem do item recém-errado vale +5 XP, mas não conta
-      // combo. Senão errar viraria atalho para o badge de combo.
       sessao.xp += 5;
       sons.acerto();
     } else {
@@ -1882,8 +1861,6 @@ function linhaDiff(diff) {
 let avancando = false;
 
 function continuar() {
-  // Enter segurado (auto-repeat) disparava o avanço duas vezes na janela do
-  // view transition, pulando um exercício; limparTela() rearma a guarda.
   if (avancando) return;
   avancando = true;
   sessao.idx++;
@@ -1903,17 +1880,12 @@ function finalizar(derrotado) {
   }
   const precisao = s.planejados ? Math.round(s.acertos / s.planejados * 100) : 100;
   const perfeita = s.acertos === s.planejados;
-  // Estrelas por erros absolutos: com fila de 8, o degrau de 90% tornava
-  // 3 estrelas idêntico à perfeição (7/8 = 87,5%).
   const falhas = Math.max(0, s.planejados - s.acertos);
   const estrelas = falhas === 0 ? 3 : falhas <= 2 ? 2 : 1;
   s.xp += 20 + (perfeita ? 15 : 0);
   if (s.chefao) s.xp += 60;
-  // Verbos sintéticos ("he eats") não entram na agenda de revisão.
   const agendamentos = s.verbos ? [] : [...s.resultados.values()];
   if (s.tipo === 'licao' && !s.chefao && !s.historia) {
-    // Item da lição que não caiu no sorteio entra na caixa 0: a home não pode
-    // cobrar revisão de palavra que o aluno nunca viu como "vencendo hoje".
     s.itens.forEach(i => {
       if (!s.resultados.has(i.en) && !estado.itens[i.en]) agendamentos.push({ en: i.en, acertou: true });
     });
@@ -2110,8 +2082,6 @@ function overlayNivel(nv) {
   };
   const aoTeclar = e => {
     if (e.key === 'Escape' || e.key === 'Enter') fechar();
-    // O modal é o único conteúdo interativo fora do #app (que fica inert);
-    // segurar o Tab nele evita o foco passear pela tela de trás.
     if (e.key === 'Tab') {
       e.preventDefault();
       botao.focus();
@@ -2183,8 +2153,6 @@ function telaLogin(aviso) {
   btnEntrar.type = 'submit';
   btnCriar.type = 'button';
   btnCriar.addEventListener('click', () => agir(true));
-  // O slot do Google é preenchido no lugar quando a checagem assíncrona
-  // termina. Repintar a tela inteira roubava o foco de quem já digitava.
   const slotGoogle = h('div', { class: 'login-slot-google' });
   if (temGoogle) slotGoogle.append(...montarBotaoGoogle(msg));
   const form = h('form', {
@@ -2237,8 +2205,6 @@ function decodificarDesafio(d) {
   return { unidade, licao, acertos: Math.max(0, Math.min(d.a, 99)), total: Math.max(1, Math.min(d.t, 99)) };
 }
 
-// O desafio sobrevive a reload: a URL é limpa na hora, mas o convite fica
-// guardado até ser aceito ou dispensado.
 function lerDesafio() {
   const p = new URLSearchParams(location.search);
   const bruto = p.get('desafio');
@@ -2473,21 +2439,11 @@ function telaPerfil() {
       botaoTema(),
       h('div', { class: 'logo', role: 'heading', 'aria-level': '1' }, '👤 Seu perfil')
     ),
-    h('div', { class: 'card nivel-card' },
-      anelXp(Math.round(nv.progresso * 100), 'Progresso do nível'),
-      h('span', { class: 'nivel-emoji' }, nv.emoji),
-      h('div', { class: 'nivel-info' },
-        h('div', { class: 'nivel-titulo' }, `Nível ${nv.numero} · ${nv.titulo}`),
-        h('div', {
-          class: 'progresso nivel-prog',
-          role: 'progressbar',
-          'aria-valuemin': '0',
-          'aria-valuemax': '100',
-          'aria-valuenow': String(Math.round(nv.progresso * 100)),
-          'aria-label': 'Progresso do nível'
-        }, h('div', { style: `width:${Math.round(nv.progresso * 100)}%` })),
-        h('div', { class: 'nivel-xp' }, nv.prox ? `${estado.xp} / ${nv.prox.xp} XP` : 'Nível máximo! 👑')
-      )
+    h('section', { class: 'perfil-hero' },
+      h('div', { class: 'perfil-faixa', 'aria-hidden': 'true' }),
+      h('div', { class: 'perfil-avatar' }, mascote('feliz', 72)),
+      h('div', { class: 'nivel-titulo' }, `Nível ${nv.numero} · ${nv.titulo}`),
+      h('div', { class: 'nivel-xp' }, nv.prox ? `${estado.xp} / ${nv.prox.xp} XP` : 'Nível máximo')
     ),
     h('div', { class: 'vitrine-herois' },
       streakAtual() > 0
@@ -2521,6 +2477,7 @@ function telaPerfil() {
         ev.currentTarget.textContent = escondido ? 'VER MENOS' : 'VER MAIS';
       }
     }, 'VER MAIS'),
+    cartaoJornada(),
     h('div', { id: 'stats-mais', class: 'stats-grid', hidden: true },
       statPilula('📚', licoesConcluidas(), 'lições concluídas'),
       statPilula('🗣️', palavras, 'palavras aprendidas'),
@@ -2540,7 +2497,6 @@ function telaPerfil() {
         );
       })
     ),
-    cartaoJornada(),
     cartaoTropecos(),
     cartaoVoz(),
     cartaoFonte(),
@@ -10567,8 +10523,6 @@ function nomeCurto(nome) {
     .trim() || nome;
 }
 
-// Ajustar voz/velocidade/som troca só este cartão, no lugar. Repintar o
-// perfil inteiro jogava o usuário de volta ao topo da tela.
 function repintarCartaoVoz() {
   document.querySelector('.voz-card')?.replaceWith(cartaoVoz());
 }
@@ -10706,21 +10660,19 @@ function jornadaVazia() {
 function cartaoJornada() {
   if (!estado.xp || !estado.stats.licoes) return jornadaVazia();
   const dias = historicoRecente(30);
-  const maximo = Math.max(...dias.map(d => d.xp), estado.meta);
   const total = dias.reduce((s, d) => s + d.xp, 0);
   if (!total) return jornadaVazia();
   const ativos = dias.filter(d => d.xp > 0).length;
   const caixas = distribuicaoDeCaixas();
   const totalItens = caixas.reduce((a, b) => a + b, 0);
-  // Rótulos derivados dos intervalos reais: a caixa 0 já é de 1 dia.
   const rotulos = INTERVALOS.map(n => `${n} dia${n > 1 ? 's' : ''}`);
   return h('div', { class: 'card jornada-card' },
     h('div', { class: 'nivel-titulo' }, '📈 Sua jornada'),
-    h('div', { class: 'jornada-grafico', role: 'img', 'aria-label': `XP dos últimos 30 dias, total ${total}` },
+    h('div', { class: 'jornada-calor', role: 'img', 'aria-label': `XP dos últimos 30 dias, total ${total}` },
       dias.map(d => h('div', {
-        class: 'jornada-barra' + (d.xp >= estado.meta ? ' bateu' : ''),
-        title: `${d.data.split('-').reverse().slice(0, 2).join('/')}: ${d.xp} XP`
-      }, h('div', { style: `height:${maximo ? Math.max(d.xp / maximo * 100, d.xp ? 6 : 2) : 2}%` })))
+        class: 'calor-dia' + (d.xp >= estado.meta ? ' cheio' : d.xp ? ' quente' : ''),
+        title: `${d.data.slice(8, 10)}/${d.data.slice(5, 7)}: ${d.xp} XP`
+      }))
     ),
     h('div', { class: 'jornada-resumo' },
       h('span', {}, `${total} XP em 30 dias`),
@@ -11091,8 +11043,6 @@ function avisarAtualizacao(registro) {
     onclick() {
       btn.disabled = true;
       btn.textContent = 'Atualizando…';
-      // O SW novo fica em waiting até este toque; o skipWaiting dele dispara o
-      // controllerchange abaixo, que recarrega já na versão nova.
       if (registro.waiting) registro.waiting.postMessage('atualizar');
       else location.reload();
     }
@@ -11103,8 +11053,6 @@ function avisarAtualizacao(registro) {
 function registrarServiceWorker() {
   if (!('serviceWorker' in navigator)) return;
   let recarregou = false;
-  // Na PRIMEIRA instalação o clients.claim() também dispara controllerchange;
-  // só recarrega quando já havia um controlador (ou seja, troca de versão).
   let tinhaControlador = !!navigator.serviceWorker.controller;
   navigator.serviceWorker.addEventListener('controllerchange', () => {
     if (!tinhaControlador) {
@@ -11357,11 +11305,11 @@ function telaConversa() {
   const recorde = estado.stats.recordeSombra ?? 0;
   app.innerHTML = '';
   app.append(
-    h('div', { class: 'topo topo-hub' },
-      h('button', { class: 'pilula btn-perfil', type: 'button', 'aria-label': 'Voltar', onclick: () => voltarTela() }, '←'),
-      h('div', { class: 'logo', role: 'heading', 'aria-level': '1' }, 'GringoLingo'),
+    h('div', { class: 'topo topo-hub topo-vivo' },
+      h('button', { class: 'logo logo-vivo', type: 'button', role: 'heading', 'aria-level': '1', onclick: () => voltarTela() }, 'GringoLingo'),
       h('div', { class: 'espaco' }),
-      h('div', { class: 'topo-conversar' }, 'Conversar'),
+      h('span', { class: 'xp-pill' }, estado.xp + ' XP'),
+      streakAtual() > 0 ? h('span', { class: 'streak-pill' }, '🔥 ' + streakAtual()) : '',
       botaoPerfil()
     ),
     ...blocoFluencia(),
@@ -13169,6 +13117,8 @@ let iteratorSessao = null;
 let pagerSessao = null;
 let evictSessao = null;
 let filtroHub = { categoria: 'todos', busca: '', estrela: false };
+let uniHub = -1;
+const CORU = { trabalho: ['#1CB0F6', '#1899D6'], entrevista: ['#7B61FF', '#5A45D6'], cotidiano: ['#58CC02', '#3D9B00'], pronuncia: ['#FF9600', '#D97E00'], revisao: ['#FFC800', '#D4A600'] };
 let revisaoPrazo = 0;
 let gravacaoUrl = null;
 let gravadorAtivo = null;
@@ -13204,18 +13154,6 @@ function textoContagem(n, categoria) {
   if (!categoria || categoria === 'todos') return nome;
   const titulo = GRUPOS_HUB.find(c => c.id === categoria)?.titulo;
   return titulo ? `${nome} em ${titulo}` : nome;
-}
-
-function moverCategoriaHub(atual, tecla) {
-  if (tecla !== 'ArrowRight' && tecla !== 'ArrowLeft') return;
-  const ordem = ['todos', ...GRUPOS_HUB.map(c => c.id)];
-  const i = Math.max(0, ordem.indexOf(atual));
-  const passo = tecla === 'ArrowRight' ? 1 : -1;
-  const prox = ordem[(i + passo + ordem.length) % ordem.length];
-  filtroHub = { ...filtroHub, categoria: prox };
-  pintarListaHub();
-  const alvo = document.querySelector(`[data-categoria-hub="${prox}"]`);
-  if (alvo) alvo.focus();
 }
 
 function telasDoHub() {
@@ -13642,6 +13580,7 @@ function cartaoDoTreino(treino, atualId) {
   const miolo = estadoNo === 'feito'
     ? h('span', { class: 'no-check', 'aria-hidden': 'true' }, '✓')
     : h('span', { class: 'no-emoji', 'aria-hidden': 'true' }, treino.emoji);
+  const atual = estadoNo === 'atual';
   const estrela = estrelaVisivelNoNo(estadoNo, ligado)
     ? h('button', {
       type: 'button',
@@ -13655,20 +13594,27 @@ function cartaoDoTreino(treino, atualId) {
       }
     }, h('span', { 'aria-hidden': 'true' }, ligado ? '★' : '☆'))
     : '';
-  return h('div', { class: 'hub-item trilha-item', role: 'listitem' },
-    h('div', { class: 'trilha-marco' },
-      h('button', {
-        type: 'button',
-        class: 'trilha-no',
-        'data-cat': treino.categoria,
-        'data-estado': estadoNo,
-        'aria-label': `${treino.titulo}. ${subDoTreino(treino)}`,
-        ...(estadoNo === 'atual' ? { 'aria-current': 'step' } : {}),
-        onclick: () => abrirTreino(treino.id)
-      }, miolo),
-      estrela
+  return h('div', { class: 'hub-item trilha-item passo-vivo' + (atual ? ' passo-atual' : ''), role: 'listitem' },
+    h('div', { class: 'passo-miolo' },
+      atual ? h('div', { class: 'papagaio-no', 'aria-hidden': 'true' }, mascote('fala', 72)) : '',
+      h('div', { class: 'trilha-marco' },
+        h('button', {
+          type: 'button',
+          class: 'trilha-no',
+          'data-cat': treino.categoria,
+          'data-estado': estadoNo,
+          'aria-label': `${treino.titulo}. ${subDoTreino(treino)}`,
+          ...(atual ? { 'aria-current': 'step' } : {}),
+          onclick: () => abrirTreino(treino.id)
+        }, miolo),
+        estrela
+      )
     ),
-    estadoNo === 'atual' ? h('div', { class: 'trilha-nome' }, treino.titulo) : ''
+    atual ? h('div', { class: 'trilha-nome' }, treino.titulo) : '',
+    atual ? h('div', { class: 'no-tooltip' },
+      h('p', { class: 'no-tooltip-titulo' }, treino.titulo),
+      h('button', { type: 'button', class: 'btn no-comecar', onclick: () => abrirTreino(treino.id) }, 'COMEÇAR +XP')
+    ) : ''
   );
 }
 
@@ -13692,8 +13638,9 @@ function pintarListaHub(focoId) {
     ? 'Nenhum favorito ainda. A estrela marca o treino.'
     : 'Nenhum treino com esse filtro.';
   if (status) {
-    status.textContent = visiveis.length ? textoContagem(visiveis.length, filtroHub.categoria) : vazio;
-    status.classList.toggle('so-leitor', !visiveis.length);
+    const uStatus = !filtroHub.busca && !filtroHub.estrela ? unidadeAtual() : null;
+    status.textContent = !visiveis.length ? vazio : uStatus ? `Unidade ${uStatus.n}. ${uStatus.c.titulo}.` : textoContagem(visiveis.length, filtroHub.categoria);
+    status.classList.add('so-leitor');
   }
   document.querySelectorAll('[data-categoria-hub]').forEach(chip => {
     chip.setAttribute('aria-pressed', chip.getAttribute('data-categoria-hub') === filtroHub.categoria ? 'true' : 'false');
@@ -13709,6 +13656,7 @@ function pintarListaHub(focoId) {
     filtroHub.categoria,
     filtroHub.busca,
     filtroHub.estrela ? '1' : '0',
+    String(uniHub),
     estado.ordemHub,
     (estado.estrelas || []).join(','),
     visiveis.map(t => t.id).join(',')
@@ -13718,6 +13666,20 @@ function pintarListaHub(focoId) {
   const nos = [];
   if (!visiveis.length) {
     nos.push(vazioDoHub(filtroHub.estrela));
+  } else if (!filtroHub.busca && !filtroHub.estrela) {
+    const u = unidadeAtual();
+    const atualId = treinoDoAgora()?.id || '';
+    const itens = [];
+    let bau = false;
+    u.ts.forEach((t, i) => {
+      itens.push(cartaoDoTreino(t, atualId));
+      if ((i + 1) % 4 === 0 && i + 1 < u.ts.length) { itens.push(marcoVivo(1)); bau = true; }
+    });
+    if (!bau) itens.splice(Math.min(itens.length, 3), 0, marcoVivo(1));
+    itens.push(marcoVivo(0));
+    let ate = u.ts.every(t => estadoDoNo(t, atualId, estado.stats) === 'feito') ? 100 : 0;
+    itens.forEach((el, i) => { if (el.classList.contains('passo-atual')) ate = Math.round((i + 0.45) / itens.length * 100); });
+    nos.push(h('div', { class: 'trilha-linha trilha-viva', role: 'list', 'aria-label': u.c.titulo, style: '--ate:' + ate + '%' }, itens));
   } else {
     const cats = filtroHub.categoria === 'todos'
       ? GRUPOS_HUB
@@ -15439,6 +15401,42 @@ function heroDoHub(alvo) {
   );
 }
 
+function unidadesHub() {
+  const out = [];
+  for (const c of GRUPOS_HUB) {
+    const ts = TREINOS.filter(t => t.categoria === c.id);
+    for (let i = 0; i < ts.length; i += 4) out.push({ c, ts: ts.slice(i, i + 4), n: out.length + 1 });
+  }
+  return out;
+}
+
+function unidadeAtual() {
+  const us = unidadesHub();
+  const cat = filtroHub.categoria;
+  if (uniHub >= 0 && us[uniHub] && cat === 'todos') return us[uniHub];
+  const id = treinoDoAgora()?.id;
+  return us.find(u => (cat === 'todos' || u.c.id === cat) && u.ts.some(t => t.id === id))
+    || us.find(u => cat === 'todos' || u.c.id === cat) || us[0];
+}
+
+function marcoVivo(bau) {
+  return h('div', { class: 'hub-item trilha-item passo-vivo', role: 'listitem' },
+    h('div', { class: bau ? 'bau-no' : 'trofeu-no', role: 'img', 'aria-label': bau ? 'Baú' : 'Troféu' }, bau ? '🎁' : '🏆'));
+}
+
+function bannerUnidade() {
+  const u = unidadeAtual();
+  const cor = CORU[u.c.id];
+  return h('section', { id: 'banner-unidade', class: 'banner-unidade', style: '--bf:' + cor[0] + ';--bs:' + cor[1] },
+    h('p', { class: 'banner-kicker' }, 'UNIDADE ' + u.n),
+    h('h2', { class: 'banner-titulo' }, u.c.titulo),
+    h('div', { class: 'banner-acoes' },
+      h('button', { type: 'button', class: 'btn btn-branco', onclick: abrirGuia }, 'Guia'),
+      h('button', { type: 'button', class: 'btn btn-branco', onclick: abrirUnidades }, 'Trocar unidade')
+    )
+  );
+}
+
 function blocoFluencia() {
   const trilha = garantirTrilha();
   const rec = treinoRecomendado(TREINOS, {
@@ -15463,22 +15461,6 @@ function blocoFluencia() {
     ),
     h('span', { class: 'revisao-seta' }, '›')
   ) : '';
-  const chips = GRUPOS_HUB.map(cat => h('button', {
-    type: 'button',
-    class: 'pilula',
-    'data-categoria-hub': cat.id,
-    'aria-pressed': filtroHub.categoria === cat.id ? 'true' : 'false',
-    'aria-controls': 'lista-hub',
-    onclick: () => {
-      filtroHub = { ...filtroHub, categoria: filtroHub.categoria === cat.id ? 'todos' : cat.id };
-      pintarListaHub();
-    },
-    onkeydown: ev => {
-      if (ev.key !== 'ArrowRight' && ev.key !== 'ArrowLeft') return;
-      ev.preventDefault();
-      moverCategoriaHub(cat.id, ev.key);
-    }
-  }, cat.titulo));
   const recomendado = rec ? h('button', {
     class: 'card revisao',
     type: 'button',
@@ -15577,11 +15559,8 @@ function blocoFluencia() {
     recomendado,
     continuar
   ];
-  const alvo = treinoDoAgora();
-  return [
-    heroDoHub(alvo),
-    blocoAgora(alvo),
-    h('div', { class: 'hub-busca' + (filtroHub.busca ? ' aberta' : '') },
+  const banner = bannerUnidade();
+  const busca = h('div', { class: 'hub-busca' + (filtroHub.busca ? ' aberta' : '') },
       h('button', {
         type: 'button',
         class: 'pilula busca-icone',
@@ -15627,29 +15606,74 @@ function blocoFluencia() {
           }
         }, 'Limpar')
       )
-    ),
-    h('div', { class: 'fila-botoes', role: 'group', 'aria-label': 'Categorias dos treinos' },
-      ...chips,
-      h('button', {
-        type: 'button',
-        class: 'pilula',
-        'data-filtro-estrela': '1',
-        'aria-pressed': filtroHub.estrela ? 'true' : 'false',
-        'aria-controls': 'lista-hub',
-        onclick: () => {
-          filtroHub = { ...filtroHub, estrela: !filtroHub.estrela };
-          pintarListaHub();
-        }
-      }, 'Favoritos')
-    ),
+    );
+  banner.append(busca);
+  return [
+    banner,
     // Filtro retirado da barra: Menos praticados
-    h('p', { id: 'hub-status', class: 'revisao-sub', role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true', tabindex: '-1' }, textoContagem(total, filtroHub.categoria)),
+    h('p', { id: 'hub-status', class: 'revisao-sub so-leitor', role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true', tabindex: '-1' }, textoContagem(total, filtroHub.categoria)),
     h('div', { id: 'lista-hub', 'aria-labelledby': 'hub-status' }),
     h('details', { class: 'hub-mais' },
       h('summary', { class: 'hub-mais-sum' }, 'Ver mais'),
       ...pecas
     )
   ];
+}
+
+function abrirGuia() {
+  const u = unidadeAtual();
+  const folha = h('div', { class: 'sheet-fundo', onclick(ev) { if (ev.target === folha) folha.remove(); } },
+    h('div', { class: 'sheet', role: 'dialog', 'aria-label': 'Guia da unidade' },
+      h('h2', {}, 'UNIDADE ' + u.n),
+      h('p', {}, u.c.titulo + '. Fale cada nó. O verde é o feito. O anel azul é o de agora.'),
+      h('button', { type: 'button', class: 'btn btn-verde', onclick() { folha.remove(); } }, 'FECHAR')
+    )
+  );
+  document.body.append(folha);
+}
+
+function abrirUnidades() {
+  const us = unidadesHub();
+  const atual = unidadeAtual();
+  const folha = h('div', { class: 'sheet-fundo', onclick(ev) { if (ev.target === folha) folha.remove(); } },
+    h('div', { class: 'sheet', role: 'dialog', 'aria-label': 'Trocar unidade' },
+      h('h2', {}, 'Trocar unidade'),
+      h('div', { class: 'unidades-grade' }, us.map((u, i) => h('button', {
+        type: 'button',
+        class: 'unidade-tile',
+        'data-cat': u.c.id,
+        style: '--uf:' + CORU[u.c.id][0],
+        'aria-pressed': u.n === atual.n ? 'true' : 'false',
+        onclick() {
+          uniHub = i;
+          filtroHub = { ...filtroHub, categoria: 'todos', busca: '', estrela: false };
+          folha.remove();
+          telaConversa();
+        },
+        onkeydown(ev) {
+          if (ev.key !== 'ArrowRight' && ev.key !== 'ArrowLeft') return;
+          ev.preventDefault();
+          const b = [...ev.currentTarget.parentElement.children];
+          const i0 = b.indexOf(ev.currentTarget);
+          b[(i0 + (ev.key === 'ArrowRight' ? 1 : -1) + b.length) % b.length].focus();
+        }
+      }, 'UNIDADE ' + u.n + ' ' + u.c.titulo))),
+      h('button', {
+        type: 'button',
+        class: 'btn btn-branco',
+        'data-filtro-estrela': '1',
+        'aria-pressed': filtroHub.estrela ? 'true' : 'false',
+        'aria-controls': 'lista-hub',
+        onclick() {
+          filtroHub = { ...filtroHub, estrela: !filtroHub.estrela, busca: '' };
+          folha.remove();
+          telaConversa();
+        }
+      }, 'Favoritos'),
+      h('button', { type: 'button', class: 'btn btn-verde', onclick() { folha.remove(); } }, 'FECHAR')
+    )
+  );
+  document.body.append(folha);
 }
 
 function cartaoComNivel(item, sub, onclick) {
@@ -20684,9 +20708,6 @@ async function iniciar() {
         repintarTelaAtual();
         return;
       }
-      // Outra aba salvou progresso: mesclar aqui em vez de deixar o próximo
-      // salvar() desta aba sobrescrever o que ela fez. mesclarDeOutraAba só
-      // regrava quando ganhou algo. Sem eco infinito entre as abas.
       try {
         if (mesclarDeOutraAba(e.newValue)) {
           atualizarItensExtras();
