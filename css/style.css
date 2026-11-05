@@ -6415,8 +6415,39 @@ button.revisao:active,
   box-shadow: 0 4px 0 #1A2428;
 }
 
+.banner-passo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.banner-conta {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #1A1F2E;
+}
+
+.banner-trilho {
+  flex: 1;
+  height: 10px;
+  min-width: 72px;
+  border-radius: 14px;
+  background: var(--bs, #1899D6);
+  box-shadow: 0 3px 0 #1A1F2E;
+}
+
+.banner-trilho > div {
+  height: 10px;
+  border-radius: 14px;
+  background: #58CC02;
+  box-shadow: 0 3px 0 #3D9B00;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .trilha-viva > .passo-vivo,
   .no-comecar,
-  .unidade-tile { transition: none; }
+  .unidade-tile,
+  .banner-trilho { transition: none; }
 }

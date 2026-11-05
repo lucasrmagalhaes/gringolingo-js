@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.16';
+export const VERSAO_APP = '3.17';
 
 export const NOVIDADES = [
+  {
+    versao: '3.17',
+    titulo: 'O histogram',
+    itens: [
+      '📊 Diga que o histogram conta o balde',
+      '🌡️ Avise que o gauge mostra o nível',
+      '🪣 Diga que o backfill enche o buraco',
+      '📏 O banner da unidade mostra quantos nós já foram feitos'
+    ]
+  },
   {
     versao: '3.16',
     titulo: 'O iterator',
@@ -2269,6 +2279,9 @@ export const MISSOES = [
   { id: 'iterator1', emoji: '🐾', titulo: 'Ande a chave no iterator', alvo: 1, xp: 15, medir: s => (s.tipo === 'iterator' ? 1 : 0) },
   { id: 'pager1', emoji: '📑', titulo: 'Carregue a página no pager', alvo: 1, xp: 15, medir: s => (s.tipo === 'pager' ? 1 : 0) },
   { id: 'evict1', emoji: '💨', titulo: 'Solte a página fria no evict', alvo: 1, xp: 15, medir: s => (s.tipo === 'evict' ? 1 : 0) },
+  { id: 'histogram1', emoji: '📊', titulo: 'Conte o balde no histogram', alvo: 1, xp: 15, medir: s => (s.tipo === 'histogram' ? 1 : 0) },
+  { id: 'gauge1', emoji: '🌡️', titulo: 'Mostre o nível no gauge', alvo: 1, xp: 15, medir: s => (s.tipo === 'gauge' ? 1 : 0) },
+  { id: 'backfill1', emoji: '🪣', titulo: 'Encha o buraco no backfill', alvo: 1, xp: 15, medir: s => (s.tipo === 'backfill' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2655,6 +2668,9 @@ export const BADGES = [
   { id: 'iterator', emoji: '🐾', nome: 'O iterator', desc: 'Diga que o iterator anda a chave' },
   { id: 'pager', emoji: '📑', nome: 'O pager', desc: 'Diga que o pager carrega a página' },
   { id: 'evict', emoji: '💨', nome: 'O evict', desc: 'Diga que o evict solta a página fria' },
+  { id: 'histogram', emoji: '📊', nome: 'O histogram', desc: 'Diga que o histogram conta o balde' },
+  { id: 'gauge', emoji: '🌡️', nome: 'O gauge', desc: 'Diga que o gauge mostra o nível' },
+  { id: 'backfill', emoji: '🪣', nome: 'O backfill', desc: 'Diga que o backfill enche o buraco' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

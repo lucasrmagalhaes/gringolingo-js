@@ -547,7 +547,11 @@ navegador.
 - **O evict**: a página fria sai.
 - **O idiom**: no estudo, o idiom de reunião do dia, com atalho para dizer. Não é um card da trilha.
 - **Trilha Viva**: banner de unidade, caminho em zigue-zague, baú, troféu e papagaio no nó atual.
-- Cache `gringolingo-v149`.
+- **O histogram**: o balde entra na conta.
+- **O gauge**: o nível aparece agora.
+- **O backfill**: o buraco antigo enche.
+- **Trilho da unidade**: o banner mostra quantos nós da unidade já foram feitos, com barra sólida.
+- Cache `gringolingo-v150`.
 
 ### Hábito e gamificação
 

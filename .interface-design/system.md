@@ -78,7 +78,7 @@ Nos:
 
 O no atual tem um balao verde com o titulo do treino e o botao branco `COMEÇAR +XP`, altura minima 48px. O papagaio de 72px fica ao lado desse no.
 
-Trocar unidade abre uma folha com tiles coloridos em duas colunas, uma unidade por tile. A estrela de favorito so aparece em no liberado (atual ou feito). No bloqueado ela some, mesmo se o treino ja estiver salvo. O filtro Favoritos continua achando o treino. Os 359 treinos continuam no catalogo. Bau e trofeu nao sao treinos.
+Trocar unidade abre uma folha com tiles coloridos em duas colunas, uma unidade por tile. A estrela de favorito so aparece em no liberado (atual ou feito). No bloqueado ela some, mesmo se o treino ja estiver salvo. O filtro Favoritos continua achando o treino. Os 362 treinos continuam no catalogo. O banner mostra um trilho solido com quantos nos da unidade ja foram feitos. Bau e trofeu nao sao treinos.
 
 O hero branco e o card Agora ficam fora da tela. As funcoes antigas permanecem no codigo para nao perder a saudacao e o `COMEÇAR`.
 
