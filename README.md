@@ -565,7 +565,10 @@ navegador.
 - **O webhook**: o sistema é avisado.
 - **O fanout**: a chamada se espalha.
 - **O ingest**: o evento é recebido.
-- Cache `gringolingo-v154`.
+- **O otel**: o sinal é exportado.
+- **O sampler**: o rastro é escolhido.
+- **O exemplar**: o pico é marcado.
+- Cache `gringolingo-v155`.
 
 ### Hábito e gamificação
 

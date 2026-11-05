@@ -528,9 +528,18 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.21';
+export const VERSAO_APP = '3.22';
 
 export const NOVIDADES = [
+  {
+    versao: '3.22',
+    titulo: 'O otel',
+    itens: [
+      '📤 Diga que o otel exporta o sinal',
+      '🎚️ Avise que o sampler escolhe o rastro',
+      '📌 Diga que o exemplar marca o pico'
+    ]
+  },
   {
     versao: '3.21',
     titulo: 'O webhook',
@@ -2332,6 +2341,9 @@ export const MISSOES = [
   { id: 'webhook1', emoji: '🪝', titulo: 'Avise o sistema no webhook', alvo: 1, xp: 15, medir: s => (s.tipo === 'webhook' ? 1 : 0) },
   { id: 'fanout1', emoji: '🔀', titulo: 'Espalhe a chamada no fanout', alvo: 1, xp: 15, medir: s => (s.tipo === 'fanout' ? 1 : 0) },
   { id: 'ingest1', emoji: '📬', titulo: 'Receba o evento no ingest', alvo: 1, xp: 15, medir: s => (s.tipo === 'ingest' ? 1 : 0) },
+  { id: 'otel1', emoji: '📤', titulo: 'Exporte o sinal no otel', alvo: 1, xp: 15, medir: s => (s.tipo === 'otel' ? 1 : 0) },
+  { id: 'sampler1', emoji: '🎚️', titulo: 'Escolha o rastro no sampler', alvo: 1, xp: 15, medir: s => (s.tipo === 'sampler' ? 1 : 0) },
+  { id: 'exemplar1', emoji: '📌', titulo: 'Marque o pico no exemplar', alvo: 1, xp: 15, medir: s => (s.tipo === 'exemplar' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2733,6 +2745,9 @@ export const BADGES = [
   { id: 'webhook', emoji: '🪝', nome: 'O webhook', desc: 'Diga que o webhook avisa o sistema' },
   { id: 'fanout', emoji: '🔀', nome: 'O fanout', desc: 'Diga que o fanout espalha a chamada' },
   { id: 'ingest', emoji: '📬', nome: 'O ingest', desc: 'Diga que o ingest recebe o evento' },
+  { id: 'otel', emoji: '📤', nome: 'O otel', desc: 'Diga que o otel exporta o sinal' },
+  { id: 'sampler', emoji: '🎚️', nome: 'O sampler', desc: 'Diga que o sampler escolhe o rastro' },
+  { id: 'exemplar', emoji: '📌', nome: 'O exemplar', desc: 'Diga que o exemplar marca o pico' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
