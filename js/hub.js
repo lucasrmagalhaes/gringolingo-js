@@ -369,7 +369,10 @@ const BRUTOS = [
   ['debounce', 'trabalho', '⏲️', 'O debounce', 'Segura o envio.', 'debounces'],
   ['sstable', 'trabalho', '🧱', 'O sstable', 'A tabela ordena a chave.', 'sstables'],
   ['latch', 'trabalho', '🔒', 'O latch', 'A trava curta segura a leitura.', 'latches'],
-  ['throttle', 'trabalho', '🚥', 'O throttle', 'O ritmo limita a chamada.', 'throttles']
+  ['throttle', 'trabalho', '🚥', 'O throttle', 'O ritmo limita a chamada.', 'throttles'],
+  ['iterator', 'trabalho', '🐾', 'O iterator', 'Anda a chave.', 'iterators'],
+  ['pager', 'trabalho', '📑', 'O pager', 'Carrega a página.', 'pagers'],
+  ['evict', 'trabalho', '💨', 'O evict', 'Solta a página fria.', 'evicts']
 ];
 
 export const TREINOS = BRUTOS.map((t, ordem) => ({
@@ -450,13 +453,7 @@ export function auditarCatalogo(treinos, limiar = LIMIAR_PARECIDOS) {
       const uniao = bolsas[i].set.size + bolsas[j].set.size - comum;
       if (!uniao) continue;
       const nota = comum / uniao;
-      if (nota >= minimo) {
-        parecidos.push({
-          a: bolsas[i].id,
-          b: bolsas[j].id,
-          nota: Math.round(nota * 100) / 100
-        });
-      }
+      if (nota >= minimo) parecidos.push({ a: bolsas[i].id, b: bolsas[j].id, nota: Math.round(nota * 100) / 100 });
     }
   }
   return { idsRepetidos, titulosRepetidos, parecidos };
@@ -483,39 +480,20 @@ export function textoDoGrupo(treinos, stats) {
     if ((Number(stats?.[t.stat]) || 0) > 0) atual.feitos += 1;
     por.set(t.categoria, atual);
   }
-  const grupos = CATEGORIAS
-    .map(c => ({ id: c.id, titulo: c.titulo, ...(por.get(c.id) || { n: 0, feitos: 0 }) }))
-    .filter(g => g.n > 0);
-  if (!grupos.length) {
-    return { id: '', titulo: '', feitos: 0, n: 0, texto: 'Nenhum grupo com treino contado.' };
-  }
+  const grupos = CATEGORIAS.map(c => ({ id: c.id, titulo: c.titulo, ...(por.get(c.id) || { n: 0, feitos: 0 }) })).filter(g => g.n > 0);
+  if (!grupos.length) return { id: '', titulo: '', feitos: 0, n: 0, texto: 'Nenhum grupo com treino contado.' };
   const feitos = grupos.reduce((s, g) => s + g.feitos, 0);
-  if (!feitos) {
-    return { id: '', titulo: '', feitos: 0, n: 0, texto: 'Nenhum grupo tem prática ainda.' };
-  }
-  const ordenados = [...grupos].sort((a, b) => {
-    const ra = a.feitos / a.n;
-    const rb = b.feitos / b.n;
-    if (ra !== rb) return ra - rb;
-    return a.titulo.localeCompare(b.titulo, 'pt');
-  });
+  if (!feitos) return { id: '', titulo: '', feitos: 0, n: 0, texto: 'Nenhum grupo tem prática ainda.' };
+  const ordenados = [...grupos].sort((a, b) => (a.feitos / a.n) - (b.feitos / b.n) || a.titulo.localeCompare(b.titulo, 'pt'));
   const pior = ordenados[0];
   const igual = grupos.every(g => g.feitos * pior.n === pior.feitos * g.n);
   if (igual) {
-    const texto = pior.feitos === pior.n
-      ? 'Todos os grupos já tiveram prática em cada treino.'
-      : 'Os grupos estão no mesmo ritmo.';
+    const texto = pior.feitos === pior.n ? 'Todos os grupos já tiveram prática em cada treino.' : 'Os grupos estão no mesmo ritmo.';
     return { id: '', titulo: '', feitos: pior.feitos, n: pior.n, texto };
   }
   const parados = pior.n - pior.feitos;
   const conta = parados === 1 ? '1 treino parado' : `${parados} treinos parados`;
-  return {
-    id: pior.id,
-    titulo: pior.titulo,
-    feitos: pior.feitos,
-    n: pior.n,
-    texto: `${pior.titulo} é o grupo com menos prática. ${conta}.`
-  };
+  return { id: pior.id, titulo: pior.titulo, feitos: pior.feitos, n: pior.n, texto: `${pior.titulo} é o grupo com menos prática. ${conta}.` };
 }
 
 export function textoDaEstrela(treinos, estrelas, stats) {
@@ -526,18 +504,9 @@ export function textoDaEstrela(treinos, estrelas, stats) {
     return { n: 0, faltam: 0, treino: null, texto: 'Nenhum favorito marcado ainda.' };
   }
   const parados = lista.filter(t => t.stat && (Number(stats?.[t.stat]) || 0) <= 0);
-  if (!parados.length) {
-    return { n: lista.length, faltam: 0, treino: null, texto: 'Todos os favoritos já tiveram prática.' };
-  }
-  const conta = parados.length === 1
-    ? '1 favorito ainda sem prática.'
-    : `${parados.length} favoritos ainda sem prática.`;
-  return {
-    n: lista.length,
-    faltam: parados.length,
-    treino: parados[0],
-    texto: `${conta} O próximo é ${parados[0].titulo}.`
-  };
+  if (!parados.length) return { n: lista.length, faltam: 0, treino: null, texto: 'Todos os favoritos já tiveram prática.' };
+  const conta = parados.length === 1 ? '1 favorito ainda sem prática.' : `${parados.length} favoritos ainda sem prática.`;
+  return { n: lista.length, faltam: parados.length, treino: parados[0], texto: `${conta} O próximo é ${parados[0].titulo}.` };
 }
 
 export function treinoRecomendado(treinos, { nivel, stats, padroes, deslizes } = {}) {

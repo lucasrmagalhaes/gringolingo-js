@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.15';
+export const VERSAO_APP = '3.16';
 
 export const NOVIDADES = [
+  {
+    versao: '3.16',
+    titulo: 'O iterator',
+    itens: [
+      '🐾 Diga que o iterator anda a chave',
+      '📑 Avise que o pager carrega a página',
+      '💨 Diga que o evict solta a página fria',
+      '💬 Diga no hub o idiom do dia'
+    ]
+  },
   {
     versao: '3.15',
     titulo: 'Visual novo',
@@ -2256,6 +2266,9 @@ export const MISSOES = [
   { id: 'sstable1', emoji: '🧱', titulo: 'Ordene a chave no sstable', alvo: 1, xp: 15, medir: s => (s.tipo === 'sstable' ? 1 : 0) },
   { id: 'latch1', emoji: '🔒', titulo: 'Segure a leitura no latch', alvo: 1, xp: 15, medir: s => (s.tipo === 'latch' ? 1 : 0) },
   { id: 'throttle1', emoji: '🚥', titulo: 'Limite a chamada no throttle', alvo: 1, xp: 15, medir: s => (s.tipo === 'throttle' ? 1 : 0) },
+  { id: 'iterator1', emoji: '🐾', titulo: 'Ande a chave no iterator', alvo: 1, xp: 15, medir: s => (s.tipo === 'iterator' ? 1 : 0) },
+  { id: 'pager1', emoji: '📑', titulo: 'Carregue a página no pager', alvo: 1, xp: 15, medir: s => (s.tipo === 'pager' ? 1 : 0) },
+  { id: 'evict1', emoji: '💨', titulo: 'Solte a página fria no evict', alvo: 1, xp: 15, medir: s => (s.tipo === 'evict' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2639,6 +2652,9 @@ export const BADGES = [
   { id: 'sstable', emoji: '🧱', nome: 'O sstable', desc: 'Diga que o sstable ordena a chave' },
   { id: 'latch', emoji: '🔒', nome: 'O latch', desc: 'Diga que o latch segura a leitura' },
   { id: 'throttle', emoji: '🚥', nome: 'O throttle', desc: 'Diga que o throttle limita a chamada' },
+  { id: 'iterator', emoji: '🐾', nome: 'O iterator', desc: 'Diga que o iterator anda a chave' },
+  { id: 'pager', emoji: '📑', nome: 'O pager', desc: 'Diga que o pager carrega a página' },
+  { id: 'evict', emoji: '💨', nome: 'O evict', desc: 'Diga que o evict solta a página fria' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

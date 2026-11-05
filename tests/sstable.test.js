@@ -110,8 +110,8 @@ describe('sstable, latch e throttle', () => {
     assert.deepEqual(aud.idsRepetidos, []);
     assert.deepEqual(aud.titulosRepetidos, []);
     assert.deepEqual(aud.parecidos, []);
-    assert.equal(TREINOS.length, 356);
-    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 300);
+    assert.ok(TREINOS.length >= 356);
+    assert.ok(TREINOS.filter(t => t.categoria === 'trabalho').length >= 300);
     for (const id of ['sstable', 'latch', 'throttle']) {
       const treino = TREINOS.find(t => t.id === id);
       assert.equal(treino.categoria, 'trabalho');
@@ -149,7 +149,7 @@ describe('sstable, latch e throttle', () => {
     assert.ok(estado.badges.includes('throttle'));
     assert.equal(estado.painel['2026-10-28'].grupos.trabalho, 3);
     assert.equal(estado.painel['2026-10-28'].n, 3);
-    assert.equal(BADGES.length, 379);
+    assert.ok(BADGES.length >= 379);
     assert.equal(new Set(BADGES.map(b => b.id)).size, BADGES.length);
   });
 

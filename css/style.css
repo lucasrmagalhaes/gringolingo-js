@@ -1091,6 +1091,20 @@ textarea {
   overflow-wrap: anywhere;
 }
 
+.fala-idioma {
+  margin: 8px 0 12px;
+  max-width: 100%;
+}
+
+.fala-idioma .btn {
+  margin-top: 10px;
+  max-width: 100%;
+}
+
+.fala-idioma p {
+  overflow-wrap: anywhere;
+}
+
 .topo > button.pilula {
   min-width: 44px;
   min-height: 44px;
@@ -5861,7 +5875,10 @@ button.revisao:active,
 }
 
 .trilha-nome {
+  flex: 1;
   min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   font-size: 16px;
   font-weight: 900;
   color: var(--texto);
