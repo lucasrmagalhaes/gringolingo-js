@@ -63,21 +63,23 @@ Nunito embutida, offline. Pesos usados: 700, 800 e 900. Nada abaixo de 700.
 
 Barra de cima: marca, Conversar e avatar.
 
-Hero compacto, cerca de 140px: papagaio num chip laranja, saudacao, CTA `Continuar: X`, XP e nivel. Streak so aparece se for maior que zero. Com zero, o texto neutro e `Comece hoje`, sem fogo.
+Hero compacto: papagaio num chip laranja, saudacao, XP e nivel. Streak so aparece se for maior que zero. Com zero, o texto neutro e `Comece hoje`, sem fogo. O hero nao tem botao. A unica acao dominante e o `COMEÇAR` do bloco Agora.
 
-Bloco Agora: um card grande e o botao `COMEÇAR` verde, largura cheia, sombra `0 5px 0 #3D9B00`. No `:active` o botao afunda 5px e a sombra some.
+Bloco Agora, acima da trilha: um card grande e o botao `COMEÇAR` verde, largura cheia, sombra `0 5px 0 #3D9B00`. No `:active` o botao afunda 5px e a sombra some.
 
-Trilha por categoria. Nos de 56px com emoji, ligados por um trilho de 6px. Estados: bloqueado, atual e feito. O favorito fica dentro do card. A busca e um icone que abre o campo. Os filtros sao so as cinco categorias e Favoritos.
+Trilha por categoria, em coluna unica. Titulo e um caminho vertical de nos. Cada no e um circulo de 56px com emoji. O trilho tem 6px e usa `var(--trilho)`. Estados: bloqueado, atual (anel azul de 4px) e feito (check verde). O nome do treino aparece so ao lado do no atual. A estrela fica dentro do no, no canto superior direito. A busca e um icone que abre o campo. Os filtros sao so as cinco categorias e Favoritos. Os 356 treinos continuam acessiveis pelo no.
 
 ## Licao, o palco
 
-Topo: fechar, progresso grosso de 12px, dica.
+Topo: fechar, barra de 12px (trilho `var(--trilho)`, preenchimento verde com sheen branco a 28%) e dica. A dica tambem entra no palco como faixa `#FFF3BF`.
 
 Mascote de 64px muda com o estado. Pilula de estado. Card com borda 3px: amarelo na palavra nova, azul na escuta, verde no acerto. Alto-falante 64px e tartaruga 44px. CTA do rodape com 52px. O feedback e uma folha solida, nao um toast.
 
 ## Perfil, a vitrine
 
-Hero de nivel. So tres metricas em destaque: streak (ou o CTA `Comece hoje` se for zero), precisao e memoria longa. Conquistas numa fila horizontal. Jornada com vazio ilustrado quando o XP e zero. O resto das estatisticas fica atras de `Ver mais`.
+Hero de nivel. So tres metricas em destaque, sempre na mesma fileira: numero 32px peso 900 e rotulo 12px em caixa alta. No celular a fileira continua compacta, sem cards altos empilhados. No desktop sao tres colunas. Streak (ou o CTA `Comece hoje` se for zero), precisao e memoria longa. Conquistas numa fila horizontal. Se a jornada ainda nao tem XP no periodo, o grafico nao aparece: entra o Louro, um calendario, o texto `Complete 1 lição pra começar a jornada` e um CTA. O resto das estatisticas fica atras de `Ver mais`.
+
+Sombras sao so solidas, no formato `0 Npx 0`. Sem raio de desfoque.
 
 ## Ilustracao
 
@@ -89,4 +91,4 @@ Estados vazios, skeleton do dicionario, alvos de 44px, contraste AA, saudacao pe
 
 ## Proibido
 
-Lavanda, `backdrop-filter`, `blur`, raio 32 em card, hero verde enorme, peso abaixo de 700, texto claro sobre `#58CC02`.
+Lavanda, `backdrop-filter`, `blur`, raio 32 em card, hero verde enorme, peso abaixo de 700, texto claro sobre `#58CC02`, sombra com desfoque, segundo botao de continuar no hero, lista de cards no lugar da trilha.

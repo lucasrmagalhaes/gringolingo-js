@@ -541,7 +541,7 @@ navegador.
 - **O latch**: a trava curta segura a leitura.
 - **O throttle**: o ritmo limita a chamada.
 - **A expressão**: no hub, a frase do dia para dizer em inglês.
-- **Visual 3.15**: visual chunky, trilha no hub, palco na lição, vitrine no perfil e Nunito offline. Cache `gringolingo-v144`.
+- **Visual 3.15**: visual chunky, trilha de nos no hub, palco na lição, vitrine no perfil e Nunito offline. Cache `gringolingo-v145`.
 
 ### Hábito e gamificação
 

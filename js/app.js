@@ -1541,9 +1541,15 @@ function iniciarRevisao() {
 function palcoDoExercicio(ex) {
   const escuta = ex?.tipo === 'ouvir' || ex?.tipo === 'ouvirPt' || ex?.tipo === 'falar';
   const nova = ex?.tipo === 'apresentacao';
+  const blocos = ex?.item ? dicaContextual(ex.item, sessao?.licao) : [];
+  const dica = blocos[0];
   return h('div', { class: 'palco' },
     h('div', { class: 'palco-mascote', 'aria-hidden': 'true' }, mascote(nova ? 'fala' : 'neutro', 64)),
-    h('span', { class: 'palco-pill' }, nova ? 'Nova' : (escuta ? 'Escuta' : 'Pratica'))
+    h('span', { class: 'palco-pill' }, nova ? 'Nova' : (escuta ? 'Escuta' : 'Pratica')),
+    dica ? h('div', { class: 'dica-faixa' },
+      h('strong', {}, dica.titulo),
+      h('p', {}, dica.corpo)
+    ) : ''
   );
 }
 
@@ -10606,17 +10612,24 @@ function cartaoCompartilhar() {
   );
 }
 
+function jornadaVazia() {
+  return h('div', { class: 'card estado-vazio jornada-vazia' },
+    h('div', { class: 'jornada-vazia-arte', 'aria-hidden': 'true' },
+      mascote('vazio', 84),
+      h('span', { class: 'jornada-cal' }, '📅')
+    ),
+    h('p', { class: 'vazio-titulo' }, 'Sua jornada'),
+    h('p', { class: 'vazio-sub' }, 'Complete 1 lição pra começar a jornada'),
+    h('button', { class: 'btn btn-verde', type: 'button', onclick: () => telaInicial() }, 'COMEÇAR')
+  );
+}
+
 function cartaoJornada() {
-  if (!estado.xp || !estado.stats.licoes) {
-    return h('div', { class: 'card estado-vazio jornada-vazia' },
-      h('div', { class: 'vazio-emoji', 'aria-hidden': 'true' }, mascote('vazio', 84)),
-      h('p', { class: 'vazio-titulo' }, 'Sua jornada começa aqui'),
-      h('p', { class: 'vazio-sub' }, 'Comece hoje. O primeiro XP desenha o gráfico.')
-    );
-  }
+  if (!estado.xp || !estado.stats.licoes) return jornadaVazia();
   const dias = historicoRecente(30);
   const maximo = Math.max(...dias.map(d => d.xp), estado.meta);
   const total = dias.reduce((s, d) => s + d.xp, 0);
+  if (!total) return jornadaVazia();
   const ativos = dias.filter(d => d.xp > 0).length;
   const caixas = distribuicaoDeCaixas();
   const totalItens = caixas.reduce((a, b) => a + b, 0);
@@ -13542,30 +13555,32 @@ function cartaoDoTreino(treino, atualId) {
   const ligado = estrelaLigada(treino.id);
   const feito = (Number(estado.stats[treino.stat]) || 0) > 0;
   const estadoNo = feito ? 'feito' : (treino.id === atualId ? 'atual' : 'bloqueado');
+  const miolo = estadoNo === 'feito'
+    ? h('span', { class: 'no-check', 'aria-hidden': 'true' }, '✓')
+    : h('span', { class: 'no-emoji', 'aria-hidden': 'true' }, treino.emoji);
   return h('div', { class: 'hub-item trilha-item', role: 'listitem' },
-    h('button', {
-      type: 'button',
-      class: 'trilha-no',
-      'data-cat': treino.categoria,
-      'data-estado': estadoNo,
-      'aria-label': `${treino.titulo}. ${subDoTreino(treino)}`,
-      onclick: () => abrirTreino(treino.id)
-    }, h('span', { class: 'no-emoji', 'aria-hidden': 'true' }, treino.emoji)),
-    h('div', { class: 'trilha-texto' },
-      h('div', { class: 'revisao-titulo' }, treino.titulo),
-      h('div', { class: 'revisao-sub' }, subDoTreino(treino))
+    h('div', { class: 'trilha-marco' },
+      h('button', {
+        type: 'button',
+        class: 'trilha-no',
+        'data-cat': treino.categoria,
+        'data-estado': estadoNo,
+        'aria-label': `${treino.titulo}. ${subDoTreino(treino)}`,
+        onclick: () => abrirTreino(treino.id)
+      }, miolo),
+      h('button', {
+        type: 'button',
+        class: 'estrela-treino',
+        'data-estrela': treino.id,
+        'aria-pressed': ligado ? 'true' : 'false',
+        'aria-label': ligado ? `Tirar ${treino.titulo} dos favoritos` : `Favoritar ${treino.titulo}`,
+        onclick() {
+          alternarEstrela(treino.id);
+          pintarListaHub(treino.id);
+        }
+      }, h('span', { 'aria-hidden': 'true' }, ligado ? '★' : '☆'))
     ),
-    h('button', {
-      type: 'button',
-      class: 'estrela-treino',
-      'data-estrela': treino.id,
-      'aria-pressed': ligado ? 'true' : 'false',
-      'aria-label': ligado ? `Tirar ${treino.titulo} dos favoritos` : `Favoritar ${treino.titulo}`,
-      onclick() {
-        alternarEstrela(treino.id);
-        pintarListaHub(treino.id);
-      }
-    }, h('span', { 'aria-hidden': 'true' }, ligado ? '★' : '☆'))
+    estadoNo === 'atual' ? h('div', { class: 'trilha-nome' }, treino.titulo) : ''
   );
 }
 
@@ -15283,7 +15298,6 @@ function heroDoHub(alvo) {
   const streak = streakAtual();
   const pct = Math.round((nv.progresso || 0) * 100);
   const dia = streak === 1 ? 'dia' : 'dias';
-  const proximo = alvo || treinoDoAgora();
   const selo = streak > 0
     ? h('span', {
       class: 'streak-selo',
@@ -15300,13 +15314,6 @@ function heroDoHub(alvo) {
     h('div', { class: 'hub-hero-corpo' },
       h('p', { class: 'hub-hero-ola' }, 'Bora falar hoje?'),
       h('p', { class: 'hub-hero-titulo' }, saudacaoDaHora()),
-      h('button', {
-        class: 'btn btn-verde hub-hero-cta',
-        type: 'button',
-        'data-continuar': '1',
-        'aria-label': proximo ? `Continuar: ${proximo.titulo}` : 'Continuar de onde parei',
-        onclick: () => { if (proximo) abrirTreino(proximo.id); }
-      }, proximo ? `Continuar: ${proximo.titulo}` : 'Continuar'),
       h('div', { class: 'hub-hero-meta' },
         selo,
         h('span', {}, `Nível ${nv.numero}`),
