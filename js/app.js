@@ -1,7 +1,7 @@
 import { UNIDADES, MASCOTE, BADGES, NOVIDADES, VERSAO_APP, VERBOS, SUJEITOS, HISTORIAS } from './data.js';
 import { mascote } from './mascote.js';
 import { registrarEvento, registrarAberturaDoDia, metricasLigadas, definirMetricas } from './metricas.js';
-import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, registrarRequisito, registrarMetrica, registrarAprendizado, registrarPasseio, registrarFalha, registrarMentoria, registrarSocorro, registrarPalestra, registrarDuvida, registrarSinal, registrarSistema, registrarCodigo, registrarColega, registrarSimulado, registrarModelo, registrarFuro, registrarRotina, registrarPapo, registrarFuturo, registrarCultura, registrarAumento, registrarRota as registrarFalaRota, registrarVivo, registrarProduto, registrarFecho, registrarEspaco, registrarMapa, registrarDuro, registrarProposta, registrarNarrar, registrarBanco, registrarRecusa, registrarSprint, registrarSeguro, registrarMeetup, registrarCompleta, registrarRodada, registrarMigra, registrarEstreia, registrarFoco, registrarPoker, registrarLeigo, registrarRecruta, registrarCulpa, registrarRaio, registrarOferta, registrarPedido, registrarCobertura, registrarLoom, registrarCaderno, registrarGrafico, registrarHandoff, registrarElevador, registrarJunta, registrarPista, registrarCalma, registrarFolga, registrarAberta, registrarRespeito, registrarDebito, registrarIndicacao, registrarUx, registrarForum, registrarVisto, registrarMes, registrarFacil, registrarEscolhaStack, registrarSabado, armarSurpresa, resumoSurpresa, registrarBrecha, registrarMuda, registrarGaucho, registrarRadar, registrarAplauso, registrarGripe, registrarPm, registrarLaudo, registrarRumo, registrarAcesso, registrarLicenca, registrarJargao, registrarBandeira, registrarGelo, registrarLimite, registrarCanario, registrarDespedida, registrarRepeticao, registrarCarga, registrarBoletim, registrarDono, registrarManual, registrarVerde, registrarCertificado, registrarRebase, registrarConsulta, registrarReplica, registrarEnsaio, registrarDisco, registrarPagina, registrarSquash, registrarCircuito, registrarJob, registrarColheita, registrarSessao, registrarTanque, registrarSonda, registrarSemente, registrarRegistro, registrarRastro, registrarParada, registrarPod, registrarLint, registrarOrigem, registrarLink, registrarCpu, registrarCopia, registrarEstouro, registrarImpasse, registrarDominio, registrarMorta, registrarPonteiro, registrarEleicao, registrarFreio, registrarPausa, registrarDeriva, registrarDescritor, registrarReserva, registrarVarredura, registrarPorta, registrarInodo, registrarSaida, registrarManada, registrarGotejo, registrarFrio, registrarCadeado, registrarCota, registrarCiclo, registrarZumbi, registrarCisao, registrarRajada, registrarBrasa, registrarDatagrama, registrarPasse, registrarCarimbo, registrarPilha, registrarCano, registrarGiro, registrarCompacta, registrarDiario, registrarVagao, registrarCorrida, registrarIndice, registrarPercentil, registrarSegredo, registrarFantasma, registrarInteiro, registrarFiltro, registrarOrdem, registrarProva, registrarOrfao, registrarAceno, registrarGasto, registrarInstavel, registrarDuplicado, registrarApagao, registrarReplay, registrarEco, registrarLeque, registrarSaga, registrarCaixa, registrarApagado, registrarEspera, registrarCursor, registrarFila, registrarDisjuntor, registrarAluguel, registrarPulso, registrarPiscina, registrarBalde, registrarCerca, registrarTremor, registrarPortaria, registrarCola, registrarAnteparo, registrarDescarte, registrarCronometro, registrarAmostra, registrarNicho, registrarLacre, registrarSemaforo, registrarBarreira, registrarTrinco, registrarRecuo, registrarVigia, registrarAmpulheta, registrarCarona, registrarVeneno, registrarFarol, registrarAncora, registrarMalha, registrarFenda, registrarCofre, registrarAudiencia, registrarRevogacao, registrarQuorum, registrarMaioria, registrarArbitro, registrarLider, registrarMandato, registrarSeguidor, registrarOrquestrador, registrarCoreografia, registrarCompensacao, registrarPrimario, registrarEspelho, registrarAscensao, registrarTravessia, registrarRetaguarda, registrarContorno, registrarRumor, registrarReparo, registrarDeixa, registrarFloco, registrarEpoca, registrarVetor, registrarSujeira, registrarInstantaneo, registrarSerial, registrarFome, registrarInversao, registrarIdade, registrarSidecar, registrarEmbaixador, registrarAdaptador, registrarBizantino, registrarParticao, registrarGeneral, registrarWal, registrarLsn, registrarCheckpoint, registrarNonce, registrarHmac, registrarEnvelope, registrarLease, registrarRenovacao, registrarVencimento, registrarOutbox, registrarInbox, registrarRelay, registrarOffset, registrarLag, registrarAck, registrarSnapshot, registrarRestore, registrarPromote, registrarBloom, registrarCuco, registrarEsboco, registrarMerkle, registrarRadix, registrarTrie, registrarGossip, registrarPhi, registrarAccrual, registrarHint, registrarVacuum, registrarFreeze, registrarBitmap, registrarRoaring, registrarHyper, registrarCrdt, registrarLww, registrarOrset, registrarVector, registrarDot, registrarCausal, registrarShard, registrarRebalance, registrarSplit, registrarWatermark, registrarBarrier, registrarAlign, registrarWitness, registrarVoter, registrarLearner, registrarChecksum, registrarBulkhead, registrarFallback, registrarTombstone, registrarPurge, registrarReclaim, registrarJournal, registrarSegment, registrarSpill, registrarStripe, registrarParity, registrarRebuild, registrarEpoch, registrarBallot, registrarFence, registrarFlush, registrarMemtable, registrarExtent, registrarManifest, registrarHedge, registrarDebounce, registrarSstable, registrarLatch, registrarThrottle, registrarIterator, registrarPager, registrarEvict, alternarEstrela, estrelaLigada, marcarTreinoAberto, definirOrdemHub, marcarEspaco, resumoDesafio, definirMetaFala, definirMetaMinutos, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, resumoBackup, textoResumoBackup, nomeArquivoBackup, LIMITE_BACKUP, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, palavrasDoPadrao, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
+import { estado, streakAtual, streakEmRisco, nivelInfo, itensAprendidos, itensVencidos, registrarLicao, registrarRevisao, registrarRelampago, registrarEscuta, registrarDialogo, registrarSombra, registrarFala, registrarPronuncia, registrarOuvido, registrarNivel, registrarPergunta, registrarReducao, registrarVerbo, registrarLivre, registrarTecnico, registrarIdioma, registrarPerguntaDia, registrarDeslize, registrarEntrevista, registrarConto, registrarNumero, registrarOpiniao, registrarCena, registrarRapido, registrarRelato, registrarCortesia, registrarAquecer, registrarClaro, registrarDemo, registrarPrazo, registrarStar, registrarEnfase, registrarDecisao, registrarPar, registrarPlantao, registrarRetro, registrarChegada, registrarLigacao, registrarEstimativa, registrarConsenso, registrarAtendimento, registrarGestor, registrarFinal, registrarViagem, registrarMistura, registrarLinha, registrarSlack, registrarSocial, registrarTermo, registrarSalario, registrarProjeto, registrarSotaque, registrarDesafioDia, registrarRequisito, registrarMetrica, registrarAprendizado, registrarPasseio, registrarFalha, registrarMentoria, registrarSocorro, registrarPalestra, registrarDuvida, registrarSinal, registrarSistema, registrarCodigo, registrarColega, registrarSimulado, registrarModelo, registrarFuro, registrarRotina, registrarPapo, registrarFuturo, registrarCultura, registrarAumento, registrarRota as registrarFalaRota, registrarVivo, registrarProduto, registrarFecho, registrarEspaco, registrarMapa, registrarDuro, registrarProposta, registrarNarrar, registrarBanco, registrarRecusa, registrarSprint, registrarSeguro, registrarMeetup, registrarCompleta, registrarRodada, registrarMigra, registrarEstreia, registrarFoco, registrarPoker, registrarLeigo, registrarRecruta, registrarCulpa, registrarRaio, registrarOferta, registrarPedido, registrarCobertura, registrarLoom, registrarCaderno, registrarGrafico, registrarHandoff, registrarElevador, registrarJunta, registrarPista, registrarCalma, registrarFolga, registrarAberta, registrarRespeito, registrarDebito, registrarIndicacao, registrarUx, registrarForum, registrarVisto, registrarMes, registrarFacil, registrarEscolhaStack, registrarSabado, armarSurpresa, resumoSurpresa, registrarBrecha, registrarMuda, registrarGaucho, registrarRadar, registrarAplauso, registrarGripe, registrarPm, registrarLaudo, registrarRumo, registrarAcesso, registrarLicenca, registrarJargao, registrarBandeira, registrarGelo, registrarLimite, registrarCanario, registrarDespedida, registrarRepeticao, registrarCarga, registrarBoletim, registrarDono, registrarManual, registrarVerde, registrarCertificado, registrarRebase, registrarConsulta, registrarReplica, registrarEnsaio, registrarDisco, registrarPagina, registrarSquash, registrarCircuito, registrarJob, registrarColheita, registrarSessao, registrarTanque, registrarSonda, registrarSemente, registrarRegistro, registrarRastro, registrarParada, registrarPod, registrarLint, registrarOrigem, registrarLink, registrarCpu, registrarCopia, registrarEstouro, registrarImpasse, registrarDominio, registrarMorta, registrarPonteiro, registrarEleicao, registrarFreio, registrarPausa, registrarDeriva, registrarDescritor, registrarReserva, registrarVarredura, registrarPorta, registrarInodo, registrarSaida, registrarManada, registrarGotejo, registrarFrio, registrarCadeado, registrarCota, registrarCiclo, registrarZumbi, registrarCisao, registrarRajada, registrarBrasa, registrarDatagrama, registrarPasse, registrarCarimbo, registrarPilha, registrarCano, registrarGiro, registrarCompacta, registrarDiario, registrarVagao, registrarCorrida, registrarIndice, registrarPercentil, registrarSegredo, registrarFantasma, registrarInteiro, registrarFiltro, registrarOrdem, registrarProva, registrarOrfao, registrarAceno, registrarGasto, registrarInstavel, registrarDuplicado, registrarApagao, registrarReplay, registrarEco, registrarLeque, registrarSaga, registrarCaixa, registrarApagado, registrarEspera, registrarCursor, registrarFila, registrarDisjuntor, registrarAluguel, registrarPulso, registrarPiscina, registrarBalde, registrarCerca, registrarTremor, registrarPortaria, registrarCola, registrarAnteparo, registrarDescarte, registrarCronometro, registrarAmostra, registrarNicho, registrarLacre, registrarSemaforo, registrarBarreira, registrarTrinco, registrarRecuo, registrarVigia, registrarAmpulheta, registrarCarona, registrarVeneno, registrarFarol, registrarAncora, registrarMalha, registrarFenda, registrarCofre, registrarAudiencia, registrarRevogacao, registrarQuorum, registrarMaioria, registrarArbitro, registrarLider, registrarMandato, registrarSeguidor, registrarOrquestrador, registrarCoreografia, registrarCompensacao, registrarPrimario, registrarEspelho, registrarAscensao, registrarTravessia, registrarRetaguarda, registrarContorno, registrarRumor, registrarReparo, registrarDeixa, registrarFloco, registrarEpoca, registrarVetor, registrarSujeira, registrarInstantaneo, registrarSerial, registrarFome, registrarInversao, registrarIdade, registrarSidecar, registrarEmbaixador, registrarAdaptador, registrarBizantino, registrarParticao, registrarGeneral, registrarWal, registrarLsn, registrarCheckpoint, registrarNonce, registrarHmac, registrarEnvelope, registrarLease, registrarRenovacao, registrarVencimento, registrarOutbox, registrarInbox, registrarRelay, registrarOffset, registrarLag, registrarAck, registrarSnapshot, registrarRestore, registrarPromote, registrarBloom, registrarCuco, registrarEsboco, registrarMerkle, registrarRadix, registrarTrie, registrarGossip, registrarPhi, registrarAccrual, registrarHint, registrarVacuum, registrarFreeze, registrarBitmap, registrarRoaring, registrarHyper, registrarCrdt, registrarLww, registrarOrset, registrarVector, registrarDot, registrarCausal, registrarShard, registrarRebalance, registrarSplit, registrarWatermark, registrarBarrier, registrarAlign, registrarWitness, registrarVoter, registrarLearner, registrarChecksum, registrarBulkhead, registrarFallback, registrarTombstone, registrarPurge, registrarReclaim, registrarJournal, registrarSegment, registrarSpill, registrarStripe, registrarParity, registrarRebuild, registrarEpoch, registrarBallot, registrarFence, registrarFlush, registrarMemtable, registrarExtent, registrarManifest, registrarHedge, registrarDebounce, registrarSstable, registrarLatch, registrarThrottle, registrarIterator, registrarPager, registrarEvict, registrarHistogram, registrarGauge, registrarBackfill, alternarEstrela, estrelaLigada, marcarTreinoAberto, definirOrdemHub, marcarEspaco, resumoDesafio, definirMetaFala, definirMetaMinutos, deslizesVencidos, revisarDeslize, errosMaisComuns, agendarFrase, frasesVencidas, ativarSync, mesclarEstado, mesclarDeOutraAba, resetarEstado, limparEstadoMemoria, contaLocal, definirContaLocal, enviarAgora, xpDoDia, metaBatida, definirMeta, semanaAtual, missoesDeHoje, memorizadas, salvar, tentarReenviar, observarPendencia, temPendencia, motivoPendencia, exportarEstado, importarEstado, resumoBackup, textoResumoBackup, nomeArquivoBackup, LIMITE_BACKUP, distribuicaoDeCaixas, itensNaCaixa, historicoRecente, licoesConcluidas, definirItensExtras, palavrasFracas, palavrasDoPadrao, resumoPadroes, METAS, METAS_FALA, INTERVALOS } from './game.js';
 import { sons, falar, falarSequencia, temTts, destravarAudio, vozesDisponiveis, vozAtual, definirVoz, aoCarregarVozes, velocidadeAtual, definirVelocidade, mudo, definirMudo, VELOCIDADES, falarComLocale, falarTrechos } from './audio.js';
 import { gerarExercicios, gerarDificeis, gerarEscuta, gerarVerbos, exercicioFacil, montarExercicio, temFala } from './exercises.js';
 import { CENARIOS, cenarioPorId, rodadasDo, avaliarResposta, avaliarEscolha, noDaCena, pontuarSombra, montarRodada, lerIa, salvarIa, apagarIa, iaPronta, lerPapo, salvarPapo, apagarPapo, pedirParceiro, mensagemDeErroIa, FRASES_SOMBRA } from './conversa.js';
@@ -122,6 +122,7 @@ import { FLUSHES, flushPorId, avaliarFlush, MEMTABLES, memtablePorId, avaliarMem
 import { MANIFESTS, manifestPorId, avaliarManifest, HEDGES, hedgePorId, avaliarHedge, DEBOUNCES, debouncePorId, avaliarDebounce } from './manifest.js';
 import { SSTABLES, sstablePorId, avaliarSstable, LATCHES, latchPorId, avaliarLatch, THROTTLES, throttlePorId, avaliarThrottle } from './sstable.js';
 import { ITERATORS, iteratorPorId, avaliarIterator, PAGERS, pagerPorId, avaliarPager, EVICTS, evictPorId, avaliarEvict } from './iterator.js';
+import { HISTOGRAMS, histogramPorId, avaliarHistogram, GAUGES, gaugePorId, avaliarGauge, BACKFILLS, backfillPorId, avaliarBackfill } from './histogram.js';
 import { somarSemana, textoMinutos, textoGrupo, lembreteMinutos, balancoDaSemana, textoDeHoje, textoDaSequencia, textoDaComparacao, textoDoAcerto, textoDoPico, textoDoApoio, textoDaNota, textoDosDias, textoDoRitmo, textoDaLacuna, textoDaMeta, textoDaDuracao, textoDaUltima, textoDaPrimeira, textoDoHiato, textoDoCostume, textoDaMarca, textoDoAuge, textoDoSete, textoDaSoma, textoDoPorDia, textoDaParte, textoDoFora, textoDoTotal, textoDoLote, textoDoSaldo, textoDoPasso, textoDoMaior, textoDoMenor, textoDaDiferenca, textoDoMeio, textoDaVariedade, textoDaModa, textoDaRepeticao, textoDaExtensao, textoDoVao, textoDaProporcao, textoDaCobertura, textoDoIntervalo, textoDaCadencia, textoDaDensidade, textoDoPeso, textoDaSobra, textoDoResto, textoDoGrao, textoDoCurto, textoDoLongo, textoDoSalto, textoDaMediana, textoDoMosaico, textoDoTurno, textoDaVirada, textoDaFaixa, textoDaAbertura, textoDaEstacao, textoDoFecho, textoDaAusencia, textoDaPratica, textoDoReforco, textoDoRecado, textoDaVez, textoDoRetorno, textoDaFicha, textoDoBaralho, textoDaSombraDia, textoDaPergunta, textoDaEscuta, textoDoSom, textoDoVerbo, textoDoNumero, textoDaReducao, textoDaExpressao, textoDoIdioma, METAS_MINUTOS } from './semana.js';
 import { filaEspacada, diasAoAcertar, textoVolta } from './espaco.js';
 import { CATEGORIAS as GRUPOS_HUB, TREINOS, filtrarTreinos, treinoRecomendado, ordenarTreinos, filtrarEstrelas, treinoContinuar, textoDoContinuar, textoDaEstreia, textoDoGrupo, textoDaEstrela, estadoDoNo, estrelaVisivelNoNo } from './hub.js';
@@ -2687,7 +2688,7 @@ function telaSprints() {
   listarCena(
     'sprint',
     '🖥️ Demo da sprint',
-    'Duas falas: o que saiu e a pergunta que você não esperava. A frase modelo só aparece depois.',
+    subCena('o que saiu e a pergunta que você não esperava'),
     SPRINTS,
     abrirSprint,
     valor => { sprintSessao = valor; }
@@ -2713,7 +2714,7 @@ function telaSeguros() {
   listarCena(
     'seguro',
     '🔐 A decisão segura',
-    'Duas falas: o risco e o plano. A frase modelo só aparece depois.',
+    subCena('o risco e o plano'),
     SEGUROS,
     abrirSeguro,
     valor => { seguroSessao = valor; }
@@ -2739,7 +2740,7 @@ function telaMeetups() {
   listarCena(
     'meetup',
     '🎫 No meetup',
-    'Duas falas: o oi e o assunto. A frase modelo só aparece depois.',
+    subCena('o oi e o assunto'),
     MEETUPS,
     abrirMeetup,
     valor => { meetupSessao = valor; }
@@ -2835,7 +2836,7 @@ function telaMigras() {
   listarCena(
     'migra',
     '🚚 A migração',
-    'Duas falas: a mudança e o risco. A frase modelo só aparece depois.',
+    subCena('a mudança e o risco'),
     MIGRAS,
     abrirMigra,
     valor => { migraSessao = valor; }
@@ -2861,7 +2862,7 @@ function telaEstreias() {
   listarCena(
     'estreia',
     '👋 Primeiro dia',
-    'Duas falas: o oi e o pedido. A frase modelo só aparece depois.',
+    subCena('o oi e o pedido'),
     ESTREIAS,
     abrirEstreia,
     valor => { estreiaSessao = valor; }
@@ -2956,7 +2957,7 @@ function telaPokers() {
   listarCena(
     'poker',
     '🃏 A carta',
-    'Duas falas: a carta e o motivo. A frase modelo só aparece depois.',
+    subCena('a carta e o motivo'),
     POKERS,
     abrirPoker,
     valor => { pokerSessao = valor; }
@@ -2982,7 +2983,7 @@ function telaLeigos() {
   listarCena(
     'leigo',
     '🧮 A conta da IA',
-    'Duas falas: a conta e o limite. A frase modelo só aparece depois.',
+    subCena('a conta e o limite'),
     LEIGOS,
     abrirLeigo,
     valor => { leigoSessao = valor; }
@@ -3008,7 +3009,7 @@ function telaRecrutas() {
   listarCena(
     'recruta',
     '📞 A ligação',
-    'Duas falas: a pretensão e a janela. A frase modelo só aparece depois.',
+    subCena('a pretensão e a janela'),
     RECRUTAS,
     abrirRecruta,
     valor => { recrutaSessao = valor; }
@@ -3034,7 +3035,7 @@ function telaCulpas() {
   listarCena(
     'culpa',
     '🙏 A desculpa',
-    'Duas falas: o erro e o plano. A frase modelo só aparece depois.',
+    subCena('o erro e o plano'),
     CULPAS,
     abrirCulpa,
     valor => { culpaSessao = valor; }
@@ -3060,7 +3061,7 @@ function telaRaios() {
   listarCena(
     'raio',
     '🔦 O relâmpago',
-    'Duas falas: o tempo e o projeto. A frase modelo só aparece depois.',
+    subCena('o tempo e o projeto'),
     RAIOS,
     abrirRaio,
     valor => { raioSessao = valor; }
@@ -3086,7 +3087,7 @@ function telaOfertas() {
   listarCena(
     'oferta',
     '💻 A oferta',
-    'Duas falas: o pedido e a data. A frase modelo só aparece depois.',
+    subCena('o pedido e a data'),
     OFERTAS,
     abrirOferta,
     valor => { ofertaSessao = valor; }
@@ -3116,7 +3117,7 @@ function telaPedidos() {
   listarCena(
     'pedido',
     '🙋 Não entendi',
-    'Duas falas: o pedido e o eco. A frase modelo só aparece depois.',
+    subCena('o pedido e o eco'),
     PEDIDOS,
     abrirPedido,
     valor => { pedidoSessao = valor; }
@@ -3142,7 +3143,7 @@ function telaCoberturas() {
   listarCena(
     'cobertura',
     '🧪 A cobertura',
-    'Duas falas: o teste e o caso. A frase modelo só aparece depois.',
+    subCena('o teste e o caso'),
     COBERTURAS,
     abrirCobertura,
     valor => { coberturaSessao = valor; }
@@ -3168,7 +3169,7 @@ function telaLooms() {
   listarCena(
     'loom',
     '🎥 O vídeo',
-    'Duas falas: o tempo e o link. A frase modelo só aparece depois.',
+    subCena('o tempo e o link'),
     LOOMS,
     abrirLoom,
     valor => { loomSessao = valor; }
@@ -3305,7 +3306,7 @@ function telaGraficos() {
   listarCena(
     'grafico',
     '📉 O gráfico',
-    'Duas falas: a leitura e a causa. A frase modelo só aparece depois.',
+    subCena('a leitura e a causa'),
     GRAFICOS,
     abrirGrafico,
     valor => { graficoSessao = valor; }
@@ -3331,7 +3332,7 @@ function telaHandoffs() {
   listarCena(
     'handoff',
     '🕒 O handoff',
-    'Duas falas: o pedido e a nota. A frase modelo só aparece depois.',
+    subCena('o pedido e a nota'),
     HANDOFFS,
     abrirHandoff,
     valor => { handoffSessao = valor; }
@@ -3357,7 +3358,7 @@ function telaElevadores() {
   listarCena(
     'elevador',
     '🚪 O elevador',
-    'Duas falas: quem você é e o que faz agora. A frase modelo só aparece depois.',
+    subCena('quem você é e o que faz agora'),
     ELEVADORES,
     abrirElevador,
     valor => { elevadorSessao = valor; }
@@ -3531,7 +3532,7 @@ function telaPistas() {
   listarCena(
     'pista',
     '🏁 O bug raro',
-    'Duas falas: o sintoma e a prova. A frase modelo só aparece depois.',
+    subCena('o sintoma e a prova'),
     PISTAS,
     abrirPista,
     valor => { pistaSessao = valor; }
@@ -3557,7 +3558,7 @@ function telaCalmas() {
   listarCena(
     'calma',
     '🐢 Com calma',
-    'Duas falas: o passo e a ideia. A frase modelo só aparece depois.',
+    subCena('o passo e a ideia'),
     CALMAS,
     abrirCalma,
     valor => { calmaSessao = valor; }
@@ -3583,7 +3584,7 @@ function telaFolgas() {
   listarCena(
     'folga',
     '🏖️ A folga',
-    'Duas falas: o plano e o limite. A frase modelo só aparece depois.',
+    subCena('o plano e o limite'),
     FOLGAS,
     abrirFolga,
     valor => { folgaSessao = valor; }
@@ -3609,7 +3610,7 @@ function telaRespeitos() {
   listarCena(
     'respeito',
     '🏛️ Com respeito',
-    'Duas falas: o ponto e o outro caminho. A frase modelo só aparece depois.',
+    subCena('o ponto e o outro caminho'),
     RESPEITOS,
     abrirRespeito,
     valor => { respeitoSessao = valor; }
@@ -3635,7 +3636,7 @@ function telaDebitos() {
   listarCena(
     'debito',
     '🧱 A dívida',
-    'Duas falas: a dívida e o tempo. A frase modelo só aparece depois.',
+    subCena('a dívida e o tempo'),
     DEBITOS,
     abrirDebito,
     valor => { debitoSessao = valor; }
@@ -3661,7 +3662,7 @@ function telaIndicacoes() {
   listarCena(
     'indicacao',
     '✉️ A indicação',
-    'Duas falas: o pedido e o contexto. A frase modelo só aparece depois.',
+    subCena('o pedido e o contexto'),
     INDICACOES,
     abrirIndicacao,
     valor => { indicacaoSessao = valor; }
@@ -3687,7 +3688,7 @@ function telaUx() {
   listarCena(
     'ux',
     '🎨 O contraste',
-    'Duas falas: a decisão e o motivo. A frase modelo só aparece depois.',
+    subCena('a decisão e o motivo'),
     UXS,
     abrirUx,
     valor => { uxSessao = valor; }
@@ -3713,7 +3714,7 @@ function telaForum() {
   listarCena(
     'forum',
     '📣 O fórum',
-    'Duas falas: o problema e o que você já tentou. A frase modelo só aparece depois.',
+    subCena('o problema e o que você já tentou'),
     FORUNS,
     abrirForum,
     valor => { forumSessao = valor; }
@@ -3739,7 +3740,7 @@ function telaVisto() {
   listarCena(
     'visto',
     '🛂 O visto',
-    'Duas falas: o pedido e o detalhe. A frase modelo só aparece depois.',
+    subCena('o pedido e o detalhe'),
     VISTOS,
     abrirVisto,
     valor => { vistoSessao = valor; }
@@ -3800,7 +3801,7 @@ function telaFacils() {
   listarCena(
     'facil',
     '🧭 O facilitador',
-    'Duas falas: a abertura e o fecho. A frase modelo só aparece depois.',
+    subCena('a abertura e o fecho'),
     FACILS,
     abrirFacil,
     valor => { facilSessao = valor; }
@@ -3826,7 +3827,7 @@ function telaStacks() {
   listarCena(
     'stack',
     '🧰 A escolha',
-    'Duas falas: a escolha e a troca. A frase modelo só aparece depois.',
+    subCena('a escolha e a troca'),
     ESCOLHAS,
     abrirStack,
     valor => { stackSessao = valor; }
@@ -3852,7 +3853,7 @@ function telaSabados() {
   listarCena(
     'sabado',
     '🌦️ O sábado',
-    'Duas falas: o que já fez e o plano. A frase modelo só aparece depois.',
+    subCena('o que já fez e o plano'),
     SABADOS,
     abrirSabado,
     valor => { sabadoSessao = valor; }
@@ -3906,7 +3907,7 @@ function telaBrechas() {
   listarCena(
     'brecha',
     '🔓 A falha',
-    'Duas falas: o furo e o conserto. A frase modelo só aparece depois.',
+    subCena('o furo e o conserto'),
     BRECHAS,
     abrirBrecha,
     valor => { brechaSessao = valor; }
@@ -3932,7 +3933,7 @@ function telaMudas() {
   listarCena(
     'muda',
     '📐 A mudança',
-    'Duas falas: o pedido e a troca. A frase modelo só aparece depois.',
+    subCena('o pedido e a troca'),
     MUDAS,
     abrirMuda,
     valor => { mudaSessao = valor; }
@@ -3958,7 +3959,7 @@ function telaGauchos() {
   listarCena(
     'gaucho',
     '🧉 O chimarrão',
-    'Duas falas: o lugar e o hábito. A frase modelo só aparece depois.',
+    subCena('o lugar e o hábito'),
     GAUCHOS,
     abrirGaucho,
     valor => { gauchoSessao = valor; }
@@ -3984,7 +3985,7 @@ function telaRadares() {
   listarCena(
     'radar',
     '📡 O radar',
-    'Duas falas: o sinal e a leitura. A frase modelo só aparece depois.',
+    subCena('o sinal e a leitura'),
     RADARS,
     abrirRadar,
     valor => { radarSessao = valor; }
@@ -4010,7 +4011,7 @@ function telaAplausos() {
   listarCena(
     'aplauso',
     '👏 O aplauso',
-    'Duas falas: o elogio e o nome. A frase modelo só aparece depois.',
+    subCena('o elogio e o nome'),
     APLAUSOS,
     abrirAplauso,
     valor => { aplausoSessao = valor; }
@@ -4036,7 +4037,7 @@ function telaGripes() {
   listarCena(
     'gripe',
     '🤒 A gripe',
-    'Duas falas: o aviso e o plano. A frase modelo só aparece depois.',
+    subCena('o aviso e o plano'),
     GRIPES,
     abrirGripe,
     valor => { gripeSessao = valor; }
@@ -4062,7 +4063,7 @@ function telaPms() {
   listarCena(
     'pm',
     '📎 Com o PM',
-    'Duas falas: a data e a troca. A frase modelo só aparece depois.',
+    subCena('a data e a troca'),
     PMS,
     abrirPm,
     valor => { pmSessao = valor; }
@@ -4088,7 +4089,7 @@ function telaLaudos() {
   listarCena(
     'laudo',
     '📄 O laudo',
-    'Duas falas: o fato e a ação. A frase modelo só aparece depois.',
+    subCena('o fato e a ação'),
     LAUDOS,
     abrirLaudo,
     valor => { laudoSessao = valor; }
@@ -4114,7 +4115,7 @@ function telaRumos() {
   listarCena(
     'rumo',
     '🔭 O rumo',
-    'Duas falas: o pedido e o passo. A frase modelo só aparece depois.',
+    subCena('o pedido e o passo'),
     RUMOS,
     abrirRumo,
     valor => { rumoSessao = valor; }
@@ -4140,7 +4141,7 @@ function telaAcessos() {
   listarCena(
     'acesso',
     '🔑 O acesso',
-    'Duas falas: o lugar e a ajuda. A frase modelo só aparece depois.',
+    subCena('o lugar e a ajuda'),
     ACESSOS,
     abrirAcesso,
     valor => { acessoSessao = valor; }
@@ -4166,7 +4167,7 @@ function telaLicencas() {
   listarCena(
     'licenca',
     '💳 A licença',
-    'Duas falas: o pedido e o valor. A frase modelo só aparece depois.',
+    subCena('o pedido e o valor'),
     LICENCAS,
     abrirLicenca,
     valor => { licencaSessao = valor; }
@@ -4192,7 +4193,7 @@ function telaJargoes() {
   listarCena(
     'jargao',
     '🧾 Sem jargão',
-    'Duas falas: o simples e o efeito. A frase modelo só aparece depois.',
+    subCena('o simples e o efeito'),
     JARGOES,
     abrirJargao,
     valor => { jargaoSessao = valor; }
@@ -4218,7 +4219,7 @@ function telaBandeiras() {
   listarCena(
     'bandeira',
     '🎚️ A bandeira',
-    'Duas falas: o plano e a saída. A frase modelo só aparece depois.',
+    subCena('o plano e a saída'),
     BANDEIRAS,
     abrirBandeira,
     valor => { bandeiraSessao = valor; }
@@ -4244,7 +4245,7 @@ function telaGelos() {
   listarCena(
     'gelo',
     '🧊 O gelo',
-    'Duas falas: a regra e a exceção. A frase modelo só aparece depois.',
+    subCena('a regra e a exceção'),
     GELOS,
     abrirGelo,
     valor => { geloSessao = valor; }
@@ -4270,7 +4271,7 @@ function telaLimites() {
   listarCena(
     'limite',
     '🚥 O limite',
-    'Duas falas: o número e a resposta. A frase modelo só aparece depois.',
+    subCena('o número e a resposta'),
     LIMITES,
     abrirLimite,
     valor => { limiteSessao = valor; }
@@ -4296,7 +4297,7 @@ function telaCanarios() {
   listarCena(
     'canario',
     '🐤 O canário',
-    'Duas falas: o alvo e a saúde. A frase modelo só aparece depois.',
+    subCena('o alvo e a saúde'),
     CANARIOS,
     abrirCanario,
     valor => { canarioSessao = valor; }
@@ -4322,7 +4323,7 @@ function telaDespedidas() {
   listarCena(
     'despedida',
     '📭 A despedida',
-    'Duas falas: a data e a troca. A frase modelo só aparece depois.',
+    subCena('a data e a troca'),
     DESPEDIDAS,
     abrirDespedida,
     valor => { despedidaSessao = valor; }
@@ -4348,7 +4349,7 @@ function telaRepeticoes() {
   listarCena(
     'repeticao',
     '🪝 A repetição',
-    'Duas falas: a chegada e a segunda vez. A frase modelo só aparece depois.',
+    subCena('a chegada e a segunda vez'),
     REPETICOES,
     abrirRepeticao,
     valor => { repeticaoSessao = valor; }
@@ -4374,7 +4375,7 @@ function telaCargas() {
   listarCena(
     'carga',
     '🏋️ A carga',
-    'Duas falas: o tempo e o lugar. A frase modelo só aparece depois.',
+    subCena('o tempo e o lugar'),
     CARGAS,
     abrirCarga,
     valor => { cargaSessao = valor; }
@@ -4400,7 +4401,7 @@ function telaBoletins() {
   listarCena(
     'boletim',
     '📰 O boletim',
-    'Duas falas: a lista e a leitura. A frase modelo só aparece depois.',
+    subCena('a lista e a leitura'),
     BOLETINS,
     abrirBoletim,
     valor => { boletimSessao = valor; }
@@ -4426,7 +4427,7 @@ function telaDonos() {
   listarCena(
     'dono',
     '🪪 Quem aprova',
-    'Duas falas: a pasta e o merge. A frase modelo só aparece depois.',
+    subCena('a pasta e o merge'),
     DONOS,
     abrirDono,
     valor => { donoSessao = valor; }
@@ -4452,7 +4453,7 @@ function telaManuais() {
   listarCena(
     'manual',
     '📘 O manual',
-    'Duas falas: o passo e a checagem. A frase modelo só aparece depois.',
+    subCena('o passo e a checagem'),
     MANUAIS,
     abrirManual,
     valor => { manualSessao = valor; }
@@ -4478,7 +4479,7 @@ function telaVerdes() {
   listarCena(
     'verde',
     '🟢 O lado verde',
-    'Duas falas: o tráfego e a volta. A frase modelo só aparece depois.',
+    subCena('o tráfego e a volta'),
     VERDES,
     abrirVerde,
     valor => { verdeSessao = valor; }
@@ -4504,7 +4505,7 @@ function telaCertificados() {
   listarCena(
     'certificado',
     '🔏 O certificado',
-    'Duas falas: o prazo e o aviso. A frase modelo só aparece depois.',
+    subCena('o prazo e o aviso'),
     CERTIFICADOS,
     abrirCertificado,
     valor => { certificadoSessao = valor; }
@@ -4530,7 +4531,7 @@ function telaRebases() {
   listarCena(
     'rebase',
     '🌿 O rebase',
-    'Duas falas: a base e o arquivo. A frase modelo só aparece depois.',
+    subCena('a base e o arquivo'),
     REBASES,
     abrirRebase,
     valor => { rebaseSessao = valor; }
@@ -4556,7 +4557,7 @@ function telaConsultas() {
   listarCena(
     'consulta',
     '🐌 A consulta',
-    'Duas falas: o tempo e o plano. A frase modelo só aparece depois.',
+    subCena('o tempo e o plano'),
     CONSULTAS,
     abrirConsulta,
     valor => { consultaSessao = valor; }
@@ -4582,7 +4583,7 @@ function telaReplicas() {
   listarCena(
     'replica',
     '🪞 A réplica',
-    'Duas falas: o atraso e a leitura. A frase modelo só aparece depois.',
+    subCena('o atraso e a leitura'),
     REPLICAS,
     abrirReplica,
     valor => { replicaSessao = valor; }
@@ -4608,7 +4609,7 @@ function telaEnsaios() {
   listarCena(
     'ensaio',
     '🧪 O ensaio',
-    'Duas falas: o ensaio e a cópia. A frase modelo só aparece depois.',
+    subCena('o ensaio e a cópia'),
     ENSAIOS,
     abrirEnsaio,
     valor => { ensaioSessao = valor; }
@@ -4634,7 +4635,7 @@ function telaDiscos() {
   listarCena(
     'disco',
     '💽 O disco',
-    'Duas falas: o disco cheio e o plano. A frase modelo só aparece depois.',
+    subCena('o disco cheio e o plano'),
     DISCOS,
     abrirDisco,
     valor => { discoSessao = valor; }
@@ -4660,7 +4661,7 @@ function telaPaginas() {
   listarCena(
     'pagina',
     '📃 A página',
-    'Duas falas: a lista e a próxima página. A frase modelo só aparece depois.',
+    subCena('a lista e a próxima página'),
     PAGINAS,
     abrirPagina,
     valor => { paginaSessao = valor; }
@@ -4686,7 +4687,7 @@ function telaSquashes() {
   listarCena(
     'squash',
     '✂️ O squash',
-    'Duas falas: os commits e o merge. A frase modelo só aparece depois.',
+    subCena('os commits e o merge'),
     SQUASHES,
     abrirSquash,
     valor => { squashSessao = valor; }
@@ -4712,7 +4713,7 @@ function telaCircuitos() {
   listarCena(
     'circuito',
     '🛑 O circuito',
-    'Duas falas: quando abre e quando fecha. A frase modelo só aparece depois.',
+    subCena('quando abre e quando fecha'),
     CIRCUITOS,
     abrirCircuito,
     valor => { circuitoSessao = valor; }
@@ -4738,7 +4739,7 @@ function telaJobs() {
   listarCena(
     'job',
     '🌙 O job',
-    'Duas falas: o horário e a falha. A frase modelo só aparece depois.',
+    subCena('o horário e a falha'),
     JOBS,
     abrirJob,
     valor => { jobSessao = valor; }
@@ -4764,7 +4765,7 @@ function telaColheitas() {
   listarCena(
     'colheita',
     '🍒 A colheita',
-    'Duas falas: o commit e o que fica. A frase modelo só aparece depois.',
+    subCena('o commit e o que fica'),
     COLHEITAS,
     abrirColheita,
     valor => { colheitaSessao = valor; }
@@ -4790,7 +4791,7 @@ function telaSessoes() {
   listarCena(
     'sessao',
     '⏳ A sessão',
-    'Duas falas: o fim e o prazo. A frase modelo só aparece depois.',
+    subCena('o fim e o prazo'),
     SESSOES,
     abrirSessao,
     valor => { sessaoFala = valor; }
@@ -4816,7 +4817,7 @@ function telaTanques() {
   listarCena(
     'tanque',
     '🪣 O tanque',
-    'Duas falas: o tanque cheio e as conexões ociosas. A frase modelo só aparece depois.',
+    subCena('o tanque cheio e as conexões ociosas'),
     TANQUES,
     abrirTanque,
     valor => { tanqueSessao = valor; }
@@ -4842,7 +4843,7 @@ function telaSondas() {
   listarCena(
     'sonda',
     '🩺 A sonda',
-    'Duas falas: a falha e a volta. A frase modelo só aparece depois.',
+    subCena('a falha e a volta'),
     SONDAS,
     abrirSonda,
     valor => { sondaSessao = valor; }
@@ -4868,7 +4869,7 @@ function telaSementes() {
   listarCena(
     'semente',
     '🌱 A semente',
-    'Duas falas: o banco e as linhas. A frase modelo só aparece depois.',
+    subCena('o banco e as linhas'),
     SEMENTES,
     abrirSemente,
     valor => { sementeSessao = valor; }
@@ -4894,7 +4895,7 @@ function telaRegistros() {
   listarCena(
     'registro',
     '📋 O registro',
-    'Duas falas: o nível e a volta. A frase modelo só aparece depois.',
+    subCena('o nível e a volta'),
     REGISTROS,
     abrirRegistro,
     valor => { registroSessao = valor; }
@@ -4920,7 +4921,7 @@ function telaRastros() {
   listarCena(
     'rastro',
     '🔎 O rastro',
-    'Duas falas: o pedido e a cópia. A frase modelo só aparece depois.',
+    subCena('o pedido e a cópia'),
     RASTROS,
     abrirRastro,
     valor => { rastroSessao = valor; }
@@ -4946,7 +4947,7 @@ function telaParadas() {
   listarCena(
     'parada',
     '🕛 A parada',
-    'Duas falas: o início e o fim. A frase modelo só aparece depois.',
+    subCena('o início e o fim'),
     PARADAS,
     abrirParada,
     valor => { paradaSessao = valor; }
@@ -4972,7 +4973,7 @@ function telaPods() {
   listarCena(
     'pod',
     '🫛 O pod',
-    'Duas falas: a queda e o ar. A frase modelo só aparece depois.',
+    subCena('a queda e o ar'),
     PODS,
     abrirPod,
     valor => { podSessao = valor; }
@@ -4998,7 +4999,7 @@ function telaLints() {
   listarCena(
     'lint',
     '🧹 O lint',
-    'Duas falas: a falha e a volta. A frase modelo só aparece depois.',
+    subCena('a falha e a volta'),
     LINTS,
     abrirLint,
     valor => { lintSessao = valor; }
@@ -5024,7 +5025,7 @@ function telaOrigens() {
   listarCena(
     'origem',
     '🌐 A origem',
-    'Duas falas: o bloqueio e a liberação. A frase modelo só aparece depois.',
+    subCena('o bloqueio e a liberação'),
     ORIGENS,
     abrirOrigem,
     valor => { origemSessao = valor; }
@@ -5050,7 +5051,7 @@ function telaLinks() {
   listarCena(
     'link',
     '🔗 O link',
-    'Duas falas: o prazo e a troca. A frase modelo só aparece depois.',
+    subCena('o prazo e a troca'),
     LINKS,
     abrirLink,
     valor => { linkSessao = valor; }
@@ -5076,7 +5077,7 @@ function telaCpus() {
   listarCena(
     'cpu',
     '🧮 O processador',
-    'Duas falas: o pico e a calma. A frase modelo só aparece depois.',
+    subCena('o pico e a calma'),
     CPUS,
     abrirCpu,
     valor => { cpuSessao = valor; }
@@ -5102,7 +5103,7 @@ function telaCopias() {
   listarCena(
     'copia',
     '💾 A cópia',
-    'Duas falas: a noite e a manhã. A frase modelo só aparece depois.',
+    subCena('a noite e a manhã'),
     COPIAS,
     abrirCopia,
     valor => { copiaSessao = valor; }
@@ -5128,7 +5129,7 @@ function telaEstouros() {
   listarCena(
     'estouro',
     '💥 O estouro',
-    'Duas falas: o estouro e o teto. A frase modelo só aparece depois.',
+    subCena('o estouro e o teto'),
     ESTOUROS,
     abrirEstouro,
     valor => { estouroSessao = valor; }
@@ -5154,7 +5155,7 @@ function telaImpasses() {
   listarCena(
     'impasse',
     '🪢 O impasse',
-    'Duas falas: a espera e a soltura. A frase modelo só aparece depois.',
+    subCena('a espera e a soltura'),
     IMPASSES,
     abrirImpasse,
     valor => { impasseSessao = valor; }
@@ -5180,7 +5181,7 @@ function telaDominios() {
   listarCena(
     'dominio',
     '🏷️ O domínio',
-    'Duas falas: a falha e o endereço. A frase modelo só aparece depois.',
+    subCena('a falha e o endereço'),
     DOMINIOS,
     abrirDominio,
     valor => { dominioSessao = valor; }
@@ -5206,7 +5207,7 @@ function telaMortas() {
   listarCena(
     'morta',
     '📮 A carta morta',
-    'Duas falas: o desvio e o motivo. A frase modelo só aparece depois.',
+    subCena('o desvio e o motivo'),
     MORTAS,
     abrirMorta,
     valor => { mortaSessao = valor; }
@@ -5232,7 +5233,7 @@ function telaPonteiros() {
   listarCena(
     'ponteiro',
     '🕰️ Os ponteiros',
-    'Duas falas: a diferença e o alinhamento. A frase modelo só aparece depois.',
+    subCena('a diferença e o alinhamento'),
     PONTEIROS,
     abrirPonteiro,
     valor => { ponteiroSessao = valor; }
@@ -5258,7 +5259,7 @@ function telaEleicoes() {
   listarCena(
     'eleicao',
     '🗳️ A eleição',
-    'Duas falas: o voto e o líder. A frase modelo só aparece depois.',
+    subCena('o voto e o líder'),
     ELEICOES,
     abrirEleicao,
     valor => { eleicaoSessao = valor; }
@@ -5284,7 +5285,7 @@ function telaFreios() {
   listarCena(
     'freio',
     '🛞 O freio',
-    'Duas falas: a fila e o ritmo. A frase modelo só aparece depois.',
+    subCena('a fila e o ritmo'),
     FREIOS,
     abrirFreio,
     valor => { freioSessao = valor; }
@@ -5310,7 +5311,7 @@ function telaPausas() {
   listarCena(
     'pausa',
     '⌛ A pausa',
-    'Duas falas: a parada e a continuação. A frase modelo só aparece depois.',
+    subCena('a parada e a continuação'),
     PAUSAS,
     abrirPausa,
     valor => { pausaSessao = valor; }
@@ -5336,7 +5337,7 @@ function telaDerivas() {
   listarCena(
     'deriva',
     '📄 A deriva',
-    'Duas falas: a diferença e o arquivo. A frase modelo só aparece depois.',
+    subCena('a diferença e o arquivo'),
     DERIVAS,
     abrirDeriva,
     valor => { derivaSessao = valor; }
@@ -5362,7 +5363,7 @@ function telaDescritores() {
   listarCena(
     'descritor',
     '📁 O descritor',
-    'Duas falas: a abertura e o fechamento. A frase modelo só aparece depois.',
+    subCena('a abertura e o fechamento'),
     DESCRITORES,
     abrirDescritor,
     valor => { descritorSessao = valor; }
@@ -5388,7 +5389,7 @@ function telaReservas() {
   listarCena(
     'reserva',
     '🪫 A reserva',
-    'Duas falas: o uso e a folga. A frase modelo só aparece depois.',
+    subCena('o uso e a folga'),
     RESERVAS,
     abrirReserva,
     valor => { reservaSessao = valor; }
@@ -5414,7 +5415,7 @@ function telaVarreduras() {
   listarCena(
     'varredura',
     '🧵 A varredura',
-    'Duas falas: a contagem e a junção. A frase modelo só aparece depois.',
+    subCena('a contagem e a junção'),
     VARREDURAS,
     abrirVarredura,
     valor => { varreduraSessao = valor; }
@@ -5440,7 +5441,7 @@ function telaPortas() {
   listarCena(
     'porta',
     '🚪 A porta',
-    'Duas falas: a batida e a escuta. A frase modelo só aparece depois.',
+    subCena('a batida e a escuta'),
     PORTAS,
     abrirPorta,
     valor => { portaSessao = valor; }
@@ -5466,7 +5467,7 @@ function telaInodos() {
   listarCena(
     'inodo',
     '📛 O inodo',
-    'Duas falas: acaba e volta. A frase modelo só aparece depois.',
+    subCena('acaba e volta'),
     INODOS,
     abrirInodo,
     valor => { inodoSessao = valor; }
@@ -5492,7 +5493,7 @@ function telaSaidas() {
   listarCena(
     'saida',
     '🛎️ A saída',
-    'Duas falas: recebe e espera. A frase modelo só aparece depois.',
+    subCena('recebe e espera'),
     SAIDAS,
     abrirSaida,
     valor => { saidaSessao = valor; }
@@ -5518,7 +5519,7 @@ function telaManadas() {
   listarCena(
     'manada',
     '🐑 A manada',
-    'Duas falas: cai e segura. A frase modelo só aparece depois.',
+    subCena('cai e segura'),
     MANADAS,
     abrirManada,
     valor => { manadaSessao = valor; }
@@ -5544,7 +5545,7 @@ function telaGotejos() {
   listarCena(
     'gotejo',
     '💧 O gotejo',
-    'Duas falas: sobe e devolve. A frase modelo só aparece depois.',
+    subCena('sobe e devolve'),
     GOTEJOS,
     abrirGotejo,
     valor => { gotejoSessao = valor; }
@@ -5570,7 +5571,7 @@ function telaFrios() {
   listarCena(
     'frio',
     '🥶 O frio',
-    'Duas falas: dorme e acorda. A frase modelo só aparece depois.',
+    subCena('dorme e acorda'),
     FRIOS,
     abrirFrio,
     valor => { frioSessao = valor; }
@@ -5596,7 +5597,7 @@ function telaCadeados() {
   listarCena(
     'cadeado',
     '🔐 O cadeado',
-    'Duas falas: tenta e libera. A frase modelo só aparece depois.',
+    subCena('tenta e libera'),
     CADEADOS,
     abrirCadeado,
     valor => { cadeadoSessao = valor; }
@@ -5622,7 +5623,7 @@ function telaCotas() {
   listarCena(
     'cota',
     '📏 A cota',
-    'Duas falas: fecha e abre. A frase modelo só aparece depois.',
+    subCena('fecha e abre'),
     COTAS,
     abrirCota,
     valor => { cotaSessao = valor; }
@@ -5648,7 +5649,7 @@ function telaCiclos() {
   listarCena(
     'ciclo',
     '🔁 O ciclo',
-    'Duas falas: cai e fica. A frase modelo só aparece depois.',
+    subCena('cai e fica'),
     CICLOS,
     abrirCiclo,
     valor => { cicloSessao = valor; }
@@ -5674,7 +5675,7 @@ function telaZumbis() {
   listarCena(
     'zumbi',
     '🧟 O zumbi',
-    'Duas falas: termina e espera. A frase modelo só aparece depois.',
+    subCena('termina e espera'),
     ZUMBIS,
     abrirZumbi,
     valor => { zumbiSessao = valor; }
@@ -5700,7 +5701,7 @@ function telaCisoes() {
   listarCena(
     'cisao',
     '🪞 A cisão',
-    'Duas falas: divide e junta. A frase modelo só aparece depois.',
+    subCena('divide e junta'),
     CISOES,
     abrirCisao,
     valor => { cisaoSessao = valor; }
@@ -5726,7 +5727,7 @@ function telaRajadas() {
   listarCena(
     'rajada',
     '🌊 A rajada',
-    'Duas falas: tenta e acalma. A frase modelo só aparece depois.',
+    subCena('tenta e acalma'),
     RAJADAS,
     abrirRajada,
     valor => { rajadaSessao = valor; }
@@ -5752,7 +5753,7 @@ function telaBrasas() {
   listarCena(
     'brasa',
     '🔥 A brasa',
-    'Duas falas: concentra e espalha. A frase modelo só aparece depois.',
+    subCena('concentra e espalha'),
     BRASAS,
     abrirBrasa,
     valor => { brasaSessao = valor; }
@@ -5778,7 +5779,7 @@ function telaDatagramas() {
   listarCena(
     'datagrama',
     '📨 O datagrama',
-    'Duas falas: perde e chega. A frase modelo só aparece depois.',
+    subCena('perde e chega'),
     DATAGRAMAS,
     abrirDatagrama,
     valor => { datagramaSessao = valor; }
@@ -5804,7 +5805,7 @@ function telaPasses() {
   listarCena(
     'passe',
     '🎫 O passe',
-    'Duas falas: vence e renova. A frase modelo só aparece depois.',
+    subCena('vence e renova'),
     PASSES,
     abrirPasse,
     valor => { passeSessao = valor; }
@@ -5830,7 +5831,7 @@ function telaCarimbos() {
   listarCena(
     'carimbo',
     '🖊️ O carimbo',
-    'Duas falas: muda e grava. A frase modelo só aparece depois.',
+    subCena('muda e grava'),
     CARIMBOS,
     abrirCarimbo,
     valor => { carimboSessao = valor; }
@@ -5856,7 +5857,7 @@ function telaPilhas() {
   listarCena(
     'pilha',
     '📚 A pilha',
-    'Duas falas: sobe e corta. A frase modelo só aparece depois.',
+    subCena('sobe e corta'),
     PILHAS,
     abrirPilha,
     valor => { pilhaSessao = valor; }
@@ -5882,7 +5883,7 @@ function telaCanos() {
   listarCena(
     'cano',
     '🔧 O cano',
-    'Duas falas: fecha e abre. A frase modelo só aparece depois.',
+    subCena('fecha e abre'),
     CANOS,
     abrirCano,
     valor => { canoSessao = valor; }
@@ -5908,7 +5909,7 @@ function telaGiros() {
   listarCena(
     'giro',
     '🌀 O giro',
-    'Duas falas: gira e para. A frase modelo só aparece depois.',
+    subCena('gira e para'),
     GIROS,
     abrirGiro,
     valor => { giroSessao = valor; }
@@ -5934,7 +5935,7 @@ function telaCompactas() {
   listarCena(
     'compacta',
     '🗜️ A compactação',
-    'Duas falas: reescreve e solta. A frase modelo só aparece depois.',
+    subCena('reescreve e solta'),
     COMPACTAS,
     abrirCompacta,
     valor => { compactaSessao = valor; }
@@ -5960,7 +5961,7 @@ function telaDiarios() {
   listarCena(
     'diario',
     '✒️ O diário',
-    'Duas falas: ocupa e segue. A frase modelo só aparece depois.',
+    subCena('ocupa e segue'),
     DIARIOS,
     abrirDiario,
     valor => { diarioSessao = valor; }
@@ -5986,7 +5987,7 @@ function telaVagoes() {
   listarCena(
     'vagao',
     '🚃 O vagão',
-    'Duas falas: atrasa e alcança. A frase modelo só aparece depois.',
+    subCena('atrasa e alcança'),
     VAGOES,
     abrirVagao,
     valor => { vagaoSessao = valor; }
@@ -6012,7 +6013,7 @@ function telaCorridas() {
   listarCena(
     'corrida',
     '🏎️ A corrida',
-    'Duas falas: disputa e separa. A frase modelo só aparece depois.',
+    subCena('disputa e separa'),
     CORRIDAS,
     abrirCorrida,
     valor => { corridaSessao = valor; }
@@ -6038,7 +6039,7 @@ function telaIndices() {
   listarCena(
     'indice',
     '📇 O índice',
-    'Duas falas: varre e cria. A frase modelo só aparece depois.',
+    subCena('varre e cria'),
     INDICES,
     abrirIndice,
     valor => { indiceSessao = valor; }
@@ -6064,7 +6065,7 @@ function telaPercentis() {
   listarCena(
     'percentil',
     '📐 O percentil',
-    'Duas falas: mede e limita. A frase modelo só aparece depois.',
+    subCena('mede e limita'),
     PERCENTIS,
     abrirPercentil,
     valor => { percentilSessao = valor; }
@@ -6090,7 +6091,7 @@ function telaSegredos() {
   listarCena(
     'segredo',
     '🕵️ O segredo',
-    'Duas falas: vaza e apaga. A frase modelo só aparece depois.',
+    subCena('vaza e apaga'),
     SEGREDOS,
     abrirSegredo,
     valor => { segredoSessao = valor; }
@@ -6116,7 +6117,7 @@ function telaFantasmas() {
   listarCena(
     'fantasma',
     '👻 O fantasma',
-    'Duas falas: lê e isola. A frase modelo só aparece depois.',
+    subCena('lê e isola'),
     FANTASMAS,
     abrirFantasma,
     valor => { fantasmaSessao = valor; }
@@ -6142,7 +6143,7 @@ function telaInteiros() {
   listarCena(
     'inteiro',
     '🔣 O inteiro',
-    'Duas falas: estoura e limita. A frase modelo só aparece depois.',
+    subCena('estoura e limita'),
     INTEIROS,
     abrirInteiro,
     valor => { inteiroSessao = valor; }
@@ -6168,7 +6169,7 @@ function telaFiltros() {
   listarCena(
     'filtro',
     '🧲 O filtro',
-    'Duas falas: avisa e confere. A frase modelo só aparece depois.',
+    subCena('avisa e confere'),
     FILTROS,
     abrirFiltro,
     valor => { filtroSessao = valor; }
@@ -6194,7 +6195,7 @@ function telaOrdens() {
   listarCena(
     'ordem',
     '🔀 A ordem',
-    'Duas falas: chega e ordena. A frase modelo só aparece depois.',
+    subCena('chega e ordena'),
     ORDENS,
     abrirOrdem,
     valor => { ordemSessao = valor; }
@@ -6220,7 +6221,7 @@ function telaProvas() {
   listarCena(
     'prova',
     '🧬 A prova',
-    'Duas falas: mede e recusa. A frase modelo só aparece depois.',
+    subCena('mede e recusa'),
     PROVAS,
     abrirProva,
     valor => { provaSessao = valor; }
@@ -6246,7 +6247,7 @@ function telaOrfaos() {
   listarCena(
     'orfao',
     '🪆 O órfão',
-    'Duas falas: aponta e liga. A frase modelo só aparece depois.',
+    subCena('aponta e liga'),
     ORFAOS,
     abrirOrfao,
     valor => { orfaoSessao = valor; }
@@ -6272,7 +6273,7 @@ function telaAcenos() {
   listarCena(
     'aceno',
     '🫡 O aceno',
-    'Duas falas: espera e confirma. A frase modelo só aparece depois.',
+    subCena('espera e confirma'),
     ACENOS,
     abrirAceno,
     valor => { acenoSessao = valor; }
@@ -6298,7 +6299,7 @@ function telaGastos() {
   listarCena(
     'gasto',
     '🪙 O gasto',
-    'Duas falas: gasta e corta. A frase modelo só aparece depois.',
+    subCena('gasta e corta'),
     GASTOS,
     abrirGasto,
     valor => { gastoSessao = valor; }
@@ -6324,7 +6325,7 @@ function telaInstaveis() {
   listarCena(
     'instavel',
     '🎲 O instável',
-    'Duas falas: falha e passa. A frase modelo só aparece depois.',
+    subCena('falha e passa'),
     INSTAVEIS,
     abrirInstavel,
     valor => { instavelSessao = valor; }
@@ -6350,7 +6351,7 @@ function telaDuplicados() {
   listarCena(
     'duplicado',
     '📧 O duplicado',
-    'Duas falas: grava e recusa. A frase modelo só aparece depois.',
+    subCena('grava e recusa'),
     DUPLICADOS,
     abrirDuplicado,
     valor => { duplicadoSessao = valor; }
@@ -6376,7 +6377,7 @@ function telaApagoes() {
   listarCena(
     'apagao',
     '🔌 O apagão',
-    'Duas falas: desliga e mede. A frase modelo só aparece depois.',
+    subCena('desliga e mede'),
     APAGOES,
     abrirApagao,
     valor => { apagaoSessao = valor; }
@@ -6402,7 +6403,7 @@ function telaReplays() {
   listarCena(
     'replay',
     '⏪ O replay',
-    'Duas falas: corre e preenche. A frase modelo só aparece depois.',
+    subCena('corre e preenche'),
     REPLAYS,
     abrirReplay,
     valor => { replaySessao = valor; }
@@ -6428,7 +6429,7 @@ function telaEcos() {
   listarCena(
     'eco',
     '🔔 O eco',
-    'Duas falas: chega e ignora. A frase modelo só aparece depois.',
+    subCena('chega e ignora'),
     ECOS,
     abrirEco,
     valor => { ecoSessao = valor; }
@@ -6454,7 +6455,7 @@ function telaLeques() {
   listarCena(
     'leque',
     '🪭 O leque',
-    'Duas falas: acorda e junta. A frase modelo só aparece depois.',
+    subCena('acorda e junta'),
     LEQUES,
     abrirLeque,
     valor => { lequeSessao = valor; }
@@ -6480,7 +6481,7 @@ function telaSagas() {
   listarCena(
     'saga',
     '🧵 A saga',
-    'Duas falas: para e volta. A frase modelo só aparece depois.',
+    subCena('para e volta'),
     SAGAS,
     abrirSaga,
     valor => { sagaSessao = valor; }
@@ -6506,7 +6507,7 @@ function telaCaixas() {
   listarCena(
     'caixa',
     '📦 A caixa',
-    'Duas falas: espera e solta. A frase modelo só aparece depois.',
+    subCena('espera e solta'),
     CAIXAS,
     abrirCaixa,
     valor => { caixaSessao = valor; }
@@ -6532,7 +6533,7 @@ function telaApagados() {
   listarCena(
     'apagado',
     '🗑️ O apagado',
-    'Duas falas: apaga e some. A frase modelo só aparece depois.',
+    subCena('apaga e some'),
     APAGADOS,
     abrirApagado,
     valor => { apagadoSessao = valor; }
@@ -6558,7 +6559,7 @@ function telaEsperas() {
   listarCena(
     'espera',
     '⏲️ A espera',
-    'Duas falas: para e corta. A frase modelo só aparece depois.',
+    subCena('para e corta'),
     ESPERAS,
     abrirEspera,
     valor => { esperaSessao = valor; }
@@ -6584,7 +6585,7 @@ function telaCursores() {
   listarCena(
     'cursor',
     '🔖 O cursor',
-    'Duas falas: lê e marca. A frase modelo só aparece depois.',
+    subCena('lê e marca'),
     CURSORES,
     abrirCursor,
     valor => { cursorSessao = valor; }
@@ -6610,7 +6611,7 @@ function telaFilas() {
   listarCena(
     'fila',
     '📥 A fila',
-    'Duas falas: enche e esvazia. A frase modelo só aparece depois.',
+    subCena('enche e esvazia'),
     FILAS,
     abrirFila,
     valor => { filaSessao = valor; }
@@ -6636,7 +6637,7 @@ function telaDisjuntores() {
   listarCena(
     'disjuntor',
     '🛑 O disjuntor',
-    'Duas falas: abre e fecha. A frase modelo só aparece depois.',
+    subCena('abre e fecha'),
     DISJUNTORES,
     abrirDisjuntor,
     valor => { disjuntorSessao = valor; }
@@ -6662,7 +6663,7 @@ function telaAlugueis() {
   listarCena(
     'aluguel',
     '🔑 O aluguel',
-    'Duas falas: vence e renova. A frase modelo só aparece depois.',
+    subCena('vence e renova'),
     ALUGUEIS,
     abrirAluguel,
     valor => { aluguelSessao = valor; }
@@ -6688,7 +6689,7 @@ function telaPulsos() {
   listarCena(
     'pulso',
     '💓 O pulso',
-    'Duas falas: perde e retoma. A frase modelo só aparece depois.',
+    subCena('perde e retoma'),
     PULSOS,
     abrirPulso,
     valor => { pulsoSessao = valor; }
@@ -6714,7 +6715,7 @@ function telaPiscinas() {
   listarCena(
     'piscina',
     '🏊 A piscina',
-    'Duas falas: lotou e abre. A frase modelo só aparece depois.',
+    subCena('lotou e abre'),
     PISCINAS,
     abrirPiscina,
     valor => { piscinaSessao = valor; }
@@ -6740,7 +6741,7 @@ function telaBaldes() {
   listarCena(
     'balde',
     '🪣 O balde',
-    'Duas falas: gasta e repõe. A frase modelo só aparece depois.',
+    subCena('gasta e repõe'),
     BALDES,
     abrirBalde,
     valor => { baldeSessao = valor; }
@@ -6766,7 +6767,7 @@ function telaCercas() {
   listarCena(
     'cerca',
     '🚧 A cerca',
-    'Duas falas: invalida e troca. A frase modelo só aparece depois.',
+    subCena('invalida e troca'),
     CERCAS,
     abrirCerca,
     valor => { cercaSessao = valor; }
@@ -6792,7 +6793,7 @@ function telaTremores() {
   listarCena(
     'tremor',
     '🫨 O tremor',
-    'Duas falas: varia e acerta. A frase modelo só aparece depois.',
+    subCena('varia e acerta'),
     TREMORES,
     abrirTremor,
     valor => { tremorSessao = valor; }
@@ -6818,7 +6819,7 @@ function telaPortarias() {
   listarCena(
     'portaria',
     '🧱 A portaria',
-    'Duas falas: recusa e abre. A frase modelo só aparece depois.',
+    subCena('recusa e abre'),
     PORTARIAS,
     abrirPortaria,
     valor => { portariaSessao = valor; }
@@ -6844,7 +6845,7 @@ function telaColas() {
   listarCena(
     'cola',
     '🧷 A cola',
-    'Duas falas: gruda e segue. A frase modelo só aparece depois.',
+    subCena('gruda e segue'),
     COLAS,
     abrirCola,
     valor => { colaSessao = valor; }
@@ -6870,7 +6871,7 @@ function telaAnteparos() {
   listarCena(
     'anteparo',
     '🛟 O anteparo',
-    'Duas falas: isola e solta. A frase modelo só aparece depois.',
+    subCena('isola e solta'),
     ANTEPAROS,
     abrirAnteparo,
     valor => { anteparoSessao = valor; }
@@ -6896,7 +6897,7 @@ function telaDescartes() {
   listarCena(
     'descarte',
     '📤 O descarte',
-    'Duas falas: cheio e devolve. A frase modelo só aparece depois.',
+    subCena('cheio e devolve'),
     DESCARTES,
     abrirDescarte,
     valor => { descarteSessao = valor; }
@@ -6922,7 +6923,7 @@ function telaCronometros() {
   listarCena(
     'cronometro',
     '⏰ O cronômetro',
-    'Duas falas: corta e segue. A frase modelo só aparece depois.',
+    subCena('corta e segue'),
     CRONOMETROS,
     abrirCronometro,
     valor => { cronometroSessao = valor; }
@@ -6948,7 +6949,7 @@ function telaAmostras() {
   listarCena(
     'amostra',
     '🧫 A amostra',
-    'Duas falas: guarda e solta. A frase modelo só aparece depois.',
+    subCena('guarda e solta'),
     AMOSTRAS,
     abrirAmostra,
     valor => { amostraSessao = valor; }
@@ -6974,7 +6975,7 @@ function telaNichos() {
   listarCena(
     'nicho',
     '🪺 O nicho',
-    'Duas falas: cai e quieto. A frase modelo só aparece depois.',
+    subCena('cai e quieto'),
     NICHOS,
     abrirNicho,
     valor => { nichoSessao = valor; }
@@ -7000,7 +7001,7 @@ function telaLacres() {
   listarCena(
     'lacre',
     '🔒 O lacre',
-    'Duas falas: muda e sai. A frase modelo só aparece depois.',
+    subCena('muda e sai'),
     LACRES,
     abrirLacre,
     valor => { lacreSessao = valor; }
@@ -7026,7 +7027,7 @@ function telaSemaforos() {
   listarCena(
     'semaforo',
     '🚦 O semáforo',
-    'Duas falas: entra e solta. A frase modelo só aparece depois.',
+    subCena('entra e solta'),
     SEMAFOROS,
     abrirSemaforo,
     valor => { semaforoSessao = valor; }
@@ -7052,7 +7053,7 @@ function telaBarreiras() {
   listarCena(
     'barreira',
     '🏁 A barreira',
-    'Duas falas: chega e segue. A frase modelo só aparece depois.',
+    subCena('chega e segue'),
     BARREIRAS,
     abrirBarreira,
     valor => { barreiraSessao = valor; }
@@ -7078,7 +7079,7 @@ function telaTrincos() {
   listarCena(
     'trinco',
     '🪝 O trinco',
-    'Duas falas: desce e abre. A frase modelo só aparece depois.',
+    subCena('desce e abre'),
     TRINCOS,
     abrirTrinco,
     valor => { trincoSessao = valor; }
@@ -7104,7 +7105,7 @@ function telaRecuos() {
   listarCena(
     'recuo',
     '⏬ O recuo',
-    'Duas falas: dobra e espera. A frase modelo só aparece depois.',
+    subCena('dobra e espera'),
     RECUOS,
     abrirRecuo,
     valor => { recuoSessao = valor; }
@@ -7130,7 +7131,7 @@ function telaVigias() {
   listarCena(
     'vigia',
     '🐕 O vigia',
-    'Duas falas: olha e encerra. A frase modelo só aparece depois.',
+    subCena('olha e encerra'),
     VIGIAS,
     abrirVigia,
     valor => { vigiaSessao = valor; }
@@ -7156,7 +7157,7 @@ function telaAmpulhetas() {
   listarCena(
     'ampulheta',
     '🏺 A ampulheta',
-    'Duas falas: vence e troca. A frase modelo só aparece depois.',
+    subCena('vence e troca'),
     AMPULHETAS,
     abrirAmpulheta,
     valor => { ampulhetaSessao = valor; }
@@ -7182,7 +7183,7 @@ function telaCaronas() {
   listarCena(
     'carona',
     '🚕 A carona',
-    'Duas falas: viaja e confirma. A frase modelo só aparece depois.',
+    subCena('viaja e confirma'),
     CARONAS,
     abrirCarona,
     valor => { caronaSessao = valor; }
@@ -7208,7 +7209,7 @@ function telaVenenos() {
   listarCena(
     'veneno',
     '☠️ O veneno',
-    'Duas falas: sai e isola. A frase modelo só aparece depois.',
+    subCena('sai e isola'),
     VENENOS,
     abrirVeneno,
     valor => { venenoSessao = valor; }
@@ -7234,7 +7235,7 @@ function telaFarois() {
   listarCena(
     'farol',
     '🗼 O farol',
-    'Duas falas: pisca e vive. A frase modelo só aparece depois.',
+    subCena('pisca e vive'),
     FAROIS,
     abrirFarol,
     valor => { farolSessao = valor; }
@@ -7260,7 +7261,7 @@ function telaAncoras() {
   listarCena(
     'ancora',
     '⚓ A âncora',
-    'Duas falas: marca e volta. A frase modelo só aparece depois.',
+    subCena('marca e volta'),
     ANCORAS,
     abrirAncora,
     valor => { ancoraSessao = valor; }
@@ -7286,7 +7287,7 @@ function telaMalhas() {
   listarCena(
     'malha',
     '🕸️ A malha',
-    'Duas falas: liga e passa. A frase modelo só aparece depois.',
+    subCena('liga e passa'),
     MALHAS,
     abrirMalha,
     valor => { malhaSessao = valor; }
@@ -7312,7 +7313,7 @@ function telaFendas() {
   listarCena(
     'fenda',
     '🪓 A fenda',
-    'Duas falas: divide e mede. A frase modelo só aparece depois.',
+    subCena('divide e mede'),
     FENDAS,
     abrirFenda,
     valor => { fendaSessao = valor; }
@@ -7338,7 +7339,7 @@ function telaCofres() {
   listarCena(
     'cofre',
     '🏦 O cofre',
-    'Duas falas: guarda e tira. A frase modelo só aparece depois.',
+    subCena('guarda e tira'),
     COFRES,
     abrirCofre,
     valor => { cofreSessao = valor; }
@@ -7364,7 +7365,7 @@ function telaAudiencias() {
   listarCena(
     'audiencia',
     '👂 A audiência',
-    'Duas falas: vale e recusa. A frase modelo só aparece depois.',
+    subCena('vale e recusa'),
     AUDIENCIAS,
     abrirAudiencia,
     valor => { audienciaSessao = valor; }
@@ -7390,7 +7391,7 @@ function telaRevogacoes() {
   listarCena(
     'revogacao',
     '🚫 A revogação',
-    'Duas falas: corta e sai. A frase modelo só aparece depois.',
+    subCena('corta e sai'),
     REVOGACOES,
     abrirRevogacao,
     valor => { revogacaoSessao = valor; }
@@ -7416,7 +7417,7 @@ function telaQuoruns() {
   listarCena(
     'quorum',
     '🗳️ O quórum',
-    'Duas falas: espera e grava. A frase modelo só aparece depois.',
+    subCena('espera e grava'),
     QUORUMS,
     abrirQuorum,
     valor => { quorumSessao = valor; }
@@ -7442,7 +7443,7 @@ function telaMaiorias() {
   listarCena(
     'maioria',
     '✋ A maioria',
-    'Duas falas: confirma e recusa. A frase modelo só aparece depois.',
+    subCena('confirma e recusa'),
     MAIORIAS,
     abrirMaioria,
     valor => { maioriaSessao = valor; }
@@ -7468,7 +7469,7 @@ function telaArbitros() {
   listarCena(
     'arbitro',
     '⚖️ O árbitro',
-    'Duas falas: desempata e escolhe. A frase modelo só aparece depois.',
+    subCena('desempata e escolhe'),
     ARBITROS,
     abrirArbitro,
     valor => { arbitroSessao = valor; }
@@ -7494,7 +7495,7 @@ function telaLideres() {
   listarCena(
     'lider',
     '🧭 O líder',
-    'Duas falas: conduz e segue. A frase modelo só aparece depois.',
+    subCena('conduz e segue'),
     LIDERES,
     abrirLider,
     valor => { liderSessao = valor; }
@@ -7520,7 +7521,7 @@ function telaMandatos() {
   listarCena(
     'mandato',
     '📜 O mandato',
-    'Duas falas: sobe e fecha. A frase modelo só aparece depois.',
+    subCena('sobe e fecha'),
     MANDATOS,
     abrirMandato,
     valor => { mandatoSessao = valor; }
@@ -7546,7 +7547,7 @@ function telaSeguidores() {
   listarCena(
     'seguidor',
     '👣 O seguidor',
-    'Duas falas: copia e espera. A frase modelo só aparece depois.',
+    subCena('copia e espera'),
     SEGUIDORES,
     abrirSeguidor,
     valor => { seguidorSessao = valor; }
@@ -7572,7 +7573,7 @@ function telaOrquestradores() {
   listarCena(
     'orquestrador',
     '🎼 O orquestrador',
-    'Duas falas: chama e espera. A frase modelo só aparece depois.',
+    subCena('chama e espera'),
     ORQUESTRADORES,
     abrirOrquestrador,
     valor => { orquestradorSessao = valor; }
@@ -7598,7 +7599,7 @@ function telaCoreografias() {
   listarCena(
     'coreografia',
     '💃 A coreografia',
-    'Duas falas: decide e segue. A frase modelo só aparece depois.',
+    subCena('decide e segue'),
     COREOGRAFIAS,
     abrirCoreografia,
     valor => { coreografiaSessao = valor; }
@@ -7624,7 +7625,7 @@ function telaCompensacoes() {
   listarCena(
     'compensacao',
     '↩️ A compensação',
-    'Duas falas: desfaz e fecha. A frase modelo só aparece depois.',
+    subCena('desfaz e fecha'),
     COMPENSACOES,
     abrirCompensacao,
     valor => { compensacaoSessao = valor; }
@@ -7650,7 +7651,7 @@ function telaPrimarios() {
   listarCena(
     'primario',
     '🥇 O primário',
-    'Duas falas: aceita e espera. A frase modelo só aparece depois.',
+    subCena('aceita e espera'),
     PRIMARIOS,
     abrirPrimario,
     valor => { primarioSessao = valor; }
@@ -7676,7 +7677,7 @@ function telaEspelhos() {
   listarCena(
     'espelho',
     '🪟 O espelho',
-    'Duas falas: copia e segue. A frase modelo só aparece depois.',
+    subCena('copia e segue'),
     ESPELHOS,
     abrirEspelho,
     valor => { espelhoSessao = valor; }
@@ -7702,7 +7703,7 @@ function telaAscensoes() {
   listarCena(
     'ascensao',
     '📈 A ascensão',
-    'Duas falas: sobe e fecha. A frase modelo só aparece depois.',
+    subCena('sobe e fecha'),
     ASCENSOES,
     abrirAscensao,
     valor => { ascensaoSessao = valor; }
@@ -7728,7 +7729,7 @@ function telaTravessias() {
   listarCena(
     'travessia',
     '🌉 A travessia',
-    'Duas falas: confirma e espera. A frase modelo só aparece depois.',
+    subCena('confirma e espera'),
     TRAVESSIAS,
     abrirTravessia,
     valor => { travessiaSessao = valor; }
@@ -7754,7 +7755,7 @@ function telaRetaguardas() {
   listarCena(
     'retaguarda',
     '🗄️ A retaguarda',
-    'Duas falas: segura e segue. A frase modelo só aparece depois.',
+    subCena('segura e segue'),
     RETAGUARDAS,
     abrirRetaguarda,
     valor => { retaguardaSessao = valor; }
@@ -7780,7 +7781,7 @@ function telaContornos() {
   listarCena(
     'contorno',
     '➰ O contorno',
-    'Duas falas: pula e fecha. A frase modelo só aparece depois.',
+    subCena('pula e fecha'),
     CONTORNOS,
     abrirContorno,
     valor => { contornoSessao = valor; }
@@ -7806,7 +7807,7 @@ function telaRumores() {
   listarCena(
     'rumor',
     '🗞️ O rumor',
-    'Duas falas: espalha e espera. A frase modelo só aparece depois.',
+    subCena('espalha e espera'),
     RUMORES,
     abrirRumor,
     valor => { rumorSessao = valor; }
@@ -7832,7 +7833,7 @@ function telaReparos() {
   listarCena(
     'reparo',
     '🩹 O reparo',
-    'Duas falas: conserta e segue. A frase modelo só aparece depois.',
+    subCena('conserta e segue'),
     REPAROS,
     abrirReparo,
     valor => { reparoSessao = valor; }
@@ -7858,7 +7859,7 @@ function telaDeixas() {
   listarCena(
     'deixa',
     '🧳 A deixa',
-    'Duas falas: guarda e fecha. A frase modelo só aparece depois.',
+    subCena('guarda e fecha'),
     DEIXAS,
     abrirDeixa,
     valor => { deixaSessao = valor; }
@@ -7884,7 +7885,7 @@ function telaFlocos() {
   listarCena(
     'floco',
     '❄️ O floco',
-    'Duas falas: nasce e espera. A frase modelo só aparece depois.',
+    subCena('nasce e espera'),
     FLOCOS,
     abrirFloco,
     valor => { flocoSessao = valor; }
@@ -7910,7 +7911,7 @@ function telaEpocas() {
   listarCena(
     'epoca',
     '🗓️ A época',
-    'Duas falas: sobe e segue. A frase modelo só aparece depois.',
+    subCena('sobe e segue'),
     EPOCAS,
     abrirEpoca,
     valor => { epocaSessao = valor; }
@@ -7936,7 +7937,7 @@ function telaVetores() {
   listarCena(
     'vetor',
     '🧮 O vetor',
-    'Duas falas: anota e fecha. A frase modelo só aparece depois.',
+    subCena('anota e fecha'),
     VETORES,
     abrirVetor,
     valor => { vetorSessao = valor; }
@@ -7962,7 +7963,7 @@ function telaSujeiras() {
   listarCena(
     'sujeira',
     '🫧 A sujeira',
-    'Duas falas: pega e espera. A frase modelo só aparece depois.',
+    subCena('pega e espera'),
     SUJEIRAS,
     abrirSujeira,
     valor => { sujeiraSessao = valor; }
@@ -7988,7 +7989,7 @@ function telaInstantaneos() {
   listarCena(
     'instantaneo',
     '📸 O instantâneo',
-    'Duas falas: congela e segue. A frase modelo só aparece depois.',
+    subCena('congela e segue'),
     INSTANTANEOS,
     abrirInstantaneo,
     valor => { instantaneoSessao = valor; }
@@ -8014,7 +8015,7 @@ function telaSeriais() {
   listarCena(
     'serial',
     '🔢 O serial',
-    'Duas falas: ordena e fecha. A frase modelo só aparece depois.',
+    subCena('ordena e fecha'),
     SERIAIS,
     abrirSerial,
     valor => { serialSessao = valor; }
@@ -8040,7 +8041,7 @@ function telaFomes() {
   listarCena(
     'fome',
     '🍖 A fome',
-    'Duas falas: espera e segue. A frase modelo só aparece depois.',
+    subCena('espera e segue'),
     FOMES,
     abrirFome,
     valor => { fomeSessao = valor; }
@@ -8066,7 +8067,7 @@ function telaInversoes() {
   listarCena(
     'inversao',
     '🔃 A inversão',
-    'Duas falas: segura e solta. A frase modelo só aparece depois.',
+    subCena('segura e solta'),
     INVERSOES,
     abrirInversao,
     valor => { inversaoSessao = valor; }
@@ -8092,7 +8093,7 @@ function telaIdades() {
   listarCena(
     'idade',
     '🧓 A idade',
-    'Duas falas: sobe e fecha. A frase modelo só aparece depois.',
+    subCena('sobe e fecha'),
     IDADES,
     abrirIdade,
     valor => { idadeSessao = valor; }
@@ -8118,7 +8119,7 @@ function telaSidecars() {
   listarCena(
     'sidecar',
     '🛵 O sidecar',
-    'Duas falas: acompanha e segue. A frase modelo só aparece depois.',
+    subCena('acompanha e segue'),
     SIDECARS,
     abrirSidecar,
     valor => { sidecarSessao = valor; }
@@ -8144,7 +8145,7 @@ function telaEmbaixadores() {
   listarCena(
     'embaixador',
     '🌐 O embaixador',
-    'Duas falas: representa e segue. A frase modelo só aparece depois.',
+    subCena('representa e segue'),
     EMBAIXADORES,
     abrirEmbaixador,
     valor => { embaixadorSessao = valor; }
@@ -8170,7 +8171,7 @@ function telaAdaptadores() {
   listarCena(
     'adaptador',
     '🔌 O adaptador',
-    'Duas falas: traduz e fecha. A frase modelo só aparece depois.',
+    subCena('traduz e fecha'),
     ADAPTADORES,
     abrirAdaptador,
     valor => { adaptadorSessao = valor; }
@@ -8197,7 +8198,7 @@ function telaBizantinos() {
   listarCena(
     'bizantino',
     '🤥 O bizantino',
-    'Duas falas: mente e segue. A frase modelo só aparece depois.',
+    subCena('mente e segue'),
     BIZANTINOS,
     abrirBizantino,
     valor => { bizantinoSessao = valor; }
@@ -8223,7 +8224,7 @@ function telaParticoes() {
   listarCena(
     'particao',
     '🧱 A partição',
-    'Duas falas: divide e segue. A frase modelo só aparece depois.',
+    subCena('divide e segue'),
     PARTICOES,
     abrirParticao,
     valor => { particaoSessao = valor; }
@@ -8249,7 +8250,7 @@ function telaGenerais() {
   listarCena(
     'general',
     '⚔️ O general',
-    'Duas falas: avança e fecha. A frase modelo só aparece depois.',
+    subCena('avança e fecha'),
     GENERAIS,
     abrirGeneral,
     valor => { generalSessao = valor; }
@@ -8276,7 +8277,7 @@ function telaWals() {
   listarCena(
     'wal',
     '🪵 O wal',
-    'Duas falas: grava e segue. A frase modelo só aparece depois.',
+    subCena('grava e segue'),
     WALS,
     abrirWal,
     valor => { walSessao = valor; }
@@ -8302,7 +8303,7 @@ function telaLsns() {
   listarCena(
     'lsn',
     '🧷 O lsn',
-    'Duas falas: numera e segue. A frase modelo só aparece depois.',
+    subCena('numera e segue'),
     LSNS,
     abrirLsn,
     valor => { lsnSessao = valor; }
@@ -8328,7 +8329,7 @@ function telaCheckpoints() {
   listarCena(
     'checkpoint',
     '📍 O checkpoint',
-    'Duas falas: marca e fecha. A frase modelo só aparece depois.',
+    subCena('marca e fecha'),
     CHECKPOINTS,
     abrirCheckpoint,
     valor => { checkpointSessao = valor; }
@@ -8355,7 +8356,7 @@ function telaNonces() {
   listarCena(
     'nonce',
     '🎲 O nonce',
-    'Duas falas: entra e segue. A frase modelo só aparece depois.',
+    subCena('entra e segue'),
     NONCES,
     abrirNonce,
     valor => { nonceSessao = valor; }
@@ -8381,7 +8382,7 @@ function telaHmacs() {
   listarCena(
     'hmac',
     '🏷️ O hmac',
-    'Duas falas: sela e segue. A frase modelo só aparece depois.',
+    subCena('sela e segue'),
     HMACS,
     abrirHmac,
     valor => { hmacSessao = valor; }
@@ -8407,7 +8408,7 @@ function telaEnvelopes() {
   listarCena(
     'envelope',
     '✉️ O envelope',
-    'Duas falas: embala e fecha. A frase modelo só aparece depois.',
+    subCena('embala e fecha'),
     ENVELOPES,
     abrirEnvelope,
     valor => { envelopeSessao = valor; }
@@ -8434,7 +8435,7 @@ function telaLeases() {
   listarCena(
     'lease',
     '🔑 O lease',
-    'Duas falas: entra e segue. A frase modelo só aparece depois.',
+    subCena('entra e segue'),
     LEASES,
     abrirLease,
     valor => { leaseSessao = valor; }
@@ -8460,7 +8461,7 @@ function telaRenovacoes() {
   listarCena(
     'renovacao',
     '🔄 A renovação',
-    'Duas falas: renova e segue. A frase modelo só aparece depois.',
+    subCena('renova e segue'),
     RENOVACOES,
     abrirRenovacao,
     valor => { renovacaoSessao = valor; }
@@ -8486,7 +8487,7 @@ function telaVencimentos() {
   listarCena(
     'vencimento',
     '⌛ O vencimento',
-    'Duas falas: vence e segue. A frase modelo só aparece depois.',
+    subCena('vence e segue'),
     VENCIMENTOS,
     abrirVencimento,
     valor => { vencimentoSessao = valor; }
@@ -8513,7 +8514,7 @@ function telaOutboxes() {
   listarCena(
     'outbox',
     '📤 O outbox',
-    'Duas falas: entra e segue. A frase modelo só aparece depois.',
+    subCena('entra e segue'),
     OUTBOXES,
     abrirOutbox,
     valor => { outboxSessao = valor; }
@@ -8539,7 +8540,7 @@ function telaInboxes() {
   listarCena(
     'inbox',
     '📥 O inbox',
-    'Duas falas: recebe e segue. A frase modelo só aparece depois.',
+    subCena('recebe e segue'),
     INBOXES,
     abrirInbox,
     valor => { inboxSessao = valor; }
@@ -8565,7 +8566,7 @@ function telaRelays() {
   listarCena(
     'relay',
     '📮 O relay',
-    'Duas falas: repassa e segue. A frase modelo só aparece depois.',
+    subCena('repassa e segue'),
     RELAYS,
     abrirRelay,
     valor => { relaySessao = valor; }
@@ -8591,7 +8592,7 @@ function telaOffsets() {
   listarCena(
     'offset',
     '📏 O offset',
-    'Duas falas: marca e segue. A frase modelo só aparece depois.',
+    subCena('marca e segue'),
     OFFSETS,
     abrirOffset,
     valor => { offsetSessao = valor; }
@@ -8617,7 +8618,7 @@ function telaLags() {
   listarCena(
     'lag',
     '🐢 O lag',
-    'Duas falas: atrasa e segue. A frase modelo só aparece depois.',
+    subCena('atrasa e segue'),
     LAGS,
     abrirLag,
     valor => { lagSessao = valor; }
@@ -8643,7 +8644,7 @@ function telaAcks() {
   listarCena(
     'ack',
     '✅ O ack',
-    'Duas falas: confirma e segue. A frase modelo só aparece depois.',
+    subCena('confirma e segue'),
     ACKS,
     abrirAck,
     valor => { ackSessao = valor; }
@@ -8669,7 +8670,7 @@ function telaSnapshots() {
   listarCena(
     'snapshot',
     '📷 O snapshot',
-    'Duas falas: guarda e segue. A frase modelo só aparece depois.',
+    subCena('guarda e segue'),
     SNAPSHOTS,
     abrirSnapshot,
     valor => { snapshotSessao = valor; }
@@ -8695,7 +8696,7 @@ function telaRestores() {
   listarCena(
     'restore',
     '↩️ O restore',
-    'Duas falas: devolve e segue. A frase modelo só aparece depois.',
+    subCena('devolve e segue'),
     RESTORES,
     abrirRestore,
     valor => { restoreSessao = valor; }
@@ -8721,7 +8722,7 @@ function telaPromotes() {
   listarCena(
     'promote',
     '🚀 O promote',
-    'Duas falas: eleva e segue. A frase modelo só aparece depois.',
+    subCena('eleva e segue'),
     PROMOTES,
     abrirPromote,
     valor => { promoteSessao = valor; }
@@ -8747,7 +8748,7 @@ function telaBlooms() {
   listarCena(
     'bloom',
     '🌸 O bloom',
-    'Duas falas: marca e segue. A frase modelo só aparece depois.',
+    subCena('marca e segue'),
     BLOOMS,
     abrirBloom,
     valor => { bloomSessao = valor; }
@@ -8773,7 +8774,7 @@ function telaCucos() {
   listarCena(
     'cuco',
     '🪺 O cuco',
-    'Duas falas: move e segue. A frase modelo só aparece depois.',
+    subCena('move e segue'),
     CUCOS,
     abrirCuco,
     valor => { cucoSessao = valor; }
@@ -8799,7 +8800,7 @@ function telaEsbocos() {
   listarCena(
     'esboco',
     '✏️ O esboço',
-    'Duas falas: conta e segue. A frase modelo só aparece depois.',
+    subCena('conta e segue'),
     ESBOCOS,
     abrirEsboco,
     valor => { esbocoSessao = valor; }
@@ -8825,7 +8826,7 @@ function telaMerkles() {
   listarCena(
     'merkle',
     '🌳 O merkle',
-    'Duas falas: sela e segue. A frase modelo só aparece depois.',
+    subCena('sela e segue'),
     MERKLES,
     abrirMerkle,
     valor => { merkleSessao = valor; }
@@ -8851,7 +8852,7 @@ function telaRadixes() {
   listarCena(
     'radix',
     '✂️ O radix',
-    'Duas falas: corta e segue. A frase modelo só aparece depois.',
+    subCena('corta e segue'),
     RADIXES,
     abrirRadix,
     valor => { radixSessao = valor; }
@@ -8877,7 +8878,7 @@ function telaTries() {
   listarCena(
     'trie',
     '🔤 O trie',
-    'Duas falas: guarda e segue. A frase modelo só aparece depois.',
+    subCena('guarda e segue'),
     TRIES,
     abrirTrie,
     valor => { trieSessao = valor; }
@@ -8903,7 +8904,7 @@ function telaGossips() {
   listarCena(
     'gossip',
     '📣 O gossip',
-    'Duas falas: troca e segue. A frase modelo só aparece depois.',
+    subCena('troca e segue'),
     GOSSIPS,
     abrirGossip,
     valor => { gossipSessao = valor; }
@@ -8929,7 +8930,7 @@ function telaPhis() {
   listarCena(
     'phi',
     '📉 O phi',
-    'Duas falas: sobe e segue. A frase modelo só aparece depois.',
+    subCena('sobe e segue'),
     PHIS,
     abrirPhi,
     valor => { phiSessao = valor; }
@@ -8955,7 +8956,7 @@ function telaAccruals() {
   listarCena(
     'accrual',
     '🧺 O accrual',
-    'Duas falas: soma e segue. A frase modelo só aparece depois.',
+    subCena('soma e segue'),
     ACCRUALS,
     abrirAccrual,
     valor => { accrualSessao = valor; }
@@ -8982,7 +8983,7 @@ function telaHints() {
   listarCena(
     'hint',
     '🔖 O hint',
-    'Duas falas: aponta e segue. A frase modelo só aparece depois.',
+    subCena('aponta e segue'),
     HINTS,
     abrirHint,
     valor => { hintSessao = valor; }
@@ -9008,7 +9009,7 @@ function telaVacuums() {
   listarCena(
     'vacuum',
     '🧹 O vacuum',
-    'Duas falas: limpa e segue. A frase modelo só aparece depois.',
+    subCena('limpa e segue'),
     VACUUMS,
     abrirVacuum,
     valor => { vacuumSessao = valor; }
@@ -9034,7 +9035,7 @@ function telaFreezes() {
   listarCena(
     'freeze',
     '🧊 O freeze',
-    'Duas falas: trava e segue. A frase modelo só aparece depois.',
+    subCena('trava e segue'),
     FREEZES,
     abrirFreeze,
     valor => { freezeSessao = valor; }
@@ -9061,7 +9062,7 @@ function telaBitmaps() {
   listarCena(
     'bitmap',
     '🗺️ O bitmap',
-    'Duas falas: marca e segue. A frase modelo só aparece depois.',
+    subCena('marca e segue'),
     BITMAPS,
     abrirBitmap,
     valor => { bitmapSessao = valor; }
@@ -9087,7 +9088,7 @@ function telaRoarings() {
   listarCena(
     'roaring',
     '🦁 O roaring',
-    'Duas falas: junta e segue. A frase modelo só aparece depois.',
+    subCena('junta e segue'),
     ROARINGS,
     abrirRoaring,
     valor => { roaringSessao = valor; }
@@ -9113,7 +9114,7 @@ function telaHypers() {
   listarCena(
     'hyper',
     '🧮 O hyper',
-    'Duas falas: estima e segue. A frase modelo só aparece depois.',
+    subCena('estima e segue'),
     HYPERS,
     abrirHyper,
     valor => { hyperSessao = valor; }
@@ -9140,7 +9141,7 @@ function telaCrdts() {
   listarCena(
     'crdt',
     '🔀 O crdt',
-    'Duas falas: junta e segue. A frase modelo só aparece depois.',
+    subCena('junta e segue'),
     CRDTS,
     abrirCrdt,
     valor => { crdtSessao = valor; }
@@ -9166,7 +9167,7 @@ function telaLwws() {
   listarCena(
     'lww',
     '🕰️ O lww',
-    'Duas falas: vence e segue. A frase modelo só aparece depois.',
+    subCena('vence e segue'),
     LWWS,
     abrirLww,
     valor => { lwwSessao = valor; }
@@ -9192,7 +9193,7 @@ function telaOrsets() {
   listarCena(
     'orset',
     '📦 O orset',
-    'Duas falas: guarda e segue. A frase modelo só aparece depois.',
+    subCena('guarda e segue'),
     ORSETS,
     abrirOrset,
     valor => { orsetSessao = valor; }
@@ -9218,7 +9219,7 @@ function telaVectors() {
   listarCena(
     'vector',
     '🧭 O vector',
-    'Duas falas: marca e segue. A frase modelo só aparece depois.',
+    subCena('marca e segue'),
     VECTORS,
     abrirVector,
     valor => { vectorSessao = valor; }
@@ -9244,7 +9245,7 @@ function telaDots() {
   listarCena(
     'dot',
     '⚫ O dot',
-    'Duas falas: nomeia e segue. A frase modelo só aparece depois.',
+    subCena('nomeia e segue'),
     DOTS,
     abrirDot,
     valor => { dotSessao = valor; }
@@ -9270,7 +9271,7 @@ function telaCausals() {
   listarCena(
     'causal',
     '🔗 O causal',
-    'Duas falas: chega e segue. A frase modelo só aparece depois.',
+    subCena('chega e segue'),
     CAUSALS,
     abrirCausal,
     valor => { causalSessao = valor; }
@@ -9296,7 +9297,7 @@ function telaShards() {
   listarCena(
     'shard',
     '🧩 O shard',
-    'Duas falas: guarda e segue. A frase modelo só aparece depois.',
+    subCena('guarda e segue'),
     SHARDS,
     abrirShard,
     valor => { shardSessao = valor; }
@@ -9322,7 +9323,7 @@ function telaRebalances() {
   listarCena(
     'rebalance',
     '⚖️ O rebalance',
-    'Duas falas: troca e segue. A frase modelo só aparece depois.',
+    subCena('troca e segue'),
     REBALANCES,
     abrirRebalance,
     valor => { rebalanceSessao = valor; }
@@ -9348,7 +9349,7 @@ function telaSplits() {
   listarCena(
     'split',
     '🪓 O split',
-    'Duas falas: divide e segue. A frase modelo só aparece depois.',
+    subCena('divide e segue'),
     SPLITS,
     abrirSplit,
     valor => { splitSessao = valor; }
@@ -9374,7 +9375,7 @@ function telaWatermarks() {
   listarCena(
     'watermark',
     '🪧 O watermark',
-    'Duas falas: marca e segue. A frase modelo só aparece depois.',
+    subCena('marca e segue'),
     WATERMARKS,
     abrirWatermark,
     valor => { watermarkSessao = valor; }
@@ -9400,7 +9401,7 @@ function telaBarriers() {
   listarCena(
     'barrier',
     '🚧 O barrier',
-    'Duas falas: espera e segue. A frase modelo só aparece depois.',
+    subCena('espera e segue'),
     BARRIERS,
     abrirBarrier,
     valor => { barrierSessao = valor; }
@@ -9426,7 +9427,7 @@ function telaAligns() {
   listarCena(
     'align',
     '📐 O align',
-    'Duas falas: alinha e segue. A frase modelo só aparece depois.',
+    subCena('alinha e segue'),
     ALIGNS,
     abrirAlign,
     valor => { alignSessao = valor; }
@@ -9452,7 +9453,7 @@ function telaWitnesses() {
   listarCena(
     'witness',
     '👁️ O witness',
-    'Duas falas: viu e segue. A frase modelo só aparece depois.',
+    subCena('viu e segue'),
     WITNESSES,
     abrirWitness,
     valor => { witnessSessao = valor; }
@@ -9478,7 +9479,7 @@ function telaVoters() {
   listarCena(
     'voter',
     '🗳️ O voter',
-    'Duas falas: vota e segue. A frase modelo só aparece depois.',
+    subCena('vota e segue'),
     VOTERS,
     abrirVoter,
     valor => { voterSessao = valor; }
@@ -9504,7 +9505,7 @@ function telaLearners() {
   listarCena(
     'learner',
     '🎓 O learner',
-    'Duas falas: ouve e segue. A frase modelo só aparece depois.',
+    subCena('ouve e segue'),
     LEARNERS,
     abrirLearner,
     valor => { learnerSessao = valor; }
@@ -9530,7 +9531,7 @@ function telaChecksums() {
   listarCena(
     'checksum',
     '🧾 O checksum',
-    'Duas falas: confere e segue. A frase modelo só aparece depois.',
+    subCena('confere e segue'),
     CHECKSUMS,
     abrirChecksum,
     valor => { checksumSessao = valor; }
@@ -9556,7 +9557,7 @@ function telaBulkheads() {
   listarCena(
     'bulkhead',
     '🛡️ O bulkhead',
-    'Duas falas: isola e segue. A frase modelo só aparece depois.',
+    subCena('isola e segue'),
     BULKHEADS,
     abrirBulkhead,
     valor => { bulkheadSessao = valor; }
@@ -9582,7 +9583,7 @@ function telaFallbacks() {
   listarCena(
     'fallback',
     '🛟 O fallback',
-    'Duas falas: entra e segue. A frase modelo só aparece depois.',
+    subCena('entra e segue'),
     FALLBACKS,
     abrirFallback,
     valor => { fallbackSessao = valor; }
@@ -9608,7 +9609,7 @@ function telaTombstones() {
   listarCena(
     'tombstone',
     '🪦 O tombstone',
-    'Duas falas: marca e segue. A frase modelo só aparece depois.',
+    subCena('marca e segue'),
     TOMBSTONES,
     abrirTombstone,
     valor => { tombstoneSessao = valor; }
@@ -9634,7 +9635,7 @@ function telaPurges() {
   listarCena(
     'purge',
     '🗑️ O purge',
-    'Duas falas: tira e segue. A frase modelo só aparece depois.',
+    subCena('tira e segue'),
     PURGES,
     abrirPurge,
     valor => { purgeSessao = valor; }
@@ -9660,7 +9661,7 @@ function telaReclaims() {
   listarCena(
     'reclaim',
     '♻️ O reclaim',
-    'Duas falas: volta e segue. A frase modelo só aparece depois.',
+    subCena('volta e segue'),
     RECLAIMS,
     abrirReclaim,
     valor => { reclaimSessao = valor; }
@@ -9686,7 +9687,7 @@ function telaJournals() {
   listarCena(
     'journal',
     '📓 O journal',
-    'Duas falas: anota e segue. A frase modelo só aparece depois.',
+    subCena('anota e segue'),
     JOURNALS,
     abrirJournal,
     valor => { journalSessao = valor; }
@@ -9712,7 +9713,7 @@ function telaSegments() {
   listarCena(
     'segment',
     '🗂️ O segment',
-    'Duas falas: fecha e segue. A frase modelo só aparece depois.',
+    subCena('fecha e segue'),
     SEGMENTS,
     abrirSegment,
     valor => { segmentSessao = valor; }
@@ -9738,7 +9739,7 @@ function telaSpills() {
   listarCena(
     'spill',
     '💧 O spill',
-    'Duas falas: solta e segue. A frase modelo só aparece depois.',
+    subCena('solta e segue'),
     SPILLS,
     abrirSpill,
     valor => { spillSessao = valor; }
@@ -9764,7 +9765,7 @@ function telaStripes() {
   listarCena(
     'stripe',
     '🧵 O stripe',
-    'Duas falas: espalha e segue. A frase modelo só aparece depois.',
+    subCena('espalha e segue'),
     STRIPES,
     abrirStripe,
     valor => { stripeSessao = valor; }
@@ -9790,7 +9791,7 @@ function telaParities() {
   listarCena(
     'parity',
     '🔁 O parity',
-    'Duas falas: recupera e segue. A frase modelo só aparece depois.',
+    subCena('recupera e segue'),
     PARITIES,
     abrirParity,
     valor => { paritySessao = valor; }
@@ -9816,7 +9817,7 @@ function telaRebuilds() {
   listarCena(
     'rebuild',
     '🔨 O rebuild',
-    'Duas falas: refaz e segue. A frase modelo só aparece depois.',
+    subCena('refaz e segue'),
     REBUILDS,
     abrirRebuild,
     valor => { rebuildSessao = valor; }
@@ -9842,7 +9843,7 @@ function telaEpochs() {
   listarCena(
     'epoch',
     '🌅 O epoch',
-    'Duas falas: abre e segue. A frase modelo só aparece depois.',
+    subCena('abre e segue'),
     EPOCHS,
     abrirEpoch,
     valor => { epochSessao = valor; }
@@ -9868,7 +9869,7 @@ function telaBallots() {
   listarCena(
     'ballot',
     '🗳️ O ballot',
-    'Duas falas: conta e segue. A frase modelo só aparece depois.',
+    subCena('conta e segue'),
     BALLOTS,
     abrirBallot,
     valor => { ballotSessao = valor; }
@@ -9894,7 +9895,7 @@ function telaFences() {
   listarCena(
     'fence',
     '🪵 A fence',
-    'Duas falas: segura e segue. A frase modelo só aparece depois.',
+    subCena('segura e segue'),
     FENCES,
     abrirFence,
     valor => { fenceSessao = valor; }
@@ -9920,7 +9921,7 @@ function telaFlushes() {
   listarCena(
     'flush',
     '🚰 O flush',
-    'Duas falas: desce e segue. A frase modelo só aparece depois.',
+    subCena('desce e segue'),
     FLUSHES,
     abrirFlush,
     valor => { flushSessao = valor; }
@@ -9946,7 +9947,7 @@ function telaMemtables() {
   listarCena(
     'memtable',
     '📥 A memtable',
-    'Duas falas: guarda e segue. A frase modelo só aparece depois.',
+    subCena('guarda e segue'),
     MEMTABLES,
     abrirMemtable,
     valor => { memtableSessao = valor; }
@@ -9972,7 +9973,7 @@ function telaExtents() {
   listarCena(
     'extent',
     '📚 O extent',
-    'Duas falas: junta e segue. A frase modelo só aparece depois.',
+    subCena('junta e segue'),
     EXTENTS,
     abrirExtent,
     valor => { extentSessao = valor; }
@@ -9998,7 +9999,7 @@ function telaManifests() {
   listarCena(
     'manifest',
     '📜 O manifest',
-    'Duas falas: lista e segue. A frase modelo só aparece depois.',
+    subCena('lista e segue'),
     MANIFESTS,
     abrirManifest,
     valor => { manifestSessao = valor; }
@@ -10024,7 +10025,7 @@ function telaHedges() {
   listarCena(
     'hedge',
     '🐇 O hedge',
-    'Duas falas: cobre e segue. A frase modelo só aparece depois.',
+    subCena('cobre e segue'),
     HEDGES,
     abrirHedge,
     valor => { hedgeSessao = valor; }
@@ -10050,7 +10051,7 @@ function telaDebounces() {
   listarCena(
     'debounce',
     '⏲️ O debounce',
-    'Duas falas: espera e segue. A frase modelo só aparece depois.',
+    subCena('espera e segue'),
     DEBOUNCES,
     abrirDebounce,
     valor => { debounceSessao = valor; }
@@ -10076,7 +10077,7 @@ function telaSstables() {
   listarCena(
     'sstable',
     '🧱 O sstable',
-    'Duas falas: ordena e segue. A frase modelo só aparece depois.',
+    subCena('ordena e segue'),
     SSTABLES,
     abrirSstable,
     valor => { sstableSessao = valor; }
@@ -10102,7 +10103,7 @@ function telaLatches() {
   listarCena(
     'latch',
     '🔒 O latch',
-    'Duas falas: segura e segue. A frase modelo só aparece depois.',
+    subCena('segura e segue'),
     LATCHES,
     abrirLatch,
     valor => { latchSessao = valor; }
@@ -10128,7 +10129,7 @@ function telaThrottles() {
   listarCena(
     'throttle',
     '🚥 O throttle',
-    'Duas falas: limita e segue. A frase modelo só aparece depois.',
+    subCena('limita e segue'),
     THROTTLES,
     abrirThrottle,
     valor => { throttleSessao = valor; }
@@ -10154,7 +10155,7 @@ function telaIterators() {
   listarCena(
     'iterator',
     '🐾 O iterator',
-    'Duas falas: anda e segue. A frase modelo só aparece depois.',
+    subCena('anda e segue'),
     ITERATORS,
     abrirIterator,
     valor => { iteratorSessao = valor; }
@@ -10180,7 +10181,7 @@ function telaPagers() {
   listarCena(
     'pager',
     '📑 O pager',
-    'Duas falas: carrega e segue. A frase modelo só aparece depois.',
+    subCena('carrega e segue'),
     PAGERS,
     abrirPager,
     valor => { pagerSessao = valor; }
@@ -10206,7 +10207,7 @@ function telaEvicts() {
   listarCena(
     'evict',
     '💨 O evict',
-    'Duas falas: solta e segue. A frase modelo só aparece depois.',
+    subCena('solta e segue'),
     EVICTS,
     abrirEvict,
     valor => { evictSessao = valor; }
@@ -10225,6 +10226,51 @@ function pintarEvict() {
     avaliar: avaliarEvict,
     registrar: registrarEvict,
     tituloFim: 'Evict no alvo!'
+  });
+}
+
+function telaHistograms() {
+  listarCena('histogram', '📊 O histogram', subCena('conta e segue'), HISTOGRAMS, abrirHistogram, valor => { histogramSessao = valor; });
+}
+
+function abrirHistogram(id) {
+  abrirCenaLista(id, histogramPorId, cena => { histogramSessao = cena; }, pintarHistogram, telaHistograms);
+}
+
+function pintarHistogram() {
+  pintarCenaLista(histogramSessao, {
+    rota: 'histogram', aoLista: telaHistograms, repintar: pintarHistogram,
+    avaliar: avaliarHistogram, registrar: registrarHistogram, tituloFim: 'Histogram no alvo!'
+  });
+}
+
+function telaGauges() {
+  listarCena('gauge', '🌡️ O gauge', subCena('mostra e segue'), GAUGES, abrirGauge, valor => { gaugeSessao = valor; });
+}
+
+function abrirGauge(id) {
+  abrirCenaLista(id, gaugePorId, cena => { gaugeSessao = cena; }, pintarGauge, telaGauges);
+}
+
+function pintarGauge() {
+  pintarCenaLista(gaugeSessao, {
+    rota: 'gauge', aoLista: telaGauges, repintar: pintarGauge,
+    avaliar: avaliarGauge, registrar: registrarGauge, tituloFim: 'Gauge no alvo!'
+  });
+}
+
+function telaBackfills() {
+  listarCena('backfill', '🪣 O backfill', subCena('enche e segue'), BACKFILLS, abrirBackfill, valor => { backfillSessao = valor; });
+}
+
+function abrirBackfill(id) {
+  abrirCenaLista(id, backfillPorId, cena => { backfillSessao = cena; }, pintarBackfill, telaBackfills);
+}
+
+function pintarBackfill() {
+  pintarCenaLista(backfillSessao, {
+    rota: 'backfill', aoLista: telaBackfills, repintar: pintarBackfill,
+    avaliar: avaliarBackfill, registrar: registrarBackfill, tituloFim: 'Backfill no alvo!'
   });
 }
 
@@ -13117,6 +13163,9 @@ let throttleSessao = null;
 let iteratorSessao = null;
 let pagerSessao = null;
 let evictSessao = null;
+let histogramSessao = null;
+let gaugeSessao = null;
+let backfillSessao = null;
 let filtroHub = { categoria: 'todos', busca: '', estrela: false };
 let uniHub = -1;
 const CORU = { trabalho: ['#1CB0F6', '#1899D6', 'Para o trampo'], entrevista: ['#7B61FF', '#5A45D6', 'Na mesa'], cotidiano: ['#58CC02', '#3D9B00', 'No corre'], pronuncia: ['#FF9600', '#D97E00', 'Na lingua'], revisao: ['#FFC800', '#D4A600', 'De novo'] };
@@ -13517,7 +13566,10 @@ function telasDoHub() {
     throttle: telaThrottles,
     iterator: telaIterators,
     pager: telaPagers,
-    evict: telaEvicts
+    evict: telaEvicts,
+    histogram: telaHistograms,
+    gauge: telaGauges,
+    backfill: telaBackfills
   };
 }
 
@@ -15427,9 +15479,23 @@ function marcoVivo(bau) {
 function bannerUnidade() {
   const u = unidadeAtual();
   const cor = CORU[u.c.id];
+  const feitos = u.ts.filter(t => (Number(estado.stats?.[t.stat]) || 0) > 0).length;
+  const total = u.ts.length || 1;
+  const pct = Math.round(feitos / total * 100);
   return h('section', { id: 'banner-unidade', class: 'banner-unidade', style: '--bf:' + cor[0] + ';--bs:' + cor[1] },
     h('p', { class: 'banner-kicker' }, 'UNIDADE ' + u.n),
     h('h2', { class: 'banner-titulo' }, cor[2]),
+    h('div', { class: 'banner-passo' },
+      h('span', { class: 'banner-conta' }, feitos + ' de ' + total),
+      h('div', {
+        class: 'banner-trilho',
+        role: 'progressbar',
+        'aria-valuemin': '0',
+        'aria-valuemax': String(total),
+        'aria-valuenow': String(feitos),
+        'aria-label': 'Feitos na unidade ' + u.n
+      }, h('div', { style: 'width:' + pct + '%' }))
+    ),
     h('div', { class: 'banner-acoes' },
       h('button', { type: 'button', class: 'btn btn-branco', onclick: abrirGuia }, 'Guia'),
       h('button', { type: 'button', class: 'btn btn-branco', onclick: abrirUnidades }, 'Trocar unidade')
@@ -16549,6 +16615,7 @@ function telaResumo() {
       h('p', {}, `Manifests ${estado.stats.manifests} · hedges ${estado.stats.hedges} · debounces ${estado.stats.debounces}.`),
       h('p', {}, `Sstables ${estado.stats.sstables} · latches ${estado.stats.latches} · throttles ${estado.stats.throttles}.`),
       h('p', {}, `Iterators ${estado.stats.iterators} · pagers ${estado.stats.pagers} · evicts ${estado.stats.evicts}.`),
+      h('p', {}, `Histograms ${estado.stats.histograms} · gauges ${estado.stats.gauges} · backfills ${estado.stats.backfills}.`),
       h('p', {}, lembreteMeta(contarFaladas(estado.painel, hojeIso), estado.metaFala, hojeIso))
     ),
     erros.length
@@ -16897,6 +16964,10 @@ function pintarCenaFala(sessao, cfg) {
   focarTela();
   if (!sessao.feedback) campo.entrada.focus();
   if (!sessao.feedback && rodada.segundos) ligarCronometroDemo(rodada.segundos);
+}
+
+function subCena(miolo) {
+  return `Duas falas: ${miolo}. A frase modelo só aparece depois.`;
 }
 
 function listarCena(rota, titulo, aviso, lista, abrir, zerar) {
@@ -17986,7 +18057,7 @@ function telaDecisoes() {
   listarCena(
     'decisao',
     '🏗️ Decisão técnica',
-    'Duas falas: a escolha e a troca. We went with e the trade-off. A frase modelo só aparece depois.',
+    subCena('a escolha e a troca. We went with e the trade-off'),
     DECISOES,
     abrirDecisao,
     valor => { decisaoSessao = valor; }
@@ -18089,7 +18160,7 @@ function telaEstimativas() {
   listarCena(
     'estimativa',
     '⏳ Estimativa',
-    'Duas falas: o prazo e a dúvida. It should take about e I am not sure yet. A frase modelo só aparece depois.',
+    subCena('o prazo e a dúvida. It should take about e I am not sure yet'),
     ESTIMATIVAS,
     abrirEstimativa,
     valor => { estimativaSessao = valor; }
@@ -18115,7 +18186,7 @@ function telaConsensos() {
   listarCena(
     'consenso',
     '⚖️ Consenso',
-    'Duas falas: discorde e proponha um meio-termo. A frase modelo só aparece depois.',
+    subCena('discorde e proponha um meio-termo'),
     CONSENSOS,
     abrirConsenso,
     valor => { consensoSessao = valor; }
@@ -18290,7 +18361,7 @@ function telaCulturas() {
   listarCena(
     'cultura',
     '🎬 Esporte, filme e série',
-    'Duas falas: o assunto e um detalhe. A frase modelo só aparece depois.',
+    subCena('o assunto e um detalhe'),
     CULTURAS,
     abrirCultura,
     valor => { culturaSessao = valor; }
@@ -18316,7 +18387,7 @@ function telaAumentos() {
   listarCena(
     'aumento',
     '🏆 O aumento',
-    'Duas falas: o pedido e a prova. A frase modelo só aparece depois.',
+    subCena('o pedido e a prova'),
     AUMENTOS,
     abrirAumento,
     valor => { aumentoSessao = valor; }
@@ -18342,7 +18413,7 @@ function telaRotas() {
   listarCena(
     'rota',
     '🔌 A API',
-    'Duas falas: a rota e um detalhe. A frase modelo só aparece depois.',
+    subCena('a rota e um detalhe'),
     ROTAS,
     abrirRota,
     valor => { rotaSessao = valor; }
@@ -18368,7 +18439,7 @@ function telaVivos() {
   listarCena(
     'vivo',
     '🔥 Ao vivo',
-    'Duas falas: o status e um pedido. A frase modelo só aparece depois.',
+    subCena('o status e um pedido'),
     VIVOS,
     abrirVivo,
     valor => { vivoSessao = valor; }
@@ -18394,7 +18465,7 @@ function telaProdutos() {
   listarCena(
     'produto',
     '📦 Com o produto',
-    'Duas falas: o prazo e o corte. A frase modelo só aparece depois.',
+    subCena('o prazo e o corte'),
     PRODUTOS,
     abrirProduto,
     valor => { produtoSessao = valor; }
@@ -18420,7 +18491,7 @@ function telaFechos() {
   listarCena(
     'fecho',
     '🙋 Suas perguntas',
-    'Duas falas: a pergunta e um detalhe. A frase modelo só aparece depois.',
+    subCena('a pergunta e um detalhe'),
     FECHOS,
     abrirFecho,
     valor => { fechoSessao = valor; }
@@ -18446,7 +18517,7 @@ function telaNarras() {
   listarCena(
     'narrar',
     '🎙️ O par narrado',
-    'Duas falas: o pensamento e a linha. A frase modelo só aparece depois.',
+    subCena('o pensamento e a linha'),
     NARRAS,
     abrirNarra,
     valor => { narraSessao = valor; }
@@ -18472,7 +18543,7 @@ function telaBancos() {
   listarCena(
     'banco',
     '🗄️ Banco ou cache',
-    'Duas falas: onde guarda e a fonte. A frase modelo só aparece depois.',
+    subCena('onde guarda e a fonte'),
     BANCOS,
     abrirBanco,
     valor => { bancoSessao = valor; }
@@ -18498,7 +18569,7 @@ function telaRecusas() {
   listarCena(
     'recusa',
     '🙅 O não educado',
-    'Duas falas: o não e o outro caminho. A frase modelo só aparece depois.',
+    subCena('o não e o outro caminho'),
     RECUSAS,
     abrirRecusa,
     valor => { recusaSessao = valor; }
@@ -18524,7 +18595,7 @@ function telaMapas() {
   listarCena(
     'mapa',
     '🗺️ O mapa',
-    'Duas falas: a arquitetura e o fluxo. A frase modelo só aparece depois.',
+    subCena('a arquitetura e o fluxo'),
     MAPAS,
     abrirMapa,
     valor => { mapaSessao = valor; }
@@ -18550,7 +18621,7 @@ function telaDuros() {
   listarCena(
     'duro',
     '🗣️ O ponto difícil',
-    'Duas falas: o ponto e o pedido. A frase modelo só aparece depois.',
+    subCena('o ponto e o pedido'),
     DUROS,
     abrirDuro,
     valor => { duroSessao = valor; }
@@ -18576,7 +18647,7 @@ function telaPropostas() {
   listarCena(
     'proposta',
     '📐 A proposta',
-    'Duas falas: a proposta e a troca. A frase modelo só aparece depois.',
+    subCena('a proposta e a troca'),
     PROPOSTAS,
     abrirProposta,
     valor => { propostaSessao = valor; }
@@ -18602,7 +18673,7 @@ function telaFuturos() {
   listarCena(
     'futuro',
     '🚀 Daqui a cinco anos',
-    'Duas falas: a meta e o caminho. A frase modelo só aparece depois.',
+    subCena('a meta e o caminho'),
     FUTUROS,
     abrirFuturo,
     valor => { futuroSessao = valor; }
@@ -18845,7 +18916,7 @@ function telaSistemas() {
   listarCena(
     'sistema',
     '🏗️ Sistema',
-    'Duas falas: o pedido e o limite. Feed, escala e gargalo. A frase modelo só aparece depois.',
+    subCena('o pedido e o limite. Feed, escala e gargalo'),
     SISTEMAS,
     abrirSistema,
     valor => { sistemaSessao = valor; }
@@ -18871,7 +18942,7 @@ function telaCodigos() {
   listarCena(
     'codigo',
     '💻 Em voz alta',
-    'Duas falas: o que você pensa e o passo seguinte. A frase modelo só aparece depois.',
+    subCena('o que você pensa e o passo seguinte'),
     CODIGOS,
     abrirCodigo,
     valor => { codigoSessao = valor; }
@@ -18897,7 +18968,7 @@ function telaColegas() {
   listarCena(
     'colega',
     '🤝 Outra área',
-    'Duas falas: o pedido e a oferta. Design, QA e produto. A frase modelo só aparece depois.',
+    subCena('o pedido e a oferta. Design, QA e produto'),
     COLEGAS,
     abrirColega,
     valor => { colegaSessao = valor; }
@@ -18923,7 +18994,7 @@ function telaModelos() {
   listarCena(
     'modelo',
     '🤖 Para leigos',
-    'Duas falas: a ideia e um exemplo. Prompt, alucinação e notas. A frase modelo só aparece depois.',
+    subCena('a ideia e um exemplo. Prompt, alucinação e notas'),
     MODELOS,
     abrirModelo,
     valor => { modeloSessao = valor; }
@@ -18949,7 +19020,7 @@ function telaFuros() {
   listarCena(
     'furo',
     '🛡️ O furo',
-    'Duas falas: o aviso e o plano. CVE, patch e dependência. A frase modelo só aparece depois.',
+    subCena('o aviso e o plano. CVE, patch e dependência'),
     FUROS,
     abrirFuro,
     valor => { furoSessao = valor; }
@@ -18975,7 +19046,7 @@ function telaRotinas() {
   listarCena(
     'rotina',
     '🏠 Em casa',
-    'Duas falas: a casa e a família. Manhã, jantar e noite. A frase modelo só aparece depois.',
+    subCena('a casa e a família. Manhã, jantar e noite'),
     ROTINAS,
     abrirRotina,
     valor => { rotinaSessao = valor; }
@@ -19001,7 +19072,7 @@ function telaPalestras() {
   listarCena(
     'palestra',
     '🎤 Palestra',
-    'Duas falas: a abertura, a troca de slide ou o convite às perguntas. A frase modelo só aparece depois.',
+    subCena('a abertura, a troca de slide ou o convite às perguntas'),
     PALESTRAS,
     abrirPalestra,
     valor => { palestraSessao = valor; }
@@ -19027,7 +19098,7 @@ function telaDuvidas() {
   listarCena(
     'duvida',
     '🙋 Sem a resposta',
-    'Duas falas: ganhe tempo e diga quando volta. A frase modelo só aparece depois.',
+    subCena('ganhe tempo e diga quando volta'),
     DUVIDAS,
     abrirDuvida,
     valor => { duvidaSessao = valor; }
@@ -19053,7 +19124,7 @@ function telaSinais() {
   listarCena(
     'sinal',
     '📶 Sinal ruim',
-    'Duas falas: o que falhou na chamada e o que você pede. A frase modelo só aparece depois.',
+    subCena('o que falhou na chamada e o que você pede'),
     SINAIS,
     abrirSinal,
     valor => { sinalSessao = valor; }
@@ -19079,7 +19150,7 @@ function telaFalhas() {
   listarCena(
     'falha',
     '🛠️ Por que falhou',
-    'Duas falas: o que quebrou e a causa. Deploy, CI e permissão. A frase modelo só aparece depois.',
+    subCena('o que quebrou e a causa. Deploy, CI e permissão'),
     FALHAS,
     abrirFalha,
     valor => { falhaSessao = valor; }
@@ -19105,7 +19176,7 @@ function telaMentorias() {
   listarCena(
     'mentoria',
     '🌱 Mentoria',
-    'Duas falas: a dica e a ideia por trás. A frase modelo só aparece depois.',
+    subCena('a dica e a ideia por trás'),
     MENTORIAS,
     abrirMentoria,
     valor => { mentoriaSessao = valor; }
@@ -19131,7 +19202,7 @@ function telaSocorros() {
   listarCena(
     'socorro',
     '🩺 No exterior',
-    'Duas falas: o pedido e o detalhe. Farmácia, médico e emergência. A frase modelo só aparece depois.',
+    subCena('o pedido e o detalhe. Farmácia, médico e emergência'),
     SOCORROS,
     abrirSocorro,
     valor => { socorroSessao = valor; }
@@ -19157,7 +19228,7 @@ function telaSalarios() {
   listarCena(
     'salario',
     '💰 Salário',
-    'Duas falas: o pedido e a troca. Faixa, plano de saúde e ações. A frase modelo só aparece depois.',
+    subCena('o pedido e a troca. Faixa, plano de saúde e ações'),
     SALARIOS,
     abrirSalario,
     valor => { salarioSessao = valor; }
@@ -19353,7 +19424,7 @@ function telaLinhas() {
   listarCena(
     'linha',
     '💻 Linha a linha',
-    'Duas falas: o que a linha faz e o nome. Loop, callback, null check e edge case. A frase modelo só aparece depois.',
+    subCena('o que a linha faz e o nome. Loop, callback, null check e edge case'),
     LINHAS,
     abrirLinha,
     valor => { linhaSessao = valor; }
@@ -19405,7 +19476,7 @@ function telaSociais() {
   listarCena(
     'social',
     '🍻 Happy hour',
-    'Duas falas: o papo e um detalhe. Happy hour, hobby e o Brasil. A frase modelo só aparece depois.',
+    subCena('o papo e um detalhe. Happy hour, hobby e o Brasil'),
     SOCIAIS,
     abrirSocial,
     valor => { socialSessao = valor; }
@@ -19431,7 +19502,7 @@ function telaTermos() {
   listarCena(
     'termo',
     '🔤 Termos técnicos',
-    'Duas falas: o som e uma frase. Cache, queue, SQL, GUI, height e width. A frase modelo só aparece depois.',
+    subCena('o som e uma frase. Cache, queue, SQL, GUI, height e width'),
     TERMOS,
     abrirTermo,
     valor => { termoSessao = valor; }
@@ -19509,7 +19580,7 @@ function telaViagens() {
   listarCena(
     'viagem',
     '🛫 Viagem a trabalho',
-    'Duas falas: a situação e o pedido. Conexão, imigração ou táxi. A frase modelo só aparece depois.',
+    subCena('a situação e o pedido. Conexão, imigração ou táxi'),
     VIAGENS,
     abrirViagem,
     valor => { viagemSessao = valor; }
@@ -19723,7 +19794,7 @@ function telaLigacoes() {
   listarCena(
     'ligacao',
     '🔗 Conectores',
-    'Duas falas: o fato e a ligação. However, on the other hand ou that said. A frase modelo só aparece depois.',
+    subCena('o fato e a ligação. However, on the other hand ou that said'),
     LIGACOES,
     abrirLigacao,
     valor => { ligacaoSessao = valor; }
@@ -20642,6 +20713,9 @@ async function iniciar() {
     iterator: () => (iteratorSessao && !iteratorSessao.concluido ? pintarIterator() : telaIterators()),
     pager: () => (pagerSessao && !pagerSessao.concluido ? pintarPager() : telaPagers()),
     evict: () => (evictSessao && !evictSessao.concluido ? pintarEvict() : telaEvicts()),
+    histogram: () => (histogramSessao && !histogramSessao.concluido ? pintarHistogram() : telaHistograms()),
+    gauge: () => (gaugeSessao && !gaugeSessao.concluido ? pintarGauge() : telaGauges()),
+    backfill: () => (backfillSessao && !backfillSessao.concluido ? pintarBackfill() : telaBackfills()),
     fracos: telaPontosFracos,
     nivel: () => (nivelSessao && !nivelSessao.concluido ? pintarNivel() : telaNivel()),
     pergunta: () => (perguntaSessao && !perguntaSessao.concluido ? pintarPergunta() : telaPerguntas()),
