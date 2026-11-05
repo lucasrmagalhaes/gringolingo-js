@@ -1,0 +1,48 @@
+import test, { describe } from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
+
+function semTravessao(caminho) {
+  const arquivo = readFileSync(new URL(caminho, import.meta.url), 'utf8');
+  assert.equal(arquivo.includes('\u2014'), false, caminho);
+  assert.equal(arquivo.includes('\u2013'), false, caminho);
+  return arquivo;
+}
+
+describe('sistema visual 3.15', () => {
+  test('tokens, modo escuro e movimento reduzido', () => {
+    const css = semTravessao('../css/style.css');
+    const data = readFileSync(join(raiz, 'js/data.js'), 'utf8');
+    const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
+    assert.match(data, /VERSAO_APP = '3\.15'/);
+    assert.match(data, /versao: '3\.15'/);
+    assert.match(data, /versao: '3\.14'/);
+    assert.match(sw, /gringolingo-v142/);
+    for (const token of ['--raio-md', '--sombra-card', '--xp-texto', '--icone-fundo', '--foco', '--espaco-4']) {
+      assert.equal(css.includes(token), true, token);
+    }
+    assert.match(css, /:root\[data-tema="escuro"\]/);
+    assert.match(css, /--foco: #7AD4FF/);
+    assert.match(css, /prefers-reduced-motion: reduce/);
+    assert.match(css, /@keyframes subir-card/);
+    assert.match(css, /@keyframes brilho-xp/);
+    const emoji = css.slice(css.indexOf('\n.revisao-emoji {'), css.indexOf('}', css.indexOf('\n.revisao-emoji {')));
+    assert.match(emoji, /border-radius/);
+    assert.match(emoji, /flex: 0 0 44px/);
+    assert.match(emoji, /height: 44px/);
+    const foco = css.slice(css.indexOf('\n:focus-visible {'), css.indexOf('}', css.indexOf('\n:focus-visible {')));
+    assert.match(foco, /outline: 3px solid var\(--foco\)/);
+    const progresso = css.slice(css.indexOf('\n.progresso {'), css.indexOf('}', css.indexOf('\n.progresso {')));
+    assert.match(progresso, /height: 16px/);
+    const card = css.slice(css.indexOf('\n.card {'), css.indexOf('}', css.indexOf('\n.card {')));
+    assert.match(card, /overflow-wrap: anywhere/);
+    assert.match(card, /max-width: 100%/);
+    assert.match(card, /box-shadow: var\(--sombra-suave\)/);
+    assert.equal(css.includes('\u2014'), false);
+    assert.equal(css.includes('\u2013'), false);
+  });
+});

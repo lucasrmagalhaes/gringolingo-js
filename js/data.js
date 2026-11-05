@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.14';
+export const VERSAO_APP = '3.15';
 
 export const NOVIDADES = [
+  {
+    versao: '3.15',
+    titulo: 'Visual novo',
+    itens: [
+      '🎨 Cores, tipo e sombras no mesmo sistema',
+      '🌙 Modo escuro com contraste mais calmo',
+      '🃏 Cartões do hub com ícone e relevo',
+      '✨ Progresso, XP e a palavra nova com mais cara'
+    ]
+  },
   {
     versao: '3.14',
     titulo: 'O sstable',

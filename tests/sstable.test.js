@@ -197,10 +197,10 @@ describe('sstable, latch e throttle', () => {
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
     const turno = readFileSync(join(raiz, 'js/turno.js'), 'utf8');
     const css = readFileSync(join(raiz, 'css/style.css'), 'utf8');
-    assert.match(data, /VERSAO_APP = '3\.14'/);
+    assert.match(data, /VERSAO_APP = '3\.\d\d'/);
     assert.match(data, /versao: '3\.14'/);
     assert.match(data, /versao: '3\.13'/);
-    assert.match(sw, /gringolingo-v141/);
+    assert.match(sw, /gringolingo-v1\d\d/);
     assert.match(sw, /\.\/js\/sstable\.js/);
     assert.match(turno, /sstable\.js/);
     assert.equal(turno.includes('foco.js'), false);

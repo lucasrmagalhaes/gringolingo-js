@@ -14,7 +14,7 @@ navegador.
 [![PWA](https://img.shields.io/badge/PWA-instal%C3%A1vel%20e%20offline-58CC02?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Sem build](https://img.shields.io/badge/build-nenhum-1CB0F6?style=flat-square)](#decisões-técnicas)
 [![Sem npm install](https://img.shields.io/badge/npm%20install-desnecess%C3%A1rio-FF9600?style=flat-square)](#decisões-técnicas)
-[![Testes](https://img.shields.io/badge/testes-758%20passando-FFC800?style=flat-square)](#testes)
+[![Testes](https://img.shields.io/badge/testes-763%20passando-FFC800?style=flat-square)](#testes)
 [![Deploy](https://img.shields.io/badge/deploy-GitHub%20Pages-6C5CE7?style=flat-square)](https://lucasrmagalhaes.github.io/gringolingo-js/)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES%20modules%20nativos-FF4B4B?style=flat-square)](#arquitetura)
 
@@ -541,6 +541,7 @@ navegador.
 - **O latch**: a trava curta segura a leitura.
 - **O throttle**: o ritmo limita a chamada.
 - **A expressão**: no hub, a frase do dia para dizer em inglês.
+- **Visual 3.15**: tokens de cor, tipo, raio e sombra, modo escuro, cartões com ícone, progresso e a palavra nova.
 
 ### Hábito e gamificação
 
@@ -955,6 +956,7 @@ O que a suíte cobre:
 - **`tests/flush.test.js`**: flush, memtable, extent, o número do dia e a versão 3.12.
 - **`tests/manifest.test.js`**: manifest, hedge, debounce, a redução do dia e a versão 3.13.
 - **`tests/sstable.test.js`**: sstable, latch, throttle, a expressão do dia e a versão 3.14.
+- **`tests/visual.test.js`**: tokens, modo escuro, foco, movimento reduzido e a versão 3.15.
 - **`tests/dicionario.test.js`**: o dia local da revisão e a busca vazia restrita ao curso.
 - **`tests/jogo.test.js`**: `mesclarEstado` (os quatro ramos do streak, XP, estrelas, conquistas,
   erros, histórico e a agenda conservadora dos itens), `itensVencidos`, `nivelInfo`, `streakAtual` e a
