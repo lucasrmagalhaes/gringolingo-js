@@ -1,22 +1,16 @@
-// Minutos de fala e treinos por grupo, na semana corrente.
-// A conta é determinística. Nada sai do aparelho.
 
 import { TREINOS, CATEGORIAS } from './hub.js';
 import { diasDaSemana } from './fluencia.js';
-
 export const SEGUNDOS_POR_RESPOSTA = 12;
 export const TETO_SESSAO = 1800;
 export const METAS_MINUTOS = [10, 20, 30, 45];
 export const GRUPOS = CATEGORIAS.map(c => c.id);
-
 const ALIAS = { perguntaDia: 'dia', verbo: 'frasal' };
 const POR_ID = new Map(TREINOS.map(t => [t.id, t.categoria]));
-
 export function grupoDoTipo(tipo) {
   const id = ALIAS[tipo] || String(tipo || '');
   return POR_ID.get(id) || '';
 }
-
 export function segundosDaFala(respostas, segundos) {
   if (Number.isFinite(Number(segundos))) {
     return Math.max(0, Math.min(Math.round(Number(segundos)), TETO_SESSAO));
@@ -24,7 +18,6 @@ export function segundosDaFala(respostas, segundos) {
   const n = Math.max(0, Number(respostas) || 0);
   return Math.min(TETO_SESSAO, n * SEGUNDOS_POR_RESPOSTA);
 }
-
 export function somarSemana(painel, diaIso) {
   const grupos = Object.fromEntries(GRUPOS.map(id => [id, 0]));
   let segundos = 0;
@@ -44,19 +37,16 @@ export function somarSemana(painel, diaIso) {
     grupos
   };
 }
-
 export function textoMinutos(segundos) {
   const min = Math.floor(Math.max(0, Number(segundos) || 0) / 60);
   if (min === 1) return '1 minuto de fala nesta semana.';
   return `${min} minutos de fala nesta semana.`;
 }
-
 export function textoGrupo(n, titulo) {
   const q = Math.max(0, Number(n) || 0);
   const nome = q === 1 ? '1 treino' : `${q} treinos`;
   return `${nome} em ${titulo}`;
 }
-
 function deslocarIso(iso, dias) {
   const partes = String(iso || '').split('-').map(Number);
   if (partes.length !== 3 || partes.some(n => !Number.isFinite(n))) return '';
@@ -66,26 +56,21 @@ function deslocarIso(iso, dias) {
   const dia = String(data.getDate()).padStart(2, '0');
   return `${data.getFullYear()}-${mes}-${dia}`;
 }
-
 function diaAnterior(iso) {
   return deslocarIso(iso, -1);
 }
-
 function minutosDosDias(painel, dias) {
   let segundos = 0;
   for (const data of dias) segundos += Math.max(0, Number(painel?.[data]?.segundos) || 0);
   return Math.floor(segundos / 60);
 }
-
 function textoMinutosCurtos(n) {
   const min = Math.max(0, Math.floor(Number(n) || 0));
   return min === 1 ? '1 minuto' : `${min} minutos`;
 }
-
 function teveFala(painel, iso) {
   return Math.floor(Number(painel?.[iso]?.n) || 0) > 0;
 }
-
 export function textoDaSequencia(painel, diaIso) {
   if (!teveFala(painel, diaIso)) {
     if (teveFala(painel, diaAnterior(diaIso))) {
@@ -102,7 +87,6 @@ export function textoDaSequencia(painel, diaIso) {
   const texto = dias === 1 ? '1 dia seguido de fala.' : `${dias} dias seguidos de fala.`;
   return { dias, emRisco: false, texto };
 }
-
 export function textoDaComparacao(painel, diaIso) {
   const semana = diasDaSemana(diaIso);
   const indice = semana.indexOf(diaIso);
@@ -138,13 +122,11 @@ export function textoDaComparacao(painel, diaIso) {
     texto: `${agora} até aqui. ${verbo} ${sentido} que a semana anterior.`
   };
 }
-
 function inteiroNaoNegativo(n) {
   const v = Number(n);
   if (!Number.isFinite(v) || v <= 0) return 0;
   return Math.floor(v);
 }
-
 export function textoDoAcerto(painel, diaIso) {
   let acertos = 0;
   let respostas = 0;
@@ -167,15 +149,12 @@ export function textoDoAcerto(painel, diaIso) {
     texto: `${pct}% de acerto nesta semana. ${certos} de ${respostas}.`
   };
 }
-
 const NOMES_DIA = ['segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado', 'domingo'];
-
 function minutosDoDia(linha) {
   const segundos = Number(linha?.segundos);
   if (!Number.isFinite(segundos) || segundos <= 0) return 0;
   return Math.floor(segundos / 60);
 }
-
 export function textoDoPico(painel, diaIso) {
   const dias = diasDaSemana(diaIso);
   let melhor = null;
@@ -202,7 +181,6 @@ export function textoDoPico(painel, diaIso) {
     : `${titulo} foi o dia com mais fala. ${tempo}.`;
   return { dia, minutos: melhor.minutos, empate, texto };
 }
-
 export function textoDoApoio(painel, diaIso) {
   let n = 0;
   for (const data of diasDaSemana(diaIso)) {
@@ -215,7 +193,6 @@ export function textoDoApoio(painel, diaIso) {
   if (n === 1) return { n: 1, texto: '1 preenchimento nesta semana.' };
   return { n, texto: `${n} preenchimentos nesta semana.` };
 }
-
 export function textoDaNota(painel, diaIso) {
   let soma = 0;
   let n = 0;
@@ -230,7 +207,6 @@ export function textoDaNota(painel, diaIso) {
   const nota = Math.min(100, Math.round(soma / n));
   return { nota, n, texto: `A nota desta semana é ${nota}.` };
 }
-
 export function textoDosDias(painel, diaIso) {
   let n = 0;
   for (const data of diasDaSemana(diaIso)) {
@@ -245,7 +221,6 @@ export function textoDosDias(painel, diaIso) {
   if (n === 1) return { n: 1, texto: '1 dia com fala nesta semana.' };
   return { n, texto: `${n} dias com fala nesta semana.` };
 }
-
 export function textoDoRitmo(painel, diaIso) {
   let dias = 0;
   let segundos = 0;
@@ -269,7 +244,6 @@ export function textoDoRitmo(painel, diaIso) {
     : `${ritmo} minutos por dia com fala.`;
   return { dias, ritmo, texto };
 }
-
 export function textoDaLacuna(painel, diaIso) {
   let n = 0;
   let vistos = 0;
@@ -286,7 +260,6 @@ export function textoDaLacuna(painel, diaIso) {
   if (n === 1) return { n: 1, texto: '1 dia em branco nesta semana.' };
   return { n, texto: `${n} dias em branco nesta semana.` };
 }
-
 export function textoDaMeta(painel, diaIso, meta) {
   const alvo = Math.floor(Number(meta));
   if (!Number.isFinite(alvo) || alvo <= 0) {
@@ -302,7 +275,6 @@ export function textoDaMeta(painel, diaIso, meta) {
     : `Faltam ${falta} minutos para a meta desta semana.`;
   return { falta, minutos, meta: alvo, texto };
 }
-
 export function textoDaDuracao(painel, diaIso) {
   let segundos = 0;
   let n = 0;
@@ -322,7 +294,6 @@ export function textoDaDuracao(painel, diaIso) {
   if (minutos === 1) return { segundos, n, media, texto: 'Cada treino desta semana durou 1 minuto.' };
   return { segundos, n, media, texto: `Cada treino desta semana durou ${minutos} minutos.` };
 }
-
 export function textoDaUltima(painel, diaIso) {
   const inicio = String(diaIso || '');
   if (!/^\d{4}-\d{2}-\d{2}$/.test(inicio)) {
@@ -343,11 +314,9 @@ export function textoDaUltima(painel, diaIso) {
   }
   return { dias: null, texto: 'Ainda não há fala registrada.' };
 }
-
 function dataValida(iso) {
   return /^\d{4}-\d{2}-\d{2}$/.test(String(iso || ''));
 }
-
 function diasEntreIso(inicio, fim) {
   const a = String(inicio).split('-').map(Number);
   const b = String(fim).split('-').map(Number);
@@ -355,7 +324,6 @@ function diasEntreIso(inicio, fim) {
   const db = new Date(b[0], b[1] - 1, b[2]);
   return Math.round((db.getTime() - da.getTime()) / 86400000);
 }
-
 export function textoDaPrimeira(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, texto: 'Ainda não há primeira fala.' };
@@ -375,7 +343,6 @@ export function textoDaPrimeira(painel, diaIso) {
   if (dias === 1) return { dias: 1, texto: 'A primeira fala foi ontem.' };
   return { dias, texto: `A primeira fala foi há ${dias} dias.` };
 }
-
 export function textoDoHiato(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, texto: 'Ainda não há hiato entre falas.' };
@@ -400,15 +367,12 @@ export function textoDoHiato(painel, diaIso) {
   if (maior === 1) return { dias: 1, texto: 'O maior hiato foi de 1 dia.' };
   return { dias: maior, texto: `O maior hiato foi de ${maior} dias.` };
 }
-
 const NOME_GETDAY = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
 const ARTIGO_GETDAY = ['no', 'na', 'na', 'na', 'na', 'na', 'no'];
-
 function diaDaSemanaLocal(iso) {
   const partes = String(iso).split('-').map(Number);
   return new Date(partes[0], partes[1] - 1, partes[2]).getDay();
 }
-
 export function textoDoCostume(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, dia: null, texto: 'Ainda não há costume de fala.' };
@@ -434,7 +398,6 @@ export function textoDoCostume(painel, diaIso) {
   const dia = NOME_GETDAY[escolhido];
   return { dias, dia, texto: `Você fala mais ${ARTIGO_GETDAY[escolhido]} ${dia}.` };
 }
-
 export function textoDaMarca(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, texto: 'Ainda não há marca de fala.' };
@@ -460,7 +423,6 @@ export function textoDaMarca(painel, diaIso) {
   if (maior === 1) return { dias: 1, texto: 'A maior marca foi de 1 dia.' };
   return { dias: maior, texto: `A maior marca foi de ${maior} dias.` };
 }
-
 export function textoDoAuge(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, minutos: 0, texto: 'Ainda não há auge de fala.' };
@@ -490,7 +452,6 @@ export function textoDoAuge(painel, diaIso) {
   if (dias === 1) return { dias: 1, minutos, texto: `O auge foi ontem, com ${tempo}.` };
   return { dias, minutos, texto: `O auge foi há ${dias} dias, com ${tempo}.` };
 }
-
 export function textoDoSete(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, texto: 'Ainda não há conta dos últimos 7 dias.' };
@@ -508,7 +469,6 @@ export function textoDoSete(painel, diaIso) {
   if (dias === 1) return { dias: 1, texto: '1 dos últimos 7 dias teve fala.' };
   return { dias, texto: `${dias} dos últimos 7 dias tiveram fala.` };
 }
-
 export function textoDaSoma(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, minutos: 0, texto: 'Ainda não há soma de fala.' };
@@ -530,7 +490,6 @@ export function textoDaSoma(painel, diaIso) {
   if (minutos === 1) return { dias, minutos: 1, texto: 'A soma de fala é de 1 minuto.' };
   return { dias, minutos, texto: `A soma de fala é de ${minutos} minutos.` };
 }
-
 export function textoDoPorDia(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, minutos: 0, texto: 'Ainda não há média por dia.' };
@@ -552,7 +511,6 @@ export function textoDoPorDia(painel, diaIso) {
   if (minutos === 1) return { dias, minutos: 1, texto: 'A média por dia é de 1 minuto.' };
   return { dias, minutos, texto: `A média por dia é de ${minutos} minutos.` };
 }
-
 export function textoDaParte(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, minutos: 0, parte: 0, texto: 'Ainda não há parte desta semana.' };
@@ -581,7 +539,6 @@ export function textoDaParte(painel, diaIso) {
   }
   return { dias, minutos: parte, parte: total, texto: `Esta semana tem ${parte} dos ${total} minutos.` };
 }
-
 export function textoDoFora(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, minutos: 0, texto: 'Ainda não há conta fora desta semana.' };
@@ -608,7 +565,6 @@ export function textoDoFora(painel, diaIso) {
   if (minutos === 1) return { dias, minutos: 1, texto: 'Fora desta semana há 1 minuto.' };
   return { dias, minutos, texto: `Fora desta semana há ${minutos} minutos.` };
 }
-
 export function textoDoTotal(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, total: 0, texto: 'Ainda não há total de treinos.' };
@@ -629,7 +585,6 @@ export function textoDoTotal(painel, diaIso) {
   if (total === 1) return { dias, total: 1, texto: 'O total de treinos é 1.' };
   return { dias, total, texto: `O total de treinos é ${total}.` };
 }
-
 export function textoDoLote(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, lote: 0, texto: 'Ainda não há lote desta semana.' };
@@ -651,7 +606,6 @@ export function textoDoLote(painel, diaIso) {
   if (lote === 1) return { dias, lote: 1, texto: 'O lote desta semana é 1 treino.' };
   return { dias, lote, texto: `O lote desta semana é ${lote} treinos.` };
 }
-
 export function textoDoSaldo(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, saldo: 0, texto: 'Ainda não há saldo de treinos.' };
@@ -673,7 +627,6 @@ export function textoDoSaldo(painel, diaIso) {
   if (saldo === 1) return { dias, saldo: 1, texto: 'Antes desta semana há 1 treino.' };
   return { dias, saldo, texto: `Antes desta semana há ${saldo} treinos.` };
 }
-
 export function textoDoPasso(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, passo: 0, texto: 'Ainda não há passo de treinos.' };
@@ -695,7 +648,6 @@ export function textoDoPasso(painel, diaIso) {
   if (passo === 1) return { dias, passo: 1, texto: 'O passo por dia é de 1 treino.' };
   return { dias, passo, texto: `O passo por dia é de ${passo} treinos.` };
 }
-
 export function textoDoMaior(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, maior: 0, texto: 'Ainda não há maior dia de treinos.' };
@@ -716,7 +668,6 @@ export function textoDoMaior(painel, diaIso) {
   if (maior === 1) return { dias, maior: 1, texto: 'O maior dia teve 1 treino.' };
   return { dias, maior, texto: `O maior dia teve ${maior} treinos.` };
 }
-
 export function textoDoMenor(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, menor: 0, texto: 'Ainda não há menor dia de treinos.' };
@@ -737,7 +688,6 @@ export function textoDoMenor(painel, diaIso) {
   if (menor === 1) return { dias, menor: 1, texto: 'O menor dia teve 1 treino.' };
   return { dias, menor, texto: `O menor dia teve ${menor} treinos.` };
 }
-
 export function textoDaDiferenca(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, diferenca: 0, texto: 'Ainda não há diferença de treinos.' };
@@ -762,7 +712,6 @@ export function textoDaDiferenca(painel, diaIso) {
   if (diferenca === 1) return { dias, diferenca: 1, texto: 'A diferença entre os dias é de 1 treino.' };
   return { dias, diferenca, texto: `A diferença entre os dias é de ${diferenca} treinos.` };
 }
-
 export function textoDoMeio(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, meio: 0, texto: 'Ainda não há meio de treinos.' };
@@ -786,7 +735,6 @@ export function textoDoMeio(painel, diaIso) {
   if (meio === 1) return { dias, meio: 1, texto: 'O meio dos dias é de 1 treino.' };
   return { dias, meio, texto: `O meio dos dias é de ${meio} treinos.` };
 }
-
 export function textoDaVariedade(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, variedade: 0, texto: 'Ainda não há variedade de treinos.' };
@@ -807,7 +755,6 @@ export function textoDaVariedade(painel, diaIso) {
   if (variedade === 1) return { dias, variedade: 1, texto: 'A variedade dos dias é de 1 valor.' };
   return { dias, variedade, texto: `A variedade dos dias é de ${variedade} valores.` };
 }
-
 export function textoDaModa(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, moda: 0, texto: 'Ainda não há moda de treinos.' };
@@ -836,7 +783,6 @@ export function textoDaModa(painel, diaIso) {
   if (moda === 1) return { dias, moda: 1, texto: 'A moda dos dias é de 1 treino.' };
   return { dias, moda, texto: `A moda dos dias é de ${moda} treinos.` };
 }
-
 export function textoDaRepeticao(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, repeticao: 0, texto: 'Ainda não há repetição de treinos.' };
@@ -864,7 +810,6 @@ export function textoDaRepeticao(painel, diaIso) {
   if (vezes === 1) return { dias, repeticao: 1, texto: 'A repetição dos dias é de 1 dia.' };
   return { dias, repeticao: vezes, texto: `A repetição dos dias é de ${vezes} dias.` };
 }
-
 export function textoDaExtensao(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, extensao: 0, texto: 'Ainda não há extensão de treinos.' };
@@ -885,7 +830,6 @@ export function textoDaExtensao(painel, diaIso) {
   if (extensao === 1) return { dias, extensao: 1, texto: 'A extensão dos dias é de 1 dia.' };
   return { dias, extensao, texto: `A extensão dos dias é de ${extensao} dias.` };
 }
-
 export function textoDoVao(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, vao: 0, texto: 'Ainda não há vão de treinos.' };
@@ -907,7 +851,6 @@ export function textoDoVao(painel, diaIso) {
   if (vao === 1) return { dias, vao: 1, texto: 'O vão dos dias é de 1 dia.' };
   return { dias, vao, texto: `O vão dos dias é de ${vao} dias.` };
 }
-
 export function textoDaProporcao(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, proporcao: 0, texto: 'Ainda não há proporção de treinos.' };
@@ -927,7 +870,6 @@ export function textoDaProporcao(painel, diaIso) {
   const proporcao = diasEntreIso(primeira, fim) + 1;
   return { dias, proporcao, texto: `A proporção dos dias é de ${dias} em ${proporcao}.` };
 }
-
 export function textoDaCobertura(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, cobertura: 0, texto: 'Ainda não há cobertura de treinos.' };
@@ -948,7 +890,6 @@ export function textoDaCobertura(painel, diaIso) {
   if (cobertura === 1) return { dias, cobertura, texto: 'A cobertura dos dias é de 1 por cento.' };
   return { dias, cobertura, texto: `A cobertura dos dias é de ${cobertura} por cento.` };
 }
-
 export function textoDoIntervalo(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, intervalo: 0, texto: 'Ainda não há intervalo de treinos.' };
@@ -972,7 +913,6 @@ export function textoDoIntervalo(painel, diaIso) {
   if (intervalo === 1) return { dias, intervalo, texto: 'O intervalo dos dias é de 1 dia.' };
   return { dias, intervalo, texto: `O intervalo dos dias é de ${intervalo} dias.` };
 }
-
 export function textoDaCadencia(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, cadencia: 0, texto: 'Ainda não há cadência de treinos.' };
@@ -993,7 +933,6 @@ export function textoDaCadencia(painel, diaIso) {
   if (cadencia === 1) return { dias, cadencia, texto: 'A cadência dos dias é de 1 por semana.' };
   return { dias, cadencia, texto: `A cadência dos dias é de ${cadencia} por semana.` };
 }
-
 export function textoDaDensidade(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, densidade: 0, texto: 'Ainda não há densidade de treinos.' };
@@ -1017,7 +956,6 @@ export function textoDaDensidade(painel, diaIso) {
   if (densidade === 1) return { dias, densidade, texto: 'A densidade dos dias é de 1 minuto por semana.' };
   return { dias, densidade, texto: `A densidade dos dias é de ${densidade} minutos por semana.` };
 }
-
 export function textoDoPeso(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, peso: 0, texto: 'Ainda não há peso de treinos.' };
@@ -1041,7 +979,6 @@ export function textoDoPeso(painel, diaIso) {
   if (peso === 1) return { dias, peso, texto: 'O peso dos dias é de 1 por cento.' };
   return { dias, peso, texto: `O peso dos dias é de ${peso} por cento.` };
 }
-
 export function textoDaSobra(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, sobra: 0, texto: 'Ainda não há sobra de treinos.' };
@@ -1064,7 +1001,6 @@ export function textoDaSobra(painel, diaIso) {
   if (sobra === 1) return { dias, sobra, texto: 'A sobra dos dias é de 1 minuto.' };
   return { dias, sobra, texto: `A sobra dos dias é de ${sobra} minutos.` };
 }
-
 export function textoDoResto(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, resto: 0, texto: 'Ainda não há resto de treinos.' };
@@ -1085,7 +1021,6 @@ export function textoDoResto(painel, diaIso) {
   if (resto === 1) return { dias, resto, texto: 'O resto dos dias é de 1 segundo.' };
   return { dias, resto, texto: `O resto dos dias é de ${resto} segundos.` };
 }
-
 export function textoDoGrao(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, grao: 0, texto: 'Ainda não há grão de treinos.' };
@@ -1106,7 +1041,6 @@ export function textoDoGrao(painel, diaIso) {
   if (grao === 1) return { dias, grao, texto: 'O grão dos dias é de 1 segundo.' };
   return { dias, grao, texto: `O grão dos dias é de ${grao} segundos.` };
 }
-
 export function textoDoCurto(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, curto: 0, texto: 'Ainda não há curto de treinos.' };
@@ -1128,7 +1062,6 @@ export function textoDoCurto(painel, diaIso) {
   if (curto === 1) return { dias, curto, texto: 'O curto dos dias é de 1 segundo.' };
   return { dias, curto, texto: `O curto dos dias é de ${curto} segundos.` };
 }
-
 export function textoDoLongo(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, longo: 0, texto: 'Ainda não há longo de treinos.' };
@@ -1150,7 +1083,6 @@ export function textoDoLongo(painel, diaIso) {
   if (longo === 1) return { dias, longo, texto: 'O longo dos dias é de 1 segundo.' };
   return { dias, longo, texto: `O longo dos dias é de ${longo} segundos.` };
 }
-
 export function textoDoSalto(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, salto: 0, texto: 'Ainda não há salto de treinos.' };
@@ -1175,7 +1107,6 @@ export function textoDoSalto(painel, diaIso) {
   if (salto === 1) return { dias, salto, texto: 'O salto dos dias é de 1 segundo.' };
   return { dias, salto, texto: `O salto dos dias é de ${salto} segundos.` };
 }
-
 export function textoDaMediana(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, mediana: 0, texto: 'Ainda não há mediana de treinos.' };
@@ -1198,7 +1129,6 @@ export function textoDaMediana(painel, diaIso) {
   if (mediana === 1) return { dias, mediana, texto: 'A mediana dos dias é de 1 segundo.' };
   return { dias, mediana, texto: `A mediana dos dias é de ${mediana} segundos.` };
 }
-
 export function textoDoMosaico(painel, diaIso) {
   const fim = String(diaIso || '');
   const total = GRUPOS.length;
@@ -1223,12 +1153,10 @@ export function textoDoMosaico(painel, diaIso) {
   if (grupos === total) return { dias, grupos, total, texto: `O mosaico cobre os ${total} grupos.` };
   return { dias, grupos, total, texto: `O mosaico cobre ${grupos} de ${total} grupos.` };
 }
-
 function diaUtc(iso) {
   const [ano, mes, dia] = String(iso).split('-').map(Number);
   return new Date(Date.UTC(ano, mes - 1, dia)).getUTCDay();
 }
-
 export function textoDoTurno(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, uteis: 0, folgas: 0, texto: 'Ainda não há turno de dias.' };
@@ -1259,7 +1187,6 @@ export function textoDoTurno(painel, diaIso) {
   if (folgas === 0) return { dias, uteis, folgas, texto: `O turno cobre ${textoUtil}.` };
   return { dias, uteis, folgas, texto: `O turno cobre ${textoUtil} e ${textoFolga}.` };
 }
-
 export function textoDaVirada(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, meses: 0, texto: 'Ainda não há virada de meses.' };
@@ -1280,7 +1207,6 @@ export function textoDaVirada(painel, diaIso) {
   if (meses === 1) return { dias, meses, texto: 'A virada cobre 1 mês.' };
   return { dias, meses, texto: `A virada cobre ${meses} meses.` };
 }
-
 function semanaIso(iso) {
   const [ano, mes, dia] = String(iso).split('-').map(Number);
   const data = new Date(Date.UTC(ano, mes - 1, dia));
@@ -1291,7 +1217,6 @@ function semanaIso(iso) {
   const semana = Math.ceil((((data - inicio) / 86400000) + 1) / 7);
   return `${anoIso}-${String(semana).padStart(2, '0')}`;
 }
-
 export function textoDaFaixa(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, semanas: 0, texto: 'Ainda não há faixa de semanas.' };
@@ -1312,7 +1237,6 @@ export function textoDaFaixa(painel, diaIso) {
   if (semanas === 1) return { dias, semanas, texto: 'A faixa cobre 1 semana.' };
   return { dias, semanas, texto: `A faixa cobre ${semanas} semanas.` };
 }
-
 export function textoDaAbertura(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, dia: null, texto: 'Ainda não há abertura de fala.' };
@@ -1334,7 +1258,6 @@ export function textoDaAbertura(painel, diaIso) {
   const artigo = ARTIGO_GETDAY[indice] === 'no' ? 'num' : 'numa';
   return { dias, dia, texto: `A abertura cai ${artigo} ${dia}.` };
 }
-
 const ESTACAO_POR_MES = {
   1: ['verão', 'no'],
   2: ['verão', 'no'],
@@ -1349,7 +1272,6 @@ const ESTACAO_POR_MES = {
   11: ['primavera', 'na'],
   12: ['verão', 'no']
 };
-
 export function textoDaEstacao(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, estacao: null, texto: 'Ainda não há estação de fala.' };
@@ -1371,7 +1293,6 @@ export function textoDaEstacao(painel, diaIso) {
   const artigo = par[1];
   return { dias, estacao, texto: `A fala abriu ${artigo} ${estacao}.` };
 }
-
 export function textoDoFecho(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, dia: null, texto: 'Ainda não há fecho de fala.' };
@@ -1393,7 +1314,6 @@ export function textoDoFecho(painel, diaIso) {
   const artigo = ARTIGO_GETDAY[indice] === 'no' ? 'num' : 'numa';
   return { dias, dia, texto: `O fecho cai ${artigo} ${dia}.` };
 }
-
 const NOME_AUSENCIA = {
   trabalho: 'trabalho',
   entrevista: 'entrevista',
@@ -1401,7 +1321,6 @@ const NOME_AUSENCIA = {
   pronuncia: 'pronúncia',
   revisao: 'revisão'
 };
-
 const ARTIGO_AUSENCIA = {
   trabalho: 'no',
   entrevista: 'na',
@@ -1409,7 +1328,6 @@ const ARTIGO_AUSENCIA = {
   pronuncia: 'na',
   revisao: 'na'
 };
-
 export function textoDaAusencia(painel, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { dias: null, id: '', titulo: '', texto: 'Ainda não há ausência de fala.' };
@@ -1436,7 +1354,6 @@ export function textoDaAusencia(painel, diaIso) {
   const artigo = ARTIGO_AUSENCIA[falta] || 'em';
   return { dias, id: falta, titulo, texto: `A ausência ficou ${artigo} ${nome}.` };
 }
-
 export function textoDaPratica(painel, diaIso, treinos, stats) {
   const fim = String(diaIso || '');
   const lista = (Array.isArray(treinos) ? treinos : []).filter(t => t && t.id && t.stat && t.titulo);
@@ -1469,7 +1386,6 @@ export function textoDaPratica(painel, diaIso, treinos, stats) {
   const subtitulo = String(escolhido.sub || '').replace(/\.$/, '');
   return { dias, id: escolhido.id, titulo: escolhido.titulo, texto: `Pratique ${escolhido.titulo}. ${subtitulo}.` };
 }
-
 const NOME_REFORCO = {
   trabalho: 'trabalho',
   entrevista: 'entrevista',
@@ -1477,7 +1393,6 @@ const NOME_REFORCO = {
   pronuncia: 'pronúncia',
   revisao: 'revisão'
 };
-
 const ARTIGO_REFORCO = {
   trabalho: 'no',
   entrevista: 'na',
@@ -1485,7 +1400,6 @@ const ARTIGO_REFORCO = {
   pronuncia: 'na',
   revisao: 'na'
 };
-
 export function textoDoReforco(painel, diaIso, treinos, stats) {
   const fim = String(diaIso || '');
   const lista = (Array.isArray(treinos) ? treinos : []).filter(t => t && t.id && t.stat && t.titulo);
@@ -1530,7 +1444,6 @@ export function textoDoReforco(painel, diaIso, treinos, stats) {
     texto: `Reforce ${artigo} ${nome} com ${escolhido.titulo}. ${subtitulo}.`
   };
 }
-
 export function textoDoRecado(painel, diaIso, treinos, stats) {
   const fim = String(diaIso || '');
   const lista = (Array.isArray(treinos) ? treinos : []).filter(t => t && t.id && t.stat && t.titulo);
@@ -1570,7 +1483,6 @@ export function textoDoRecado(painel, diaIso, treinos, stats) {
     texto: `O recado pede ${escolhido.titulo}. ${subtitulo}.`
   };
 }
-
 export function textoDaVez(treinos, estrelas, stats) {
   const lista = (Array.isArray(treinos) ? treinos : []).filter(t => t && t.id && t.stat && t.titulo);
   const porId = new Map(lista.map(t => [t.id, t]));
@@ -1592,14 +1504,12 @@ export function textoDaVez(treinos, estrelas, stats) {
     : `A vez pede ${escolhido.titulo}.`;
   return { id: escolhido.id, titulo: escolhido.titulo, texto };
 }
-
 function fraseDeRetorno(en) {
   const texto = String(en || '').trim();
   if (texto.length < 8 || texto.length > 120) return false;
   if (texto === '__proto__' || texto === 'constructor' || texto === 'prototype') return false;
   return texto.split(/\s+/).length >= 2;
 }
-
 export function textoDoRetorno(agenda, diaIso, erros) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { id: '', en: '', texto: 'Ainda não há retorno de fala.' };
@@ -1622,7 +1532,6 @@ export function textoDoRetorno(agenda, diaIso, erros) {
   const frase = devidos[0].en.replace(/\.$/, '');
   return { id: 'deslize', en: devidos[0].en, texto: `O retorno pede ${frase}.` };
 }
-
 function fichaValida(item) {
   if (!item || typeof item !== 'object') return false;
   const en = typeof item.en === 'string' ? item.en.trim() : '';
@@ -1633,7 +1542,6 @@ function fichaValida(item) {
   if (pt === '__proto__' || pt === 'constructor' || pt === 'prototype') return false;
   return true;
 }
-
 export function textoDaFicha(itens, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { en: '', pt: '', texto: 'Ainda não há ficha de palavra.' };
@@ -1655,7 +1563,6 @@ export function textoDaFicha(itens, diaIso) {
   const escolhido = devidos[0];
   return { en: escolhido.en, pt: escolhido.pt, texto: `A ficha pede ${escolhido.pt}. Diga ${escolhido.en}.` };
 }
-
 function baralhoValido(item) {
   if (!item || typeof item !== 'object') return false;
   const en = typeof item.en === 'string' ? item.en.trim() : '';
@@ -1667,7 +1574,6 @@ function baralhoValido(item) {
   if (pt === '__proto__' || pt === 'constructor' || pt === 'prototype') return false;
   return true;
 }
-
 export function textoDoBaralho(frases, agenda, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { en: '', pt: '', texto: 'Ainda não há baralho de fala.' };
@@ -1691,7 +1597,6 @@ export function textoDoBaralho(frases, agenda, diaIso) {
   const escolhido = devidos[0];
   return { en: escolhido.en, pt: escolhido.pt, texto: frase(escolhido.pt, escolhido.en) };
 }
-
 function sombraValida(item) {
   if (!item || typeof item !== 'object') return false;
   const en = typeof item.en === 'string' ? item.en.trim() : '';
@@ -1703,7 +1608,6 @@ function sombraValida(item) {
   if (pt === '__proto__' || pt === 'constructor' || pt === 'prototype') return false;
   return true;
 }
-
 function indiceDaSombra(dia, total) {
   let x = 2166136261;
   const texto = String(dia);
@@ -1714,7 +1618,6 @@ function indiceDaSombra(dia, total) {
   x >>>= 0;
   return total ? x % total : 0;
 }
-
 export function textoDaSombraDia(frases, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { en: '', pt: '', texto: 'Ainda não há sombra para ouvir.' };
@@ -1731,7 +1634,6 @@ export function textoDaSombraDia(frases, diaIso) {
     texto: `A sombra pede ${ponto(escolhido.pt)} Ouça e diga ${ponto(escolhido.en)}`
   };
 }
-
 export function textoDaPergunta(item) {
   const rodada = item && Array.isArray(item.rodadas) ? item.rodadas[0] : null;
   const pt = typeof rodada?.npc?.pt === 'string' ? rodada.npc.pt.trim() : '';
@@ -1745,7 +1647,6 @@ export function textoDaPergunta(item) {
   const ponto = texto => (/[.!?]$/.test(texto) ? texto : `${texto}.`);
   return { en, pt, texto: `A pergunta pede ${ponto(pt)} Diga ${ponto(en)}` };
 }
-
 function clipValido(item) {
   if (!item || typeof item !== 'object') return false;
   const id = typeof item.id === 'string' ? item.id.trim() : '';
@@ -1758,7 +1659,6 @@ function clipValido(item) {
   if (titulo === 'constructor' || pergunta === 'constructor' || pergunta === 'prototype') return false;
   return true;
 }
-
 function indiceDaEscuta(dia, total) {
   let x = 2166136261;
   const texto = `escuta:${String(dia)}`;
@@ -1769,7 +1669,6 @@ function indiceDaEscuta(dia, total) {
   x >>>= 0;
   return total ? x % total : 0;
 }
-
 export function textoDaEscuta(clips, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { id: '', titulo: '', pergunta: '', texto: 'Ainda não há escuta para ouvir.' };
@@ -1784,7 +1683,6 @@ export function textoDaEscuta(clips, diaIso) {
     texto: `A escuta pede ${ponto(escolhido.pergunta)} Ouça ${ponto(escolhido.titulo)}`
   };
 }
-
 function somValido(item) {
   if (!item || typeof item !== 'object') return false;
   const id = typeof item.id === 'string' ? item.id.trim() : '';
@@ -1799,7 +1697,6 @@ function somValido(item) {
   if (a === 'constructor' || b === 'constructor' || a === 'prototype' || b === 'prototype') return false;
   return true;
 }
-
 function indiceDoSom(dia, total) {
   let x = 2166136261;
   const texto = `som:${String(dia)}`;
@@ -1810,7 +1707,6 @@ function indiceDoSom(dia, total) {
   x >>>= 0;
   return total ? x % total : 0;
 }
-
 export function textoDoSom(sons, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { id: '', titulo: '', a: '', b: '', texto: 'Ainda não há som para ouvir.' };
@@ -1827,7 +1723,6 @@ export function textoDoSom(sons, diaIso) {
     texto: `O som pede ${par.a.trim()} e ${par.b.trim()}. Ouça ${ponto(escolhido.titulo)}`
   };
 }
-
 function verboValido(verbo) {
   if (!verbo || typeof verbo !== 'object') return false;
   const en = typeof verbo.en === 'string' ? verbo.en.trim() : '';
@@ -1840,7 +1735,6 @@ function verboValido(verbo) {
   if (ruins.some(x => x === '__proto__' || x === 'constructor' || x === 'prototype')) return false;
   return true;
 }
-
 function sujeitoValido(sujeito) {
   if (!sujeito || typeof sujeito !== 'object' || sujeito.terceira !== true) return false;
   const en = typeof sujeito.en === 'string' ? sujeito.en.trim() : '';
@@ -1851,7 +1745,6 @@ function sujeitoValido(sujeito) {
   if (en === 'prototype' || pt === 'prototype') return false;
   return true;
 }
-
 function indiceDoVerbo(dia, total) {
   let x = 2166136261;
   const texto = `verbo:${String(dia)}`;
@@ -1862,7 +1755,6 @@ function indiceDoVerbo(dia, total) {
   x >>>= 0;
   return total ? x % total : 0;
 }
-
 export function textoDoVerbo(verbos, sujeitos, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { en: '', pt: '', texto: 'Ainda não há verbo para dizer.' };
@@ -1883,7 +1775,6 @@ export function textoDoVerbo(verbos, sujeitos, diaIso) {
     texto: `O verbo pede ${pt}. Diga ${ponto(frase)}`
   };
 }
-
 function numeroValido(item) {
   if (!item || typeof item !== 'object') return false;
   const id = typeof item.id === 'string' ? item.id.trim() : '';
@@ -1896,7 +1787,6 @@ function numeroValido(item) {
   if (titulo === 'constructor' || pergunta === 'constructor' || pergunta === 'prototype') return false;
   return true;
 }
-
 function indiceDoNumero(dia, total) {
   let x = 2166136261;
   const texto = `numero:${String(dia)}`;
@@ -1907,7 +1797,6 @@ function indiceDoNumero(dia, total) {
   x >>>= 0;
   return total ? x % total : 0;
 }
-
 function reducaoValida(item) {
   if (!item || typeof item !== 'object') return false;
   const id = typeof item.id === 'string' ? item.id.trim() : '';
@@ -1917,7 +1806,6 @@ function reducaoValida(item) {
   if (id === '__proto__' || titulo === '__proto__' || titulo === 'constructor' || titulo === 'prototype') return false;
   return true;
 }
-
 function indiceDaReducao(dia, total) {
   let x = 2166136261;
   const texto = `reducao:${String(dia)}`;
@@ -1928,7 +1816,6 @@ function indiceDaReducao(dia, total) {
   x >>>= 0;
   return total ? x % total : 0;
 }
-
 export function textoDaReducao(reducoes, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { id: '', titulo: '', texto: 'Ainda não há redução para ouvir.' };
@@ -1942,7 +1829,6 @@ export function textoDaReducao(reducoes, diaIso) {
     texto: `A redução pede ${ponto(escolhido.titulo)} Ouça a frase curta.`
   };
 }
-
 function expressaoValida(item) {
   if (!item || typeof item !== 'object') return false;
   const id = typeof item.id === 'string' ? item.id.trim() : '';
@@ -1955,7 +1841,6 @@ function expressaoValida(item) {
   if (ruins.some(x => x === '__proto__' || x === 'constructor' || x === 'prototype')) return false;
   return true;
 }
-
 function indiceDaExpressao(dia, total) {
   let x = 2166136261;
   const texto = `expressao:${String(dia)}`;
@@ -1966,7 +1851,6 @@ function indiceDaExpressao(dia, total) {
   x >>>= 0;
   return total ? x % total : 0;
 }
-
 export function textoDaExpressao(frasais, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { id: '', titulo: '', pt: '', texto: 'Ainda não há expressão para dizer.' };
@@ -1981,7 +1865,6 @@ export function textoDaExpressao(frasais, diaIso) {
     texto: `A expressão pede ${ponto(escolhido.titulo)} Diga a frase.`
   };
 }
-
 function idiomaValido(item) {
   if (!item || typeof item !== 'object') return false;
   const id = typeof item.id === 'string' ? item.id.trim() : '';
@@ -1994,7 +1877,6 @@ function idiomaValido(item) {
   if (ruins.some(x => x === '__proto__' || x === 'constructor' || x === 'prototype')) return false;
   return true;
 }
-
 function indiceDoIdioma(dia, total) {
   let x = 2166136261;
   const texto = `idioma:${String(dia)}`;
@@ -2005,7 +1887,6 @@ function indiceDoIdioma(dia, total) {
   x >>>= 0;
   return total ? x % total : 0;
 }
-
 export function textoDoIdioma(idiomas, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { id: '', titulo: '', pt: '', texto: 'Ainda não há idiom para dizer.' };
@@ -2020,7 +1901,6 @@ export function textoDoIdioma(idiomas, diaIso) {
     texto: `O idiom pede ${ponto(escolhido.titulo)} Diga a frase.`
   };
 }
-
 export function textoDoNumero(numeros, diaIso) {
   const fim = String(diaIso || '');
   if (!dataValida(fim)) return { id: '', titulo: '', pergunta: '', texto: 'Ainda não há número para ouvir.' };
@@ -2035,7 +1915,6 @@ export function textoDoNumero(numeros, diaIso) {
     texto: `O número pede ${ponto(escolhido.pergunta)} Ouça ${ponto(escolhido.titulo)}`
   };
 }
-
 export function textoDeHoje(painel, diaIso) {
   const linha = painel && typeof painel === 'object' ? painel[diaIso] : null;
   const segundos = Math.max(0, Number(linha?.segundos) || 0);
@@ -2050,7 +1929,6 @@ export function textoDeHoje(painel, diaIso) {
   const feito = n === 1 ? '1 treino' : `${n} treinos`;
   return { minutos: min, treinos: n, texto: `${tempo} hoje. ${feito}.` };
 }
-
 export function textoDoBalanco({ minutos, meta, treinos, menorTitulo } = {}) {
   const min = Math.max(0, Math.floor(Number(minutos) || 0));
   const alvo = Math.max(0, Math.floor(Number(meta) || 0));
@@ -2062,7 +1940,6 @@ export function textoDoBalanco({ minutos, meta, treinos, menorTitulo } = {}) {
   const grupo = menorTitulo ? ` Menos prática em ${menorTitulo}.` : '';
   return `${tempo}. ${feito} nesta semana.${grupo}`;
 }
-
 export function balancoDaSemana(painel, diaIso, meta) {
   const soma = somarSemana(painel, diaIso);
   const alvo = Math.max(0, Math.floor(Number(meta) || 0));
@@ -2081,7 +1958,6 @@ export function balancoDaSemana(painel, diaIso, meta) {
   });
   return { ...soma, meta: alvo, menor, pct, texto };
 }
-
 export function lembreteMinutos(minutos, meta, diaIso) {
   const feito = Math.max(0, Math.floor(Number(minutos) || 0));
   const alvo = Math.max(0, Number(meta) || 0);

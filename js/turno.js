@@ -111,6 +111,7 @@ import { MANIFESTS, HEDGES, DEBOUNCES } from './manifest.js';
 import { SSTABLES, LATCHES, THROTTLES } from './sstable.js';
 import { ITERATORS, PAGERS, EVICTS } from './iterator.js';
 import { HISTOGRAMS, GAUGES, BACKFILLS } from './histogram.js';
+import { SKEWS, HOTSPOTS, TAILS } from './skew.js';
 import { CORRIDAS, INDICES, PERCENTIS } from './corrida.js';
 import { COMPACTAS, DIARIOS, VAGOES } from './compacta.js';
 import { PILHAS, CANOS, GIROS } from './pilha.js';
@@ -718,6 +719,9 @@ export function catalogoFaladas() {
     { origem: 'Histogram', itens: HISTOGRAMS },
     { origem: 'Gauge', itens: GAUGES },
     { origem: 'Backfill', itens: BACKFILLS },
+    { origem: 'Skew', itens: SKEWS },
+    { origem: 'Hotspot', itens: HOTSPOTS },
+    { origem: 'Tail', itens: TAILS },
     { origem: 'Percentil', itens: PERCENTIS },
     { origem: 'Compactação', itens: COMPACTAS },
     { origem: 'Diário', itens: DIARIOS },

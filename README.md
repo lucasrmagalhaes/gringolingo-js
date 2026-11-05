@@ -551,7 +551,11 @@ navegador.
 - **O gauge**: o nível aparece agora.
 - **O backfill**: o buraco antigo enche.
 - **Trilho da unidade**: o banner mostra quantos nós da unidade já foram feitos, com barra sólida.
-- Cache `gringolingo-v150`.
+- **O skew**: a chave entorta.
+- **O hotspot**: a chave esquenta.
+- **O tail**: a chamada atrasa.
+- **Barra da unidade**: trilho `#E8E0D4` no tema claro e `rgba(255,255,255,0.28)` no escuro, fill `#58CC02` com sheen de 28%, texto em `#1A1F2E` peso 800.
+- Cache `gringolingo-v151`.
 
 ### Hábito e gamificação
 

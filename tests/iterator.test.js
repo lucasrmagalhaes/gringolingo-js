@@ -110,8 +110,8 @@ describe('iterator, pager e evict', () => {
     assert.deepEqual(aud.idsRepetidos, []);
     assert.deepEqual(aud.titulosRepetidos, []);
     assert.deepEqual(aud.parecidos, []);
-    assert.equal(TREINOS.length, 362);
-    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 306);
+    assert.equal(TREINOS.length, 365);
+    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 309);
     for (const id of ['iterator', 'pager', 'evict']) {
       const treino = TREINOS.find(t => t.id === id);
       assert.equal(treino.categoria, 'trabalho');
@@ -149,7 +149,7 @@ describe('iterator, pager e evict', () => {
     assert.ok(estado.badges.includes('evict'));
     assert.equal(estado.painel['2026-10-28'].grupos.trabalho, 3);
     assert.equal(estado.painel['2026-10-28'].n, 3);
-    assert.equal(BADGES.length, 385);
+    assert.equal(BADGES.length, 388);
     assert.equal(new Set(BADGES.map(b => b.id)).size, BADGES.length);
   });
 
@@ -199,10 +199,10 @@ describe('iterator, pager e evict', () => {
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
     const turno = readFileSync(join(raiz, 'js/turno.js'), 'utf8');
     const css = readFileSync(join(raiz, 'css/style.css'), 'utf8');
-    assert.match(data, /VERSAO_APP = '3\.17'/);
+    assert.match(data, /VERSAO_APP = '3\.18'/);
+    assert.match(data, /versao: '3\.17'/);
     assert.match(data, /versao: '3\.16'/);
-    assert.match(data, /versao: '3\.15'/);
-    assert.match(sw, /gringolingo-v150/);
+    assert.match(sw, /gringolingo-v151/);
     assert.match(sw, /\.\/js\/iterator\.js/);
     assert.match(turno, /iterator\.js/);
     assert.equal(turno.includes('foco.js'), false);
