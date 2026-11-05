@@ -528,9 +528,18 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.18';
+export const VERSAO_APP = '3.19';
 
 export const NOVIDADES = [
+  {
+    versao: '3.19',
+    titulo: 'O slo',
+    itens: [
+      '🎯 Diga que o slo marca a meta',
+      '📐 Avise que o sli mede a meta',
+      '📡 Diga que o probe testa a porta'
+    ]
+  },
   {
     versao: '3.18',
     titulo: 'O skew',
@@ -2295,6 +2304,9 @@ export const MISSOES = [
   { id: 'skew1', emoji: '📏', titulo: 'Entorte a chave no skew', alvo: 1, xp: 15, medir: s => (s.tipo === 'skew' ? 1 : 0) },
   { id: 'hotspot1', emoji: '🌶️', titulo: 'Esquente a chave no hotspot', alvo: 1, xp: 15, medir: s => (s.tipo === 'hotspot' ? 1 : 0) },
   { id: 'tail1', emoji: '🐌', titulo: 'Atrase a chamada no tail', alvo: 1, xp: 15, medir: s => (s.tipo === 'tail' ? 1 : 0) },
+  { id: 'slo1', emoji: '🎯', titulo: 'Marque a meta no slo', alvo: 1, xp: 15, medir: s => (s.tipo === 'slo' ? 1 : 0) },
+  { id: 'sli1', emoji: '📐', titulo: 'Meça a meta no sli', alvo: 1, xp: 15, medir: s => (s.tipo === 'sli' ? 1 : 0) },
+  { id: 'probe1', emoji: '📡', titulo: 'Teste a porta no probe', alvo: 1, xp: 15, medir: s => (s.tipo === 'probe' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2687,6 +2699,9 @@ export const BADGES = [
   { id: 'skew', emoji: '📏', nome: 'O skew', desc: 'Diga que o skew entorta a chave' },
   { id: 'hotspot', emoji: '🌶️', nome: 'O hotspot', desc: 'Diga que o hotspot esquenta a chave' },
   { id: 'tail', emoji: '🐌', nome: 'O tail', desc: 'Diga que o tail atrasa a chamada' },
+  { id: 'slo', emoji: '🎯', nome: 'O slo', desc: 'Diga que o slo marca a meta' },
+  { id: 'sli', emoji: '📐', nome: 'O sli', desc: 'Diga que o sli mede a meta' },
+  { id: 'probe', emoji: '📡', nome: 'O probe', desc: 'Diga que o probe testa a porta' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

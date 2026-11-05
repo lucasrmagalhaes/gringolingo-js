@@ -555,7 +555,10 @@ navegador.
 - **O hotspot**: a chave esquenta.
 - **O tail**: a chamada atrasa.
 - **Barra da unidade**: trilho `#E8E0D4` no tema claro e `rgba(255,255,255,0.28)` no escuro, fill `#58CC02` com sheen de 28%, texto em `#1A1F2E` peso 800.
-- Cache `gringolingo-v151`.
+- **O slo**: a meta fica marcada.
+- **O sli**: a meta é medida.
+- **O probe**: a porta é testada.
+- Cache `gringolingo-v152`.
 
 ### Hábito e gamificação
 

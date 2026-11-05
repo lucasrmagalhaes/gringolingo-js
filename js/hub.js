@@ -372,7 +372,10 @@ const BRUTOS = [
   ['backfill', 'trabalho', '🪣', 'O backfill', 'Enche o buraco.', 'backfills'],
   ['skew', 'trabalho', '📏', 'O skew', 'Entorta a chave.', 'skews'],
   ['hotspot', 'trabalho', '🌶️', 'O hotspot', 'Esquenta a chave.', 'hotspots'],
-  ['tail', 'trabalho', '🐌', 'O tail', 'Atrasa a chamada.', 'tails']
+  ['tail', 'trabalho', '🐌', 'O tail', 'Atrasa a chamada.', 'tails'],
+  ['slo', 'trabalho', '🎯', 'O slo', 'Marca a meta.', 'slos'],
+  ['sli', 'trabalho', '📐', 'O sli', 'Mede a meta.', 'slis'],
+  ['probe', 'trabalho', '📡', 'O probe', 'Testa a porta.', 'probes']
 ];
 export const TREINOS = BRUTOS.map((t, ordem) => ({
   id: t[0],
@@ -525,7 +528,7 @@ export function textoDoContinuar(treino) {
   if (!treino) return 'Nenhum treino aberto ainda.';
   return `Continuar: ${treino.titulo}.`;
 }
-const TETO_JS = 2390000;
+const TETO_JS = 2400000;
 export function auditarPacote({ html, css, sw, arquivos } = {}) {
   const falhas = [];
   const pagina = String(html || '');
