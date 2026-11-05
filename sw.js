@@ -1,4 +1,4 @@
-const VERSAO = 'gringolingo-v143';
+const VERSAO = 'gringolingo-v144';
 
 const ESSENCIAIS = [
   './',
@@ -6,6 +6,7 @@ const ESSENCIAIS = [
   './manifest.webmanifest',
   './css/style.css',
   './css/fontes/nunito-latin.woff2',
+  './css/fontes/lilita-latin.woff2',
   './js/app.js',
   './js/audio.js',
   './js/call.js',

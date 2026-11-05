@@ -362,6 +362,7 @@ function telaInicial() {
       ...pilulasDeConta()
     ),
     h('div', { class: 'card nivel-card' },
+      anelXp(Math.round(nv.progresso * 100), 'Progresso do nível'),
       h('span', { class: 'nivel-emoji' }, nv.emoji),
       h('div', { class: 'nivel-info' },
         h('div', { class: 'nivel-titulo' }, `Nível ${nv.numero} · ${nv.titulo}`),
@@ -1821,6 +1822,7 @@ function processar(ex, res, feedback, btnVerificar) {
       : (res.tutor?.titulo ?? 'Ops!');
   feedback.append(
     h('div', { class: 'feedback-conteudo' },
+      h('div', { class: 'feedback-mascote', 'aria-hidden': 'true' }, mascote(res.correto ? 'feliz' : 'pensando', 84)),
       h('div', { class: 'feedback-textos' },
         h('div', { class: 'feedback-titulo' }, titulo),
         linhas
@@ -2441,6 +2443,7 @@ function telaPerfil() {
       h('div', { class: 'logo', role: 'heading', 'aria-level': '1' }, '👤 Seu perfil')
     ),
     h('div', { class: 'card nivel-card' },
+      anelXp(Math.round(nv.progresso * 100), 'Progresso do nível'),
       h('span', { class: 'nivel-emoji' }, nv.emoji),
       h('div', { class: 'nivel-info' },
         h('div', { class: 'nivel-titulo' }, `Nível ${nv.numero} · ${nv.titulo}`),
@@ -13471,10 +13474,11 @@ function treinosVisiveis() {
   return filtrarEstrelas(filtrarTreinos(TREINOS, filtroHub), estado.estrelas, filtroHub.estrela);
 }
 
-function cartaoDoTreino(treino) {
+function cartaoDoTreino(treino, destaque) {
   const ligado = estrelaLigada(treino.id);
   const botao = botaoFluencia(treino.emoji, treino.titulo, subDoTreino(treino), () => abrirTreino(treino.id));
   botao.classList.add('hub-card');
+  if (destaque) botao.classList.add('hub-destaque');
   botao.dataset.cat = treino.categoria;
   botao.append(h('span', { class: 'hub-ilustra', 'aria-hidden': 'true' }, treino.emoji));
   return h('div', { class: 'hub-item', role: 'listitem' },
@@ -13495,7 +13499,7 @@ function cartaoDoTreino(treino) {
 
 function vazioDoHub(favorito) {
   return h('div', { class: 'estado-vazio hub-vazio' },
-    h('div', { class: 'icone-chip icone-chip-grande', 'aria-hidden': 'true' }, favorito ? '☆' : '🔎'),
+    h('div', { class: 'vazio-emoji', 'aria-hidden': 'true' }, mascote(favorito ? 'dormindo' : 'pensando', 96)),
     h('p', { class: 'vazio-titulo' }, favorito
       ? 'Nenhum favorito ainda. A estrela marca o treino.'
       : 'Nenhum treino com esse filtro.'),
@@ -13556,7 +13560,7 @@ function pintarListaHub(focoId) {
           role: 'heading',
           'aria-level': '3'
         }, cat.titulo),
-        h('div', { role: 'list' }, ...grupo.map(cartaoDoTreino))
+        h('div', { class: 'hub-bento', role: 'list' }, ...grupo.map((treino, i) => cartaoDoTreino(treino, i === 0)))
       ));
     }
   }
@@ -15127,6 +15131,37 @@ function cartaoExpressao() {
   );
 }
 
+function anelXp(pct, rotulo) {
+  const valor = Math.max(0, Math.min(100, Math.round(pct)));
+  const raio = 26;
+  const volta = 2 * Math.PI * raio;
+  const cheio = (valor / 100) * volta;
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', '0 0 72 72');
+  svg.setAttribute('class', 'anel-xp');
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', rotulo || `Progresso ${valor}%`);
+  const fundo = document.createElementNS(ns, 'circle');
+  fundo.setAttribute('cx', '36');
+  fundo.setAttribute('cy', '36');
+  fundo.setAttribute('r', String(raio));
+  fundo.setAttribute('class', 'anel-trilho');
+  const arco = document.createElementNS(ns, 'circle');
+  arco.setAttribute('cx', '36');
+  arco.setAttribute('cy', '36');
+  arco.setAttribute('r', String(raio));
+  arco.setAttribute('class', 'anel-valor');
+  arco.setAttribute('stroke-dasharray', `${cheio.toFixed(1)} ${(volta - cheio).toFixed(1)}`);
+  const numero = document.createElementNS(ns, 'text');
+  numero.setAttribute('x', '36');
+  numero.setAttribute('y', '41');
+  numero.setAttribute('class', 'anel-num');
+  numero.textContent = `${valor}%`;
+  svg.append(fundo, arco, numero);
+  return svg;
+}
+
 function saudacaoDaHora() {
   const hora = new Date().getHours();
   if (hora < 12) return 'Bom dia';
@@ -15141,8 +15176,7 @@ function heroDoHub() {
   const dia = streak === 1 ? 'dia' : 'dias';
   return h('section', { class: 'hub-hero', 'aria-label': 'Sua fala de hoje' },
     h('div', { class: 'hub-hero-arte', 'aria-hidden': 'true' },
-      h('span', { class: 'hub-hero-sol' }, '🦜'),
-      h('span', { class: 'hub-hero-brilho' }, '✨')
+      mascote('feliz', 140)
     ),
     h('div', { class: 'hub-hero-corpo' },
       h('p', { class: 'hub-hero-ola' }, saudacaoDaHora()),
@@ -15158,6 +15192,7 @@ function heroDoHub() {
           h('strong', {}, String(streak)),
           h('span', {}, dia)
         ),
+        anelXp(pct, 'Progresso do nível'),
         h('div', { class: 'xp-destaque' },
           h('div', { class: 'xp-destaque-topo' },
             h('span', {}, `Nível ${nv.numero}`),

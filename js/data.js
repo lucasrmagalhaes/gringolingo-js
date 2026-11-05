@@ -540,7 +540,8 @@ export const NOVIDADES = [
       '🃏 Cartões do hub com ícone e relevo',
       '✨ Progresso, XP e a palavra nova com mais cara',
       '🦜 Hero do hub, cartões coloridos e streak em destaque',
-      '🪟 Vidro, cantos largos e estados vazios mais caprichados'
+      '🪟 Vidro, cantos largos e estados vazios mais caprichados',
+      '🦜 Louro em SVG, grelha bento e anel de XP'
     ]
   },
   {
