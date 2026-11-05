@@ -528,9 +528,19 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.17';
+export const VERSAO_APP = '3.18';
 
 export const NOVIDADES = [
+  {
+    versao: '3.18',
+    titulo: 'O skew',
+    itens: [
+      '📏 Diga que o skew entorta a chave',
+      '🌶️ Avise que o hotspot esquenta a chave',
+      '🐌 Diga que o tail atrasa a chamada',
+      '📊 A barra da unidade usa trilho claro e fill verde'
+    ]
+  },
   {
     versao: '3.17',
     titulo: 'O histogram',
@@ -2282,6 +2292,9 @@ export const MISSOES = [
   { id: 'histogram1', emoji: '📊', titulo: 'Conte o balde no histogram', alvo: 1, xp: 15, medir: s => (s.tipo === 'histogram' ? 1 : 0) },
   { id: 'gauge1', emoji: '🌡️', titulo: 'Mostre o nível no gauge', alvo: 1, xp: 15, medir: s => (s.tipo === 'gauge' ? 1 : 0) },
   { id: 'backfill1', emoji: '🪣', titulo: 'Encha o buraco no backfill', alvo: 1, xp: 15, medir: s => (s.tipo === 'backfill' ? 1 : 0) },
+  { id: 'skew1', emoji: '📏', titulo: 'Entorte a chave no skew', alvo: 1, xp: 15, medir: s => (s.tipo === 'skew' ? 1 : 0) },
+  { id: 'hotspot1', emoji: '🌶️', titulo: 'Esquente a chave no hotspot', alvo: 1, xp: 15, medir: s => (s.tipo === 'hotspot' ? 1 : 0) },
+  { id: 'tail1', emoji: '🐌', titulo: 'Atrase a chamada no tail', alvo: 1, xp: 15, medir: s => (s.tipo === 'tail' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2671,6 +2684,9 @@ export const BADGES = [
   { id: 'histogram', emoji: '📊', nome: 'O histogram', desc: 'Diga que o histogram conta o balde' },
   { id: 'gauge', emoji: '🌡️', nome: 'O gauge', desc: 'Diga que o gauge mostra o nível' },
   { id: 'backfill', emoji: '🪣', nome: 'O backfill', desc: 'Diga que o backfill enche o buraco' },
+  { id: 'skew', emoji: '📏', nome: 'O skew', desc: 'Diga que o skew entorta a chave' },
+  { id: 'hotspot', emoji: '🌶️', nome: 'O hotspot', desc: 'Diga que o hotspot esquenta a chave' },
+  { id: 'tail', emoji: '🐌', nome: 'O tail', desc: 'Diga que o tail atrasa a chamada' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];

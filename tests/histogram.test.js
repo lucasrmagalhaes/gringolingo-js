@@ -96,8 +96,8 @@ describe('histogram, gauge e backfill', () => {
     assert.deepEqual(aud.idsRepetidos, []);
     assert.deepEqual(aud.titulosRepetidos, []);
     assert.deepEqual(aud.parecidos, []);
-    assert.equal(TREINOS.length, 362);
-    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 306);
+    assert.equal(TREINOS.length, 365);
+    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 309);
     for (const id of ['histogram', 'gauge', 'backfill']) {
       const treino = TREINOS.find(t => t.id === id);
       assert.equal(treino.categoria, 'trabalho');
@@ -132,7 +132,7 @@ describe('histogram, gauge e backfill', () => {
     assert.equal(estado.stats.histograms, 1);
     assert.ok(estado.badges.includes('backfill'));
     assert.equal(estado.painel['2026-10-28'].grupos.trabalho, 3);
-    assert.equal(BADGES.length, 385);
+    assert.equal(BADGES.length, 388);
     assert.equal(new Set(BADGES.map(b => b.id)).size, BADGES.length);
   });
 
@@ -142,10 +142,10 @@ describe('histogram, gauge e backfill', () => {
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
     const turno = readFileSync(join(raiz, 'js/turno.js'), 'utf8');
     const css = semTravessao('../css/style.css');
-    assert.match(data, /VERSAO_APP = '3\.17'/);
+    assert.match(data, /VERSAO_APP = '3\.18'/);
     assert.match(data, /versao: '3\.17'/);
     assert.match(data, /versao: '3\.16'/);
-    assert.match(sw, /gringolingo-v150/);
+    assert.match(sw, /gringolingo-v151/);
     assert.match(sw, /\.\/js\/histogram\.js/);
     assert.match(turno, /histogram\.js/);
     for (const nome of ['pintarHistogram', 'pintarGauge', 'pintarBackfill']) {
@@ -170,7 +170,7 @@ describe('histogram, gauge e backfill', () => {
     assert.match(banner, / de /);
     const regra = css.slice(css.indexOf('.banner-trilho {'), css.indexOf('.banner-trilho {') + 220);
     assert.match(regra, /height: 10px/);
-    assert.match(regra, /box-shadow: 0 3px 0 #1A1F2E/);
+    assert.match(regra, /rgba\(255, 255, 255, 0\.28\)/);
     assert.equal(regra.includes('backdrop-filter'), false);
     assert.equal(regra.includes('blur'), false);
   });

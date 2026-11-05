@@ -6424,7 +6424,7 @@ button.revisao:active,
 
 .banner-conta {
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.04em;
   color: #1A1F2E;
 }
@@ -6434,15 +6434,18 @@ button.revisao:active,
   height: 10px;
   min-width: 72px;
   border-radius: 14px;
-  background: var(--bs, #1899D6);
-  box-shadow: 0 3px 0 #1A1F2E;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+:root:not([data-tema="escuro"]) .banner-trilho {
+  background: #E8E0D4;
 }
 
 .banner-trilho > div {
   height: 10px;
   border-radius: 14px;
-  background: #58CC02;
-  box-shadow: 0 3px 0 #3D9B00;
+  background-color: #58CC02;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 46%);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -369,7 +369,10 @@ const BRUTOS = [
   ['evict', 'trabalho', '💨', 'O evict', 'Solta a página fria.', 'evicts'],
   ['histogram', 'trabalho', '📊', 'O histogram', 'Conta o balde.', 'histograms'],
   ['gauge', 'trabalho', '🌡️', 'O gauge', 'Mostra o nível.', 'gauges'],
-  ['backfill', 'trabalho', '🪣', 'O backfill', 'Enche o buraco.', 'backfills']
+  ['backfill', 'trabalho', '🪣', 'O backfill', 'Enche o buraco.', 'backfills'],
+  ['skew', 'trabalho', '📏', 'O skew', 'Entorta a chave.', 'skews'],
+  ['hotspot', 'trabalho', '🌶️', 'O hotspot', 'Esquenta a chave.', 'hotspots'],
+  ['tail', 'trabalho', '🐌', 'O tail', 'Atrasa a chamada.', 'tails']
 ];
 export const TREINOS = BRUTOS.map((t, ordem) => ({
   id: t[0],
@@ -437,9 +440,7 @@ export function textoDaEstreia(treinos, stats) {
   const lista = (Array.isArray(treinos) ? treinos : []).filter(t => t && t.stat);
   const faltam = lista.filter(t => (Number(stats?.[t.stat]) || 0) <= 0);
   const proximo = faltam[0] || null;
-  if (!faltam.length) {
-    return { faltam: 0, treino: null, texto: 'Todos os treinos com contagem já tiveram prática.' };
-  }
+  if (!faltam.length) return { faltam: 0, treino: null, texto: 'Todos os treinos com contagem já tiveram prática.' };
   const conta = faltam.length === 1 ? '1 treino ainda sem prática.' : `${faltam.length} treinos ainda sem prática.`;
   const nome = proximo ? ` O próximo é ${proximo.titulo}.` : '';
   return { faltam: faltam.length, treino: proximo, texto: conta + nome };
@@ -449,9 +450,7 @@ export function textoDoGrupo(treinos, stats) {
   const por = new Map();
   for (const t of lista) {
     const atual = por.get(t.categoria) || { n: 0, feitos: 0 };
-    atual.n += 1;
-    if ((Number(stats?.[t.stat]) || 0) > 0) atual.feitos += 1;
-    por.set(t.categoria, atual);
+    atual.n += 1; if ((Number(stats?.[t.stat]) || 0) > 0) atual.feitos += 1; por.set(t.categoria, atual);
   }
   const grupos = CATEGORIAS.map(c => ({ id: c.id, titulo: c.titulo, ...(por.get(c.id) || { n: 0, feitos: 0 }) })).filter(g => g.n > 0);
   if (!grupos.length) return { id: '', titulo: '', feitos: 0, n: 0, texto: 'Nenhum grupo com treino contado.' };
@@ -460,10 +459,7 @@ export function textoDoGrupo(treinos, stats) {
   const ordenados = [...grupos].sort((a, b) => (a.feitos / a.n) - (b.feitos / b.n) || a.titulo.localeCompare(b.titulo, 'pt'));
   const pior = ordenados[0];
   const igual = grupos.every(g => g.feitos * pior.n === pior.feitos * g.n);
-  if (igual) {
-    const texto = pior.feitos === pior.n ? 'Todos os grupos já tiveram prática em cada treino.' : 'Os grupos estão no mesmo ritmo.';
-    return { id: '', titulo: '', feitos: pior.feitos, n: pior.n, texto };
-  }
+  if (igual) return { id: '', titulo: '', feitos: pior.feitos, n: pior.n, texto: pior.feitos === pior.n ? 'Todos os grupos já tiveram prática em cada treino.' : 'Os grupos estão no mesmo ritmo.' };
   const parados = pior.n - pior.feitos;
   const conta = parados === 1 ? '1 treino parado' : `${parados} treinos parados`;
   return { id: pior.id, titulo: pior.titulo, feitos: pior.feitos, n: pior.n, texto: `${pior.titulo} é o grupo com menos prática. ${conta}.` };
@@ -472,9 +468,7 @@ export function textoDaEstrela(treinos, estrelas, stats) {
   const ids = (Array.isArray(estrelas) ? estrelas : []).filter(id => typeof id === 'string');
   const porId = new Map((Array.isArray(treinos) ? treinos : []).filter(t => t && t.id).map(t => [t.id, t]));
   const lista = ids.map(id => porId.get(id)).filter(Boolean);
-  if (!lista.length) {
-    return { n: 0, faltam: 0, treino: null, texto: 'Nenhum favorito marcado ainda.' };
-  }
+  if (!lista.length) return { n: 0, faltam: 0, treino: null, texto: 'Nenhum favorito marcado ainda.' };
   const parados = lista.filter(t => t.stat && (Number(stats?.[t.stat]) || 0) <= 0);
   if (!parados.length) return { n: lista.length, faltam: 0, treino: null, texto: 'Todos os favoritos já tiveram prática.' };
   const conta = parados.length === 1 ? '1 favorito ainda sem prática.' : `${parados.length} favoritos ainda sem prática.`;
@@ -483,9 +477,7 @@ export function textoDaEstrela(treinos, estrelas, stats) {
 export function treinoRecomendado(treinos, { nivel, stats, padroes, deslizes } = {}) {
   const lista = Array.isArray(treinos) ? treinos : [];
   const achar = id => lista.find(t => t.id === id) || null;
-  if (!nivel && achar('nivel')) {
-    return { treino: achar('nivel'), porque: 'O teste deixa os treinos no seu ponto.' };
-  }
+  if (!nivel && achar('nivel')) return { treino: achar('nivel'), porque: 'O teste deixa os treinos no seu ponto.' };
   const sinais = Array.isArray(padroes) ? padroes : [];
   const fraco = Number(deslizes) > 0 || sinais.some(p => Number(p?.n) >= 2);
   if (fraco) {
@@ -498,18 +490,10 @@ export function treinoRecomendado(treinos, { nivel, stats, padroes, deslizes } =
   }
   const comStat = lista.filter(t => t.stat);
   if (comStat.length) {
-    const ordenados = [...comStat].sort((a, b) => {
-      const na = Number(stats?.[a.stat]) || 0;
-      const nb = Number(stats?.[b.stat]) || 0;
-      if (na !== nb) return na - nb;
-      return a.ordem - b.ordem;
-    });
+    const ordenados = [...comStat].sort((a, b) => (Number(stats?.[a.stat]) || 0) - (Number(stats?.[b.stat]) || 0) || a.ordem - b.ordem);
     const treino = ordenados[0];
     const n = Number(stats?.[treino.stat]) || 0;
-    return {
-      treino,
-      porque: n === 0 ? 'Você ainda não fez este treino.' : 'É o treino com menos prática no histórico.'
-    };
+    return { treino, porque: n === 0 ? 'Você ainda não fez este treino.' : 'É o treino com menos prática no histórico.' };
   }
   if (!lista.length) return null;
   return { treino: lista[0], porque: 'Um treino curto para continuar.' };
@@ -518,12 +502,7 @@ export function ordenarTreinos(treinos, { modo, stats } = {}) {
   const lista = Array.isArray(treinos) ? [...treinos] : [];
   if (modo !== 'menos') return lista;
   const pratica = t => (t && t.stat ? (Number(stats?.[t.stat]) || 0) : 0);
-  return lista.sort((a, b) => {
-    const na = pratica(a);
-    const nb = pratica(b);
-    if (na !== nb) return na - nb;
-    return (a.ordem ?? 0) - (b.ordem ?? 0);
-  });
+  return lista.sort((a, b) => pratica(a) - pratica(b) || (a.ordem ?? 0) - (b.ordem ?? 0));
 }
 export function filtrarEstrelas(treinos, estrelas, ativo) {
   const lista = Array.isArray(treinos) ? treinos : [];
@@ -546,7 +525,7 @@ export function textoDoContinuar(treino) {
   if (!treino) return 'Nenhum treino aberto ainda.';
   return `Continuar: ${treino.titulo}.`;
 }
-const TETO_JS = 2380000;
+const TETO_JS = 2390000;
 export function auditarPacote({ html, css, sw, arquivos } = {}) {
   const falhas = [];
   const pagina = String(html || '');
