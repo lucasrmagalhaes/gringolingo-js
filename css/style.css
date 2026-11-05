@@ -6454,3 +6454,32 @@ button.revisao:active,
   .unidade-tile,
   .banner-trilho { transition: none; }
 }
+
+.status-sync {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  margin: 0 0 8px;
+  padding: 0 2px;
+  color: var(--texto-suave);
+  font-size: 12px;
+  font-weight: 800;
+  flex: none;
+}
+
+.status-ponto {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #58CC02;
+  flex: none;
+}
+
+.status-sync.pendente .status-ponto {
+  background: #FF9600;
+}
+
+.status-sync.offline .status-ponto {
+  background: #AFAFAF;
+}
