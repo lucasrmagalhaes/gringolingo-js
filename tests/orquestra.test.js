@@ -252,7 +252,7 @@ describe('orquestrador, coreografia e compensação', () => {
     assert.equal(regra.includes('#'), false);
     const nivel = css.slice(css.indexOf('.nivel-card {'), css.indexOf('.nivel-card {') + 80);
     assert.match(nivel, /min-height: 44px/);
-    assert.match(app, /const verificar = h\('button', \{ class: 'btn btn-verde', type: 'button', disabled: true \}, 'VERIFICAR'\);\s*campo\.entrada\.addEventListener\('input', \(\) => \{\s*verificar\.disabled = !campo\.entrada\.value\.trim\(\);\s*\}\);\s*const enviar = async \(\) => \{\s*if \(!campo\.entrada\.value\.trim\(\) \|\| sessao\.feedback\) return;\s*await finalizarGravacao\(\);\s*const aval = avaliarSotaque\(rodada, campo\.entrada\.value\);/);
+    assert.match(app, /const verificar = h\('button', \{ class: 'btn btn-verde', type: 'button', disabled: true \}, 'VERIFICAR'\);\s*campo\.entrada\.addEventListener\('input', \(\) => \{\s*verificar\.disabled = !campo\.entrada\.value\.trim\(\);\s*\}\);\s*const enviar = async \(\) => \{\s*if \(!campo\.entrada\.value\.trim\(\) \|\| sessao\.feedback\) return;\s*await finalizarGravacao\(\);\s*const aval = T\.avaliarSotaque\(rodada, campo\.entrada\.value\);/);
     assert.match(app, /aria-label': 'Código fonte\. Abre em outra aba\.'/);
     const nome = css.slice(css.indexOf('.logo-marca .logo-nome {'), css.indexOf('.logo-marca .logo-nome {') + 220);
     assert.match(nome, /clip: rect/);

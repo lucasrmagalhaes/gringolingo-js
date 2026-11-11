@@ -8,46 +8,57 @@ const ESSENCIAIS = [
   './css/fontes/nunito-latin.woff2',
   './js/app.js',
   './js/audio.js',
-  './js/call.js',
   './js/cenas.js',
   './js/compartilhar.js',
   './js/conversa.js',
   './js/config.js',
-  './js/cotidiano.js',
   './js/data.js',
   './js/dicas.js',
   './js/dicionario.js',
-  './js/discurso.js',
   './js/ensaio.js',
   './js/erros.js',
   './js/exercises.js',
   './js/frases.js',
   './js/fluencia.js',
   './js/game.js',
+  './js/vaga.js',
   './js/mascote.js',
   './js/metricas.js',
   './js/nuvem.js',
-  './js/oficina.js',
   './js/opiniao.js',
-  './js/palco.js',
-  './js/plantao.js',
   './js/pronuncia.js',
   './js/tecnico.js',
+  './js/hub.js',
+  './js/plantao.js',
+  './js/trilha.js',
+  './js/espaco.js',
+  './js/semana.js',
+  './js/caderno.js',
+  './js/grafico.js',
+  './js/pista.js',
+  './js/visto.js',
+  './js/facil.js',
+  './js/util.js',
+  './js/vocabulario.js',
+  './js/voz.js'
+];
+
+const TREINOS = [
   './js/turno.js',
-  './js/vaga.js',
+  './js/call.js',
+  './js/cotidiano.js',
+  './js/discurso.js',
+  './js/oficina.js',
+  './js/palco.js',
   './js/briefing.js',
   './js/guia.js',
   './js/plateia.js',
   './js/banca.js',
   './js/lar.js',
-  './js/hub.js',
   './js/futuro.js',
-  './js/trilha.js',
   './js/cultura.js',
   './js/vivo.js',
-  './js/espaco.js',
   './js/time.js',
-  './js/semana.js',
   './js/narra.js',
   './js/cliente.js',
   './js/completa.js',
@@ -55,12 +66,7 @@ const ESSENCIAIS = [
   './js/foco.js',
   './js/carta.js',
   './js/raio.js',
-  './js/caderno.js',
-  './js/grafico.js',
-  './js/pista.js',
   './js/respeito.js',
-  './js/visto.js',
-  './js/facil.js',
   './js/brecha.js',
   './js/radar.js',
   './js/remoto.js',
@@ -149,9 +155,7 @@ const ESSENCIAIS = [
   './js/webhook.js',
   './js/otel.js',
   './js/egress.js',
-  './js/util.js',
-  './js/vocabulario.js',
-  './js/voz.js'
+  './js/modulos-treino.js'
 ];
 
 const OPCIONAIS = [
@@ -259,4 +263,7 @@ self.addEventListener('fetch', evento => {
 
 self.addEventListener('message', evento => {
   if (evento.data === 'atualizar') self.skipWaiting();
+  if (evento.data === 'precache-treinos') {
+    evento.waitUntil(caches.open(VERSAO).then(cache => Promise.allSettled(TREINOS.map(u => cache.add(u)))));
+  }
 });
