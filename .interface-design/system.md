@@ -84,7 +84,7 @@ O hero branco e o card Agora ficam fora da tela. As funcoes antigas permanecem n
 
 ## Licao, o palco
 
-Topo: fechar, barra de 14px e o contador `3 de 10`. O preenchimento verde `#58CC02` conta so as questoes ja respondidas. No tema claro o trilho da licao e `--trilho-licao` `#65584A` (3,30:1 contra o verde). O trilho geral `#E8E0D4` continua no calendario e no skeleton. No escuro o trilho da licao segue `#2F4149` (5,09:1). O brilho da barra passa uma vez no acerto, nao fica em loop.
+Topo: fechar, barra de 14px e o contador `3 de 10`. O preenchimento verde `#58CC02` conta so as questoes ja respondidas. No tema claro o trilho da licao volta ao bege `#E8E0D4`. O verde leva uma borda inferior `#3E8E00` (`--barra-lip`), 3,16:1 contra o bege. O trilho geral `#E8E0D4` continua no calendario e no skeleton. No escuro o trilho da licao segue `#2F4149` (5,09:1 contra o verde), sem a borda. O brilho da barra passa uma vez no acerto, nao fica em loop.
 
 Palavra em `clamp(40px, 8vw, 52px)`. Opcoes com 56px de altura e sombra solida. Botao com raio 14. Mascote de 64px muda com o estado. Card com borda 3px: amarelo na palavra nova, azul na escuta, verde no acerto.
 

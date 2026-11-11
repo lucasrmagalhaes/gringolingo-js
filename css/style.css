@@ -50,7 +50,8 @@
   --fonte-display: 'Nunito', system-ui, sans-serif;
   --superficie: #FFFFFF;
   --trilho: #E8E0D4;
-  --trilho-licao: #65584A;
+  --trilho-licao: #E8E0D4;
+  --barra-lip: #3E8E00;
   --dur-rapida: 160ms;
   --dur-media: 280ms;
   --dur-celebra: 520ms;
@@ -6488,6 +6489,10 @@ button.revisao:active,
 
 .licao-topo .barra-grupo > .progresso.barra-licao > div {
   min-width: 0;
+}
+
+:root:not([data-tema="escuro"]) .licao-topo .barra-grupo > .progresso.barra-licao > div {
+  border-bottom: 3px solid var(--barra-lip);
 }
 
 .barra-conta {
