@@ -50,6 +50,12 @@
   --fonte-display: 'Nunito', system-ui, sans-serif;
   --superficie: #FFFFFF;
   --trilho: #E8E0D4;
+  --trilho-licao: #65584A;
+  --dur-rapida: 160ms;
+  --dur-media: 280ms;
+  --dur-celebra: 520ms;
+  --curva-padrao: cubic-bezier(0.16, 1, 0.3, 1);
+  --curva-acerto: cubic-bezier(0.34, 1.56, 0.64, 1);
   --estrela-vazia: #ddd;
   --btn-off-fundo: #E5E5E5;
   --btn-off-texto: #595959;
@@ -94,6 +100,7 @@
   --fundo: #0F1A1E;
   --superficie: #1B2A31;
   --trilho: #2F4149;
+  --trilho-licao: #2F4149;
   --estrela-vazia: #37464F;
   --btn-off-fundo: #2b3a42;
   --btn-off-texto: #9DB4BF;
@@ -1223,7 +1230,7 @@ body.com-aviso-metricas {
   background: var(--verde);
   background-image: linear-gradient(90deg, var(--verde-esc), var(--verde) 42%, #c6f56e);
   border-radius: 999px;
-  transition: width 0.4s;
+  transition: width var(--dur-media) var(--curva-padrao);
   overflow: hidden;
 }
 
@@ -1232,7 +1239,7 @@ body.com-aviso-metricas {
   position: absolute;
   inset: 0;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
-  animation: brilho-xp 2.8s ease-in-out infinite;
+  animation: none;
 }
 
 .nivel-prog {
@@ -1487,7 +1494,7 @@ button.conta-entrar {
 }
 
 .pop {
-  animation: pop 0.3s;
+  animation: pop var(--dur-media) var(--curva-acerto);
 }
 
 @keyframes pop {
@@ -1500,7 +1507,7 @@ button.conta-entrar {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  padding-bottom: 112px;
+  padding-bottom: 168px;
 }
 
 .area-exercicio {
@@ -1792,7 +1799,7 @@ textarea.entrada {
   right: 0;
   bottom: 0;
   transform: translateY(110%);
-  transition: transform 0.46s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform var(--dur-rapida) var(--curva-padrao);
   z-index: 20;
   padding: 18px 16px calc(18px + env(safe-area-inset-bottom));
   box-shadow: 0 -5px 0 var(--borda);
@@ -2847,15 +2854,6 @@ input.busca-dic::-webkit-search-cancel-button {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-  }
-}
 
 .mascote {
   display: block;
@@ -3046,7 +3044,7 @@ input.busca-dic::-webkit-search-cancel-button {
   fill: var(--texto-suave);
   font-size: 20px;
   font-weight: 900;
-  animation: flutuar 2s infinite;
+  animation: none;
 }
 
 @keyframes flutuar {
@@ -3512,17 +3510,22 @@ button.caixa-treinavel:hover {
   line-height: 1.5;
 }
 
-::view-transition-old(root),
+::view-transition-old(root) {
+  animation-duration: var(--dur-rapida);
+  animation-timing-function: var(--curva-padrao);
+}
+
 ::view-transition-new(root) {
-  animation-duration: 0.2s;
+  animation-duration: var(--dur-media);
+  animation-timing-function: var(--curva-padrao);
 }
 
 [data-transicao="avancar"]::view-transition-old(root) {
-  animation: sair-esquerda 0.2s ease-in both;
+  animation: sair-esquerda var(--dur-rapida) var(--curva-padrao) both;
 }
 
 [data-transicao="avancar"]::view-transition-new(root) {
-  animation: entrar-direita 0.22s ease-out both;
+  animation: entrar-direita var(--dur-media) var(--curva-padrao) both;
 }
 
 [data-transicao="tema"]::view-transition-old(root) {
@@ -3530,7 +3533,7 @@ button.caixa-treinavel:hover {
 }
 
 [data-transicao="tema"]::view-transition-new(root) {
-  animation: revelar 0.45s ease-out both;
+  animation: revelar var(--dur-media) var(--curva-padrao) both;
 }
 
 @keyframes sair-esquerda {
@@ -3556,13 +3559,6 @@ button.caixa-treinavel:hover {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  ::view-transition-group(*),
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation: none !important;
-  }
-}
 
 .pilula,
 .stat-valor,
@@ -4081,7 +4077,7 @@ button.caixa-treinavel:hover {
 .mascote-festa .mascote {
   display: inline-block;
   /* Os pulos só começam depois do "quicar" de entrada do contêiner (0,8s). */
-  animation: festa-pulo 2.4s ease-out 0.8s both, festa-gingado 1.8s ease-in-out 3.2s infinite alternate;
+  animation: festa-pulo var(--dur-celebra) var(--curva-acerto) 0.8s both;
 }
 
 @keyframes festa-pulo {
@@ -4120,7 +4116,7 @@ button.caixa-treinavel:hover {
 .mascote-festa .m-asa {
   transform-box: fill-box;
   transform-origin: 85% 15%;
-  animation: festa-asa 0.42s ease-in-out infinite alternate;
+  animation: festa-asa var(--dur-media) var(--curva-acerto) 0.8s 3 alternate;
 }
 
 @keyframes festa-asa {
@@ -4605,16 +4601,6 @@ button.revisao:active,
   background: color-mix(in srgb, var(--verde) 18%, var(--superficie));
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
 
 .hub-hero {
   position: relative;
@@ -4650,7 +4636,7 @@ button.revisao:active,
 .hub-hero-sol {
   font-size: 52px;
   line-height: 1;
-  animation: boiar 2.4s ease-in-out infinite;
+  animation: none;
 }
 
 .hub-hero-brilho {
@@ -4707,7 +4693,7 @@ button.revisao:active,
   background: #C2410C;
   color: #fff;
   box-shadow: 0 4px 0 #8A2808;
-  animation: pulso-streak 1.6s ease-in-out infinite;
+  animation: pulso-streak var(--dur-celebra) var(--curva-padrao) 1;
 }
 
 .streak-selo strong {
@@ -5117,11 +5103,11 @@ button.revisao:active,
 }
 
 .feedback.certo.aberta .feedback-mascote {
-  animation: quicar 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: quicar var(--dur-celebra) var(--curva-acerto);
 }
 
 .feedback.errado.aberta .feedback-mascote {
-  animation: sacudir 0.45s ease;
+  animation: sacudir var(--dur-media) var(--curva-padrao);
 }
 
 .badge-card.trancada {
@@ -5682,13 +5668,6 @@ button.revisao:active,
   font-weight: 900;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .btn-verde:active,
-  .trilha-no,
-  .agora-card {
-    transition: none;
-  }
-}
 
 .hub-busca {
   margin: 0 0 8px;
@@ -6406,7 +6385,7 @@ button.revisao:active,
   height: 14px;
   min-height: 14px;
   max-height: 14px;
-  min-width: 12%;
+  min-width: 0;
   background-color: #58CC02;
   background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 46%);
 }
@@ -6448,12 +6427,6 @@ button.revisao:active,
   background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 46%);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .trilha-viva > .passo-vivo,
-  .no-comecar,
-  .unidade-tile,
-  .banner-trilho { transition: none; }
-}
 
 .status-sync {
   display: inline-flex;
@@ -6496,5 +6469,136 @@ button.revisao:active,
   .topo:not(.topo-vivo) > .status-sync.offline {
     flex-basis: 100%;
     justify-content: flex-end;
+  }
+}
+
+.licao-topo .barra-grupo {
+  flex: 1 1 120px;
+  min-width: 0;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.licao-topo .barra-grupo > .progresso.barra-licao {
+  flex: 1 1 auto;
+  background: var(--trilho-licao);
+}
+
+.licao-topo .barra-grupo > .progresso.barra-licao > div {
+  min-width: 0;
+}
+
+.barra-conta {
+  flex: none;
+  color: var(--texto);
+  font-size: 13px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.licao-topo .progresso.barra-licao > div.brilho-acerto::after {
+  display: block;
+  animation: brilho-xp var(--dur-celebra) var(--curva-acerto) 1;
+}
+
+.nao-sei-grupo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  margin-right: auto;
+  max-width: 100%;
+}
+
+.nao-sei-grupo .btn-nao-sei {
+  margin-right: 0;
+}
+
+.rodape-dica,
+.rodape-nota {
+  margin: 0;
+  color: var(--texto-suave);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.rodape-dica {
+  flex: 1 1 100%;
+  order: -1;
+}
+
+.rodape-nota {
+  max-width: 220px;
+}
+
+.feedback.certo.aberta {
+  transition: transform var(--dur-media) var(--curva-acerto);
+}
+
+.feedback.errado.aberta,
+.feedback.quase.aberta {
+  transition: transform var(--dur-media) var(--curva-padrao);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes fade-suave {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .pop,
+  .m-z,
+  .hub-hero-sol,
+  .streak-selo,
+  .esq-bloco,
+  .carregando-anel,
+  .btn-mic.gravando,
+  .mascote-festa .mascote,
+  .mascote-festa .m-asa,
+  .mascote-festa .m-sombra,
+  .feedback.certo.aberta .feedback-mascote,
+  .feedback.errado.aberta .feedback-mascote,
+  .progresso > div::after,
+  .licao-topo .progresso.barra-licao > div.brilho-acerto::after,
+  .subir,
+  .estrela-grande,
+  .estrelas-grandes .anima {
+    animation-name: fade-suave !important;
+    animation-duration: var(--dur-rapida) !important;
+    animation-iteration-count: 1 !important;
+    animation-timing-function: linear !important;
+  }
+
+  .feedback {
+    transform: none;
+    visibility: hidden;
+    transition: none;
+  }
+
+  .feedback.aberta {
+    visibility: visible;
+  }
+
+  .progresso > div,
+  .licao-topo .progresso.barra-licao > div,
+  .btn-verde:active,
+  .trilha-no,
+  .agora-card,
+  .trilha-viva > .passo-vivo,
+  .no-comecar,
+  .unidade-tile,
+  .banner-trilho {
+    transition: none;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-name: fade-suave !important;
+    animation-duration: var(--dur-rapida) !important;
   }
 }

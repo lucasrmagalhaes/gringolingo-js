@@ -84,7 +84,7 @@ O hero branco e o card Agora ficam fora da tela. As funcoes antigas permanecem n
 
 ## Licao, o palco
 
-Topo: fechar, barra de 14px (trilho `var(--trilho)`, preenchimento verde) e dica.
+Topo: fechar, barra de 14px e o contador `3 de 10`. O preenchimento verde `#58CC02` conta so as questoes ja respondidas. No tema claro o trilho da licao e `--trilho-licao` `#65584A` (3,30:1 contra o verde). O trilho geral `#E8E0D4` continua no calendario e no skeleton. No escuro o trilho da licao segue `#2F4149` (5,09:1). O brilho da barra passa uma vez no acerto, nao fica em loop.
 
 Palavra em `clamp(40px, 8vw, 52px)`. Opcoes com 56px de altura e sombra solida. Botao com raio 14. Mascote de 64px muda com o estado. Card com borda 3px: amarelo na palavra nova, azul na escuta, verde no acerto.
 
@@ -97,6 +97,20 @@ Sombras sao so solidas, no formato `0 Npx 0`. Sem raio de desfoque.
 ## Ilustracao
 
 Louro e um SVG flat e grosso. Contorno de 3px na tela (traco 6 no viewBox 140). Fills verde, laranja e azul. Poses: idle (`neutro`), `fala`, `acerto`, `erro` e `vazio`. No hub, a pose `fala` fica ao lado do no atual, em 72px. Emoji continua sendo o icone dos treinos.
+
+## Movimento
+
+Tres duracoes e duas curvas, em `:root`:
+
+- `--dur-rapida` 160ms. Saida, fade e troca curta.
+- `--dur-media` 280ms. Entrada.
+- `--dur-celebra` 520ms. Acerto e conclusao.
+- `--curva-padrao` ease-out `cubic-bezier(0.16, 1, 0.3, 1)`.
+- `--curva-acerto` com overshoot `cubic-bezier(0.34, 1.56, 0.64, 1)`. So no acerto, no combo e na conclusao.
+
+A saida usa a duracao rapida. A entrada usa a media. Loop infinito so enquanto algo esta ativo: gravando (`.btn-mic.gravando`) ou carregando (skeleton e `.carregando-anel`). Festa, streak, sol do hub e o brilho da barra nao ficam em loop.
+
+Um unico bloco `prefers-reduced-motion: reduce` no fim do CSS. Deslocamento vira `@keyframes fade-suave` (so opacidade). A folha de feedback, fechada, some sem deslizar.
 
 ## O que permanece
 

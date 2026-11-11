@@ -10,127 +10,14 @@ import { ITENS_NIVEL, ROTULO_NIVEL, corrigirIndice, contarAcertos, nivelDoTeste,
 import { CENAS_TECNICAS, cenaTecnicaPorId, avaliarTecnico, IDIOMAS, idiomaPorId, avaliarIdioma, perguntaDoDia, avaliarDia } from './tecnico.js';
 import { ENTREVISTA, avaliarEntrevista, CONTOS, contoPorId, avaliarConto, avaliarDeslize, NUMEROS, numeroPorId } from './ensaio.js';
 import { OPINIOES, opiniaoPorId, avaliarOpiniao, CENAS_FALA, cenaPorId, avaliarCena, RAPIDOS, rapidoPorId, avaliarRapido, SEGUNDOS_RAPIDO, contarFaladas, lembreteMeta } from './opiniao.js';
-import { RELATOS, relatoPorId, avaliarRelato, CORTESIAS, cortesiaPorId, avaliarCortesia, AQUECIMENTOS, aquecerPorId, avaliarAquecer, CLAROS, claroPorId, avaliarClaro } from './call.js';
-import { DEMOS, demoPorId, avaliarDemo, PRAZOS, prazoPorId, avaliarPrazo, STARS, starPorId, avaliarStar, ENFASES, enfasePorId, avaliarEnfase, avaliarToque } from './palco.js';
-import { DECISOES, decisaoPorId, avaliarDecisao, PARES, parPorId, avaliarPar, INCIDENTES, incidentePorId, avaliarIncidente, planoDaSemana, nomeDoTreino } from './plantao.js';
-import { RETROS, retroPorId, avaliarRetro, CHEGADAS, chegadaPorId, avaliarChegada, LIGACOES, ligacaoPorId, avaliarLigacao } from './discurso.js';
-import { ESTIMATIVAS, estimativaPorId, avaliarEstimativa, CONSENSOS, consensoPorId, avaliarConsenso, ATENDIMENTOS, atendimentoPorId, avaliarAtendimento, historicoFala, rotuloHistorico } from './cotidiano.js';
-import { GESTORES, gestorPorId, avaliarGestor, FINAIS, finalPorId, avaliarFinal, VIAGENS, viagemPorId, avaliarViagem, catalogoFaladas, montarRevisao, avaliarRevisao, resumoDaFila, SEGUNDOS_REVISAO } from './turno.js';
-import { LINHAS, linhaPorId, avaliarLinha, SLACKS, slackPorId, avaliarSlack, SOCIAIS, socialPorId, avaliarSocial, TERMOS, termoPorId, avaliarTermo } from './oficina.js';
-import { SALARIOS, salarioPorId, avaliarSalario, PROJETOS, projetoPorId, avaliarProjeto, SOTAQUES as CENAS_SOTAQUE, sotaquePorId, avaliarSotaque, avaliarDesafio, montarDesafio, textoDesafio, rotuloVoz } from './vaga.js';
-import { REQUISITOS, requisitoPorId, avaliarRequisito, METRICAS, metricaPorId, avaliarMetrica, APRENDIZADOS, aprendizadoPorId, avaliarAprendizado, montarPasseio, decidirPasseio, falasDaPergunta, ESPERA_RESPOSTA_MS } from './briefing.js';
-import { FALHAS, falhaPorId, avaliarFalha, MENTORIAS, mentoriaPorId, avaliarMentoria, SOCORROS, socorroPorId, avaliarSocorro } from './guia.js';
-import { PALESTRAS, palestraPorId, avaliarPalestra, DUVIDAS, duvidaPorId, avaliarDuvida, SINAIS, sinalPorId, avaliarSinal } from './plateia.js';
-import { SISTEMAS, sistemaPorId, avaliarSistema, CODIGOS, codigoPorId, avaliarCodigo, COLEGAS, colegaPorId, avaliarColega, montarSimulado, faixaDoSimulado } from './banca.js';
-import { MODELOS, modeloPorId, avaliarModelo, FUROS, furoPorId, avaliarFuro, ROTINAS, rotinaPorId, avaliarRotina, montarPapo } from './lar.js';
-import { FUTUROS, futuroPorId, avaliarFuturo } from './futuro.js';
-import { CULTURAS, culturaPorId, avaliarCultura, AUMENTOS, aumentoPorId, avaliarAumento, ROTAS, rotaPorId, avaliarRota } from './cultura.js';
 import { diaDaTrilha, textoDoDia } from './trilha.js';
-import { VIVOS, vivoPorId, avaliarVivo, PRODUTOS, produtoPorId, avaliarProduto, FECHOS, fechoPorId, avaliarFecho } from './vivo.js';
-import { MAPAS, mapaPorId, avaliarMapa, DUROS, duroPorId, avaliarDuro, PROPOSTAS, propostaPorId, avaliarProposta } from './time.js';
-import { NARRAS, narraPorId, avaliarNarra, BANCOS, bancoPorId, avaliarBanco, RECUSAS, recusaPorId, avaliarRecusa } from './narra.js';
-import { SPRINTS, sprintPorId, avaliarSprint, SEGUROS, seguroPorId, avaliarSeguro, MEETUPS, meetupPorId, avaliarMeetup } from './cliente.js';
-import { montarCompleta, faixaDaCompleta } from './completa.js';
-import { MESAS, mesaPorId, avaliarMesa, MIGRAS, migraPorId, avaliarMigra, ESTREIAS, estreiaPorId, avaliarEstreia } from './rodada.js';
-import { FOCOS, montarFoco, faixaDoFoco } from './foco.js';
-import { POKERS, pokerPorId, avaliarPoker, LEIGOS, leigoPorId, avaliarLeigo, RECRUTAS, recrutaPorId, avaliarRecruta } from './carta.js';
-import { CULPAS, culpaPorId, avaliarCulpa, RAIOS, raioPorId, avaliarRaio, OFERTAS, ofertaPorId, avaliarOferta } from './raio.js';
 import { PEDIDOS, pedidoPorId, avaliarPedido, COBERTURAS, coberturaPorId, avaliarCobertura, LOOMS, loomPorId, avaliarLoom, termosDaFala, textoDaPalavra, avaliarPalavra } from './caderno.js';
 import { GRAFICOS, graficoPorId, avaliarGrafico, HANDOFFS, handoffPorId, avaliarHandoff, ELEVADORES, elevadorPorId, avaliarElevador, montarJunta, textoDaJunta, avaliarPassoJunta } from './grafico.js';
 import { PISTAS, pistaPorId, avaliarPista, CALMAS, calmaPorId, avaliarCalma, FOLGAS, folgaPorId, avaliarFolga, montarAbertas, avaliarAberta, textoDaAberta, textoDasAbertas, textoDoPreenchimento, textoDosConectores } from './pista.js';
-import { RESPEITOS, respeitoPorId, avaliarRespeito, DEBITOS, debitoPorId, avaliarDebito, INDICACOES, indicacaoPorId, avaliarIndicacao } from './respeito.js';
 import { UXS, uxPorId, avaliarUx, FORUNS, forumPorId, avaliarForum, VISTOS, vistoPorId, avaliarVisto, montarMes, textoDoMes, textoDaSemana, rotuloSemana } from './visto.js';
 import { FACILS, facilPorId, avaliarFacil, ESCOLHAS, escolhaPorId, avaliarEscolhaStack, SABADOS, sabadoPorId, avaliarSabado, textoDaSurpresa, textoDoRecorde } from './facil.js';
-import { BRECHAS, brechaPorId, avaliarBrecha, MUDAS, mudaPorId, avaliarMuda, GAUCHOS, gauchoPorId, avaliarGaucho } from './brecha.js';
-import { RADARS, radarPorId, avaliarRadar, APLAUSOS, aplausoPorId, avaliarAplauso, GRIPES, gripePorId, avaliarGripe } from './radar.js';
-import { PMS, pmPorId, avaliarPm, LAUDOS, laudoPorId, avaliarLaudo, RUMOS, rumoPorId, avaliarRumo } from './remoto.js';
-import { ACESSOS, acessoPorId, avaliarAcesso, LICENCAS, licencaPorId, avaliarLicenca, JARGOES, jargaoPorId, avaliarJargao } from './equipe.js';
-import { BANDEIRAS, bandeiraPorId, avaliarBandeira, GELOS, geloPorId, avaliarGelo, LIMITES, limitePorId, avaliarLimite } from './rollout.js';
-import { CANARIOS, canarioPorId, avaliarCanario, DESPEDIDAS, despedidaPorId, avaliarDespedida, REPETICOES, repeticaoPorId, avaliarRepeticao } from './entrega.js';
-import { CARGAS, cargaPorId, avaliarCarga, BOLETINS, boletimPorId, avaliarBoletim, DONOS, donoPorId, avaliarDono } from './carga.js';
-import { MANUAIS, manualPorId, avaliarManual, VERDES, verdePorId, avaliarVerde, CERTIFICADOS, certificadoPorId, avaliarCertificado } from './manual.js';
-import { REBASES, rebasePorId, avaliarRebase, CONSULTAS, consultaPorId, avaliarConsulta, REPLICAS, replicaPorId, avaliarReplica } from './atraso.js';
-import { ENSAIOS, ensaioPorId, avaliarEnsaio, DISCOS, discoPorId, avaliarDisco, PAGINAS, paginaPorId, avaliarPagina } from './lote.js';
-import { SQUASHES, squashPorId, avaliarSquash, CIRCUITOS, circuitoPorId, avaliarCircuito, JOBS, jobPorId, avaliarJob } from './corte.js';
-import { COLHEITAS, colheitaPorId, avaliarColheita, SESSOES, sessaoPorId, avaliarSessao, TANQUES, tanquePorId, avaliarTanque } from './folha.js';
-import { SONDAS, sondaPorId, avaliarSonda, SEMENTES, sementePorId, avaliarSemente, REGISTROS, registroPorId, avaliarRegistro } from './pulso.js';
-import { RASTROS, rastroPorId, avaliarRastro, PARADAS, paradaPorId, avaliarParada, PODS, podPorId, avaliarPod } from './guarda.js';
-import { LINTS, lintPorId, avaliarLint, ORIGENS, origemPorId, avaliarOrigem, LINKS, linkPorId, avaliarLink } from './cerca.js';
-import { CPUS, cpuPorId, avaliarCpu, COPIAS, copiaPorId, avaliarCopia, ESTOUROS, estouroPorId, avaliarEstouro } from './maquina.js';
-import { IMPASSES, impassePorId, avaliarImpasse, DOMINIOS, dominioPorId, avaliarDominio, MORTAS, mortaPorId, avaliarMorta } from './impasse.js';
-import { PONTEIROS, ponteiroPorId, avaliarPonteiro, ELEICOES, eleicaoPorId, avaliarEleicao, FREIOS, freioPorId, avaliarFreio } from './ponteiro.js';
-import { PAUSAS, pausaPorId, avaliarPausa, DERIVAS, derivaPorId, avaliarDeriva, DESCRITORES, descritorPorId, avaliarDescritor } from './pausa.js';
-import { RESERVAS, reservaPorId, avaliarReserva, VARREDURAS, varreduraPorId, avaliarVarredura, PORTAS, portaPorId, avaliarPorta } from './reserva.js';
-import { INODOS, inodoPorId, avaliarInodo, SAIDAS, saidaPorId, avaliarSaida, MANADAS, manadaPorId, avaliarManada } from './inodo.js';
-import { GOTEJOS, gotejoPorId, avaliarGotejo, FRIOS, frioPorId, avaliarFrio, CADEADOS, cadeadoPorId, avaliarCadeado } from './gotejo.js';
-import { COTAS, cotaPorId, avaliarCota, CICLOS, cicloPorId, avaliarCiclo, ZUMBIS, zumbiPorId, avaliarZumbi } from './cota.js';
-import { CISOES, cisaoPorId, avaliarCisao, RAJADAS, rajadaPorId, avaliarRajada, BRASAS, brasaPorId, avaliarBrasa } from './cisao.js';
-import { DATAGRAMAS, datagramaPorId, avaliarDatagrama, PASSES, passePorId, avaliarPasse, CARIMBOS, carimboPorId, avaliarCarimbo } from './datagrama.js';
-import { PILHAS, pilhaPorId, avaliarPilha, CANOS, canoPorId, avaliarCano, GIROS, giroPorId, avaliarGiro } from './pilha.js';
-import { COMPACTAS, compactaPorId, avaliarCompacta, DIARIOS, diarioPorId, avaliarDiario, VAGOES, vagaoPorId, avaliarVagao } from './compacta.js';
-import { CORRIDAS, corridaPorId, avaliarCorrida, INDICES, indicePorId, avaliarIndice, PERCENTIS, percentilPorId, avaliarPercentil } from './corrida.js';
-import { SEGREDOS, segredoPorId, avaliarSegredo, FANTASMAS, fantasmaPorId, avaliarFantasma, INTEIROS, inteiroPorId, avaliarInteiro } from './segredo.js';
-import { FILTROS, filtroPorId, avaliarFiltro, ORDENS, ordemPorId, avaliarOrdem, PROVAS, provaPorId, avaliarProva } from './filtro.js';
-import { ORFAOS, orfaoPorId, avaliarOrfao, ACENOS, acenoPorId, avaliarAceno, GASTOS, gastoPorId, avaliarGasto } from './orfao.js';
-import { INSTAVEIS, instavelPorId, avaliarInstavel, DUPLICADOS, duplicadoPorId, avaliarDuplicado, APAGOES, apagaoPorId, avaliarApagao } from './instavel.js';
-import { REPLAYS, replayPorId, avaliarReplay, ECOS, ecoPorId, avaliarEco, LEQUES, lequePorId, avaliarLeque } from './replay.js';
-import { SAGAS, sagaPorId, avaliarSaga, CAIXAS, caixaPorId, avaliarCaixa, APAGADOS, apagadoPorId, avaliarApagado } from './saga.js';
-import { ESPERAS, esperaPorId, avaliarEspera, CURSORES, cursorPorId, avaliarCursor, FILAS, filaPorId, avaliarFila } from './espera.js';
-import { DISJUNTORES, disjuntorPorId, avaliarDisjuntor, ALUGUEIS, aluguelPorId, avaliarAluguel, PULSOS, pulsoPorId, avaliarPulso } from './disjuntor.js';
-import { PISCINAS, piscinaPorId, avaliarPiscina, BALDES, baldePorId, avaliarBalde, CERCAS, cercaPorId, avaliarCerca } from './piscina.js';
-import { TREMORES, tremorPorId, avaliarTremor, PORTARIAS, portariaPorId, avaliarPortaria, COLAS, colaPorId, avaliarCola } from './tremor.js';
-import { ANTEPAROS, anteparoPorId, avaliarAnteparo, DESCARTES, descartePorId, avaliarDescarte, CRONOMETROS, cronometroPorId, avaliarCronometro } from './anteparo.js';
-import { AMOSTRAS, amostraPorId, avaliarAmostra, NICHOS, nichoPorId, avaliarNicho, LACRES, lacrePorId, avaliarLacre } from './amostra.js';
-import { SEMAFOROS, semaforoPorId, avaliarSemaforo, BARREIRAS, barreiraPorId, avaliarBarreira, TRINCOS, trincoPorId, avaliarTrinco } from './semaforo.js';
-import { RECUOS, recuoPorId, avaliarRecuo, VIGIAS, vigiaPorId, avaliarVigia, AMPULHETAS, ampulhetaPorId, avaliarAmpulheta } from './recuo.js';
-import { CARONAS, caronaPorId, avaliarCarona, VENENOS, venenoPorId, avaliarVeneno, FAROIS, farolPorId, avaliarFarol } from './carona.js';
-import { ANCORAS, ancoraPorId, avaliarAncora, MALHAS, malhaPorId, avaliarMalha, FENDAS, fendaPorId, avaliarFenda } from './ancora.js';
-import { COFRES, cofrePorId, avaliarCofre, AUDIENCIAS, audienciaPorId, avaliarAudiencia, REVOGACOES, revogacaoPorId, avaliarRevogacao } from './cofre.js';
-import { QUORUMS, quorumPorId, avaliarQuorum, MAIORIAS, maioriaPorId, avaliarMaioria, ARBITROS, arbitroPorId, avaliarArbitro } from './quorum.js';
-import { LIDERES, liderPorId, avaliarLider, MANDATOS, mandatoPorId, avaliarMandato, SEGUIDORES, seguidorPorId, avaliarSeguidor } from './lider.js';
-import { ORQUESTRADORES, orquestradorPorId, avaliarOrquestrador, COREOGRAFIAS, coreografiaPorId, avaliarCoreografia, COMPENSACOES, compensacaoPorId, avaliarCompensacao } from './orquestra.js';
-import { PRIMARIOS, primarioPorId, avaliarPrimario, ESPELHOS, espelhoPorId, avaliarEspelho, ASCENSOES, ascensaoPorId, avaliarAscensao } from './primario.js';
-import { TRAVESSIAS, travessiaPorId, avaliarTravessia, RETAGUARDAS, retaguardaPorId, avaliarRetaguarda, CONTORNOS, contornoPorId, avaliarContorno } from './travessia.js';
-import { RUMORES, rumorPorId, avaliarRumor, REPAROS, reparoPorId, avaliarReparo, DEIXAS, deixaPorId, avaliarDeixa } from './rumor.js';
-import { FLOCOS, flocoPorId, avaliarFloco, EPOCAS, epocaPorId, avaliarEpoca, VETORES, vetorPorId, avaliarVetor } from './floco.js';
-import { SUJEIRAS, sujeiraPorId, avaliarSujeira, INSTANTANEOS, instantaneoPorId, avaliarInstantaneo, SERIAIS, serialPorId, avaliarSerial } from './sujeira.js';
-import { FOMES, fomePorId, avaliarFome, INVERSOES, inversaoPorId, avaliarInversao, IDADES, idadePorId, avaliarIdade } from './fome.js';
-import { SIDECARS, sidecarPorId, avaliarSidecar, EMBAIXADORES, embaixadorPorId, avaliarEmbaixador, ADAPTADORES, adaptadorPorId, avaliarAdaptador } from './sidecar.js';
-import { BIZANTINOS, bizantinoPorId, avaliarBizantino, PARTICOES, particaoPorId, avaliarParticao, GENERAIS, generalPorId, avaliarGeneral } from './bizantino.js';
-import { WALS, walPorId, avaliarWal, LSNS, lsnPorId, avaliarLsn, CHECKPOINTS, checkpointPorId, avaliarCheckpoint } from './wal.js';
-import { NONCES, noncePorId, avaliarNonce, HMACS, hmacPorId, avaliarHmac, ENVELOPES, envelopePorId, avaliarEnvelope } from './nonce.js';
-import { LEASES, leasePorId, avaliarLease, RENOVACOES, renovacaoPorId, avaliarRenovacao, VENCIMENTOS, vencimentoPorId, avaliarVencimento } from './lease.js';
-import { OUTBOXES, outboxPorId, avaliarOutbox, INBOXES, inboxPorId, avaliarInbox, RELAYS, relayPorId, avaliarRelay } from './outbox.js';
-import { OFFSETS, offsetPorId, avaliarOffset, LAGS, lagPorId, avaliarLag, ACKS, ackPorId, avaliarAck } from './offset.js';
-import { SNAPSHOTS, snapshotPorId, avaliarSnapshot, RESTORES, restorePorId, avaliarRestore, PROMOTES, promotePorId, avaliarPromote } from './snapshot.js';
-import { BLOOMS, bloomPorId, avaliarBloom, CUCOS, cucoPorId, avaliarCuco, ESBOCOS, esbocoPorId, avaliarEsboco } from './bloom.js';
-import { MERKLES, merklePorId, avaliarMerkle, RADIXES, radixPorId, avaliarRadix, TRIES, triePorId, avaliarTrie } from './merkle.js';
-import { GOSSIPS, gossipPorId, avaliarGossip, PHIS, phiPorId, avaliarPhi, ACCRUALS, accrualPorId, avaliarAccrual } from './gossip.js';
-import { HINTS, hintPorId, avaliarHint, VACUUMS, vacuumPorId, avaliarVacuum, FREEZES, freezePorId, avaliarFreeze } from './hint.js';
-import { BITMAPS, bitmapPorId, avaliarBitmap, ROARINGS, roaringPorId, avaliarRoaring, HYPERS, hyperPorId, avaliarHyper } from './bitmap.js';
-import { CRDTS, crdtPorId, avaliarCrdt, LWWS, lwwPorId, avaliarLww, ORSETS, orsetPorId, avaliarOrset } from './crdt.js';
-import { VECTORS, vectorPorId, avaliarVector, DOTS, dotPorId, avaliarDot, CAUSALS, causalPorId, avaliarCausal } from './vector.js';
-import { SHARDS, shardPorId, avaliarShard, REBALANCES, rebalancePorId, avaliarRebalance, SPLITS, splitPorId, avaliarSplit } from './shard.js';
-import { WATERMARKS, watermarkPorId, avaliarWatermark, BARRIERS, barrierPorId, avaliarBarrier, ALIGNS, alignPorId, avaliarAlign } from './watermark.js';
-import { WITNESSES, witnessPorId, avaliarWitness, VOTERS, voterPorId, avaliarVoter, LEARNERS, learnerPorId, avaliarLearner } from './witness.js';
-import { CHECKSUMS, checksumPorId, avaliarChecksum, BULKHEADS, bulkheadPorId, avaliarBulkhead, FALLBACKS, fallbackPorId, avaliarFallback } from './checksum.js';
-import { TOMBSTONES, tombstonePorId, avaliarTombstone, PURGES, purgePorId, avaliarPurge, RECLAIMS, reclaimPorId, avaliarReclaim } from './tombstone.js';
-import { JOURNALS, journalPorId, avaliarJournal, SEGMENTS, segmentPorId, avaliarSegment, SPILLS, spillPorId, avaliarSpill } from './journal.js';
-import { STRIPES, stripePorId, avaliarStripe, PARITIES, parityPorId, avaliarParity, REBUILDS, rebuildPorId, avaliarRebuild } from './stripe.js';
-import { EPOCHS, epochPorId, avaliarEpoch, BALLOTS, ballotPorId, avaliarBallot, FENCES, fencePorId, avaliarFence } from './epoch.js';
-import { FLUSHES, flushPorId, avaliarFlush, MEMTABLES, memtablePorId, avaliarMemtable, EXTENTS, extentPorId, avaliarExtent } from './flush.js';
-import { MANIFESTS, manifestPorId, avaliarManifest, HEDGES, hedgePorId, avaliarHedge, DEBOUNCES, debouncePorId, avaliarDebounce } from './manifest.js';
-import { SSTABLES, sstablePorId, avaliarSstable, LATCHES, latchPorId, avaliarLatch, THROTTLES, throttlePorId, avaliarThrottle } from './sstable.js';
-import { ITERATORS, iteratorPorId, avaliarIterator, PAGERS, pagerPorId, avaliarPager, EVICTS, evictPorId, avaliarEvict } from './iterator.js';
-import { HISTOGRAMS, histogramPorId, avaliarHistogram, GAUGES, gaugePorId, avaliarGauge, BACKFILLS, backfillPorId, avaliarBackfill } from './histogram.js';
-import { SKEWS, skewPorId, avaliarSkew, HOTSPOTS, hotspotPorId, avaliarHotspot, TAILS, tailPorId, avaliarTail } from './skew.js';
-import { SLOS, sloPorId, avaliarSlo, SLIS, sliPorId, avaliarSli, PROBES, probePorId, avaliarProbe } from './slo.js';
-import { TRACES, tracePorId, avaliarTrace, SCRAPES, scrapePorId, avaliarScrape, ROLLUPS, rollupPorId, avaliarRollup } from './trace.js';
-import { WEBHOOKS, webhookPorId, avaliarWebhook, FANOUTS, fanoutPorId, avaliarFanout, INGESTS, ingestPorId, avaliarIngest } from './webhook.js';
-import { OTELS, otelPorId, avaliarOtel, SAMPLERS, samplerPorId, avaliarSampler, EXEMPLARS, exemplarPorId, avaliarExemplar } from './otel.js';
-import { EGRESSES, egressPorId, avaliarEgress, GATEWAYS, gatewayPorId, avaliarGateway, FAILOVERS, failoverPorId, avaliarFailover } from './egress.js';
 import { somarSemana, textoMinutos, textoGrupo, lembreteMinutos, balancoDaSemana, textoDeHoje, textoDaSequencia, textoDaComparacao, textoDoAcerto, textoDoPico, textoDoApoio, textoDaNota, textoDosDias, textoDoRitmo, textoDaLacuna, textoDaMeta, textoDaDuracao, textoDaUltima, textoDaPrimeira, textoDoHiato, textoDoCostume, textoDaMarca, textoDoAuge, textoDoSete, textoDaSoma, textoDoPorDia, textoDaParte, textoDoFora, textoDoTotal, textoDoLote, textoDoSaldo, textoDoPasso, textoDoMaior, textoDoMenor, textoDaDiferenca, textoDoMeio, textoDaVariedade, textoDaModa, textoDaRepeticao, textoDaExtensao, textoDoVao, textoDaProporcao, textoDaCobertura, textoDoIntervalo, textoDaCadencia, textoDaDensidade, textoDoPeso, textoDaSobra, textoDoResto, textoDoGrao, textoDoCurto, textoDoLongo, textoDoSalto, textoDaMediana, textoDoMosaico, textoDoTurno, textoDaVirada, textoDaFaixa, textoDaAbertura, textoDaEstacao, textoDoFecho, textoDaAusencia, textoDaPratica, textoDoReforco, textoDoRecado, textoDaVez, textoDoRetorno, textoDaFicha, textoDoBaralho, textoDaSombraDia, textoDaPergunta, textoDaEscuta, textoDoSom, textoDoVerbo, textoDoNumero, textoDaReducao, textoDaExpressao, textoDoIdioma, METAS_MINUTOS } from './semana.js';
-import { filaEspacada, diasAoAcertar, textoVolta } from './espaco.js';
+import { filaEspacada, diasAoAcertar, textoVolta, resumoDaFila } from './espaco.js';
 import { CATEGORIAS as GRUPOS_HUB, TREINOS, filtrarTreinos, treinoRecomendado, ordenarTreinos, filtrarEstrelas, treinoContinuar, textoDoContinuar, textoDaEstreia, textoDoGrupo, textoDaEstrela, estadoDoNo, estrelaVisivelNoNo } from './hub.js';
 import { podeGravar, urlDaGravacao, soltarUrl, LIMITE_GRAVACAO_MS, rotuloGravacao } from './voz.js';
 import { CATEGORIAS, FRASES, frasesDaCategoria, itemDaFrase, avaliarFrase, escolherSombra, montarDesafioFala, falaConta, xpDaFala, ordenarSombra, textoDaSombra } from './frases.js';
@@ -142,6 +29,34 @@ import { registrar, logSalvo, limparLog, modoDebug, contextoDoLog } from './erro
 import { buscar, carregarBanco, bancoCarregado, statusDoItem, totalDoCurso } from './dicionario.js';
 import { ehFavorita, alternarFavorita, itensFavoritos } from './game.js';
 import { compartilharCard } from './compartilhar.js';
+let T = null;
+let treinosProntos = false;
+let cargaTreino = null;
+
+function carregarTreinos() {
+  if (cargaTreino) return cargaTreino;
+  cargaTreino = import('./modulos-treino.js').then(m => {
+    T = m;
+    treinosProntos = true;
+  }).catch(erro => {
+    cargaTreino = null;
+    const el = document.getElementById('app');
+    if (el) {
+      let aviso = document.getElementById('aviso-treino');
+      if (!aviso) {
+        aviso = document.createElement('p');
+        aviso.id = 'aviso-treino';
+        aviso.className = 'aviso-fala';
+        aviso.setAttribute('role', 'status');
+        el.prepend(aviso);
+      }
+      aviso.textContent = 'Não consegui abrir o treino. Tente de novo.';
+    }
+    throw erro;
+  });
+  return cargaTreino;
+}
+
 
 const app = document.getElementById('app');
 let sessao = null;
@@ -260,6 +175,23 @@ function sessaoTemProgresso() {
   return !!sessao && (sessao.respostas > 0 || sessao.idxFala > 0);
 }
 
+function anunciarNaLicao(texto) {
+  const feedback = document.querySelector('.area-exercicio ~ .feedback, .feedback');
+  let aviso = document.querySelector('.aviso-saida');
+  if (!aviso) {
+    aviso = document.createElement('span');
+    aviso.className = 'aviso-saida so-leitor';
+    if (feedback) feedback.append(aviso);
+    else {
+      aviso.classList.add('licao-status');
+      aviso.setAttribute('role', 'status');
+      document.getElementById('app')?.append(aviso);
+    }
+  }
+  aviso.textContent = '';
+  requestAnimationFrame(() => { aviso.textContent = texto; });
+}
+
 function pedirSaidaDaLicao(sair) {
   if (saindoDaLicao) return;
   if (!sessaoTemProgresso() || Date.now() - saidaPedidaEm < 4000) {
@@ -269,20 +201,25 @@ function pedirSaidaDaLicao(sair) {
     return;
   }
   saidaPedidaEm = Date.now();
-  const btn = document.querySelector('.fechar');
-  if (btn) {
-    const original = btn.textContent;
-    btn.textContent = 'SAIR?';
-    btn.classList.add('fechar-confirmando');
-    timerDeTela(() => {
-      saidaPedidaEm = 0;
-      btn.textContent = original;
-      btn.classList.remove('fechar-confirmando');
-    }, 4000);
-  }
+  const btn = document.querySelector('.licao-topo .fechar');
+  if (!btn) return;
+  const original = btn.textContent;
+  const nomeOriginal = btn.getAttribute('aria-label') || 'Sair';
+  btn.textContent = 'SAIR?';
+  btn.setAttribute('aria-label', 'SAIR? Toque de novo para sair da lição');
+  btn.classList.add('fechar-confirmando');
+  anunciarNaLicao('SAIR? Toque de novo para sair. Se não tocar, a pergunta some.');
+  timerDeTela(() => {
+    saidaPedidaEm = 0;
+    if (!btn.isConnected) return;
+    btn.textContent = original;
+    btn.setAttribute('aria-label', nomeOriginal);
+    btn.classList.remove('fechar-confirmando');
+    anunciarNaLicao('A pergunta de saída sumiu. Você continua na lição.');
+  }, 4000);
 }
 
-function aoVoltarDoNavegador(e) {
+async function aoVoltarDoNavegador(e) {
   voltandoTela = false;
   if (suprimirPop) {
     suprimirPop = false;
@@ -296,7 +233,10 @@ function aoVoltarDoNavegador(e) {
     return;
   }
   if (telaAtiva === 'licao' && temTts) speechSynthesis.cancel();
-  const render = TELAS_POR_NOME[e.state?.tela] ?? telaInicial;
+  const nome = e.state?.tela;
+  const leves = new Set(['inicial', 'perfil', 'dicionario', 'vocabulario', 'login', 'privacidade', 'novidades', 'debug', 'licao', 'resultado']);
+  if (nome && !leves.has(nome)) await carregarTreinos().catch(() => {});
+  const render = TELAS_POR_NOME[nome] ?? telaInicial;
   render();
 }
 
@@ -1550,28 +1490,76 @@ function classeDoPalco(ex) {
   return 'palco-pratica';
 }
 
+function progressoDaLicao() {
+  if (!sessao) return { feitos: 0, total: 0, pct: 0, texto: '0 de 0' };
+  const total = sessao.fila.filter(item => item.tipo !== 'apresentacao').length;
+  const feitos = Math.min(sessao.respostas, total);
+  const pct = total ? Math.round(feitos / total * 100) : 0;
+  return { feitos, total, pct, texto: `${feitos} de ${total}` };
+}
+
+function atualizarBarraLicao() {
+  const info = progressoDaLicao();
+  const barra = document.querySelector('.licao-topo .barra-licao');
+  if (!barra) return info;
+  barra.setAttribute('aria-valuemax', String(info.total));
+  barra.setAttribute('aria-valuenow', String(info.feitos));
+  barra.setAttribute('aria-valuetext', info.texto);
+  const fill = barra.querySelector(':scope > div');
+  if (fill) fill.style.width = info.pct + '%';
+  const conta = document.querySelector('.licao-topo .barra-conta');
+  if (conta) conta.textContent = info.texto;
+  return info;
+}
+
+function brilharAcertoNaBarra() {
+  const fill = document.querySelector('.licao-topo .barra-licao > div');
+  if (!fill) return;
+  fill.classList.remove('brilho-acerto');
+  void fill.offsetWidth;
+  fill.classList.add('brilho-acerto');
+}
+
+function dicaDoExercicio(ex) {
+  if (ex.tipo === 'digitar') return 'Escreva a resposta';
+  if (ex.tipo === 'falar') return 'Fale ou escreva a frase';
+  if (ex.tipo === 'montar' || ex.tipo === 'ditado') return 'Monte a frase';
+  if (ex.tipo === 'verbo') return 'Escolha a forma';
+  if (ex.tipo === 'pares') return 'Ligue os pares';
+  return 'Escolha uma opção';
+}
+
 function telaExercicio() {
   limparTela();
   window.scrollTo(0, 0);
   telaAtiva = 'licao';
   registrarRota('licao');
   const ex = sessao.fila[sessao.idx];
-  const totalFila = Math.max(sessao.fila.length, 1);
-  const pct = Math.min(100, Math.max(12, Math.round((sessao.idx + 1) / totalFila * 100)));
+  const info = progressoDaLicao();
   const barra = h('div', {
     class: 'progresso barra-licao',
     role: 'progressbar',
     'aria-valuemin': '0',
-    'aria-valuemax': '100',
-    'aria-valuenow': String(pct),
+    'aria-valuemax': String(info.total),
+    'aria-valuenow': String(info.feitos),
+    'aria-valuetext': info.texto,
     'aria-label': 'Progresso da lição'
-  }, h('div', { style: `width:${pct}%` }));
+  }, h('div', { style: `width:${info.pct}%` }));
+  const conta = h('span', { class: 'barra-conta', 'aria-hidden': 'true' }, info.texto);
   const comboEl = sessao.chefao
     ? h('div', { class: 'combo vidas', title: 'Vidas restantes' }, '❤️'.repeat(Math.max(sessao.vidas, 0)))
     : h('div', { class: 'combo' + (sessao.combo >= 2 ? ' pop' : '') }, sessao.combo >= 2 ? `⚡x${sessao.combo}` : '');
-  const btnVerificar = h('button', { class: 'btn btn-verde', type: 'button' }, 'VERIFICAR');
+  const btnVerificar = h('button', {
+    class: 'btn btn-verde',
+    type: 'button',
+    'aria-describedby': 'dica-verificar'
+  }, 'VERIFICAR');
   btnVerificar.disabled = true;
-  const btnNaoSei = h('button', { class: 'btn btn-branco btn-nao-sei', type: 'button', title: 'Ver a resposta. Conta como erro e volta depois' }, 'NÃO SEI');
+  const btnNaoSei = h('button', {
+    class: 'btn btn-branco btn-nao-sei',
+    type: 'button',
+    'aria-describedby': 'dica-nao-sei'
+  }, 'NÃO SEI');
   const btnDica = h('button', {
     class: 'btn-dica',
     type: 'button',
@@ -1580,7 +1568,10 @@ function telaExercicio() {
     'aria-keyshortcuts': 'D',
     title: 'Dica (tecla D)'
   }, '💡');
-  const rodape = h('div', { class: 'rodape' }, h('div', { class: 'rodape-conteudo' }, btnNaoSei, btnVerificar));
+  const dicaVerificar = h('p', { class: 'rodape-dica', id: 'dica-verificar' }, dicaDoExercicio(ex));
+  const notaNaoSei = h('p', { class: 'rodape-nota', id: 'dica-nao-sei' }, 'Conta como erro e volta depois');
+  const grupoNaoSei = h('div', { class: 'nao-sei-grupo' }, btnNaoSei, notaNaoSei);
+  const rodape = h('div', { class: 'rodape' }, h('div', { class: 'rodape-conteudo' }, grupoNaoSei, dicaVerificar, btnVerificar));
   const feedback = h('div', { class: 'feedback', role: 'status', 'aria-live': 'polite' });
   const areaEx = h('div', { class: 'area-exercicio ' + classeDoPalco(ex) });
   areaEx.append(palcoDoExercicio(ex));
@@ -1591,7 +1582,7 @@ function telaExercicio() {
         class: 'fechar', type: 'button', 'aria-label': 'Sair',
         onclick: () => pedirSaidaDaLicao(() => voltarTela())
       }, '✖'),
-      barra,
+      h('div', { class: 'barra-grupo' }, barra, conta),
       comboEl,
       btnDica
     ),
@@ -1630,7 +1621,12 @@ function telaExercicio() {
   };
   btnDica.addEventListener('click', alternarDica);
   const ctrl = montarExercicio(ex, {
-    aoMudar: v => { btnVerificar.disabled = !v; },
+    aoMudar: v => {
+      btnVerificar.disabled = !v;
+      dicaVerificar.hidden = !!v;
+      if (v) btnVerificar.removeAttribute('aria-describedby');
+      else btnVerificar.setAttribute('aria-describedby', 'dica-verificar');
+    },
     aoAuto: res => processar(ex, res, feedback, btnVerificar),
     aoEnter: () => { if (!btnVerificar.disabled) btnVerificar.click(); },
     aoContinuar: () => continuar(),
@@ -1646,7 +1642,7 @@ function telaExercicio() {
   }
   areaEx.append(ctrl.el);
   if (!ctrl.temVerificar) rodape.style.display = 'none';
-  if (ex.tipo === 'falar') btnNaoSei.style.display = 'none';
+  if (ex.tipo === 'falar') grupoNaoSei.style.display = 'none';
   ligarAtalhos(areaEx, btnVerificar, feedback, alternarDica, () => {
     if (ex.item?.en) falar(ex.item.en);
   });
@@ -1805,6 +1801,8 @@ function processar(ex, res, feedback, btnVerificar) {
     }
   }
   if (ex.item) anotarDeslize(sessao, ex.item, res);
+  atualizarBarraLicao();
+  if (res.correto && !res.quase) brilharAcertoNaBarra();
   if (ex.item && ['escolhaPtEn', 'digitar', 'montar', 'ditado', 'lacuna', 'ouvirPt'].includes(ex.tipo)) falar(ex.item.en);
   const frase = res.naoSei ? 'Agora você sabe. Ela volta já já pra você acertar 💪' : aleatorio(res.correto ? (res.quase ? MASCOTE.quase : MASCOTE.acerto) : MASCOTE.erro);
   const linhas = [];
@@ -2630,7 +2628,7 @@ function telaPapo() {
   telaAtiva = 'papo';
   registrarRota('papo');
   papoSessao = null;
-  const cena = montarPapo(diaLocalAgora());
+  const cena = T.montarPapo(diaLocalAgora());
   app.innerHTML = '';
   app.append(
     topoVoltar('💬 Conversa livre', () => voltarTela(telaConversa)),
@@ -2643,7 +2641,7 @@ function telaPapo() {
 }
 
 function abrirPapo() {
-  const cena = montarPapo(diaLocalAgora());
+  const cena = T.montarPapo(diaLocalAgora());
   if (!cena) return telaPapo();
   descartarVoz();
   papoSessao = novaCena(cena);
@@ -2669,7 +2667,7 @@ function telaSimulado() {
   telaAtiva = 'simulado';
   registrarRota('simulado');
   simuladoSessao = null;
-  const cena = montarSimulado(diaLocalAgora());
+  const cena = T.montarSimulado(diaLocalAgora());
   app.innerHTML = '';
   app.append(
     topoVoltar('🎯 Simulado remoto', () => voltarTela(telaConversa)),
@@ -2682,7 +2680,7 @@ function telaSimulado() {
 }
 
 function abrirSimulado() {
-  const cena = montarSimulado(diaLocalAgora());
+  const cena = T.montarSimulado(diaLocalAgora());
   if (!cena) return telaSimulado();
   descartarVoz();
   simuladoSessao = novaCena(cena);
@@ -2697,7 +2695,7 @@ function pintarSimulado() {
     avaliar: avaliarResposta,
     registrar: registrarSimulado,
     tituloFim: 'Simulado feito!',
-    sub: nota => faixaDoSimulado(nota)
+    sub: nota => T.faixaDoSimulado(nota)
   });
 }
 
@@ -2706,14 +2704,14 @@ function telaSprints() {
     'sprint',
     '🖥️ Demo da sprint',
     subCena('o que saiu e a pergunta que você não esperava'),
-    SPRINTS,
+    T.SPRINTS,
     abrirSprint,
     valor => { sprintSessao = valor; }
   );
 }
 
 function abrirSprint(id) {
-  abrirCenaLista(id, sprintPorId, cena => { sprintSessao = cena; }, pintarSprint, telaSprints);
+  abrirCenaLista(id, T.sprintPorId, cena => { sprintSessao = cena; }, pintarSprint, telaSprints);
 }
 
 function pintarSprint() {
@@ -2721,7 +2719,7 @@ function pintarSprint() {
     rota: 'sprint',
     aoLista: telaSprints,
     repintar: pintarSprint,
-    avaliar: avaliarSprint,
+    avaliar: T.avaliarSprint,
     registrar: registrarSprint,
     tituloFim: 'Sprint dita!'
   });
@@ -2732,14 +2730,14 @@ function telaSeguros() {
     'seguro',
     '🔐 A decisão segura',
     subCena('o risco e o plano'),
-    SEGUROS,
+    T.SEGUROS,
     abrirSeguro,
     valor => { seguroSessao = valor; }
   );
 }
 
 function abrirSeguro(id) {
-  abrirCenaLista(id, seguroPorId, cena => { seguroSessao = cena; }, pintarSeguro, telaSeguros);
+  abrirCenaLista(id, T.seguroPorId, cena => { seguroSessao = cena; }, pintarSeguro, telaSeguros);
 }
 
 function pintarSeguro() {
@@ -2747,7 +2745,7 @@ function pintarSeguro() {
     rota: 'seguro',
     aoLista: telaSeguros,
     repintar: pintarSeguro,
-    avaliar: avaliarSeguro,
+    avaliar: T.avaliarSeguro,
     registrar: registrarSeguro,
     tituloFim: 'Decisão dita!'
   });
@@ -2758,14 +2756,14 @@ function telaMeetups() {
     'meetup',
     '🎫 No meetup',
     subCena('o oi e o assunto'),
-    MEETUPS,
+    T.MEETUPS,
     abrirMeetup,
     valor => { meetupSessao = valor; }
   );
 }
 
 function abrirMeetup(id) {
-  abrirCenaLista(id, meetupPorId, cena => { meetupSessao = cena; }, pintarMeetup, telaMeetups);
+  abrirCenaLista(id, T.meetupPorId, cena => { meetupSessao = cena; }, pintarMeetup, telaMeetups);
 }
 
 function pintarMeetup() {
@@ -2773,7 +2771,7 @@ function pintarMeetup() {
     rota: 'meetup',
     aoLista: telaMeetups,
     repintar: pintarMeetup,
-    avaliar: avaliarMeetup,
+    avaliar: T.avaliarMeetup,
     registrar: registrarMeetup,
     tituloFim: 'Contato feito!'
   });
@@ -2787,7 +2785,7 @@ function telaCompleta() {
   telaAtiva = 'completa';
   registrarRota('completa');
   completaSessao = null;
-  const cena = montarCompleta(diaLocalAgora());
+  const cena = T.montarCompleta(diaLocalAgora());
   app.innerHTML = '';
   app.append(
     topoVoltar('🎓 Entrevista completa', () => voltarTela(telaConversa)),
@@ -2803,7 +2801,7 @@ function telaCompleta() {
 }
 
 function abrirCompleta() {
-  const cena = montarCompleta(diaLocalAgora());
+  const cena = T.montarCompleta(diaLocalAgora());
   if (!cena) return telaCompleta();
   descartarVoz();
   completaSessao = novaCena(cena);
@@ -2818,7 +2816,7 @@ function pintarCompleta() {
     avaliar: avaliarResposta,
     registrar: registrarCompleta,
     tituloFim: 'Entrevista feita!',
-    sub: nota => faixaDaCompleta(nota),
+    sub: nota => T.faixaDaCompleta(nota),
     rotulo: s => `Treino ${s.i + 1} de ${s.cena.rodadas.length} · ${s.cena.rodadas[s.i].etapa}`
   });
 }
@@ -2828,14 +2826,14 @@ function telaRodadas() {
     'rodada',
     '📝 A mesa da retro',
     'Três falas: o fato, o ajuste e o dono. A frase modelo só aparece depois.',
-    MESAS,
+    T.MESAS,
     abrirRodada,
     valor => { rodadaSessao = valor; }
   );
 }
 
 function abrirRodada(id) {
-  abrirCenaLista(id, mesaPorId, cena => { rodadaSessao = cena; }, pintarRodada, telaRodadas);
+  abrirCenaLista(id, T.mesaPorId, cena => { rodadaSessao = cena; }, pintarRodada, telaRodadas);
 }
 
 function pintarRodada() {
@@ -2843,7 +2841,7 @@ function pintarRodada() {
     rota: 'rodada',
     aoLista: telaRodadas,
     repintar: pintarRodada,
-    avaliar: avaliarMesa,
+    avaliar: T.avaliarMesa,
     registrar: registrarRodada,
     tituloFim: 'Mesa feita!'
   });
@@ -2854,14 +2852,14 @@ function telaMigras() {
     'migra',
     '🚚 A migração',
     subCena('a mudança e o risco'),
-    MIGRAS,
+    T.MIGRAS,
     abrirMigra,
     valor => { migraSessao = valor; }
   );
 }
 
 function abrirMigra(id) {
-  abrirCenaLista(id, migraPorId, cena => { migraSessao = cena; }, pintarMigra, telaMigras);
+  abrirCenaLista(id, T.migraPorId, cena => { migraSessao = cena; }, pintarMigra, telaMigras);
 }
 
 function pintarMigra() {
@@ -2869,7 +2867,7 @@ function pintarMigra() {
     rota: 'migra',
     aoLista: telaMigras,
     repintar: pintarMigra,
-    avaliar: avaliarMigra,
+    avaliar: T.avaliarMigra,
     registrar: registrarMigra,
     tituloFim: 'Risco dito!'
   });
@@ -2880,14 +2878,14 @@ function telaEstreias() {
     'estreia',
     '👋 Primeiro dia',
     subCena('o oi e o pedido'),
-    ESTREIAS,
+    T.ESTREIAS,
     abrirEstreia,
     valor => { estreiaSessao = valor; }
   );
 }
 
 function abrirEstreia(id) {
-  abrirCenaLista(id, estreiaPorId, cena => { estreiaSessao = cena; }, pintarEstreia, telaEstreias);
+  abrirCenaLista(id, T.estreiaPorId, cena => { estreiaSessao = cena; }, pintarEstreia, telaEstreias);
 }
 
 function pintarEstreia() {
@@ -2895,15 +2893,15 @@ function pintarEstreia() {
     rota: 'estreia',
     aoLista: telaEstreias,
     repintar: pintarEstreia,
-    avaliar: avaliarEstreia,
+    avaliar: T.avaliarEstreia,
     registrar: registrarEstreia,
     tituloFim: 'Oi feito!'
   });
 }
 
 function textoNotaFoco(nota) {
-  const nome = FOCOS.find(f => f.id === nota.foco)?.nome || nota.foco;
-  return `${nota.dia} · ${nome} · ${nota.nota} · ${faixaDoFoco(nota.nota)}`;
+  const nome = T.FOCOS.find(f => f.id === nota.foco)?.nome || nota.foco;
+  return `${nota.dia} · ${nome} · ${nota.nota} · ${T.faixaDoFoco(nota.nota)}`;
 }
 
 function telaFoco() {
@@ -2914,9 +2912,9 @@ function telaFoco() {
   telaAtiva = 'foco';
   registrarRota('foco');
   focoSessao = null;
-  const foco = FOCOS.find(f => f.id === focoEscolhido) || FOCOS[0];
+  const foco = T.FOCOS.find(f => f.id === focoEscolhido) || T.FOCOS[0];
   focoEscolhido = foco.id;
-  const cena = montarFoco(diaLocalAgora(), foco.id);
+  const cena = T.montarFoco(diaLocalAgora(), foco.id);
   const notas = Array.isArray(estado.notasFoco) ? estado.notasFoco : [];
   app.innerHTML = '';
   app.append(
@@ -2925,7 +2923,7 @@ function telaFoco() {
       ? 'Cinco treinos do foco escolhido. A nota sai no fim e fica neste aparelho. A frase modelo só aparece depois.'
       : 'A entrevista precisa de uma data válida.'),
     h('div', { id: 'foco-escolha', class: 'fila-botoes', role: 'group', 'aria-label': 'Foco da entrevista' },
-      FOCOS.map(item => h('button', {
+      T.FOCOS.map(item => h('button', {
         class: 'pilula',
         type: 'button',
         'aria-pressed': item.id === foco.id ? 'true' : 'false',
@@ -2950,7 +2948,7 @@ function telaFoco() {
 }
 
 function abrirFoco() {
-  const cena = montarFoco(diaLocalAgora(), focoEscolhido);
+  const cena = T.montarFoco(diaLocalAgora(), focoEscolhido);
   if (!cena) return telaFoco();
   descartarVoz();
   focoSessao = novaCena(cena);
@@ -2965,7 +2963,7 @@ function pintarFoco() {
     avaliar: avaliarResposta,
     registrar: d => registrarFoco({ ...d, foco: focoEscolhido }),
     tituloFim: 'Foco feito!',
-    sub: nota => faixaDoFoco(nota),
+    sub: nota => T.faixaDoFoco(nota),
     rotulo: s => `Treino ${s.i + 1} de ${s.cena.rodadas.length} · ${s.cena.rodadas[s.i].etapa}`
   });
 }
@@ -2975,14 +2973,14 @@ function telaPokers() {
     'poker',
     '🃏 A carta',
     subCena('a carta e o motivo'),
-    POKERS,
+    T.POKERS,
     abrirPoker,
     valor => { pokerSessao = valor; }
   );
 }
 
 function abrirPoker(id) {
-  abrirCenaLista(id, pokerPorId, cena => { pokerSessao = cena; }, pintarPoker, telaPokers);
+  abrirCenaLista(id, T.pokerPorId, cena => { pokerSessao = cena; }, pintarPoker, telaPokers);
 }
 
 function pintarPoker() {
@@ -2990,7 +2988,7 @@ function pintarPoker() {
     rota: 'poker',
     aoLista: telaPokers,
     repintar: pintarPoker,
-    avaliar: avaliarPoker,
+    avaliar: T.avaliarPoker,
     registrar: registrarPoker,
     tituloFim: 'Carta dita!'
   });
@@ -3001,14 +2999,14 @@ function telaLeigos() {
     'leigo',
     '🧮 A conta da IA',
     subCena('a conta e o limite'),
-    LEIGOS,
+    T.LEIGOS,
     abrirLeigo,
     valor => { leigoSessao = valor; }
   );
 }
 
 function abrirLeigo(id) {
-  abrirCenaLista(id, leigoPorId, cena => { leigoSessao = cena; }, pintarLeigo, telaLeigos);
+  abrirCenaLista(id, T.leigoPorId, cena => { leigoSessao = cena; }, pintarLeigo, telaLeigos);
 }
 
 function pintarLeigo() {
@@ -3016,7 +3014,7 @@ function pintarLeigo() {
     rota: 'leigo',
     aoLista: telaLeigos,
     repintar: pintarLeigo,
-    avaliar: avaliarLeigo,
+    avaliar: T.avaliarLeigo,
     registrar: registrarLeigo,
     tituloFim: 'Conta dita!'
   });
@@ -3027,14 +3025,14 @@ function telaRecrutas() {
     'recruta',
     '📞 A ligação',
     subCena('a pretensão e a janela'),
-    RECRUTAS,
+    T.RECRUTAS,
     abrirRecruta,
     valor => { recrutaSessao = valor; }
   );
 }
 
 function abrirRecruta(id) {
-  abrirCenaLista(id, recrutaPorId, cena => { recrutaSessao = cena; }, pintarRecruta, telaRecrutas);
+  abrirCenaLista(id, T.recrutaPorId, cena => { recrutaSessao = cena; }, pintarRecruta, telaRecrutas);
 }
 
 function pintarRecruta() {
@@ -3042,7 +3040,7 @@ function pintarRecruta() {
     rota: 'recruta',
     aoLista: telaRecrutas,
     repintar: pintarRecruta,
-    avaliar: avaliarRecruta,
+    avaliar: T.avaliarRecruta,
     registrar: registrarRecruta,
     tituloFim: 'Ligação feita!'
   });
@@ -3053,14 +3051,14 @@ function telaCulpas() {
     'culpa',
     '🙏 A desculpa',
     subCena('o erro e o plano'),
-    CULPAS,
+    T.CULPAS,
     abrirCulpa,
     valor => { culpaSessao = valor; }
   );
 }
 
 function abrirCulpa(id) {
-  abrirCenaLista(id, culpaPorId, cena => { culpaSessao = cena; }, pintarCulpa, telaCulpas);
+  abrirCenaLista(id, T.culpaPorId, cena => { culpaSessao = cena; }, pintarCulpa, telaCulpas);
 }
 
 function pintarCulpa() {
@@ -3068,7 +3066,7 @@ function pintarCulpa() {
     rota: 'culpa',
     aoLista: telaCulpas,
     repintar: pintarCulpa,
-    avaliar: avaliarCulpa,
+    avaliar: T.avaliarCulpa,
     registrar: registrarCulpa,
     tituloFim: 'Erro assumido!'
   });
@@ -3079,14 +3077,14 @@ function telaRaios() {
     'raio',
     '🔦 O relâmpago',
     subCena('o tempo e o projeto'),
-    RAIOS,
+    T.RAIOS,
     abrirRaio,
     valor => { raioSessao = valor; }
   );
 }
 
 function abrirRaio(id) {
-  abrirCenaLista(id, raioPorId, cena => { raioSessao = cena; }, pintarRaio, telaRaios);
+  abrirCenaLista(id, T.raioPorId, cena => { raioSessao = cena; }, pintarRaio, telaRaios);
 }
 
 function pintarRaio() {
@@ -3094,7 +3092,7 @@ function pintarRaio() {
     rota: 'raio',
     aoLista: telaRaios,
     repintar: pintarRaio,
-    avaliar: avaliarRaio,
+    avaliar: T.avaliarRaio,
     registrar: registrarRaio,
     tituloFim: 'Relâmpago feito!'
   });
@@ -3105,14 +3103,14 @@ function telaOfertas() {
     'oferta',
     '💻 A oferta',
     subCena('o pedido e a data'),
-    OFERTAS,
+    T.OFERTAS,
     abrirOferta,
     valor => { ofertaSessao = valor; }
   );
 }
 
 function abrirOferta(id) {
-  abrirCenaLista(id, ofertaPorId, cena => { ofertaSessao = cena; }, pintarOferta, telaOfertas);
+  abrirCenaLista(id, T.ofertaPorId, cena => { ofertaSessao = cena; }, pintarOferta, telaOfertas);
 }
 
 function pintarOferta() {
@@ -3120,7 +3118,7 @@ function pintarOferta() {
     rota: 'oferta',
     aoLista: telaOfertas,
     repintar: pintarOferta,
-    avaliar: avaliarOferta,
+    avaliar: T.avaliarOferta,
     registrar: registrarOferta,
     tituloFim: 'Oferta falada!'
   });
@@ -3628,14 +3626,14 @@ function telaRespeitos() {
     'respeito',
     '🏛️ Com respeito',
     subCena('o ponto e o outro caminho'),
-    RESPEITOS,
+    T.RESPEITOS,
     abrirRespeito,
     valor => { respeitoSessao = valor; }
   );
 }
 
 function abrirRespeito(id) {
-  abrirCenaLista(id, respeitoPorId, cena => { respeitoSessao = cena; }, pintarRespeito, telaRespeitos);
+  abrirCenaLista(id, T.respeitoPorId, cena => { respeitoSessao = cena; }, pintarRespeito, telaRespeitos);
 }
 
 function pintarRespeito() {
@@ -3643,7 +3641,7 @@ function pintarRespeito() {
     rota: 'respeito',
     aoLista: telaRespeitos,
     repintar: pintarRespeito,
-    avaliar: avaliarRespeito,
+    avaliar: T.avaliarRespeito,
     registrar: registrarRespeito,
     tituloFim: 'Ponto dito!'
   });
@@ -3654,14 +3652,14 @@ function telaDebitos() {
     'debito',
     '🧱 A dívida',
     subCena('a dívida e o tempo'),
-    DEBITOS,
+    T.DEBITOS,
     abrirDebito,
     valor => { debitoSessao = valor; }
   );
 }
 
 function abrirDebito(id) {
-  abrirCenaLista(id, debitoPorId, cena => { debitoSessao = cena; }, pintarDebito, telaDebitos);
+  abrirCenaLista(id, T.debitoPorId, cena => { debitoSessao = cena; }, pintarDebito, telaDebitos);
 }
 
 function pintarDebito() {
@@ -3669,7 +3667,7 @@ function pintarDebito() {
     rota: 'debito',
     aoLista: telaDebitos,
     repintar: pintarDebito,
-    avaliar: avaliarDebito,
+    avaliar: T.avaliarDebito,
     registrar: registrarDebito,
     tituloFim: 'Tempo pedido!'
   });
@@ -3680,14 +3678,14 @@ function telaIndicacoes() {
     'indicacao',
     '✉️ A indicação',
     subCena('o pedido e o contexto'),
-    INDICACOES,
+    T.INDICACOES,
     abrirIndicacao,
     valor => { indicacaoSessao = valor; }
   );
 }
 
 function abrirIndicacao(id) {
-  abrirCenaLista(id, indicacaoPorId, cena => { indicacaoSessao = cena; }, pintarIndicacao, telaIndicacoes);
+  abrirCenaLista(id, T.indicacaoPorId, cena => { indicacaoSessao = cena; }, pintarIndicacao, telaIndicacoes);
 }
 
 function pintarIndicacao() {
@@ -3695,7 +3693,7 @@ function pintarIndicacao() {
     rota: 'indicacao',
     aoLista: telaIndicacoes,
     repintar: pintarIndicacao,
-    avaliar: avaliarIndicacao,
+    avaliar: T.avaliarIndicacao,
     registrar: registrarIndicacao,
     tituloFim: 'Referência pedida!'
   });
@@ -3925,14 +3923,14 @@ function telaBrechas() {
     'brecha',
     '🔓 A falha',
     subCena('o furo e o conserto'),
-    BRECHAS,
+    T.BRECHAS,
     abrirBrecha,
     valor => { brechaSessao = valor; }
   );
 }
 
 function abrirBrecha(id) {
-  abrirCenaLista(id, brechaPorId, cena => { brechaSessao = cena; }, pintarBrecha, telaBrechas);
+  abrirCenaLista(id, T.brechaPorId, cena => { brechaSessao = cena; }, pintarBrecha, telaBrechas);
 }
 
 function pintarBrecha() {
@@ -3940,7 +3938,7 @@ function pintarBrecha() {
     rota: 'brecha',
     aoLista: telaBrechas,
     repintar: pintarBrecha,
-    avaliar: avaliarBrecha,
+    avaliar: T.avaliarBrecha,
     registrar: registrarBrecha,
     tituloFim: 'Falha explicada!'
   });
@@ -3951,14 +3949,14 @@ function telaMudas() {
     'muda',
     '📐 A mudança',
     subCena('o pedido e a troca'),
-    MUDAS,
+    T.MUDAS,
     abrirMuda,
     valor => { mudaSessao = valor; }
   );
 }
 
 function abrirMuda(id) {
-  abrirCenaLista(id, mudaPorId, cena => { mudaSessao = cena; }, pintarMuda, telaMudas);
+  abrirCenaLista(id, T.mudaPorId, cena => { mudaSessao = cena; }, pintarMuda, telaMudas);
 }
 
 function pintarMuda() {
@@ -3966,7 +3964,7 @@ function pintarMuda() {
     rota: 'muda',
     aoLista: telaMudas,
     repintar: pintarMuda,
-    avaliar: avaliarMuda,
+    avaliar: T.avaliarMuda,
     registrar: registrarMuda,
     tituloFim: 'Mudança negociada!'
   });
@@ -3977,14 +3975,14 @@ function telaGauchos() {
     'gaucho',
     '🧉 O chimarrão',
     subCena('o lugar e o hábito'),
-    GAUCHOS,
+    T.GAUCHOS,
     abrirGaucho,
     valor => { gauchoSessao = valor; }
   );
 }
 
 function abrirGaucho(id) {
-  abrirCenaLista(id, gauchoPorId, cena => { gauchoSessao = cena; }, pintarGaucho, telaGauchos);
+  abrirCenaLista(id, T.gauchoPorId, cena => { gauchoSessao = cena; }, pintarGaucho, telaGauchos);
 }
 
 function pintarGaucho() {
@@ -3992,7 +3990,7 @@ function pintarGaucho() {
     rota: 'gaucho',
     aoLista: telaGauchos,
     repintar: pintarGaucho,
-    avaliar: avaliarGaucho,
+    avaliar: T.avaliarGaucho,
     registrar: registrarGaucho,
     tituloFim: 'Sul contado!'
   });
@@ -4003,14 +4001,14 @@ function telaRadares() {
     'radar',
     '📡 O radar',
     subCena('o sinal e a leitura'),
-    RADARS,
+    T.RADARS,
     abrirRadar,
     valor => { radarSessao = valor; }
   );
 }
 
 function abrirRadar(id) {
-  abrirCenaLista(id, radarPorId, cena => { radarSessao = cena; }, pintarRadar, telaRadares);
+  abrirCenaLista(id, T.radarPorId, cena => { radarSessao = cena; }, pintarRadar, telaRadares);
 }
 
 function pintarRadar() {
@@ -4018,7 +4016,7 @@ function pintarRadar() {
     rota: 'radar',
     aoLista: telaRadares,
     repintar: pintarRadar,
-    avaliar: avaliarRadar,
+    avaliar: T.avaliarRadar,
     registrar: registrarRadar,
     tituloFim: 'Radar lido!'
   });
@@ -4029,14 +4027,14 @@ function telaAplausos() {
     'aplauso',
     '👏 O aplauso',
     subCena('o elogio e o nome'),
-    APLAUSOS,
+    T.APLAUSOS,
     abrirAplauso,
     valor => { aplausoSessao = valor; }
   );
 }
 
 function abrirAplauso(id) {
-  abrirCenaLista(id, aplausoPorId, cena => { aplausoSessao = cena; }, pintarAplauso, telaAplausos);
+  abrirCenaLista(id, T.aplausoPorId, cena => { aplausoSessao = cena; }, pintarAplauso, telaAplausos);
 }
 
 function pintarAplauso() {
@@ -4044,7 +4042,7 @@ function pintarAplauso() {
     rota: 'aplauso',
     aoLista: telaAplausos,
     repintar: pintarAplauso,
-    avaliar: avaliarAplauso,
+    avaliar: T.avaliarAplauso,
     registrar: registrarAplauso,
     tituloFim: 'Time agradecido!'
   });
@@ -4055,14 +4053,14 @@ function telaGripes() {
     'gripe',
     '🤒 A gripe',
     subCena('o aviso e o plano'),
-    GRIPES,
+    T.GRIPES,
     abrirGripe,
     valor => { gripeSessao = valor; }
   );
 }
 
 function abrirGripe(id) {
-  abrirCenaLista(id, gripePorId, cena => { gripeSessao = cena; }, pintarGripe, telaGripes);
+  abrirCenaLista(id, T.gripePorId, cena => { gripeSessao = cena; }, pintarGripe, telaGripes);
 }
 
 function pintarGripe() {
@@ -4070,7 +4068,7 @@ function pintarGripe() {
     rota: 'gripe',
     aoLista: telaGripes,
     repintar: pintarGripe,
-    avaliar: avaliarGripe,
+    avaliar: T.avaliarGripe,
     registrar: registrarGripe,
     tituloFim: 'Folga avisada!'
   });
@@ -4081,14 +4079,14 @@ function telaPms() {
     'pm',
     '📎 Com o PM',
     subCena('a data e a troca'),
-    PMS,
+    T.PMS,
     abrirPm,
     valor => { pmSessao = valor; }
   );
 }
 
 function abrirPm(id) {
-  abrirCenaLista(id, pmPorId, cena => { pmSessao = cena; }, pintarPm, telaPms);
+  abrirCenaLista(id, T.pmPorId, cena => { pmSessao = cena; }, pintarPm, telaPms);
 }
 
 function pintarPm() {
@@ -4096,7 +4094,7 @@ function pintarPm() {
     rota: 'pm',
     aoLista: telaPms,
     repintar: pintarPm,
-    avaliar: avaliarPm,
+    avaliar: T.avaliarPm,
     registrar: registrarPm,
     tituloFim: 'Data combinada!'
   });
@@ -4107,14 +4105,14 @@ function telaLaudos() {
     'laudo',
     '📄 O laudo',
     subCena('o fato e a ação'),
-    LAUDOS,
+    T.LAUDOS,
     abrirLaudo,
     valor => { laudoSessao = valor; }
   );
 }
 
 function abrirLaudo(id) {
-  abrirCenaLista(id, laudoPorId, cena => { laudoSessao = cena; }, pintarLaudo, telaLaudos);
+  abrirCenaLista(id, T.laudoPorId, cena => { laudoSessao = cena; }, pintarLaudo, telaLaudos);
 }
 
 function pintarLaudo() {
@@ -4122,7 +4120,7 @@ function pintarLaudo() {
     rota: 'laudo',
     aoLista: telaLaudos,
     repintar: pintarLaudo,
-    avaliar: avaliarLaudo,
+    avaliar: T.avaliarLaudo,
     registrar: registrarLaudo,
     tituloFim: 'Laudo fechado!'
   });
@@ -4133,14 +4131,14 @@ function telaRumos() {
     'rumo',
     '🔭 O rumo',
     subCena('o pedido e o passo'),
-    RUMOS,
+    T.RUMOS,
     abrirRumo,
     valor => { rumoSessao = valor; }
   );
 }
 
 function abrirRumo(id) {
-  abrirCenaLista(id, rumoPorId, cena => { rumoSessao = cena; }, pintarRumo, telaRumos);
+  abrirCenaLista(id, T.rumoPorId, cena => { rumoSessao = cena; }, pintarRumo, telaRumos);
 }
 
 function pintarRumo() {
@@ -4148,7 +4146,7 @@ function pintarRumo() {
     rota: 'rumo',
     aoLista: telaRumos,
     repintar: pintarRumo,
-    avaliar: avaliarRumo,
+    avaliar: T.avaliarRumo,
     registrar: registrarRumo,
     tituloFim: 'Rumo pedido!'
   });
@@ -4159,14 +4157,14 @@ function telaAcessos() {
     'acesso',
     '🔑 O acesso',
     subCena('o lugar e a ajuda'),
-    ACESSOS,
+    T.ACESSOS,
     abrirAcesso,
     valor => { acessoSessao = valor; }
   );
 }
 
 function abrirAcesso(id) {
-  abrirCenaLista(id, acessoPorId, cena => { acessoSessao = cena; }, pintarAcesso, telaAcessos);
+  abrirCenaLista(id, T.acessoPorId, cena => { acessoSessao = cena; }, pintarAcesso, telaAcessos);
 }
 
 function pintarAcesso() {
@@ -4174,7 +4172,7 @@ function pintarAcesso() {
     rota: 'acesso',
     aoLista: telaAcessos,
     repintar: pintarAcesso,
-    avaliar: avaliarAcesso,
+    avaliar: T.avaliarAcesso,
     registrar: registrarAcesso,
     tituloFim: 'Acesso combinado!'
   });
@@ -4185,14 +4183,14 @@ function telaLicencas() {
     'licenca',
     '💳 A licença',
     subCena('o pedido e o valor'),
-    LICENCAS,
+    T.LICENCAS,
     abrirLicenca,
     valor => { licencaSessao = valor; }
   );
 }
 
 function abrirLicenca(id) {
-  abrirCenaLista(id, licencaPorId, cena => { licencaSessao = cena; }, pintarLicenca, telaLicencas);
+  abrirCenaLista(id, T.licencaPorId, cena => { licencaSessao = cena; }, pintarLicenca, telaLicencas);
 }
 
 function pintarLicenca() {
@@ -4200,7 +4198,7 @@ function pintarLicenca() {
     rota: 'licenca',
     aoLista: telaLicencas,
     repintar: pintarLicenca,
-    avaliar: avaliarLicenca,
+    avaliar: T.avaliarLicenca,
     registrar: registrarLicenca,
     tituloFim: 'Licença pedida!'
   });
@@ -4211,14 +4209,14 @@ function telaJargoes() {
     'jargao',
     '🧾 Sem jargão',
     subCena('o simples e o efeito'),
-    JARGOES,
+    T.JARGOES,
     abrirJargao,
     valor => { jargaoSessao = valor; }
   );
 }
 
 function abrirJargao(id) {
-  abrirCenaLista(id, jargaoPorId, cena => { jargaoSessao = cena; }, pintarJargao, telaJargoes);
+  abrirCenaLista(id, T.jargaoPorId, cena => { jargaoSessao = cena; }, pintarJargao, telaJargoes);
 }
 
 function pintarJargao() {
@@ -4226,7 +4224,7 @@ function pintarJargao() {
     rota: 'jargao',
     aoLista: telaJargoes,
     repintar: pintarJargao,
-    avaliar: avaliarJargao,
+    avaliar: T.avaliarJargao,
     registrar: registrarJargao,
     tituloFim: 'Nota simples!'
   });
@@ -4237,14 +4235,14 @@ function telaBandeiras() {
     'bandeira',
     '🎚️ A bandeira',
     subCena('o plano e a saída'),
-    BANDEIRAS,
+    T.BANDEIRAS,
     abrirBandeira,
     valor => { bandeiraSessao = valor; }
   );
 }
 
 function abrirBandeira(id) {
-  abrirCenaLista(id, bandeiraPorId, cena => { bandeiraSessao = cena; }, pintarBandeira, telaBandeiras);
+  abrirCenaLista(id, T.bandeiraPorId, cena => { bandeiraSessao = cena; }, pintarBandeira, telaBandeiras);
 }
 
 function pintarBandeira() {
@@ -4252,7 +4250,7 @@ function pintarBandeira() {
     rota: 'bandeira',
     aoLista: telaBandeiras,
     repintar: pintarBandeira,
-    avaliar: avaliarBandeira,
+    avaliar: T.avaliarBandeira,
     registrar: registrarBandeira,
     tituloFim: 'Bandeira combinada!'
   });
@@ -4263,14 +4261,14 @@ function telaGelos() {
     'gelo',
     '🧊 O gelo',
     subCena('a regra e a exceção'),
-    GELOS,
+    T.GELOS,
     abrirGelo,
     valor => { geloSessao = valor; }
   );
 }
 
 function abrirGelo(id) {
-  abrirCenaLista(id, geloPorId, cena => { geloSessao = cena; }, pintarGelo, telaGelos);
+  abrirCenaLista(id, T.geloPorId, cena => { geloSessao = cena; }, pintarGelo, telaGelos);
 }
 
 function pintarGelo() {
@@ -4278,7 +4276,7 @@ function pintarGelo() {
     rota: 'gelo',
     aoLista: telaGelos,
     repintar: pintarGelo,
-    avaliar: avaliarGelo,
+    avaliar: T.avaliarGelo,
     registrar: registrarGelo,
     tituloFim: 'Gelo marcado!'
   });
@@ -4289,14 +4287,14 @@ function telaLimites() {
     'limite',
     '🚥 O limite',
     subCena('o número e a resposta'),
-    LIMITES,
+    T.LIMITES,
     abrirLimite,
     valor => { limiteSessao = valor; }
   );
 }
 
 function abrirLimite(id) {
-  abrirCenaLista(id, limitePorId, cena => { limiteSessao = cena; }, pintarLimite, telaLimites);
+  abrirCenaLista(id, T.limitePorId, cena => { limiteSessao = cena; }, pintarLimite, telaLimites);
 }
 
 function pintarLimite() {
@@ -4304,7 +4302,7 @@ function pintarLimite() {
     rota: 'limite',
     aoLista: telaLimites,
     repintar: pintarLimite,
-    avaliar: avaliarLimite,
+    avaliar: T.avaliarLimite,
     registrar: registrarLimite,
     tituloFim: 'Limite dito!'
   });
@@ -4315,14 +4313,14 @@ function telaCanarios() {
     'canario',
     '🐤 O canário',
     subCena('o alvo e a saúde'),
-    CANARIOS,
+    T.CANARIOS,
     abrirCanario,
     valor => { canarioSessao = valor; }
   );
 }
 
 function abrirCanario(id) {
-  abrirCenaLista(id, canarioPorId, cena => { canarioSessao = cena; }, pintarCanario, telaCanarios);
+  abrirCenaLista(id, T.canarioPorId, cena => { canarioSessao = cena; }, pintarCanario, telaCanarios);
 }
 
 function pintarCanario() {
@@ -4330,7 +4328,7 @@ function pintarCanario() {
     rota: 'canario',
     aoLista: telaCanarios,
     repintar: pintarCanario,
-    avaliar: avaliarCanario,
+    avaliar: T.avaliarCanario,
     registrar: registrarCanario,
     tituloFim: 'Canário observado!'
   });
@@ -4341,14 +4339,14 @@ function telaDespedidas() {
     'despedida',
     '📭 A despedida',
     subCena('a data e a troca'),
-    DESPEDIDAS,
+    T.DESPEDIDAS,
     abrirDespedida,
     valor => { despedidaSessao = valor; }
   );
 }
 
 function abrirDespedida(id) {
-  abrirCenaLista(id, despedidaPorId, cena => { despedidaSessao = cena; }, pintarDespedida, telaDespedidas);
+  abrirCenaLista(id, T.despedidaPorId, cena => { despedidaSessao = cena; }, pintarDespedida, telaDespedidas);
 }
 
 function pintarDespedida() {
@@ -4356,7 +4354,7 @@ function pintarDespedida() {
     rota: 'despedida',
     aoLista: telaDespedidas,
     repintar: pintarDespedida,
-    avaliar: avaliarDespedida,
+    avaliar: T.avaliarDespedida,
     registrar: registrarDespedida,
     tituloFim: 'Despedida dita!'
   });
@@ -4367,14 +4365,14 @@ function telaRepeticoes() {
     'repeticao',
     '🪝 A repetição',
     subCena('a chegada e a segunda vez'),
-    REPETICOES,
+    T.REPETICOES,
     abrirRepeticao,
     valor => { repeticaoSessao = valor; }
   );
 }
 
 function abrirRepeticao(id) {
-  abrirCenaLista(id, repeticaoPorId, cena => { repeticaoSessao = cena; }, pintarRepeticao, telaRepeticoes);
+  abrirCenaLista(id, T.repeticaoPorId, cena => { repeticaoSessao = cena; }, pintarRepeticao, telaRepeticoes);
 }
 
 function pintarRepeticao() {
@@ -4382,7 +4380,7 @@ function pintarRepeticao() {
     rota: 'repeticao',
     aoLista: telaRepeticoes,
     repintar: pintarRepeticao,
-    avaliar: avaliarRepeticao,
+    avaliar: T.avaliarRepeticao,
     registrar: registrarRepeticao,
     tituloFim: 'Repetição explicada!'
   });
@@ -4393,14 +4391,14 @@ function telaCargas() {
     'carga',
     '🏋️ A carga',
     subCena('o tempo e o lugar'),
-    CARGAS,
+    T.CARGAS,
     abrirCarga,
     valor => { cargaSessao = valor; }
   );
 }
 
 function abrirCarga(id) {
-  abrirCenaLista(id, cargaPorId, cena => { cargaSessao = cena; }, pintarCarga, telaCargas);
+  abrirCenaLista(id, T.cargaPorId, cena => { cargaSessao = cena; }, pintarCarga, telaCargas);
 }
 
 function pintarCarga() {
@@ -4408,7 +4406,7 @@ function pintarCarga() {
     rota: 'carga',
     aoLista: telaCargas,
     repintar: pintarCarga,
-    avaliar: avaliarCarga,
+    avaliar: T.avaliarCarga,
     registrar: registrarCarga,
     tituloFim: 'Carga contada!'
   });
@@ -4419,14 +4417,14 @@ function telaBoletins() {
     'boletim',
     '📰 O boletim',
     subCena('a lista e a leitura'),
-    BOLETINS,
+    T.BOLETINS,
     abrirBoletim,
     valor => { boletimSessao = valor; }
   );
 }
 
 function abrirBoletim(id) {
-  abrirCenaLista(id, boletimPorId, cena => { boletimSessao = cena; }, pintarBoletim, telaBoletins);
+  abrirCenaLista(id, T.boletimPorId, cena => { boletimSessao = cena; }, pintarBoletim, telaBoletins);
 }
 
 function pintarBoletim() {
@@ -4434,7 +4432,7 @@ function pintarBoletim() {
     rota: 'boletim',
     aoLista: telaBoletins,
     repintar: pintarBoletim,
-    avaliar: avaliarBoletim,
+    avaliar: T.avaliarBoletim,
     registrar: registrarBoletim,
     tituloFim: 'Boletim lido!'
   });
@@ -4445,14 +4443,14 @@ function telaDonos() {
     'dono',
     '🪪 Quem aprova',
     subCena('a pasta e o merge'),
-    DONOS,
+    T.DONOS,
     abrirDono,
     valor => { donoSessao = valor; }
   );
 }
 
 function abrirDono(id) {
-  abrirCenaLista(id, donoPorId, cena => { donoSessao = cena; }, pintarDono, telaDonos);
+  abrirCenaLista(id, T.donoPorId, cena => { donoSessao = cena; }, pintarDono, telaDonos);
 }
 
 function pintarDono() {
@@ -4460,7 +4458,7 @@ function pintarDono() {
     rota: 'dono',
     aoLista: telaDonos,
     repintar: pintarDono,
-    avaliar: avaliarDono,
+    avaliar: T.avaliarDono,
     registrar: registrarDono,
     tituloFim: 'Dono combinado!'
   });
@@ -4471,14 +4469,14 @@ function telaManuais() {
     'manual',
     '📘 O manual',
     subCena('o passo e a checagem'),
-    MANUAIS,
+    T.MANUAIS,
     abrirManual,
     valor => { manualSessao = valor; }
   );
 }
 
 function abrirManual(id) {
-  abrirCenaLista(id, manualPorId, cena => { manualSessao = cena; }, pintarManual, telaManuais);
+  abrirCenaLista(id, T.manualPorId, cena => { manualSessao = cena; }, pintarManual, telaManuais);
 }
 
 function pintarManual() {
@@ -4486,7 +4484,7 @@ function pintarManual() {
     rota: 'manual',
     aoLista: telaManuais,
     repintar: pintarManual,
-    avaliar: avaliarManual,
+    avaliar: T.avaliarManual,
     registrar: registrarManual,
     tituloFim: 'Manual seguido!'
   });
@@ -4497,14 +4495,14 @@ function telaVerdes() {
     'verde',
     '🟢 O lado verde',
     subCena('o tráfego e a volta'),
-    VERDES,
+    T.VERDES,
     abrirVerde,
     valor => { verdeSessao = valor; }
   );
 }
 
 function abrirVerde(id) {
-  abrirCenaLista(id, verdePorId, cena => { verdeSessao = cena; }, pintarVerde, telaVerdes);
+  abrirCenaLista(id, T.verdePorId, cena => { verdeSessao = cena; }, pintarVerde, telaVerdes);
 }
 
 function pintarVerde() {
@@ -4512,7 +4510,7 @@ function pintarVerde() {
     rota: 'verde',
     aoLista: telaVerdes,
     repintar: pintarVerde,
-    avaliar: avaliarVerde,
+    avaliar: T.avaliarVerde,
     registrar: registrarVerde,
     tituloFim: 'Lado trocado!'
   });
@@ -4523,14 +4521,14 @@ function telaCertificados() {
     'certificado',
     '🔏 O certificado',
     subCena('o prazo e o aviso'),
-    CERTIFICADOS,
+    T.CERTIFICADOS,
     abrirCertificado,
     valor => { certificadoSessao = valor; }
   );
 }
 
 function abrirCertificado(id) {
-  abrirCenaLista(id, certificadoPorId, cena => { certificadoSessao = cena; }, pintarCertificado, telaCertificados);
+  abrirCenaLista(id, T.certificadoPorId, cena => { certificadoSessao = cena; }, pintarCertificado, telaCertificados);
 }
 
 function pintarCertificado() {
@@ -4538,7 +4536,7 @@ function pintarCertificado() {
     rota: 'certificado',
     aoLista: telaCertificados,
     repintar: pintarCertificado,
-    avaliar: avaliarCertificado,
+    avaliar: T.avaliarCertificado,
     registrar: registrarCertificado,
     tituloFim: 'Certificado combinado!'
   });
@@ -4549,14 +4547,14 @@ function telaRebases() {
     'rebase',
     '🌿 O rebase',
     subCena('a base e o arquivo'),
-    REBASES,
+    T.REBASES,
     abrirRebase,
     valor => { rebaseSessao = valor; }
   );
 }
 
 function abrirRebase(id) {
-  abrirCenaLista(id, rebasePorId, cena => { rebaseSessao = cena; }, pintarRebase, telaRebases);
+  abrirCenaLista(id, T.rebasePorId, cena => { rebaseSessao = cena; }, pintarRebase, telaRebases);
 }
 
 function pintarRebase() {
@@ -4564,7 +4562,7 @@ function pintarRebase() {
     rota: 'rebase',
     aoLista: telaRebases,
     repintar: pintarRebase,
-    avaliar: avaliarRebase,
+    avaliar: T.avaliarRebase,
     registrar: registrarRebase,
     tituloFim: 'Rebase combinado!'
   });
@@ -4575,14 +4573,14 @@ function telaConsultas() {
     'consulta',
     '🐌 A consulta',
     subCena('o tempo e o plano'),
-    CONSULTAS,
+    T.CONSULTAS,
     abrirConsulta,
     valor => { consultaSessao = valor; }
   );
 }
 
 function abrirConsulta(id) {
-  abrirCenaLista(id, consultaPorId, cena => { consultaSessao = cena; }, pintarConsulta, telaConsultas);
+  abrirCenaLista(id, T.consultaPorId, cena => { consultaSessao = cena; }, pintarConsulta, telaConsultas);
 }
 
 function pintarConsulta() {
@@ -4590,7 +4588,7 @@ function pintarConsulta() {
     rota: 'consulta',
     aoLista: telaConsultas,
     repintar: pintarConsulta,
-    avaliar: avaliarConsulta,
+    avaliar: T.avaliarConsulta,
     registrar: registrarConsulta,
     tituloFim: 'Consulta lida!'
   });
@@ -4601,14 +4599,14 @@ function telaReplicas() {
     'replica',
     '🪞 A réplica',
     subCena('o atraso e a leitura'),
-    REPLICAS,
+    T.REPLICAS,
     abrirReplica,
     valor => { replicaSessao = valor; }
   );
 }
 
 function abrirReplica(id) {
-  abrirCenaLista(id, replicaPorId, cena => { replicaSessao = cena; }, pintarReplica, telaReplicas);
+  abrirCenaLista(id, T.replicaPorId, cena => { replicaSessao = cena; }, pintarReplica, telaReplicas);
 }
 
 function pintarReplica() {
@@ -4616,7 +4614,7 @@ function pintarReplica() {
     rota: 'replica',
     aoLista: telaReplicas,
     repintar: pintarReplica,
-    avaliar: avaliarReplica,
+    avaliar: T.avaliarReplica,
     registrar: registrarReplica,
     tituloFim: 'Réplica explicada!'
   });
@@ -4627,14 +4625,14 @@ function telaEnsaios() {
     'ensaio',
     '🧪 O ensaio',
     subCena('o ensaio e a cópia'),
-    ENSAIOS,
+    T.ENSAIOS,
     abrirEnsaio,
     valor => { ensaioSessao = valor; }
   );
 }
 
 function abrirEnsaio(id) {
-  abrirCenaLista(id, ensaioPorId, cena => { ensaioSessao = cena; }, pintarEnsaio, telaEnsaios);
+  abrirCenaLista(id, T.ensaioPorId, cena => { ensaioSessao = cena; }, pintarEnsaio, telaEnsaios);
 }
 
 function pintarEnsaio() {
@@ -4642,7 +4640,7 @@ function pintarEnsaio() {
     rota: 'ensaio',
     aoLista: telaEnsaios,
     repintar: pintarEnsaio,
-    avaliar: avaliarEnsaio,
+    avaliar: T.avaliarEnsaio,
     registrar: registrarEnsaio,
     tituloFim: 'Ensaio combinado!'
   });
@@ -4653,14 +4651,14 @@ function telaDiscos() {
     'disco',
     '💽 O disco',
     subCena('o disco cheio e o plano'),
-    DISCOS,
+    T.DISCOS,
     abrirDisco,
     valor => { discoSessao = valor; }
   );
 }
 
 function abrirDisco(id) {
-  abrirCenaLista(id, discoPorId, cena => { discoSessao = cena; }, pintarDisco, telaDiscos);
+  abrirCenaLista(id, T.discoPorId, cena => { discoSessao = cena; }, pintarDisco, telaDiscos);
 }
 
 function pintarDisco() {
@@ -4668,7 +4666,7 @@ function pintarDisco() {
     rota: 'disco',
     aoLista: telaDiscos,
     repintar: pintarDisco,
-    avaliar: avaliarDisco,
+    avaliar: T.avaliarDisco,
     registrar: registrarDisco,
     tituloFim: 'Disco explicado!'
   });
@@ -4679,14 +4677,14 @@ function telaPaginas() {
     'pagina',
     '📃 A página',
     subCena('a lista e a próxima página'),
-    PAGINAS,
+    T.PAGINAS,
     abrirPagina,
     valor => { paginaSessao = valor; }
   );
 }
 
 function abrirPagina(id) {
-  abrirCenaLista(id, paginaPorId, cena => { paginaSessao = cena; }, pintarPagina, telaPaginas);
+  abrirCenaLista(id, T.paginaPorId, cena => { paginaSessao = cena; }, pintarPagina, telaPaginas);
 }
 
 function pintarPagina() {
@@ -4694,7 +4692,7 @@ function pintarPagina() {
     rota: 'pagina',
     aoLista: telaPaginas,
     repintar: pintarPagina,
-    avaliar: avaliarPagina,
+    avaliar: T.avaliarPagina,
     registrar: registrarPagina,
     tituloFim: 'Página explicada!'
   });
@@ -4705,14 +4703,14 @@ function telaSquashes() {
     'squash',
     '✂️ O squash',
     subCena('os commits e o merge'),
-    SQUASHES,
+    T.SQUASHES,
     abrirSquash,
     valor => { squashSessao = valor; }
   );
 }
 
 function abrirSquash(id) {
-  abrirCenaLista(id, squashPorId, cena => { squashSessao = cena; }, pintarSquash, telaSquashes);
+  abrirCenaLista(id, T.squashPorId, cena => { squashSessao = cena; }, pintarSquash, telaSquashes);
 }
 
 function pintarSquash() {
@@ -4720,7 +4718,7 @@ function pintarSquash() {
     rota: 'squash',
     aoLista: telaSquashes,
     repintar: pintarSquash,
-    avaliar: avaliarSquash,
+    avaliar: T.avaliarSquash,
     registrar: registrarSquash,
     tituloFim: 'Squash combinado!'
   });
@@ -4731,14 +4729,14 @@ function telaCircuitos() {
     'circuito',
     '🛑 O circuito',
     subCena('quando abre e quando fecha'),
-    CIRCUITOS,
+    T.CIRCUITOS,
     abrirCircuito,
     valor => { circuitoSessao = valor; }
   );
 }
 
 function abrirCircuito(id) {
-  abrirCenaLista(id, circuitoPorId, cena => { circuitoSessao = cena; }, pintarCircuito, telaCircuitos);
+  abrirCenaLista(id, T.circuitoPorId, cena => { circuitoSessao = cena; }, pintarCircuito, telaCircuitos);
 }
 
 function pintarCircuito() {
@@ -4746,7 +4744,7 @@ function pintarCircuito() {
     rota: 'circuito',
     aoLista: telaCircuitos,
     repintar: pintarCircuito,
-    avaliar: avaliarCircuito,
+    avaliar: T.avaliarCircuito,
     registrar: registrarCircuito,
     tituloFim: 'Circuito explicado!'
   });
@@ -4757,14 +4755,14 @@ function telaJobs() {
     'job',
     '🌙 O job',
     subCena('o horário e a falha'),
-    JOBS,
+    T.JOBS,
     abrirJob,
     valor => { jobSessao = valor; }
   );
 }
 
 function abrirJob(id) {
-  abrirCenaLista(id, jobPorId, cena => { jobSessao = cena; }, pintarJob, telaJobs);
+  abrirCenaLista(id, T.jobPorId, cena => { jobSessao = cena; }, pintarJob, telaJobs);
 }
 
 function pintarJob() {
@@ -4772,7 +4770,7 @@ function pintarJob() {
     rota: 'job',
     aoLista: telaJobs,
     repintar: pintarJob,
-    avaliar: avaliarJob,
+    avaliar: T.avaliarJob,
     registrar: registrarJob,
     tituloFim: 'Job explicado!'
   });
@@ -4783,14 +4781,14 @@ function telaColheitas() {
     'colheita',
     '🍒 A colheita',
     subCena('o commit e o que fica'),
-    COLHEITAS,
+    T.COLHEITAS,
     abrirColheita,
     valor => { colheitaSessao = valor; }
   );
 }
 
 function abrirColheita(id) {
-  abrirCenaLista(id, colheitaPorId, cena => { colheitaSessao = cena; }, pintarColheita, telaColheitas);
+  abrirCenaLista(id, T.colheitaPorId, cena => { colheitaSessao = cena; }, pintarColheita, telaColheitas);
 }
 
 function pintarColheita() {
@@ -4798,7 +4796,7 @@ function pintarColheita() {
     rota: 'colheita',
     aoLista: telaColheitas,
     repintar: pintarColheita,
-    avaliar: avaliarColheita,
+    avaliar: T.avaliarColheita,
     registrar: registrarColheita,
     tituloFim: 'Colheita feita!'
   });
@@ -4809,14 +4807,14 @@ function telaSessoes() {
     'sessao',
     '⏳ A sessão',
     subCena('o fim e o prazo'),
-    SESSOES,
+    T.SESSOES,
     abrirSessao,
     valor => { sessaoFala = valor; }
   );
 }
 
 function abrirSessao(id) {
-  abrirCenaLista(id, sessaoPorId, cena => { sessaoFala = cena; }, pintarSessao, telaSessoes);
+  abrirCenaLista(id, T.sessaoPorId, cena => { sessaoFala = cena; }, pintarSessao, telaSessoes);
 }
 
 function pintarSessao() {
@@ -4824,7 +4822,7 @@ function pintarSessao() {
     rota: 'sessao',
     aoLista: telaSessoes,
     repintar: pintarSessao,
-    avaliar: avaliarSessao,
+    avaliar: T.avaliarSessao,
     registrar: registrarSessao,
     tituloFim: 'Sessão explicada!'
   });
@@ -4835,14 +4833,14 @@ function telaTanques() {
     'tanque',
     '🪣 O tanque',
     subCena('o tanque cheio e as conexões ociosas'),
-    TANQUES,
+    T.TANQUES,
     abrirTanque,
     valor => { tanqueSessao = valor; }
   );
 }
 
 function abrirTanque(id) {
-  abrirCenaLista(id, tanquePorId, cena => { tanqueSessao = cena; }, pintarTanque, telaTanques);
+  abrirCenaLista(id, T.tanquePorId, cena => { tanqueSessao = cena; }, pintarTanque, telaTanques);
 }
 
 function pintarTanque() {
@@ -4850,7 +4848,7 @@ function pintarTanque() {
     rota: 'tanque',
     aoLista: telaTanques,
     repintar: pintarTanque,
-    avaliar: avaliarTanque,
+    avaliar: T.avaliarTanque,
     registrar: registrarTanque,
     tituloFim: 'Tanque explicado!'
   });
@@ -4861,14 +4859,14 @@ function telaSondas() {
     'sonda',
     '🩺 A sonda',
     subCena('a falha e a volta'),
-    SONDAS,
+    T.SONDAS,
     abrirSonda,
     valor => { sondaSessao = valor; }
   );
 }
 
 function abrirSonda(id) {
-  abrirCenaLista(id, sondaPorId, cena => { sondaSessao = cena; }, pintarSonda, telaSondas);
+  abrirCenaLista(id, T.sondaPorId, cena => { sondaSessao = cena; }, pintarSonda, telaSondas);
 }
 
 function pintarSonda() {
@@ -4876,7 +4874,7 @@ function pintarSonda() {
     rota: 'sonda',
     aoLista: telaSondas,
     repintar: pintarSonda,
-    avaliar: avaliarSonda,
+    avaliar: T.avaliarSonda,
     registrar: registrarSonda,
     tituloFim: 'Sonda explicada!'
   });
@@ -4887,14 +4885,14 @@ function telaSementes() {
     'semente',
     '🌱 A semente',
     subCena('o banco e as linhas'),
-    SEMENTES,
+    T.SEMENTES,
     abrirSemente,
     valor => { sementeSessao = valor; }
   );
 }
 
 function abrirSemente(id) {
-  abrirCenaLista(id, sementePorId, cena => { sementeSessao = cena; }, pintarSemente, telaSementes);
+  abrirCenaLista(id, T.sementePorId, cena => { sementeSessao = cena; }, pintarSemente, telaSementes);
 }
 
 function pintarSemente() {
@@ -4902,7 +4900,7 @@ function pintarSemente() {
     rota: 'semente',
     aoLista: telaSementes,
     repintar: pintarSemente,
-    avaliar: avaliarSemente,
+    avaliar: T.avaliarSemente,
     registrar: registrarSemente,
     tituloFim: 'Semente plantada!'
   });
@@ -4913,14 +4911,14 @@ function telaRegistros() {
     'registro',
     '📋 O registro',
     subCena('o nível e a volta'),
-    REGISTROS,
+    T.REGISTROS,
     abrirRegistro,
     valor => { registroSessao = valor; }
   );
 }
 
 function abrirRegistro(id) {
-  abrirCenaLista(id, registroPorId, cena => { registroSessao = cena; }, pintarRegistro, telaRegistros);
+  abrirCenaLista(id, T.registroPorId, cena => { registroSessao = cena; }, pintarRegistro, telaRegistros);
 }
 
 function pintarRegistro() {
@@ -4928,7 +4926,7 @@ function pintarRegistro() {
     rota: 'registro',
     aoLista: telaRegistros,
     repintar: pintarRegistro,
-    avaliar: avaliarRegistro,
+    avaliar: T.avaliarRegistro,
     registrar: registrarRegistro,
     tituloFim: 'Registro ajustado!'
   });
@@ -4939,14 +4937,14 @@ function telaRastros() {
     'rastro',
     '🔎 O rastro',
     subCena('o pedido e a cópia'),
-    RASTROS,
+    T.RASTROS,
     abrirRastro,
     valor => { rastroSessao = valor; }
   );
 }
 
 function abrirRastro(id) {
-  abrirCenaLista(id, rastroPorId, cena => { rastroSessao = cena; }, pintarRastro, telaRastros);
+  abrirCenaLista(id, T.rastroPorId, cena => { rastroSessao = cena; }, pintarRastro, telaRastros);
 }
 
 function pintarRastro() {
@@ -4954,7 +4952,7 @@ function pintarRastro() {
     rota: 'rastro',
     aoLista: telaRastros,
     repintar: pintarRastro,
-    avaliar: avaliarRastro,
+    avaliar: T.avaliarRastro,
     registrar: registrarRastro,
     tituloFim: 'Rastro copiado!'
   });
@@ -4965,14 +4963,14 @@ function telaParadas() {
     'parada',
     '🕛 A parada',
     subCena('o início e o fim'),
-    PARADAS,
+    T.PARADAS,
     abrirParada,
     valor => { paradaSessao = valor; }
   );
 }
 
 function abrirParada(id) {
-  abrirCenaLista(id, paradaPorId, cena => { paradaSessao = cena; }, pintarParada, telaParadas);
+  abrirCenaLista(id, T.paradaPorId, cena => { paradaSessao = cena; }, pintarParada, telaParadas);
 }
 
 function pintarParada() {
@@ -4980,7 +4978,7 @@ function pintarParada() {
     rota: 'parada',
     aoLista: telaParadas,
     repintar: pintarParada,
-    avaliar: avaliarParada,
+    avaliar: T.avaliarParada,
     registrar: registrarParada,
     tituloFim: 'Parada marcada!'
   });
@@ -4991,14 +4989,14 @@ function telaPods() {
     'pod',
     '🫛 O pod',
     subCena('a queda e o ar'),
-    PODS,
+    T.PODS,
     abrirPod,
     valor => { podSessao = valor; }
   );
 }
 
 function abrirPod(id) {
-  abrirCenaLista(id, podPorId, cena => { podSessao = cena; }, pintarPod, telaPods);
+  abrirCenaLista(id, T.podPorId, cena => { podSessao = cena; }, pintarPod, telaPods);
 }
 
 function pintarPod() {
@@ -5006,7 +5004,7 @@ function pintarPod() {
     rota: 'pod',
     aoLista: telaPods,
     repintar: pintarPod,
-    avaliar: avaliarPod,
+    avaliar: T.avaliarPod,
     registrar: registrarPod,
     tituloFim: 'Pod no ar!'
   });
@@ -5017,14 +5015,14 @@ function telaLints() {
     'lint',
     '🧹 O lint',
     subCena('a falha e a volta'),
-    LINTS,
+    T.LINTS,
     abrirLint,
     valor => { lintSessao = valor; }
   );
 }
 
 function abrirLint(id) {
-  abrirCenaLista(id, lintPorId, cena => { lintSessao = cena; }, pintarLint, telaLints);
+  abrirCenaLista(id, T.lintPorId, cena => { lintSessao = cena; }, pintarLint, telaLints);
 }
 
 function pintarLint() {
@@ -5032,7 +5030,7 @@ function pintarLint() {
     rota: 'lint',
     aoLista: telaLints,
     repintar: pintarLint,
-    avaliar: avaliarLint,
+    avaliar: T.avaliarLint,
     registrar: registrarLint,
     tituloFim: 'Lint limpo!'
   });
@@ -5043,14 +5041,14 @@ function telaOrigens() {
     'origem',
     '🌐 A origem',
     subCena('o bloqueio e a liberação'),
-    ORIGENS,
+    T.ORIGENS,
     abrirOrigem,
     valor => { origemSessao = valor; }
   );
 }
 
 function abrirOrigem(id) {
-  abrirCenaLista(id, origemPorId, cena => { origemSessao = cena; }, pintarOrigem, telaOrigens);
+  abrirCenaLista(id, T.origemPorId, cena => { origemSessao = cena; }, pintarOrigem, telaOrigens);
 }
 
 function pintarOrigem() {
@@ -5058,7 +5056,7 @@ function pintarOrigem() {
     rota: 'origem',
     aoLista: telaOrigens,
     repintar: pintarOrigem,
-    avaliar: avaliarOrigem,
+    avaliar: T.avaliarOrigem,
     registrar: registrarOrigem,
     tituloFim: 'Origem liberada!'
   });
@@ -5069,14 +5067,14 @@ function telaLinks() {
     'link',
     '🔗 O link',
     subCena('o prazo e a troca'),
-    LINKS,
+    T.LINKS,
     abrirLink,
     valor => { linkSessao = valor; }
   );
 }
 
 function abrirLink(id) {
-  abrirCenaLista(id, linkPorId, cena => { linkSessao = cena; }, pintarLink, telaLinks);
+  abrirCenaLista(id, T.linkPorId, cena => { linkSessao = cena; }, pintarLink, telaLinks);
 }
 
 function pintarLink() {
@@ -5084,7 +5082,7 @@ function pintarLink() {
     rota: 'link',
     aoLista: telaLinks,
     repintar: pintarLink,
-    avaliar: avaliarLink,
+    avaliar: T.avaliarLink,
     registrar: registrarLink,
     tituloFim: 'Link enviado!'
   });
@@ -5095,14 +5093,14 @@ function telaCpus() {
     'cpu',
     '🧮 O processador',
     subCena('o pico e a calma'),
-    CPUS,
+    T.CPUS,
     abrirCpu,
     valor => { cpuSessao = valor; }
   );
 }
 
 function abrirCpu(id) {
-  abrirCenaLista(id, cpuPorId, cena => { cpuSessao = cena; }, pintarCpu, telaCpus);
+  abrirCenaLista(id, T.cpuPorId, cena => { cpuSessao = cena; }, pintarCpu, telaCpus);
 }
 
 function pintarCpu() {
@@ -5110,7 +5108,7 @@ function pintarCpu() {
     rota: 'cpu',
     aoLista: telaCpus,
     repintar: pintarCpu,
-    avaliar: avaliarCpu,
+    avaliar: T.avaliarCpu,
     registrar: registrarCpu,
     tituloFim: 'Processador calmo!'
   });
@@ -5121,14 +5119,14 @@ function telaCopias() {
     'copia',
     '💾 A cópia',
     subCena('a noite e a manhã'),
-    COPIAS,
+    T.COPIAS,
     abrirCopia,
     valor => { copiaSessao = valor; }
   );
 }
 
 function abrirCopia(id) {
-  abrirCenaLista(id, copiaPorId, cena => { copiaSessao = cena; }, pintarCopia, telaCopias);
+  abrirCenaLista(id, T.copiaPorId, cena => { copiaSessao = cena; }, pintarCopia, telaCopias);
 }
 
 function pintarCopia() {
@@ -5136,7 +5134,7 @@ function pintarCopia() {
     rota: 'copia',
     aoLista: telaCopias,
     repintar: pintarCopia,
-    avaliar: avaliarCopia,
+    avaliar: T.avaliarCopia,
     registrar: registrarCopia,
     tituloFim: 'Cópia pronta!'
   });
@@ -5147,14 +5145,14 @@ function telaEstouros() {
     'estouro',
     '💥 O estouro',
     subCena('o estouro e o teto'),
-    ESTOUROS,
+    T.ESTOUROS,
     abrirEstouro,
     valor => { estouroSessao = valor; }
   );
 }
 
 function abrirEstouro(id) {
-  abrirCenaLista(id, estouroPorId, cena => { estouroSessao = cena; }, pintarEstouro, telaEstouros);
+  abrirCenaLista(id, T.estouroPorId, cena => { estouroSessao = cena; }, pintarEstouro, telaEstouros);
 }
 
 function pintarEstouro() {
@@ -5162,7 +5160,7 @@ function pintarEstouro() {
     rota: 'estouro',
     aoLista: telaEstouros,
     repintar: pintarEstouro,
-    avaliar: avaliarEstouro,
+    avaliar: T.avaliarEstouro,
     registrar: registrarEstouro,
     tituloFim: 'Memória livre!'
   });
@@ -5173,14 +5171,14 @@ function telaImpasses() {
     'impasse',
     '🪢 O impasse',
     subCena('a espera e a soltura'),
-    IMPASSES,
+    T.IMPASSES,
     abrirImpasse,
     valor => { impasseSessao = valor; }
   );
 }
 
 function abrirImpasse(id) {
-  abrirCenaLista(id, impassePorId, cena => { impasseSessao = cena; }, pintarImpasse, telaImpasses);
+  abrirCenaLista(id, T.impassePorId, cena => { impasseSessao = cena; }, pintarImpasse, telaImpasses);
 }
 
 function pintarImpasse() {
@@ -5188,7 +5186,7 @@ function pintarImpasse() {
     rota: 'impasse',
     aoLista: telaImpasses,
     repintar: pintarImpasse,
-    avaliar: avaliarImpasse,
+    avaliar: T.avaliarImpasse,
     registrar: registrarImpasse,
     tituloFim: 'Impasse solto!'
   });
@@ -5199,14 +5197,14 @@ function telaDominios() {
     'dominio',
     '🏷️ O domínio',
     subCena('a falha e o endereço'),
-    DOMINIOS,
+    T.DOMINIOS,
     abrirDominio,
     valor => { dominioSessao = valor; }
   );
 }
 
 function abrirDominio(id) {
-  abrirCenaLista(id, dominioPorId, cena => { dominioSessao = cena; }, pintarDominio, telaDominios);
+  abrirCenaLista(id, T.dominioPorId, cena => { dominioSessao = cena; }, pintarDominio, telaDominios);
 }
 
 function pintarDominio() {
@@ -5214,7 +5212,7 @@ function pintarDominio() {
     rota: 'dominio',
     aoLista: telaDominios,
     repintar: pintarDominio,
-    avaliar: avaliarDominio,
+    avaliar: T.avaliarDominio,
     registrar: registrarDominio,
     tituloFim: 'Nome no ar!'
   });
@@ -5225,14 +5223,14 @@ function telaMortas() {
     'morta',
     '📮 A carta morta',
     subCena('o desvio e o motivo'),
-    MORTAS,
+    T.MORTAS,
     abrirMorta,
     valor => { mortaSessao = valor; }
   );
 }
 
 function abrirMorta(id) {
-  abrirCenaLista(id, mortaPorId, cena => { mortaSessao = cena; }, pintarMorta, telaMortas);
+  abrirCenaLista(id, T.mortaPorId, cena => { mortaSessao = cena; }, pintarMorta, telaMortas);
 }
 
 function pintarMorta() {
@@ -5240,7 +5238,7 @@ function pintarMorta() {
     rota: 'morta',
     aoLista: telaMortas,
     repintar: pintarMorta,
-    avaliar: avaliarMorta,
+    avaliar: T.avaliarMorta,
     registrar: registrarMorta,
     tituloFim: 'Motivo lido!'
   });
@@ -5251,14 +5249,14 @@ function telaPonteiros() {
     'ponteiro',
     '🕰️ Os ponteiros',
     subCena('a diferença e o alinhamento'),
-    PONTEIROS,
+    T.PONTEIROS,
     abrirPonteiro,
     valor => { ponteiroSessao = valor; }
   );
 }
 
 function abrirPonteiro(id) {
-  abrirCenaLista(id, ponteiroPorId, cena => { ponteiroSessao = cena; }, pintarPonteiro, telaPonteiros);
+  abrirCenaLista(id, T.ponteiroPorId, cena => { ponteiroSessao = cena; }, pintarPonteiro, telaPonteiros);
 }
 
 function pintarPonteiro() {
@@ -5266,7 +5264,7 @@ function pintarPonteiro() {
     rota: 'ponteiro',
     aoLista: telaPonteiros,
     repintar: pintarPonteiro,
-    avaliar: avaliarPonteiro,
+    avaliar: T.avaliarPonteiro,
     registrar: registrarPonteiro,
     tituloFim: 'Relógios alinhados!'
   });
@@ -5277,14 +5275,14 @@ function telaEleicoes() {
     'eleicao',
     '🗳️ A eleição',
     subCena('o voto e o líder'),
-    ELEICOES,
+    T.ELEICOES,
     abrirEleicao,
     valor => { eleicaoSessao = valor; }
   );
 }
 
 function abrirEleicao(id) {
-  abrirCenaLista(id, eleicaoPorId, cena => { eleicaoSessao = cena; }, pintarEleicao, telaEleicoes);
+  abrirCenaLista(id, T.eleicaoPorId, cena => { eleicaoSessao = cena; }, pintarEleicao, telaEleicoes);
 }
 
 function pintarEleicao() {
@@ -5292,7 +5290,7 @@ function pintarEleicao() {
     rota: 'eleicao',
     aoLista: telaEleicoes,
     repintar: pintarEleicao,
-    avaliar: avaliarEleicao,
+    avaliar: T.avaliarEleicao,
     registrar: registrarEleicao,
     tituloFim: 'Líder eleito!'
   });
@@ -5303,14 +5301,14 @@ function telaFreios() {
     'freio',
     '🛞 O freio',
     subCena('a fila e o ritmo'),
-    FREIOS,
+    T.FREIOS,
     abrirFreio,
     valor => { freioSessao = valor; }
   );
 }
 
 function abrirFreio(id) {
-  abrirCenaLista(id, freioPorId, cena => { freioSessao = cena; }, pintarFreio, telaFreios);
+  abrirCenaLista(id, T.freioPorId, cena => { freioSessao = cena; }, pintarFreio, telaFreios);
 }
 
 function pintarFreio() {
@@ -5318,7 +5316,7 @@ function pintarFreio() {
     rota: 'freio',
     aoLista: telaFreios,
     repintar: pintarFreio,
-    avaliar: avaliarFreio,
+    avaliar: T.avaliarFreio,
     registrar: registrarFreio,
     tituloFim: 'Ritmo menor!'
   });
@@ -5329,14 +5327,14 @@ function telaPausas() {
     'pausa',
     '⌛ A pausa',
     subCena('a parada e a continuação'),
-    PAUSAS,
+    T.PAUSAS,
     abrirPausa,
     valor => { pausaSessao = valor; }
   );
 }
 
 function abrirPausa(id) {
-  abrirCenaLista(id, pausaPorId, cena => { pausaSessao = cena; }, pintarPausa, telaPausas);
+  abrirCenaLista(id, T.pausaPorId, cena => { pausaSessao = cena; }, pintarPausa, telaPausas);
 }
 
 function pintarPausa() {
@@ -5344,7 +5342,7 @@ function pintarPausa() {
     rota: 'pausa',
     aoLista: telaPausas,
     repintar: pintarPausa,
-    avaliar: avaliarPausa,
+    avaliar: T.avaliarPausa,
     registrar: registrarPausa,
     tituloFim: 'Pausa vista!'
   });
@@ -5355,14 +5353,14 @@ function telaDerivas() {
     'deriva',
     '📄 A deriva',
     subCena('a diferença e o arquivo'),
-    DERIVAS,
+    T.DERIVAS,
     abrirDeriva,
     valor => { derivaSessao = valor; }
   );
 }
 
 function abrirDeriva(id) {
-  abrirCenaLista(id, derivaPorId, cena => { derivaSessao = cena; }, pintarDeriva, telaDerivas);
+  abrirCenaLista(id, T.derivaPorId, cena => { derivaSessao = cena; }, pintarDeriva, telaDerivas);
 }
 
 function pintarDeriva() {
@@ -5370,7 +5368,7 @@ function pintarDeriva() {
     rota: 'deriva',
     aoLista: telaDerivas,
     repintar: pintarDeriva,
-    avaliar: avaliarDeriva,
+    avaliar: T.avaliarDeriva,
     registrar: registrarDeriva,
     tituloFim: 'Configuração igual!'
   });
@@ -5381,14 +5379,14 @@ function telaDescritores() {
     'descritor',
     '📁 O descritor',
     subCena('a abertura e o fechamento'),
-    DESCRITORES,
+    T.DESCRITORES,
     abrirDescritor,
     valor => { descritorSessao = valor; }
   );
 }
 
 function abrirDescritor(id) {
-  abrirCenaLista(id, descritorPorId, cena => { descritorSessao = cena; }, pintarDescritor, telaDescritores);
+  abrirCenaLista(id, T.descritorPorId, cena => { descritorSessao = cena; }, pintarDescritor, telaDescritores);
 }
 
 function pintarDescritor() {
@@ -5396,7 +5394,7 @@ function pintarDescritor() {
     rota: 'descritor',
     aoLista: telaDescritores,
     repintar: pintarDescritor,
-    avaliar: avaliarDescritor,
+    avaliar: T.avaliarDescritor,
     registrar: registrarDescritor,
     tituloFim: 'Arquivo livre!'
   });
@@ -5407,14 +5405,14 @@ function telaReservas() {
     'reserva',
     '🪫 A reserva',
     subCena('o uso e a folga'),
-    RESERVAS,
+    T.RESERVAS,
     abrirReserva,
     valor => { reservaSessao = valor; }
   );
 }
 
 function abrirReserva(id) {
-  abrirCenaLista(id, reservaPorId, cena => { reservaSessao = cena; }, pintarReserva, telaReservas);
+  abrirCenaLista(id, T.reservaPorId, cena => { reservaSessao = cena; }, pintarReserva, telaReservas);
 }
 
 function pintarReserva() {
@@ -5422,7 +5420,7 @@ function pintarReserva() {
     rota: 'reserva',
     aoLista: telaReservas,
     repintar: pintarReserva,
-    avaliar: avaliarReserva,
+    avaliar: T.avaliarReserva,
     registrar: registrarReserva,
     tituloFim: 'Reserva livre!'
   });
@@ -5433,14 +5431,14 @@ function telaVarreduras() {
     'varredura',
     '🧵 A varredura',
     subCena('a contagem e a junção'),
-    VARREDURAS,
+    T.VARREDURAS,
     abrirVarredura,
     valor => { varreduraSessao = valor; }
   );
 }
 
 function abrirVarredura(id) {
-  abrirCenaLista(id, varreduraPorId, cena => { varreduraSessao = cena; }, pintarVarredura, telaVarreduras);
+  abrirCenaLista(id, T.varreduraPorId, cena => { varreduraSessao = cena; }, pintarVarredura, telaVarreduras);
 }
 
 function pintarVarredura() {
@@ -5448,7 +5446,7 @@ function pintarVarredura() {
     rota: 'varredura',
     aoLista: telaVarreduras,
     repintar: pintarVarredura,
-    avaliar: avaliarVarredura,
+    avaliar: T.avaliarVarredura,
     registrar: registrarVarredura,
     tituloFim: 'Consulta junta!'
   });
@@ -5459,14 +5457,14 @@ function telaPortas() {
     'porta',
     '🚪 A porta',
     subCena('a batida e a escuta'),
-    PORTAS,
+    T.PORTAS,
     abrirPorta,
     valor => { portaSessao = valor; }
   );
 }
 
 function abrirPorta(id) {
-  abrirCenaLista(id, portaPorId, cena => { portaSessao = cena; }, pintarPorta, telaPortas);
+  abrirCenaLista(id, T.portaPorId, cena => { portaSessao = cena; }, pintarPorta, telaPortas);
 }
 
 function pintarPorta() {
@@ -5474,7 +5472,7 @@ function pintarPorta() {
     rota: 'porta',
     aoLista: telaPortas,
     repintar: pintarPorta,
-    avaliar: avaliarPorta,
+    avaliar: T.avaliarPorta,
     registrar: registrarPorta,
     tituloFim: 'Porta aberta!'
   });
@@ -5485,14 +5483,14 @@ function telaInodos() {
     'inodo',
     '📛 O inodo',
     subCena('acaba e volta'),
-    INODOS,
+    T.INODOS,
     abrirInodo,
     valor => { inodoSessao = valor; }
   );
 }
 
 function abrirInodo(id) {
-  abrirCenaLista(id, inodoPorId, cena => { inodoSessao = cena; }, pintarInodo, telaInodos);
+  abrirCenaLista(id, T.inodoPorId, cena => { inodoSessao = cena; }, pintarInodo, telaInodos);
 }
 
 function pintarInodo() {
@@ -5500,7 +5498,7 @@ function pintarInodo() {
     rota: 'inodo',
     aoLista: telaInodos,
     repintar: pintarInodo,
-    avaliar: avaliarInodo,
+    avaliar: T.avaliarInodo,
     registrar: registrarInodo,
     tituloFim: 'Nome livre!'
   });
@@ -5511,14 +5509,14 @@ function telaSaidas() {
     'saida',
     '🛎️ A saída',
     subCena('recebe e espera'),
-    SAIDAS,
+    T.SAIDAS,
     abrirSaida,
     valor => { saidaSessao = valor; }
   );
 }
 
 function abrirSaida(id) {
-  abrirCenaLista(id, saidaPorId, cena => { saidaSessao = cena; }, pintarSaida, telaSaidas);
+  abrirCenaLista(id, T.saidaPorId, cena => { saidaSessao = cena; }, pintarSaida, telaSaidas);
 }
 
 function pintarSaida() {
@@ -5526,7 +5524,7 @@ function pintarSaida() {
     rota: 'saida',
     aoLista: telaSaidas,
     repintar: pintarSaida,
-    avaliar: avaliarSaida,
+    avaliar: T.avaliarSaida,
     registrar: registrarSaida,
     tituloFim: 'Serviço quieto!'
   });
@@ -5537,14 +5535,14 @@ function telaManadas() {
     'manada',
     '🐑 A manada',
     subCena('cai e segura'),
-    MANADAS,
+    T.MANADAS,
     abrirManada,
     valor => { manadaSessao = valor; }
   );
 }
 
 function abrirManada(id) {
-  abrirCenaLista(id, manadaPorId, cena => { manadaSessao = cena; }, pintarManada, telaManadas);
+  abrirCenaLista(id, T.manadaPorId, cena => { manadaSessao = cena; }, pintarManada, telaManadas);
 }
 
 function pintarManada() {
@@ -5552,7 +5550,7 @@ function pintarManada() {
     rota: 'manada',
     aoLista: telaManadas,
     repintar: pintarManada,
-    avaliar: avaliarManada,
+    avaliar: T.avaliarManada,
     registrar: registrarManada,
     tituloFim: 'Cache calmo!'
   });
@@ -5563,14 +5561,14 @@ function telaGotejos() {
     'gotejo',
     '💧 O gotejo',
     subCena('sobe e devolve'),
-    GOTEJOS,
+    T.GOTEJOS,
     abrirGotejo,
     valor => { gotejoSessao = valor; }
   );
 }
 
 function abrirGotejo(id) {
-  abrirCenaLista(id, gotejoPorId, cena => { gotejoSessao = cena; }, pintarGotejo, telaGotejos);
+  abrirCenaLista(id, T.gotejoPorId, cena => { gotejoSessao = cena; }, pintarGotejo, telaGotejos);
 }
 
 function pintarGotejo() {
@@ -5578,7 +5576,7 @@ function pintarGotejo() {
     rota: 'gotejo',
     aoLista: telaGotejos,
     repintar: pintarGotejo,
-    avaliar: avaliarGotejo,
+    avaliar: T.avaliarGotejo,
     registrar: registrarGotejo,
     tituloFim: 'Memória quieta!'
   });
@@ -5589,14 +5587,14 @@ function telaFrios() {
     'frio',
     '🥶 O frio',
     subCena('dorme e acorda'),
-    FRIOS,
+    T.FRIOS,
     abrirFrio,
     valor => { frioSessao = valor; }
   );
 }
 
 function abrirFrio(id) {
-  abrirCenaLista(id, frioPorId, cena => { frioSessao = cena; }, pintarFrio, telaFrios);
+  abrirCenaLista(id, T.frioPorId, cena => { frioSessao = cena; }, pintarFrio, telaFrios);
 }
 
 function pintarFrio() {
@@ -5604,7 +5602,7 @@ function pintarFrio() {
     rota: 'frio',
     aoLista: telaFrios,
     repintar: pintarFrio,
-    avaliar: avaliarFrio,
+    avaliar: T.avaliarFrio,
     registrar: registrarFrio,
     tituloFim: 'Função quente!'
   });
@@ -5615,14 +5613,14 @@ function telaCadeados() {
     'cadeado',
     '🔐 O cadeado',
     subCena('tenta e libera'),
-    CADEADOS,
+    T.CADEADOS,
     abrirCadeado,
     valor => { cadeadoSessao = valor; }
   );
 }
 
 function abrirCadeado(id) {
-  abrirCenaLista(id, cadeadoPorId, cena => { cadeadoSessao = cena; }, pintarCadeado, telaCadeados);
+  abrirCenaLista(id, T.cadeadoPorId, cena => { cadeadoSessao = cena; }, pintarCadeado, telaCadeados);
 }
 
 function pintarCadeado() {
@@ -5630,7 +5628,7 @@ function pintarCadeado() {
     rota: 'cadeado',
     aoLista: telaCadeados,
     repintar: pintarCadeado,
-    avaliar: avaliarCadeado,
+    avaliar: T.avaliarCadeado,
     registrar: registrarCadeado,
     tituloFim: 'Leitura livre!'
   });
@@ -5641,14 +5639,14 @@ function telaCotas() {
     'cota',
     '📏 A cota',
     subCena('fecha e abre'),
-    COTAS,
+    T.COTAS,
     abrirCota,
     valor => { cotaSessao = valor; }
   );
 }
 
 function abrirCota(id) {
-  abrirCenaLista(id, cotaPorId, cena => { cotaSessao = cena; }, pintarCota, telaCotas);
+  abrirCenaLista(id, T.cotaPorId, cena => { cotaSessao = cena; }, pintarCota, telaCotas);
 }
 
 function pintarCota() {
@@ -5656,7 +5654,7 @@ function pintarCota() {
     rota: 'cota',
     aoLista: telaCotas,
     repintar: pintarCota,
-    avaliar: avaliarCota,
+    avaliar: T.avaliarCota,
     registrar: registrarCota,
     tituloFim: 'Cota aberta!'
   });
@@ -5667,14 +5665,14 @@ function telaCiclos() {
     'ciclo',
     '🔁 O ciclo',
     subCena('cai e fica'),
-    CICLOS,
+    T.CICLOS,
     abrirCiclo,
     valor => { cicloSessao = valor; }
   );
 }
 
 function abrirCiclo(id) {
-  abrirCenaLista(id, cicloPorId, cena => { cicloSessao = cena; }, pintarCiclo, telaCiclos);
+  abrirCenaLista(id, T.cicloPorId, cena => { cicloSessao = cena; }, pintarCiclo, telaCiclos);
 }
 
 function pintarCiclo() {
@@ -5682,7 +5680,7 @@ function pintarCiclo() {
     rota: 'ciclo',
     aoLista: telaCiclos,
     repintar: pintarCiclo,
-    avaliar: avaliarCiclo,
+    avaliar: T.avaliarCiclo,
     registrar: registrarCiclo,
     tituloFim: 'Ciclo firme!'
   });
@@ -5693,14 +5691,14 @@ function telaZumbis() {
     'zumbi',
     '🧟 O zumbi',
     subCena('termina e espera'),
-    ZUMBIS,
+    T.ZUMBIS,
     abrirZumbi,
     valor => { zumbiSessao = valor; }
   );
 }
 
 function abrirZumbi(id) {
-  abrirCenaLista(id, zumbiPorId, cena => { zumbiSessao = cena; }, pintarZumbi, telaZumbis);
+  abrirCenaLista(id, T.zumbiPorId, cena => { zumbiSessao = cena; }, pintarZumbi, telaZumbis);
 }
 
 function pintarZumbi() {
@@ -5708,7 +5706,7 @@ function pintarZumbi() {
     rota: 'zumbi',
     aoLista: telaZumbis,
     repintar: pintarZumbi,
-    avaliar: avaliarZumbi,
+    avaliar: T.avaliarZumbi,
     registrar: registrarZumbi,
     tituloFim: 'Zumbi saiu!'
   });
@@ -5719,14 +5717,14 @@ function telaCisoes() {
     'cisao',
     '🪞 A cisão',
     subCena('divide e junta'),
-    CISOES,
+    T.CISOES,
     abrirCisao,
     valor => { cisaoSessao = valor; }
   );
 }
 
 function abrirCisao(id) {
-  abrirCenaLista(id, cisaoPorId, cena => { cisaoSessao = cena; }, pintarCisao, telaCisoes);
+  abrirCenaLista(id, T.cisaoPorId, cena => { cisaoSessao = cena; }, pintarCisao, telaCisoes);
 }
 
 function pintarCisao() {
@@ -5734,7 +5732,7 @@ function pintarCisao() {
     rota: 'cisao',
     aoLista: telaCisoes,
     repintar: pintarCisao,
-    avaliar: avaliarCisao,
+    avaliar: T.avaliarCisao,
     registrar: registrarCisao,
     tituloFim: 'Cisão resolvida!'
   });
@@ -5745,14 +5743,14 @@ function telaRajadas() {
     'rajada',
     '🌊 A rajada',
     subCena('tenta e acalma'),
-    RAJADAS,
+    T.RAJADAS,
     abrirRajada,
     valor => { rajadaSessao = valor; }
   );
 }
 
 function abrirRajada(id) {
-  abrirCenaLista(id, rajadaPorId, cena => { rajadaSessao = cena; }, pintarRajada, telaRajadas);
+  abrirCenaLista(id, T.rajadaPorId, cena => { rajadaSessao = cena; }, pintarRajada, telaRajadas);
 }
 
 function pintarRajada() {
@@ -5760,7 +5758,7 @@ function pintarRajada() {
     rota: 'rajada',
     aoLista: telaRajadas,
     repintar: pintarRajada,
-    avaliar: avaliarRajada,
+    avaliar: T.avaliarRajada,
     registrar: registrarRajada,
     tituloFim: 'Rajada calma!'
   });
@@ -5771,14 +5769,14 @@ function telaBrasas() {
     'brasa',
     '🔥 A brasa',
     subCena('concentra e espalha'),
-    BRASAS,
+    T.BRASAS,
     abrirBrasa,
     valor => { brasaSessao = valor; }
   );
 }
 
 function abrirBrasa(id) {
-  abrirCenaLista(id, brasaPorId, cena => { brasaSessao = cena; }, pintarBrasa, telaBrasas);
+  abrirCenaLista(id, T.brasaPorId, cena => { brasaSessao = cena; }, pintarBrasa, telaBrasas);
 }
 
 function pintarBrasa() {
@@ -5786,7 +5784,7 @@ function pintarBrasa() {
     rota: 'brasa',
     aoLista: telaBrasas,
     repintar: pintarBrasa,
-    avaliar: avaliarBrasa,
+    avaliar: T.avaliarBrasa,
     registrar: registrarBrasa,
     tituloFim: 'Chave espalhada!'
   });
@@ -5797,14 +5795,14 @@ function telaDatagramas() {
     'datagrama',
     '📨 O datagrama',
     subCena('perde e chega'),
-    DATAGRAMAS,
+    T.DATAGRAMAS,
     abrirDatagrama,
     valor => { datagramaSessao = valor; }
   );
 }
 
 function abrirDatagrama(id) {
-  abrirCenaLista(id, datagramaPorId, cena => { datagramaSessao = cena; }, pintarDatagrama, telaDatagramas);
+  abrirCenaLista(id, T.datagramaPorId, cena => { datagramaSessao = cena; }, pintarDatagrama, telaDatagramas);
 }
 
 function pintarDatagrama() {
@@ -5812,7 +5810,7 @@ function pintarDatagrama() {
     rota: 'datagrama',
     aoLista: telaDatagramas,
     repintar: pintarDatagrama,
-    avaliar: avaliarDatagrama,
+    avaliar: T.avaliarDatagrama,
     registrar: registrarDatagrama,
     tituloFim: 'Datagrama no destino!'
   });
@@ -5823,14 +5821,14 @@ function telaPasses() {
     'passe',
     '🎫 O passe',
     subCena('vence e renova'),
-    PASSES,
+    T.PASSES,
     abrirPasse,
     valor => { passeSessao = valor; }
   );
 }
 
 function abrirPasse(id) {
-  abrirCenaLista(id, passePorId, cena => { passeSessao = cena; }, pintarPasse, telaPasses);
+  abrirCenaLista(id, T.passePorId, cena => { passeSessao = cena; }, pintarPasse, telaPasses);
 }
 
 function pintarPasse() {
@@ -5838,7 +5836,7 @@ function pintarPasse() {
     rota: 'passe',
     aoLista: telaPasses,
     repintar: pintarPasse,
-    avaliar: avaliarPasse,
+    avaliar: T.avaliarPasse,
     registrar: registrarPasse,
     tituloFim: 'Passe novo!'
   });
@@ -5849,14 +5847,14 @@ function telaCarimbos() {
     'carimbo',
     '🖊️ O carimbo',
     subCena('muda e grava'),
-    CARIMBOS,
+    T.CARIMBOS,
     abrirCarimbo,
     valor => { carimboSessao = valor; }
   );
 }
 
 function abrirCarimbo(id) {
-  abrirCenaLista(id, carimboPorId, cena => { carimboSessao = cena; }, pintarCarimbo, telaCarimbos);
+  abrirCenaLista(id, T.carimboPorId, cena => { carimboSessao = cena; }, pintarCarimbo, telaCarimbos);
 }
 
 function pintarCarimbo() {
@@ -5864,7 +5862,7 @@ function pintarCarimbo() {
     rota: 'carimbo',
     aoLista: telaCarimbos,
     repintar: pintarCarimbo,
-    avaliar: avaliarCarimbo,
+    avaliar: T.avaliarCarimbo,
     registrar: registrarCarimbo,
     tituloFim: 'Carimbo novo!'
   });
@@ -5875,14 +5873,14 @@ function telaPilhas() {
     'pilha',
     '📚 A pilha',
     subCena('sobe e corta'),
-    PILHAS,
+    T.PILHAS,
     abrirPilha,
     valor => { pilhaSessao = valor; }
   );
 }
 
 function abrirPilha(id) {
-  abrirCenaLista(id, pilhaPorId, cena => { pilhaSessao = cena; }, pintarPilha, telaPilhas);
+  abrirCenaLista(id, T.pilhaPorId, cena => { pilhaSessao = cena; }, pintarPilha, telaPilhas);
 }
 
 function pintarPilha() {
@@ -5890,7 +5888,7 @@ function pintarPilha() {
     rota: 'pilha',
     aoLista: telaPilhas,
     repintar: pintarPilha,
-    avaliar: avaliarPilha,
+    avaliar: T.avaliarPilha,
     registrar: registrarPilha,
     tituloFim: 'Pilha quieta!'
   });
@@ -5901,14 +5899,14 @@ function telaCanos() {
     'cano',
     '🔧 O cano',
     subCena('fecha e abre'),
-    CANOS,
+    T.CANOS,
     abrirCano,
     valor => { canoSessao = valor; }
   );
 }
 
 function abrirCano(id) {
-  abrirCenaLista(id, canoPorId, cena => { canoSessao = cena; }, pintarCano, telaCanos);
+  abrirCenaLista(id, T.canoPorId, cena => { canoSessao = cena; }, pintarCano, telaCanos);
 }
 
 function pintarCano() {
@@ -5916,7 +5914,7 @@ function pintarCano() {
     rota: 'cano',
     aoLista: telaCanos,
     repintar: pintarCano,
-    avaliar: avaliarCano,
+    avaliar: T.avaliarCano,
     registrar: registrarCano,
     tituloFim: 'Cano livre!'
   });
@@ -5927,14 +5925,14 @@ function telaGiros() {
     'giro',
     '🌀 O giro',
     subCena('gira e para'),
-    GIROS,
+    T.GIROS,
     abrirGiro,
     valor => { giroSessao = valor; }
   );
 }
 
 function abrirGiro(id) {
-  abrirCenaLista(id, giroPorId, cena => { giroSessao = cena; }, pintarGiro, telaGiros);
+  abrirCenaLista(id, T.giroPorId, cena => { giroSessao = cena; }, pintarGiro, telaGiros);
 }
 
 function pintarGiro() {
@@ -5942,7 +5940,7 @@ function pintarGiro() {
     rota: 'giro',
     aoLista: telaGiros,
     repintar: pintarGiro,
-    avaliar: avaliarGiro,
+    avaliar: T.avaliarGiro,
     registrar: registrarGiro,
     tituloFim: 'Giro parado!'
   });
@@ -5953,14 +5951,14 @@ function telaCompactas() {
     'compacta',
     '🗜️ A compactação',
     subCena('reescreve e solta'),
-    COMPACTAS,
+    T.COMPACTAS,
     abrirCompacta,
     valor => { compactaSessao = valor; }
   );
 }
 
 function abrirCompacta(id) {
-  abrirCenaLista(id, compactaPorId, cena => { compactaSessao = cena; }, pintarCompacta, telaCompactas);
+  abrirCenaLista(id, T.compactaPorId, cena => { compactaSessao = cena; }, pintarCompacta, telaCompactas);
 }
 
 function pintarCompacta() {
@@ -5968,7 +5966,7 @@ function pintarCompacta() {
     rota: 'compacta',
     aoLista: telaCompactas,
     repintar: pintarCompacta,
-    avaliar: avaliarCompacta,
+    avaliar: T.avaliarCompacta,
     registrar: registrarCompacta,
     tituloFim: 'Compactação quieta!'
   });
@@ -5979,14 +5977,14 @@ function telaDiarios() {
     'diario',
     '✒️ O diário',
     subCena('ocupa e segue'),
-    DIARIOS,
+    T.DIARIOS,
     abrirDiario,
     valor => { diarioSessao = valor; }
   );
 }
 
 function abrirDiario(id) {
-  abrirCenaLista(id, diarioPorId, cena => { diarioSessao = cena; }, pintarDiario, telaDiarios);
+  abrirCenaLista(id, T.diarioPorId, cena => { diarioSessao = cena; }, pintarDiario, telaDiarios);
 }
 
 function pintarDiario() {
@@ -5994,7 +5992,7 @@ function pintarDiario() {
     rota: 'diario',
     aoLista: telaDiarios,
     repintar: pintarDiario,
-    avaliar: avaliarDiario,
+    avaliar: T.avaliarDiario,
     registrar: registrarDiario,
     tituloFim: 'Diário livre!'
   });
@@ -6005,14 +6003,14 @@ function telaVagoes() {
     'vagao',
     '🚃 O vagão',
     subCena('atrasa e alcança'),
-    VAGOES,
+    T.VAGOES,
     abrirVagao,
     valor => { vagaoSessao = valor; }
   );
 }
 
 function abrirVagao(id) {
-  abrirCenaLista(id, vagaoPorId, cena => { vagaoSessao = cena; }, pintarVagao, telaVagoes);
+  abrirCenaLista(id, T.vagaoPorId, cena => { vagaoSessao = cena; }, pintarVagao, telaVagoes);
 }
 
 function pintarVagao() {
@@ -6020,7 +6018,7 @@ function pintarVagao() {
     rota: 'vagao',
     aoLista: telaVagoes,
     repintar: pintarVagao,
-    avaliar: avaliarVagao,
+    avaliar: T.avaliarVagao,
     registrar: registrarVagao,
     tituloFim: 'Leitor junto!'
   });
@@ -6031,14 +6029,14 @@ function telaCorridas() {
     'corrida',
     '🏎️ A corrida',
     subCena('disputa e separa'),
-    CORRIDAS,
+    T.CORRIDAS,
     abrirCorrida,
     valor => { corridaSessao = valor; }
   );
 }
 
 function abrirCorrida(id) {
-  abrirCenaLista(id, corridaPorId, cena => { corridaSessao = cena; }, pintarCorrida, telaCorridas);
+  abrirCenaLista(id, T.corridaPorId, cena => { corridaSessao = cena; }, pintarCorrida, telaCorridas);
 }
 
 function pintarCorrida() {
@@ -6046,7 +6044,7 @@ function pintarCorrida() {
     rota: 'corrida',
     aoLista: telaCorridas,
     repintar: pintarCorrida,
-    avaliar: avaliarCorrida,
+    avaliar: T.avaliarCorrida,
     registrar: registrarCorrida,
     tituloFim: 'Corrida quieta!'
   });
@@ -6057,14 +6055,14 @@ function telaIndices() {
     'indice',
     '📇 O índice',
     subCena('varre e cria'),
-    INDICES,
+    T.INDICES,
     abrirIndice,
     valor => { indiceSessao = valor; }
   );
 }
 
 function abrirIndice(id) {
-  abrirCenaLista(id, indicePorId, cena => { indiceSessao = cena; }, pintarIndice, telaIndices);
+  abrirCenaLista(id, T.indicePorId, cena => { indiceSessao = cena; }, pintarIndice, telaIndices);
 }
 
 function pintarIndice() {
@@ -6072,7 +6070,7 @@ function pintarIndice() {
     rota: 'indice',
     aoLista: telaIndices,
     repintar: pintarIndice,
-    avaliar: avaliarIndice,
+    avaliar: T.avaliarIndice,
     registrar: registrarIndice,
     tituloFim: 'Índice pronto!'
   });
@@ -6083,14 +6081,14 @@ function telaPercentis() {
     'percentil',
     '📐 O percentil',
     subCena('mede e limita'),
-    PERCENTIS,
+    T.PERCENTIS,
     abrirPercentil,
     valor => { percentilSessao = valor; }
   );
 }
 
 function abrirPercentil(id) {
-  abrirCenaLista(id, percentilPorId, cena => { percentilSessao = cena; }, pintarPercentil, telaPercentis);
+  abrirCenaLista(id, T.percentilPorId, cena => { percentilSessao = cena; }, pintarPercentil, telaPercentis);
 }
 
 function pintarPercentil() {
@@ -6098,7 +6096,7 @@ function pintarPercentil() {
     rota: 'percentil',
     aoLista: telaPercentis,
     repintar: pintarPercentil,
-    avaliar: avaliarPercentil,
+    avaliar: T.avaliarPercentil,
     registrar: registrarPercentil,
     tituloFim: 'Percentil no alvo!'
   });
@@ -6109,14 +6107,14 @@ function telaSegredos() {
     'segredo',
     '🕵️ O segredo',
     subCena('vaza e apaga'),
-    SEGREDOS,
+    T.SEGREDOS,
     abrirSegredo,
     valor => { segredoSessao = valor; }
   );
 }
 
 function abrirSegredo(id) {
-  abrirCenaLista(id, segredoPorId, cena => { segredoSessao = cena; }, pintarSegredo, telaSegredos);
+  abrirCenaLista(id, T.segredoPorId, cena => { segredoSessao = cena; }, pintarSegredo, telaSegredos);
 }
 
 function pintarSegredo() {
@@ -6124,7 +6122,7 @@ function pintarSegredo() {
     rota: 'segredo',
     aoLista: telaSegredos,
     repintar: pintarSegredo,
-    avaliar: avaliarSegredo,
+    avaliar: T.avaliarSegredo,
     registrar: registrarSegredo,
     tituloFim: 'Segredo quieto!'
   });
@@ -6135,14 +6133,14 @@ function telaFantasmas() {
     'fantasma',
     '👻 O fantasma',
     subCena('lê e isola'),
-    FANTASMAS,
+    T.FANTASMAS,
     abrirFantasma,
     valor => { fantasmaSessao = valor; }
   );
 }
 
 function abrirFantasma(id) {
-  abrirCenaLista(id, fantasmaPorId, cena => { fantasmaSessao = cena; }, pintarFantasma, telaFantasmas);
+  abrirCenaLista(id, T.fantasmaPorId, cena => { fantasmaSessao = cena; }, pintarFantasma, telaFantasmas);
 }
 
 function pintarFantasma() {
@@ -6150,7 +6148,7 @@ function pintarFantasma() {
     rota: 'fantasma',
     aoLista: telaFantasmas,
     repintar: pintarFantasma,
-    avaliar: avaliarFantasma,
+    avaliar: T.avaliarFantasma,
     registrar: registrarFantasma,
     tituloFim: 'Leitura estável!'
   });
@@ -6161,14 +6159,14 @@ function telaInteiros() {
     'inteiro',
     '🔣 O inteiro',
     subCena('estoura e limita'),
-    INTEIROS,
+    T.INTEIROS,
     abrirInteiro,
     valor => { inteiroSessao = valor; }
   );
 }
 
 function abrirInteiro(id) {
-  abrirCenaLista(id, inteiroPorId, cena => { inteiroSessao = cena; }, pintarInteiro, telaInteiros);
+  abrirCenaLista(id, T.inteiroPorId, cena => { inteiroSessao = cena; }, pintarInteiro, telaInteiros);
 }
 
 function pintarInteiro() {
@@ -6176,7 +6174,7 @@ function pintarInteiro() {
     rota: 'inteiro',
     aoLista: telaInteiros,
     repintar: pintarInteiro,
-    avaliar: avaliarInteiro,
+    avaliar: T.avaliarInteiro,
     registrar: registrarInteiro,
     tituloFim: 'Contador firme!'
   });
@@ -6187,14 +6185,14 @@ function telaFiltros() {
     'filtro',
     '🧲 O filtro',
     subCena('avisa e confere'),
-    FILTROS,
+    T.FILTROS,
     abrirFiltro,
     valor => { filtroSessao = valor; }
   );
 }
 
 function abrirFiltro(id) {
-  abrirCenaLista(id, filtroPorId, cena => { filtroSessao = cena; }, pintarFiltro, telaFiltros);
+  abrirCenaLista(id, T.filtroPorId, cena => { filtroSessao = cena; }, pintarFiltro, telaFiltros);
 }
 
 function pintarFiltro() {
@@ -6202,7 +6200,7 @@ function pintarFiltro() {
     rota: 'filtro',
     aoLista: telaFiltros,
     repintar: pintarFiltro,
-    avaliar: avaliarFiltro,
+    avaliar: T.avaliarFiltro,
     registrar: registrarFiltro,
     tituloFim: 'Filtro honesto!'
   });
@@ -6213,14 +6211,14 @@ function telaOrdens() {
     'ordem',
     '🔀 A ordem',
     subCena('chega e ordena'),
-    ORDENS,
+    T.ORDENS,
     abrirOrdem,
     valor => { ordemSessao = valor; }
   );
 }
 
 function abrirOrdem(id) {
-  abrirCenaLista(id, ordemPorId, cena => { ordemSessao = cena; }, pintarOrdem, telaOrdens);
+  abrirCenaLista(id, T.ordemPorId, cena => { ordemSessao = cena; }, pintarOrdem, telaOrdens);
 }
 
 function pintarOrdem() {
@@ -6228,7 +6226,7 @@ function pintarOrdem() {
     rota: 'ordem',
     aoLista: telaOrdens,
     repintar: pintarOrdem,
-    avaliar: avaliarOrdem,
+    avaliar: T.avaliarOrdem,
     registrar: registrarOrdem,
     tituloFim: 'Ordem certa!'
   });
@@ -6239,14 +6237,14 @@ function telaProvas() {
     'prova',
     '🧬 A prova',
     subCena('mede e recusa'),
-    PROVAS,
+    T.PROVAS,
     abrirProva,
     valor => { provaSessao = valor; }
   );
 }
 
 function abrirProva(id) {
-  abrirCenaLista(id, provaPorId, cena => { provaSessao = cena; }, pintarProva, telaProvas);
+  abrirCenaLista(id, T.provaPorId, cena => { provaSessao = cena; }, pintarProva, telaProvas);
 }
 
 function pintarProva() {
@@ -6254,7 +6252,7 @@ function pintarProva() {
     rota: 'prova',
     aoLista: telaProvas,
     repintar: pintarProva,
-    avaliar: avaliarProva,
+    avaliar: T.avaliarProva,
     registrar: registrarProva,
     tituloFim: 'Prova bateu!'
   });
@@ -6265,14 +6263,14 @@ function telaOrfaos() {
     'orfao',
     '🪆 O órfão',
     subCena('aponta e liga'),
-    ORFAOS,
+    T.ORFAOS,
     abrirOrfao,
     valor => { orfaoSessao = valor; }
   );
 }
 
 function abrirOrfao(id) {
-  abrirCenaLista(id, orfaoPorId, cena => { orfaoSessao = cena; }, pintarOrfao, telaOrfaos);
+  abrirCenaLista(id, T.orfaoPorId, cena => { orfaoSessao = cena; }, pintarOrfao, telaOrfaos);
 }
 
 function pintarOrfao() {
@@ -6280,7 +6278,7 @@ function pintarOrfao() {
     rota: 'orfao',
     aoLista: telaOrfaos,
     repintar: pintarOrfao,
-    avaliar: avaliarOrfao,
+    avaliar: T.avaliarOrfao,
     registrar: registrarOrfao,
     tituloFim: 'Pai presente!'
   });
@@ -6291,14 +6289,14 @@ function telaAcenos() {
     'aceno',
     '🫡 O aceno',
     subCena('espera e confirma'),
-    ACENOS,
+    T.ACENOS,
     abrirAceno,
     valor => { acenoSessao = valor; }
   );
 }
 
 function abrirAceno(id) {
-  abrirCenaLista(id, acenoPorId, cena => { acenoSessao = cena; }, pintarAceno, telaAcenos);
+  abrirCenaLista(id, T.acenoPorId, cena => { acenoSessao = cena; }, pintarAceno, telaAcenos);
 }
 
 function pintarAceno() {
@@ -6306,7 +6304,7 @@ function pintarAceno() {
     rota: 'aceno',
     aoLista: telaAcenos,
     repintar: pintarAceno,
-    avaliar: avaliarAceno,
+    avaliar: T.avaliarAceno,
     registrar: registrarAceno,
     tituloFim: 'Aceno completo!'
   });
@@ -6317,14 +6315,14 @@ function telaGastos() {
     'gasto',
     '🪙 O gasto',
     subCena('gasta e corta'),
-    GASTOS,
+    T.GASTOS,
     abrirGasto,
     valor => { gastoSessao = valor; }
   );
 }
 
 function abrirGasto(id) {
-  abrirCenaLista(id, gastoPorId, cena => { gastoSessao = cena; }, pintarGasto, telaGastos);
+  abrirCenaLista(id, T.gastoPorId, cena => { gastoSessao = cena; }, pintarGasto, telaGastos);
 }
 
 function pintarGasto() {
@@ -6332,7 +6330,7 @@ function pintarGasto() {
     rota: 'gasto',
     aoLista: telaGastos,
     repintar: pintarGasto,
-    avaliar: avaliarGasto,
+    avaliar: T.avaliarGasto,
     registrar: registrarGasto,
     tituloFim: 'Gasto no alvo!'
   });
@@ -6343,14 +6341,14 @@ function telaInstaveis() {
     'instavel',
     '🎲 O instável',
     subCena('falha e passa'),
-    INSTAVEIS,
+    T.INSTAVEIS,
     abrirInstavel,
     valor => { instavelSessao = valor; }
   );
 }
 
 function abrirInstavel(id) {
-  abrirCenaLista(id, instavelPorId, cena => { instavelSessao = cena; }, pintarInstavel, telaInstaveis);
+  abrirCenaLista(id, T.instavelPorId, cena => { instavelSessao = cena; }, pintarInstavel, telaInstaveis);
 }
 
 function pintarInstavel() {
@@ -6358,7 +6356,7 @@ function pintarInstavel() {
     rota: 'instavel',
     aoLista: telaInstaveis,
     repintar: pintarInstavel,
-    avaliar: avaliarInstavel,
+    avaliar: T.avaliarInstavel,
     registrar: registrarInstavel,
     tituloFim: 'Teste firme!'
   });
@@ -6369,14 +6367,14 @@ function telaDuplicados() {
     'duplicado',
     '📧 O duplicado',
     subCena('grava e recusa'),
-    DUPLICADOS,
+    T.DUPLICADOS,
     abrirDuplicado,
     valor => { duplicadoSessao = valor; }
   );
 }
 
 function abrirDuplicado(id) {
-  abrirCenaLista(id, duplicadoPorId, cena => { duplicadoSessao = cena; }, pintarDuplicado, telaDuplicados);
+  abrirCenaLista(id, T.duplicadoPorId, cena => { duplicadoSessao = cena; }, pintarDuplicado, telaDuplicados);
 }
 
 function pintarDuplicado() {
@@ -6384,7 +6382,7 @@ function pintarDuplicado() {
     rota: 'duplicado',
     aoLista: telaDuplicados,
     repintar: pintarDuplicado,
-    avaliar: avaliarDuplicado,
+    avaliar: T.avaliarDuplicado,
     registrar: registrarDuplicado,
     tituloFim: 'E-mail único!'
   });
@@ -6395,14 +6393,14 @@ function telaApagoes() {
     'apagao',
     '🔌 O apagão',
     subCena('desliga e mede'),
-    APAGOES,
+    T.APAGOES,
     abrirApagao,
     valor => { apagaoSessao = valor; }
   );
 }
 
 function abrirApagao(id) {
-  abrirCenaLista(id, apagaoPorId, cena => { apagaoSessao = cena; }, pintarApagao, telaApagoes);
+  abrirCenaLista(id, T.apagaoPorId, cena => { apagaoSessao = cena; }, pintarApagao, telaApagoes);
 }
 
 function pintarApagao() {
@@ -6410,7 +6408,7 @@ function pintarApagao() {
     rota: 'apagao',
     aoLista: telaApagoes,
     repintar: pintarApagao,
-    avaliar: avaliarApagao,
+    avaliar: T.avaliarApagao,
     registrar: registrarApagao,
     tituloFim: 'Queda medida!'
   });
@@ -6421,14 +6419,14 @@ function telaReplays() {
     'replay',
     '⏪ O replay',
     subCena('corre e preenche'),
-    REPLAYS,
+    T.REPLAYS,
     abrirReplay,
     valor => { replaySessao = valor; }
   );
 }
 
 function abrirReplay(id) {
-  abrirCenaLista(id, replayPorId, cena => { replaySessao = cena; }, pintarReplay, telaReplays);
+  abrirCenaLista(id, T.replayPorId, cena => { replaySessao = cena; }, pintarReplay, telaReplays);
 }
 
 function pintarReplay() {
@@ -6436,7 +6434,7 @@ function pintarReplay() {
     rota: 'replay',
     aoLista: telaReplays,
     repintar: pintarReplay,
-    avaliar: avaliarReplay,
+    avaliar: T.avaliarReplay,
     registrar: registrarReplay,
     tituloFim: 'Buraco preenchido!'
   });
@@ -6447,14 +6445,14 @@ function telaEcos() {
     'eco',
     '🔔 O eco',
     subCena('chega e ignora'),
-    ECOS,
+    T.ECOS,
     abrirEco,
     valor => { ecoSessao = valor; }
   );
 }
 
 function abrirEco(id) {
-  abrirCenaLista(id, ecoPorId, cena => { ecoSessao = cena; }, pintarEco, telaEcos);
+  abrirCenaLista(id, T.ecoPorId, cena => { ecoSessao = cena; }, pintarEco, telaEcos);
 }
 
 function pintarEco() {
@@ -6462,7 +6460,7 @@ function pintarEco() {
     rota: 'eco',
     aoLista: telaEcos,
     repintar: pintarEco,
-    avaliar: avaliarEco,
+    avaliar: T.avaliarEco,
     registrar: registrarEco,
     tituloFim: 'Evento único!'
   });
@@ -6473,14 +6471,14 @@ function telaLeques() {
     'leque',
     '🪭 O leque',
     subCena('acorda e junta'),
-    LEQUES,
+    T.LEQUES,
     abrirLeque,
     valor => { lequeSessao = valor; }
   );
 }
 
 function abrirLeque(id) {
-  abrirCenaLista(id, lequePorId, cena => { lequeSessao = cena; }, pintarLeque, telaLeques);
+  abrirCenaLista(id, T.lequePorId, cena => { lequeSessao = cena; }, pintarLeque, telaLeques);
 }
 
 function pintarLeque() {
@@ -6488,7 +6486,7 @@ function pintarLeque() {
     rota: 'leque',
     aoLista: telaLeques,
     repintar: pintarLeque,
-    avaliar: avaliarLeque,
+    avaliar: T.avaliarLeque,
     registrar: registrarLeque,
     tituloFim: 'Leque no alvo!'
   });
@@ -6499,14 +6497,14 @@ function telaSagas() {
     'saga',
     '🧵 A saga',
     subCena('para e volta'),
-    SAGAS,
+    T.SAGAS,
     abrirSaga,
     valor => { sagaSessao = valor; }
   );
 }
 
 function abrirSaga(id) {
-  abrirCenaLista(id, sagaPorId, cena => { sagaSessao = cena; }, pintarSaga, telaSagas);
+  abrirCenaLista(id, T.sagaPorId, cena => { sagaSessao = cena; }, pintarSaga, telaSagas);
 }
 
 function pintarSaga() {
@@ -6514,7 +6512,7 @@ function pintarSaga() {
     rota: 'saga',
     aoLista: telaSagas,
     repintar: pintarSaga,
-    avaliar: avaliarSaga,
+    avaliar: T.avaliarSaga,
     registrar: registrarSaga,
     tituloFim: 'Saga fechada!'
   });
@@ -6525,14 +6523,14 @@ function telaCaixas() {
     'caixa',
     '📦 A caixa',
     subCena('espera e solta'),
-    CAIXAS,
+    T.CAIXAS,
     abrirCaixa,
     valor => { caixaSessao = valor; }
   );
 }
 
 function abrirCaixa(id) {
-  abrirCenaLista(id, caixaPorId, cena => { caixaSessao = cena; }, pintarCaixa, telaCaixas);
+  abrirCenaLista(id, T.caixaPorId, cena => { caixaSessao = cena; }, pintarCaixa, telaCaixas);
 }
 
 function pintarCaixa() {
@@ -6540,7 +6538,7 @@ function pintarCaixa() {
     rota: 'caixa',
     aoLista: telaCaixas,
     repintar: pintarCaixa,
-    avaliar: avaliarCaixa,
+    avaliar: T.avaliarCaixa,
     registrar: registrarCaixa,
     tituloFim: 'Caixa vazia!'
   });
@@ -6551,14 +6549,14 @@ function telaApagados() {
     'apagado',
     '🗑️ O apagado',
     subCena('apaga e some'),
-    APAGADOS,
+    T.APAGADOS,
     abrirApagado,
     valor => { apagadoSessao = valor; }
   );
 }
 
 function abrirApagado(id) {
-  abrirCenaLista(id, apagadoPorId, cena => { apagadoSessao = cena; }, pintarApagado, telaApagados);
+  abrirCenaLista(id, T.apagadoPorId, cena => { apagadoSessao = cena; }, pintarApagado, telaApagados);
 }
 
 function pintarApagado() {
@@ -6566,7 +6564,7 @@ function pintarApagado() {
     rota: 'apagado',
     aoLista: telaApagados,
     repintar: pintarApagado,
-    avaliar: avaliarApagado,
+    avaliar: T.avaliarApagado,
     registrar: registrarApagado,
     tituloFim: 'Linha sumida!'
   });
@@ -6577,14 +6575,14 @@ function telaEsperas() {
     'espera',
     '⏲️ A espera',
     subCena('para e corta'),
-    ESPERAS,
+    T.ESPERAS,
     abrirEspera,
     valor => { esperaSessao = valor; }
   );
 }
 
 function abrirEspera(id) {
-  abrirCenaLista(id, esperaPorId, cena => { esperaSessao = cena; }, pintarEspera, telaEsperas);
+  abrirCenaLista(id, T.esperaPorId, cena => { esperaSessao = cena; }, pintarEspera, telaEsperas);
 }
 
 function pintarEspera() {
@@ -6592,7 +6590,7 @@ function pintarEspera() {
     rota: 'espera',
     aoLista: telaEsperas,
     repintar: pintarEspera,
-    avaliar: avaliarEspera,
+    avaliar: T.avaliarEspera,
     registrar: registrarEspera,
     tituloFim: 'Espera no alvo!'
   });
@@ -6603,14 +6601,14 @@ function telaCursores() {
     'cursor',
     '🔖 O cursor',
     subCena('lê e marca'),
-    CURSORES,
+    T.CURSORES,
     abrirCursor,
     valor => { cursorSessao = valor; }
   );
 }
 
 function abrirCursor(id) {
-  abrirCenaLista(id, cursorPorId, cena => { cursorSessao = cena; }, pintarCursor, telaCursores);
+  abrirCenaLista(id, T.cursorPorId, cena => { cursorSessao = cena; }, pintarCursor, telaCursores);
 }
 
 function pintarCursor() {
@@ -6618,7 +6616,7 @@ function pintarCursor() {
     rota: 'cursor',
     aoLista: telaCursores,
     repintar: pintarCursor,
-    avaliar: avaliarCursor,
+    avaliar: T.avaliarCursor,
     registrar: registrarCursor,
     tituloFim: 'Lugar firme!'
   });
@@ -6629,14 +6627,14 @@ function telaFilas() {
     'fila',
     '📥 A fila',
     subCena('enche e esvazia'),
-    FILAS,
+    T.FILAS,
     abrirFila,
     valor => { filaSessao = valor; }
   );
 }
 
 function abrirFila(id) {
-  abrirCenaLista(id, filaPorId, cena => { filaSessao = cena; }, pintarFila, telaFilas);
+  abrirCenaLista(id, T.filaPorId, cena => { filaSessao = cena; }, pintarFila, telaFilas);
 }
 
 function pintarFila() {
@@ -6644,7 +6642,7 @@ function pintarFila() {
     rota: 'fila',
     aoLista: telaFilas,
     repintar: pintarFila,
-    avaliar: avaliarFila,
+    avaliar: T.avaliarFila,
     registrar: registrarFila,
     tituloFim: 'Fila no alvo!'
   });
@@ -6655,14 +6653,14 @@ function telaDisjuntores() {
     'disjuntor',
     '🛑 O disjuntor',
     subCena('abre e fecha'),
-    DISJUNTORES,
+    T.DISJUNTORES,
     abrirDisjuntor,
     valor => { disjuntorSessao = valor; }
   );
 }
 
 function abrirDisjuntor(id) {
-  abrirCenaLista(id, disjuntorPorId, cena => { disjuntorSessao = cena; }, pintarDisjuntor, telaDisjuntores);
+  abrirCenaLista(id, T.disjuntorPorId, cena => { disjuntorSessao = cena; }, pintarDisjuntor, telaDisjuntores);
 }
 
 function pintarDisjuntor() {
@@ -6670,7 +6668,7 @@ function pintarDisjuntor() {
     rota: 'disjuntor',
     aoLista: telaDisjuntores,
     repintar: pintarDisjuntor,
-    avaliar: avaliarDisjuntor,
+    avaliar: T.avaliarDisjuntor,
     registrar: registrarDisjuntor,
     tituloFim: 'Disjuntor fechado!'
   });
@@ -6681,14 +6679,14 @@ function telaAlugueis() {
     'aluguel',
     '🔑 O aluguel',
     subCena('vence e renova'),
-    ALUGUEIS,
+    T.ALUGUEIS,
     abrirAluguel,
     valor => { aluguelSessao = valor; }
   );
 }
 
 function abrirAluguel(id) {
-  abrirCenaLista(id, aluguelPorId, cena => { aluguelSessao = cena; }, pintarAluguel, telaAlugueis);
+  abrirCenaLista(id, T.aluguelPorId, cena => { aluguelSessao = cena; }, pintarAluguel, telaAlugueis);
 }
 
 function pintarAluguel() {
@@ -6696,7 +6694,7 @@ function pintarAluguel() {
     rota: 'aluguel',
     aoLista: telaAlugueis,
     repintar: pintarAluguel,
-    avaliar: avaliarAluguel,
+    avaliar: T.avaliarAluguel,
     registrar: registrarAluguel,
     tituloFim: 'Aluguel renovado!'
   });
@@ -6707,14 +6705,14 @@ function telaPulsos() {
     'pulso',
     '💓 O pulso',
     subCena('perde e retoma'),
-    PULSOS,
+    T.PULSOS,
     abrirPulso,
     valor => { pulsoSessao = valor; }
   );
 }
 
 function abrirPulso(id) {
-  abrirCenaLista(id, pulsoPorId, cena => { pulsoSessao = cena; }, pintarPulso, telaPulsos);
+  abrirCenaLista(id, T.pulsoPorId, cena => { pulsoSessao = cena; }, pintarPulso, telaPulsos);
 }
 
 function pintarPulso() {
@@ -6722,7 +6720,7 @@ function pintarPulso() {
     rota: 'pulso',
     aoLista: telaPulsos,
     repintar: pintarPulso,
-    avaliar: avaliarPulso,
+    avaliar: T.avaliarPulso,
     registrar: registrarPulso,
     tituloFim: 'Pulso no alvo!'
   });
@@ -6733,14 +6731,14 @@ function telaPiscinas() {
     'piscina',
     '🏊 A piscina',
     subCena('lotou e abre'),
-    PISCINAS,
+    T.PISCINAS,
     abrirPiscina,
     valor => { piscinaSessao = valor; }
   );
 }
 
 function abrirPiscina(id) {
-  abrirCenaLista(id, piscinaPorId, cena => { piscinaSessao = cena; }, pintarPiscina, telaPiscinas);
+  abrirCenaLista(id, T.piscinaPorId, cena => { piscinaSessao = cena; }, pintarPiscina, telaPiscinas);
 }
 
 function pintarPiscina() {
@@ -6748,7 +6746,7 @@ function pintarPiscina() {
     rota: 'piscina',
     aoLista: telaPiscinas,
     repintar: pintarPiscina,
-    avaliar: avaliarPiscina,
+    avaliar: T.avaliarPiscina,
     registrar: registrarPiscina,
     tituloFim: 'Piscina com vaga!'
   });
@@ -6759,14 +6757,14 @@ function telaBaldes() {
     'balde',
     '🪣 O balde',
     subCena('gasta e repõe'),
-    BALDES,
+    T.BALDES,
     abrirBalde,
     valor => { baldeSessao = valor; }
   );
 }
 
 function abrirBalde(id) {
-  abrirCenaLista(id, baldePorId, cena => { baldeSessao = cena; }, pintarBalde, telaBaldes);
+  abrirCenaLista(id, T.baldePorId, cena => { baldeSessao = cena; }, pintarBalde, telaBaldes);
 }
 
 function pintarBalde() {
@@ -6774,7 +6772,7 @@ function pintarBalde() {
     rota: 'balde',
     aoLista: telaBaldes,
     repintar: pintarBalde,
-    avaliar: avaliarBalde,
+    avaliar: T.avaliarBalde,
     registrar: registrarBalde,
     tituloFim: 'Balde cheio!'
   });
@@ -6785,14 +6783,14 @@ function telaCercas() {
     'cerca',
     '🚧 A cerca',
     subCena('invalida e troca'),
-    CERCAS,
+    T.CERCAS,
     abrirCerca,
     valor => { cercaSessao = valor; }
   );
 }
 
 function abrirCerca(id) {
-  abrirCenaLista(id, cercaPorId, cena => { cercaSessao = cena; }, pintarCerca, telaCercas);
+  abrirCenaLista(id, T.cercaPorId, cena => { cercaSessao = cena; }, pintarCerca, telaCercas);
 }
 
 function pintarCerca() {
@@ -6800,7 +6798,7 @@ function pintarCerca() {
     rota: 'cerca',
     aoLista: telaCercas,
     repintar: pintarCerca,
-    avaliar: avaliarCerca,
+    avaliar: T.avaliarCerca,
     registrar: registrarCerca,
     tituloFim: 'Cerca no alvo!'
   });
@@ -6811,14 +6809,14 @@ function telaTremores() {
     'tremor',
     '🫨 O tremor',
     subCena('varia e acerta'),
-    TREMORES,
+    T.TREMORES,
     abrirTremor,
     valor => { tremorSessao = valor; }
   );
 }
 
 function abrirTremor(id) {
-  abrirCenaLista(id, tremorPorId, cena => { tremorSessao = cena; }, pintarTremor, telaTremores);
+  abrirCenaLista(id, T.tremorPorId, cena => { tremorSessao = cena; }, pintarTremor, telaTremores);
 }
 
 function pintarTremor() {
@@ -6826,7 +6824,7 @@ function pintarTremor() {
     rota: 'tremor',
     aoLista: telaTremores,
     repintar: pintarTremor,
-    avaliar: avaliarTremor,
+    avaliar: T.avaliarTremor,
     registrar: registrarTremor,
     tituloFim: 'Tremor no alvo!'
   });
@@ -6837,14 +6835,14 @@ function telaPortarias() {
     'portaria',
     '🧱 A portaria',
     subCena('recusa e abre'),
-    PORTARIAS,
+    T.PORTARIAS,
     abrirPortaria,
     valor => { portariaSessao = valor; }
   );
 }
 
 function abrirPortaria(id) {
-  abrirCenaLista(id, portariaPorId, cena => { portariaSessao = cena; }, pintarPortaria, telaPortarias);
+  abrirCenaLista(id, T.portariaPorId, cena => { portariaSessao = cena; }, pintarPortaria, telaPortarias);
 }
 
 function pintarPortaria() {
@@ -6852,7 +6850,7 @@ function pintarPortaria() {
     rota: 'portaria',
     aoLista: telaPortarias,
     repintar: pintarPortaria,
-    avaliar: avaliarPortaria,
+    avaliar: T.avaliarPortaria,
     registrar: registrarPortaria,
     tituloFim: 'Portaria aberta!'
   });
@@ -6863,14 +6861,14 @@ function telaColas() {
     'cola',
     '🧷 A cola',
     subCena('gruda e segue'),
-    COLAS,
+    T.COLAS,
     abrirCola,
     valor => { colaSessao = valor; }
   );
 }
 
 function abrirCola(id) {
-  abrirCenaLista(id, colaPorId, cena => { colaSessao = cena; }, pintarCola, telaColas);
+  abrirCenaLista(id, T.colaPorId, cena => { colaSessao = cena; }, pintarCola, telaColas);
 }
 
 function pintarCola() {
@@ -6878,7 +6876,7 @@ function pintarCola() {
     rota: 'cola',
     aoLista: telaColas,
     repintar: pintarCola,
-    avaliar: avaliarCola,
+    avaliar: T.avaliarCola,
     registrar: registrarCola,
     tituloFim: 'Cola firme!'
   });
@@ -6889,14 +6887,14 @@ function telaAnteparos() {
     'anteparo',
     '🛟 O anteparo',
     subCena('isola e solta'),
-    ANTEPAROS,
+    T.ANTEPAROS,
     abrirAnteparo,
     valor => { anteparoSessao = valor; }
   );
 }
 
 function abrirAnteparo(id) {
-  abrirCenaLista(id, anteparoPorId, cena => { anteparoSessao = cena; }, pintarAnteparo, telaAnteparos);
+  abrirCenaLista(id, T.anteparoPorId, cena => { anteparoSessao = cena; }, pintarAnteparo, telaAnteparos);
 }
 
 function pintarAnteparo() {
@@ -6904,7 +6902,7 @@ function pintarAnteparo() {
     rota: 'anteparo',
     aoLista: telaAnteparos,
     repintar: pintarAnteparo,
-    avaliar: avaliarAnteparo,
+    avaliar: T.avaliarAnteparo,
     registrar: registrarAnteparo,
     tituloFim: 'Anteparo no alvo!'
   });
@@ -6915,14 +6913,14 @@ function telaDescartes() {
     'descarte',
     '📤 O descarte',
     subCena('cheio e devolve'),
-    DESCARTES,
+    T.DESCARTES,
     abrirDescarte,
     valor => { descarteSessao = valor; }
   );
 }
 
 function abrirDescarte(id) {
-  abrirCenaLista(id, descartePorId, cena => { descarteSessao = cena; }, pintarDescarte, telaDescartes);
+  abrirCenaLista(id, T.descartePorId, cena => { descarteSessao = cena; }, pintarDescarte, telaDescartes);
 }
 
 function pintarDescarte() {
@@ -6930,7 +6928,7 @@ function pintarDescarte() {
     rota: 'descarte',
     aoLista: telaDescartes,
     repintar: pintarDescarte,
-    avaliar: avaliarDescarte,
+    avaliar: T.avaliarDescarte,
     registrar: registrarDescarte,
     tituloFim: 'Descarte no alvo!'
   });
@@ -6941,14 +6939,14 @@ function telaCronometros() {
     'cronometro',
     '⏰ O cronômetro',
     subCena('corta e segue'),
-    CRONOMETROS,
+    T.CRONOMETROS,
     abrirCronometro,
     valor => { cronometroSessao = valor; }
   );
 }
 
 function abrirCronometro(id) {
-  abrirCenaLista(id, cronometroPorId, cena => { cronometroSessao = cena; }, pintarCronometro, telaCronometros);
+  abrirCenaLista(id, T.cronometroPorId, cena => { cronometroSessao = cena; }, pintarCronometro, telaCronometros);
 }
 
 function pintarCronometro() {
@@ -6956,7 +6954,7 @@ function pintarCronometro() {
     rota: 'cronometro',
     aoLista: telaCronometros,
     repintar: pintarCronometro,
-    avaliar: avaliarCronometro,
+    avaliar: T.avaliarCronometro,
     registrar: registrarCronometro,
     tituloFim: 'Cronômetro no alvo!'
   });
@@ -6967,14 +6965,14 @@ function telaAmostras() {
     'amostra',
     '🧫 A amostra',
     subCena('guarda e solta'),
-    AMOSTRAS,
+    T.AMOSTRAS,
     abrirAmostra,
     valor => { amostraSessao = valor; }
   );
 }
 
 function abrirAmostra(id) {
-  abrirCenaLista(id, amostraPorId, cena => { amostraSessao = cena; }, pintarAmostra, telaAmostras);
+  abrirCenaLista(id, T.amostraPorId, cena => { amostraSessao = cena; }, pintarAmostra, telaAmostras);
 }
 
 function pintarAmostra() {
@@ -6982,7 +6980,7 @@ function pintarAmostra() {
     rota: 'amostra',
     aoLista: telaAmostras,
     repintar: pintarAmostra,
-    avaliar: avaliarAmostra,
+    avaliar: T.avaliarAmostra,
     registrar: registrarAmostra,
     tituloFim: 'Amostra no alvo!'
   });
@@ -6993,14 +6991,14 @@ function telaNichos() {
     'nicho',
     '🪺 O nicho',
     subCena('cai e quieto'),
-    NICHOS,
+    T.NICHOS,
     abrirNicho,
     valor => { nichoSessao = valor; }
   );
 }
 
 function abrirNicho(id) {
-  abrirCenaLista(id, nichoPorId, cena => { nichoSessao = cena; }, pintarNicho, telaNichos);
+  abrirCenaLista(id, T.nichoPorId, cena => { nichoSessao = cena; }, pintarNicho, telaNichos);
 }
 
 function pintarNicho() {
@@ -7008,7 +7006,7 @@ function pintarNicho() {
     rota: 'nicho',
     aoLista: telaNichos,
     repintar: pintarNicho,
-    avaliar: avaliarNicho,
+    avaliar: T.avaliarNicho,
     registrar: registrarNicho,
     tituloFim: 'Nicho no alvo!'
   });
@@ -7019,14 +7017,14 @@ function telaLacres() {
     'lacre',
     '🔒 O lacre',
     subCena('muda e sai'),
-    LACRES,
+    T.LACRES,
     abrirLacre,
     valor => { lacreSessao = valor; }
   );
 }
 
 function abrirLacre(id) {
-  abrirCenaLista(id, lacrePorId, cena => { lacreSessao = cena; }, pintarLacre, telaLacres);
+  abrirCenaLista(id, T.lacrePorId, cena => { lacreSessao = cena; }, pintarLacre, telaLacres);
 }
 
 function pintarLacre() {
@@ -7034,7 +7032,7 @@ function pintarLacre() {
     rota: 'lacre',
     aoLista: telaLacres,
     repintar: pintarLacre,
-    avaliar: avaliarLacre,
+    avaliar: T.avaliarLacre,
     registrar: registrarLacre,
     tituloFim: 'Lacre no alvo!'
   });
@@ -7045,14 +7043,14 @@ function telaSemaforos() {
     'semaforo',
     '🚦 O semáforo',
     subCena('entra e solta'),
-    SEMAFOROS,
+    T.SEMAFOROS,
     abrirSemaforo,
     valor => { semaforoSessao = valor; }
   );
 }
 
 function abrirSemaforo(id) {
-  abrirCenaLista(id, semaforoPorId, cena => { semaforoSessao = cena; }, pintarSemaforo, telaSemaforos);
+  abrirCenaLista(id, T.semaforoPorId, cena => { semaforoSessao = cena; }, pintarSemaforo, telaSemaforos);
 }
 
 function pintarSemaforo() {
@@ -7060,7 +7058,7 @@ function pintarSemaforo() {
     rota: 'semaforo',
     aoLista: telaSemaforos,
     repintar: pintarSemaforo,
-    avaliar: avaliarSemaforo,
+    avaliar: T.avaliarSemaforo,
     registrar: registrarSemaforo,
     tituloFim: 'Semáforo no alvo!'
   });
@@ -7071,14 +7069,14 @@ function telaBarreiras() {
     'barreira',
     '🏁 A barreira',
     subCena('chega e segue'),
-    BARREIRAS,
+    T.BARREIRAS,
     abrirBarreira,
     valor => { barreiraSessao = valor; }
   );
 }
 
 function abrirBarreira(id) {
-  abrirCenaLista(id, barreiraPorId, cena => { barreiraSessao = cena; }, pintarBarreira, telaBarreiras);
+  abrirCenaLista(id, T.barreiraPorId, cena => { barreiraSessao = cena; }, pintarBarreira, telaBarreiras);
 }
 
 function pintarBarreira() {
@@ -7086,7 +7084,7 @@ function pintarBarreira() {
     rota: 'barreira',
     aoLista: telaBarreiras,
     repintar: pintarBarreira,
-    avaliar: avaliarBarreira,
+    avaliar: T.avaliarBarreira,
     registrar: registrarBarreira,
     tituloFim: 'Barreira no alvo!'
   });
@@ -7097,14 +7095,14 @@ function telaTrincos() {
     'trinco',
     '🪝 O trinco',
     subCena('desce e abre'),
-    TRINCOS,
+    T.TRINCOS,
     abrirTrinco,
     valor => { trincoSessao = valor; }
   );
 }
 
 function abrirTrinco(id) {
-  abrirCenaLista(id, trincoPorId, cena => { trincoSessao = cena; }, pintarTrinco, telaTrincos);
+  abrirCenaLista(id, T.trincoPorId, cena => { trincoSessao = cena; }, pintarTrinco, telaTrincos);
 }
 
 function pintarTrinco() {
@@ -7112,7 +7110,7 @@ function pintarTrinco() {
     rota: 'trinco',
     aoLista: telaTrincos,
     repintar: pintarTrinco,
-    avaliar: avaliarTrinco,
+    avaliar: T.avaliarTrinco,
     registrar: registrarTrinco,
     tituloFim: 'Trinco no alvo!'
   });
@@ -7123,14 +7121,14 @@ function telaRecuos() {
     'recuo',
     '⏬ O recuo',
     subCena('dobra e espera'),
-    RECUOS,
+    T.RECUOS,
     abrirRecuo,
     valor => { recuoSessao = valor; }
   );
 }
 
 function abrirRecuo(id) {
-  abrirCenaLista(id, recuoPorId, cena => { recuoSessao = cena; }, pintarRecuo, telaRecuos);
+  abrirCenaLista(id, T.recuoPorId, cena => { recuoSessao = cena; }, pintarRecuo, telaRecuos);
 }
 
 function pintarRecuo() {
@@ -7138,7 +7136,7 @@ function pintarRecuo() {
     rota: 'recuo',
     aoLista: telaRecuos,
     repintar: pintarRecuo,
-    avaliar: avaliarRecuo,
+    avaliar: T.avaliarRecuo,
     registrar: registrarRecuo,
     tituloFim: 'Recuo no alvo!'
   });
@@ -7149,14 +7147,14 @@ function telaVigias() {
     'vigia',
     '🐕 O vigia',
     subCena('olha e encerra'),
-    VIGIAS,
+    T.VIGIAS,
     abrirVigia,
     valor => { vigiaSessao = valor; }
   );
 }
 
 function abrirVigia(id) {
-  abrirCenaLista(id, vigiaPorId, cena => { vigiaSessao = cena; }, pintarVigia, telaVigias);
+  abrirCenaLista(id, T.vigiaPorId, cena => { vigiaSessao = cena; }, pintarVigia, telaVigias);
 }
 
 function pintarVigia() {
@@ -7164,7 +7162,7 @@ function pintarVigia() {
     rota: 'vigia',
     aoLista: telaVigias,
     repintar: pintarVigia,
-    avaliar: avaliarVigia,
+    avaliar: T.avaliarVigia,
     registrar: registrarVigia,
     tituloFim: 'Vigia no alvo!'
   });
@@ -7175,14 +7173,14 @@ function telaAmpulhetas() {
     'ampulheta',
     '🏺 A ampulheta',
     subCena('vence e troca'),
-    AMPULHETAS,
+    T.AMPULHETAS,
     abrirAmpulheta,
     valor => { ampulhetaSessao = valor; }
   );
 }
 
 function abrirAmpulheta(id) {
-  abrirCenaLista(id, ampulhetaPorId, cena => { ampulhetaSessao = cena; }, pintarAmpulheta, telaAmpulhetas);
+  abrirCenaLista(id, T.ampulhetaPorId, cena => { ampulhetaSessao = cena; }, pintarAmpulheta, telaAmpulhetas);
 }
 
 function pintarAmpulheta() {
@@ -7190,7 +7188,7 @@ function pintarAmpulheta() {
     rota: 'ampulheta',
     aoLista: telaAmpulhetas,
     repintar: pintarAmpulheta,
-    avaliar: avaliarAmpulheta,
+    avaliar: T.avaliarAmpulheta,
     registrar: registrarAmpulheta,
     tituloFim: 'Ampulheta no alvo!'
   });
@@ -7201,14 +7199,14 @@ function telaCaronas() {
     'carona',
     '🚕 A carona',
     subCena('viaja e confirma'),
-    CARONAS,
+    T.CARONAS,
     abrirCarona,
     valor => { caronaSessao = valor; }
   );
 }
 
 function abrirCarona(id) {
-  abrirCenaLista(id, caronaPorId, cena => { caronaSessao = cena; }, pintarCarona, telaCaronas);
+  abrirCenaLista(id, T.caronaPorId, cena => { caronaSessao = cena; }, pintarCarona, telaCaronas);
 }
 
 function pintarCarona() {
@@ -7216,7 +7214,7 @@ function pintarCarona() {
     rota: 'carona',
     aoLista: telaCaronas,
     repintar: pintarCarona,
-    avaliar: avaliarCarona,
+    avaliar: T.avaliarCarona,
     registrar: registrarCarona,
     tituloFim: 'Carona no alvo!'
   });
@@ -7227,14 +7225,14 @@ function telaVenenos() {
     'veneno',
     '☠️ O veneno',
     subCena('sai e isola'),
-    VENENOS,
+    T.VENENOS,
     abrirVeneno,
     valor => { venenoSessao = valor; }
   );
 }
 
 function abrirVeneno(id) {
-  abrirCenaLista(id, venenoPorId, cena => { venenoSessao = cena; }, pintarVeneno, telaVenenos);
+  abrirCenaLista(id, T.venenoPorId, cena => { venenoSessao = cena; }, pintarVeneno, telaVenenos);
 }
 
 function pintarVeneno() {
@@ -7242,7 +7240,7 @@ function pintarVeneno() {
     rota: 'veneno',
     aoLista: telaVenenos,
     repintar: pintarVeneno,
-    avaliar: avaliarVeneno,
+    avaliar: T.avaliarVeneno,
     registrar: registrarVeneno,
     tituloFim: 'Veneno no alvo!'
   });
@@ -7253,14 +7251,14 @@ function telaFarois() {
     'farol',
     '🗼 O farol',
     subCena('pisca e vive'),
-    FAROIS,
+    T.FAROIS,
     abrirFarol,
     valor => { farolSessao = valor; }
   );
 }
 
 function abrirFarol(id) {
-  abrirCenaLista(id, farolPorId, cena => { farolSessao = cena; }, pintarFarol, telaFarois);
+  abrirCenaLista(id, T.farolPorId, cena => { farolSessao = cena; }, pintarFarol, telaFarois);
 }
 
 function pintarFarol() {
@@ -7268,7 +7266,7 @@ function pintarFarol() {
     rota: 'farol',
     aoLista: telaFarois,
     repintar: pintarFarol,
-    avaliar: avaliarFarol,
+    avaliar: T.avaliarFarol,
     registrar: registrarFarol,
     tituloFim: 'Farol no alvo!'
   });
@@ -7279,14 +7277,14 @@ function telaAncoras() {
     'ancora',
     '⚓ A âncora',
     subCena('marca e volta'),
-    ANCORAS,
+    T.ANCORAS,
     abrirAncora,
     valor => { ancoraSessao = valor; }
   );
 }
 
 function abrirAncora(id) {
-  abrirCenaLista(id, ancoraPorId, cena => { ancoraSessao = cena; }, pintarAncora, telaAncoras);
+  abrirCenaLista(id, T.ancoraPorId, cena => { ancoraSessao = cena; }, pintarAncora, telaAncoras);
 }
 
 function pintarAncora() {
@@ -7294,7 +7292,7 @@ function pintarAncora() {
     rota: 'ancora',
     aoLista: telaAncoras,
     repintar: pintarAncora,
-    avaliar: avaliarAncora,
+    avaliar: T.avaliarAncora,
     registrar: registrarAncora,
     tituloFim: 'Âncora no alvo!'
   });
@@ -7305,14 +7303,14 @@ function telaMalhas() {
     'malha',
     '🕸️ A malha',
     subCena('liga e passa'),
-    MALHAS,
+    T.MALHAS,
     abrirMalha,
     valor => { malhaSessao = valor; }
   );
 }
 
 function abrirMalha(id) {
-  abrirCenaLista(id, malhaPorId, cena => { malhaSessao = cena; }, pintarMalha, telaMalhas);
+  abrirCenaLista(id, T.malhaPorId, cena => { malhaSessao = cena; }, pintarMalha, telaMalhas);
 }
 
 function pintarMalha() {
@@ -7320,7 +7318,7 @@ function pintarMalha() {
     rota: 'malha',
     aoLista: telaMalhas,
     repintar: pintarMalha,
-    avaliar: avaliarMalha,
+    avaliar: T.avaliarMalha,
     registrar: registrarMalha,
     tituloFim: 'Malha no alvo!'
   });
@@ -7331,14 +7329,14 @@ function telaFendas() {
     'fenda',
     '🪓 A fenda',
     subCena('divide e mede'),
-    FENDAS,
+    T.FENDAS,
     abrirFenda,
     valor => { fendaSessao = valor; }
   );
 }
 
 function abrirFenda(id) {
-  abrirCenaLista(id, fendaPorId, cena => { fendaSessao = cena; }, pintarFenda, telaFendas);
+  abrirCenaLista(id, T.fendaPorId, cena => { fendaSessao = cena; }, pintarFenda, telaFendas);
 }
 
 function pintarFenda() {
@@ -7346,7 +7344,7 @@ function pintarFenda() {
     rota: 'fenda',
     aoLista: telaFendas,
     repintar: pintarFenda,
-    avaliar: avaliarFenda,
+    avaliar: T.avaliarFenda,
     registrar: registrarFenda,
     tituloFim: 'Fenda no alvo!'
   });
@@ -7357,14 +7355,14 @@ function telaCofres() {
     'cofre',
     '🏦 O cofre',
     subCena('guarda e tira'),
-    COFRES,
+    T.COFRES,
     abrirCofre,
     valor => { cofreSessao = valor; }
   );
 }
 
 function abrirCofre(id) {
-  abrirCenaLista(id, cofrePorId, cena => { cofreSessao = cena; }, pintarCofre, telaCofres);
+  abrirCenaLista(id, T.cofrePorId, cena => { cofreSessao = cena; }, pintarCofre, telaCofres);
 }
 
 function pintarCofre() {
@@ -7372,7 +7370,7 @@ function pintarCofre() {
     rota: 'cofre',
     aoLista: telaCofres,
     repintar: pintarCofre,
-    avaliar: avaliarCofre,
+    avaliar: T.avaliarCofre,
     registrar: registrarCofre,
     tituloFim: 'Cofre no alvo!'
   });
@@ -7383,14 +7381,14 @@ function telaAudiencias() {
     'audiencia',
     '👂 A audiência',
     subCena('vale e recusa'),
-    AUDIENCIAS,
+    T.AUDIENCIAS,
     abrirAudiencia,
     valor => { audienciaSessao = valor; }
   );
 }
 
 function abrirAudiencia(id) {
-  abrirCenaLista(id, audienciaPorId, cena => { audienciaSessao = cena; }, pintarAudiencia, telaAudiencias);
+  abrirCenaLista(id, T.audienciaPorId, cena => { audienciaSessao = cena; }, pintarAudiencia, telaAudiencias);
 }
 
 function pintarAudiencia() {
@@ -7398,7 +7396,7 @@ function pintarAudiencia() {
     rota: 'audiencia',
     aoLista: telaAudiencias,
     repintar: pintarAudiencia,
-    avaliar: avaliarAudiencia,
+    avaliar: T.avaliarAudiencia,
     registrar: registrarAudiencia,
     tituloFim: 'Audiência no alvo!'
   });
@@ -7409,14 +7407,14 @@ function telaRevogacoes() {
     'revogacao',
     '🚫 A revogação',
     subCena('corta e sai'),
-    REVOGACOES,
+    T.REVOGACOES,
     abrirRevogacao,
     valor => { revogacaoSessao = valor; }
   );
 }
 
 function abrirRevogacao(id) {
-  abrirCenaLista(id, revogacaoPorId, cena => { revogacaoSessao = cena; }, pintarRevogacao, telaRevogacoes);
+  abrirCenaLista(id, T.revogacaoPorId, cena => { revogacaoSessao = cena; }, pintarRevogacao, telaRevogacoes);
 }
 
 function pintarRevogacao() {
@@ -7424,7 +7422,7 @@ function pintarRevogacao() {
     rota: 'revogacao',
     aoLista: telaRevogacoes,
     repintar: pintarRevogacao,
-    avaliar: avaliarRevogacao,
+    avaliar: T.avaliarRevogacao,
     registrar: registrarRevogacao,
     tituloFim: 'Revogação no alvo!'
   });
@@ -7435,14 +7433,14 @@ function telaQuoruns() {
     'quorum',
     '🗳️ O quórum',
     subCena('espera e grava'),
-    QUORUMS,
+    T.QUORUMS,
     abrirQuorum,
     valor => { quorumSessao = valor; }
   );
 }
 
 function abrirQuorum(id) {
-  abrirCenaLista(id, quorumPorId, cena => { quorumSessao = cena; }, pintarQuorum, telaQuoruns);
+  abrirCenaLista(id, T.quorumPorId, cena => { quorumSessao = cena; }, pintarQuorum, telaQuoruns);
 }
 
 function pintarQuorum() {
@@ -7450,7 +7448,7 @@ function pintarQuorum() {
     rota: 'quorum',
     aoLista: telaQuoruns,
     repintar: pintarQuorum,
-    avaliar: avaliarQuorum,
+    avaliar: T.avaliarQuorum,
     registrar: registrarQuorum,
     tituloFim: 'Quórum no alvo!'
   });
@@ -7461,14 +7459,14 @@ function telaMaiorias() {
     'maioria',
     '✋ A maioria',
     subCena('confirma e recusa'),
-    MAIORIAS,
+    T.MAIORIAS,
     abrirMaioria,
     valor => { maioriaSessao = valor; }
   );
 }
 
 function abrirMaioria(id) {
-  abrirCenaLista(id, maioriaPorId, cena => { maioriaSessao = cena; }, pintarMaioria, telaMaiorias);
+  abrirCenaLista(id, T.maioriaPorId, cena => { maioriaSessao = cena; }, pintarMaioria, telaMaiorias);
 }
 
 function pintarMaioria() {
@@ -7476,7 +7474,7 @@ function pintarMaioria() {
     rota: 'maioria',
     aoLista: telaMaiorias,
     repintar: pintarMaioria,
-    avaliar: avaliarMaioria,
+    avaliar: T.avaliarMaioria,
     registrar: registrarMaioria,
     tituloFim: 'Maioria no alvo!'
   });
@@ -7487,14 +7485,14 @@ function telaArbitros() {
     'arbitro',
     '⚖️ O árbitro',
     subCena('desempata e escolhe'),
-    ARBITROS,
+    T.ARBITROS,
     abrirArbitro,
     valor => { arbitroSessao = valor; }
   );
 }
 
 function abrirArbitro(id) {
-  abrirCenaLista(id, arbitroPorId, cena => { arbitroSessao = cena; }, pintarArbitro, telaArbitros);
+  abrirCenaLista(id, T.arbitroPorId, cena => { arbitroSessao = cena; }, pintarArbitro, telaArbitros);
 }
 
 function pintarArbitro() {
@@ -7502,7 +7500,7 @@ function pintarArbitro() {
     rota: 'arbitro',
     aoLista: telaArbitros,
     repintar: pintarArbitro,
-    avaliar: avaliarArbitro,
+    avaliar: T.avaliarArbitro,
     registrar: registrarArbitro,
     tituloFim: 'Árbitro no alvo!'
   });
@@ -7513,14 +7511,14 @@ function telaLideres() {
     'lider',
     '🧭 O líder',
     subCena('conduz e segue'),
-    LIDERES,
+    T.LIDERES,
     abrirLider,
     valor => { liderSessao = valor; }
   );
 }
 
 function abrirLider(id) {
-  abrirCenaLista(id, liderPorId, cena => { liderSessao = cena; }, pintarLider, telaLideres);
+  abrirCenaLista(id, T.liderPorId, cena => { liderSessao = cena; }, pintarLider, telaLideres);
 }
 
 function pintarLider() {
@@ -7528,7 +7526,7 @@ function pintarLider() {
     rota: 'lider',
     aoLista: telaLideres,
     repintar: pintarLider,
-    avaliar: avaliarLider,
+    avaliar: T.avaliarLider,
     registrar: registrarLider,
     tituloFim: 'Líder no alvo!'
   });
@@ -7539,14 +7537,14 @@ function telaMandatos() {
     'mandato',
     '📜 O mandato',
     subCena('sobe e fecha'),
-    MANDATOS,
+    T.MANDATOS,
     abrirMandato,
     valor => { mandatoSessao = valor; }
   );
 }
 
 function abrirMandato(id) {
-  abrirCenaLista(id, mandatoPorId, cena => { mandatoSessao = cena; }, pintarMandato, telaMandatos);
+  abrirCenaLista(id, T.mandatoPorId, cena => { mandatoSessao = cena; }, pintarMandato, telaMandatos);
 }
 
 function pintarMandato() {
@@ -7554,7 +7552,7 @@ function pintarMandato() {
     rota: 'mandato',
     aoLista: telaMandatos,
     repintar: pintarMandato,
-    avaliar: avaliarMandato,
+    avaliar: T.avaliarMandato,
     registrar: registrarMandato,
     tituloFim: 'Mandato no alvo!'
   });
@@ -7565,14 +7563,14 @@ function telaSeguidores() {
     'seguidor',
     '👣 O seguidor',
     subCena('copia e espera'),
-    SEGUIDORES,
+    T.SEGUIDORES,
     abrirSeguidor,
     valor => { seguidorSessao = valor; }
   );
 }
 
 function abrirSeguidor(id) {
-  abrirCenaLista(id, seguidorPorId, cena => { seguidorSessao = cena; }, pintarSeguidor, telaSeguidores);
+  abrirCenaLista(id, T.seguidorPorId, cena => { seguidorSessao = cena; }, pintarSeguidor, telaSeguidores);
 }
 
 function pintarSeguidor() {
@@ -7580,7 +7578,7 @@ function pintarSeguidor() {
     rota: 'seguidor',
     aoLista: telaSeguidores,
     repintar: pintarSeguidor,
-    avaliar: avaliarSeguidor,
+    avaliar: T.avaliarSeguidor,
     registrar: registrarSeguidor,
     tituloFim: 'Seguidor no alvo!'
   });
@@ -7591,14 +7589,14 @@ function telaOrquestradores() {
     'orquestrador',
     '🎼 O orquestrador',
     subCena('chama e espera'),
-    ORQUESTRADORES,
+    T.ORQUESTRADORES,
     abrirOrquestrador,
     valor => { orquestradorSessao = valor; }
   );
 }
 
 function abrirOrquestrador(id) {
-  abrirCenaLista(id, orquestradorPorId, cena => { orquestradorSessao = cena; }, pintarOrquestrador, telaOrquestradores);
+  abrirCenaLista(id, T.orquestradorPorId, cena => { orquestradorSessao = cena; }, pintarOrquestrador, telaOrquestradores);
 }
 
 function pintarOrquestrador() {
@@ -7606,7 +7604,7 @@ function pintarOrquestrador() {
     rota: 'orquestrador',
     aoLista: telaOrquestradores,
     repintar: pintarOrquestrador,
-    avaliar: avaliarOrquestrador,
+    avaliar: T.avaliarOrquestrador,
     registrar: registrarOrquestrador,
     tituloFim: 'Orquestrador no alvo!'
   });
@@ -7617,14 +7615,14 @@ function telaCoreografias() {
     'coreografia',
     '💃 A coreografia',
     subCena('decide e segue'),
-    COREOGRAFIAS,
+    T.COREOGRAFIAS,
     abrirCoreografia,
     valor => { coreografiaSessao = valor; }
   );
 }
 
 function abrirCoreografia(id) {
-  abrirCenaLista(id, coreografiaPorId, cena => { coreografiaSessao = cena; }, pintarCoreografia, telaCoreografias);
+  abrirCenaLista(id, T.coreografiaPorId, cena => { coreografiaSessao = cena; }, pintarCoreografia, telaCoreografias);
 }
 
 function pintarCoreografia() {
@@ -7632,7 +7630,7 @@ function pintarCoreografia() {
     rota: 'coreografia',
     aoLista: telaCoreografias,
     repintar: pintarCoreografia,
-    avaliar: avaliarCoreografia,
+    avaliar: T.avaliarCoreografia,
     registrar: registrarCoreografia,
     tituloFim: 'Coreografia no alvo!'
   });
@@ -7643,14 +7641,14 @@ function telaCompensacoes() {
     'compensacao',
     '↩️ A compensação',
     subCena('desfaz e fecha'),
-    COMPENSACOES,
+    T.COMPENSACOES,
     abrirCompensacao,
     valor => { compensacaoSessao = valor; }
   );
 }
 
 function abrirCompensacao(id) {
-  abrirCenaLista(id, compensacaoPorId, cena => { compensacaoSessao = cena; }, pintarCompensacao, telaCompensacoes);
+  abrirCenaLista(id, T.compensacaoPorId, cena => { compensacaoSessao = cena; }, pintarCompensacao, telaCompensacoes);
 }
 
 function pintarCompensacao() {
@@ -7658,7 +7656,7 @@ function pintarCompensacao() {
     rota: 'compensacao',
     aoLista: telaCompensacoes,
     repintar: pintarCompensacao,
-    avaliar: avaliarCompensacao,
+    avaliar: T.avaliarCompensacao,
     registrar: registrarCompensacao,
     tituloFim: 'Compensação no alvo!'
   });
@@ -7669,14 +7667,14 @@ function telaPrimarios() {
     'primario',
     '🥇 O primário',
     subCena('aceita e espera'),
-    PRIMARIOS,
+    T.PRIMARIOS,
     abrirPrimario,
     valor => { primarioSessao = valor; }
   );
 }
 
 function abrirPrimario(id) {
-  abrirCenaLista(id, primarioPorId, cena => { primarioSessao = cena; }, pintarPrimario, telaPrimarios);
+  abrirCenaLista(id, T.primarioPorId, cena => { primarioSessao = cena; }, pintarPrimario, telaPrimarios);
 }
 
 function pintarPrimario() {
@@ -7684,7 +7682,7 @@ function pintarPrimario() {
     rota: 'primario',
     aoLista: telaPrimarios,
     repintar: pintarPrimario,
-    avaliar: avaliarPrimario,
+    avaliar: T.avaliarPrimario,
     registrar: registrarPrimario,
     tituloFim: 'Primário no alvo!'
   });
@@ -7695,14 +7693,14 @@ function telaEspelhos() {
     'espelho',
     '🪟 O espelho',
     subCena('copia e segue'),
-    ESPELHOS,
+    T.ESPELHOS,
     abrirEspelho,
     valor => { espelhoSessao = valor; }
   );
 }
 
 function abrirEspelho(id) {
-  abrirCenaLista(id, espelhoPorId, cena => { espelhoSessao = cena; }, pintarEspelho, telaEspelhos);
+  abrirCenaLista(id, T.espelhoPorId, cena => { espelhoSessao = cena; }, pintarEspelho, telaEspelhos);
 }
 
 function pintarEspelho() {
@@ -7710,7 +7708,7 @@ function pintarEspelho() {
     rota: 'espelho',
     aoLista: telaEspelhos,
     repintar: pintarEspelho,
-    avaliar: avaliarEspelho,
+    avaliar: T.avaliarEspelho,
     registrar: registrarEspelho,
     tituloFim: 'Espelho no alvo!'
   });
@@ -7721,14 +7719,14 @@ function telaAscensoes() {
     'ascensao',
     '📈 A ascensão',
     subCena('sobe e fecha'),
-    ASCENSOES,
+    T.ASCENSOES,
     abrirAscensao,
     valor => { ascensaoSessao = valor; }
   );
 }
 
 function abrirAscensao(id) {
-  abrirCenaLista(id, ascensaoPorId, cena => { ascensaoSessao = cena; }, pintarAscensao, telaAscensoes);
+  abrirCenaLista(id, T.ascensaoPorId, cena => { ascensaoSessao = cena; }, pintarAscensao, telaAscensoes);
 }
 
 function pintarAscensao() {
@@ -7736,7 +7734,7 @@ function pintarAscensao() {
     rota: 'ascensao',
     aoLista: telaAscensoes,
     repintar: pintarAscensao,
-    avaliar: avaliarAscensao,
+    avaliar: T.avaliarAscensao,
     registrar: registrarAscensao,
     tituloFim: 'Ascensão no alvo!'
   });
@@ -7747,14 +7745,14 @@ function telaTravessias() {
     'travessia',
     '🌉 A travessia',
     subCena('confirma e espera'),
-    TRAVESSIAS,
+    T.TRAVESSIAS,
     abrirTravessia,
     valor => { travessiaSessao = valor; }
   );
 }
 
 function abrirTravessia(id) {
-  abrirCenaLista(id, travessiaPorId, cena => { travessiaSessao = cena; }, pintarTravessia, telaTravessias);
+  abrirCenaLista(id, T.travessiaPorId, cena => { travessiaSessao = cena; }, pintarTravessia, telaTravessias);
 }
 
 function pintarTravessia() {
@@ -7762,7 +7760,7 @@ function pintarTravessia() {
     rota: 'travessia',
     aoLista: telaTravessias,
     repintar: pintarTravessia,
-    avaliar: avaliarTravessia,
+    avaliar: T.avaliarTravessia,
     registrar: registrarTravessia,
     tituloFim: 'Travessia no alvo!'
   });
@@ -7773,14 +7771,14 @@ function telaRetaguardas() {
     'retaguarda',
     '🗄️ A retaguarda',
     subCena('segura e segue'),
-    RETAGUARDAS,
+    T.RETAGUARDAS,
     abrirRetaguarda,
     valor => { retaguardaSessao = valor; }
   );
 }
 
 function abrirRetaguarda(id) {
-  abrirCenaLista(id, retaguardaPorId, cena => { retaguardaSessao = cena; }, pintarRetaguarda, telaRetaguardas);
+  abrirCenaLista(id, T.retaguardaPorId, cena => { retaguardaSessao = cena; }, pintarRetaguarda, telaRetaguardas);
 }
 
 function pintarRetaguarda() {
@@ -7788,7 +7786,7 @@ function pintarRetaguarda() {
     rota: 'retaguarda',
     aoLista: telaRetaguardas,
     repintar: pintarRetaguarda,
-    avaliar: avaliarRetaguarda,
+    avaliar: T.avaliarRetaguarda,
     registrar: registrarRetaguarda,
     tituloFim: 'Retaguarda no alvo!'
   });
@@ -7799,14 +7797,14 @@ function telaContornos() {
     'contorno',
     '➰ O contorno',
     subCena('pula e fecha'),
-    CONTORNOS,
+    T.CONTORNOS,
     abrirContorno,
     valor => { contornoSessao = valor; }
   );
 }
 
 function abrirContorno(id) {
-  abrirCenaLista(id, contornoPorId, cena => { contornoSessao = cena; }, pintarContorno, telaContornos);
+  abrirCenaLista(id, T.contornoPorId, cena => { contornoSessao = cena; }, pintarContorno, telaContornos);
 }
 
 function pintarContorno() {
@@ -7814,7 +7812,7 @@ function pintarContorno() {
     rota: 'contorno',
     aoLista: telaContornos,
     repintar: pintarContorno,
-    avaliar: avaliarContorno,
+    avaliar: T.avaliarContorno,
     registrar: registrarContorno,
     tituloFim: 'Contorno no alvo!'
   });
@@ -7825,14 +7823,14 @@ function telaRumores() {
     'rumor',
     '🗞️ O rumor',
     subCena('espalha e espera'),
-    RUMORES,
+    T.RUMORES,
     abrirRumor,
     valor => { rumorSessao = valor; }
   );
 }
 
 function abrirRumor(id) {
-  abrirCenaLista(id, rumorPorId, cena => { rumorSessao = cena; }, pintarRumor, telaRumores);
+  abrirCenaLista(id, T.rumorPorId, cena => { rumorSessao = cena; }, pintarRumor, telaRumores);
 }
 
 function pintarRumor() {
@@ -7840,7 +7838,7 @@ function pintarRumor() {
     rota: 'rumor',
     aoLista: telaRumores,
     repintar: pintarRumor,
-    avaliar: avaliarRumor,
+    avaliar: T.avaliarRumor,
     registrar: registrarRumor,
     tituloFim: 'Rumor no alvo!'
   });
@@ -7851,14 +7849,14 @@ function telaReparos() {
     'reparo',
     '🩹 O reparo',
     subCena('conserta e segue'),
-    REPAROS,
+    T.REPAROS,
     abrirReparo,
     valor => { reparoSessao = valor; }
   );
 }
 
 function abrirReparo(id) {
-  abrirCenaLista(id, reparoPorId, cena => { reparoSessao = cena; }, pintarReparo, telaReparos);
+  abrirCenaLista(id, T.reparoPorId, cena => { reparoSessao = cena; }, pintarReparo, telaReparos);
 }
 
 function pintarReparo() {
@@ -7866,7 +7864,7 @@ function pintarReparo() {
     rota: 'reparo',
     aoLista: telaReparos,
     repintar: pintarReparo,
-    avaliar: avaliarReparo,
+    avaliar: T.avaliarReparo,
     registrar: registrarReparo,
     tituloFim: 'Reparo no alvo!'
   });
@@ -7877,14 +7875,14 @@ function telaDeixas() {
     'deixa',
     '🧳 A deixa',
     subCena('guarda e fecha'),
-    DEIXAS,
+    T.DEIXAS,
     abrirDeixa,
     valor => { deixaSessao = valor; }
   );
 }
 
 function abrirDeixa(id) {
-  abrirCenaLista(id, deixaPorId, cena => { deixaSessao = cena; }, pintarDeixa, telaDeixas);
+  abrirCenaLista(id, T.deixaPorId, cena => { deixaSessao = cena; }, pintarDeixa, telaDeixas);
 }
 
 function pintarDeixa() {
@@ -7892,7 +7890,7 @@ function pintarDeixa() {
     rota: 'deixa',
     aoLista: telaDeixas,
     repintar: pintarDeixa,
-    avaliar: avaliarDeixa,
+    avaliar: T.avaliarDeixa,
     registrar: registrarDeixa,
     tituloFim: 'Deixa no alvo!'
   });
@@ -7903,14 +7901,14 @@ function telaFlocos() {
     'floco',
     '❄️ O floco',
     subCena('nasce e espera'),
-    FLOCOS,
+    T.FLOCOS,
     abrirFloco,
     valor => { flocoSessao = valor; }
   );
 }
 
 function abrirFloco(id) {
-  abrirCenaLista(id, flocoPorId, cena => { flocoSessao = cena; }, pintarFloco, telaFlocos);
+  abrirCenaLista(id, T.flocoPorId, cena => { flocoSessao = cena; }, pintarFloco, telaFlocos);
 }
 
 function pintarFloco() {
@@ -7918,7 +7916,7 @@ function pintarFloco() {
     rota: 'floco',
     aoLista: telaFlocos,
     repintar: pintarFloco,
-    avaliar: avaliarFloco,
+    avaliar: T.avaliarFloco,
     registrar: registrarFloco,
     tituloFim: 'Floco no alvo!'
   });
@@ -7929,14 +7927,14 @@ function telaEpocas() {
     'epoca',
     '🗓️ A época',
     subCena('sobe e segue'),
-    EPOCAS,
+    T.EPOCAS,
     abrirEpoca,
     valor => { epocaSessao = valor; }
   );
 }
 
 function abrirEpoca(id) {
-  abrirCenaLista(id, epocaPorId, cena => { epocaSessao = cena; }, pintarEpoca, telaEpocas);
+  abrirCenaLista(id, T.epocaPorId, cena => { epocaSessao = cena; }, pintarEpoca, telaEpocas);
 }
 
 function pintarEpoca() {
@@ -7944,7 +7942,7 @@ function pintarEpoca() {
     rota: 'epoca',
     aoLista: telaEpocas,
     repintar: pintarEpoca,
-    avaliar: avaliarEpoca,
+    avaliar: T.avaliarEpoca,
     registrar: registrarEpoca,
     tituloFim: 'Época no alvo!'
   });
@@ -7955,14 +7953,14 @@ function telaVetores() {
     'vetor',
     '🧮 O vetor',
     subCena('anota e fecha'),
-    VETORES,
+    T.VETORES,
     abrirVetor,
     valor => { vetorSessao = valor; }
   );
 }
 
 function abrirVetor(id) {
-  abrirCenaLista(id, vetorPorId, cena => { vetorSessao = cena; }, pintarVetor, telaVetores);
+  abrirCenaLista(id, T.vetorPorId, cena => { vetorSessao = cena; }, pintarVetor, telaVetores);
 }
 
 function pintarVetor() {
@@ -7970,7 +7968,7 @@ function pintarVetor() {
     rota: 'vetor',
     aoLista: telaVetores,
     repintar: pintarVetor,
-    avaliar: avaliarVetor,
+    avaliar: T.avaliarVetor,
     registrar: registrarVetor,
     tituloFim: 'Vetor no alvo!'
   });
@@ -7981,14 +7979,14 @@ function telaSujeiras() {
     'sujeira',
     '🫧 A sujeira',
     subCena('pega e espera'),
-    SUJEIRAS,
+    T.SUJEIRAS,
     abrirSujeira,
     valor => { sujeiraSessao = valor; }
   );
 }
 
 function abrirSujeira(id) {
-  abrirCenaLista(id, sujeiraPorId, cena => { sujeiraSessao = cena; }, pintarSujeira, telaSujeiras);
+  abrirCenaLista(id, T.sujeiraPorId, cena => { sujeiraSessao = cena; }, pintarSujeira, telaSujeiras);
 }
 
 function pintarSujeira() {
@@ -7996,7 +7994,7 @@ function pintarSujeira() {
     rota: 'sujeira',
     aoLista: telaSujeiras,
     repintar: pintarSujeira,
-    avaliar: avaliarSujeira,
+    avaliar: T.avaliarSujeira,
     registrar: registrarSujeira,
     tituloFim: 'Sujeira no alvo!'
   });
@@ -8007,14 +8005,14 @@ function telaInstantaneos() {
     'instantaneo',
     '📸 O instantâneo',
     subCena('congela e segue'),
-    INSTANTANEOS,
+    T.INSTANTANEOS,
     abrirInstantaneo,
     valor => { instantaneoSessao = valor; }
   );
 }
 
 function abrirInstantaneo(id) {
-  abrirCenaLista(id, instantaneoPorId, cena => { instantaneoSessao = cena; }, pintarInstantaneo, telaInstantaneos);
+  abrirCenaLista(id, T.instantaneoPorId, cena => { instantaneoSessao = cena; }, pintarInstantaneo, telaInstantaneos);
 }
 
 function pintarInstantaneo() {
@@ -8022,7 +8020,7 @@ function pintarInstantaneo() {
     rota: 'instantaneo',
     aoLista: telaInstantaneos,
     repintar: pintarInstantaneo,
-    avaliar: avaliarInstantaneo,
+    avaliar: T.avaliarInstantaneo,
     registrar: registrarInstantaneo,
     tituloFim: 'Instantâneo no alvo!'
   });
@@ -8033,14 +8031,14 @@ function telaSeriais() {
     'serial',
     '🔢 O serial',
     subCena('ordena e fecha'),
-    SERIAIS,
+    T.SERIAIS,
     abrirSerial,
     valor => { serialSessao = valor; }
   );
 }
 
 function abrirSerial(id) {
-  abrirCenaLista(id, serialPorId, cena => { serialSessao = cena; }, pintarSerial, telaSeriais);
+  abrirCenaLista(id, T.serialPorId, cena => { serialSessao = cena; }, pintarSerial, telaSeriais);
 }
 
 function pintarSerial() {
@@ -8048,7 +8046,7 @@ function pintarSerial() {
     rota: 'serial',
     aoLista: telaSeriais,
     repintar: pintarSerial,
-    avaliar: avaliarSerial,
+    avaliar: T.avaliarSerial,
     registrar: registrarSerial,
     tituloFim: 'Serial no alvo!'
   });
@@ -8059,14 +8057,14 @@ function telaFomes() {
     'fome',
     '🍖 A fome',
     subCena('espera e segue'),
-    FOMES,
+    T.FOMES,
     abrirFome,
     valor => { fomeSessao = valor; }
   );
 }
 
 function abrirFome(id) {
-  abrirCenaLista(id, fomePorId, cena => { fomeSessao = cena; }, pintarFome, telaFomes);
+  abrirCenaLista(id, T.fomePorId, cena => { fomeSessao = cena; }, pintarFome, telaFomes);
 }
 
 function pintarFome() {
@@ -8074,7 +8072,7 @@ function pintarFome() {
     rota: 'fome',
     aoLista: telaFomes,
     repintar: pintarFome,
-    avaliar: avaliarFome,
+    avaliar: T.avaliarFome,
     registrar: registrarFome,
     tituloFim: 'Fome no alvo!'
   });
@@ -8085,14 +8083,14 @@ function telaInversoes() {
     'inversao',
     '🔃 A inversão',
     subCena('segura e solta'),
-    INVERSOES,
+    T.INVERSOES,
     abrirInversao,
     valor => { inversaoSessao = valor; }
   );
 }
 
 function abrirInversao(id) {
-  abrirCenaLista(id, inversaoPorId, cena => { inversaoSessao = cena; }, pintarInversao, telaInversoes);
+  abrirCenaLista(id, T.inversaoPorId, cena => { inversaoSessao = cena; }, pintarInversao, telaInversoes);
 }
 
 function pintarInversao() {
@@ -8100,7 +8098,7 @@ function pintarInversao() {
     rota: 'inversao',
     aoLista: telaInversoes,
     repintar: pintarInversao,
-    avaliar: avaliarInversao,
+    avaliar: T.avaliarInversao,
     registrar: registrarInversao,
     tituloFim: 'Inversão no alvo!'
   });
@@ -8111,14 +8109,14 @@ function telaIdades() {
     'idade',
     '🧓 A idade',
     subCena('sobe e fecha'),
-    IDADES,
+    T.IDADES,
     abrirIdade,
     valor => { idadeSessao = valor; }
   );
 }
 
 function abrirIdade(id) {
-  abrirCenaLista(id, idadePorId, cena => { idadeSessao = cena; }, pintarIdade, telaIdades);
+  abrirCenaLista(id, T.idadePorId, cena => { idadeSessao = cena; }, pintarIdade, telaIdades);
 }
 
 function pintarIdade() {
@@ -8126,7 +8124,7 @@ function pintarIdade() {
     rota: 'idade',
     aoLista: telaIdades,
     repintar: pintarIdade,
-    avaliar: avaliarIdade,
+    avaliar: T.avaliarIdade,
     registrar: registrarIdade,
     tituloFim: 'Idade no alvo!'
   });
@@ -8137,14 +8135,14 @@ function telaSidecars() {
     'sidecar',
     '🛵 O sidecar',
     subCena('acompanha e segue'),
-    SIDECARS,
+    T.SIDECARS,
     abrirSidecar,
     valor => { sidecarSessao = valor; }
   );
 }
 
 function abrirSidecar(id) {
-  abrirCenaLista(id, sidecarPorId, cena => { sidecarSessao = cena; }, pintarSidecar, telaSidecars);
+  abrirCenaLista(id, T.sidecarPorId, cena => { sidecarSessao = cena; }, pintarSidecar, telaSidecars);
 }
 
 function pintarSidecar() {
@@ -8152,7 +8150,7 @@ function pintarSidecar() {
     rota: 'sidecar',
     aoLista: telaSidecars,
     repintar: pintarSidecar,
-    avaliar: avaliarSidecar,
+    avaliar: T.avaliarSidecar,
     registrar: registrarSidecar,
     tituloFim: 'Sidecar no alvo!'
   });
@@ -8163,14 +8161,14 @@ function telaEmbaixadores() {
     'embaixador',
     '🌐 O embaixador',
     subCena('representa e segue'),
-    EMBAIXADORES,
+    T.EMBAIXADORES,
     abrirEmbaixador,
     valor => { embaixadorSessao = valor; }
   );
 }
 
 function abrirEmbaixador(id) {
-  abrirCenaLista(id, embaixadorPorId, cena => { embaixadorSessao = cena; }, pintarEmbaixador, telaEmbaixadores);
+  abrirCenaLista(id, T.embaixadorPorId, cena => { embaixadorSessao = cena; }, pintarEmbaixador, telaEmbaixadores);
 }
 
 function pintarEmbaixador() {
@@ -8178,7 +8176,7 @@ function pintarEmbaixador() {
     rota: 'embaixador',
     aoLista: telaEmbaixadores,
     repintar: pintarEmbaixador,
-    avaliar: avaliarEmbaixador,
+    avaliar: T.avaliarEmbaixador,
     registrar: registrarEmbaixador,
     tituloFim: 'Embaixador no alvo!'
   });
@@ -8189,14 +8187,14 @@ function telaAdaptadores() {
     'adaptador',
     '🔌 O adaptador',
     subCena('traduz e fecha'),
-    ADAPTADORES,
+    T.ADAPTADORES,
     abrirAdaptador,
     valor => { adaptadorSessao = valor; }
   );
 }
 
 function abrirAdaptador(id) {
-  abrirCenaLista(id, adaptadorPorId, cena => { adaptadorSessao = cena; }, pintarAdaptador, telaAdaptadores);
+  abrirCenaLista(id, T.adaptadorPorId, cena => { adaptadorSessao = cena; }, pintarAdaptador, telaAdaptadores);
 }
 
 function pintarAdaptador() {
@@ -8204,7 +8202,7 @@ function pintarAdaptador() {
     rota: 'adaptador',
     aoLista: telaAdaptadores,
     repintar: pintarAdaptador,
-    avaliar: avaliarAdaptador,
+    avaliar: T.avaliarAdaptador,
     registrar: registrarAdaptador,
     tituloFim: 'Adaptador no alvo!'
   });
@@ -8216,14 +8214,14 @@ function telaBizantinos() {
     'bizantino',
     '🤥 O bizantino',
     subCena('mente e segue'),
-    BIZANTINOS,
+    T.BIZANTINOS,
     abrirBizantino,
     valor => { bizantinoSessao = valor; }
   );
 }
 
 function abrirBizantino(id) {
-  abrirCenaLista(id, bizantinoPorId, cena => { bizantinoSessao = cena; }, pintarBizantino, telaBizantinos);
+  abrirCenaLista(id, T.bizantinoPorId, cena => { bizantinoSessao = cena; }, pintarBizantino, telaBizantinos);
 }
 
 function pintarBizantino() {
@@ -8231,7 +8229,7 @@ function pintarBizantino() {
     rota: 'bizantino',
     aoLista: telaBizantinos,
     repintar: pintarBizantino,
-    avaliar: avaliarBizantino,
+    avaliar: T.avaliarBizantino,
     registrar: registrarBizantino,
     tituloFim: 'Bizantino no alvo!'
   });
@@ -8242,14 +8240,14 @@ function telaParticoes() {
     'particao',
     '🧱 A partição',
     subCena('divide e segue'),
-    PARTICOES,
+    T.PARTICOES,
     abrirParticao,
     valor => { particaoSessao = valor; }
   );
 }
 
 function abrirParticao(id) {
-  abrirCenaLista(id, particaoPorId, cena => { particaoSessao = cena; }, pintarParticao, telaParticoes);
+  abrirCenaLista(id, T.particaoPorId, cena => { particaoSessao = cena; }, pintarParticao, telaParticoes);
 }
 
 function pintarParticao() {
@@ -8257,7 +8255,7 @@ function pintarParticao() {
     rota: 'particao',
     aoLista: telaParticoes,
     repintar: pintarParticao,
-    avaliar: avaliarParticao,
+    avaliar: T.avaliarParticao,
     registrar: registrarParticao,
     tituloFim: 'Partição no alvo!'
   });
@@ -8268,14 +8266,14 @@ function telaGenerais() {
     'general',
     '⚔️ O general',
     subCena('avança e fecha'),
-    GENERAIS,
+    T.GENERAIS,
     abrirGeneral,
     valor => { generalSessao = valor; }
   );
 }
 
 function abrirGeneral(id) {
-  abrirCenaLista(id, generalPorId, cena => { generalSessao = cena; }, pintarGeneral, telaGenerais);
+  abrirCenaLista(id, T.generalPorId, cena => { generalSessao = cena; }, pintarGeneral, telaGenerais);
 }
 
 function pintarGeneral() {
@@ -8283,7 +8281,7 @@ function pintarGeneral() {
     rota: 'general',
     aoLista: telaGenerais,
     repintar: pintarGeneral,
-    avaliar: avaliarGeneral,
+    avaliar: T.avaliarGeneral,
     registrar: registrarGeneral,
     tituloFim: 'General no alvo!'
   });
@@ -8295,14 +8293,14 @@ function telaWals() {
     'wal',
     '🪵 O wal',
     subCena('grava e segue'),
-    WALS,
+    T.WALS,
     abrirWal,
     valor => { walSessao = valor; }
   );
 }
 
 function abrirWal(id) {
-  abrirCenaLista(id, walPorId, cena => { walSessao = cena; }, pintarWal, telaWals);
+  abrirCenaLista(id, T.walPorId, cena => { walSessao = cena; }, pintarWal, telaWals);
 }
 
 function pintarWal() {
@@ -8310,7 +8308,7 @@ function pintarWal() {
     rota: 'wal',
     aoLista: telaWals,
     repintar: pintarWal,
-    avaliar: avaliarWal,
+    avaliar: T.avaliarWal,
     registrar: registrarWal,
     tituloFim: 'Wal no alvo!'
   });
@@ -8321,14 +8319,14 @@ function telaLsns() {
     'lsn',
     '🧷 O lsn',
     subCena('numera e segue'),
-    LSNS,
+    T.LSNS,
     abrirLsn,
     valor => { lsnSessao = valor; }
   );
 }
 
 function abrirLsn(id) {
-  abrirCenaLista(id, lsnPorId, cena => { lsnSessao = cena; }, pintarLsn, telaLsns);
+  abrirCenaLista(id, T.lsnPorId, cena => { lsnSessao = cena; }, pintarLsn, telaLsns);
 }
 
 function pintarLsn() {
@@ -8336,7 +8334,7 @@ function pintarLsn() {
     rota: 'lsn',
     aoLista: telaLsns,
     repintar: pintarLsn,
-    avaliar: avaliarLsn,
+    avaliar: T.avaliarLsn,
     registrar: registrarLsn,
     tituloFim: 'Lsn no alvo!'
   });
@@ -8347,14 +8345,14 @@ function telaCheckpoints() {
     'checkpoint',
     '📍 O checkpoint',
     subCena('marca e fecha'),
-    CHECKPOINTS,
+    T.CHECKPOINTS,
     abrirCheckpoint,
     valor => { checkpointSessao = valor; }
   );
 }
 
 function abrirCheckpoint(id) {
-  abrirCenaLista(id, checkpointPorId, cena => { checkpointSessao = cena; }, pintarCheckpoint, telaCheckpoints);
+  abrirCenaLista(id, T.checkpointPorId, cena => { checkpointSessao = cena; }, pintarCheckpoint, telaCheckpoints);
 }
 
 function pintarCheckpoint() {
@@ -8362,7 +8360,7 @@ function pintarCheckpoint() {
     rota: 'checkpoint',
     aoLista: telaCheckpoints,
     repintar: pintarCheckpoint,
-    avaliar: avaliarCheckpoint,
+    avaliar: T.avaliarCheckpoint,
     registrar: registrarCheckpoint,
     tituloFim: 'Checkpoint no alvo!'
   });
@@ -8374,14 +8372,14 @@ function telaNonces() {
     'nonce',
     '🎲 O nonce',
     subCena('entra e segue'),
-    NONCES,
+    T.NONCES,
     abrirNonce,
     valor => { nonceSessao = valor; }
   );
 }
 
 function abrirNonce(id) {
-  abrirCenaLista(id, noncePorId, cena => { nonceSessao = cena; }, pintarNonce, telaNonces);
+  abrirCenaLista(id, T.noncePorId, cena => { nonceSessao = cena; }, pintarNonce, telaNonces);
 }
 
 function pintarNonce() {
@@ -8389,7 +8387,7 @@ function pintarNonce() {
     rota: 'nonce',
     aoLista: telaNonces,
     repintar: pintarNonce,
-    avaliar: avaliarNonce,
+    avaliar: T.avaliarNonce,
     registrar: registrarNonce,
     tituloFim: 'Nonce no alvo!'
   });
@@ -8400,14 +8398,14 @@ function telaHmacs() {
     'hmac',
     '🏷️ O hmac',
     subCena('sela e segue'),
-    HMACS,
+    T.HMACS,
     abrirHmac,
     valor => { hmacSessao = valor; }
   );
 }
 
 function abrirHmac(id) {
-  abrirCenaLista(id, hmacPorId, cena => { hmacSessao = cena; }, pintarHmac, telaHmacs);
+  abrirCenaLista(id, T.hmacPorId, cena => { hmacSessao = cena; }, pintarHmac, telaHmacs);
 }
 
 function pintarHmac() {
@@ -8415,7 +8413,7 @@ function pintarHmac() {
     rota: 'hmac',
     aoLista: telaHmacs,
     repintar: pintarHmac,
-    avaliar: avaliarHmac,
+    avaliar: T.avaliarHmac,
     registrar: registrarHmac,
     tituloFim: 'Hmac no alvo!'
   });
@@ -8426,14 +8424,14 @@ function telaEnvelopes() {
     'envelope',
     '✉️ O envelope',
     subCena('embala e fecha'),
-    ENVELOPES,
+    T.ENVELOPES,
     abrirEnvelope,
     valor => { envelopeSessao = valor; }
   );
 }
 
 function abrirEnvelope(id) {
-  abrirCenaLista(id, envelopePorId, cena => { envelopeSessao = cena; }, pintarEnvelope, telaEnvelopes);
+  abrirCenaLista(id, T.envelopePorId, cena => { envelopeSessao = cena; }, pintarEnvelope, telaEnvelopes);
 }
 
 function pintarEnvelope() {
@@ -8441,7 +8439,7 @@ function pintarEnvelope() {
     rota: 'envelope',
     aoLista: telaEnvelopes,
     repintar: pintarEnvelope,
-    avaliar: avaliarEnvelope,
+    avaliar: T.avaliarEnvelope,
     registrar: registrarEnvelope,
     tituloFim: 'Envelope no alvo!'
   });
@@ -8453,14 +8451,14 @@ function telaLeases() {
     'lease',
     '🔑 O lease',
     subCena('entra e segue'),
-    LEASES,
+    T.LEASES,
     abrirLease,
     valor => { leaseSessao = valor; }
   );
 }
 
 function abrirLease(id) {
-  abrirCenaLista(id, leasePorId, cena => { leaseSessao = cena; }, pintarLease, telaLeases);
+  abrirCenaLista(id, T.leasePorId, cena => { leaseSessao = cena; }, pintarLease, telaLeases);
 }
 
 function pintarLease() {
@@ -8468,7 +8466,7 @@ function pintarLease() {
     rota: 'lease',
     aoLista: telaLeases,
     repintar: pintarLease,
-    avaliar: avaliarLease,
+    avaliar: T.avaliarLease,
     registrar: registrarLease,
     tituloFim: 'Lease no alvo!'
   });
@@ -8479,14 +8477,14 @@ function telaRenovacoes() {
     'renovacao',
     '🔄 A renovação',
     subCena('renova e segue'),
-    RENOVACOES,
+    T.RENOVACOES,
     abrirRenovacao,
     valor => { renovacaoSessao = valor; }
   );
 }
 
 function abrirRenovacao(id) {
-  abrirCenaLista(id, renovacaoPorId, cena => { renovacaoSessao = cena; }, pintarRenovacao, telaRenovacoes);
+  abrirCenaLista(id, T.renovacaoPorId, cena => { renovacaoSessao = cena; }, pintarRenovacao, telaRenovacoes);
 }
 
 function pintarRenovacao() {
@@ -8494,7 +8492,7 @@ function pintarRenovacao() {
     rota: 'renovacao',
     aoLista: telaRenovacoes,
     repintar: pintarRenovacao,
-    avaliar: avaliarRenovacao,
+    avaliar: T.avaliarRenovacao,
     registrar: registrarRenovacao,
     tituloFim: 'Renovação no alvo!'
   });
@@ -8505,14 +8503,14 @@ function telaVencimentos() {
     'vencimento',
     '⌛ O vencimento',
     subCena('vence e segue'),
-    VENCIMENTOS,
+    T.VENCIMENTOS,
     abrirVencimento,
     valor => { vencimentoSessao = valor; }
   );
 }
 
 function abrirVencimento(id) {
-  abrirCenaLista(id, vencimentoPorId, cena => { vencimentoSessao = cena; }, pintarVencimento, telaVencimentos);
+  abrirCenaLista(id, T.vencimentoPorId, cena => { vencimentoSessao = cena; }, pintarVencimento, telaVencimentos);
 }
 
 function pintarVencimento() {
@@ -8520,7 +8518,7 @@ function pintarVencimento() {
     rota: 'vencimento',
     aoLista: telaVencimentos,
     repintar: pintarVencimento,
-    avaliar: avaliarVencimento,
+    avaliar: T.avaliarVencimento,
     registrar: registrarVencimento,
     tituloFim: 'Vencimento no alvo!'
   });
@@ -8532,14 +8530,14 @@ function telaOutboxes() {
     'outbox',
     '📤 O outbox',
     subCena('entra e segue'),
-    OUTBOXES,
+    T.OUTBOXES,
     abrirOutbox,
     valor => { outboxSessao = valor; }
   );
 }
 
 function abrirOutbox(id) {
-  abrirCenaLista(id, outboxPorId, cena => { outboxSessao = cena; }, pintarOutbox, telaOutboxes);
+  abrirCenaLista(id, T.outboxPorId, cena => { outboxSessao = cena; }, pintarOutbox, telaOutboxes);
 }
 
 function pintarOutbox() {
@@ -8547,7 +8545,7 @@ function pintarOutbox() {
     rota: 'outbox',
     aoLista: telaOutboxes,
     repintar: pintarOutbox,
-    avaliar: avaliarOutbox,
+    avaliar: T.avaliarOutbox,
     registrar: registrarOutbox,
     tituloFim: 'Outbox no alvo!'
   });
@@ -8558,14 +8556,14 @@ function telaInboxes() {
     'inbox',
     '📥 O inbox',
     subCena('recebe e segue'),
-    INBOXES,
+    T.INBOXES,
     abrirInbox,
     valor => { inboxSessao = valor; }
   );
 }
 
 function abrirInbox(id) {
-  abrirCenaLista(id, inboxPorId, cena => { inboxSessao = cena; }, pintarInbox, telaInboxes);
+  abrirCenaLista(id, T.inboxPorId, cena => { inboxSessao = cena; }, pintarInbox, telaInboxes);
 }
 
 function pintarInbox() {
@@ -8573,7 +8571,7 @@ function pintarInbox() {
     rota: 'inbox',
     aoLista: telaInboxes,
     repintar: pintarInbox,
-    avaliar: avaliarInbox,
+    avaliar: T.avaliarInbox,
     registrar: registrarInbox,
     tituloFim: 'Inbox no alvo!'
   });
@@ -8584,14 +8582,14 @@ function telaRelays() {
     'relay',
     '📮 O relay',
     subCena('repassa e segue'),
-    RELAYS,
+    T.RELAYS,
     abrirRelay,
     valor => { relaySessao = valor; }
   );
 }
 
 function abrirRelay(id) {
-  abrirCenaLista(id, relayPorId, cena => { relaySessao = cena; }, pintarRelay, telaRelays);
+  abrirCenaLista(id, T.relayPorId, cena => { relaySessao = cena; }, pintarRelay, telaRelays);
 }
 
 function pintarRelay() {
@@ -8599,7 +8597,7 @@ function pintarRelay() {
     rota: 'relay',
     aoLista: telaRelays,
     repintar: pintarRelay,
-    avaliar: avaliarRelay,
+    avaliar: T.avaliarRelay,
     registrar: registrarRelay,
     tituloFim: 'Relay no alvo!'
   });
@@ -8610,14 +8608,14 @@ function telaOffsets() {
     'offset',
     '📏 O offset',
     subCena('marca e segue'),
-    OFFSETS,
+    T.OFFSETS,
     abrirOffset,
     valor => { offsetSessao = valor; }
   );
 }
 
 function abrirOffset(id) {
-  abrirCenaLista(id, offsetPorId, cena => { offsetSessao = cena; }, pintarOffset, telaOffsets);
+  abrirCenaLista(id, T.offsetPorId, cena => { offsetSessao = cena; }, pintarOffset, telaOffsets);
 }
 
 function pintarOffset() {
@@ -8625,7 +8623,7 @@ function pintarOffset() {
     rota: 'offset',
     aoLista: telaOffsets,
     repintar: pintarOffset,
-    avaliar: avaliarOffset,
+    avaliar: T.avaliarOffset,
     registrar: registrarOffset,
     tituloFim: 'Offset no alvo!'
   });
@@ -8636,14 +8634,14 @@ function telaLags() {
     'lag',
     '🐢 O lag',
     subCena('atrasa e segue'),
-    LAGS,
+    T.LAGS,
     abrirLag,
     valor => { lagSessao = valor; }
   );
 }
 
 function abrirLag(id) {
-  abrirCenaLista(id, lagPorId, cena => { lagSessao = cena; }, pintarLag, telaLags);
+  abrirCenaLista(id, T.lagPorId, cena => { lagSessao = cena; }, pintarLag, telaLags);
 }
 
 function pintarLag() {
@@ -8651,7 +8649,7 @@ function pintarLag() {
     rota: 'lag',
     aoLista: telaLags,
     repintar: pintarLag,
-    avaliar: avaliarLag,
+    avaliar: T.avaliarLag,
     registrar: registrarLag,
     tituloFim: 'Lag no alvo!'
   });
@@ -8662,14 +8660,14 @@ function telaAcks() {
     'ack',
     '✅ O ack',
     subCena('confirma e segue'),
-    ACKS,
+    T.ACKS,
     abrirAck,
     valor => { ackSessao = valor; }
   );
 }
 
 function abrirAck(id) {
-  abrirCenaLista(id, ackPorId, cena => { ackSessao = cena; }, pintarAck, telaAcks);
+  abrirCenaLista(id, T.ackPorId, cena => { ackSessao = cena; }, pintarAck, telaAcks);
 }
 
 function pintarAck() {
@@ -8677,7 +8675,7 @@ function pintarAck() {
     rota: 'ack',
     aoLista: telaAcks,
     repintar: pintarAck,
-    avaliar: avaliarAck,
+    avaliar: T.avaliarAck,
     registrar: registrarAck,
     tituloFim: 'Ack no alvo!'
   });
@@ -8688,14 +8686,14 @@ function telaSnapshots() {
     'snapshot',
     '📷 O snapshot',
     subCena('guarda e segue'),
-    SNAPSHOTS,
+    T.SNAPSHOTS,
     abrirSnapshot,
     valor => { snapshotSessao = valor; }
   );
 }
 
 function abrirSnapshot(id) {
-  abrirCenaLista(id, snapshotPorId, cena => { snapshotSessao = cena; }, pintarSnapshot, telaSnapshots);
+  abrirCenaLista(id, T.snapshotPorId, cena => { snapshotSessao = cena; }, pintarSnapshot, telaSnapshots);
 }
 
 function pintarSnapshot() {
@@ -8703,7 +8701,7 @@ function pintarSnapshot() {
     rota: 'snapshot',
     aoLista: telaSnapshots,
     repintar: pintarSnapshot,
-    avaliar: avaliarSnapshot,
+    avaliar: T.avaliarSnapshot,
     registrar: registrarSnapshot,
     tituloFim: 'Snapshot no alvo!'
   });
@@ -8714,14 +8712,14 @@ function telaRestores() {
     'restore',
     '↩️ O restore',
     subCena('devolve e segue'),
-    RESTORES,
+    T.RESTORES,
     abrirRestore,
     valor => { restoreSessao = valor; }
   );
 }
 
 function abrirRestore(id) {
-  abrirCenaLista(id, restorePorId, cena => { restoreSessao = cena; }, pintarRestore, telaRestores);
+  abrirCenaLista(id, T.restorePorId, cena => { restoreSessao = cena; }, pintarRestore, telaRestores);
 }
 
 function pintarRestore() {
@@ -8729,7 +8727,7 @@ function pintarRestore() {
     rota: 'restore',
     aoLista: telaRestores,
     repintar: pintarRestore,
-    avaliar: avaliarRestore,
+    avaliar: T.avaliarRestore,
     registrar: registrarRestore,
     tituloFim: 'Restore no alvo!'
   });
@@ -8740,14 +8738,14 @@ function telaPromotes() {
     'promote',
     '🚀 O promote',
     subCena('eleva e segue'),
-    PROMOTES,
+    T.PROMOTES,
     abrirPromote,
     valor => { promoteSessao = valor; }
   );
 }
 
 function abrirPromote(id) {
-  abrirCenaLista(id, promotePorId, cena => { promoteSessao = cena; }, pintarPromote, telaPromotes);
+  abrirCenaLista(id, T.promotePorId, cena => { promoteSessao = cena; }, pintarPromote, telaPromotes);
 }
 
 function pintarPromote() {
@@ -8755,7 +8753,7 @@ function pintarPromote() {
     rota: 'promote',
     aoLista: telaPromotes,
     repintar: pintarPromote,
-    avaliar: avaliarPromote,
+    avaliar: T.avaliarPromote,
     registrar: registrarPromote,
     tituloFim: 'Promote no alvo!'
   });
@@ -8766,14 +8764,14 @@ function telaBlooms() {
     'bloom',
     '🌸 O bloom',
     subCena('marca e segue'),
-    BLOOMS,
+    T.BLOOMS,
     abrirBloom,
     valor => { bloomSessao = valor; }
   );
 }
 
 function abrirBloom(id) {
-  abrirCenaLista(id, bloomPorId, cena => { bloomSessao = cena; }, pintarBloom, telaBlooms);
+  abrirCenaLista(id, T.bloomPorId, cena => { bloomSessao = cena; }, pintarBloom, telaBlooms);
 }
 
 function pintarBloom() {
@@ -8781,7 +8779,7 @@ function pintarBloom() {
     rota: 'bloom',
     aoLista: telaBlooms,
     repintar: pintarBloom,
-    avaliar: avaliarBloom,
+    avaliar: T.avaliarBloom,
     registrar: registrarBloom,
     tituloFim: 'Bloom no alvo!'
   });
@@ -8792,14 +8790,14 @@ function telaCucos() {
     'cuco',
     '🪺 O cuco',
     subCena('move e segue'),
-    CUCOS,
+    T.CUCOS,
     abrirCuco,
     valor => { cucoSessao = valor; }
   );
 }
 
 function abrirCuco(id) {
-  abrirCenaLista(id, cucoPorId, cena => { cucoSessao = cena; }, pintarCuco, telaCucos);
+  abrirCenaLista(id, T.cucoPorId, cena => { cucoSessao = cena; }, pintarCuco, telaCucos);
 }
 
 function pintarCuco() {
@@ -8807,7 +8805,7 @@ function pintarCuco() {
     rota: 'cuco',
     aoLista: telaCucos,
     repintar: pintarCuco,
-    avaliar: avaliarCuco,
+    avaliar: T.avaliarCuco,
     registrar: registrarCuco,
     tituloFim: 'Cuco no alvo!'
   });
@@ -8818,14 +8816,14 @@ function telaEsbocos() {
     'esboco',
     '✏️ O esboço',
     subCena('conta e segue'),
-    ESBOCOS,
+    T.ESBOCOS,
     abrirEsboco,
     valor => { esbocoSessao = valor; }
   );
 }
 
 function abrirEsboco(id) {
-  abrirCenaLista(id, esbocoPorId, cena => { esbocoSessao = cena; }, pintarEsboco, telaEsbocos);
+  abrirCenaLista(id, T.esbocoPorId, cena => { esbocoSessao = cena; }, pintarEsboco, telaEsbocos);
 }
 
 function pintarEsboco() {
@@ -8833,7 +8831,7 @@ function pintarEsboco() {
     rota: 'esboco',
     aoLista: telaEsbocos,
     repintar: pintarEsboco,
-    avaliar: avaliarEsboco,
+    avaliar: T.avaliarEsboco,
     registrar: registrarEsboco,
     tituloFim: 'Esboço no alvo!'
   });
@@ -8844,14 +8842,14 @@ function telaMerkles() {
     'merkle',
     '🌳 O merkle',
     subCena('sela e segue'),
-    MERKLES,
+    T.MERKLES,
     abrirMerkle,
     valor => { merkleSessao = valor; }
   );
 }
 
 function abrirMerkle(id) {
-  abrirCenaLista(id, merklePorId, cena => { merkleSessao = cena; }, pintarMerkle, telaMerkles);
+  abrirCenaLista(id, T.merklePorId, cena => { merkleSessao = cena; }, pintarMerkle, telaMerkles);
 }
 
 function pintarMerkle() {
@@ -8859,7 +8857,7 @@ function pintarMerkle() {
     rota: 'merkle',
     aoLista: telaMerkles,
     repintar: pintarMerkle,
-    avaliar: avaliarMerkle,
+    avaliar: T.avaliarMerkle,
     registrar: registrarMerkle,
     tituloFim: 'Merkle no alvo!'
   });
@@ -8870,14 +8868,14 @@ function telaRadixes() {
     'radix',
     '✂️ O radix',
     subCena('corta e segue'),
-    RADIXES,
+    T.RADIXES,
     abrirRadix,
     valor => { radixSessao = valor; }
   );
 }
 
 function abrirRadix(id) {
-  abrirCenaLista(id, radixPorId, cena => { radixSessao = cena; }, pintarRadix, telaRadixes);
+  abrirCenaLista(id, T.radixPorId, cena => { radixSessao = cena; }, pintarRadix, telaRadixes);
 }
 
 function pintarRadix() {
@@ -8885,7 +8883,7 @@ function pintarRadix() {
     rota: 'radix',
     aoLista: telaRadixes,
     repintar: pintarRadix,
-    avaliar: avaliarRadix,
+    avaliar: T.avaliarRadix,
     registrar: registrarRadix,
     tituloFim: 'Radix no alvo!'
   });
@@ -8896,14 +8894,14 @@ function telaTries() {
     'trie',
     '🔤 O trie',
     subCena('guarda e segue'),
-    TRIES,
+    T.TRIES,
     abrirTrie,
     valor => { trieSessao = valor; }
   );
 }
 
 function abrirTrie(id) {
-  abrirCenaLista(id, triePorId, cena => { trieSessao = cena; }, pintarTrie, telaTries);
+  abrirCenaLista(id, T.triePorId, cena => { trieSessao = cena; }, pintarTrie, telaTries);
 }
 
 function pintarTrie() {
@@ -8911,7 +8909,7 @@ function pintarTrie() {
     rota: 'trie',
     aoLista: telaTries,
     repintar: pintarTrie,
-    avaliar: avaliarTrie,
+    avaliar: T.avaliarTrie,
     registrar: registrarTrie,
     tituloFim: 'Trie no alvo!'
   });
@@ -8922,14 +8920,14 @@ function telaGossips() {
     'gossip',
     '📣 O gossip',
     subCena('troca e segue'),
-    GOSSIPS,
+    T.GOSSIPS,
     abrirGossip,
     valor => { gossipSessao = valor; }
   );
 }
 
 function abrirGossip(id) {
-  abrirCenaLista(id, gossipPorId, cena => { gossipSessao = cena; }, pintarGossip, telaGossips);
+  abrirCenaLista(id, T.gossipPorId, cena => { gossipSessao = cena; }, pintarGossip, telaGossips);
 }
 
 function pintarGossip() {
@@ -8937,7 +8935,7 @@ function pintarGossip() {
     rota: 'gossip',
     aoLista: telaGossips,
     repintar: pintarGossip,
-    avaliar: avaliarGossip,
+    avaliar: T.avaliarGossip,
     registrar: registrarGossip,
     tituloFim: 'Gossip no alvo!'
   });
@@ -8948,14 +8946,14 @@ function telaPhis() {
     'phi',
     '📉 O phi',
     subCena('sobe e segue'),
-    PHIS,
+    T.PHIS,
     abrirPhi,
     valor => { phiSessao = valor; }
   );
 }
 
 function abrirPhi(id) {
-  abrirCenaLista(id, phiPorId, cena => { phiSessao = cena; }, pintarPhi, telaPhis);
+  abrirCenaLista(id, T.phiPorId, cena => { phiSessao = cena; }, pintarPhi, telaPhis);
 }
 
 function pintarPhi() {
@@ -8963,7 +8961,7 @@ function pintarPhi() {
     rota: 'phi',
     aoLista: telaPhis,
     repintar: pintarPhi,
-    avaliar: avaliarPhi,
+    avaliar: T.avaliarPhi,
     registrar: registrarPhi,
     tituloFim: 'Phi no alvo!'
   });
@@ -8974,14 +8972,14 @@ function telaAccruals() {
     'accrual',
     '🧺 O accrual',
     subCena('soma e segue'),
-    ACCRUALS,
+    T.ACCRUALS,
     abrirAccrual,
     valor => { accrualSessao = valor; }
   );
 }
 
 function abrirAccrual(id) {
-  abrirCenaLista(id, accrualPorId, cena => { accrualSessao = cena; }, pintarAccrual, telaAccruals);
+  abrirCenaLista(id, T.accrualPorId, cena => { accrualSessao = cena; }, pintarAccrual, telaAccruals);
 }
 
 function pintarAccrual() {
@@ -8989,7 +8987,7 @@ function pintarAccrual() {
     rota: 'accrual',
     aoLista: telaAccruals,
     repintar: pintarAccrual,
-    avaliar: avaliarAccrual,
+    avaliar: T.avaliarAccrual,
     registrar: registrarAccrual,
     tituloFim: 'Accrual no alvo!'
   });
@@ -9001,14 +8999,14 @@ function telaHints() {
     'hint',
     '🔖 O hint',
     subCena('aponta e segue'),
-    HINTS,
+    T.HINTS,
     abrirHint,
     valor => { hintSessao = valor; }
   );
 }
 
 function abrirHint(id) {
-  abrirCenaLista(id, hintPorId, cena => { hintSessao = cena; }, pintarHint, telaHints);
+  abrirCenaLista(id, T.hintPorId, cena => { hintSessao = cena; }, pintarHint, telaHints);
 }
 
 function pintarHint() {
@@ -9016,7 +9014,7 @@ function pintarHint() {
     rota: 'hint',
     aoLista: telaHints,
     repintar: pintarHint,
-    avaliar: avaliarHint,
+    avaliar: T.avaliarHint,
     registrar: registrarHint,
     tituloFim: 'Hint no alvo!'
   });
@@ -9027,14 +9025,14 @@ function telaVacuums() {
     'vacuum',
     '🧹 O vacuum',
     subCena('limpa e segue'),
-    VACUUMS,
+    T.VACUUMS,
     abrirVacuum,
     valor => { vacuumSessao = valor; }
   );
 }
 
 function abrirVacuum(id) {
-  abrirCenaLista(id, vacuumPorId, cena => { vacuumSessao = cena; }, pintarVacuum, telaVacuums);
+  abrirCenaLista(id, T.vacuumPorId, cena => { vacuumSessao = cena; }, pintarVacuum, telaVacuums);
 }
 
 function pintarVacuum() {
@@ -9042,7 +9040,7 @@ function pintarVacuum() {
     rota: 'vacuum',
     aoLista: telaVacuums,
     repintar: pintarVacuum,
-    avaliar: avaliarVacuum,
+    avaliar: T.avaliarVacuum,
     registrar: registrarVacuum,
     tituloFim: 'Vacuum no alvo!'
   });
@@ -9053,14 +9051,14 @@ function telaFreezes() {
     'freeze',
     '🧊 O freeze',
     subCena('trava e segue'),
-    FREEZES,
+    T.FREEZES,
     abrirFreeze,
     valor => { freezeSessao = valor; }
   );
 }
 
 function abrirFreeze(id) {
-  abrirCenaLista(id, freezePorId, cena => { freezeSessao = cena; }, pintarFreeze, telaFreezes);
+  abrirCenaLista(id, T.freezePorId, cena => { freezeSessao = cena; }, pintarFreeze, telaFreezes);
 }
 
 function pintarFreeze() {
@@ -9068,7 +9066,7 @@ function pintarFreeze() {
     rota: 'freeze',
     aoLista: telaFreezes,
     repintar: pintarFreeze,
-    avaliar: avaliarFreeze,
+    avaliar: T.avaliarFreeze,
     registrar: registrarFreeze,
     tituloFim: 'Freeze no alvo!'
   });
@@ -9080,14 +9078,14 @@ function telaBitmaps() {
     'bitmap',
     '🗺️ O bitmap',
     subCena('marca e segue'),
-    BITMAPS,
+    T.BITMAPS,
     abrirBitmap,
     valor => { bitmapSessao = valor; }
   );
 }
 
 function abrirBitmap(id) {
-  abrirCenaLista(id, bitmapPorId, cena => { bitmapSessao = cena; }, pintarBitmap, telaBitmaps);
+  abrirCenaLista(id, T.bitmapPorId, cena => { bitmapSessao = cena; }, pintarBitmap, telaBitmaps);
 }
 
 function pintarBitmap() {
@@ -9095,7 +9093,7 @@ function pintarBitmap() {
     rota: 'bitmap',
     aoLista: telaBitmaps,
     repintar: pintarBitmap,
-    avaliar: avaliarBitmap,
+    avaliar: T.avaliarBitmap,
     registrar: registrarBitmap,
     tituloFim: 'Bitmap no alvo!'
   });
@@ -9106,14 +9104,14 @@ function telaRoarings() {
     'roaring',
     '🦁 O roaring',
     subCena('junta e segue'),
-    ROARINGS,
+    T.ROARINGS,
     abrirRoaring,
     valor => { roaringSessao = valor; }
   );
 }
 
 function abrirRoaring(id) {
-  abrirCenaLista(id, roaringPorId, cena => { roaringSessao = cena; }, pintarRoaring, telaRoarings);
+  abrirCenaLista(id, T.roaringPorId, cena => { roaringSessao = cena; }, pintarRoaring, telaRoarings);
 }
 
 function pintarRoaring() {
@@ -9121,7 +9119,7 @@ function pintarRoaring() {
     rota: 'roaring',
     aoLista: telaRoarings,
     repintar: pintarRoaring,
-    avaliar: avaliarRoaring,
+    avaliar: T.avaliarRoaring,
     registrar: registrarRoaring,
     tituloFim: 'Roaring no alvo!'
   });
@@ -9132,14 +9130,14 @@ function telaHypers() {
     'hyper',
     '🧮 O hyper',
     subCena('estima e segue'),
-    HYPERS,
+    T.HYPERS,
     abrirHyper,
     valor => { hyperSessao = valor; }
   );
 }
 
 function abrirHyper(id) {
-  abrirCenaLista(id, hyperPorId, cena => { hyperSessao = cena; }, pintarHyper, telaHypers);
+  abrirCenaLista(id, T.hyperPorId, cena => { hyperSessao = cena; }, pintarHyper, telaHypers);
 }
 
 function pintarHyper() {
@@ -9147,7 +9145,7 @@ function pintarHyper() {
     rota: 'hyper',
     aoLista: telaHypers,
     repintar: pintarHyper,
-    avaliar: avaliarHyper,
+    avaliar: T.avaliarHyper,
     registrar: registrarHyper,
     tituloFim: 'Hyper no alvo!'
   });
@@ -9159,14 +9157,14 @@ function telaCrdts() {
     'crdt',
     '🔀 O crdt',
     subCena('junta e segue'),
-    CRDTS,
+    T.CRDTS,
     abrirCrdt,
     valor => { crdtSessao = valor; }
   );
 }
 
 function abrirCrdt(id) {
-  abrirCenaLista(id, crdtPorId, cena => { crdtSessao = cena; }, pintarCrdt, telaCrdts);
+  abrirCenaLista(id, T.crdtPorId, cena => { crdtSessao = cena; }, pintarCrdt, telaCrdts);
 }
 
 function pintarCrdt() {
@@ -9174,7 +9172,7 @@ function pintarCrdt() {
     rota: 'crdt',
     aoLista: telaCrdts,
     repintar: pintarCrdt,
-    avaliar: avaliarCrdt,
+    avaliar: T.avaliarCrdt,
     registrar: registrarCrdt,
     tituloFim: 'Crdt no alvo!'
   });
@@ -9185,14 +9183,14 @@ function telaLwws() {
     'lww',
     '🕰️ O lww',
     subCena('vence e segue'),
-    LWWS,
+    T.LWWS,
     abrirLww,
     valor => { lwwSessao = valor; }
   );
 }
 
 function abrirLww(id) {
-  abrirCenaLista(id, lwwPorId, cena => { lwwSessao = cena; }, pintarLww, telaLwws);
+  abrirCenaLista(id, T.lwwPorId, cena => { lwwSessao = cena; }, pintarLww, telaLwws);
 }
 
 function pintarLww() {
@@ -9200,7 +9198,7 @@ function pintarLww() {
     rota: 'lww',
     aoLista: telaLwws,
     repintar: pintarLww,
-    avaliar: avaliarLww,
+    avaliar: T.avaliarLww,
     registrar: registrarLww,
     tituloFim: 'Lww no alvo!'
   });
@@ -9211,14 +9209,14 @@ function telaOrsets() {
     'orset',
     '📦 O orset',
     subCena('guarda e segue'),
-    ORSETS,
+    T.ORSETS,
     abrirOrset,
     valor => { orsetSessao = valor; }
   );
 }
 
 function abrirOrset(id) {
-  abrirCenaLista(id, orsetPorId, cena => { orsetSessao = cena; }, pintarOrset, telaOrsets);
+  abrirCenaLista(id, T.orsetPorId, cena => { orsetSessao = cena; }, pintarOrset, telaOrsets);
 }
 
 function pintarOrset() {
@@ -9226,7 +9224,7 @@ function pintarOrset() {
     rota: 'orset',
     aoLista: telaOrsets,
     repintar: pintarOrset,
-    avaliar: avaliarOrset,
+    avaliar: T.avaliarOrset,
     registrar: registrarOrset,
     tituloFim: 'Orset no alvo!'
   });
@@ -9237,14 +9235,14 @@ function telaVectors() {
     'vector',
     '🧭 O vector',
     subCena('marca e segue'),
-    VECTORS,
+    T.VECTORS,
     abrirVector,
     valor => { vectorSessao = valor; }
   );
 }
 
 function abrirVector(id) {
-  abrirCenaLista(id, vectorPorId, cena => { vectorSessao = cena; }, pintarVector, telaVectors);
+  abrirCenaLista(id, T.vectorPorId, cena => { vectorSessao = cena; }, pintarVector, telaVectors);
 }
 
 function pintarVector() {
@@ -9252,7 +9250,7 @@ function pintarVector() {
     rota: 'vector',
     aoLista: telaVectors,
     repintar: pintarVector,
-    avaliar: avaliarVector,
+    avaliar: T.avaliarVector,
     registrar: registrarVector,
     tituloFim: 'Vector no alvo!'
   });
@@ -9263,14 +9261,14 @@ function telaDots() {
     'dot',
     '⚫ O dot',
     subCena('nomeia e segue'),
-    DOTS,
+    T.DOTS,
     abrirDot,
     valor => { dotSessao = valor; }
   );
 }
 
 function abrirDot(id) {
-  abrirCenaLista(id, dotPorId, cena => { dotSessao = cena; }, pintarDot, telaDots);
+  abrirCenaLista(id, T.dotPorId, cena => { dotSessao = cena; }, pintarDot, telaDots);
 }
 
 function pintarDot() {
@@ -9278,7 +9276,7 @@ function pintarDot() {
     rota: 'dot',
     aoLista: telaDots,
     repintar: pintarDot,
-    avaliar: avaliarDot,
+    avaliar: T.avaliarDot,
     registrar: registrarDot,
     tituloFim: 'Dot no alvo!'
   });
@@ -9289,14 +9287,14 @@ function telaCausals() {
     'causal',
     '🔗 O causal',
     subCena('chega e segue'),
-    CAUSALS,
+    T.CAUSALS,
     abrirCausal,
     valor => { causalSessao = valor; }
   );
 }
 
 function abrirCausal(id) {
-  abrirCenaLista(id, causalPorId, cena => { causalSessao = cena; }, pintarCausal, telaCausals);
+  abrirCenaLista(id, T.causalPorId, cena => { causalSessao = cena; }, pintarCausal, telaCausals);
 }
 
 function pintarCausal() {
@@ -9304,7 +9302,7 @@ function pintarCausal() {
     rota: 'causal',
     aoLista: telaCausals,
     repintar: pintarCausal,
-    avaliar: avaliarCausal,
+    avaliar: T.avaliarCausal,
     registrar: registrarCausal,
     tituloFim: 'Causal no alvo!'
   });
@@ -9315,14 +9313,14 @@ function telaShards() {
     'shard',
     '🧩 O shard',
     subCena('guarda e segue'),
-    SHARDS,
+    T.SHARDS,
     abrirShard,
     valor => { shardSessao = valor; }
   );
 }
 
 function abrirShard(id) {
-  abrirCenaLista(id, shardPorId, cena => { shardSessao = cena; }, pintarShard, telaShards);
+  abrirCenaLista(id, T.shardPorId, cena => { shardSessao = cena; }, pintarShard, telaShards);
 }
 
 function pintarShard() {
@@ -9330,7 +9328,7 @@ function pintarShard() {
     rota: 'shard',
     aoLista: telaShards,
     repintar: pintarShard,
-    avaliar: avaliarShard,
+    avaliar: T.avaliarShard,
     registrar: registrarShard,
     tituloFim: 'Shard no alvo!'
   });
@@ -9341,14 +9339,14 @@ function telaRebalances() {
     'rebalance',
     '⚖️ O rebalance',
     subCena('troca e segue'),
-    REBALANCES,
+    T.REBALANCES,
     abrirRebalance,
     valor => { rebalanceSessao = valor; }
   );
 }
 
 function abrirRebalance(id) {
-  abrirCenaLista(id, rebalancePorId, cena => { rebalanceSessao = cena; }, pintarRebalance, telaRebalances);
+  abrirCenaLista(id, T.rebalancePorId, cena => { rebalanceSessao = cena; }, pintarRebalance, telaRebalances);
 }
 
 function pintarRebalance() {
@@ -9356,7 +9354,7 @@ function pintarRebalance() {
     rota: 'rebalance',
     aoLista: telaRebalances,
     repintar: pintarRebalance,
-    avaliar: avaliarRebalance,
+    avaliar: T.avaliarRebalance,
     registrar: registrarRebalance,
     tituloFim: 'Rebalance no alvo!'
   });
@@ -9367,14 +9365,14 @@ function telaSplits() {
     'split',
     '🪓 O split',
     subCena('divide e segue'),
-    SPLITS,
+    T.SPLITS,
     abrirSplit,
     valor => { splitSessao = valor; }
   );
 }
 
 function abrirSplit(id) {
-  abrirCenaLista(id, splitPorId, cena => { splitSessao = cena; }, pintarSplit, telaSplits);
+  abrirCenaLista(id, T.splitPorId, cena => { splitSessao = cena; }, pintarSplit, telaSplits);
 }
 
 function pintarSplit() {
@@ -9382,7 +9380,7 @@ function pintarSplit() {
     rota: 'split',
     aoLista: telaSplits,
     repintar: pintarSplit,
-    avaliar: avaliarSplit,
+    avaliar: T.avaliarSplit,
     registrar: registrarSplit,
     tituloFim: 'Split no alvo!'
   });
@@ -9393,14 +9391,14 @@ function telaWatermarks() {
     'watermark',
     '🪧 O watermark',
     subCena('marca e segue'),
-    WATERMARKS,
+    T.WATERMARKS,
     abrirWatermark,
     valor => { watermarkSessao = valor; }
   );
 }
 
 function abrirWatermark(id) {
-  abrirCenaLista(id, watermarkPorId, cena => { watermarkSessao = cena; }, pintarWatermark, telaWatermarks);
+  abrirCenaLista(id, T.watermarkPorId, cena => { watermarkSessao = cena; }, pintarWatermark, telaWatermarks);
 }
 
 function pintarWatermark() {
@@ -9408,7 +9406,7 @@ function pintarWatermark() {
     rota: 'watermark',
     aoLista: telaWatermarks,
     repintar: pintarWatermark,
-    avaliar: avaliarWatermark,
+    avaliar: T.avaliarWatermark,
     registrar: registrarWatermark,
     tituloFim: 'Watermark no alvo!'
   });
@@ -9419,14 +9417,14 @@ function telaBarriers() {
     'barrier',
     '🚧 O barrier',
     subCena('espera e segue'),
-    BARRIERS,
+    T.BARRIERS,
     abrirBarrier,
     valor => { barrierSessao = valor; }
   );
 }
 
 function abrirBarrier(id) {
-  abrirCenaLista(id, barrierPorId, cena => { barrierSessao = cena; }, pintarBarrier, telaBarriers);
+  abrirCenaLista(id, T.barrierPorId, cena => { barrierSessao = cena; }, pintarBarrier, telaBarriers);
 }
 
 function pintarBarrier() {
@@ -9434,7 +9432,7 @@ function pintarBarrier() {
     rota: 'barrier',
     aoLista: telaBarriers,
     repintar: pintarBarrier,
-    avaliar: avaliarBarrier,
+    avaliar: T.avaliarBarrier,
     registrar: registrarBarrier,
     tituloFim: 'Barrier no alvo!'
   });
@@ -9445,14 +9443,14 @@ function telaAligns() {
     'align',
     '📐 O align',
     subCena('alinha e segue'),
-    ALIGNS,
+    T.ALIGNS,
     abrirAlign,
     valor => { alignSessao = valor; }
   );
 }
 
 function abrirAlign(id) {
-  abrirCenaLista(id, alignPorId, cena => { alignSessao = cena; }, pintarAlign, telaAligns);
+  abrirCenaLista(id, T.alignPorId, cena => { alignSessao = cena; }, pintarAlign, telaAligns);
 }
 
 function pintarAlign() {
@@ -9460,7 +9458,7 @@ function pintarAlign() {
     rota: 'align',
     aoLista: telaAligns,
     repintar: pintarAlign,
-    avaliar: avaliarAlign,
+    avaliar: T.avaliarAlign,
     registrar: registrarAlign,
     tituloFim: 'Align no alvo!'
   });
@@ -9471,14 +9469,14 @@ function telaWitnesses() {
     'witness',
     '👁️ O witness',
     subCena('viu e segue'),
-    WITNESSES,
+    T.WITNESSES,
     abrirWitness,
     valor => { witnessSessao = valor; }
   );
 }
 
 function abrirWitness(id) {
-  abrirCenaLista(id, witnessPorId, cena => { witnessSessao = cena; }, pintarWitness, telaWitnesses);
+  abrirCenaLista(id, T.witnessPorId, cena => { witnessSessao = cena; }, pintarWitness, telaWitnesses);
 }
 
 function pintarWitness() {
@@ -9486,7 +9484,7 @@ function pintarWitness() {
     rota: 'witness',
     aoLista: telaWitnesses,
     repintar: pintarWitness,
-    avaliar: avaliarWitness,
+    avaliar: T.avaliarWitness,
     registrar: registrarWitness,
     tituloFim: 'Witness no alvo!'
   });
@@ -9497,14 +9495,14 @@ function telaVoters() {
     'voter',
     '🗳️ O voter',
     subCena('vota e segue'),
-    VOTERS,
+    T.VOTERS,
     abrirVoter,
     valor => { voterSessao = valor; }
   );
 }
 
 function abrirVoter(id) {
-  abrirCenaLista(id, voterPorId, cena => { voterSessao = cena; }, pintarVoter, telaVoters);
+  abrirCenaLista(id, T.voterPorId, cena => { voterSessao = cena; }, pintarVoter, telaVoters);
 }
 
 function pintarVoter() {
@@ -9512,7 +9510,7 @@ function pintarVoter() {
     rota: 'voter',
     aoLista: telaVoters,
     repintar: pintarVoter,
-    avaliar: avaliarVoter,
+    avaliar: T.avaliarVoter,
     registrar: registrarVoter,
     tituloFim: 'Voter no alvo!'
   });
@@ -9523,14 +9521,14 @@ function telaLearners() {
     'learner',
     '🎓 O learner',
     subCena('ouve e segue'),
-    LEARNERS,
+    T.LEARNERS,
     abrirLearner,
     valor => { learnerSessao = valor; }
   );
 }
 
 function abrirLearner(id) {
-  abrirCenaLista(id, learnerPorId, cena => { learnerSessao = cena; }, pintarLearner, telaLearners);
+  abrirCenaLista(id, T.learnerPorId, cena => { learnerSessao = cena; }, pintarLearner, telaLearners);
 }
 
 function pintarLearner() {
@@ -9538,7 +9536,7 @@ function pintarLearner() {
     rota: 'learner',
     aoLista: telaLearners,
     repintar: pintarLearner,
-    avaliar: avaliarLearner,
+    avaliar: T.avaliarLearner,
     registrar: registrarLearner,
     tituloFim: 'Learner no alvo!'
   });
@@ -9549,14 +9547,14 @@ function telaChecksums() {
     'checksum',
     '🧾 O checksum',
     subCena('confere e segue'),
-    CHECKSUMS,
+    T.CHECKSUMS,
     abrirChecksum,
     valor => { checksumSessao = valor; }
   );
 }
 
 function abrirChecksum(id) {
-  abrirCenaLista(id, checksumPorId, cena => { checksumSessao = cena; }, pintarChecksum, telaChecksums);
+  abrirCenaLista(id, T.checksumPorId, cena => { checksumSessao = cena; }, pintarChecksum, telaChecksums);
 }
 
 function pintarChecksum() {
@@ -9564,7 +9562,7 @@ function pintarChecksum() {
     rota: 'checksum',
     aoLista: telaChecksums,
     repintar: pintarChecksum,
-    avaliar: avaliarChecksum,
+    avaliar: T.avaliarChecksum,
     registrar: registrarChecksum,
     tituloFim: 'Checksum no alvo!'
   });
@@ -9575,14 +9573,14 @@ function telaBulkheads() {
     'bulkhead',
     '🛡️ O bulkhead',
     subCena('isola e segue'),
-    BULKHEADS,
+    T.BULKHEADS,
     abrirBulkhead,
     valor => { bulkheadSessao = valor; }
   );
 }
 
 function abrirBulkhead(id) {
-  abrirCenaLista(id, bulkheadPorId, cena => { bulkheadSessao = cena; }, pintarBulkhead, telaBulkheads);
+  abrirCenaLista(id, T.bulkheadPorId, cena => { bulkheadSessao = cena; }, pintarBulkhead, telaBulkheads);
 }
 
 function pintarBulkhead() {
@@ -9590,7 +9588,7 @@ function pintarBulkhead() {
     rota: 'bulkhead',
     aoLista: telaBulkheads,
     repintar: pintarBulkhead,
-    avaliar: avaliarBulkhead,
+    avaliar: T.avaliarBulkhead,
     registrar: registrarBulkhead,
     tituloFim: 'Bulkhead no alvo!'
   });
@@ -9601,14 +9599,14 @@ function telaFallbacks() {
     'fallback',
     '🛟 O fallback',
     subCena('entra e segue'),
-    FALLBACKS,
+    T.FALLBACKS,
     abrirFallback,
     valor => { fallbackSessao = valor; }
   );
 }
 
 function abrirFallback(id) {
-  abrirCenaLista(id, fallbackPorId, cena => { fallbackSessao = cena; }, pintarFallback, telaFallbacks);
+  abrirCenaLista(id, T.fallbackPorId, cena => { fallbackSessao = cena; }, pintarFallback, telaFallbacks);
 }
 
 function pintarFallback() {
@@ -9616,7 +9614,7 @@ function pintarFallback() {
     rota: 'fallback',
     aoLista: telaFallbacks,
     repintar: pintarFallback,
-    avaliar: avaliarFallback,
+    avaliar: T.avaliarFallback,
     registrar: registrarFallback,
     tituloFim: 'Fallback no alvo!'
   });
@@ -9627,14 +9625,14 @@ function telaTombstones() {
     'tombstone',
     '🪦 O tombstone',
     subCena('marca e segue'),
-    TOMBSTONES,
+    T.TOMBSTONES,
     abrirTombstone,
     valor => { tombstoneSessao = valor; }
   );
 }
 
 function abrirTombstone(id) {
-  abrirCenaLista(id, tombstonePorId, cena => { tombstoneSessao = cena; }, pintarTombstone, telaTombstones);
+  abrirCenaLista(id, T.tombstonePorId, cena => { tombstoneSessao = cena; }, pintarTombstone, telaTombstones);
 }
 
 function pintarTombstone() {
@@ -9642,7 +9640,7 @@ function pintarTombstone() {
     rota: 'tombstone',
     aoLista: telaTombstones,
     repintar: pintarTombstone,
-    avaliar: avaliarTombstone,
+    avaliar: T.avaliarTombstone,
     registrar: registrarTombstone,
     tituloFim: 'Tombstone no alvo!'
   });
@@ -9653,14 +9651,14 @@ function telaPurges() {
     'purge',
     '🗑️ O purge',
     subCena('tira e segue'),
-    PURGES,
+    T.PURGES,
     abrirPurge,
     valor => { purgeSessao = valor; }
   );
 }
 
 function abrirPurge(id) {
-  abrirCenaLista(id, purgePorId, cena => { purgeSessao = cena; }, pintarPurge, telaPurges);
+  abrirCenaLista(id, T.purgePorId, cena => { purgeSessao = cena; }, pintarPurge, telaPurges);
 }
 
 function pintarPurge() {
@@ -9668,7 +9666,7 @@ function pintarPurge() {
     rota: 'purge',
     aoLista: telaPurges,
     repintar: pintarPurge,
-    avaliar: avaliarPurge,
+    avaliar: T.avaliarPurge,
     registrar: registrarPurge,
     tituloFim: 'Purge no alvo!'
   });
@@ -9679,14 +9677,14 @@ function telaReclaims() {
     'reclaim',
     '♻️ O reclaim',
     subCena('volta e segue'),
-    RECLAIMS,
+    T.RECLAIMS,
     abrirReclaim,
     valor => { reclaimSessao = valor; }
   );
 }
 
 function abrirReclaim(id) {
-  abrirCenaLista(id, reclaimPorId, cena => { reclaimSessao = cena; }, pintarReclaim, telaReclaims);
+  abrirCenaLista(id, T.reclaimPorId, cena => { reclaimSessao = cena; }, pintarReclaim, telaReclaims);
 }
 
 function pintarReclaim() {
@@ -9694,7 +9692,7 @@ function pintarReclaim() {
     rota: 'reclaim',
     aoLista: telaReclaims,
     repintar: pintarReclaim,
-    avaliar: avaliarReclaim,
+    avaliar: T.avaliarReclaim,
     registrar: registrarReclaim,
     tituloFim: 'Reclaim no alvo!'
   });
@@ -9705,14 +9703,14 @@ function telaJournals() {
     'journal',
     '📓 O journal',
     subCena('anota e segue'),
-    JOURNALS,
+    T.JOURNALS,
     abrirJournal,
     valor => { journalSessao = valor; }
   );
 }
 
 function abrirJournal(id) {
-  abrirCenaLista(id, journalPorId, cena => { journalSessao = cena; }, pintarJournal, telaJournals);
+  abrirCenaLista(id, T.journalPorId, cena => { journalSessao = cena; }, pintarJournal, telaJournals);
 }
 
 function pintarJournal() {
@@ -9720,7 +9718,7 @@ function pintarJournal() {
     rota: 'journal',
     aoLista: telaJournals,
     repintar: pintarJournal,
-    avaliar: avaliarJournal,
+    avaliar: T.avaliarJournal,
     registrar: registrarJournal,
     tituloFim: 'Journal no alvo!'
   });
@@ -9731,14 +9729,14 @@ function telaSegments() {
     'segment',
     '🗂️ O segment',
     subCena('fecha e segue'),
-    SEGMENTS,
+    T.SEGMENTS,
     abrirSegment,
     valor => { segmentSessao = valor; }
   );
 }
 
 function abrirSegment(id) {
-  abrirCenaLista(id, segmentPorId, cena => { segmentSessao = cena; }, pintarSegment, telaSegments);
+  abrirCenaLista(id, T.segmentPorId, cena => { segmentSessao = cena; }, pintarSegment, telaSegments);
 }
 
 function pintarSegment() {
@@ -9746,7 +9744,7 @@ function pintarSegment() {
     rota: 'segment',
     aoLista: telaSegments,
     repintar: pintarSegment,
-    avaliar: avaliarSegment,
+    avaliar: T.avaliarSegment,
     registrar: registrarSegment,
     tituloFim: 'Segment no alvo!'
   });
@@ -9757,14 +9755,14 @@ function telaSpills() {
     'spill',
     '💧 O spill',
     subCena('solta e segue'),
-    SPILLS,
+    T.SPILLS,
     abrirSpill,
     valor => { spillSessao = valor; }
   );
 }
 
 function abrirSpill(id) {
-  abrirCenaLista(id, spillPorId, cena => { spillSessao = cena; }, pintarSpill, telaSpills);
+  abrirCenaLista(id, T.spillPorId, cena => { spillSessao = cena; }, pintarSpill, telaSpills);
 }
 
 function pintarSpill() {
@@ -9772,7 +9770,7 @@ function pintarSpill() {
     rota: 'spill',
     aoLista: telaSpills,
     repintar: pintarSpill,
-    avaliar: avaliarSpill,
+    avaliar: T.avaliarSpill,
     registrar: registrarSpill,
     tituloFim: 'Spill no alvo!'
   });
@@ -9783,14 +9781,14 @@ function telaStripes() {
     'stripe',
     '🧵 O stripe',
     subCena('espalha e segue'),
-    STRIPES,
+    T.STRIPES,
     abrirStripe,
     valor => { stripeSessao = valor; }
   );
 }
 
 function abrirStripe(id) {
-  abrirCenaLista(id, stripePorId, cena => { stripeSessao = cena; }, pintarStripe, telaStripes);
+  abrirCenaLista(id, T.stripePorId, cena => { stripeSessao = cena; }, pintarStripe, telaStripes);
 }
 
 function pintarStripe() {
@@ -9798,7 +9796,7 @@ function pintarStripe() {
     rota: 'stripe',
     aoLista: telaStripes,
     repintar: pintarStripe,
-    avaliar: avaliarStripe,
+    avaliar: T.avaliarStripe,
     registrar: registrarStripe,
     tituloFim: 'Stripe no alvo!'
   });
@@ -9809,14 +9807,14 @@ function telaParities() {
     'parity',
     '🔁 O parity',
     subCena('recupera e segue'),
-    PARITIES,
+    T.PARITIES,
     abrirParity,
     valor => { paritySessao = valor; }
   );
 }
 
 function abrirParity(id) {
-  abrirCenaLista(id, parityPorId, cena => { paritySessao = cena; }, pintarParity, telaParities);
+  abrirCenaLista(id, T.parityPorId, cena => { paritySessao = cena; }, pintarParity, telaParities);
 }
 
 function pintarParity() {
@@ -9824,7 +9822,7 @@ function pintarParity() {
     rota: 'parity',
     aoLista: telaParities,
     repintar: pintarParity,
-    avaliar: avaliarParity,
+    avaliar: T.avaliarParity,
     registrar: registrarParity,
     tituloFim: 'Parity no alvo!'
   });
@@ -9835,14 +9833,14 @@ function telaRebuilds() {
     'rebuild',
     '🔨 O rebuild',
     subCena('refaz e segue'),
-    REBUILDS,
+    T.REBUILDS,
     abrirRebuild,
     valor => { rebuildSessao = valor; }
   );
 }
 
 function abrirRebuild(id) {
-  abrirCenaLista(id, rebuildPorId, cena => { rebuildSessao = cena; }, pintarRebuild, telaRebuilds);
+  abrirCenaLista(id, T.rebuildPorId, cena => { rebuildSessao = cena; }, pintarRebuild, telaRebuilds);
 }
 
 function pintarRebuild() {
@@ -9850,7 +9848,7 @@ function pintarRebuild() {
     rota: 'rebuild',
     aoLista: telaRebuilds,
     repintar: pintarRebuild,
-    avaliar: avaliarRebuild,
+    avaliar: T.avaliarRebuild,
     registrar: registrarRebuild,
     tituloFim: 'Rebuild no alvo!'
   });
@@ -9861,14 +9859,14 @@ function telaEpochs() {
     'epoch',
     '🌅 O epoch',
     subCena('abre e segue'),
-    EPOCHS,
+    T.EPOCHS,
     abrirEpoch,
     valor => { epochSessao = valor; }
   );
 }
 
 function abrirEpoch(id) {
-  abrirCenaLista(id, epochPorId, cena => { epochSessao = cena; }, pintarEpoch, telaEpochs);
+  abrirCenaLista(id, T.epochPorId, cena => { epochSessao = cena; }, pintarEpoch, telaEpochs);
 }
 
 function pintarEpoch() {
@@ -9876,7 +9874,7 @@ function pintarEpoch() {
     rota: 'epoch',
     aoLista: telaEpochs,
     repintar: pintarEpoch,
-    avaliar: avaliarEpoch,
+    avaliar: T.avaliarEpoch,
     registrar: registrarEpoch,
     tituloFim: 'Epoch no alvo!'
   });
@@ -9887,14 +9885,14 @@ function telaBallots() {
     'ballot',
     '🗳️ O ballot',
     subCena('conta e segue'),
-    BALLOTS,
+    T.BALLOTS,
     abrirBallot,
     valor => { ballotSessao = valor; }
   );
 }
 
 function abrirBallot(id) {
-  abrirCenaLista(id, ballotPorId, cena => { ballotSessao = cena; }, pintarBallot, telaBallots);
+  abrirCenaLista(id, T.ballotPorId, cena => { ballotSessao = cena; }, pintarBallot, telaBallots);
 }
 
 function pintarBallot() {
@@ -9902,7 +9900,7 @@ function pintarBallot() {
     rota: 'ballot',
     aoLista: telaBallots,
     repintar: pintarBallot,
-    avaliar: avaliarBallot,
+    avaliar: T.avaliarBallot,
     registrar: registrarBallot,
     tituloFim: 'Ballot no alvo!'
   });
@@ -9913,14 +9911,14 @@ function telaFences() {
     'fence',
     '🪵 A fence',
     subCena('segura e segue'),
-    FENCES,
+    T.FENCES,
     abrirFence,
     valor => { fenceSessao = valor; }
   );
 }
 
 function abrirFence(id) {
-  abrirCenaLista(id, fencePorId, cena => { fenceSessao = cena; }, pintarFence, telaFences);
+  abrirCenaLista(id, T.fencePorId, cena => { fenceSessao = cena; }, pintarFence, telaFences);
 }
 
 function pintarFence() {
@@ -9928,7 +9926,7 @@ function pintarFence() {
     rota: 'fence',
     aoLista: telaFences,
     repintar: pintarFence,
-    avaliar: avaliarFence,
+    avaliar: T.avaliarFence,
     registrar: registrarFence,
     tituloFim: 'Fence no alvo!'
   });
@@ -9939,14 +9937,14 @@ function telaFlushes() {
     'flush',
     '🚰 O flush',
     subCena('desce e segue'),
-    FLUSHES,
+    T.FLUSHES,
     abrirFlush,
     valor => { flushSessao = valor; }
   );
 }
 
 function abrirFlush(id) {
-  abrirCenaLista(id, flushPorId, cena => { flushSessao = cena; }, pintarFlush, telaFlushes);
+  abrirCenaLista(id, T.flushPorId, cena => { flushSessao = cena; }, pintarFlush, telaFlushes);
 }
 
 function pintarFlush() {
@@ -9954,7 +9952,7 @@ function pintarFlush() {
     rota: 'flush',
     aoLista: telaFlushes,
     repintar: pintarFlush,
-    avaliar: avaliarFlush,
+    avaliar: T.avaliarFlush,
     registrar: registrarFlush,
     tituloFim: 'Flush no alvo!'
   });
@@ -9965,14 +9963,14 @@ function telaMemtables() {
     'memtable',
     '📥 A memtable',
     subCena('guarda e segue'),
-    MEMTABLES,
+    T.MEMTABLES,
     abrirMemtable,
     valor => { memtableSessao = valor; }
   );
 }
 
 function abrirMemtable(id) {
-  abrirCenaLista(id, memtablePorId, cena => { memtableSessao = cena; }, pintarMemtable, telaMemtables);
+  abrirCenaLista(id, T.memtablePorId, cena => { memtableSessao = cena; }, pintarMemtable, telaMemtables);
 }
 
 function pintarMemtable() {
@@ -9980,7 +9978,7 @@ function pintarMemtable() {
     rota: 'memtable',
     aoLista: telaMemtables,
     repintar: pintarMemtable,
-    avaliar: avaliarMemtable,
+    avaliar: T.avaliarMemtable,
     registrar: registrarMemtable,
     tituloFim: 'Memtable no alvo!'
   });
@@ -9991,14 +9989,14 @@ function telaExtents() {
     'extent',
     '📚 O extent',
     subCena('junta e segue'),
-    EXTENTS,
+    T.EXTENTS,
     abrirExtent,
     valor => { extentSessao = valor; }
   );
 }
 
 function abrirExtent(id) {
-  abrirCenaLista(id, extentPorId, cena => { extentSessao = cena; }, pintarExtent, telaExtents);
+  abrirCenaLista(id, T.extentPorId, cena => { extentSessao = cena; }, pintarExtent, telaExtents);
 }
 
 function pintarExtent() {
@@ -10006,7 +10004,7 @@ function pintarExtent() {
     rota: 'extent',
     aoLista: telaExtents,
     repintar: pintarExtent,
-    avaliar: avaliarExtent,
+    avaliar: T.avaliarExtent,
     registrar: registrarExtent,
     tituloFim: 'Extent no alvo!'
   });
@@ -10017,14 +10015,14 @@ function telaManifests() {
     'manifest',
     '📜 O manifest',
     subCena('lista e segue'),
-    MANIFESTS,
+    T.MANIFESTS,
     abrirManifest,
     valor => { manifestSessao = valor; }
   );
 }
 
 function abrirManifest(id) {
-  abrirCenaLista(id, manifestPorId, cena => { manifestSessao = cena; }, pintarManifest, telaManifests);
+  abrirCenaLista(id, T.manifestPorId, cena => { manifestSessao = cena; }, pintarManifest, telaManifests);
 }
 
 function pintarManifest() {
@@ -10032,7 +10030,7 @@ function pintarManifest() {
     rota: 'manifest',
     aoLista: telaManifests,
     repintar: pintarManifest,
-    avaliar: avaliarManifest,
+    avaliar: T.avaliarManifest,
     registrar: registrarManifest,
     tituloFim: 'Manifest no alvo!'
   });
@@ -10043,14 +10041,14 @@ function telaHedges() {
     'hedge',
     '🐇 O hedge',
     subCena('cobre e segue'),
-    HEDGES,
+    T.HEDGES,
     abrirHedge,
     valor => { hedgeSessao = valor; }
   );
 }
 
 function abrirHedge(id) {
-  abrirCenaLista(id, hedgePorId, cena => { hedgeSessao = cena; }, pintarHedge, telaHedges);
+  abrirCenaLista(id, T.hedgePorId, cena => { hedgeSessao = cena; }, pintarHedge, telaHedges);
 }
 
 function pintarHedge() {
@@ -10058,7 +10056,7 @@ function pintarHedge() {
     rota: 'hedge',
     aoLista: telaHedges,
     repintar: pintarHedge,
-    avaliar: avaliarHedge,
+    avaliar: T.avaliarHedge,
     registrar: registrarHedge,
     tituloFim: 'Hedge no alvo!'
   });
@@ -10069,14 +10067,14 @@ function telaDebounces() {
     'debounce',
     '⏲️ O debounce',
     subCena('espera e segue'),
-    DEBOUNCES,
+    T.DEBOUNCES,
     abrirDebounce,
     valor => { debounceSessao = valor; }
   );
 }
 
 function abrirDebounce(id) {
-  abrirCenaLista(id, debouncePorId, cena => { debounceSessao = cena; }, pintarDebounce, telaDebounces);
+  abrirCenaLista(id, T.debouncePorId, cena => { debounceSessao = cena; }, pintarDebounce, telaDebounces);
 }
 
 function pintarDebounce() {
@@ -10084,7 +10082,7 @@ function pintarDebounce() {
     rota: 'debounce',
     aoLista: telaDebounces,
     repintar: pintarDebounce,
-    avaliar: avaliarDebounce,
+    avaliar: T.avaliarDebounce,
     registrar: registrarDebounce,
     tituloFim: 'Debounce no alvo!'
   });
@@ -10095,14 +10093,14 @@ function telaSstables() {
     'sstable',
     '🧱 O sstable',
     subCena('ordena e segue'),
-    SSTABLES,
+    T.SSTABLES,
     abrirSstable,
     valor => { sstableSessao = valor; }
   );
 }
 
 function abrirSstable(id) {
-  abrirCenaLista(id, sstablePorId, cena => { sstableSessao = cena; }, pintarSstable, telaSstables);
+  abrirCenaLista(id, T.sstablePorId, cena => { sstableSessao = cena; }, pintarSstable, telaSstables);
 }
 
 function pintarSstable() {
@@ -10110,7 +10108,7 @@ function pintarSstable() {
     rota: 'sstable',
     aoLista: telaSstables,
     repintar: pintarSstable,
-    avaliar: avaliarSstable,
+    avaliar: T.avaliarSstable,
     registrar: registrarSstable,
     tituloFim: 'Sstable no alvo!'
   });
@@ -10121,14 +10119,14 @@ function telaLatches() {
     'latch',
     '🔒 O latch',
     subCena('segura e segue'),
-    LATCHES,
+    T.LATCHES,
     abrirLatch,
     valor => { latchSessao = valor; }
   );
 }
 
 function abrirLatch(id) {
-  abrirCenaLista(id, latchPorId, cena => { latchSessao = cena; }, pintarLatch, telaLatches);
+  abrirCenaLista(id, T.latchPorId, cena => { latchSessao = cena; }, pintarLatch, telaLatches);
 }
 
 function pintarLatch() {
@@ -10136,7 +10134,7 @@ function pintarLatch() {
     rota: 'latch',
     aoLista: telaLatches,
     repintar: pintarLatch,
-    avaliar: avaliarLatch,
+    avaliar: T.avaliarLatch,
     registrar: registrarLatch,
     tituloFim: 'Latch no alvo!'
   });
@@ -10147,14 +10145,14 @@ function telaThrottles() {
     'throttle',
     '🚥 O throttle',
     subCena('limita e segue'),
-    THROTTLES,
+    T.THROTTLES,
     abrirThrottle,
     valor => { throttleSessao = valor; }
   );
 }
 
 function abrirThrottle(id) {
-  abrirCenaLista(id, throttlePorId, cena => { throttleSessao = cena; }, pintarThrottle, telaThrottles);
+  abrirCenaLista(id, T.throttlePorId, cena => { throttleSessao = cena; }, pintarThrottle, telaThrottles);
 }
 
 function pintarThrottle() {
@@ -10162,7 +10160,7 @@ function pintarThrottle() {
     rota: 'throttle',
     aoLista: telaThrottles,
     repintar: pintarThrottle,
-    avaliar: avaliarThrottle,
+    avaliar: T.avaliarThrottle,
     registrar: registrarThrottle,
     tituloFim: 'Throttle no alvo!'
   });
@@ -10173,14 +10171,14 @@ function telaIterators() {
     'iterator',
     '🐾 O iterator',
     subCena('anda e segue'),
-    ITERATORS,
+    T.ITERATORS,
     abrirIterator,
     valor => { iteratorSessao = valor; }
   );
 }
 
 function abrirIterator(id) {
-  abrirCenaLista(id, iteratorPorId, cena => { iteratorSessao = cena; }, pintarIterator, telaIterators);
+  abrirCenaLista(id, T.iteratorPorId, cena => { iteratorSessao = cena; }, pintarIterator, telaIterators);
 }
 
 function pintarIterator() {
@@ -10188,7 +10186,7 @@ function pintarIterator() {
     rota: 'iterator',
     aoLista: telaIterators,
     repintar: pintarIterator,
-    avaliar: avaliarIterator,
+    avaliar: T.avaliarIterator,
     registrar: registrarIterator,
     tituloFim: 'Iterator no alvo!'
   });
@@ -10199,14 +10197,14 @@ function telaPagers() {
     'pager',
     '📑 O pager',
     subCena('carrega e segue'),
-    PAGERS,
+    T.PAGERS,
     abrirPager,
     valor => { pagerSessao = valor; }
   );
 }
 
 function abrirPager(id) {
-  abrirCenaLista(id, pagerPorId, cena => { pagerSessao = cena; }, pintarPager, telaPagers);
+  abrirCenaLista(id, T.pagerPorId, cena => { pagerSessao = cena; }, pintarPager, telaPagers);
 }
 
 function pintarPager() {
@@ -10214,7 +10212,7 @@ function pintarPager() {
     rota: 'pager',
     aoLista: telaPagers,
     repintar: pintarPager,
-    avaliar: avaliarPager,
+    avaliar: T.avaliarPager,
     registrar: registrarPager,
     tituloFim: 'Pager no alvo!'
   });
@@ -10225,14 +10223,14 @@ function telaEvicts() {
     'evict',
     '💨 O evict',
     subCena('solta e segue'),
-    EVICTS,
+    T.EVICTS,
     abrirEvict,
     valor => { evictSessao = valor; }
   );
 }
 
 function abrirEvict(id) {
-  abrirCenaLista(id, evictPorId, cena => { evictSessao = cena; }, pintarEvict, telaEvicts);
+  abrirCenaLista(id, T.evictPorId, cena => { evictSessao = cena; }, pintarEvict, telaEvicts);
 }
 
 function pintarEvict() {
@@ -10240,324 +10238,324 @@ function pintarEvict() {
     rota: 'evict',
     aoLista: telaEvicts,
     repintar: pintarEvict,
-    avaliar: avaliarEvict,
+    avaliar: T.avaliarEvict,
     registrar: registrarEvict,
     tituloFim: 'Evict no alvo!'
   });
 }
 
 function telaHistograms() {
-  listarCena('histogram', '📊 O histogram', subCena('conta e segue'), HISTOGRAMS, abrirHistogram, valor => { histogramSessao = valor; });
+  listarCena('histogram', '📊 O histogram', subCena('conta e segue'), T.HISTOGRAMS, abrirHistogram, valor => { histogramSessao = valor; });
 }
 
 function abrirHistogram(id) {
-  abrirCenaLista(id, histogramPorId, cena => { histogramSessao = cena; }, pintarHistogram, telaHistograms);
+  abrirCenaLista(id, T.histogramPorId, cena => { histogramSessao = cena; }, pintarHistogram, telaHistograms);
 }
 
 function pintarHistogram() {
   pintarCenaLista(histogramSessao, {
     rota: 'histogram', aoLista: telaHistograms, repintar: pintarHistogram,
-    avaliar: avaliarHistogram, registrar: registrarHistogram, tituloFim: 'Histogram no alvo!'
+    avaliar: T.avaliarHistogram, registrar: registrarHistogram, tituloFim: 'Histogram no alvo!'
   });
 }
 
 function telaGauges() {
-  listarCena('gauge', '🌡️ O gauge', subCena('mostra e segue'), GAUGES, abrirGauge, valor => { gaugeSessao = valor; });
+  listarCena('gauge', '🌡️ O gauge', subCena('mostra e segue'), T.GAUGES, abrirGauge, valor => { gaugeSessao = valor; });
 }
 
 function abrirGauge(id) {
-  abrirCenaLista(id, gaugePorId, cena => { gaugeSessao = cena; }, pintarGauge, telaGauges);
+  abrirCenaLista(id, T.gaugePorId, cena => { gaugeSessao = cena; }, pintarGauge, telaGauges);
 }
 
 function pintarGauge() {
   pintarCenaLista(gaugeSessao, {
     rota: 'gauge', aoLista: telaGauges, repintar: pintarGauge,
-    avaliar: avaliarGauge, registrar: registrarGauge, tituloFim: 'Gauge no alvo!'
+    avaliar: T.avaliarGauge, registrar: registrarGauge, tituloFim: 'Gauge no alvo!'
   });
 }
 
 function telaBackfills() {
-  listarCena('backfill', '🪣 O backfill', subCena('enche e segue'), BACKFILLS, abrirBackfill, valor => { backfillSessao = valor; });
+  listarCena('backfill', '🪣 O backfill', subCena('enche e segue'), T.BACKFILLS, abrirBackfill, valor => { backfillSessao = valor; });
 }
 
 function abrirBackfill(id) {
-  abrirCenaLista(id, backfillPorId, cena => { backfillSessao = cena; }, pintarBackfill, telaBackfills);
+  abrirCenaLista(id, T.backfillPorId, cena => { backfillSessao = cena; }, pintarBackfill, telaBackfills);
 }
 
 function pintarBackfill() {
   pintarCenaLista(backfillSessao, {
     rota: 'backfill', aoLista: telaBackfills, repintar: pintarBackfill,
-    avaliar: avaliarBackfill, registrar: registrarBackfill,     tituloFim: 'Backfill no alvo!'
+    avaliar: T.avaliarBackfill, registrar: registrarBackfill,     tituloFim: 'Backfill no alvo!'
   });
 }
 
 function telaSkews() {
-  listarCena('skew', '📏 O skew', subCena('entorta e segue'), SKEWS, abrirSkew, valor => { skewSessao = valor; });
+  listarCena('skew', '📏 O skew', subCena('entorta e segue'), T.SKEWS, abrirSkew, valor => { skewSessao = valor; });
 }
 
 function abrirSkew(id) {
-  abrirCenaLista(id, skewPorId, cena => { skewSessao = cena; }, pintarSkew, telaSkews);
+  abrirCenaLista(id, T.skewPorId, cena => { skewSessao = cena; }, pintarSkew, telaSkews);
 }
 
 function pintarSkew() {
   pintarCenaLista(skewSessao, {
     rota: 'skew', aoLista: telaSkews, repintar: pintarSkew,
-    avaliar: avaliarSkew, registrar: registrarSkew, tituloFim: 'Skew no alvo!'
+    avaliar: T.avaliarSkew, registrar: registrarSkew, tituloFim: 'Skew no alvo!'
   });
 }
 
 function telaHotspots() {
-  listarCena('hotspot', '🌶️ O hotspot', subCena('esquenta e segue'), HOTSPOTS, abrirHotspot, valor => { hotspotSessao = valor; });
+  listarCena('hotspot', '🌶️ O hotspot', subCena('esquenta e segue'), T.HOTSPOTS, abrirHotspot, valor => { hotspotSessao = valor; });
 }
 
 function abrirHotspot(id) {
-  abrirCenaLista(id, hotspotPorId, cena => { hotspotSessao = cena; }, pintarHotspot, telaHotspots);
+  abrirCenaLista(id, T.hotspotPorId, cena => { hotspotSessao = cena; }, pintarHotspot, telaHotspots);
 }
 
 function pintarHotspot() {
   pintarCenaLista(hotspotSessao, {
     rota: 'hotspot', aoLista: telaHotspots, repintar: pintarHotspot,
-    avaliar: avaliarHotspot, registrar: registrarHotspot, tituloFim: 'Hotspot no alvo!'
+    avaliar: T.avaliarHotspot, registrar: registrarHotspot, tituloFim: 'Hotspot no alvo!'
   });
 }
 
 function telaTails() {
-  listarCena('tail', '🐌 O tail', subCena('atrasa e segue'), TAILS, abrirTail, valor => { tailSessao = valor; });
+  listarCena('tail', '🐌 O tail', subCena('atrasa e segue'), T.TAILS, abrirTail, valor => { tailSessao = valor; });
 }
 
 function abrirTail(id) {
-  abrirCenaLista(id, tailPorId, cena => { tailSessao = cena; }, pintarTail, telaTails);
+  abrirCenaLista(id, T.tailPorId, cena => { tailSessao = cena; }, pintarTail, telaTails);
 }
 
 function pintarTail() {
   pintarCenaLista(tailSessao, {
     rota: 'tail', aoLista: telaTails, repintar: pintarTail,
-    avaliar: avaliarTail, registrar: registrarTail,     tituloFim: 'Tail no alvo!'
+    avaliar: T.avaliarTail, registrar: registrarTail,     tituloFim: 'Tail no alvo!'
   });
 }
 
 function telaSlos() {
-  listarCena('slo', '🎯 O slo', subCena('marca e segue'), SLOS, abrirSlo, valor => { sloSessao = valor; });
+  listarCena('slo', '🎯 O slo', subCena('marca e segue'), T.SLOS, abrirSlo, valor => { sloSessao = valor; });
 }
 
 function abrirSlo(id) {
-  abrirCenaLista(id, sloPorId, cena => { sloSessao = cena; }, pintarSlo, telaSlos);
+  abrirCenaLista(id, T.sloPorId, cena => { sloSessao = cena; }, pintarSlo, telaSlos);
 }
 
 function pintarSlo() {
   pintarCenaLista(sloSessao, {
     rota: 'slo', aoLista: telaSlos, repintar: pintarSlo,
-    avaliar: avaliarSlo, registrar: registrarSlo, tituloFim: 'Slo no alvo!'
+    avaliar: T.avaliarSlo, registrar: registrarSlo, tituloFim: 'Slo no alvo!'
   });
 }
 
 function telaSlis() {
-  listarCena('sli', '📐 O sli', subCena('mede e segue'), SLIS, abrirSli, valor => { sliSessao = valor; });
+  listarCena('sli', '📐 O sli', subCena('mede e segue'), T.SLIS, abrirSli, valor => { sliSessao = valor; });
 }
 
 function abrirSli(id) {
-  abrirCenaLista(id, sliPorId, cena => { sliSessao = cena; }, pintarSli, telaSlis);
+  abrirCenaLista(id, T.sliPorId, cena => { sliSessao = cena; }, pintarSli, telaSlis);
 }
 
 function pintarSli() {
   pintarCenaLista(sliSessao, {
     rota: 'sli', aoLista: telaSlis, repintar: pintarSli,
-    avaliar: avaliarSli, registrar: registrarSli, tituloFim: 'Sli no alvo!'
+    avaliar: T.avaliarSli, registrar: registrarSli, tituloFim: 'Sli no alvo!'
   });
 }
 
 function telaProbes() {
-  listarCena('probe', '📡 O probe', subCena('testa e segue'), PROBES, abrirProbe, valor => { probeSessao = valor; });
+  listarCena('probe', '📡 O probe', subCena('testa e segue'), T.PROBES, abrirProbe, valor => { probeSessao = valor; });
 }
 
 function abrirProbe(id) {
-  abrirCenaLista(id, probePorId, cena => { probeSessao = cena; }, pintarProbe, telaProbes);
+  abrirCenaLista(id, T.probePorId, cena => { probeSessao = cena; }, pintarProbe, telaProbes);
 }
 
 function pintarProbe() {
   pintarCenaLista(probeSessao, {
     rota: 'probe', aoLista: telaProbes, repintar: pintarProbe,
-    avaliar: avaliarProbe, registrar: registrarProbe, tituloFim: 'Probe no alvo!'
+    avaliar: T.avaliarProbe, registrar: registrarProbe, tituloFim: 'Probe no alvo!'
   });
 }
 
 function telaTraces() {
-  listarCena('trace', '🧵 O trace', subCena('segue e fecha'), TRACES, abrirTrace, valor => { traceSessao = valor; });
+  listarCena('trace', '🧵 O trace', subCena('segue e fecha'), T.TRACES, abrirTrace, valor => { traceSessao = valor; });
 }
 
 function abrirTrace(id) {
-  abrirCenaLista(id, tracePorId, cena => { traceSessao = cena; }, pintarTrace, telaTraces);
+  abrirCenaLista(id, T.tracePorId, cena => { traceSessao = cena; }, pintarTrace, telaTraces);
 }
 
 function pintarTrace() {
   pintarCenaLista(traceSessao, {
     rota: 'trace', aoLista: telaTraces, repintar: pintarTrace,
-    avaliar: avaliarTrace, registrar: registrarTrace, tituloFim: 'Trace no alvo!'
+    avaliar: T.avaliarTrace, registrar: registrarTrace, tituloFim: 'Trace no alvo!'
   });
 }
 
 function telaScrapes() {
-  listarCena('scrape', '🧹 O scrape', subCena('lê e fecha'), SCRAPES, abrirScrape, valor => { scrapeSessao = valor; });
+  listarCena('scrape', '🧹 O scrape', subCena('lê e fecha'), T.SCRAPES, abrirScrape, valor => { scrapeSessao = valor; });
 }
 
 function abrirScrape(id) {
-  abrirCenaLista(id, scrapePorId, cena => { scrapeSessao = cena; }, pintarScrape, telaScrapes);
+  abrirCenaLista(id, T.scrapePorId, cena => { scrapeSessao = cena; }, pintarScrape, telaScrapes);
 }
 
 function pintarScrape() {
   pintarCenaLista(scrapeSessao, {
     rota: 'scrape', aoLista: telaScrapes, repintar: pintarScrape,
-    avaliar: avaliarScrape, registrar: registrarScrape, tituloFim: 'Scrape no alvo!'
+    avaliar: T.avaliarScrape, registrar: registrarScrape, tituloFim: 'Scrape no alvo!'
   });
 }
 
 function telaRollups() {
-  listarCena('rollup', '🧮 O rollup', subCena('soma e fecha'), ROLLUPS, abrirRollup, valor => { rollupSessao = valor; });
+  listarCena('rollup', '🧮 O rollup', subCena('soma e fecha'), T.ROLLUPS, abrirRollup, valor => { rollupSessao = valor; });
 }
 
 function abrirRollup(id) {
-  abrirCenaLista(id, rollupPorId, cena => { rollupSessao = cena; }, pintarRollup, telaRollups);
+  abrirCenaLista(id, T.rollupPorId, cena => { rollupSessao = cena; }, pintarRollup, telaRollups);
 }
 
 function pintarRollup() {
   pintarCenaLista(rollupSessao, {
     rota: 'rollup', aoLista: telaRollups, repintar: pintarRollup,
-    avaliar: avaliarRollup, registrar: registrarRollup, tituloFim: 'Rollup no alvo!'
+    avaliar: T.avaliarRollup, registrar: registrarRollup, tituloFim: 'Rollup no alvo!'
   });
 }
 
 function telaWebhooks() {
-  listarCena('webhook', '🪝 O webhook', subCena('avisa e fecha'), WEBHOOKS, abrirWebhook, valor => { webhookSessao = valor; });
+  listarCena('webhook', '🪝 O webhook', subCena('avisa e fecha'), T.WEBHOOKS, abrirWebhook, valor => { webhookSessao = valor; });
 }
 
 function abrirWebhook(id) {
-  abrirCenaLista(id, webhookPorId, cena => { webhookSessao = cena; }, pintarWebhook, telaWebhooks);
+  abrirCenaLista(id, T.webhookPorId, cena => { webhookSessao = cena; }, pintarWebhook, telaWebhooks);
 }
 
 function pintarWebhook() {
   pintarCenaLista(webhookSessao, {
     rota: 'webhook', aoLista: telaWebhooks, repintar: pintarWebhook,
-    avaliar: avaliarWebhook, registrar: registrarWebhook, tituloFim: 'Webhook no alvo!'
+    avaliar: T.avaliarWebhook, registrar: registrarWebhook, tituloFim: 'Webhook no alvo!'
   });
 }
 
 function telaFanouts() {
-  listarCena('fanout', '🔀 O fanout', subCena('espalha e fecha'), FANOUTS, abrirFanout, valor => { fanoutSessao = valor; });
+  listarCena('fanout', '🔀 O fanout', subCena('espalha e fecha'), T.FANOUTS, abrirFanout, valor => { fanoutSessao = valor; });
 }
 
 function abrirFanout(id) {
-  abrirCenaLista(id, fanoutPorId, cena => { fanoutSessao = cena; }, pintarFanout, telaFanouts);
+  abrirCenaLista(id, T.fanoutPorId, cena => { fanoutSessao = cena; }, pintarFanout, telaFanouts);
 }
 
 function pintarFanout() {
   pintarCenaLista(fanoutSessao, {
     rota: 'fanout', aoLista: telaFanouts, repintar: pintarFanout,
-    avaliar: avaliarFanout, registrar: registrarFanout, tituloFim: 'Fanout no alvo!'
+    avaliar: T.avaliarFanout, registrar: registrarFanout, tituloFim: 'Fanout no alvo!'
   });
 }
 
 function telaIngests() {
-  listarCena('ingest', '📬 O ingest', subCena('recebe e fecha'), INGESTS, abrirIngest, valor => { ingestSessao = valor; });
+  listarCena('ingest', '📬 O ingest', subCena('recebe e fecha'), T.INGESTS, abrirIngest, valor => { ingestSessao = valor; });
 }
 
 function abrirIngest(id) {
-  abrirCenaLista(id, ingestPorId, cena => { ingestSessao = cena; }, pintarIngest, telaIngests);
+  abrirCenaLista(id, T.ingestPorId, cena => { ingestSessao = cena; }, pintarIngest, telaIngests);
 }
 
 function pintarIngest() {
   pintarCenaLista(ingestSessao, {
     rota: 'ingest', aoLista: telaIngests, repintar: pintarIngest,
-    avaliar: avaliarIngest, registrar: registrarIngest, tituloFim: 'Ingest no alvo!'
+    avaliar: T.avaliarIngest, registrar: registrarIngest, tituloFim: 'Ingest no alvo!'
   });
 }
 
 function telaOtels() {
-  listarCena('otel', '📤 O otel', subCena('exporta e fecha'), OTELS, abrirOtel, valor => { otelSessao = valor; });
+  listarCena('otel', '📤 O otel', subCena('exporta e fecha'), T.OTELS, abrirOtel, valor => { otelSessao = valor; });
 }
 
 function abrirOtel(id) {
-  abrirCenaLista(id, otelPorId, cena => { otelSessao = cena; }, pintarOtel, telaOtels);
+  abrirCenaLista(id, T.otelPorId, cena => { otelSessao = cena; }, pintarOtel, telaOtels);
 }
 
 function pintarOtel() {
   pintarCenaLista(otelSessao, {
     rota: 'otel', aoLista: telaOtels, repintar: pintarOtel,
-    avaliar: avaliarOtel, registrar: registrarOtel, tituloFim: 'Otel no alvo!'
+    avaliar: T.avaliarOtel, registrar: registrarOtel, tituloFim: 'Otel no alvo!'
   });
 }
 
 function telaSamplers() {
-  listarCena('sampler', '🎚️ O sampler', subCena('escolhe e fecha'), SAMPLERS, abrirSampler, valor => { samplerSessao = valor; });
+  listarCena('sampler', '🎚️ O sampler', subCena('escolhe e fecha'), T.SAMPLERS, abrirSampler, valor => { samplerSessao = valor; });
 }
 
 function abrirSampler(id) {
-  abrirCenaLista(id, samplerPorId, cena => { samplerSessao = cena; }, pintarSampler, telaSamplers);
+  abrirCenaLista(id, T.samplerPorId, cena => { samplerSessao = cena; }, pintarSampler, telaSamplers);
 }
 
 function pintarSampler() {
   pintarCenaLista(samplerSessao, {
     rota: 'sampler', aoLista: telaSamplers, repintar: pintarSampler,
-    avaliar: avaliarSampler, registrar: registrarSampler, tituloFim: 'Sampler no alvo!'
+    avaliar: T.avaliarSampler, registrar: registrarSampler, tituloFim: 'Sampler no alvo!'
   });
 }
 
 function telaExemplars() {
-  listarCena('exemplar', '📌 O exemplar', subCena('marca e fecha'), EXEMPLARS, abrirExemplar, valor => { exemplarSessao = valor; });
+  listarCena('exemplar', '📌 O exemplar', subCena('marca e fecha'), T.EXEMPLARS, abrirExemplar, valor => { exemplarSessao = valor; });
 }
 
 function abrirExemplar(id) {
-  abrirCenaLista(id, exemplarPorId, cena => { exemplarSessao = cena; }, pintarExemplar, telaExemplars);
+  abrirCenaLista(id, T.exemplarPorId, cena => { exemplarSessao = cena; }, pintarExemplar, telaExemplars);
 }
 
 function pintarExemplar() {
   pintarCenaLista(exemplarSessao, {
     rota: 'exemplar', aoLista: telaExemplars, repintar: pintarExemplar,
-    avaliar: avaliarExemplar, registrar: registrarExemplar, tituloFim: 'Exemplar no alvo!'
+    avaliar: T.avaliarExemplar, registrar: registrarExemplar, tituloFim: 'Exemplar no alvo!'
   });
 }
 
 function telaEgresses() {
-  listarCena('egress', '📦 O egress', subCena('solta e fecha'), EGRESSES, abrirEgress, valor => { egressSessao = valor; });
+  listarCena('egress', '📦 O egress', subCena('solta e fecha'), T.EGRESSES, abrirEgress, valor => { egressSessao = valor; });
 }
 
 function abrirEgress(id) {
-  abrirCenaLista(id, egressPorId, cena => { egressSessao = cena; }, pintarEgress, telaEgresses);
+  abrirCenaLista(id, T.egressPorId, cena => { egressSessao = cena; }, pintarEgress, telaEgresses);
 }
 
 function pintarEgress() {
   pintarCenaLista(egressSessao, {
     rota: 'egress', aoLista: telaEgresses, repintar: pintarEgress,
-    avaliar: avaliarEgress, registrar: registrarEgress, tituloFim: 'Egress no alvo!'
+    avaliar: T.avaliarEgress, registrar: registrarEgress, tituloFim: 'Egress no alvo!'
   });
 }
 
 function telaGateways() {
-  listarCena('gateway', '🚪 O gateway', subCena('abre e fecha'), GATEWAYS, abrirGateway, valor => { gatewaySessao = valor; });
+  listarCena('gateway', '🚪 O gateway', subCena('abre e fecha'), T.GATEWAYS, abrirGateway, valor => { gatewaySessao = valor; });
 }
 
 function abrirGateway(id) {
-  abrirCenaLista(id, gatewayPorId, cena => { gatewaySessao = cena; }, pintarGateway, telaGateways);
+  abrirCenaLista(id, T.gatewayPorId, cena => { gatewaySessao = cena; }, pintarGateway, telaGateways);
 }
 
 function pintarGateway() {
   pintarCenaLista(gatewaySessao, {
     rota: 'gateway', aoLista: telaGateways, repintar: pintarGateway,
-    avaliar: avaliarGateway, registrar: registrarGateway, tituloFim: 'Gateway no alvo!'
+    avaliar: T.avaliarGateway, registrar: registrarGateway, tituloFim: 'Gateway no alvo!'
   });
 }
 
 function telaFailovers() {
-  listarCena('failover', '🔄 O failover', subCena('troca e fecha'), FAILOVERS, abrirFailover, valor => { failoverSessao = valor; });
+  listarCena('failover', '🔄 O failover', subCena('troca e fecha'), T.FAILOVERS, abrirFailover, valor => { failoverSessao = valor; });
 }
 
 function abrirFailover(id) {
-  abrirCenaLista(id, failoverPorId, cena => { failoverSessao = cena; }, pintarFailover, telaFailovers);
+  abrirCenaLista(id, T.failoverPorId, cena => { failoverSessao = cena; }, pintarFailover, telaFailovers);
 }
 
 function pintarFailover() {
   pintarCenaLista(failoverSessao, {
     rota: 'failover', aoLista: telaFailovers, repintar: pintarFailover,
-    avaliar: avaliarFailover, registrar: registrarFailover, tituloFim: 'Failover no alvo!'
+    avaliar: T.avaliarFailover, registrar: registrarFailover, tituloFim: 'Failover no alvo!'
   });
 }
 
@@ -11403,6 +11401,9 @@ function registrarServiceWorker() {
     location.reload();
   });
   navigator.serviceWorker.register('./sw.js').then(registro => {
+    const pedirTreinos = sw => { try { sw.postMessage('precache-treinos'); } catch { /* o cache em runtime cobre o buraco */ } };
+    if (registro.active) pedirTreinos(registro.active);
+    else navigator.serviceWorker.ready.then(pronto => { if (pronto.active) pedirTreinos(pronto.active); });
     if (registro.waiting && navigator.serviceWorker.controller) avisarAtualizacao(registro);
     registro.addEventListener('updatefound', () => {
       const novo = registro.installing;
@@ -13055,6 +13056,7 @@ function cartaoSemana() {
 }
 
 function telaPainel() {
+  if (!T) { carregarTreinos().then(() => telaPainel()); return; }
   calar();
   limparTela();
   window.scrollTo(0, 0);
@@ -13062,7 +13064,7 @@ function telaPainel() {
   registrarRota('painel');
   const serie = serieFala(estado.painel, diaLocalAgora());
   const resumo = resumoFala(serie);
-  const historia = historicoFala(estado.painel, diaLocalAgora(), 14);
+  const historia = T.historicoFala(estado.painel, diaLocalAgora(), 14);
   const erros = errosMaisComuns(5);
   const fraseSemana = textoMinutos(somarSemana(estado.painel, diaLocalAgora()).segundos);
   const avisoSemana = lembreteMinutos(somarSemana(estado.painel, diaLocalAgora()).minutos, estado.metaMinutos, diaLocalAgora());
@@ -13966,8 +13968,9 @@ function subDoTreino(treino) {
   return treino.sub;
 }
 
-function abrirTreino(id) {
+async function abrirTreino(id) {
   marcarTreinoAberto(id);
+  await carregarTreinos().catch(() => {});
   const fn = telasDoHub()[id];
   if (typeof fn === 'function') fn();
 }
@@ -16818,6 +16821,7 @@ function barrasDaSemana(dias) {
 }
 
 function telaResumo() {
+  if (!T) { carregarTreinos().then(() => telaResumo()); return; }
   calar();
   limparTela();
   window.scrollTo(0, 0);
@@ -18126,7 +18130,7 @@ function telaRelatos() {
   telaAtiva = 'relato';
   registrarRota('relato');
   relatoSessao = null;
-  const lista = preferirNivel(RELATOS, estado.nivelFala);
+  const lista = preferirNivel(T.RELATOS, estado.nivelFala);
   app.innerHTML = '';
   app.append(
     topoVoltar('🐛 Relatar um bug', () => voltarTela(telaConversa)),
@@ -18137,7 +18141,7 @@ function telaRelatos() {
 }
 
 function abrirRelato(id) {
-  abrirCenaLista(id, relatoPorId, cena => { relatoSessao = cena; }, pintarRelato, telaRelatos);
+  abrirCenaLista(id, T.relatoPorId, cena => { relatoSessao = cena; }, pintarRelato, telaRelatos);
 }
 
 function pintarRelato() {
@@ -18145,7 +18149,7 @@ function pintarRelato() {
     rota: 'relato',
     aoLista: telaRelatos,
     repintar: pintarRelato,
-    avaliar: avaliarRelato,
+    avaliar: T.avaliarRelato,
     registrar: registrarRelato,
     tituloFim: 'Bug relatado!'
   });
@@ -18159,7 +18163,7 @@ function telaCortesias() {
   telaAtiva = 'cortesia';
   registrarRota('cortesia');
   cortesiaSessao = null;
-  const lista = preferirNivel(CORTESIAS, estado.nivelFala);
+  const lista = preferirNivel(T.CORTESIAS, estado.nivelFala);
   app.innerHTML = '';
   app.append(
     topoVoltar('🙏 Review com educação', () => voltarTela(telaConversa)),
@@ -18170,7 +18174,7 @@ function telaCortesias() {
 }
 
 function abrirCortesia(id) {
-  abrirCenaLista(id, cortesiaPorId, cena => { cortesiaSessao = cena; }, pintarCortesia, telaCortesias);
+  abrirCenaLista(id, T.cortesiaPorId, cena => { cortesiaSessao = cena; }, pintarCortesia, telaCortesias);
 }
 
 function pintarCortesia() {
@@ -18178,7 +18182,7 @@ function pintarCortesia() {
     rota: 'cortesia',
     aoLista: telaCortesias,
     repintar: pintarCortesia,
-    avaliar: avaliarCortesia,
+    avaliar: T.avaliarCortesia,
     registrar: registrarCortesia,
     tituloFim: 'Review educado!'
   });
@@ -18192,7 +18196,7 @@ function telaAquecer() {
   telaAtiva = 'aquecer';
   registrarRota('aquecer');
   aquecerSessao = null;
-  const lista = preferirNivel(AQUECIMENTOS, estado.nivelFala);
+  const lista = preferirNivel(T.AQUECIMENTOS, estado.nivelFala);
   app.innerHTML = '';
   app.append(
     topoVoltar('☕ Antes da reunião', () => voltarTela(telaConversa)),
@@ -18203,7 +18207,7 @@ function telaAquecer() {
 }
 
 function abrirAquecer(id) {
-  abrirCenaLista(id, aquecerPorId, cena => { aquecerSessao = cena; }, pintarAquecer, telaAquecer);
+  abrirCenaLista(id, T.aquecerPorId, cena => { aquecerSessao = cena; }, pintarAquecer, telaAquecer);
 }
 
 function pintarAquecer() {
@@ -18211,7 +18215,7 @@ function pintarAquecer() {
     rota: 'aquecer',
     aoLista: telaAquecer,
     repintar: pintarAquecer,
-    avaliar: avaliarAquecer,
+    avaliar: T.avaliarAquecer,
     registrar: registrarAquecer,
     tituloFim: 'Papo feito!'
   });
@@ -18225,7 +18229,7 @@ function telaClaros() {
   telaAtiva = 'claro';
   registrarRota('claro');
   claroSessao = null;
-  const lista = preferirNivel(CLAROS, estado.nivelFala);
+  const lista = preferirNivel(T.CLAROS, estado.nivelFala);
   app.innerHTML = '';
   app.append(
     topoVoltar('🔎 Esclarecer', () => voltarTela(telaConversa)),
@@ -18237,7 +18241,7 @@ function telaClaros() {
 }
 
 function abrirClaro(id) {
-  const fila = filaAdaptada(CLAROS, id, claroPorId);
+  const fila = filaAdaptada(T.CLAROS, id, T.claroPorId);
   if (!fila.length) return telaClaros();
   descartarVoz();
   claroSessao = {
@@ -18298,7 +18302,7 @@ function pintarClaro() {
     const enviar = async () => {
       if (!campo.entrada.value.trim() || claroSessao.feedback) return;
       await finalizarGravacao();
-      const aval = avaliarClaro(item, campo.entrada.value);
+      const aval = T.avaliarClaro(item, campo.entrada.value);
       claroSessao.notas.push(aval.nota);
       if (aval.ok) {
         claroSessao.acertos++;
@@ -18376,7 +18380,7 @@ function telaListaFala(rota, titulo, aviso, lista, abrir) {
 }
 
 function cartaoPlano() {
-  const plano = planoDaSemana({
+  const plano = T.planoDaSemana({
     deslizes: deslizesVencidos().length,
     padroes: estado.padroes
   });
@@ -18389,7 +18393,7 @@ function cartaoPlano() {
       h('button', {
         class: 'btn btn-branco',
         type: 'button',
-        'aria-label': nomeDoTreino(item.titulo),
+        'aria-label': T.nomeDoTreino(item.titulo),
         onclick: () => abrirPlano(item.id)
       }, 'TREINAR')
     ))
@@ -18413,14 +18417,14 @@ function telaDecisoes() {
     'decisao',
     '🏗️ Decisão técnica',
     subCena('a escolha e a troca. We went with e the trade-off'),
-    DECISOES,
+    T.DECISOES,
     abrirDecisao,
     valor => { decisaoSessao = valor; }
   );
 }
 
 function abrirDecisao(id) {
-  abrirCenaLista(id, decisaoPorId, cena => { decisaoSessao = cena; }, pintarDecisao, telaDecisoes);
+  abrirCenaLista(id, T.decisaoPorId, cena => { decisaoSessao = cena; }, pintarDecisao, telaDecisoes);
 }
 
 function pintarDecisao() {
@@ -18428,7 +18432,7 @@ function pintarDecisao() {
     rota: 'decisao',
     aoLista: telaDecisoes,
     repintar: pintarDecisao,
-    avaliar: avaliarDecisao,
+    avaliar: T.avaliarDecisao,
     registrar: registrarDecisao,
     tituloFim: 'Decisão explicada!'
   });
@@ -18439,14 +18443,14 @@ function telaPares() {
     'par',
     '👥 Pair',
     'Narre o que você está fazendo e peça ajuda. A frase modelo só aparece depois.',
-    PARES,
+    T.PARES,
     abrirPar,
     valor => { parSessao = valor; }
   );
 }
 
 function abrirPar(id) {
-  abrirCenaLista(id, parPorId, cena => { parSessao = cena; }, pintarPar, telaPares);
+  abrirCenaLista(id, T.parPorId, cena => { parSessao = cena; }, pintarPar, telaPares);
 }
 
 function pintarPar() {
@@ -18454,7 +18458,7 @@ function pintarPar() {
     rota: 'par',
     aoLista: telaPares,
     repintar: pintarPar,
-    avaliar: avaliarPar,
+    avaliar: T.avaliarPar,
     registrar: registrarPar,
     tituloFim: 'Ajuda pedida!'
   });
@@ -18465,14 +18469,14 @@ function telaPlantoes() {
     'plantao',
     '🚨 Plantão',
     'Três falas: status, desculpa e o próximo passo. A frase modelo só aparece depois.',
-    INCIDENTES,
+    T.INCIDENTES,
     abrirPlantao,
     valor => { plantaoSessao = valor; }
   );
 }
 
 function abrirPlantao(id) {
-  abrirCenaLista(id, incidentePorId, cena => { plantaoSessao = cena; }, pintarPlantao, telaPlantoes);
+  abrirCenaLista(id, T.incidentePorId, cena => { plantaoSessao = cena; }, pintarPlantao, telaPlantoes);
 }
 
 function pintarPlantao() {
@@ -18480,7 +18484,7 @@ function pintarPlantao() {
     rota: 'plantao',
     aoLista: telaPlantoes,
     repintar: pintarPlantao,
-    avaliar: avaliarIncidente,
+    avaliar: T.avaliarIncidente,
     registrar: registrarPlantao,
     tituloFim: 'Plantão encerrado!'
   });
@@ -18490,7 +18494,7 @@ function cartaoHistorico(dias) {
   const maxTreinos = Math.max(1, ...dias.map(d => d.treinos));
   return h('div', { class: 'card' },
     h('div', { class: 'nivel-titulo' }, 'Últimos 14 dias'),
-    h('p', {}, rotuloHistorico(dias)),
+    h('p', {}, T.rotuloHistorico(dias)),
     h('div', { class: 'historico-fala', 'aria-hidden': 'true' },
       dias.map(d => h('div', { class: 'historico-col' },
         h('div', {
@@ -18516,14 +18520,14 @@ function telaEstimativas() {
     'estimativa',
     '⏳ Estimativa',
     subCena('o prazo e a dúvida. It should take about e I am not sure yet'),
-    ESTIMATIVAS,
+    T.ESTIMATIVAS,
     abrirEstimativa,
     valor => { estimativaSessao = valor; }
   );
 }
 
 function abrirEstimativa(id) {
-  abrirCenaLista(id, estimativaPorId, cena => { estimativaSessao = cena; }, pintarEstimativa, telaEstimativas);
+  abrirCenaLista(id, T.estimativaPorId, cena => { estimativaSessao = cena; }, pintarEstimativa, telaEstimativas);
 }
 
 function pintarEstimativa() {
@@ -18531,7 +18535,7 @@ function pintarEstimativa() {
     rota: 'estimativa',
     aoLista: telaEstimativas,
     repintar: pintarEstimativa,
-    avaliar: avaliarEstimativa,
+    avaliar: T.avaliarEstimativa,
     registrar: registrarEstimativa,
     tituloFim: 'Prazo dito!'
   });
@@ -18542,14 +18546,14 @@ function telaConsensos() {
     'consenso',
     '⚖️ Consenso',
     subCena('discorde e proponha um meio-termo'),
-    CONSENSOS,
+    T.CONSENSOS,
     abrirConsenso,
     valor => { consensoSessao = valor; }
   );
 }
 
 function abrirConsenso(id) {
-  abrirCenaLista(id, consensoPorId, cena => { consensoSessao = cena; }, pintarConsenso, telaConsensos);
+  abrirCenaLista(id, T.consensoPorId, cena => { consensoSessao = cena; }, pintarConsenso, telaConsensos);
 }
 
 function pintarConsenso() {
@@ -18557,7 +18561,7 @@ function pintarConsenso() {
     rota: 'consenso',
     aoLista: telaConsensos,
     repintar: pintarConsenso,
-    avaliar: avaliarConsenso,
+    avaliar: T.avaliarConsenso,
     registrar: registrarConsenso,
     tituloFim: 'Meio-termo feito!'
   });
@@ -18568,14 +18572,14 @@ function telaAtendimentos() {
     'atendimento',
     '📞 Atendimento',
     'Três falas no telefone: o problema, o detalhe e o pedido. A frase modelo só aparece depois.',
-    ATENDIMENTOS,
+    T.ATENDIMENTOS,
     abrirAtendimento,
     valor => { atendimentoSessao = valor; }
   );
 }
 
 function abrirAtendimento(id) {
-  abrirCenaLista(id, atendimentoPorId, cena => { atendimentoSessao = cena; }, pintarAtendimento, telaAtendimentos);
+  abrirCenaLista(id, T.atendimentoPorId, cena => { atendimentoSessao = cena; }, pintarAtendimento, telaAtendimentos);
 }
 
 function pintarAtendimento() {
@@ -18583,7 +18587,7 @@ function pintarAtendimento() {
     rota: 'atendimento',
     aoLista: telaAtendimentos,
     repintar: pintarAtendimento,
-    avaliar: avaliarAtendimento,
+    avaliar: T.avaliarAtendimento,
     registrar: registrarAtendimento,
     tituloFim: 'Ligação feita!'
   });
@@ -18594,14 +18598,14 @@ function telaRequisitos() {
     'requisito',
     '🗒️ Requisitos',
     'Pergunta de descoberta e depois a confirmação. A frase modelo só aparece depois.',
-    REQUISITOS,
+    T.REQUISITOS,
     abrirRequisito,
     valor => { requisitoSessao = valor; }
   );
 }
 
 function abrirRequisito(id) {
-  abrirCenaLista(id, requisitoPorId, cena => { requisitoSessao = cena; }, pintarRequisito, telaRequisitos);
+  abrirCenaLista(id, T.requisitoPorId, cena => { requisitoSessao = cena; }, pintarRequisito, telaRequisitos);
 }
 
 function pintarRequisito() {
@@ -18609,7 +18613,7 @@ function pintarRequisito() {
     rota: 'requisito',
     aoLista: telaRequisitos,
     repintar: pintarRequisito,
-    avaliar: avaliarRequisito,
+    avaliar: T.avaliarRequisito,
     registrar: registrarRequisito,
     tituloFim: 'Requisito dito!'
   });
@@ -18620,14 +18624,14 @@ function telaMetricas() {
     'metrica',
     '📈 Métricas',
     'Números, porcentagens e crescimento. A frase modelo só aparece depois.',
-    METRICAS,
+    T.METRICAS,
     abrirMetrica,
     valor => { metricaSessao = valor; }
   );
 }
 
 function abrirMetrica(id) {
-  abrirCenaLista(id, metricaPorId, cena => { metricaSessao = cena; }, pintarMetrica, telaMetricas);
+  abrirCenaLista(id, T.metricaPorId, cena => { metricaSessao = cena; }, pintarMetrica, telaMetricas);
 }
 
 function pintarMetrica() {
@@ -18635,7 +18639,7 @@ function pintarMetrica() {
     rota: 'metrica',
     aoLista: telaMetricas,
     repintar: pintarMetrica,
-    avaliar: avaliarMetrica,
+    avaliar: T.avaliarMetrica,
     registrar: registrarMetrica,
     tituloFim: 'Métrica dita!'
   });
@@ -18646,14 +18650,14 @@ function telaAprendizados() {
     'aprendizado',
     '📖 Um erro',
     'O erro, o efeito e a lição. A frase modelo só aparece depois.',
-    APRENDIZADOS,
+    T.APRENDIZADOS,
     abrirAprendizado,
     valor => { aprendizadoSessao = valor; }
   );
 }
 
 function abrirAprendizado(id) {
-  abrirCenaLista(id, aprendizadoPorId, cena => { aprendizadoSessao = cena; }, pintarAprendizado, telaAprendizados);
+  abrirCenaLista(id, T.aprendizadoPorId, cena => { aprendizadoSessao = cena; }, pintarAprendizado, telaAprendizados);
 }
 
 function pintarAprendizado() {
@@ -18661,7 +18665,7 @@ function pintarAprendizado() {
     rota: 'aprendizado',
     aoLista: telaAprendizados,
     repintar: pintarAprendizado,
-    avaliar: avaliarAprendizado,
+    avaliar: T.avaliarAprendizado,
     registrar: registrarAprendizado,
     tituloFim: 'Lição contada!'
   });
@@ -18675,7 +18679,7 @@ function telaPasseio() {
   window.scrollTo(0, 0);
   telaAtiva = 'passeio';
   registrarRota('passeio');
-  const cena = montarPasseio(diaLocalAgora());
+  const cena = T.montarPasseio(diaLocalAgora());
   app.innerHTML = '';
   app.append(
     topoVoltar('🚶 Só áudio', () => voltarTela(telaConversa)),
@@ -18692,7 +18696,7 @@ function telaPasseio() {
 }
 
 function abrirPasseio() {
-  const cena = montarPasseio(diaLocalAgora());
+  const cena = T.montarPasseio(diaLocalAgora());
   if (!cena) return telaPasseio();
   descartarVoz();
   passeioSessao = {
@@ -18717,14 +18721,14 @@ function telaCulturas() {
     'cultura',
     '🎬 Esporte, filme e série',
     subCena('o assunto e um detalhe'),
-    CULTURAS,
+    T.CULTURAS,
     abrirCultura,
     valor => { culturaSessao = valor; }
   );
 }
 
 function abrirCultura(id) {
-  abrirCenaLista(id, culturaPorId, cena => { culturaSessao = cena; }, pintarCultura, telaCulturas);
+  abrirCenaLista(id, T.culturaPorId, cena => { culturaSessao = cena; }, pintarCultura, telaCulturas);
 }
 
 function pintarCultura() {
@@ -18732,7 +18736,7 @@ function pintarCultura() {
     rota: 'cultura',
     aoLista: telaCulturas,
     repintar: pintarCultura,
-    avaliar: avaliarCultura,
+    avaliar: T.avaliarCultura,
     registrar: registrarCultura,
     tituloFim: 'Papo feito!'
   });
@@ -18743,14 +18747,14 @@ function telaAumentos() {
     'aumento',
     '🏆 O aumento',
     subCena('o pedido e a prova'),
-    AUMENTOS,
+    T.AUMENTOS,
     abrirAumento,
     valor => { aumentoSessao = valor; }
   );
 }
 
 function abrirAumento(id) {
-  abrirCenaLista(id, aumentoPorId, cena => { aumentoSessao = cena; }, pintarAumento, telaAumentos);
+  abrirCenaLista(id, T.aumentoPorId, cena => { aumentoSessao = cena; }, pintarAumento, telaAumentos);
 }
 
 function pintarAumento() {
@@ -18758,7 +18762,7 @@ function pintarAumento() {
     rota: 'aumento',
     aoLista: telaAumentos,
     repintar: pintarAumento,
-    avaliar: avaliarAumento,
+    avaliar: T.avaliarAumento,
     registrar: registrarAumento,
     tituloFim: 'Pedido feito!'
   });
@@ -18769,14 +18773,14 @@ function telaRotas() {
     'rota',
     '🔌 A API',
     subCena('a rota e um detalhe'),
-    ROTAS,
+    T.ROTAS,
     abrirRota,
     valor => { rotaSessao = valor; }
   );
 }
 
 function abrirRota(id) {
-  abrirCenaLista(id, rotaPorId, cena => { rotaSessao = cena; }, pintarRota, telaRotas);
+  abrirCenaLista(id, T.rotaPorId, cena => { rotaSessao = cena; }, pintarRota, telaRotas);
 }
 
 function pintarRota() {
@@ -18784,7 +18788,7 @@ function pintarRota() {
     rota: 'rota',
     aoLista: telaRotas,
     repintar: pintarRota,
-    avaliar: avaliarRota,
+    avaliar: T.avaliarRota,
     registrar: registrarFalaRota,
     tituloFim: 'Rota explicada!'
   });
@@ -18795,14 +18799,14 @@ function telaVivos() {
     'vivo',
     '🔥 Ao vivo',
     subCena('o status e um pedido'),
-    VIVOS,
+    T.VIVOS,
     abrirVivo,
     valor => { vivoSessao = valor; }
   );
 }
 
 function abrirVivo(id) {
-  abrirCenaLista(id, vivoPorId, cena => { vivoSessao = cena; }, pintarVivo, telaVivos);
+  abrirCenaLista(id, T.vivoPorId, cena => { vivoSessao = cena; }, pintarVivo, telaVivos);
 }
 
 function pintarVivo() {
@@ -18810,7 +18814,7 @@ function pintarVivo() {
     rota: 'vivo',
     aoLista: telaVivos,
     repintar: pintarVivo,
-    avaliar: avaliarVivo,
+    avaliar: T.avaliarVivo,
     registrar: registrarVivo,
     tituloFim: 'Status dado!'
   });
@@ -18821,14 +18825,14 @@ function telaProdutos() {
     'produto',
     '📦 Com o produto',
     subCena('o prazo e o corte'),
-    PRODUTOS,
+    T.PRODUTOS,
     abrirProduto,
     valor => { produtoSessao = valor; }
   );
 }
 
 function abrirProduto(id) {
-  abrirCenaLista(id, produtoPorId, cena => { produtoSessao = cena; }, pintarProduto, telaProdutos);
+  abrirCenaLista(id, T.produtoPorId, cena => { produtoSessao = cena; }, pintarProduto, telaProdutos);
 }
 
 function pintarProduto() {
@@ -18836,7 +18840,7 @@ function pintarProduto() {
     rota: 'produto',
     aoLista: telaProdutos,
     repintar: pintarProduto,
-    avaliar: avaliarProduto,
+    avaliar: T.avaliarProduto,
     registrar: registrarProduto,
     tituloFim: 'Combinado!'
   });
@@ -18847,14 +18851,14 @@ function telaFechos() {
     'fecho',
     '🙋 Suas perguntas',
     subCena('a pergunta e um detalhe'),
-    FECHOS,
+    T.FECHOS,
     abrirFecho,
     valor => { fechoSessao = valor; }
   );
 }
 
 function abrirFecho(id) {
-  abrirCenaLista(id, fechoPorId, cena => { fechoSessao = cena; }, pintarFecho, telaFechos);
+  abrirCenaLista(id, T.fechoPorId, cena => { fechoSessao = cena; }, pintarFecho, telaFechos);
 }
 
 function pintarFecho() {
@@ -18862,7 +18866,7 @@ function pintarFecho() {
     rota: 'fecho',
     aoLista: telaFechos,
     repintar: pintarFecho,
-    avaliar: avaliarFecho,
+    avaliar: T.avaliarFecho,
     registrar: registrarFecho,
     tituloFim: 'Pergunta feita!'
   });
@@ -18873,14 +18877,14 @@ function telaNarras() {
     'narrar',
     '🎙️ O par narrado',
     subCena('o pensamento e a linha'),
-    NARRAS,
+    T.NARRAS,
     abrirNarra,
     valor => { narraSessao = valor; }
   );
 }
 
 function abrirNarra(id) {
-  abrirCenaLista(id, narraPorId, cena => { narraSessao = cena; }, pintarNarra, telaNarras);
+  abrirCenaLista(id, T.narraPorId, cena => { narraSessao = cena; }, pintarNarra, telaNarras);
 }
 
 function pintarNarra() {
@@ -18888,7 +18892,7 @@ function pintarNarra() {
     rota: 'narrar',
     aoLista: telaNarras,
     repintar: pintarNarra,
-    avaliar: avaliarNarra,
+    avaliar: T.avaliarNarra,
     registrar: registrarNarrar,
     tituloFim: 'Linha dita!'
   });
@@ -18899,14 +18903,14 @@ function telaBancos() {
     'banco',
     '🗄️ Banco ou cache',
     subCena('onde guarda e a fonte'),
-    BANCOS,
+    T.BANCOS,
     abrirBanco,
     valor => { bancoSessao = valor; }
   );
 }
 
 function abrirBanco(id) {
-  abrirCenaLista(id, bancoPorId, cena => { bancoSessao = cena; }, pintarBanco, telaBancos);
+  abrirCenaLista(id, T.bancoPorId, cena => { bancoSessao = cena; }, pintarBanco, telaBancos);
 }
 
 function pintarBanco() {
@@ -18914,7 +18918,7 @@ function pintarBanco() {
     rota: 'banco',
     aoLista: telaBancos,
     repintar: pintarBanco,
-    avaliar: avaliarBanco,
+    avaliar: T.avaliarBanco,
     registrar: registrarBanco,
     tituloFim: 'Escolha dita!'
   });
@@ -18925,14 +18929,14 @@ function telaRecusas() {
     'recusa',
     '🙅 O não educado',
     subCena('o não e o outro caminho'),
-    RECUSAS,
+    T.RECUSAS,
     abrirRecusa,
     valor => { recusaSessao = valor; }
   );
 }
 
 function abrirRecusa(id) {
-  abrirCenaLista(id, recusaPorId, cena => { recusaSessao = cena; }, pintarRecusa, telaRecusas);
+  abrirCenaLista(id, T.recusaPorId, cena => { recusaSessao = cena; }, pintarRecusa, telaRecusas);
 }
 
 function pintarRecusa() {
@@ -18940,7 +18944,7 @@ function pintarRecusa() {
     rota: 'recusa',
     aoLista: telaRecusas,
     repintar: pintarRecusa,
-    avaliar: avaliarRecusa,
+    avaliar: T.avaliarRecusa,
     registrar: registrarRecusa,
     tituloFim: 'Caminho dito!'
   });
@@ -18951,14 +18955,14 @@ function telaMapas() {
     'mapa',
     '🗺️ O mapa',
     subCena('a arquitetura e o fluxo'),
-    MAPAS,
+    T.MAPAS,
     abrirMapa,
     valor => { mapaSessao = valor; }
   );
 }
 
 function abrirMapa(id) {
-  abrirCenaLista(id, mapaPorId, cena => { mapaSessao = cena; }, pintarMapa, telaMapas);
+  abrirCenaLista(id, T.mapaPorId, cena => { mapaSessao = cena; }, pintarMapa, telaMapas);
 }
 
 function pintarMapa() {
@@ -18966,7 +18970,7 @@ function pintarMapa() {
     rota: 'mapa',
     aoLista: telaMapas,
     repintar: pintarMapa,
-    avaliar: avaliarMapa,
+    avaliar: T.avaliarMapa,
     registrar: registrarMapa,
     tituloFim: 'Mapa dito!'
   });
@@ -18977,14 +18981,14 @@ function telaDuros() {
     'duro',
     '🗣️ O ponto difícil',
     subCena('o ponto e o pedido'),
-    DUROS,
+    T.DUROS,
     abrirDuro,
     valor => { duroSessao = valor; }
   );
 }
 
 function abrirDuro(id) {
-  abrirCenaLista(id, duroPorId, cena => { duroSessao = cena; }, pintarDuro, telaDuros);
+  abrirCenaLista(id, T.duroPorId, cena => { duroSessao = cena; }, pintarDuro, telaDuros);
 }
 
 function pintarDuro() {
@@ -18992,7 +18996,7 @@ function pintarDuro() {
     rota: 'duro',
     aoLista: telaDuros,
     repintar: pintarDuro,
-    avaliar: avaliarDuro,
+    avaliar: T.avaliarDuro,
     registrar: registrarDuro,
     tituloFim: 'Ponto dito!'
   });
@@ -19003,14 +19007,14 @@ function telaPropostas() {
     'proposta',
     '📐 A proposta',
     subCena('a proposta e a troca'),
-    PROPOSTAS,
+    T.PROPOSTAS,
     abrirProposta,
     valor => { propostaSessao = valor; }
   );
 }
 
 function abrirProposta(id) {
-  abrirCenaLista(id, propostaPorId, cena => { propostaSessao = cena; }, pintarProposta, telaPropostas);
+  abrirCenaLista(id, T.propostaPorId, cena => { propostaSessao = cena; }, pintarProposta, telaPropostas);
 }
 
 function pintarProposta() {
@@ -19018,7 +19022,7 @@ function pintarProposta() {
     rota: 'proposta',
     aoLista: telaPropostas,
     repintar: pintarProposta,
-    avaliar: avaliarProposta,
+    avaliar: T.avaliarProposta,
     registrar: registrarProposta,
     tituloFim: 'Proposta dita!'
   });
@@ -19029,14 +19033,14 @@ function telaFuturos() {
     'futuro',
     '🚀 Daqui a cinco anos',
     subCena('a meta e o caminho'),
-    FUTUROS,
+    T.FUTUROS,
     abrirFuturo,
     valor => { futuroSessao = valor; }
   );
 }
 
 function abrirFuturo(id) {
-  abrirCenaLista(id, futuroPorId, cena => { futuroSessao = cena; }, pintarFuturo, telaFuturos);
+  abrirCenaLista(id, T.futuroPorId, cena => { futuroSessao = cena; }, pintarFuturo, telaFuturos);
 }
 
 function pintarFuturo() {
@@ -19044,7 +19048,7 @@ function pintarFuturo() {
     rota: 'futuro',
     aoLista: telaFuturos,
     repintar: pintarFuturo,
-    avaliar: avaliarFuturo,
+    avaliar: T.avaliarFuturo,
     registrar: registrarFuturo,
     tituloFim: 'Plano dito!'
   });
@@ -19071,7 +19075,7 @@ function entregarPasseio(geracao, texto) {
   const sessao = passeioSessao;
   if (!sessao || sessao.fase === 'feedback' || sessao.concluido) return;
   const rodada = sessao.cena.rodadas[sessao.i];
-  const decidir = decidirPasseio(texto, rodada);
+  const decidir = T.decidirPasseio(texto, rodada);
   if (decidir.seguiu && decidir.aval) {
     sessao.notas.push(decidir.aval.nota);
     if (decidir.aval.ok) sessao.acertos += 1;
@@ -19189,7 +19193,7 @@ function escutarPasseio(geracao, entrada) {
     if (geracao !== passeioGeracao || telaAtiva !== 'passeio') return;
     if (!passeioSessao || passeioSessao.fase !== 'esperando') return;
     entregarPasseio(geracao, entrada.value.trim());
-  }, ESPERA_RESPOSTA_MS);
+  }, T.ESPERA_RESPOSTA_MS);
 }
 
 function lerPergunta(geracao, rodada) {
@@ -19201,7 +19205,7 @@ function lerPergunta(geracao, rodada) {
       pintarPasseio();
     }, 0);
   };
-  const falou = falarTrechos(falasDaPergunta(rodada), seguir);
+  const falou = falarTrechos(T.falasDaPergunta(rodada), seguir);
   timerDeTela(() => {
     if (geracao !== passeioGeracao || telaAtiva !== 'passeio') return;
     if (!passeioSessao || passeioSessao.fase !== 'lendo') return;
@@ -19272,14 +19276,14 @@ function telaSistemas() {
     'sistema',
     '🏗️ Sistema',
     subCena('o pedido e o limite. Feed, escala e gargalo'),
-    SISTEMAS,
+    T.SISTEMAS,
     abrirSistema,
     valor => { sistemaSessao = valor; }
   );
 }
 
 function abrirSistema(id) {
-  abrirCenaLista(id, sistemaPorId, cena => { sistemaSessao = cena; }, pintarSistema, telaSistemas);
+  abrirCenaLista(id, T.sistemaPorId, cena => { sistemaSessao = cena; }, pintarSistema, telaSistemas);
 }
 
 function pintarSistema() {
@@ -19287,7 +19291,7 @@ function pintarSistema() {
     rota: 'sistema',
     aoLista: telaSistemas,
     repintar: pintarSistema,
-    avaliar: avaliarSistema,
+    avaliar: T.avaliarSistema,
     registrar: registrarSistema,
     tituloFim: 'Sistema desenhado!'
   });
@@ -19298,14 +19302,14 @@ function telaCodigos() {
     'codigo',
     '💻 Em voz alta',
     subCena('o que você pensa e o passo seguinte'),
-    CODIGOS,
+    T.CODIGOS,
     abrirCodigo,
     valor => { codigoSessao = valor; }
   );
 }
 
 function abrirCodigo(id) {
-  abrirCenaLista(id, codigoPorId, cena => { codigoSessao = cena; }, pintarCodigo, telaCodigos);
+  abrirCenaLista(id, T.codigoPorId, cena => { codigoSessao = cena; }, pintarCodigo, telaCodigos);
 }
 
 function pintarCodigo() {
@@ -19313,7 +19317,7 @@ function pintarCodigo() {
     rota: 'codigo',
     aoLista: telaCodigos,
     repintar: pintarCodigo,
-    avaliar: avaliarCodigo,
+    avaliar: T.avaliarCodigo,
     registrar: registrarCodigo,
     tituloFim: 'Código falado!'
   });
@@ -19324,14 +19328,14 @@ function telaColegas() {
     'colega',
     '🤝 Outra área',
     subCena('o pedido e a oferta. Design, QA e produto'),
-    COLEGAS,
+    T.COLEGAS,
     abrirColega,
     valor => { colegaSessao = valor; }
   );
 }
 
 function abrirColega(id) {
-  abrirCenaLista(id, colegaPorId, cena => { colegaSessao = cena; }, pintarColega, telaColegas);
+  abrirCenaLista(id, T.colegaPorId, cena => { colegaSessao = cena; }, pintarColega, telaColegas);
 }
 
 function pintarColega() {
@@ -19339,7 +19343,7 @@ function pintarColega() {
     rota: 'colega',
     aoLista: telaColegas,
     repintar: pintarColega,
-    avaliar: avaliarColega,
+    avaliar: T.avaliarColega,
     registrar: registrarColega,
     tituloFim: 'Ajuda combinada!'
   });
@@ -19350,14 +19354,14 @@ function telaModelos() {
     'modelo',
     '🤖 Para leigos',
     subCena('a ideia e um exemplo. Prompt, alucinação e notas'),
-    MODELOS,
+    T.MODELOS,
     abrirModelo,
     valor => { modeloSessao = valor; }
   );
 }
 
 function abrirModelo(id) {
-  abrirCenaLista(id, modeloPorId, cena => { modeloSessao = cena; }, pintarModelo, telaModelos);
+  abrirCenaLista(id, T.modeloPorId, cena => { modeloSessao = cena; }, pintarModelo, telaModelos);
 }
 
 function pintarModelo() {
@@ -19365,7 +19369,7 @@ function pintarModelo() {
     rota: 'modelo',
     aoLista: telaModelos,
     repintar: pintarModelo,
-    avaliar: avaliarModelo,
+    avaliar: T.avaliarModelo,
     registrar: registrarModelo,
     tituloFim: 'Ideia explicada!'
   });
@@ -19376,14 +19380,14 @@ function telaFuros() {
     'furo',
     '🛡️ O furo',
     subCena('o aviso e o plano. CVE, patch e dependência'),
-    FUROS,
+    T.FUROS,
     abrirFuro,
     valor => { furoSessao = valor; }
   );
 }
 
 function abrirFuro(id) {
-  abrirCenaLista(id, furoPorId, cena => { furoSessao = cena; }, pintarFuro, telaFuros);
+  abrirCenaLista(id, T.furoPorId, cena => { furoSessao = cena; }, pintarFuro, telaFuros);
 }
 
 function pintarFuro() {
@@ -19391,7 +19395,7 @@ function pintarFuro() {
     rota: 'furo',
     aoLista: telaFuros,
     repintar: pintarFuro,
-    avaliar: avaliarFuro,
+    avaliar: T.avaliarFuro,
     registrar: registrarFuro,
     tituloFim: 'Furo fechado!'
   });
@@ -19402,14 +19406,14 @@ function telaRotinas() {
     'rotina',
     '🏠 Em casa',
     subCena('a casa e a família. Manhã, jantar e noite'),
-    ROTINAS,
+    T.ROTINAS,
     abrirRotina,
     valor => { rotinaSessao = valor; }
   );
 }
 
 function abrirRotina(id) {
-  abrirCenaLista(id, rotinaPorId, cena => { rotinaSessao = cena; }, pintarRotina, telaRotinas);
+  abrirCenaLista(id, T.rotinaPorId, cena => { rotinaSessao = cena; }, pintarRotina, telaRotinas);
 }
 
 function pintarRotina() {
@@ -19417,7 +19421,7 @@ function pintarRotina() {
     rota: 'rotina',
     aoLista: telaRotinas,
     repintar: pintarRotina,
-    avaliar: avaliarRotina,
+    avaliar: T.avaliarRotina,
     registrar: registrarRotina,
     tituloFim: 'Casa contada!'
   });
@@ -19428,14 +19432,14 @@ function telaPalestras() {
     'palestra',
     '🎤 Palestra',
     subCena('a abertura, a troca de slide ou o convite às perguntas'),
-    PALESTRAS,
+    T.PALESTRAS,
     abrirPalestra,
     valor => { palestraSessao = valor; }
   );
 }
 
 function abrirPalestra(id) {
-  abrirCenaLista(id, palestraPorId, cena => { palestraSessao = cena; }, pintarPalestra, telaPalestras);
+  abrirCenaLista(id, T.palestraPorId, cena => { palestraSessao = cena; }, pintarPalestra, telaPalestras);
 }
 
 function pintarPalestra() {
@@ -19443,7 +19447,7 @@ function pintarPalestra() {
     rota: 'palestra',
     aoLista: telaPalestras,
     repintar: pintarPalestra,
-    avaliar: avaliarPalestra,
+    avaliar: T.avaliarPalestra,
     registrar: registrarPalestra,
     tituloFim: 'Palestra feita!'
   });
@@ -19454,14 +19458,14 @@ function telaDuvidas() {
     'duvida',
     '🙋 Sem a resposta',
     subCena('ganhe tempo e diga quando volta'),
-    DUVIDAS,
+    T.DUVIDAS,
     abrirDuvida,
     valor => { duvidaSessao = valor; }
   );
 }
 
 function abrirDuvida(id) {
-  abrirCenaLista(id, duvidaPorId, cena => { duvidaSessao = cena; }, pintarDuvida, telaDuvidas);
+  abrirCenaLista(id, T.duvidaPorId, cena => { duvidaSessao = cena; }, pintarDuvida, telaDuvidas);
 }
 
 function pintarDuvida() {
@@ -19469,7 +19473,7 @@ function pintarDuvida() {
     rota: 'duvida',
     aoLista: telaDuvidas,
     repintar: pintarDuvida,
-    avaliar: avaliarDuvida,
+    avaliar: T.avaliarDuvida,
     registrar: registrarDuvida,
     tituloFim: 'Resposta adiada!'
   });
@@ -19480,14 +19484,14 @@ function telaSinais() {
     'sinal',
     '📶 Sinal ruim',
     subCena('o que falhou na chamada e o que você pede'),
-    SINAIS,
+    T.SINAIS,
     abrirSinal,
     valor => { sinalSessao = valor; }
   );
 }
 
 function abrirSinal(id) {
-  abrirCenaLista(id, sinalPorId, cena => { sinalSessao = cena; }, pintarSinal, telaSinais);
+  abrirCenaLista(id, T.sinalPorId, cena => { sinalSessao = cena; }, pintarSinal, telaSinais);
 }
 
 function pintarSinal() {
@@ -19495,7 +19499,7 @@ function pintarSinal() {
     rota: 'sinal',
     aoLista: telaSinais,
     repintar: pintarSinal,
-    avaliar: avaliarSinal,
+    avaliar: T.avaliarSinal,
     registrar: registrarSinal,
     tituloFim: 'Chamada salva!'
   });
@@ -19506,14 +19510,14 @@ function telaFalhas() {
     'falha',
     '🛠️ Por que falhou',
     subCena('o que quebrou e a causa. Deploy, CI e permissão'),
-    FALHAS,
+    T.FALHAS,
     abrirFalha,
     valor => { falhaSessao = valor; }
   );
 }
 
 function abrirFalha(id) {
-  abrirCenaLista(id, falhaPorId, cena => { falhaSessao = cena; }, pintarFalha, telaFalhas);
+  abrirCenaLista(id, T.falhaPorId, cena => { falhaSessao = cena; }, pintarFalha, telaFalhas);
 }
 
 function pintarFalha() {
@@ -19521,7 +19525,7 @@ function pintarFalha() {
     rota: 'falha',
     aoLista: telaFalhas,
     repintar: pintarFalha,
-    avaliar: avaliarFalha,
+    avaliar: T.avaliarFalha,
     registrar: registrarFalha,
     tituloFim: 'Causa dita!'
   });
@@ -19532,14 +19536,14 @@ function telaMentorias() {
     'mentoria',
     '🌱 Mentoria',
     subCena('a dica e a ideia por trás'),
-    MENTORIAS,
+    T.MENTORIAS,
     abrirMentoria,
     valor => { mentoriaSessao = valor; }
   );
 }
 
 function abrirMentoria(id) {
-  abrirCenaLista(id, mentoriaPorId, cena => { mentoriaSessao = cena; }, pintarMentoria, telaMentorias);
+  abrirCenaLista(id, T.mentoriaPorId, cena => { mentoriaSessao = cena; }, pintarMentoria, telaMentorias);
 }
 
 function pintarMentoria() {
@@ -19547,7 +19551,7 @@ function pintarMentoria() {
     rota: 'mentoria',
     aoLista: telaMentorias,
     repintar: pintarMentoria,
-    avaliar: avaliarMentoria,
+    avaliar: T.avaliarMentoria,
     registrar: registrarMentoria,
     tituloFim: 'Dica dada!'
   });
@@ -19558,14 +19562,14 @@ function telaSocorros() {
     'socorro',
     '🩺 No exterior',
     subCena('o pedido e o detalhe. Farmácia, médico e emergência'),
-    SOCORROS,
+    T.SOCORROS,
     abrirSocorro,
     valor => { socorroSessao = valor; }
   );
 }
 
 function abrirSocorro(id) {
-  abrirCenaLista(id, socorroPorId, cena => { socorroSessao = cena; }, pintarSocorro, telaSocorros);
+  abrirCenaLista(id, T.socorroPorId, cena => { socorroSessao = cena; }, pintarSocorro, telaSocorros);
 }
 
 function pintarSocorro() {
@@ -19573,7 +19577,7 @@ function pintarSocorro() {
     rota: 'socorro',
     aoLista: telaSocorros,
     repintar: pintarSocorro,
-    avaliar: avaliarSocorro,
+    avaliar: T.avaliarSocorro,
     registrar: registrarSocorro,
     tituloFim: 'Socorro dito!'
   });
@@ -19584,14 +19588,14 @@ function telaSalarios() {
     'salario',
     '💰 Salário',
     subCena('o pedido e a troca. Faixa, plano de saúde e ações'),
-    SALARIOS,
+    T.SALARIOS,
     abrirSalario,
     valor => { salarioSessao = valor; }
   );
 }
 
 function abrirSalario(id) {
-  abrirCenaLista(id, salarioPorId, cena => { salarioSessao = cena; }, pintarSalario, telaSalarios);
+  abrirCenaLista(id, T.salarioPorId, cena => { salarioSessao = cena; }, pintarSalario, telaSalarios);
 }
 
 function pintarSalario() {
@@ -19599,7 +19603,7 @@ function pintarSalario() {
     rota: 'salario',
     aoLista: telaSalarios,
     repintar: pintarSalario,
-    avaliar: avaliarSalario,
+    avaliar: T.avaliarSalario,
     registrar: registrarSalario,
     tituloFim: 'Oferta falada!'
   });
@@ -19610,14 +19614,14 @@ function telaProjetos() {
     'projeto',
     '🧰 Portfólio',
     'Três falas: o problema, a stack e o resultado. A frase modelo só aparece depois.',
-    PROJETOS,
+    T.PROJETOS,
     abrirProjeto,
     valor => { projetoSessao = valor; }
   );
 }
 
 function abrirProjeto(id) {
-  abrirCenaLista(id, projetoPorId, cena => { projetoSessao = cena; }, pintarProjeto, telaProjetos);
+  abrirCenaLista(id, T.projetoPorId, cena => { projetoSessao = cena; }, pintarProjeto, telaProjetos);
 }
 
 function pintarProjeto() {
@@ -19625,7 +19629,7 @@ function pintarProjeto() {
     rota: 'projeto',
     aoLista: telaProjetos,
     repintar: pintarProjeto,
-    avaliar: avaliarProjeto,
+    avaliar: T.avaliarProjeto,
     registrar: registrarProjeto,
     tituloFim: 'Projeto contado!'
   });
@@ -19636,14 +19640,14 @@ function telaSotaques() {
     'sotaque',
     '🎧 Sotaques',
     'Ouça a voz do aparelho e escreva a frase. Americano, britânico e indiano. A frase modelo só aparece depois.',
-    CENAS_SOTAQUE,
+    T.CENAS_SOTAQUE,
     abrirSotaque,
     valor => { sotaqueSessao = valor; }
   );
 }
 
 function abrirSotaque(id) {
-  const cena = sotaquePorId(id);
+  const cena = T.sotaquePorId(id);
   if (!cena) return telaSotaques();
   descartarVoz();
   sotaqueSessao = novaCena(cena);
@@ -19664,7 +19668,7 @@ function pintarSotaque() {
   const statusVoz = h('p', { class: 'ia-aviso', role: 'status' }, '');
   const ouvir = () => {
     const resultado = falarComLocale(rodada.melhor, cena.locale);
-    statusVoz.textContent = rotuloVoz(resultado, cena.locale);
+    statusVoz.textContent = T.rotuloVoz(resultado, cena.locale);
   };
   app.innerHTML = '';
   const miolo = [
@@ -19707,7 +19711,7 @@ function pintarSotaque() {
     const enviar = async () => {
       if (!campo.entrada.value.trim() || sessao.feedback) return;
       await finalizarGravacao();
-      const aval = avaliarSotaque(rodada, campo.entrada.value);
+      const aval = T.avaliarSotaque(rodada, campo.entrada.value);
       sessao.notas.push(aval.nota);
       if (aval.ok) {
         sessao.acertos++;
@@ -19744,7 +19748,7 @@ function telaDesafio() {
   app.innerHTML = '';
   app.append(
     topoVoltar('📅 Desafio do dia', () => voltarTela(telaConversa)),
-    h('p', { class: 'ia-aviso' }, textoDesafio(resumo) + ' A frase modelo só aparece depois. Recorde: ' + resumo.recorde + '.'),
+    h('p', { class: 'ia-aviso' }, T.textoDesafio(resumo) + ' A frase modelo só aparece depois. Recorde: ' + resumo.recorde + '.'),
     h('button', { class: 'btn btn-verde', type: 'button', onclick: abrirDesafio }, resumo.feito ? 'REPETIR' : 'COMEÇAR')
   );
   focarTela();
@@ -19752,7 +19756,7 @@ function telaDesafio() {
 
 function abrirDesafio() {
   const resumo = resumoDesafio(diaLocalAgora());
-  const cena = montarDesafio(diaLocalAgora(), resumo.entrando);
+  const cena = T.montarDesafio(diaLocalAgora(), resumo.entrando);
   if (!cena) return telaDesafio();
   descartarVoz();
   desafioSessao = novaCena(cena);
@@ -19764,7 +19768,7 @@ function pintarDesafio() {
     rota: 'desafio',
     aoLista: telaDesafio,
     repintar: pintarDesafio,
-    avaliar: avaliarDesafio,
+    avaliar: T.avaliarDesafio,
     rotulo: rotuloCall,
     aoConcluir: () => concluirCena(desafioSessao, registrarDesafioDia, {
       xpBase: 10,
@@ -19780,14 +19784,14 @@ function telaLinhas() {
     'linha',
     '💻 Linha a linha',
     subCena('o que a linha faz e o nome. Loop, callback, null check e edge case'),
-    LINHAS,
+    T.LINHAS,
     abrirLinha,
     valor => { linhaSessao = valor; }
   );
 }
 
 function abrirLinha(id) {
-  abrirCenaLista(id, linhaPorId, cena => { linhaSessao = cena; }, pintarLinha, telaLinhas);
+  abrirCenaLista(id, T.linhaPorId, cena => { linhaSessao = cena; }, pintarLinha, telaLinhas);
 }
 
 function pintarLinha() {
@@ -19795,7 +19799,7 @@ function pintarLinha() {
     rota: 'linha',
     aoLista: telaLinhas,
     repintar: pintarLinha,
-    avaliar: avaliarLinha,
+    avaliar: T.avaliarLinha,
     registrar: registrarLinha,
     tituloFim: 'Linha dita!'
   });
@@ -19806,14 +19810,14 @@ function telaSlacks() {
     'slack',
     '💬 Slack',
     'Duas falas curtas. Você escreve ou fala. Pedir review ou avisar atraso. A frase modelo só aparece depois.',
-    SLACKS,
+    T.SLACKS,
     abrirSlack,
     valor => { slackSessao = valor; }
   );
 }
 
 function abrirSlack(id) {
-  abrirCenaLista(id, slackPorId, cena => { slackSessao = cena; }, pintarSlack, telaSlacks);
+  abrirCenaLista(id, T.slackPorId, cena => { slackSessao = cena; }, pintarSlack, telaSlacks);
 }
 
 function pintarSlack() {
@@ -19821,7 +19825,7 @@ function pintarSlack() {
     rota: 'slack',
     aoLista: telaSlacks,
     repintar: pintarSlack,
-    avaliar: avaliarSlack,
+    avaliar: T.avaliarSlack,
     registrar: registrarSlack,
     tituloFim: 'Recado enviado!'
   });
@@ -19832,14 +19836,14 @@ function telaSociais() {
     'social',
     '🍻 Happy hour',
     subCena('o papo e um detalhe. Happy hour, hobby e o Brasil'),
-    SOCIAIS,
+    T.SOCIAIS,
     abrirSocial,
     valor => { socialSessao = valor; }
   );
 }
 
 function abrirSocial(id) {
-  abrirCenaLista(id, socialPorId, cena => { socialSessao = cena; }, pintarSocial, telaSociais);
+  abrirCenaLista(id, T.socialPorId, cena => { socialSessao = cena; }, pintarSocial, telaSociais);
 }
 
 function pintarSocial() {
@@ -19847,7 +19851,7 @@ function pintarSocial() {
     rota: 'social',
     aoLista: telaSociais,
     repintar: pintarSocial,
-    avaliar: avaliarSocial,
+    avaliar: T.avaliarSocial,
     registrar: registrarSocial,
     tituloFim: 'Papo feito!'
   });
@@ -19858,14 +19862,14 @@ function telaTermos() {
     'termo',
     '🔤 Termos técnicos',
     subCena('o som e uma frase. Cache, queue, SQL, GUI, height e width'),
-    TERMOS,
+    T.TERMOS,
     abrirTermo,
     valor => { termoSessao = valor; }
   );
 }
 
 function abrirTermo(id) {
-  abrirCenaLista(id, termoPorId, cena => { termoSessao = cena; }, pintarTermo, telaTermos);
+  abrirCenaLista(id, T.termoPorId, cena => { termoSessao = cena; }, pintarTermo, telaTermos);
 }
 
 function pintarTermo() {
@@ -19873,7 +19877,7 @@ function pintarTermo() {
     rota: 'termo',
     aoLista: telaTermos,
     repintar: pintarTermo,
-    avaliar: avaliarTermo,
+    avaliar: T.avaliarTermo,
     registrar: registrarTermo,
     tituloFim: 'Som dito!'
   });
@@ -19884,14 +19888,14 @@ function telaGestores() {
     'gestor',
     '🗣️ Feedback 1:1',
     'Duas falas com o gestor: ouça o ponto e devolva um pedido. A frase modelo só aparece depois.',
-    GESTORES,
+    T.GESTORES,
     abrirGestor,
     valor => { gestorSessao = valor; }
   );
 }
 
 function abrirGestor(id) {
-  abrirCenaLista(id, gestorPorId, cena => { gestorSessao = cena; }, pintarGestor, telaGestores);
+  abrirCenaLista(id, T.gestorPorId, cena => { gestorSessao = cena; }, pintarGestor, telaGestores);
 }
 
 function pintarGestor() {
@@ -19899,7 +19903,7 @@ function pintarGestor() {
     rota: 'gestor',
     aoLista: telaGestores,
     repintar: pintarGestor,
-    avaliar: avaliarGestor,
+    avaliar: T.avaliarGestor,
     registrar: registrarGestor,
     tituloFim: 'Feedback feito!'
   });
@@ -19910,14 +19914,14 @@ function telaFinais() {
     'final',
     '❓ Pergunta final',
     'Duas falas no fim da entrevista: a pergunta e um detalhe. A frase modelo só aparece depois.',
-    FINAIS,
+    T.FINAIS,
     abrirFinal,
     valor => { finalSessao = valor; }
   );
 }
 
 function abrirFinal(id) {
-  abrirCenaLista(id, finalPorId, cena => { finalSessao = cena; }, pintarFinal, telaFinais);
+  abrirCenaLista(id, T.finalPorId, cena => { finalSessao = cena; }, pintarFinal, telaFinais);
 }
 
 function pintarFinal() {
@@ -19925,7 +19929,7 @@ function pintarFinal() {
     rota: 'final',
     aoLista: telaFinais,
     repintar: pintarFinal,
-    avaliar: avaliarFinal,
+    avaliar: T.avaliarFinal,
     registrar: registrarFinal,
     tituloFim: 'Pergunta feita!'
   });
@@ -19936,14 +19940,14 @@ function telaViagens() {
     'viagem',
     '🛫 Viagem a trabalho',
     subCena('a situação e o pedido. Conexão, imigração ou táxi'),
-    VIAGENS,
+    T.VIAGENS,
     abrirViagem,
     valor => { viagemSessao = valor; }
   );
 }
 
 function abrirViagem(id) {
-  abrirCenaLista(id, viagemPorId, cena => { viagemSessao = cena; }, pintarViagem, telaViagens);
+  abrirCenaLista(id, T.viagemPorId, cena => { viagemSessao = cena; }, pintarViagem, telaViagens);
 }
 
 function pintarViagem() {
@@ -19951,7 +19955,7 @@ function pintarViagem() {
     rota: 'viagem',
     aoLista: telaViagens,
     repintar: pintarViagem,
-    avaliar: avaliarViagem,
+    avaliar: T.avaliarViagem,
     registrar: registrarViagem,
     tituloFim: 'Viagem feita!'
   });
@@ -19966,7 +19970,7 @@ function telaMisturas() {
   window.scrollTo(0, 0);
   telaAtiva = 'mistura';
   registrarRota('mistura');
-  const n = catalogoFaladas().length;
+  const n = T.catalogoFaladas().length;
   app.innerHTML = '';
   app.append(
     topoVoltar('⏱️ Três minutos', () => voltarTela(telaConversa)),
@@ -19977,7 +19981,7 @@ function telaMisturas() {
 }
 
 function abrirMistura() {
-  const passos = montarRevisao(catalogoFaladas(), diaLocalAgora(), 8);
+  const passos = T.montarRevisao(T.catalogoFaladas(), diaLocalAgora(), 8);
   if (!passos.length) return telaMisturas();
   descartarVoz();
   misturaSessao = novaCena({
@@ -19988,7 +19992,7 @@ function abrirMistura() {
     onde: 'Frases dos treinos',
     rodadas: passos
   });
-  revisaoPrazo = Date.now() + SEGUNDOS_REVISAO * 1000;
+  revisaoPrazo = Date.now() + T.SEGUNDOS_REVISAO * 1000;
   pintarMistura();
 }
 
@@ -20071,7 +20075,7 @@ function pintarMistura() {
     rota: 'mistura',
     aoLista: telaMisturas,
     repintar: pintarMistura,
-    avaliar: avaliarRevisao,
+    avaliar: T.avaliarRevisao,
     rotulo: rotuloCall,
     aoConcluir: fecharRevisao
   });
@@ -20098,14 +20102,14 @@ function telaRetros() {
     'retro',
     '🔄 Retrospectiva',
     'Três falas: o que foi bem, o que melhorar e a ação. A frase modelo só aparece depois.',
-    RETROS,
+    T.RETROS,
     abrirRetro,
     valor => { retroSessao = valor; }
   );
 }
 
 function abrirRetro(id) {
-  abrirCenaLista(id, retroPorId, cena => { retroSessao = cena; }, pintarRetro, telaRetros);
+  abrirCenaLista(id, T.retroPorId, cena => { retroSessao = cena; }, pintarRetro, telaRetros);
 }
 
 function pintarRetro() {
@@ -20113,7 +20117,7 @@ function pintarRetro() {
     rota: 'retro',
     aoLista: telaRetros,
     repintar: pintarRetro,
-    avaliar: avaliarRetro,
+    avaliar: T.avaliarRetro,
     registrar: registrarRetro,
     tituloFim: 'Retro fechada!'
   });
@@ -20124,14 +20128,14 @@ function telaChegadas() {
     'chegada',
     '🧭 Onboarding',
     'Três falas: o projeto, o fluxo e a primeira tarefa. A frase modelo só aparece depois.',
-    CHEGADAS,
+    T.CHEGADAS,
     abrirChegada,
     valor => { chegadaSessao = valor; }
   );
 }
 
 function abrirChegada(id) {
-  abrirCenaLista(id, chegadaPorId, cena => { chegadaSessao = cena; }, pintarChegada, telaChegadas);
+  abrirCenaLista(id, T.chegadaPorId, cena => { chegadaSessao = cena; }, pintarChegada, telaChegadas);
 }
 
 function pintarChegada() {
@@ -20139,7 +20143,7 @@ function pintarChegada() {
     rota: 'chegada',
     aoLista: telaChegadas,
     repintar: pintarChegada,
-    avaliar: avaliarChegada,
+    avaliar: T.avaliarChegada,
     registrar: registrarChegada,
     tituloFim: 'Boas-vindas feitas!'
   });
@@ -20150,14 +20154,14 @@ function telaLigacoes() {
     'ligacao',
     '🔗 Conectores',
     subCena('o fato e a ligação. However, on the other hand ou that said'),
-    LIGACOES,
+    T.LIGACOES,
     abrirLigacao,
     valor => { ligacaoSessao = valor; }
   );
 }
 
 function abrirLigacao(id) {
-  abrirCenaLista(id, ligacaoPorId, cena => { ligacaoSessao = cena; }, pintarLigacao, telaLigacoes);
+  abrirCenaLista(id, T.ligacaoPorId, cena => { ligacaoSessao = cena; }, pintarLigacao, telaLigacoes);
 }
 
 function pintarLigacao() {
@@ -20165,7 +20169,7 @@ function pintarLigacao() {
     rota: 'ligacao',
     aoLista: telaLigacoes,
     repintar: pintarLigacao,
-    avaliar: avaliarLigacao,
+    avaliar: T.avaliarLigacao,
     registrar: registrarLigacao,
     tituloFim: 'Ideias ligadas!'
   });
@@ -20176,14 +20180,14 @@ function telaDemos() {
     'demo',
     '🎬 Demo de produto',
     'Um minuto para apresentar a feature. Depois, duas perguntas da plateia. A frase modelo só aparece depois.',
-    DEMOS,
+    T.DEMOS,
     abrirDemo,
     valor => { demoSessao = valor; }
   );
 }
 
 function abrirDemo(id) {
-  abrirCenaLista(id, demoPorId, cena => { demoSessao = cena; }, pintarDemo, telaDemos);
+  abrirCenaLista(id, T.demoPorId, cena => { demoSessao = cena; }, pintarDemo, telaDemos);
 }
 
 function pintarDemo() {
@@ -20191,7 +20195,7 @@ function pintarDemo() {
     rota: 'demo',
     aoLista: telaDemos,
     repintar: pintarDemo,
-    avaliar: avaliarDemo,
+    avaliar: T.avaliarDemo,
     registrar: registrarDemo,
     tituloFim: 'Demo feita!'
   });
@@ -20203,13 +20207,13 @@ function telaPrazos() {
     'prazo',
     '📌 Prazo e escopo',
     "Sugira um corte e peça outra data. I'd suggest e Could we. A frase modelo só aparece depois.",
-    preferirNivel(PRAZOS, estado.nivelFala),
+    preferirNivel(T.PRAZOS, estado.nivelFala),
     abrirPrazo
   );
 }
 
 function abrirPrazo(id) {
-  abrirCenaLista(id, prazoPorId, cena => { prazoSessao = cena; }, pintarPrazo, telaPrazos);
+  abrirCenaLista(id, T.prazoPorId, cena => { prazoSessao = cena; }, pintarPrazo, telaPrazos);
 }
 
 function pintarPrazo() {
@@ -20217,7 +20221,7 @@ function pintarPrazo() {
     rota: 'prazo',
     aoLista: telaPrazos,
     repintar: pintarPrazo,
-    avaliar: avaliarPrazo,
+    avaliar: T.avaliarPrazo,
     registrar: registrarPrazo,
     tituloFim: 'Prazo combinado!'
   });
@@ -20228,14 +20232,14 @@ function telaStars() {
     'star',
     '⭐ Entrevista STAR',
     'Quatro falas: situação, tarefa, ação e resultado. A frase modelo só aparece depois.',
-    STARS,
+    T.STARS,
     abrirStar,
     valor => { starSessao = valor; }
   );
 }
 
 function abrirStar(id) {
-  abrirCenaLista(id, starPorId, cena => { starSessao = cena; }, pintarStar, telaStars);
+  abrirCenaLista(id, T.starPorId, cena => { starSessao = cena; }, pintarStar, telaStars);
 }
 
 function pintarStar() {
@@ -20243,7 +20247,7 @@ function pintarStar() {
     rota: 'star',
     aoLista: telaStars,
     repintar: pintarStar,
-    avaliar: avaliarStar,
+    avaliar: T.avaliarStar,
     registrar: registrarStar,
     tituloFim: 'Caso contado!'
   });
@@ -20257,7 +20261,7 @@ function telaEnfases() {
   telaAtiva = 'enfase';
   registrarRota('enfase');
   enfaseSessao = null;
-  const lista = preferirNivel(ENFASES, estado.nivelFala);
+  const lista = preferirNivel(T.ENFASES, estado.nivelFala);
   app.innerHTML = '';
   app.append(
     topoVoltar('🎵 Ênfase', () => voltarTela(telaConversa)),
@@ -20269,7 +20273,7 @@ function telaEnfases() {
 }
 
 function abrirEnfase(id) {
-  const fila = filaAdaptada(ENFASES, id, enfasePorId);
+  const fila = filaAdaptada(T.ENFASES, id, T.enfasePorId);
   if (!fila.length) return telaEnfases();
   descartarVoz();
   enfaseSessao = {
@@ -20332,7 +20336,7 @@ function pintarEnfase() {
       type: 'button',
       lang: item.tipo === 'curva' ? 'pt' : 'en',
       onclick() {
-        const toque = avaliarToque(item, op.valor);
+        const toque = T.avaliarToque(item, op.valor);
         if (toque.ok) enfaseSessao.toques++;
         enfaseSessao.escolha = { ok: toque.ok };
         pintarEnfase();
@@ -20350,7 +20354,7 @@ function pintarEnfase() {
     const enviar = async () => {
       if (!campo.entrada.value.trim() || enfaseSessao.feedback) return;
       await finalizarGravacao();
-      const aval = avaliarEnfase(item, campo.entrada.value);
+      const aval = T.avaliarEnfase(item, campo.entrada.value);
       enfaseSessao.notas.push(aval.nota);
       if (aval.ok) {
         enfaseSessao.acertos++;
