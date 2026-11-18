@@ -96,8 +96,8 @@ describe('histogram, gauge e backfill', () => {
     assert.deepEqual(aud.idsRepetidos, []);
     assert.deepEqual(aud.titulosRepetidos, []);
     assert.deepEqual(aud.parecidos, []);
-    assert.equal(TREINOS.length, 380);
-    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 324);
+    assert.equal(TREINOS.length, 383);
+    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 327);
     for (const id of ['histogram', 'gauge', 'backfill']) {
       const treino = TREINOS.find(t => t.id === id);
       assert.equal(treino.categoria, 'trabalho');
@@ -132,7 +132,7 @@ describe('histogram, gauge e backfill', () => {
     assert.equal(estado.stats.histograms, 1);
     assert.ok(estado.badges.includes('backfill'));
     assert.equal(estado.painel['2026-10-28'].grupos.trabalho, 3);
-    assert.equal(BADGES.length, 403);
+    assert.equal(BADGES.length, 406);
     assert.equal(new Set(BADGES.map(b => b.id)).size, BADGES.length);
   });
 
@@ -142,10 +142,10 @@ describe('histogram, gauge e backfill', () => {
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
     const turno = readFileSync(join(raiz, 'js/turno.js'), 'utf8');
     const css = semTravessao('../css/style.css');
-    assert.match(data, /VERSAO_APP = '3\.23'/);
+    assert.match(data, /VERSAO_APP = '3\.24'/);
     assert.match(data, /versao: '3\.17'/);
     assert.match(data, /versao: '3\.16'/);
-    assert.match(sw, /gringolingo-v156/);
+    assert.match(sw, /gringolingo-v157/);
     assert.match(sw, /\.\/js\/histogram\.js/);
     assert.match(turno, /histogram\.js/);
     for (const nome of ['pintarHistogram', 'pintarGauge', 'pintarBackfill']) {

@@ -95,8 +95,8 @@ describe('trace, scrape e rollup', () => {
     assert.deepEqual(aud.idsRepetidos, []);
     assert.deepEqual(aud.titulosRepetidos, []);
     assert.deepEqual(aud.parecidos, []);
-    assert.equal(TREINOS.length, 380);
-    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 324);
+    assert.equal(TREINOS.length, 383);
+    assert.equal(TREINOS.filter(t => t.categoria === 'trabalho').length, 327);
     for (const id of ['trace', 'scrape', 'rollup']) {
       const treino = TREINOS.find(t => t.id === id);
       assert.equal(treino.categoria, 'trabalho');
@@ -126,7 +126,7 @@ describe('trace, scrape e rollup', () => {
     assert.equal(rollup.bonusMissoes, 15);
     assert.equal(estado.stats.rollups, 1);
     assert.ok(estado.badges.includes('rollup'));
-    assert.equal(BADGES.length, 403);
+    assert.equal(BADGES.length, 406);
     assert.equal(new Set(BADGES.map(b => b.id)).size, BADGES.length);
   });
 
@@ -135,10 +135,10 @@ describe('trace, scrape e rollup', () => {
     const sw = readFileSync(join(raiz, 'sw.js'), 'utf8');
     const app = readFileSync(join(raiz, 'js/app.js'), 'utf8');
     const turno = readFileSync(join(raiz, 'js/turno.js'), 'utf8');
-    assert.match(data, /VERSAO_APP = '3\.23'/);
+    assert.match(data, /VERSAO_APP = '3\.24'/);
     assert.match(data, /versao: '3\.20'/);
     assert.match(data, /versao: '3\.19'/);
-    assert.match(sw, /gringolingo-v156/);
+    assert.match(sw, /gringolingo-v157/);
     assert.match(sw, /\.\/js\/trace\.js/);
     assert.match(turno, /trace\.js/);
     for (const nome of ['pintarTrace', 'pintarScrape', 'pintarRollup']) {

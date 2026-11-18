@@ -528,9 +528,18 @@ export const NIVEIS = [
   { xp: 3200, titulo: 'Rei da Gringa', emoji: '🌎' }
 ];
 
-export const VERSAO_APP = '3.23';
+export const VERSAO_APP = '3.24';
 
 export const NOVIDADES = [
+  {
+    versao: '3.24',
+    titulo: 'O oncall',
+    itens: [
+      '📟 Diga que o oncall cobre o plantão',
+      '🚨 Avise que o severity marca o grau',
+      '🧯 Diga que o incident abre o caso'
+    ]
+  },
   {
     versao: '3.23',
     titulo: 'O egress',
@@ -2356,6 +2365,9 @@ export const MISSOES = [
   { id: 'egress1', emoji: '📦', titulo: 'Solte o pacote no egress', alvo: 1, xp: 15, medir: s => (s.tipo === 'egress' ? 1 : 0) },
   { id: 'gateway1', emoji: '🚪', titulo: 'Abra a rota no gateway', alvo: 1, xp: 15, medir: s => (s.tipo === 'gateway' ? 1 : 0) },
   { id: 'failover1', emoji: '🔄', titulo: 'Troque o nó no failover', alvo: 1, xp: 15, medir: s => (s.tipo === 'failover' ? 1 : 0) },
+  { id: 'oncall1', emoji: '📟', titulo: 'Cubra o plantão no oncall', alvo: 1, xp: 15, medir: s => (s.tipo === 'oncall' ? 1 : 0) },
+  { id: 'severity1', emoji: '🚨', titulo: 'Marque o grau no severity', alvo: 1, xp: 15, medir: s => (s.tipo === 'severity' ? 1 : 0) },
+  { id: 'incident1', emoji: '🧯', titulo: 'Abra o caso no incident', alvo: 1, xp: 15, medir: s => (s.tipo === 'incident' ? 1 : 0) },
   { id: 'perfeita1', emoji: '💯', titulo: 'Termine uma lição sem errar', alvo: 1, xp: 20, medir: s => (s.perfeita ? 1 : 0) },
   { id: 'xp80', emoji: '⭐', titulo: 'Ganhe 80 XP hoje', alvo: 80, xp: 15, medir: s => s.xp },
   { id: 'respostas25', emoji: '🔥', titulo: 'Responda 25 exercícios', alvo: 25, xp: 15, medir: s => s.respostas }
@@ -2763,6 +2775,9 @@ export const BADGES = [
   { id: 'egress', emoji: '📦', nome: 'O egress', desc: 'Diga que o egress solta o pacote' },
   { id: 'gateway', emoji: '🚪', nome: 'O gateway', desc: 'Diga que o gateway abre a rota' },
   { id: 'failover', emoji: '🔄', nome: 'O failover', desc: 'Diga que o failover troca o nó' },
+  { id: 'oncall', emoji: '📟', nome: 'O oncall', desc: 'Diga que o oncall cobre o plantão' },
+  { id: 'severity', emoji: '🚨', nome: 'O severity', desc: 'Diga que o severity marca o grau' },
+  { id: 'incident', emoji: '🧯', nome: 'O incident', desc: 'Diga que o incident abre o caso' },
   { id: 'estrela', emoji: '⭐', nome: 'A estrela', desc: 'Marque um treino como favorito' },
   { id: 'tudo', emoji: '🦜', nome: 'Louro Aprova', desc: 'Complete todas as lições' }
 ];
