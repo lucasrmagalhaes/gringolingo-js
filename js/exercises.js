@@ -468,7 +468,6 @@ function montarFalar(ex, cb) {
     escrita.removeAttribute('hidden');
     escrita.focus();
   };
-  const pular = h('button', { class: 'btn btn-branco', type: 'button', onclick: () => cb.aoPular() }, 'PULAR');
   botao.addEventListener('click', () => {
     if (trancado) return;
     const Reconhecedor = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -506,8 +505,7 @@ function montarFalar(ex, cb) {
       h('div', { class: 'enunciado' }, 'Fale em inglês 🗣️'),
       h('div', { class: 'prompt-card' }, botaoSom(ex.item.en), h('span', { lang: 'en' }, ex.item.en)),
       h('div', { class: 'prompt-apoio' }, ex.item.pt),
-      botao, status, eco, escrita,
-      h('div', { class: 'fala-pular' }, pular)
+      botao, status, eco, escrita
     ),
     temVerificar: true,
     corrigir() {

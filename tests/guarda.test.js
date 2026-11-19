@@ -205,7 +205,9 @@ describe('rastro, parada e pod', () => {
     assert.match(exercises, /class: 'btn-som' \+ \(extra \? ' ' \+ extra : ''\),\n    type: 'button'/);
     assert.match(exercises, /class: 'btn-som btn-lento',\n    type: 'button'/);
     assert.match(exercises, /class: 'btn-mic', type: 'button'/);
-    assert.match(exercises, /class: 'btn btn-branco', type: 'button', onclick: \(\) => cb\.aoPular\(\)/);
+    assert.equal(exercises.includes('fala-pular'), false);
+    assert.match(app, /ehFalar \? 'PULAR' : 'NÃO SEI'/);
+    assert.match(app, /aoPular: pularExercicio/);
     assert.match(exercises, /apresentacao-continuar', type: 'button'/);
   });
 });
