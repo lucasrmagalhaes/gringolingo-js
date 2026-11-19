@@ -61,3 +61,41 @@ export function textoVolta(dias) {
   const n = Math.max(1, Number(dias) || 1);
   return n === 1 ? 'Volta amanhã.' : `Volta em ${n} dias.`;
 }
+
+function dataCurta(iso) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || ''));
+  if (!m) return '';
+  return `${m[3]}/${m[2]}/${m[1]}`;
+}
+
+export function resumoDaFila(agenda, diaIso) {
+  const itens = [];
+  const hoje = String(diaIso || '');
+  if (agenda && typeof agenda === 'object' && !Array.isArray(agenda)) {
+    for (const [en, v] of Object.entries(agenda)) {
+      if (!v || typeof v.proxima !== 'string') continue;
+      itens.push({
+        en,
+        pt: typeof v.pt === 'string' ? v.pt : '',
+        proxima: v.proxima
+      });
+    }
+  }
+  const vencidos = itens
+    .filter(i => i.proxima <= hoje)
+    .sort((a, b) => a.en.localeCompare(b.en));
+  const futuros = itens
+    .filter(i => i.proxima > hoje)
+    .sort((a, b) => a.proxima.localeCompare(b.proxima) || a.en.localeCompare(b.en));
+  if (vencidos.length === 1) {
+    return { n: 1, texto: '1 frase para rever hoje.', dica: vencidos[0].pt };
+  }
+  if (vencidos.length > 1) {
+    const n = vencidos.length;
+    return { n, texto: `${n} frases para rever hoje.`, dica: vencidos[0].pt };
+  }
+  const quando = dataCurta(futuros[0]?.proxima);
+  if (quando) return { n: 0, texto: `Nada vence hoje. A próxima volta em ${quando}.`, dica: '' };
+  if (futuros.length) return { n: 0, texto: 'Nada vence hoje.', dica: '' };
+  return { n: 0, texto: 'Nenhuma frase escapou ainda.', dica: '' };
+}
